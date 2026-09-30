@@ -190,7 +190,7 @@ class _PaginationListViewState extends State<PaginationListView> {
                       scrollDirection: widget.scrollDirection,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: widget.itemCount + (widget.isLoadMore ? 1 : 0),
-                      onReorder: widget.onReorder!,
+                      onReorderItem: widget.onReorder,
                     ),
                     widget.extentItem ?? const SizedBox(),
                   ],
