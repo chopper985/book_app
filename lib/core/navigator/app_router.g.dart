@@ -13,6 +13,7 @@ List<RouteBase> get $appRoutes => [
 RouteBase get $rootRoute => GoRouteData.$route(
       path: '/',
       name: '/',
+      hasOverriddenOnExit: false,
       factory: $RootRoute._fromState,
     );
 
