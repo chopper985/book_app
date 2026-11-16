@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 // Project imports:
@@ -75,7 +74,7 @@ AppBar appBarTitleBack(
                 alignment: Alignment.center,
                 padding: EdgeInsets.only(left: paddingLeft ?? 3.sp),
                 child: Icon(
-                  PhosphorIcons.caretLeft(),
+                  Icons.arrow_back_ios_new_rounded,
                   size: 20.sp,
                   color: colorChild,
                 ),

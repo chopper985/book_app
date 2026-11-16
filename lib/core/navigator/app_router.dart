@@ -2,13 +2,26 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 // Project imports:
 import 'package:AppName/core/app/colors/app_colors.dart';
+import 'package:AppName/core/app/languages/data/localization.dart';
+import 'package:AppName/core/injection/injection_container.dart';
 import 'package:AppName/core/navigator/app_routes.dart';
-import 'package:AppName/features/home/presentation/screens/home_screen.dart';
+import 'package:AppName/core/navigator/coming_soon_screen.dart';
+import 'package:AppName/core/navigator/main_shell.dart';
+import 'package:AppName/features/catalog/presentation/cubit/explore_cubit.dart';
+import 'package:AppName/features/catalog/presentation/cubit/track_detail_cubit.dart';
+import 'package:AppName/features/catalog/presentation/screens/explore_screen.dart';
+import 'package:AppName/features/catalog/presentation/screens/roadmaps_screen.dart';
+import 'package:AppName/features/catalog/presentation/screens/track_detail_screen.dart';
+import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart';
+import 'package:AppName/features/practice/presentation/cubit/result_cubit.dart';
+import 'package:AppName/features/practice/presentation/screens/practice_screen.dart';
+import 'package:AppName/features/practice/presentation/screens/result_screen.dart';
 
 part 'app_router.g.dart';
 
@@ -82,11 +95,164 @@ class AppRouter {
   }
 }
 
-@TypedGoRoute<RootRoute>(path: Routes.rootRoute, name: Routes.rootRoute)
+@TypedStatefulShellRoute<MainShellRoute>(
+  branches: [
+    TypedStatefulShellBranch<ExploreBranch>(
+      routes: [
+        TypedGoRoute<RootRoute>(path: Routes.rootRoute, name: Routes.rootRoute),
+      ],
+    ),
+    TypedStatefulShellBranch<RoadmapsBranch>(
+      routes: [
+        TypedGoRoute<RoadmapsRoute>(
+          path: Routes.roadmapsRoute,
+          name: Routes.roadmapsRoute,
+          routes: [
+            TypedGoRoute<TrackDetailRoute>(
+              path: Routes.trackDetailRoute,
+              name: Routes.trackDetailRoute,
+            ),
+          ],
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch<PracticeHubBranch>(
+      routes: [
+        TypedGoRoute<PracticeHubRoute>(
+          path: Routes.practiceHubRoute,
+          name: Routes.practiceHubRoute,
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch<ProfileBranch>(
+      routes: [
+        TypedGoRoute<ProfileRoute>(
+          path: Routes.profileRoute,
+          name: Routes.profileRoute,
+        ),
+      ],
+    ),
+  ],
+)
+class MainShellRoute extends StatefulShellRouteData {
+  const MainShellRoute();
+
+  @override
+  Widget builder(
+    BuildContext context,
+    GoRouterState state,
+    StatefulNavigationShell navigationShell,
+  ) {
+    return MainShell(navigationShell: navigationShell);
+  }
+}
+
+class ExploreBranch extends StatefulShellBranchData {
+  const ExploreBranch();
+}
+
+class RoadmapsBranch extends StatefulShellBranchData {
+  const RoadmapsBranch();
+}
+
+class PracticeHubBranch extends StatefulShellBranchData {
+  const PracticeHubBranch();
+}
+
+class ProfileBranch extends StatefulShellBranchData {
+  const ProfileBranch();
+}
+
 class RootRoute extends GoRouteData with $RootRoute {
+  const RootRoute();
+
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const HomeScreen();
+    return BlocProvider(
+      create: (_) => getIt<ExploreCubit>()..load(),
+      child: const ExploreScreen(),
+    );
+  }
+}
+
+class RoadmapsRoute extends GoRouteData with $RoadmapsRoute {
+  const RoadmapsRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider(
+      create: (_) => getIt<ExploreCubit>()..load(),
+      child: const RoadmapsScreen(),
+    );
+  }
+}
+
+class TrackDetailRoute extends GoRouteData with $TrackDetailRoute {
+  final String trackId;
+
+  const TrackDetailRoute({required this.trackId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider(
+      create: (_) => getIt<TrackDetailCubit>()..load(trackId),
+      child: const TrackDetailScreen(),
+    );
+  }
+}
+
+class PracticeHubRoute extends GoRouteData with $PracticeHubRoute {
+  const PracticeHubRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ComingSoonScreen(title: Strings.navPractice.i18n);
+  }
+}
+
+class ProfileRoute extends GoRouteData with $ProfileRoute {
+  const ProfileRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ComingSoonScreen(title: Strings.navProfile.i18n);
+  }
+}
+
+/// Full-screen practice of one set. [only] restricts it to comma-separated
+/// question ids (retry mistakes).
+@TypedGoRoute<PracticeRoute>(
+  path: Routes.practiceRoute,
+  name: Routes.practiceRoute,
+)
+class PracticeRoute extends GoRouteData with $PracticeRoute {
+  final String setId;
+  final String? only;
+
+  const PracticeRoute({required this.setId, this.only});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider(
+      create: (_) => getIt<PracticeCubit>()
+        ..start(setId, onlyQuestionIds: only?.split(',')),
+      child: const PracticeScreen(),
+    );
+  }
+}
+
+@TypedGoRoute<ResultRoute>(path: Routes.resultRoute, name: Routes.resultRoute)
+class ResultRoute extends GoRouteData with $ResultRoute {
+  final String sessionId;
+
+  const ResultRoute({required this.sessionId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider(
+      create: (_) => getIt<ResultCubit>()..load(sessionId),
+      child: const ResultScreen(),
+    );
   }
 }
 

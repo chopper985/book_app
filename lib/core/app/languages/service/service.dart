@@ -33,7 +33,7 @@ class LanguageService {
       case 'vi':
         return Language.vietnam;
       default:
-        return Language.english; // default
+        return Language.vietnam; // default
     }
   }
 

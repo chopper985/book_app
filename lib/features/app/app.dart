@@ -11,7 +11,6 @@ import 'package:AppName/core/app/languages/service/service.dart';
 import 'package:AppName/core/app/themes/data/app_themes.dart';
 import 'package:AppName/core/navigator/app_router.dart';
 import 'package:AppName/features/app/cubit/cubit.dart';
-import 'package:AppName/features/theme/presentation/cubit/theme_cubit.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -25,31 +24,20 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: AppCubit.providers,
-      child: BlocBuilder<ThemeCubit, ThemeState>(
-        buildWhen: (previous, current) {
-          if (current is ThemeUpdated && previous is ThemeUpdated) {
-            return previous.mode != current.mode;
-          }
-          return current is ThemeUpdated && previous is! ThemeUpdated;
-        },
-        builder: (context, theme) {
-          return Sizer(
-            builder: (context, orientation, deviceType) {
-              return MaterialApp.router(
-                title: "App Name",
-                routerConfig: AppRouter.instance.router,
-                debugShowCheckedModeBanner: false,
-                theme: AppTheme.light().data,
-                darkTheme: AppTheme.dark().data,
-                themeMode: theme is ThemeUpdated ? theme.mode : ThemeMode.light,
-                supportedLocales: LanguageService.supportLanguages,
-                localizationsDelegates: const [
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-              );
-            },
+      child: Sizer(
+        builder: (context, orientation, deviceType) {
+          return MaterialApp.router(
+            title: "DevInterview",
+            routerConfig: AppRouter.instance.router,
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.dark().data,
+            themeMode: ThemeMode.dark,
+            supportedLocales: LanguageService.supportLanguages,
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
           );
         },
       ),

@@ -11,6 +11,12 @@
 class FontFamily {
   FontFamily._();
 
+  /// Font family: BeVietnamPro
+  static const String beVietnamPro = 'BeVietnamPro';
+
   /// Font family: Inter
   static const String inter = 'Inter';
+
+  /// Font family: JetBrainsMono
+  static const String jetBrainsMono = 'JetBrainsMono';
 }

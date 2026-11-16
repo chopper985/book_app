@@ -1,0 +1,196 @@
+{
+  "questions": [
+    {
+      "id": "flutter.widget.001",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "widget",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt chính giữa `StatelessWidget` và `StatefulWidget` là gì?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "StatefulWidget có object State tồn tại qua các lần rebuild"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "StatelessWidget không bao giờ được build lại"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "StatefulWidget luôn render nhanh hơn"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "StatelessWidget không nhận tham số qua constructor"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`StatefulWidget` tạo một object `State` được giữ lại qua các lần rebuild, nên dữ liệu thay đổi được lưu trong đó và cập nhật UI qua `setState` hoặc công cụ quản lý state. `StatelessWidget` vẫn được build lại khi widget cha rebuild hoặc khi dependency thay đổi; nó chỉ không có `State` riêng tồn tại lâu dài."
+      }
+    },
+    {
+      "id": "flutter.lifecycle.001",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "lifecycle",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Khi `Demo` được chèn vào cây widget lần đầu, thứ tự in ra là gì?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class Demo extends StatefulWidget {\n  const Demo({super.key});\n\n  @override\n  State<Demo> createState() => _DemoState();\n}\n\nclass _DemoState extends State<Demo> {\n  @override\n  void initState() {\n    super.initState();\n    print('initState');\n  }\n\n  @override\n  void didChangeDependencies() {\n    super.didChangeDependencies();\n    print('didChangeDependencies');\n  }\n\n  @override\n  Widget build(BuildContext context) {\n    print('build');\n    return const SizedBox();\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "initState → didChangeDependencies → build"
+        },
+        {
+          "id": "b",
+          "text": "build → initState → didChangeDependencies"
+        },
+        {
+          "id": "c",
+          "text": "didChangeDependencies → initState → build"
+        },
+        {
+          "id": "d",
+          "text": "initState → build"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Lần đầu `State` được gắn vào cây, Flutter gọi `initState`, sau đó gọi ngay `didChangeDependencies`, rồi mới gọi `build`. Về sau `didChangeDependencies` chỉ được gọi lại khi một `InheritedWidget` mà widget phụ thuộc thay đổi."
+      }
+    },
+    {
+      "id": "flutter.layout.001",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "layout",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn layout sau gây lỗi lúc chạy. Nguyên nhân là gì?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "Column(\n  children: [\n    const Text('Danh sách'),\n    ListView(\n      children: const [\n        ListTile(title: Text('A')),\n        ListTile(title: Text('B')),\n      ],\n    ),\n  ],\n)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "ListView nằm trực tiếp trong Column nên nhận chiều cao không giới hạn"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Text phải được bọc trong Expanded"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "ListTile không dùng được trong ListView"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Column thiếu thuộc tính mainAxisSize"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Column` cho các con chiều cao không giới hạn theo trục dọc. `ListView` cuộn dọc nên cần chiều cao xác định, vì vậy Flutter báo lỗi \"Vertical viewport was given unbounded height\". Cách sửa: bọc `ListView` trong `Expanded` để nó lấy phần chiều cao còn lại. Với danh sách rất ngắn có thể dùng `shrinkWrap: true`."
+      }
+    },
+    {
+      "id": "flutter.state.001",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "state",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao cần kiểm tra `mounted` (hoặc `context.mounted`) sau một `await` trước khi dùng `context`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Widget có thể đã bị gỡ khỏi cây trong lúc chờ"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Để hàm build chạy nhanh hơn"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Vì await làm mất giá trị của biến cục bộ"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Vì trình biên dịch bắt buộc sau mỗi await"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trong lúc chờ `await`, người dùng có thể rời màn hình và widget bị gỡ khỏi cây. Khi đó `context` không còn hợp lệ: gọi `setState`, `Navigator.of(context)` hay `ScaffoldMessenger.of(context)` có thể gây lỗi. Kiểm tra `if (!context.mounted) return;` giúp tránh trường hợp này; lint `use_build_context_synchronously` cũng cảnh báo lỗi này."
+      }
+    },
+    {
+      "id": "flutter.form.001",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "form",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày cách validate một form đăng nhập gồm email và mật khẩu trong Flutter."
+      },
+      "keyPoints": [
+        {
+          "vi": "Bọc các trường trong `Form` với `GlobalKey<FormState>`"
+        },
+        {
+          "vi": "Dùng `TextFormField.validator`: trả về chuỗi lỗi hoặc `null`"
+        },
+        {
+          "vi": "Gọi `validate()` khi gửi và chỉ xử lý khi trả về `true`"
+        },
+        {
+          "vi": "Lấy giá trị qua `TextEditingController` (có `dispose`) hoặc `onSaved`"
+        }
+      ],
+      "explanation": {
+        "vi": "Bọc các trường trong `Form` và giữ một `GlobalKey<FormState>`. Mỗi `TextFormField` có `validator` trả về chuỗi lỗi khi dữ liệu sai và `null` khi hợp lệ, ví dụ kiểm tra email đúng định dạng và mật khẩu đủ độ dài. Khi bấm Đăng nhập, gọi `formKey.currentState!.validate()` và chỉ gửi dữ liệu khi kết quả là `true`. Lấy giá trị qua `TextEditingController` (nhớ `dispose`) hoặc `onSaved`. Có thể đặt `autovalidateMode` để báo lỗi ngay khi người dùng sửa."
+      }
+    }
+  ]
+}

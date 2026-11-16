@@ -1,0 +1,200 @@
+{
+  "questions": [
+    {
+      "id": "dart.null_safety.001",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "null_safety",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Toán tử `!` (null assertion) làm gì khi giá trị đang là null?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trả về chuỗi rỗng"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ném lỗi lúc chạy"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Báo lỗi lúc biên dịch"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bỏ qua câu lệnh"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`value!` khẳng định giá trị khác null để dùng như kiểu non-nullable. Trình biên dịch tin lời khẳng định đó nên không báo lỗi. Nếu lúc chạy giá trị là null, Dart ném lỗi \"Null check operator used on a null value\". Chỉ dùng `!` khi chắc chắn giá trị đã được gán; còn lại nên dùng `?.`, `??` hoặc kiểm tra `if (value != null)`."
+      }
+    },
+    {
+      "id": "dart.null_safety.002",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "null_safety",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "void main() {\n  String? name;\n  print(name?.length ?? 0);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "null"
+        },
+        {
+          "id": "b",
+          "text": "0"
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi lúc chạy"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`name` là null nên `name?.length` trả về null thay vì ném lỗi. Toán tử `??` thay giá trị null bằng `0`, vì vậy kết quả in ra là `0`."
+      }
+    },
+    {
+      "id": "dart.collections.001",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt chính giữa `List` và `Set` trong Dart là gì?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Set không chứa phần tử trùng lặp"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "List không chứa phần tử trùng lặp"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Set luôn tự sắp xếp tăng dần"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "List không truy cập theo chỉ số được"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Set` chỉ giữ các phần tử không trùng nhau (so sánh bằng `==` và `hashCode`). `Set` mặc định là `LinkedHashSet` nên giữ thứ tự chèn, không tự sắp xếp. `List` cho phép phần tử trùng và truy cập theo chỉ số."
+      }
+    },
+    {
+      "id": "dart.future_stream.001",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "future_stream",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Dòng nào gây lỗi biên dịch?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "Future<int> fetchCount() async {\n  await Future.delayed(const Duration(milliseconds: 100));\n  return 42;\n}\n\nvoid main() {\n  int count = fetchCount();\n  print(count);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`await Future.delayed(...)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`return 42;`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`int count = fetchCount();`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`print(count);`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`fetchCount()` trả về `Future<int>`, không phải `int`, nên không gán trực tiếp vào biến `int` được. Cách sửa: khai báo `Future<void> main() async` rồi viết `final count = await fetchCount();`. Lệnh `return 42;` trong hàm `async` là hợp lệ vì Dart tự bọc giá trị vào `Future`."
+      }
+    },
+    {
+      "id": "dart.future_stream.002",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "future_stream",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khi nào nên dùng `Stream` thay vì `Future`? Cho một ví dụ thực tế."
+      },
+      "keyPoints": [
+        {
+          "vi": "`Future` trả về một giá trị hoặc một lỗi, một lần"
+        },
+        {
+          "vi": "`Stream` phát nhiều giá trị theo thời gian"
+        },
+        {
+          "vi": "Nêu được ví dụ Stream: WebSocket, GPS, sự kiện nhập liệu"
+        },
+        {
+          "vi": "Nghe bằng `await for` hoặc `listen` và hủy subscription khi xong"
+        }
+      ],
+      "explanation": {
+        "vi": "`Future` đại diện cho một kết quả duy nhất sẽ có trong tương lai (hoặc một lỗi), ví dụ một lần gọi API. `Stream` là chuỗi nhiều giá trị đến theo thời gian, ví dụ dữ liệu từ WebSocket, vị trí GPS hay nội dung ô tìm kiếm khi người dùng gõ. Nghe `Stream` bằng `await for` hoặc `listen`, và gọi `cancel()` trên `StreamSubscription` khi không cần nữa để tránh rò rỉ bộ nhớ."
+      }
+    }
+  ]
+}

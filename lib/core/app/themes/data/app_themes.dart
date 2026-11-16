@@ -1,6 +1,3 @@
-// Dart imports:
-import 'dart:io';
-
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -8,84 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_colors.dart';
-import 'package:AppName/core/app/colors/color_seed.dart';
-import 'package:AppName/gen/fonts.gen.dart';
+import 'package:AppName/core/app/colors/app_palette.dart';
+import 'package:AppName/core/app/themes/data/app_text.dart';
 
+/// The app ships a single dark theme (IDE slate style from Figma).
 class AppTheme {
   AppTheme({required this.data});
 
-  factory AppTheme.light({ColorSeed colorSeed = ColorSeed.blue}) {
-    final appColors = AppColor.light();
-    final themeData = ThemeData(
-      colorSchemeSeed: colorSeed.color,
-      cardColor: Colors.black.withValues(alpha: 0.04),
-      textTheme: TextTheme(
-        labelMedium: TextStyle(color: fCD),
-      ),
-      pageTransitionsTheme: kIsWeb
-          ? null
-          : const PageTransitionsTheme(
-              builders: {
-                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-                TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-              },
-            ),
-      brightness: Brightness.light,
-      snackBarTheme: SnackBarThemeData(
-        backgroundColor: appColors.error,
-        behavior: SnackBarBehavior.floating,
-      ),
-      bottomSheetTheme: ThemeData.dark().bottomSheetTheme.copyWith(
-            elevation: 0,
-            modalElevation: 0,
-            modalBarrierColor: Colors.blueGrey.withValues(alpha: .2),
-          ),
-      appBarTheme: AppBarTheme(
-        scrolledUnderElevation: 0,
-        surfaceTintColor: appColors.background,
-        backgroundColor: appColors.background,
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarBrightness: Brightness.light ==
-                  (Platform.isAndroid ? Brightness.dark : Brightness.light)
-              ? Brightness.light
-              : Brightness.dark,
-          statusBarIconBrightness: Brightness.light ==
-                  (Platform.isAndroid ? Brightness.dark : Brightness.light)
-              ? Brightness.light
-              : Brightness.dark,
-        ),
-        iconTheme: IconThemeData(
-          color: appColors.contentText1,
-        ),
-      ),
-      dividerColor: appColors.divider,
-      dividerTheme: DividerThemeData(
-        color: appColors.divider,
-        space: 0,
-        thickness: .4,
-      ),
-      dialogTheme: DialogThemeData(
-        backgroundColor: appColors.background,
-        elevation: 0,
-        shadowColor: Colors.transparent,
-      ),
-      fontFamily: FontFamily.inter,
-    );
-    return AppTheme(
-      data: themeData,
-    );
-  }
+  final ThemeData data;
 
-  factory AppTheme.dark({ColorSeed colorSeed = ColorSeed.blue}) {
-    final appColors = AppColor.dark();
+  factory AppTheme.dark() {
     final themeData = ThemeData(
-      colorSchemeSeed: colorSeed.color,
-      cardColor: mGD,
-      textTheme: TextTheme(
-        labelMedium: TextStyle(color: mCU),
-      ),
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      colorScheme: AppPalette.colorScheme,
+      scaffoldBackgroundColor: AppPalette.surface,
+      canvasColor: AppPalette.surface,
+      cardColor: AppPalette.surfaceLow,
+      fontFamily: AppText.sansFamily,
       pageTransitionsTheme: kIsWeb
           ? null
           : const PageTransitionsTheme(
@@ -94,50 +31,41 @@ class AppTheme {
                 TargetPlatform.android: CupertinoPageTransitionsBuilder(),
               },
             ),
-      brightness: Brightness.dark,
-      snackBarTheme: SnackBarThemeData(
-        backgroundColor: appColors.error,
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: AppPalette.surfaceHighest,
         behavior: SnackBarBehavior.floating,
       ),
-      bottomSheetTheme: ThemeData.dark().bottomSheetTheme.copyWith(
-            elevation: 0,
-            modalElevation: 0,
-          ),
-      appBarTheme: AppBarTheme(
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: AppPalette.surfaceContainer,
+        elevation: 0,
+        modalElevation: 0,
+      ),
+      appBarTheme: const AppBarTheme(
         scrolledUnderElevation: 0,
-        surfaceTintColor: appColors.background,
-        backgroundColor: appColors.background,
+        surfaceTintColor: AppPalette.surfaceLowest,
+        backgroundColor: AppPalette.surfaceLowest,
+        iconTheme: IconThemeData(color: AppPalette.onSurface),
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
-          statusBarBrightness: Brightness.dark ==
-                  (Platform.isAndroid ? Brightness.dark : Brightness.light)
-              ? Brightness.light
-              : Brightness.dark,
-          statusBarIconBrightness: Brightness.dark ==
-                  (Platform.isAndroid ? Brightness.dark : Brightness.light)
-              ? Brightness.light
-              : Brightness.dark,
-        ),
-        iconTheme: IconThemeData(
-          color: appColors.contentText1,
+          statusBarBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarColor: AppPalette.surfaceLowest,
         ),
       ),
-      dividerColor: appColors.divider,
-      dividerTheme: DividerThemeData(
-        color: appColors.divider,
+      dividerTheme: const DividerThemeData(
+        color: AppPalette.surfaceHighest,
         space: 0,
-        thickness: .4,
+        thickness: 1,
       ),
       dialogTheme: const DialogThemeData(
+        backgroundColor: AppPalette.surfaceContainer,
         elevation: 0,
         shadowColor: Colors.transparent,
       ),
-      fontFamily: FontFamily.inter,
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: AppPalette.primary,
+      ),
     );
-    return AppTheme(
-      data: themeData,
-    );
+    return AppTheme(data: themeData);
   }
-
-  final ThemeData data;
 }
