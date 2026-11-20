@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:AppName/core/app/colors/app_palette.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// Per-track icon and accent colors from the Explore design.
 class TrackStyle {
@@ -26,13 +27,11 @@ class TrackStyle {
     required this.barColor,
   });
 
-  static const String _dir = 'assets/figma/explore';
-
-  static const Map<String, TrackStyle> _styles = {
+  static final Map<String, TrackStyle> _styles = {
     'flutter': TrackStyle(
-      icon: '$_dir/ic_track_flutter.svg',
+      icon: Assets.figma.explore.icTrackFlutter,
       iconSize: Size(17.78, 22),
-      metaIcon: '$_dir/ic_meta_flutter.svg',
+      metaIcon: Assets.figma.explore.icMetaFlutter,
       metaIconSize: Size(11, 9),
       badgeBackground: AppPalette.tealContainer,
       badgeForeground: AppPalette.teal,
@@ -40,9 +39,9 @@ class TrackStyle {
       barColor: AppPalette.primary,
     ),
     'dart': TrackStyle(
-      icon: '$_dir/ic_track_dart.svg',
+      icon: Assets.figma.explore.icTrackDart,
       iconSize: Size(18, 18),
-      metaIcon: '$_dir/ic_meta_dart.svg',
+      metaIcon: Assets.figma.explore.icMetaDart,
       metaIconSize: Size(11, 10.5),
       badgeBackground: AppPalette.surfaceBright,
       badgeForeground: AppPalette.onSurface,
@@ -50,9 +49,9 @@ class TrackStyle {
       barColor: AppPalette.teal,
     ),
     'react_ts': TrackStyle(
-      icon: '$_dir/ic_track_react_ts.svg',
+      icon: Assets.figma.explore.icTrackReactTs,
       iconSize: Size(20, 16),
-      metaIcon: '$_dir/ic_meta_react_ts.svg',
+      metaIcon: Assets.figma.explore.icMetaReactTs,
       metaIconSize: Size(10, 9.5),
       badgeBackground: AppPalette.errorContainer,
       badgeForeground: AppPalette.error,
@@ -60,9 +59,9 @@ class TrackStyle {
       barColor: AppPalette.primaryStrong,
     ),
     'dotnet': TrackStyle(
-      icon: '$_dir/ic_track_dotnet.svg',
+      icon: Assets.figma.explore.icTrackDotnet,
       iconSize: Size(18, 18),
-      metaIcon: '$_dir/ic_meta_dotnet.svg',
+      metaIcon: Assets.figma.explore.icMetaDotnet,
       metaIconSize: Size(10, 9),
       badgeBackground: AppPalette.purpleContainer,
       badgeForeground: AppPalette.purple,
@@ -70,9 +69,9 @@ class TrackStyle {
       barColor: AppPalette.purple,
     ),
     'go': TrackStyle(
-      icon: '$_dir/ic_track_go.svg',
+      icon: Assets.figma.explore.icTrackGo,
       iconSize: Size(16, 20),
-      metaIcon: '$_dir/ic_meta_go.svg',
+      metaIcon: Assets.figma.explore.icMetaGo,
       metaIconSize: Size(9, 9),
       badgeBackground: AppPalette.tealContainer,
       badgeForeground: AppPalette.teal,
@@ -80,9 +79,9 @@ class TrackStyle {
       barColor: AppPalette.tealDeep,
     ),
     'rust': TrackStyle(
-      icon: '$_dir/ic_track_rust.svg',
+      icon: Assets.figma.explore.icTrackRust,
       iconSize: Size(16, 20),
-      metaIcon: '$_dir/ic_meta_rust.svg',
+      metaIcon: Assets.figma.explore.icMetaRust,
       metaIconSize: Size(9.26, 9.01),
       badgeBackground: AppPalette.surfaceBright,
       badgeForeground: AppPalette.purple,

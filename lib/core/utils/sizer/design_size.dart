@@ -13,5 +13,6 @@ import 'package:sizer/sizer.dart';
 extension DesignSize on num {
   static const double _designFactor = 20800 / (390 + 844);
 
-  double get dsp => math.sqrt(this * _designFactor).sp;
+  /// Keeps the sign so negative values (e.g. letterSpacing) don't become NaN.
+  double get dsp => sign * math.sqrt(abs() * _designFactor).sp;
 }

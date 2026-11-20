@@ -8,6 +8,7 @@ import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
 import 'package:AppName/features/content/domain/entities/question.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// Read-only code block (Code Snippet Container): line numbers, no wrapping,
 /// horizontal scroll.
@@ -39,8 +40,8 @@ class ResultCodeView extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 8.dsp, vertical: 9.dsp),
               child: Row(
                 children: [
-                  const AppSvg(
-                    'assets/figma/result/code.svg',
+                  AppSvg(
+                    Assets.figma.result.code,
                     width: 10,
                     height: 6,
                   ),

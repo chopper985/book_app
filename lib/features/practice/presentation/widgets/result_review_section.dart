@@ -12,6 +12,7 @@ import 'package:AppName/features/content/presentation/extensions/localized_text_
 import 'package:AppName/features/practice/domain/entities/practice_bundle.dart';
 import 'package:AppName/features/practice/domain/entities/session_result.dart';
 import 'package:AppName/features/practice/presentation/widgets/result_review_card.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// Section 3: wrong/skipped questions, then self-explain self-checks.
 class ResultReviewSection extends StatelessWidget {
@@ -67,8 +68,8 @@ class ResultReviewSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _SectionTitle(
-          icon: const AppSvg(
-            'assets/figma/result/analysis.svg',
+          icon: AppSvg(
+            Assets.figma.result.analysis,
             width: 16.67,
             height: 15.83,
           ),
@@ -162,7 +163,7 @@ class _NoMistakes extends StatelessWidget {
       child: Column(
         children: [
           AppSvg(
-            'assets/figma/result/feedback_badge.svg',
+            Assets.figma.result.feedbackBadge,
             width: 25.67,
             height: 24.5,
             color: AppPalette.teal,

@@ -7,6 +7,7 @@ import 'package:AppName/core/app/languages/data/localization.dart';
 import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 class DailyChallengeCard extends StatelessWidget {
   final String title;
@@ -38,8 +39,8 @@ class DailyChallengeCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const AppSvg(
-                      'assets/figma/explore/ic_sparkle.svg',
+                    AppSvg(
+                      Assets.figma.explore.icSparkle,
                       width: 14.67,
                       height: 14.67,
                     ),
@@ -99,8 +100,8 @@ class DailyChallengeCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 4.dsp),
-                    const AppSvg(
-                      'assets/figma/explore/ic_chevron_right.svg',
+                    AppSvg(
+                      Assets.figma.explore.icChevronRight,
                       width: 4.32,
                       height: 7,
                     ),

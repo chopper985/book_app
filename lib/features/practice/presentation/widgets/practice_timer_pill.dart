@@ -9,6 +9,7 @@ import 'package:AppName/core/app/colors/app_palette.dart';
 import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// Session clock: remaining time of a timed set (calls [onTimeout] once at
 /// zero) or elapsed time since [startedAt] when [endsAt] is `null`.
@@ -79,8 +80,8 @@ class _PracticeTimerPillState extends State<PracticeTimerPill> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const AppSvg(
-            'assets/figma/practice/ic_timer.svg',
+          AppSvg(
+            Assets.figma.practice.icTimer,
             width: 10.5,
             height: 12.25,
           ),

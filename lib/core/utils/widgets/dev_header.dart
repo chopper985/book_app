@@ -7,6 +7,7 @@ import 'package:AppName/core/app/languages/data/localization.dart';
 import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// App header of the tab screens: logo, role, streak chip and avatar.
 class DevHeader extends StatelessWidget {
@@ -77,8 +78,8 @@ class DevHeader extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    const AppSvg(
-                      'assets/figma/explore/ic_streak_small.svg',
+                    AppSvg(
+                      Assets.figma.explore.icStreakSmall,
                       width: 9.33,
                       height: 11.08,
                     ),

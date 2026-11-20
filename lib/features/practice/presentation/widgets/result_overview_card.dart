@@ -12,6 +12,7 @@ import 'package:AppName/features/practice/domain/entities/practice_bundle.dart';
 import 'package:AppName/features/practice/domain/entities/session_result.dart';
 import 'package:AppName/features/practice/presentation/widgets/result_inline_text.dart';
 import 'package:AppName/features/practice/presentation/widgets/result_score_ring.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// MOCK: there is no XP system yet, the reward card shows a fixed value.
 const int kResultMockRewardXp = 45;
@@ -79,7 +80,7 @@ class ResultOverviewCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: _SummaryCard(
-                          icon: 'assets/figma/result/timer.svg',
+                          icon: Assets.figma.result.timer,
                           iconWidth: 13.5,
                           iconHeight: 15.75,
                           label: Strings.resultTime.i18n,
@@ -89,7 +90,7 @@ class ResultOverviewCard extends StatelessWidget {
                       SizedBox(width: 4.dsp),
                       Expanded(
                         child: _SummaryCard(
-                          icon: 'assets/figma/result/score.svg',
+                          icon: Assets.figma.result.score,
                           iconWidth: 15,
                           iconHeight: 15,
                           label: Strings.resultScore.i18n,
@@ -100,7 +101,7 @@ class ResultOverviewCard extends StatelessWidget {
                       SizedBox(width: 4.dsp),
                       Expanded(
                         child: _SummaryCard(
-                          icon: 'assets/figma/result/reward.svg',
+                          icon: Assets.figma.result.reward,
                           iconWidth: 12,
                           iconHeight: 14.25,
                           label: Strings.resultReward.i18n,
@@ -183,7 +184,7 @@ class _Feedback extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 AppSvg(
-                  'assets/figma/result/feedback_badge.svg',
+                  Assets.figma.result.feedbackBadge,
                   width: 12.83,
                   height: 12.25,
                   color: color,

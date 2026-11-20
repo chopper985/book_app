@@ -7,6 +7,7 @@ import 'package:AppName/core/app/languages/data/localization.dart';
 import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// Section 2: "review mistakes" CTA and secondary navigation.
 class ResultActions extends StatelessWidget {
@@ -36,8 +37,8 @@ class ResultActions extends StatelessWidget {
           children: [
             Expanded(
               child: _SecondaryButton(
-                icon: const AppSvg(
-                  'assets/figma/result/explore.svg',
+                icon: AppSvg(
+                  Assets.figma.result.explore,
                   width: 13.33,
                   height: 13.33,
                   color: AppPalette.primary,
@@ -49,8 +50,8 @@ class ResultActions extends StatelessWidget {
             SizedBox(width: 8.dsp),
             Expanded(
               child: _SecondaryButton(
-                icon: const AppSvg(
-                  'assets/figma/result/play.svg',
+                icon: AppSvg(
+                  Assets.figma.result.play,
                   width: 7.33,
                   height: 9.33,
                 ),
@@ -87,8 +88,8 @@ class _ReviewButton extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.dsp, vertical: 8.dsp),
             child: Row(
               children: [
-                const AppSvg(
-                  'assets/figma/result/review.svg',
+                AppSvg(
+                  Assets.figma.result.review,
                   width: 18.33,
                   height: 13.33,
                   color: AppPalette.onErrorStrong,

@@ -13,6 +13,7 @@ import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
 import 'package:AppName/features/catalog/presentation/cubit/explore_cubit.dart';
 import 'package:AppName/features/catalog/presentation/widgets/roadmap_card.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// "Lộ trình phỏng vấn trọng điểm": header, category pills and track cards.
 class RoadmapListSection extends StatelessWidget {
@@ -137,8 +138,8 @@ class _SeeAllButton extends StatelessWidget {
                 style: AppText.mono(10, height: 14, color: AppPalette.primary),
               ),
               SizedBox(width: 4.dsp),
-              const AppSvg(
-                'assets/figma/explore/ic_arrow_right.svg',
+              AppSvg(
+                Assets.figma.explore.icArrowRight,
                 width: 8,
                 height: 8,
               ),

@@ -13,6 +13,7 @@ import 'package:AppName/features/catalog/domain/entities/track_progress.dart';
 import 'package:AppName/features/catalog/presentation/widgets/segmented_progress_bar.dart';
 import 'package:AppName/features/catalog/presentation/widgets/track_style.dart';
 import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// "Technology Route Hero Card": title, badges and overall progress.
 class TrackHeroCard extends StatefulWidget {
@@ -161,8 +162,8 @@ class _TrackHeroCardState extends State<TrackHeroCard> {
                   SizedBox(height: 16.dsp),
                   _Pill(
                     background: AppPalette.teal.withValues(alpha: 0.1),
-                    leading: const AppSvg(
-                      'assets/figma/result/feedback_badge.svg',
+                    leading: AppSvg(
+                      Assets.figma.result.feedbackBadge,
                       width: 12.83,
                       height: 12.25,
                       color: AppPalette.teal,

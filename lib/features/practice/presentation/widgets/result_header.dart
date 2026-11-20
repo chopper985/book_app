@@ -9,6 +9,7 @@ import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_progress_bar.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
 import 'package:AppName/core/utils/widgets/dev_header.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// Report header: back, logo, title, level badge, avatar and the score strip.
 class ResultHeader extends StatelessWidget {
@@ -59,9 +60,9 @@ class ResultHeader extends StatelessWidget {
                         customBorder: const CircleBorder(),
                         child: SizedBox.square(
                           dimension: 44.dsp,
-                          child: const Center(
+                          child: Center(
                             child: AppSvg(
-                              'assets/figma/result/back.svg',
+                              Assets.figma.result.back,
                               width: 13.33,
                               height: 13.33,
                             ),
@@ -103,8 +104,8 @@ class ResultHeader extends StatelessWidget {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const AppSvg(
-                              'assets/figma/result/level_bolt.svg',
+                            AppSvg(
+                              Assets.figma.result.levelBolt,
                               width: 9.33,
                               height: 11.67,
                             ),

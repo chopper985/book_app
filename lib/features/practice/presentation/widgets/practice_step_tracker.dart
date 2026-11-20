@@ -9,6 +9,7 @@ import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
 import 'package:AppName/features/practice/domain/entities/practice_session.dart';
 import 'package:AppName/features/practice/presentation/widgets/practice_timer_pill.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// Step counter, question type, timer, flag and stepped progress bar.
 class PracticeStepTracker extends StatelessWidget {
@@ -93,7 +94,7 @@ class PracticeStepTracker extends StatelessWidget {
                       height: 32.dsp,
                       child: Center(
                         child: AppSvg(
-                          'assets/figma/practice/ic_flag.svg',
+                          Assets.figma.practice.icFlag,
                           width: 9.333,
                           height: 12,
                           color: flagged

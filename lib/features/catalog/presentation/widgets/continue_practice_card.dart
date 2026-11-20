@@ -11,6 +11,7 @@ import 'package:AppName/core/utils/widgets/app_progress_bar.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
 import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
 import 'package:AppName/features/catalog/presentation/widgets/track_style.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// Hero panel "Continue practice" (Technical Slate Panel).
 class ContinuePracticeCard extends StatelessWidget {
@@ -90,8 +91,8 @@ class ContinuePracticeCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 8.dsp),
-                      const AppSvg(
-                        'assets/figma/explore/ic_clock.svg',
+                      AppSvg(
+                        Assets.figma.explore.icClock,
                         width: 10,
                         height: 10,
                       ),
@@ -200,8 +201,8 @@ class ContinuePracticeCard extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const AppSvg(
-                                'assets/figma/explore/ic_play.svg',
+                              AppSvg(
+                                Assets.figma.explore.icPlay,
                                 width: 9.17,
                                 height: 11.67,
                               ),

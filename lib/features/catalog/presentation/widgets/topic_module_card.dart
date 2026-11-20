@@ -10,6 +10,7 @@ import 'package:AppName/core/utils/widgets/app_svg.dart';
 import 'package:AppName/features/catalog/domain/entities/track_progress.dart';
 import 'package:AppName/features/catalog/presentation/widgets/segmented_progress_bar.dart';
 import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// Header of the "Core Topic Modules" section.
 class TopicSectionHeader extends StatelessWidget {
@@ -238,8 +239,8 @@ class _Footer extends StatelessWidget {
   Widget build(BuildContext context) {
     final (Widget icon, String hint, Color hintColor) = switch (progress) {
       TopicProgress(status: TopicStatus.needsReview, :final wrong) => (
-          const AppSvg(
-            'assets/figma/result/review.svg',
+          AppSvg(
+            Assets.figma.result.review,
             width: 12.57,
             height: 9.14,
             color: AppPalette.error,
@@ -248,8 +249,8 @@ class _Footer extends StatelessWidget {
           AppPalette.error,
         ),
       TopicProgress(:final int estimatedMinutes) => (
-          const AppSvg(
-            'assets/figma/explore/ic_clock.svg',
+          AppSvg(
+            Assets.figma.explore.icClock,
             width: 11.67,
             height: 11.67,
             color: AppPalette.onSurfaceVariant,
@@ -326,7 +327,7 @@ class _Footer extends StatelessWidget {
                       ),
                       SizedBox(width: 4.dsp),
                       AppSvg(
-                        'assets/figma/explore/ic_chevron_right.svg',
+                        Assets.figma.explore.icChevronRight,
                         width: 4.32,
                         height: 7,
                         color: filled

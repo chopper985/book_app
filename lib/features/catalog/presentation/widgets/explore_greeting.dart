@@ -8,6 +8,7 @@ import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
 import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// Greeting and quick stats ("Top Greeting & Live Stats Bento").
 class ExploreGreeting extends StatelessWidget {
@@ -51,8 +52,8 @@ class ExploreGreeting extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const AppSvg(
-                    'assets/figma/explore/ic_streak.svg',
+                  AppSvg(
+                    Assets.figma.explore.icStreak,
                     width: 9.33,
                     height: 10.5,
                   ),
@@ -96,7 +97,7 @@ class ExploreGreeting extends StatelessWidget {
             children: [
               Expanded(
                 child: _StatTile(
-                  icon: 'assets/figma/explore/ic_level.svg',
+                  icon: Assets.figma.explore.icLevel,
                   iconSize: const Size(8.33, 16.67),
                   label: Strings.currentLevel.i18n,
                   value: Strings.levelValue.i18n.fill([
@@ -108,7 +109,7 @@ class ExploreGreeting extends StatelessWidget {
               SizedBox(width: 8.dsp),
               Expanded(
                 child: _StatTile(
-                  icon: 'assets/figma/explore/ic_practiced.svg',
+                  icon: Assets.figma.explore.icPracticed,
                   iconSize: const Size(16.67, 16.67),
                   label: Strings.practiced.i18n,
                   value: Strings.practicedValue.i18n.fill([

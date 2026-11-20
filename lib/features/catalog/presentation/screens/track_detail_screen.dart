@@ -22,6 +22,7 @@ import 'package:AppName/features/catalog/presentation/widgets/track_hero_card.da
 import 'package:AppName/features/catalog/presentation/widgets/track_quick_actions.dart';
 import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:AppName/features/content/presentation/widgets/content_issue_view.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// "Lộ trình Flutter - Chi tiết chủ đề".
 class TrackDetailScreen extends StatelessWidget {
@@ -191,8 +192,8 @@ class _BackLink extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const AppSvg(
-                'assets/figma/result/back.svg',
+              AppSvg(
+                Assets.figma.result.back,
                 width: 13.33,
                 height: 13.33,
                 color: AppPalette.onSurfaceVariant,

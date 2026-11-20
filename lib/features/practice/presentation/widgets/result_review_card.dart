@@ -12,6 +12,7 @@ import 'package:AppName/features/content/presentation/extensions/localized_text_
 import 'package:AppName/features/practice/domain/entities/session_result.dart';
 import 'package:AppName/features/practice/presentation/widgets/result_code_view.dart';
 import 'package:AppName/features/practice/presentation/widgets/result_inline_text.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// Wrong or skipped question: answer comparison, code and explanation.
 class ResultMistakeCard extends StatelessWidget {
@@ -46,7 +47,7 @@ class ResultMistakeCard extends StatelessWidget {
         ),
         _AnswerBox(
           label: Strings.resultYourAnswer.i18n,
-          icon: 'assets/figma/result/wrong_circle.svg',
+          icon: Assets.figma.result.wrongCircle,
           option: selected == null ? null : _letter(selected),
           text: selected?.text.text ?? Strings.resultSkippedAnswer.i18n,
           background: AppPalette.errorStrong.withValues(alpha: 0.2),
@@ -56,7 +57,7 @@ class ResultMistakeCard extends StatelessWidget {
         if (correct != null)
           _AnswerBox(
             label: Strings.resultCorrectAnswer.i18n,
-            icon: 'assets/figma/result/check_circle.svg',
+            icon: Assets.figma.result.checkCircle,
             option: _letter(correct),
             text: correct.text.text,
             background: const Color(0x2603C6B2),
@@ -166,8 +167,8 @@ class ResultExplanationBox extends StatelessWidget {
         children: [
           Row(
             children: [
-              const AppSvg(
-                'assets/figma/result/insight.svg',
+              AppSvg(
+                Assets.figma.result.insight,
                 width: 12.67,
                 height: 13.33,
               ),
@@ -286,7 +287,7 @@ class _QuestionHeader extends StatelessWidget {
                 children: [
                   if (badgeIcon) ...[
                     AppSvg(
-                      'assets/figma/result/close_small.svg',
+                      Assets.figma.result.closeSmall,
                       width: 7,
                       height: 7,
                       color: badgeColor,

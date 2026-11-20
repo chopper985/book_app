@@ -8,6 +8,7 @@ import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_badge.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// "Mega CTA Button: Random N Questions".
 class RandomPracticeButton extends StatelessWidget {
@@ -45,8 +46,8 @@ class RandomPracticeButton extends StatelessWidget {
                     color: AppPalette.onPrimaryStrong.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(6.dsp),
                   ),
-                  child: const AppSvg(
-                    'assets/figma/result/level_bolt.svg',
+                  child: AppSvg(
+                    Assets.figma.result.levelBolt,
                     width: 15.26,
                     height: 19.08,
                     color: AppPalette.onPrimaryStrong,
@@ -89,8 +90,8 @@ class RandomPracticeButton extends StatelessWidget {
                     color: AppPalette.onPrimaryStrong,
                     borderRadius: BorderRadius.circular(8.dsp),
                   ),
-                  child: const AppSvg(
-                    'assets/figma/explore/ic_play.svg',
+                  child: AppSvg(
+                    Assets.figma.explore.icPlay,
                     width: 9.17,
                     height: 11.67,
                     color: AppPalette.primaryStrong,
@@ -136,8 +137,8 @@ class TimedMockCard extends StatelessWidget {
               color: AppPalette.surfaceHigh,
               borderRadius: BorderRadius.circular(6.dsp),
             ),
-            child: const AppSvg(
-              'assets/figma/result/timer.svg',
+            child: AppSvg(
+              Assets.figma.result.timer,
               width: 15,
               height: 17.5,
               color: AppPalette.teal,
@@ -209,8 +210,8 @@ class TimedMockCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 6.dsp),
-                      const AppSvg(
-                        'assets/figma/explore/ic_arrow_right.svg',
+                      AppSvg(
+                        Assets.figma.explore.icArrowRight,
                         width: 9.33,
                         height: 9.33,
                       ),

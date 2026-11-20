@@ -10,6 +10,7 @@ import 'package:AppName/core/app/languages/data/localization.dart';
 import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
+import 'package:AppName/gen/assets.gen.dart';
 
 /// Tab scaffold with the bottom navigation of the design.
 class MainShell extends StatelessWidget {
@@ -17,11 +18,11 @@ class MainShell extends StatelessWidget {
 
   const MainShell({super.key, required this.navigationShell});
 
-  static const List<_NavItem> _items = [
-    _NavItem(Strings.navExplore, 'assets/figma/nav/ic_explore.svg', 16.67, 16.67),
-    _NavItem(Strings.navRoadmaps, 'assets/figma/nav/ic_roadmap.svg', 15, 16.67),
-    _NavItem(Strings.navPractice, 'assets/figma/nav/ic_practice.svg', 16.67, 13.33),
-    _NavItem(Strings.navProfile, 'assets/figma/nav/ic_profile.svg', 13.33, 13.33),
+  static final List<_NavItem> _items = [
+    _NavItem(Strings.navExplore, Assets.figma.nav.icExplore, 16.67, 16.67),
+    _NavItem(Strings.navRoadmaps, Assets.figma.nav.icRoadmap, 15, 16.67),
+    _NavItem(Strings.navPractice, Assets.figma.nav.icPractice, 16.67, 13.33),
+    _NavItem(Strings.navProfile, Assets.figma.nav.icProfile, 13.33, 13.33),
   ];
 
   void _onTap(int index) {
