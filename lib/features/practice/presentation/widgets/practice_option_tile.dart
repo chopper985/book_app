@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
 import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 
@@ -90,17 +89,6 @@ class PracticeOptionTile extends StatelessWidget {
                                 : AppPalette.onSurface,
                           ),
                         ),
-                        if (selected) ...[
-                          SizedBox(height: 2.dsp),
-                          Text(
-                            Strings.practiceSelected.i18n,
-                            style: AppText.mono(
-                              10,
-                              height: 14,
-                              color: AppPalette.primary,
-                            ),
-                          ),
-                        ],
                       ],
                     ),
                   ),

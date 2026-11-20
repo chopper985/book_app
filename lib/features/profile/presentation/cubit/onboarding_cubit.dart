@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
+import 'package:AppName/core/analytics/app_analytics.dart';
 import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
 import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
@@ -15,9 +16,14 @@ part 'onboarding_state.dart';
 class OnboardingCubit extends Cubit<OnboardingState> {
   final GetTracks _getTracks;
   final SaveProfile _saveProfile;
+  final AppAnalytics _analytics;
 
-  OnboardingCubit(this._getTracks, this._saveProfile)
-      : super(const OnboardingState());
+  OnboardingCubit(
+    this._getTracks,
+    this._saveProfile, {
+    AppAnalytics analytics = const NoopAppAnalytics(),
+  })  : _analytics = analytics,
+        super(const OnboardingState());
 
   Future<void> load() async {
     final tracks = (await _getTracks()).value ?? const <TrackOverview>[];
@@ -59,7 +65,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       return;
     }
     emit(state.copyWith(saving: true));
-    await _saveProfile(
+    final profile = await _saveProfile(
       ProfileFields(
         displayName: state.name,
         role: state.role!,
@@ -68,6 +74,15 @@ class OnboardingCubit extends Cubit<OnboardingState> {
         interviewDate: state.interviewDate,
       ),
     );
+    _analytics
+      ..onboardingCompleted(
+        role: profile.role.name,
+        experience: profile.experience.name,
+        stackSize: profile.techStack.length,
+        hasInterviewDate: profile.interviewDate != null,
+      )
+      ..setUserProperty('role', profile.role.name)
+      ..setUserProperty('experience', profile.experience.name);
     if (!isClosed) emit(state.copyWith(saving: false, done: true));
   }
 }

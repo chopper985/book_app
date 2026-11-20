@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
+import 'package:AppName/core/analytics/app_analytics.dart';
 import 'package:AppName/features/catalog/domain/entities/quiz_set_summary.dart';
 import 'package:AppName/features/catalog/domain/entities/track_detail.dart';
 import 'package:AppName/features/catalog/domain/usecase/filter_quiz_sets.dart';
@@ -26,11 +27,15 @@ class TrackDetailCubit extends Cubit<TrackDetailState> {
   final FilterQuizSets _filterQuizSets = const FilterQuizSets();
   late final StreamSubscription<void> _progressSubscription;
 
+  final AppAnalytics _analytics;
+
   TrackDetailCubit(
     this._getTrackDetail,
     this._toggleSavedTrack,
-    WatchProgress watchProgress,
-  ) : super(const TrackDetailLoading()) {
+    WatchProgress watchProgress, {
+    AppAnalytics analytics = const NoopAppAnalytics(),
+  })  : _analytics = analytics,
+        super(const TrackDetailLoading()) {
     _progressSubscription = watchProgress().listen((_) => refresh());
   }
 
@@ -48,7 +53,12 @@ class TrackDetailCubit extends Cubit<TrackDetailState> {
   Future<void> toggleSaved() async {
     final current = state;
     if (current is TrackDetailLoaded) {
-      await _toggleSavedTrack(current.detail.track.id);
+      final trackId = current.detail.track.id;
+      await _toggleSavedTrack(trackId);
+      _analytics.trackSaved(
+        trackId: trackId,
+        saved: !current.detail.learning.isSaved,
+      );
     }
   }
 

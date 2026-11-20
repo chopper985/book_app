@@ -4,6 +4,16 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+// Firebase needs android/app/google-services.json (Firebase console >
+// Project settings > Android app "com.interview.practice"). Without it the
+// app still builds and runs, with Analytics and Crashlytics disabled.
+if (file("google-services.json").exists()) {
+    apply plugin: "com.google.gms.google-services"
+    apply plugin: "com.google.firebase.crashlytics"
+} else {
+    logger.warn("google-services.json not found: Firebase is disabled.")
+}
+
 android {
     namespace = "com.interview.practice"
     compileSdk = 37

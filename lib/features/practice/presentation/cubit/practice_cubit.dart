@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
+import 'package:AppName/core/analytics/app_analytics.dart';
 import 'package:AppName/features/practice/domain/entities/practice_bundle.dart';
 import 'package:AppName/features/practice/domain/entities/practice_session.dart';
 import 'package:AppName/features/practice/domain/usecase/practice_usecases.dart';
@@ -16,6 +17,7 @@ class PracticeCubit extends Cubit<PracticeState> {
   final ResumePractice _resumePractice;
   final SavePractice _savePractice;
   final SubmitPractice _submitPractice;
+  final AppAnalytics _analytics;
 
   bool _submitting = false;
 
@@ -23,8 +25,10 @@ class PracticeCubit extends Cubit<PracticeState> {
     this._startPractice,
     this._resumePractice,
     this._savePractice,
-    this._submitPractice,
-  ) : super(const PracticeLoading());
+    this._submitPractice, {
+    AppAnalytics analytics = const NoopAppAnalytics(),
+  })  : _analytics = analytics,
+        super(const PracticeLoading());
 
   /// Resumes [sessionId] when given and still open, otherwise starts a new
   /// session of [setId].
@@ -38,6 +42,18 @@ class PracticeCubit extends Cubit<PracticeState> {
         sessionId == null ? null : (await _resumePractice(sessionId)).value;
     final bundle = resumed ??
         (await _startPractice(setId, onlyQuestionIds: onlyQuestionIds)).value;
+    if (bundle != null) {
+      _analytics.practiceStarted(
+        trackId: bundle.track.id,
+        setId: bundle.set.id,
+        mode: resumed != null
+            ? PracticeMode.resume
+            : onlyQuestionIds != null
+                ? PracticeMode.subset
+                : PracticeMode.full,
+        questionCount: bundle.questions.length,
+      );
+    }
     emit(
       bundle == null ? const PracticeNotFound() : PracticeInProgress(bundle),
     );
@@ -84,7 +100,16 @@ class PracticeCubit extends Cubit<PracticeState> {
       current.bundle.session.id,
       timedOut: timedOut,
     );
-    if (result.value != null) {
+    if (result.value case final bundle?) {
+      final graded = bundle.result;
+      _analytics.practiceSubmitted(
+        trackId: graded.trackId,
+        setId: graded.setId,
+        scorePercent: graded.scorePercent,
+        questionCount: graded.items.length,
+        durationSeconds: graded.duration.inSeconds,
+        timedOut: graded.timedOut,
+      );
       emit(PracticeSubmitted(current.bundle.session.id));
     } else {
       _submitting = false;

@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 // Project imports:
+import 'package:AppName/core/analytics/app_analytics.dart';
 import 'package:AppName/core/app/colors/app_colors.dart';
 import 'package:AppName/core/injection/injection_container.dart';
 import 'package:AppName/core/navigator/app_routes.dart';
@@ -48,6 +49,14 @@ class AppRouter {
       initialLocation: Routes.rootRoute,
       redirect: _requireProfile,
     );
+    router.routerDelegate.addListener(_logScreen);
+  }
+
+  /// Logs the route template (e.g. `/roadmaps/:trackId`), never ids, on every
+  /// navigation including tab switches.
+  void _logScreen() {
+    final path = router.routerDelegate.currentConfiguration.fullPath;
+    if (path.isNotEmpty) getIt<AppAnalytics>().screenView(path);
   }
 
   /// Sends a learner without a profile to onboarding, and away from it once

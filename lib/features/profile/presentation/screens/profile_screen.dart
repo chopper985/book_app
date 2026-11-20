@@ -142,8 +142,10 @@ class _LanguageSetting extends StatelessWidget {
             title: language.base,
             selected: current == language.langCode,
             onTap: () {
+              if (current == language.langCode) return;
               LanguageService().saveLocale(language.langCode);
               I18n.of(context).locale = language.locale;
+              context.read<ProfileCubit>().languageChanged(language.langCode);
             },
           ),
           SizedBox(height: 8.dsp),

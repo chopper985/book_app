@@ -66,6 +66,7 @@ import '../../features/profile/presentation/cubit/onboarding_cubit.dart'
     as _i934;
 import '../../features/profile/presentation/cubit/profile_cubit.dart' as _i37;
 import '../../features/theme/presentation/cubit/theme_cubit.dart' as _i5;
+import '../analytics/app_analytics.dart' as _i1033;
 import '../helpers/app_clock.dart' as _i472;
 import '../utils/datasources/base_repository.dart' as _i961;
 import '../utils/dio_api/dio_configuration.dart' as _i721;
@@ -97,6 +98,7 @@ _i174.GetIt $initGetIt(
       () => _i264.HivePracticeLocalDataSource());
   gh.lazySingleton<_i913.SavedTracksLocalDataSource>(
       () => _i913.HiveSavedTracksLocalDataSource());
+  gh.lazySingleton<_i1033.AppAnalytics>(() => _i1033.FirebaseAppAnalytics());
   gh.lazySingleton<_i1046.ProfileLocalDataSource>(
       () => _i1046.HiveProfileLocalDataSource());
   gh.lazySingleton<_i961.BaseRepository>(
@@ -139,14 +141,15 @@ _i174.GetIt $initGetIt(
       () => _i385.GetSavedTrackIds(gh<_i452.SavedTracksRepository>()));
   gh.factory<_i385.ToggleSavedTrack>(
       () => _i385.ToggleSavedTrack(gh<_i452.SavedTracksRepository>()));
-  gh.factory<_i36.ResultCubit>(
-      () => _i36.ResultCubit(gh<_i673.GetPracticeResult>()));
   gh.factory<_i411.PracticeCubit>(() => _i411.PracticeCubit(
         gh<_i673.StartPractice>(),
         gh<_i673.ResumePractice>(),
         gh<_i673.SavePractice>(),
         gh<_i673.SubmitPractice>(),
+        analytics: gh<_i1033.AppAnalytics>(),
       ));
+  gh.factory<_i36.ResultCubit>(
+      () => _i36.ResultCubit(gh<_i673.GetPracticeResult>()));
   gh.factory<_i852.GetProfile>(
       () => _i852.GetProfile(gh<_i894.ProfileRepository>()));
   gh.factory<_i852.SaveProfile>(
@@ -173,26 +176,21 @@ _i174.GetIt $initGetIt(
         gh<_i4.GetExploreDashboard>(),
         gh<_i4.WatchProgress>(),
       ));
-  gh.factory<_i934.OnboardingCubit>(() => _i934.OnboardingCubit(
-        gh<_i4.GetTracks>(),
-        gh<_i852.SaveProfile>(),
-      ));
-  gh.factory<_i990.EditProfileCubit>(() => _i990.EditProfileCubit(
-        gh<_i852.GetProfile>(),
-        gh<_i852.GetAvatarPath>(),
-        gh<_i852.StoreAvatar>(),
-        gh<_i852.SaveProfile>(),
-        gh<_i4.GetTracks>(),
-      ));
   gh.factory<_i805.TrackDetailCubit>(() => _i805.TrackDetailCubit(
         gh<_i875.GetTrackDetail>(),
         gh<_i385.ToggleSavedTrack>(),
         gh<_i4.WatchProgress>(),
+        analytics: gh<_i1033.AppAnalytics>(),
       ));
   gh.factory<_i978.ExploreCubit>(() => _i978.ExploreCubit(
         gh<_i4.GetTracks>(),
         gh<_i4.GetExploreDashboard>(),
         gh<_i4.WatchProgress>(),
+      ));
+  gh.factory<_i934.OnboardingCubit>(() => _i934.OnboardingCubit(
+        gh<_i4.GetTracks>(),
+        gh<_i852.SaveProfile>(),
+        analytics: gh<_i1033.AppAnalytics>(),
       ));
   gh.factory<_i37.ProfileCubit>(() => _i37.ProfileCubit(
         gh<_i852.GetProfile>(),
@@ -202,6 +200,15 @@ _i174.GetIt $initGetIt(
         gh<_i385.GetSavedTrackIds>(),
         gh<_i673.ClearPracticeHistory>(),
         gh<_i4.WatchProgress>(),
+        analytics: gh<_i1033.AppAnalytics>(),
+      ));
+  gh.factory<_i990.EditProfileCubit>(() => _i990.EditProfileCubit(
+        gh<_i852.GetProfile>(),
+        gh<_i852.GetAvatarPath>(),
+        gh<_i852.StoreAvatar>(),
+        gh<_i852.SaveProfile>(),
+        gh<_i4.GetTracks>(),
+        analytics: gh<_i1033.AppAnalytics>(),
       ));
   return getIt;
 }

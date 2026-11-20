@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
+import 'package:AppName/core/analytics/app_analytics.dart';
 import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
 import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
@@ -18,14 +19,17 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   final StoreAvatar _storeAvatar;
   final SaveProfile _saveProfile;
   final GetTracks _getTracks;
+  final AppAnalytics _analytics;
 
   EditProfileCubit(
     this._getProfile,
     this._getAvatarPath,
     this._storeAvatar,
     this._saveProfile,
-    this._getTracks,
-  ) : super(const EditProfileState());
+    this._getTracks, {
+    AppAnalytics analytics = const NoopAppAnalytics(),
+  })  : _analytics = analytics,
+        super(const EditProfileState());
 
   /// Fills the form synchronously so text fields start with saved values,
   /// then loads tracks and the avatar file.
@@ -85,7 +89,16 @@ class EditProfileCubit extends Cubit<EditProfileState> {
       final name = await _storeAvatar(picked);
       fields = fields.copyWith(avatarFileName: () => name);
     }
-    await _saveProfile(fields);
+    final avatarChanged =
+        fields.avatarFileName != state.original?.avatarFileName;
+    final profile = await _saveProfile(fields);
+    _analytics
+      ..profileUpdated(
+        avatarChanged: avatarChanged,
+        experience: profile.experience.name,
+      )
+      ..setUserProperty('role', profile.role.name)
+      ..setUserProperty('experience', profile.experience.name);
     if (!isClosed) emit(state.copyWith(saving: false, saved: true));
   }
 

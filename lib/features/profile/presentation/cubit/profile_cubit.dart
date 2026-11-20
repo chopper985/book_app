@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
+import 'package:AppName/core/analytics/app_analytics.dart';
 import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
 import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
@@ -25,6 +26,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final GetTracks _getTracks;
   final GetSavedTrackIds _getSavedTrackIds;
   final ClearPracticeHistory _clearPracticeHistory;
+  final AppAnalytics _analytics;
   late final StreamSubscription<void> _subscription;
 
   ProfileCubit(
@@ -34,8 +36,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     this._getTracks,
     this._getSavedTrackIds,
     this._clearPracticeHistory,
-    WatchProgress watchProgress,
-  ) : super(const ProfileLoading()) {
+    WatchProgress watchProgress, {
+    AppAnalytics analytics = const NoopAppAnalytics(),
+  })  : _analytics = analytics,
+        super(const ProfileLoading()) {
     _subscription = watchProgress().listen((_) => load());
   }
 
@@ -73,7 +77,17 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   /// Deletes practice history; the change stream reloads the state.
-  Future<void> resetProgress() => _clearPracticeHistory();
+  Future<void> resetProgress() async {
+    await _clearPracticeHistory();
+    _analytics.progressReset();
+  }
+
+  /// Records the switch; the screen applies the locale itself.
+  void languageChanged(String languageCode) {
+    _analytics
+      ..languageChanged(languageCode)
+      ..setUserProperty('language', languageCode);
+  }
 
   @override
   Future<void> close() async {
