@@ -19,7 +19,9 @@ import 'package:AppName/features/catalog/presentation/screens/explore_screen.dar
 import 'package:AppName/features/catalog/presentation/screens/roadmaps_screen.dart';
 import 'package:AppName/features/catalog/presentation/screens/track_detail_screen.dart';
 import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart';
+import 'package:AppName/features/practice/presentation/cubit/practice_hub_cubit.dart';
 import 'package:AppName/features/practice/presentation/cubit/result_cubit.dart';
+import 'package:AppName/features/practice/presentation/screens/practice_hub_screen.dart';
 import 'package:AppName/features/practice/presentation/screens/practice_screen.dart';
 import 'package:AppName/features/practice/presentation/screens/result_screen.dart';
 import 'package:AppName/features/profile/domain/repositories/profile_repository.dart';
@@ -236,7 +238,10 @@ class PracticeHubRoute extends GoRouteData with $PracticeHubRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ComingSoonScreen(title: Strings.navPractice.i18n);
+    return BlocProvider(
+      create: (_) => getIt<PracticeHubCubit>()..load(),
+      child: const PracticeHubScreen(),
+    );
   }
 }
 

@@ -27,6 +27,22 @@ class Strings {
   static const String levelJunior = "levelJunior";
   static const String levelNumber = "levelNumber";
 
+  // Practice tab
+  static const String hubTitle = "hubTitle";
+  static const String hubSubtitle = "hubSubtitle";
+  static const String hubStatSessions = "hubStatSessions";
+  static const String hubStatAverage = "hubStatAverage";
+  static const String hubStatMistakes = "hubStatMistakes";
+  static const String hubMistakesTitle = "hubMistakesTitle";
+  static const String hubMistakesEmpty = "hubMistakesEmpty";
+  static const String hubMistakeCount = "hubMistakeCount";
+  static const String hubReviewNow = "hubReviewNow";
+  static const String hubQuickTitle = "hubQuickTitle";
+  static const String hubQuickSubtitle = "hubQuickSubtitle";
+  static const String hubHistoryTitle = "hubHistoryTitle";
+  static const String hubHistoryEmpty = "hubHistoryEmpty";
+  static const String hubHistoryTimedOut = "hubHistoryTimedOut";
+
   // Onboarding & profile
   static const String onboardingStep = "onboardingStep";
   static const String onboardingNameTitle = "onboardingNameTitle";

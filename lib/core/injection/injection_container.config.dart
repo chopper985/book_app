@@ -37,9 +37,12 @@ import '../../features/practice/data/repositories/practice_repository_impl.dart'
     as _i862;
 import '../../features/practice/domain/repositories/practice_repository.dart'
     as _i980;
+import '../../features/practice/domain/usecase/get_practice_hub.dart' as _i1036;
 import '../../features/practice/domain/usecase/practice_usecases.dart' as _i673;
 import '../../features/practice/presentation/cubit/practice_cubit.dart'
     as _i411;
+import '../../features/practice/presentation/cubit/practice_hub_cubit.dart'
+    as _i269;
 import '../../features/practice/presentation/cubit/result_cubit.dart' as _i36;
 import '../../features/profile/data/datasources/profile_local_datasource.dart'
     as _i1046;
@@ -122,6 +125,11 @@ _i174.GetIt $initGetIt(
       () => _i852.GetProfile(gh<_i894.ProfileRepository>()));
   gh.factory<_i852.SaveProfile>(
       () => _i852.SaveProfile(gh<_i894.ProfileRepository>()));
+  gh.factory<_i1036.GetPracticeHub>(() => _i1036.GetPracticeHub(
+        gh<_i1027.ContentRepository>(),
+        gh<_i980.PracticeRepository>(),
+        gh<_i894.ProfileRepository>(),
+      ));
   gh.factory<_i4.GetTracks>(
       () => _i4.GetTracks(gh<_i1018.CatalogRepository>()));
   gh.factory<_i4.GetExploreDashboard>(
@@ -130,6 +138,11 @@ _i174.GetIt $initGetIt(
       () => _i4.WatchProgress(gh<_i1018.CatalogRepository>()));
   gh.factory<_i875.GetTrackDetail>(
       () => _i875.GetTrackDetail(gh<_i1018.CatalogRepository>()));
+  gh.factory<_i269.PracticeHubCubit>(() => _i269.PracticeHubCubit(
+        gh<_i1036.GetPracticeHub>(),
+        gh<_i4.GetExploreDashboard>(),
+        gh<_i4.WatchProgress>(),
+      ));
   gh.factory<_i934.OnboardingCubit>(() => _i934.OnboardingCubit(
         gh<_i4.GetTracks>(),
         gh<_i852.SaveProfile>(),

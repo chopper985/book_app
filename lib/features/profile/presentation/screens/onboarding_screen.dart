@@ -11,9 +11,8 @@ import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/navigator/app_router.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_progress_bar.dart';
-import 'package:AppName/core/utils/widgets/app_svg.dart';
 import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
-import 'package:AppName/features/catalog/presentation/widgets/track_style.dart';
+import 'package:AppName/features/catalog/presentation/widgets/track_icon_box.dart';
 import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
 import 'package:AppName/features/profile/presentation/cubit/onboarding_cubit.dart';
@@ -303,26 +302,12 @@ class _TrackTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = TrackStyle.of(overview.track.id);
     return ChoiceTile(
       title: overview.track.name.text,
       hint: overview.track.isAvailable ? null : Strings.onboardingSoon.i18n,
       selected: selected,
       onTap: onTap,
-      leading: Container(
-        width: 36.dsp,
-        height: 36.dsp,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: AppPalette.surfaceHigh,
-          borderRadius: BorderRadius.circular(8.dsp),
-        ),
-        child: AppSvg(
-          style.icon,
-          width: style.iconSize.width,
-          height: style.iconSize.height,
-        ),
-      ),
+      leading: TrackIconBox(trackId: overview.track.id),
     );
   }
 }
