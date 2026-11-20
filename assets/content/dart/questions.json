@@ -1423,6 +1423,1941 @@
         "vi": "`async`/`await` không tạo song song: mọi thứ vẫn chạy trên một isolate với một event loop, nên tác vụ CPU nặng (parse JSON lớn, xử lý ảnh, mã hóa) sẽ chặn UI. Isolate là một worker có heap riêng và event loop riêng; các isolate không chia sẻ bộ nhớ nên không cần lock, mà trao đổi bằng message qua `SendPort`/`ReceivePort`. `Isolate.run` (hoặc `compute` trong Flutter) chạy một hàm ở isolate mới và trả kết quả về dạng `Future`; dữ liệu truyền qua được copy (trừ một số trường hợp như kết quả cuối được chuyển giao), và closure chỉ được capture object có thể gửi được. Không nên dùng isolate cho I/O như gọi HTTP vì I/O vốn đã bất đồng bộ.",
         "en": "`async`/`await` does not create parallelism: everything still runs on one isolate with one event loop, so heavy CPU work (parsing large JSON, image processing, encryption) blocks the UI. An isolate is a worker with its own heap and event loop; isolates do not share memory, so there are no locks, and they communicate by messages via `SendPort`/`ReceivePort`. `Isolate.run` (or `compute` in Flutter) runs a function in a new isolate and returns the result as a `Future`; data passed across is copied (except cases like the final result being transferred), and the closure may only capture sendable objects. Do not use isolates for I/O such as HTTP calls, since I/O is already asynchronous."
       }
+    },
+    {
+      "id": "dart.null_safety.007",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "null_safety",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với null safety, khai báo nào dưới đây gây lỗi biên dịch?",
+        "en": "Under null safety, which declaration below causes a compile error?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`int? a = null;`",
+            "en": "`int? a = null;`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`var c;`",
+            "en": "`var c;`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`String? d;`",
+            "en": "`String? d;`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`int b = null;`",
+            "en": "`int b = null;`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`int` là kiểu non-nullable nên không thể nhận giá trị `null`; trình biên dịch báo lỗi \"A value of type 'Null' can't be assigned to a variable of type 'int'\". Thêm dấu `?` (`int?`) mới cho phép biến chứa `null`. `var c;` hợp lệ vì không có giá trị khởi tạo nên `c` có kiểu `dynamic` và mặc định là `null`. `String? d;` cũng hợp lệ vì biến nullable mặc định là `null`.",
+        "en": "`int` is a non-nullable type, so it cannot hold `null`; the compiler reports \"A value of type 'Null' can't be assigned to a variable of type 'int'\". Only adding `?` (`int?`) allows the variable to contain `null`. `var c;` is valid because without an initializer `c` gets the type `dynamic` and defaults to `null`. `String? d;` is valid too because a nullable variable defaults to `null`."
+      }
+    },
+    {
+      "id": "dart.null_safety.008",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "null_safety",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với hàm dưới đây, lời gọi nào gây lỗi biên dịch?",
+        "en": "Given the function below, which call causes a compile error?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "void greet({required String name, int age = 18}) {\n  print('$name $age');\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`greet(name: 'An');`",
+            "en": "`greet(name: 'An');`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`greet(age: 20, name: 'Binh');`",
+            "en": "`greet(age: 20, name: 'Binh');`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`greet(age: 20);`",
+            "en": "`greet(age: 20);`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`greet(name: 'Cuong', age: 30);`",
+            "en": "`greet(name: 'Cuong', age: 30);`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`name` là named parameter có `required` nên mọi lời gọi bắt buộc phải truyền `name`; `greet(age: 20)` thiếu nó nên báo lỗi \"Required named parameter 'name' must be provided\". `age` có giá trị mặc định `18` nên có thể bỏ qua. Named parameter được truyền theo tên nên thứ tự không quan trọng, vì vậy `greet(age: 20, name: 'Binh')` vẫn hợp lệ.",
+        "en": "`name` is a `required` named parameter, so every call must pass it; `greet(age: 20)` omits it and fails with \"Required named parameter 'name' must be provided\". `age` has the default value `18`, so it can be left out. Named arguments are matched by name, so their order does not matter and `greet(age: 20, name: 'Binh')` is still valid."
+      }
+    },
+    {
+      "id": "dart.null_safety.009",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "null_safety",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "void main() {\n  List<int>? extra;\n  final all = [0, ...?extra];\n  print(all);\n  extra = [1, 2];\n  print([0, ...?extra]);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[0] / [0, 1, 2]",
+            "en": "[0] / [0, 1, 2]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[0, null] / [0, 1, 2]",
+            "en": "[0, null] / [0, 1, 2]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[0] / [0, [1, 2]]",
+            "en": "[0] / [0, [1, 2]]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi lúc chạy vì `extra` là null",
+            "en": "Runtime error because `extra` is null"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`...?` là null-aware spread: nếu list là `null` thì không chèn gì, còn nếu có giá trị thì chèn từng phần tử. Lần đầu `extra` là `null` nên kết quả là `[0]`; lần sau `extra` là `[1, 2]` nên được `[0, 1, 2]`. Không có lỗi lúc chạy vì chính `...?` sinh ra để xử lý trường hợp null; nếu dùng `...extra` (không có `?`) thì code mới không biên dịch được.",
+        "en": "`...?` is the null-aware spread: if the list is `null` nothing is inserted, otherwise each element is inserted. The first time `extra` is `null`, so the result is `[0]`; afterwards `extra` is `[1, 2]`, giving `[0, 1, 2]`. There is no runtime error because `...?` exists exactly to handle null; with a plain `...extra` the code would not even compile."
+      }
+    },
+    {
+      "id": "dart.null_safety.010",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "null_safety",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được. Nguyên nhân là gì?",
+        "en": "The code below does not compile. What is the cause?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "void log(String message, [int level]) {\n  print('[$level] $message');\n}\n\nvoid main() {\n  log('start');\n  log('saved', 2);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`log('start')` thiếu tham số `level`",
+            "en": "`log('start')` is missing the `level` argument"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`level` là optional positional kiểu non-nullable nhưng không có giá trị mặc định, nên mặc định ngầm là `null`",
+            "en": "`level` is an optional positional parameter of a non-nullable type with no default value, so its implicit default is `null`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không được nội suy `$level` trong chuỗi",
+            "en": "`$level` cannot be interpolated in a string"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Optional positional parameter phải đứng trước `message`",
+            "en": "The optional positional parameter must come before `message`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Tham số trong `[...]` là optional positional; khi caller bỏ qua, giá trị mặc định ngầm của nó là `null`. Vì `level` có kiểu `int` (non-nullable) nên Dart báo lỗi \"The parameter 'level' can't have a value of 'null' because of its type\". Sửa bằng cách cho giá trị mặc định `[int level = 0]` hoặc đổi sang `[int? level]`. Việc gọi `log('start')` không truyền `level` là hợp lệ vì đó chính là ý nghĩa của optional parameter.",
+        "en": "Parameters inside `[...]` are optional positional; when the caller omits one, its implicit default is `null`. Because `level` has the non-nullable type `int`, Dart reports \"The parameter 'level' can't have a value of 'null' because of its type\". Fix it with a default value `[int level = 0]` or make it `[int? level]`. Calling `log('start')` without `level` is valid, since that is the whole point of an optional parameter."
+      }
+    },
+    {
+      "id": "dart.null_safety.011",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "null_safety",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "void main() {\n  final List<int?> raw = [1, null, 3, null];\n  final clean = raw.whereType<int>().toList();\n  print(clean);\n  print(clean.runtimeType);\n  print(raw.length);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[1, null, 3, null] / List<int?> / 4",
+            "en": "[1, null, 3, null] / List<int?> / 4"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[1, 3] / List<int?> / 2",
+            "en": "[1, 3] / List<int?> / 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[1, 3] / List<int> / 4",
+            "en": "[1, 3] / List<int> / 4"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "[1, 3] / List<int> / 2",
+            "en": "[1, 3] / List<int> / 2"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`whereType<int>()` chỉ giữ các phần tử có kiểu `int`; `null` không phải `int` nên bị loại, và kết quả có kiểu `Iterable<int>` nên `toList()` cho `List<int>` (non-nullable). Đây là cách gọn để chuyển `List<int?>` thành `List<int>` mà không cần `!`. `whereType` trả về iterable mới, không sửa list gốc, nên `raw.length` vẫn là `4`. Đáp án `List<int?>` sai vì kiểu phần tử được xác định bởi tham số `<int>`, không phải theo list nguồn.",
+        "en": "`whereType<int>()` keeps only elements whose type is `int`; `null` is not an `int`, so it is dropped, and the result is an `Iterable<int>`, so `toList()` gives a non-nullable `List<int>`. It is a concise way to turn a `List<int?>` into a `List<int>` without `!`. `whereType` returns a new iterable and does not modify the source, so `raw.length` is still `4`. `List<int?>` is wrong because the element type comes from the `<int>` argument, not from the source list."
+      }
+    },
+    {
+      "id": "dart.null_safety.012",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "null_safety",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khai báo `void greet({required String? nickname})` có ý nghĩa gì?",
+        "en": "What does the declaration `void greet({required String? nickname})` mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Caller bắt buộc phải truyền `nickname`, nhưng được phép truyền `null`",
+            "en": "The caller must pass `nickname`, but may pass `null`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Caller có thể bỏ qua `nickname`, khi đó nó là `null`",
+            "en": "The caller may omit `nickname`, in which case it is `null`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch: `required` không dùng được với kiểu nullable",
+            "en": "Compile error: `required` cannot be used with a nullable type"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Caller bắt buộc truyền `nickname` và giá trị không được là `null`",
+            "en": "The caller must pass `nickname` and it cannot be `null`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`required` và `?` là hai việc độc lập: `required` nói rằng caller bắt buộc phải truyền tham số, còn `String?` nói rằng giá trị truyền vào được phép là `null`. Vì vậy `greet(nickname: null)` hợp lệ, nhưng `greet()` báo lỗi biên dịch. Cách này hữu ích khi muốn caller phải chủ động quyết định (kể cả chọn `null`) thay vì vô tình quên tham số. Đáp án \"có thể bỏ qua\" chỉ đúng với `{String? nickname}` không có `required`.",
+        "en": "`required` and `?` are independent: `required` says the caller must pass the argument, while `String?` says the passed value may be `null`. So `greet(nickname: null)` is valid, but `greet()` is a compile error. This is useful when you want callers to decide explicitly (even choosing `null`) instead of forgetting the argument by accident. \"May omit\" is only true for `{String? nickname}` without `required`."
+      }
+    },
+    {
+      "id": "dart.null_safety.013",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "null_safety",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đoạn code sau biên dịch được. Nó in ra gì?",
+        "en": "The code below compiles. What does it print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "String? findName(int id) => id == 1 ? 'An' : null;\n\nvoid main() {\n  print(findName(2)?.length.isEven);\n  print(findName(1)?.length.isEven);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lỗi biên dịch: phải viết `?.length?.isEven`",
+            "en": "Compile error: it must be written `?.length?.isEven`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "null / true",
+            "en": "null / true"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi lúc chạy ở dòng đầu (gọi `isEven` trên null)",
+            "en": "Runtime error on the first line (calling `isEven` on null)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "false / true",
+            "en": "false / true"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Dart có null-shorting: khi phần trước `?.` là `null`, toàn bộ phần còn lại của chuỗi truy cập (`.length.isEven`) bị bỏ qua và cả biểu thức trả về `null`. Vì vậy không cần viết `?.` ở mọi bước, và dòng đầu in `null` mà không lỗi. Dòng thứ hai: `'An'.length` là `2`, `2.isEven` là `true`. Viết `?.length?.isEven` không sai nhưng thừa, vì `length` có kiểu `int` non-nullable.",
+        "en": "Dart has null-shorting: when the receiver of `?.` is `null`, the rest of the access chain (`.length.isEven`) is skipped and the whole expression evaluates to `null`. So you do not need `?.` at every step, and the first line prints `null` without an error. On the second line `'An'.length` is `2` and `2.isEven` is `true`. Writing `?.length?.isEven` is not required but redundant, since `length` is a non-nullable `int`."
+      }
+    },
+    {
+      "id": "dart.null_safety.014",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "null_safety",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh khi nào nên dùng kiểu nullable `T?`, `late` và toán tử `!`. Vì sao lạm dụng `!` là dấu hiệu code xấu?",
+        "en": "Compare when to use a nullable type `T?`, `late` and the `!` operator. Why is overusing `!` a code smell?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`T?` khi giá trị thực sự có thể vắng mặt, và xử lý bằng `?.`, `??` hoặc kiểm tra null",
+          "en": "`T?` when the value can genuinely be absent, handled with `?.`, `??` or a null check"
+        },
+        {
+          "vi": "`late` khi chắc chắn giá trị được gán trước lần đọc đầu (ví dụ trong `initState`) hoặc cần khởi tạo lazy",
+          "en": "`late` when the value is surely assigned before the first read (e.g. in `initState`) or for lazy initialization"
+        },
+        {
+          "vi": "`!` chỉ là lời khẳng định với compiler; nếu sai sẽ crash lúc chạy",
+          "en": "`!` is just a promise to the compiler; if it is wrong the app crashes at runtime"
+        },
+        {
+          "vi": "Đọc biến `late` trước khi gán ném `LateInitializationError`",
+          "en": "Reading a `late` variable before assignment throws `LateInitializationError`"
+        },
+        {
+          "vi": "Ưu tiên type promotion (biến local, `if (x != null)`) thay cho `!`",
+          "en": "Prefer type promotion (local variables, `if (x != null)`) over `!`"
+        }
+      ],
+      "explanation": {
+        "vi": "Dùng `T?` khi giá trị có thể không tồn tại một cách hợp lệ (ví dụ user chưa đăng nhập) và buộc code xử lý trường hợp null bằng `?.`, `??` hoặc `if`. Dùng `late` khi biến chắc chắn được gán trước lần đọc đầu nhưng không thể gán ngay lúc khai báo, hoặc khi muốn khởi tạo lazy; đọc sớm sẽ ném `LateInitializationError`. `!` tắt kiểm tra của compiler và chuyển lỗi thành crash lúc chạy, nên dùng nhiều `!` cho thấy model dữ liệu chưa rõ ràng; nên ưu tiên copy sang biến local để được type promotion.",
+        "en": "Use `T?` when a value can legitimately be missing (e.g. no logged-in user) and force the code to handle null with `?.`, `??` or `if`. Use `late` when a variable is guaranteed to be assigned before its first read but cannot be assigned at declaration, or when you want lazy initialization; reading it too early throws `LateInitializationError`. `!` switches off the compiler check and turns mistakes into runtime crashes, so many `!` usually means the data model is unclear; prefer copying into a local variable to get type promotion."
+      }
+    },
+    {
+      "id": "dart.collections.005",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "void main() {\n  final nums = [3, 8, 5];\n  print(nums.fold<int>(0, (sum, n) => sum + n));\n  print(nums.any((n) => n > 7));\n  print(nums.every((n) => n.isOdd));\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "16 / false / false",
+            "en": "16 / false / false"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "16 / true / false",
+            "en": "16 / true / false"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[3, 8, 5] / true / true",
+            "en": "[3, 8, 5] / true / true"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "0 / true / false",
+            "en": "0 / true / false"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`fold(0, ...)` bắt đầu từ giá trị khởi tạo `0` rồi cộng dồn từng phần tử: 0 + 3 + 8 + 5 = `16`. `any` trả `true` nếu có ít nhất một phần tử thỏa điều kiện (`8 > 7`), còn `every` chỉ trả `true` khi tất cả đều thỏa; `8` là số chẵn nên `every(isOdd)` là `false`. Đáp án `0` sai vì `fold` trả về kết quả tích lũy cuối cùng chứ không phải giá trị khởi tạo.",
+        "en": "`fold(0, ...)` starts from the initial value `0` and accumulates each element: 0 + 3 + 8 + 5 = `16`. `any` returns `true` if at least one element matches (`8 > 7`), while `every` is `true` only when all elements match; `8` is even, so `every(isOdd)` is `false`. `0` is wrong because `fold` returns the final accumulated value, not the initial one."
+      }
+    },
+    {
+      "id": "dart.collections.006",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`var x = {};` thì `x` có kiểu gì?",
+        "en": "With `var x = {};`, what is the type of `x`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Set<dynamic>`",
+            "en": "`Set<dynamic>`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Set<Object?>`",
+            "en": "`Set<Object?>`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch vì không suy luận được kiểu",
+            "en": "Compile error because the type cannot be inferred"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Map<dynamic, dynamic>`",
+            "en": "`Map<dynamic, dynamic>`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Literal `{}` rỗng mặc định là `Map`, nên `x` có kiểu `Map<dynamic, dynamic>`. Set và Map dùng chung cú pháp ngoặc nhọn; Dart chỉ hiểu là `Set` khi có phần tử không phải dạng `key: value` (như `{1, 2}`) hoặc khi chỉ rõ kiểu: `<int>{}` hay `Set<int> s = {};`. Đây là lỗi hay gặp khi muốn tạo Set rỗng bằng `var s = {};`.",
+        "en": "An empty `{}` literal is a `Map` by default, so `x` has the type `Map<dynamic, dynamic>`. Sets and maps share the curly-brace syntax; Dart only treats it as a `Set` when it has non `key: value` elements (like `{1, 2}`) or when the type is given: `<int>{}` or `Set<int> s = {};`. This is a common mistake when trying to create an empty set with `var s = {};`."
+      }
+    },
+    {
+      "id": "dart.collections.007",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`[3, 1, 3, 2, 1].toSet().toList()` trả về gì?",
+        "en": "What does `[3, 1, 3, 2, 1].toSet().toList()` return?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`[3, 1, 2]`",
+            "en": "`[3, 1, 2]`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`[1, 2, 3]`",
+            "en": "`[1, 2, 3]`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`[3, 1, 3, 2, 1]`",
+            "en": "`[3, 1, 3, 2, 1]`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thứ tự ngẫu nhiên, ví dụ `[2, 3, 1]`",
+            "en": "A random order, e.g. `[2, 3, 1]`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`toSet()` loại bỏ phần tử trùng và Set mặc định của Dart là `LinkedHashSet`, giữ đúng thứ tự chèn lần đầu. Vì vậy kết quả là `[3, 1, 2]`. Đáp án `[1, 2, 3]` sai vì Set không tự sắp xếp; muốn có thứ tự tăng dần phải gọi thêm `sort()` hoặc dùng `SplayTreeSet`. Thứ tự cũng không ngẫu nhiên như `HashSet` ở một số ngôn ngữ khác.",
+        "en": "`toSet()` removes duplicates, and Dart's default `Set` is a `LinkedHashSet` that keeps first-insertion order. So the result is `[3, 1, 2]`. `[1, 2, 3]` is wrong because a Set does not sort itself; for ascending order you must call `sort()` or use a `SplayTreeSet`. The order is not random either, unlike a plain hash set in some other languages."
+      }
+    },
+    {
+      "id": "dart.collections.008",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `final m = {'an': 9, 'binh': 7};`, cách nào duyệt được cả key và value của Map?",
+        "en": "Given `final m = {'an': 9, 'binh': 7};`, which way iterates over both the keys and values of the Map?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`for (final e in m) print('${e.key}: ${e.value}');`",
+            "en": "`for (final e in m) print('${e.key}: ${e.value}');`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`for (final e in m.entries) print('${e.key}: ${e.value}');`",
+            "en": "`for (final e in m.entries) print('${e.key}: ${e.value}');`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`for (var i = 0; i < m.length; i++) print(m[i]);`",
+            "en": "`for (var i = 0; i < m.length; i++) print(m[i]);`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`m.map((k) => print(k));`",
+            "en": "`m.map((k) => print(k));`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Map` không phải `Iterable`, nên không thể dùng trực tiếp trong `for-in`; `m.entries` trả về `Iterable<MapEntry>` với `key` và `value`. Ngoài ra có thể dùng `m.forEach((k, v) => ...)` hoặc duyệt `m.keys`/`m.values`. Vòng `for` theo chỉ số sai vì `m[i]` tra theo key `i` (kiểu `int`) chứ không phải vị trí. `m.map` cần callback nhận hai tham số và trả về `MapEntry`, nên dòng cuối không biên dịch.",
+        "en": "A `Map` is not an `Iterable`, so it cannot be used directly in a `for-in`; `m.entries` returns an `Iterable<MapEntry>` with `key` and `value`. You can also use `m.forEach((k, v) => ...)` or iterate `m.keys`/`m.values`. The index-based `for` loop is wrong because `m[i]` looks up the key `i` (an `int`), not a position. `m.map` needs a two-parameter callback returning a `MapEntry`, so the last option does not compile."
+      }
+    },
+    {
+      "id": "dart.collections.009",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "void main() {\n  final names = ['Binh', 'an', 'Cuong'];\n  names.sort();\n  print(names);\n  names.sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));\n  print(names);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[an, Binh, Cuong] / [an, Binh, Cuong]",
+            "en": "[an, Binh, Cuong] / [an, Binh, Cuong]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[Binh, Cuong, an] / [Cuong, Binh, an]",
+            "en": "[Binh, Cuong, an] / [Cuong, Binh, an]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[Binh, Cuong, an] / [an, Binh, Cuong]",
+            "en": "[Binh, Cuong, an] / [an, Binh, Cuong]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "null / null",
+            "en": "null / null"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`sort()` không có comparator so sánh `String` theo mã ký tự (code unit), mà chữ hoa (`B`, `C`) đứng trước chữ thường (`a`), nên lần đầu được `[Binh, Cuong, an]`. Comparator thứ hai so sánh sau khi `toLowerCase()`, nên thứ tự không phân biệt hoa thường là `[an, Binh, Cuong]`. `sort` sắp xếp tại chỗ và trả về `void`, nên phải in chính `names`; đáp án `null` sai vì viết `print(names.sort())` còn báo lỗi biên dịch do không dùng được giá trị `void`.",
+        "en": "`sort()` without a comparator compares `String`s by code unit, and uppercase letters (`B`, `C`) come before lowercase (`a`), so the first result is `[Binh, Cuong, an]`. The second comparator compares the `toLowerCase()` values, giving the case-insensitive order `[an, Binh, Cuong]`. `sort` sorts in place and returns `void`, so you print `names` itself; the `null` option is wrong because `print(names.sort())` would not even compile, as a `void` value cannot be used."
+      }
+    },
+    {
+      "id": "dart.collections.010",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Chương trình dừng với lỗi `Concurrent modification during iteration`. Nguyên nhân là gì?",
+        "en": "The program stops with `Concurrent modification during iteration`. What is the cause?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "void main() {\n  final scores = [4, 7, 8, 10];\n  for (final s in scores) {\n    if (s.isEven) {\n      scores.remove(s);\n    }\n  }\n  print(scores);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`final scores` không cho phép xóa phần tử",
+            "en": "`final scores` does not allow removing elements"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`isEven` chỉ dùng được với `double`",
+            "en": "`isEven` only works on `double`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`remove` chỉ xóa theo chỉ số, phải dùng `removeAt`",
+            "en": "`remove` only removes by index, `removeAt` must be used"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thay đổi độ dài list trong khi đang duyệt nó bằng `for-in`",
+            "en": "The list length is changed while it is being iterated with `for-in`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`for-in` dùng iterator của list; khi `remove` làm thay đổi độ dài trong lúc đang duyệt, lần gọi `moveNext()` tiếp theo phát hiện và ném `ConcurrentModificationError`. Cách sửa: `scores.removeWhere((s) => s.isEven);` hoặc tạo list mới bằng `where(...).toList()`. `final` chỉ ngăn gán lại biến `scores`, không ngăn thay đổi nội dung list, nên đáp án về `final` sai.",
+        "en": "`for-in` uses the list's iterator; when `remove` changes the length during iteration, the next `moveNext()` call detects it and throws `ConcurrentModificationError`. Fix: `scores.removeWhere((s) => s.isEven);` or build a new list with `where(...).toList()`. `final` only prevents reassigning the `scores` variable, not changing the list contents, so the `final` option is wrong."
+      }
+    },
+    {
+      "id": "dart.collections.011",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "void main() {\n  final counts = <String, int>{};\n  for (final w in ['a', 'b', 'a']) {\n    counts.update(w, (v) => v + 1, ifAbsent: () => 1);\n  }\n  print(counts);\n  counts.putIfAbsent('a', () => 100);\n  counts.putIfAbsent('c', () => 100);\n  print(counts);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "{a: 2, b: 1} / {a: 2, b: 1, c: 100}",
+            "en": "{a: 2, b: 1} / {a: 2, b: 1, c: 100}"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "{a: 2, b: 1} / {a: 100, b: 1, c: 100}",
+            "en": "{a: 2, b: 1} / {a: 100, b: 1, c: 100}"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "{a: 1, b: 1} / {a: 1, b: 1, c: 100}",
+            "en": "{a: 1, b: 1} / {a: 1, b: 1, c: 100}"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi lúc chạy vì key `a` chưa có trong Map",
+            "en": "Runtime error because key `a` is not in the Map yet"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`update(key, fn, ifAbsent: ...)` gọi `fn` với giá trị cũ nếu key đã có, ngược lại dùng `ifAbsent` để thêm mới; nên `a` lên `2`, `b` là `1`. `putIfAbsent` chỉ thêm khi key chưa tồn tại: `a` đã có nên giữ nguyên `2`, còn `c` được thêm với `100`. Không có lỗi vì đã truyền `ifAbsent`; nếu thiếu nó, `update` trên key chưa có sẽ ném `ArgumentError`.",
+        "en": "`update(key, fn, ifAbsent: ...)` calls `fn` with the old value when the key exists, otherwise uses `ifAbsent` to insert; so `a` becomes `2` and `b` is `1`. `putIfAbsent` only inserts when the key is missing: `a` already exists and stays `2`, while `c` is added with `100`. There is no error because `ifAbsent` is provided; without it, `update` on a missing key throws an `ArgumentError`."
+      }
+    },
+    {
+      "id": "dart.collections.012",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khai báo `final list = [1, 2];` có làm list bất biến không? Nêu các cách tạo collection bất biến trong Dart và khi nào nên dùng.",
+        "en": "Does `final list = [1, 2];` make the list immutable? Describe the ways to create immutable collections in Dart and when to use them."
+      },
+      "keyPoints": [
+        {
+          "vi": "`final` chỉ ngăn gán lại biến, vẫn `add`/`remove` được",
+          "en": "`final` only prevents reassigning the variable; `add`/`remove` still work"
+        },
+        {
+          "vi": "`const [1, 2]` và `List.unmodifiable(...)` tạo list không sửa được",
+          "en": "`const [1, 2]` and `List.unmodifiable(...)` create lists that cannot be modified"
+        },
+        {
+          "vi": "Sửa list bất biến ném `UnsupportedError` lúc chạy, không phải lỗi biên dịch",
+          "en": "Modifying an immutable list throws `UnsupportedError` at runtime, not a compile error"
+        },
+        {
+          "vi": "`UnmodifiableListView` là view chỉ đọc trên list gốc, list gốc thay đổi thì view cũng đổi",
+          "en": "`UnmodifiableListView` is a read-only view over the original list; it reflects changes to the source"
+        },
+        {
+          "vi": "Dùng để bảo vệ state (ví dụ state của Cubit) khỏi bị sửa từ bên ngoài",
+          "en": "Used to protect state (e.g. Cubit state) from being mutated from outside"
+        }
+      ],
+      "explanation": {
+        "vi": "`final` chỉ khóa tham chiếu: không gán lại `list = ...` được nhưng vẫn `list.add(3)` bình thường. Để nội dung bất biến, dùng `const [1, 2]` (hằng lúc biên dịch), `List.unmodifiable(source)` (bản copy không sửa được) hoặc `UnmodifiableListView(source)` (view chỉ đọc, phản ánh thay đổi của list gốc). Gọi `add` trên các list này vẫn biên dịch được nhưng ném `UnsupportedError` lúc chạy. Collection bất biến giúp state trong Bloc/Cubit không bị sửa ngầm, đảm bảo mỗi lần đổi state là một object mới.",
+        "en": "`final` only locks the reference: `list = ...` is not allowed, but `list.add(3)` works fine. For immutable contents use `const [1, 2]` (a compile-time constant), `List.unmodifiable(source)` (an unmodifiable copy) or `UnmodifiableListView(source)` (a read-only view that reflects changes to the source). Calling `add` on these still compiles but throws `UnsupportedError` at runtime. Immutable collections keep Bloc/Cubit state from being mutated silently, so every state change is a new object."
+      }
+    },
+    {
+      "id": "dart.future_stream.010",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "future_stream",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "Future<int> parse(String s) async => int.parse(s);\n\nFuture<void> main() async {\n  try {\n    final n = await parse('x1');\n    print(n);\n  } catch (e) {\n    print('error');\n  } finally {\n    print('finally');\n  }\n  print('end');\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "error / end",
+            "en": "error / end"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chương trình crash với `FormatException`",
+            "en": "The program crashes with a `FormatException`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "0 / finally / end",
+            "en": "0 / finally / end"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "error / finally / end",
+            "en": "error / finally / end"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`int.parse('x1')` ném `FormatException` bên trong hàm `async`, nên `Future` trả về hoàn thành với lỗi. Nhờ có `await`, lỗi được ném lại tại dòng `await` và rơi vào `catch`, in `error`; sau đó `finally` luôn chạy dù có lỗi hay không, rồi chương trình in tiếp `end`. Đáp án `error / end` sai vì quên rằng khối `finally` luôn được thực thi.",
+        "en": "`int.parse('x1')` throws a `FormatException` inside the `async` function, so the returned `Future` completes with an error. Because of `await`, the error is rethrown at the `await` line and caught by `catch`, printing `error`; then `finally` always runs whether or not there was an error, and the program continues with `end`. `error / end` is wrong because it forgets that the `finally` block always executes."
+      }
+    },
+    {
+      "id": "dart.future_stream.011",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "future_stream",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Hàm `getAge() async { return 18; }` nên được khai báo kiểu trả về là gì?",
+        "en": "What return type should `getAge() async { return 18; }` be declared with?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`int`",
+            "en": "`int`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Stream<int>`",
+            "en": "`Stream<int>`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Future<int>`",
+            "en": "`Future<int>`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`void`",
+            "en": "`void`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Hàm có `async` luôn trả về một `Future`; giá trị trong `return` được tự động bọc lại, nên kiểu đúng là `Future<int> getAge() async`. Khai báo `int getAge() async` sẽ báo lỗi biên dịch vì hàm `async` không thể trả về kiểu không phải `Future`. Caller lấy giá trị bằng `await getAge()` hoặc `getAge().then(...)`. `Stream<int>` dành cho hàm `async*` dùng `yield`.",
+        "en": "An `async` function always returns a `Future`; the value in `return` is wrapped automatically, so the correct signature is `Future<int> getAge() async`. Declaring `int getAge() async` is a compile error because an `async` function cannot return a non-`Future` type. Callers get the value with `await getAge()` or `getAge().then(...)`. `Stream<int>` is for `async*` functions that use `yield`."
+      }
+    },
+    {
+      "id": "dart.future_stream.012",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "future_stream",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách nào khai báo đúng một hàm phát ra lần lượt 1, 2, 3 dưới dạng `Stream<int>`?",
+        "en": "Which is a correct way to declare a function that emits 1, 2, 3 as a `Stream<int>`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Stream<int> countTo(int n) async* { for (var i = 1; i <= n; i++) yield i; }`",
+            "en": "`Stream<int> countTo(int n) async* { for (var i = 1; i <= n; i++) yield i; }`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Stream<int> countTo(int n) async { for (var i = 1; i <= n; i++) return i; }`",
+            "en": "`Stream<int> countTo(int n) async { for (var i = 1; i <= n; i++) return i; }`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Stream<int> countTo(int n) sync* { for (var i = 1; i <= n; i++) yield i; }`",
+            "en": "`Stream<int> countTo(int n) sync* { for (var i = 1; i <= n; i++) yield i; }`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Future<int> countTo(int n) async* { for (var i = 1; i <= n; i++) yield i; }`",
+            "en": "`Future<int> countTo(int n) async* { for (var i = 1; i <= n; i++) yield i; }`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Hàm generator bất đồng bộ dùng `async*` và trả về `Stream<T>`; mỗi lần `yield` phát một giá trị cho listener. `async` với `return` chỉ trả về một giá trị duy nhất dưới dạng `Future`, nên không phát được nhiều giá trị. `sync*` tạo `Iterable<T>` (đồng bộ), không phải `Stream`, và `async*` bắt buộc kiểu trả về là `Stream`, nên hai đáp án còn lại đều lỗi biên dịch.",
+        "en": "An asynchronous generator uses `async*` and returns `Stream<T>`; each `yield` emits one value to listeners. `async` with `return` delivers only a single value as a `Future`, so it cannot emit many values. `sync*` produces a synchronous `Iterable<T>`, not a `Stream`, and `async*` requires a `Stream` return type, so the other two options are compile errors."
+      }
+    },
+    {
+      "id": "dart.future_stream.013",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "future_stream",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "`await` có chặn (block) luồng chính không? Giải thích `async`/`await` hoạt động thế nào và vì sao app Flutter không bị đơ khi gọi API.",
+        "en": "Does `await` block the main thread? Explain how `async`/`await` works and why a Flutter app does not freeze while calling an API."
+      },
+      "keyPoints": [
+        {
+          "vi": "`await` tạm dừng hàm `async` hiện tại, không chặn cả isolate",
+          "en": "`await` suspends the current `async` function, not the whole isolate"
+        },
+        {
+          "vi": "Trong lúc chờ, event loop tiếp tục xử lý sự kiện khác (vẽ UI, tap...)",
+          "en": "While waiting, the event loop keeps handling other events (drawing UI, taps...)"
+        },
+        {
+          "vi": "Khi `Future` hoàn thành, phần code sau `await` được lên lịch chạy tiếp",
+          "en": "When the `Future` completes, the code after `await` is scheduled to resume"
+        },
+        {
+          "vi": "I/O như HTTP không tốn CPU của isolate, nhưng tính toán nặng đồng bộ vẫn làm đơ UI",
+          "en": "I/O like HTTP does not use the isolate's CPU, but heavy synchronous computation still freezes the UI"
+        }
+      ],
+      "explanation": {
+        "vi": "Dart chạy code trên một isolate với một event loop. `await` chỉ tạm dừng hàm `async` đang chạy và trả quyền điều khiển về event loop, nên trong lúc chờ HTTP trả về, Flutter vẫn vẽ frame và xử lý thao tác người dùng. Khi `Future` hoàn thành, phần code sau `await` được lên lịch chạy tiếp. Tuy nhiên `async` không biến code thành đa luồng: một vòng lặp tính toán nặng đồng bộ vẫn chặn event loop và làm UI giật, khi đó cần `Isolate.run`/`compute`.",
+        "en": "Dart runs code on an isolate with a single event loop. `await` only suspends the running `async` function and hands control back to the event loop, so while waiting for an HTTP response Flutter keeps drawing frames and handling user input. When the `Future` completes, the code after `await` is scheduled to resume. However, `async` does not make code multithreaded: a heavy synchronous loop still blocks the event loop and janks the UI, which is when you need `Isolate.run`/`compute`."
+      }
+    },
+    {
+      "id": "dart.future_stream.014",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "future_stream",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "Future<String> task(String name, int ms) {\n  return Future.delayed(Duration(milliseconds: ms), () {\n    print('done $name');\n    return name;\n  });\n}\n\nFuture<void> main() async {\n  final results = await Future.wait([\n    task('A', 30),\n    task('B', 10),\n  ]);\n  print(results);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "done A / done B / [A, B]",
+            "en": "done A / done B / [A, B]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "done B / done A / [A, B]",
+            "en": "done B / done A / [A, B]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "done B / done A / [B, A]",
+            "en": "done B / done A / [B, A]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "done A / done B / [B, A]",
+            "en": "done A / done B / [B, A]"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Future.wait` khởi chạy song song các `Future` đã tạo, nên `B` (10ms) xong trước `A` (30ms) và in `done B` trước. Tuy vậy list kết quả luôn giữ đúng thứ tự của list đầu vào, không theo thứ tự hoàn thành, nên được `[A, B]`. Tổng thời gian chờ khoảng 30ms thay vì 40ms nếu `await` tuần tự từng task. Đáp án `[B, A]` sai vì nhầm kết quả xếp theo thứ tự xong.",
+        "en": "`Future.wait` waits on Futures that are already running concurrently, so `B` (10ms) finishes before `A` (30ms) and `done B` is printed first. However, the result list always keeps the order of the input list, not completion order, so it is `[A, B]`. The total wait is about 30ms instead of 40ms when awaiting each task sequentially. `[B, A]` is wrong because it assumes results are ordered by completion."
+      }
+    },
+    {
+      "id": "dart.future_stream.015",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "future_stream",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "Future<void> main() async {\n  final stream = Stream.fromIterable([1, 2, 3, 4])\n      .where((n) => n.isEven)\n      .map((n) => n * 10);\n  await for (final v in stream) {\n    print(v);\n  }\n  print('end');\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "end / 20 / 40",
+            "en": "end / 20 / 40"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "10 / 20 / 30 / 40 / end",
+            "en": "10 / 20 / 30 / 40 / end"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "20 / 40",
+            "en": "20 / 40"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "20 / 40 / end",
+            "en": "20 / 40 / end"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`where` và `map` trên `Stream` tạo stream mới: chỉ giữ số chẵn (2, 4) rồi nhân 10, nên phát ra `20` và `40`. `await for` lần lượt nhận từng sự kiện và chỉ thoát khỏi vòng lặp khi stream đóng (done); `Stream.fromIterable` tự đóng sau phần tử cuối, nên `end` được in sau cùng. Đáp án `end` in trước sai vì `await for` tạm dừng `main` cho tới khi stream kết thúc.",
+        "en": "`where` and `map` on a `Stream` create new streams: only even numbers (2, 4) are kept and multiplied by 10, so `20` and `40` are emitted. `await for` receives each event in turn and only leaves the loop when the stream is done; `Stream.fromIterable` closes itself after the last element, so `end` is printed last. Printing `end` first is wrong because `await for` suspends `main` until the stream finishes."
+      }
+    },
+    {
+      "id": "dart.future_stream.016",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "future_stream",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Chương trình in `1` và `2` rồi thoát, nhưng không bao giờ in `done`. Nguyên nhân là gì?",
+        "en": "The program prints `1` and `2` and exits, but never prints `done`. What is the cause?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "import 'dart:async';\n\nFuture<void> main() async {\n  final controller = StreamController<int>();\n  controller.add(1);\n  controller.add(2);\n  await for (final v in controller.stream) {\n    print(v);\n  }\n  print('done');\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải gọi `listen` trước khi `add`, nếu không dữ liệu bị mất",
+            "en": "`listen` must be called before `add`, otherwise the events are lost"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`StreamController` phải là `broadcast` mới dùng được `await for`",
+            "en": "The `StreamController` must be `broadcast` to be used with `await for`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không gọi `controller.close()`, nên stream không bao giờ done và `await for` không kết thúc",
+            "en": "`controller.close()` is never called, so the stream is never done and `await for` never ends"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`await for` chỉ dùng được với `Stream.fromIterable`",
+            "en": "`await for` only works with `Stream.fromIterable`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`await for` chỉ thoát khi stream phát sự kiện done, và với `StreamController` điều đó chỉ xảy ra khi gọi `close()`. Ở đây không ai đóng controller nên `main` bị treo mãi ở vòng lặp; khi không còn việc gì trong event loop, isolate thoát mà `done` chưa được in. Sửa bằng cách gọi `controller.close()` sau khi `add` xong (và trong app thật, luôn `close` controller trong `dispose`). Đáp án về `listen` sai vì controller thường (single-subscription) buffer sự kiện cho tới khi có listener.",
+        "en": "`await for` only exits when the stream emits its done event, and for a `StreamController` that only happens after `close()`. Nobody closes the controller here, so `main` stays stuck in the loop; once the event loop has nothing left to do, the isolate exits without printing `done`. Fix it by calling `controller.close()` after the `add` calls (and in a real app, always `close` controllers in `dispose`). The `listen` option is wrong because a regular single-subscription controller buffers events until a listener subscribes."
+      }
+    },
+    {
+      "id": "dart.future_stream.017",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "future_stream",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Điều gì xảy ra khi chạy đoạn code sau?",
+        "en": "What happens when the following code runs?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "Future<int> ok() => Future.delayed(\n      Duration(milliseconds: 20),\n      () => 1,\n    );\n\nFuture<int> fail() => Future.delayed(\n      Duration(milliseconds: 10),\n      () => throw Exception('fail'),\n    );\n\nFuture<void> main() async {\n  try {\n    final r = await Future.wait([ok(), fail()]);\n    print(r);\n  } catch (e) {\n    print('caught $e');\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "In `caught Exception: fail`",
+            "en": "Prints `caught Exception: fail`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "In `[1, null]` vì task lỗi trả về null",
+            "en": "Prints `[1, null]` because the failed task yields null"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "In `[1]`, task lỗi bị bỏ qua",
+            "en": "Prints `[1]`, the failed task is ignored"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Crash với unhandled exception vì `try` không bắt được lỗi trong `Future.wait`",
+            "en": "Crashes with an unhandled exception because `try` cannot catch errors from `Future.wait`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Nếu bất kỳ `Future` nào trong `Future.wait` lỗi, `Future` tổng hợp sẽ hoàn thành với lỗi đó thay vì trả về list kết quả. Vì có `await` bên trong `try`, lỗi được ném lại và rơi vào `catch`, in `caught Exception: fail`; kết quả của `ok()` bị mất. `Future.wait` không tự điền `null` hay bỏ qua task lỗi; muốn lấy kết quả từng task dù có task lỗi, hãy tự bắt lỗi trong từng `Future` (ví dụ `.catchError`) trước khi đưa vào `wait`.",
+        "en": "If any `Future` passed to `Future.wait` fails, the combined `Future` completes with that error instead of a result list. Because the `await` is inside `try`, the error is rethrown and caught, printing `caught Exception: fail`; the result of `ok()` is lost. `Future.wait` does not fill in `null` or skip failed tasks; to keep per-task results even when some fail, handle errors in each `Future` (e.g. with `.catchError`) before passing them to `wait`."
+      }
+    },
+    {
+      "id": "dart.oop.007",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với class dưới đây, cách dùng nào đúng?",
+        "en": "Given the class below, which usage is correct?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class Rect {\n  double width;\n  double height;\n  Rect(this.width, this.height);\n\n  double get area => width * height;\n\n  set side(double value) {\n    width = value;\n    height = value;\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`final r = Rect(2, 3); print(r.area()); r.side(4);`",
+            "en": "`final r = Rect(2, 3); print(r.area()); r.side(4);`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`final r = Rect(2, 3); print(r.area); r.side = 4;`",
+            "en": "`final r = Rect(2, 3); print(r.area); r.side = 4;`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`final r = Rect(2, 3); print(r.getArea()); r.setSide(4);`",
+            "en": "`final r = Rect(2, 3); print(r.getArea()); r.setSide(4);`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`final r = Rect(2, 3); r.area = 10; print(r.side);`",
+            "en": "`final r = Rect(2, 3); r.area = 10; print(r.side);`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Getter (`get area`) và setter (`set side`) được dùng như thuộc tính: đọc bằng `r.area` (không có `()`) và gán bằng `r.side = 4`. Gọi `r.area()` là lỗi vì `area` trả về `double`, không phải hàm. Dart không sinh tự động `getArea()`/`setSide()` như Java. `r.area = 10` lỗi vì `area` chỉ có getter, còn `r.side` không đọc được vì chỉ có setter.",
+        "en": "A getter (`get area`) and a setter (`set side`) are used like properties: read with `r.area` (no `()`) and assign with `r.side = 4`. Calling `r.area()` is an error because `area` returns a `double`, not a function. Dart does not generate `getArea()`/`setSide()` methods like Java. `r.area = 10` fails because `area` only has a getter, and `r.side` cannot be read because it only has a setter."
+      }
+    },
+    {
+      "id": "dart.oop.008",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class Animal {\n  String sound() => '...';\n  void speak() => print('$runtimeType: ${sound()}');\n}\n\nclass Dog extends Animal {\n  @override\n  String sound() => 'Woof';\n}\n\nvoid main() {\n  Animal a = Dog();\n  a.speak();\n  Animal().speak();\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Animal: ... / Animal: ...",
+            "en": "Animal: ... / Animal: ..."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Animal: Woof / Animal: ...",
+            "en": "Animal: Woof / Animal: ..."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dog: Woof / Animal: ...",
+            "en": "Dog: Woof / Animal: ..."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Dog: ... / Animal: ...",
+            "en": "Dog: ... / Animal: ..."
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Biến `a` khai báo kiểu `Animal` nhưng object thực tế là `Dog`, và Dart chọn method theo kiểu lúc chạy (dynamic dispatch). Vì vậy `speak()` gọi `sound()` đã được `Dog` override, và `runtimeType` là `Dog`, in `Dog: Woof`. Object `Animal()` thuần thì dùng bản gốc nên in `Animal: ...`. Đáp án `Animal: Woof` sai vì `runtimeType` phản ánh kiểu thật của object chứ không phải kiểu khai báo của biến.",
+        "en": "The variable `a` is declared as `Animal` but the actual object is a `Dog`, and Dart picks methods by runtime type (dynamic dispatch). So `speak()` calls the `sound()` overridden by `Dog`, and `runtimeType` is `Dog`, printing `Dog: Woof`. A plain `Animal()` uses the original implementation, printing `Animal: ...`. `Animal: Woof` is wrong because `runtimeType` reflects the object's real type, not the variable's declared type."
+      }
+    },
+    {
+      "id": "dart.oop.009",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The code below does not compile. What is the cause and the correct fix?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class User {\n  final String name;\n\n  User(String name) {\n    this.name = name;\n  }\n}\n\nvoid main() {\n  print(User('An').name);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`print` không đọc được field `final`; phải thêm getter",
+            "en": "`print` cannot read a `final` field; a getter must be added"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thiếu từ khóa `new` khi gọi `User('An')`",
+            "en": "The `new` keyword is missing when calling `User('An')`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tham số trùng tên field; chỉ cần đổi tên tham số thành `n`",
+            "en": "The parameter has the same name as the field; just rename it to `n`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Field `final` phải được khởi tạo trước khi chạy thân constructor; sửa thành `User(this.name);`",
+            "en": "A `final` field must be initialized before the constructor body runs; fix it with `User(this.name);`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Field `final` phải có giá trị trước khi thân constructor chạy, nên không thể gán `this.name = name` trong `{ }`; Dart báo field chưa được khởi tạo và không có setter `name`. Cách sửa là dùng initializing formal `User(this.name);` hoặc initializer list `User(String name) : name = name;`. Đổi tên tham số không giải quyết được vì vẫn gán field `final` trong thân constructor. Từ khóa `new` là tùy chọn trong Dart hiện đại.",
+        "en": "A `final` field must have its value before the constructor body runs, so it cannot be assigned with `this.name = name` inside `{ }`; Dart reports the field as not initialized and that there is no `name` setter. The fix is the initializing formal `User(this.name);` or an initializer list `User(String name) : name = name;`. Renaming the parameter does not help because the `final` field is still assigned in the body. The `new` keyword is optional in modern Dart."
+      }
+    },
+    {
+      "id": "dart.oop.010",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong Dart, tiền tố `_` ở tên member (ví dụ `int _count`) có nghĩa là gì?",
+        "en": "In Dart, what does the `_` prefix on a member name (e.g. `int _count`) mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Private trong phạm vi library (thường là file), không phải trong phạm vi class",
+            "en": "Private to the library (usually the file), not to the class"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Private trong class, giống `private` của Java",
+            "en": "Private to the class, like Java's `private`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ là quy ước đặt tên, mọi nơi vẫn truy cập được",
+            "en": "Just a naming convention; it is still accessible everywhere"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Là member `static`",
+            "en": "It is a `static` member"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Dart không có từ khóa `private`/`public`; tên bắt đầu bằng `_` là private ở cấp library. Mọi code trong cùng library (cùng file, hoặc các file nối bằng `part`) đều truy cập được `_count`, kể cả từ class khác. Vì vậy so sánh với `private` của Java là sai: Java chặn ở cấp class, Dart chặn ở cấp library. Đây cũng không chỉ là quy ước, vì code ở library khác thực sự không truy cập được.",
+        "en": "Dart has no `private`/`public` keywords; a name starting with `_` is private at the library level. Any code in the same library (the same file, or files joined with `part`) can access `_count`, even from another class. So the comparison with Java's `private` is wrong: Java restricts at the class level, Dart at the library level. It is not just a convention either, since code in other libraries really cannot access it."
+      }
+    },
+    {
+      "id": "dart.oop.011",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "int init(int v) {\n  print('init');\n  return v * 2;\n}\n\nclass A {\n  A() {\n    print('A');\n  }\n}\n\nclass B extends A {\n  final int x;\n\n  B(int v) : x = init(v) {\n    print('B $x');\n  }\n}\n\nvoid main() {\n  B(2);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "A / init / B 4",
+            "en": "A / init / B 4"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "init / A / B 4",
+            "en": "init / A / B 4"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "A / B 4",
+            "en": "A / B 4"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "init / B 4 / A",
+            "en": "init / B 4 / A"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khi tạo `B(2)`, Dart chạy initializer list của `B` trước (`x = init(v)` in `init`), sau đó gọi constructor của lớp cha (`super()` ngầm định, in `A`), và cuối cùng mới chạy thân constructor của `B` (in `B 4`). Initializer list chạy trước constructor cha nên dùng được để khởi tạo field `final`, nhưng không được truy cập `this`. Đáp án `A` đứng đầu sai vì nhầm initializer list chạy sau constructor cha.",
+        "en": "When creating `B(2)`, Dart first runs `B`'s initializer list (`x = init(v)` prints `init`), then calls the superclass constructor (the implicit `super()`, printing `A`), and finally runs `B`'s constructor body (printing `B 4`). The initializer list runs before the superclass constructor, which is why it can initialize `final` fields but cannot access `this`. Putting `A` first is wrong because it assumes the initializer list runs after the superclass constructor."
+      }
+    },
+    {
+      "id": "dart.oop.012",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với code dưới đây, điều gì xảy ra?",
+        "en": "Given the code below, what happens?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class Flyer {\n  void fly() => print('flying');\n}\n\nclass Duck implements Flyer {}\n\nvoid main() {\n  Duck().fly();\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "In `flying` vì `Duck` thừa hưởng `fly()`",
+            "en": "Prints `flying` because `Duck` inherits `fly()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lỗi biên dịch: chỉ `abstract class` mới được `implements`",
+            "en": "Compile error: only an `abstract class` can be implemented"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch: `Duck` phải tự cài đặt `fly()` vì `implements` chỉ lấy interface, không lấy phần cài đặt",
+            "en": "Compile error: `Duck` must implement `fly()` itself because `implements` takes only the interface, not the implementation"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi lúc chạy `NoSuchMethodError`",
+            "en": "Runtime `NoSuchMethodError`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Trong Dart mọi class đều ngầm định là một interface, nên `implements Flyer` hợp lệ dù `Flyer` không phải abstract. Nhưng `implements` chỉ cam kết có đủ các member của `Flyer` mà không thừa hưởng code, nên `Duck` phải tự override `fly()`, nếu không sẽ báo \"missing implementations\". Muốn dùng lại phần cài đặt thì dùng `extends Flyer` hoặc biến `Flyer` thành `mixin` và dùng `with`. Lỗi được báo lúc biên dịch nên không có `NoSuchMethodError` lúc chạy.",
+        "en": "Every Dart class implicitly defines an interface, so `implements Flyer` is valid even though `Flyer` is not abstract. But `implements` only promises to provide all of `Flyer`'s members without inheriting any code, so `Duck` must override `fly()` itself, otherwise the compiler reports \"missing implementations\". To reuse the implementation, use `extends Flyer` or turn `Flyer` into a `mixin` and use `with`. The error is reported at compile time, so there is no runtime `NoSuchMethodError`."
+      }
+    },
+    {
+      "id": "dart.oop.013",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "`a == b` in `true` nhưng `{a, b}.length` lại in `2`. Nguyên nhân là gì?",
+        "en": "`a == b` prints `true`, yet `{a, b}.length` prints `2`. What is the cause?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class Point {\n  final int x;\n  final int y;\n  const Point(this.x, this.y);\n\n  @override\n  bool operator ==(Object other) =>\n      other is Point && other.x == x && other.y == y;\n\n  @override\n  String toString() => 'Point($x, $y)';\n}\n\nvoid main() {\n  final a = Point(1, 2);\n  final b = Point(1, 2);\n  print(a == b);\n  print({a, b}.length);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Set` so sánh phần tử bằng `identical`, không dùng `==`",
+            "en": "A `Set` compares elements with `identical`, never `==`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải tạo bằng `const Point(1, 2)` thì `==` mới có tác dụng",
+            "en": "The objects must be created with `const Point(1, 2)` for `==` to take effect"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tham số của `operator ==` phải có kiểu `Point` thay vì `Object`",
+            "en": "The `operator ==` parameter must be typed `Point` instead of `Object`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Override `==` nhưng không override `hashCode`, nên hai object bằng nhau có hash khác nhau",
+            "en": "`==` is overridden but `hashCode` is not, so two equal objects have different hashes"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Set` và `Map` mặc định dựa trên hash: chúng dùng `hashCode` để tìm \"ngăn\" trước, rồi mới dùng `==` để so sánh. `hashCode` mặc định dựa trên identity nên `a` và `b` có hash khác nhau và không bao giờ được so sánh bằng `==`. Quy tắc: hai object `==` nhau phải có cùng `hashCode`; sửa bằng `@override int get hashCode => Object.hash(x, y);`. Đáp án cho rằng `Set` dùng `identical` sai, vì sau khi override `hashCode` thì Set sẽ coi `a` và `b` là một.",
+        "en": "`Set` and `Map` are hash-based by default: they use `hashCode` to find a bucket first and only then compare with `==`. The default `hashCode` is identity-based, so `a` and `b` get different hashes and are never compared with `==`. The rule: objects that are `==` must have the same `hashCode`; fix it with `@override int get hashCode => Object.hash(x, y);`. The option claiming `Set` uses `identical` is wrong, because once `hashCode` is overridden the Set treats `a` and `b` as one element."
+      }
+    },
+    {
+      "id": "dart.oop.014",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh named constructor (ví dụ `User.guest()`) và factory constructor (ví dụ `factory User.fromJson(...)`). Khi nào nên dùng `factory`?",
+        "en": "Compare a named constructor (e.g. `User.guest()`) with a factory constructor (e.g. `factory User.fromJson(...)`). When should you use `factory`?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Named constructor là generative: luôn tạo instance mới của đúng class, có initializer list và dùng được `this.x`",
+          "en": "A named constructor is generative: it always creates a new instance of exactly that class, with an initializer list and `this.x` parameters"
+        },
+        {
+          "vi": "Factory phải tự `return` một object, không truy cập được `this`",
+          "en": "A factory must `return` an object itself and has no access to `this`"
+        },
+        {
+          "vi": "Factory có thể trả về instance có sẵn (cache/singleton) hoặc một subtype",
+          "en": "A factory can return an existing instance (cache/singleton) or a subtype"
+        },
+        {
+          "vi": "Factory phù hợp khi cần xử lý/validate dữ liệu trước khi tạo, như `fromJson`",
+          "en": "A factory fits when data must be processed/validated before construction, like `fromJson`"
+        }
+      ],
+      "explanation": {
+        "vi": "Named constructor là một generative constructor có tên riêng, dùng để có nhiều cách khởi tạo (Dart không có overloading); nó luôn tạo object mới và có thể dùng initializer list, `this.field` hoặc chuyển tiếp `: this(...)`. Factory constructor giống một hàm static trả về instance: không có `this`, phải tự `return`, nhờ đó có thể trả về object đã cache, singleton hoặc một subclass tùy dữ liệu. `fromJson` thường là factory vì cần đọc, ép kiểu và kiểm tra map trước rồi mới gọi constructor chính.",
+        "en": "A named constructor is a generative constructor with its own name, used to offer several ways of creating an object (Dart has no overloading); it always creates a new object and can use an initializer list, `this.field` or redirect with `: this(...)`. A factory constructor behaves like a static function that returns an instance: it has no `this` and must `return` explicitly, so it can return a cached object, a singleton or a subclass depending on the data. `fromJson` is usually a factory because it must read, cast and validate the map before calling the main constructor."
+      }
+    },
+    {
+      "id": "dart.language.006",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "language",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "void main() {\n  print(7 / 2);\n  print(7 ~/ 2);\n  print(7 % 2);\n  print(6 / 2);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "3.5 / 3 / 1 / 3.0",
+            "en": "3.5 / 3 / 1 / 3.0"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "3 / 3 / 1 / 3",
+            "en": "3 / 3 / 1 / 3"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "3.5 / 3.5 / 1 / 3",
+            "en": "3.5 / 3.5 / 1 / 3"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "3.5 / 3 / 1.5 / 3.0",
+            "en": "3.5 / 3 / 1.5 / 3.0"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trong Dart, `/` luôn trả về `double` kể cả khi chia hết, nên `7 / 2` là `3.5` và `6 / 2` là `3.0`. `~/` là phép chia lấy phần nguyên, trả về `int`: `7 ~/ 2` là `3`. `%` là phép chia lấy dư: `7 % 2` là `1`. Đáp án `3 / 3 / 1 / 3` sai vì nhầm Dart giống Java/C, nơi chia hai số nguyên cho ra số nguyên.",
+        "en": "In Dart, `/` always returns a `double`, even when the division is exact, so `7 / 2` is `3.5` and `6 / 2` is `3.0`. `~/` is truncating integer division and returns an `int`: `7 ~/ 2` is `3`. `%` is the remainder: `7 % 2` is `1`. `3 / 3 / 1 / 3` is wrong because it assumes Dart behaves like Java/C, where dividing two integers yields an integer."
+      }
+    },
+    {
+      "id": "dart.language.007",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "language",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Dòng nào trong đoạn code sau gây lỗi biên dịch?",
+        "en": "Which line in the code below causes a compile error?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "void main() {\n  dynamic a = 'hi';\n  Object? b = 'hi';\n  print(a.length);\n  print(b.length);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`dynamic a = 'hi';`",
+            "en": "`dynamic a = 'hi';`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`print(b.length);`",
+            "en": "`print(b.length);`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`print(a.length);`",
+            "en": "`print(a.length);`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không dòng nào, code chạy và in `2` hai lần",
+            "en": "None, the code runs and prints `2` twice"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Với `Object?`, compiler chỉ cho gọi các member có trên `Object` (như `toString`, `hashCode`), nên `b.length` báo lỗi \"The getter 'length' isn't defined for the type 'Object'\"; muốn dùng phải kiểm tra `if (b is String)` để được type promotion. `dynamic` tắt kiểm tra kiểu lúc biên dịch, nên `a.length` biên dịch được và chỉ được kiểm tra lúc chạy (sai thì ném `NoSuchMethodError`). Vì vậy nên ưu tiên `Object?` khi cần kiểu \"bất kỳ\" để vẫn được compiler bảo vệ.",
+        "en": "With `Object?`, the compiler only allows members that exist on `Object` (such as `toString`, `hashCode`), so `b.length` fails with \"The getter 'length' isn't defined for the type 'Object'\"; to use it you must check `if (b is String)` to get type promotion. `dynamic` turns off compile-time type checks, so `a.length` compiles and is only checked at runtime (throwing `NoSuchMethodError` if wrong). That is why `Object?` is preferred when you need an \"any\" type and still want compiler protection."
+      }
+    },
+    {
+      "id": "dart.language.008",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "language",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "void main() {\n  final name = 'Dart';\n  print('Hi $name!');\n  print('$name.length');\n  print('${name.length}');\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hi Dart! / 4 / 4",
+            "en": "Hi Dart! / 4 / 4"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hi $name! / $name.length / 4",
+            "en": "Hi $name! / $name.length / 4"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hi Dart! / Dart.length / 4",
+            "en": "Hi Dart! / Dart.length / 4"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch ở dòng `'$name.length'`",
+            "en": "Compile error on the `'$name.length'` line"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`$name` chỉ nội suy một identifier đơn giản; phần `.length` phía sau được coi là chữ thường trong chuỗi, nên dòng hai in `Dart.length`. Muốn nội suy một biểu thức (gọi getter, phép tính, method) phải dùng `${...}`, như `${name.length}` in `4`. Đây không phải lỗi biên dịch, chỉ là kết quả khác với mong đợi, nên rất dễ lọt qua khi review.",
+        "en": "`$name` only interpolates a simple identifier; the following `.length` is treated as plain text in the string, so the second line prints `Dart.length`. To interpolate an expression (a getter, arithmetic, a method call) you must use `${...}`, as in `${name.length}` which prints `4`. This is not a compile error, just an unexpected result, which makes it easy to miss in code review."
+      }
+    },
+    {
+      "id": "dart.language.009",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "language",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Closure trong Dart là gì? Giải thích kết quả của ví dụ `makeCounter` dưới đây.",
+        "en": "What is a closure in Dart? Explain the result of the `makeCounter` example below."
+      },
+      "code": {
+        "language": "dart",
+        "source": "int Function() makeCounter() {\n  var count = 0;\n  return () => ++count;\n}\n\nvoid main() {\n  final c1 = makeCounter();\n  final c2 = makeCounter();\n  print(c1()); // 1\n  print(c1()); // 2\n  print(c2()); // 1\n}"
+      },
+      "keyPoints": [
+        {
+          "vi": "Closure là hàm \"nhớ\" và truy cập được biến ở scope bao quanh nơi nó được tạo",
+          "en": "A closure is a function that captures and can access variables from the scope where it was created"
+        },
+        {
+          "vi": "Biến được capture vẫn sống sau khi hàm ngoài đã return",
+          "en": "Captured variables stay alive after the outer function has returned"
+        },
+        {
+          "vi": "Mỗi lần gọi `makeCounter()` tạo một biến `count` riêng, nên `c1` và `c2` độc lập",
+          "en": "Each `makeCounter()` call creates its own `count`, so `c1` and `c2` are independent"
+        },
+        {
+          "vi": "Closure capture biến (tham chiếu), không phải bản copy giá trị tại thời điểm tạo",
+          "en": "A closure captures the variable (by reference), not a copy of its value at creation time"
+        }
+      ],
+      "explanation": {
+        "vi": "Closure là một hàm (thường là arrow function hay hàm ẩn danh) giữ tham chiếu tới các biến ở scope bao quanh nơi nó được định nghĩa. Trong ví dụ, hàm `() => ++count` capture biến `count`, nên `count` vẫn tồn tại sau khi `makeCounter` đã return và tăng dần qua mỗi lần gọi `c1()`. Mỗi lần gọi `makeCounter()` tạo một `count` mới, nên `c2()` bắt đầu lại từ `1`. Closure được dùng rất nhiều trong Flutter, ví dụ callback `onPressed` đọc biến của widget.",
+        "en": "A closure is a function (often an arrow function or anonymous function) that keeps a reference to variables in the scope where it was defined. In the example, `() => ++count` captures `count`, so `count` survives after `makeCounter` returns and increases on each `c1()` call. Each `makeCounter()` call creates a fresh `count`, so `c2()` starts again at `1`. Closures are used everywhere in Flutter, e.g. an `onPressed` callback reading a widget's variables."
+      }
+    },
+    {
+      "id": "dart.language.010",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "language",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với hàm generic dưới đây, lời gọi nào gây lỗi biên dịch?",
+        "en": "Given the generic function below, which call causes a compile error?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "T maxOf<T extends num>(T a, T b) => a > b ? a : b;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`maxOf(3, 7)`",
+            "en": "`maxOf(3, 7)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`maxOf(2.5, 1.0)`",
+            "en": "`maxOf(2.5, 1.0)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`maxOf(3, 2.5)`",
+            "en": "`maxOf(3, 2.5)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`maxOf('a', 'b')`",
+            "en": "`maxOf('a', 'b')`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`T extends num` là bound của generic: `T` chỉ được là `num` hoặc kiểu con (`int`, `double`), nhờ vậy trong thân hàm mới dùng được toán tử `>`. `String` không phải `num` nên `maxOf('a', 'b')` báo lỗi biên dịch. `maxOf(3, 2.5)` vẫn hợp lệ vì Dart suy luận `T` là `num` (kiểu chung của `int` và `double`) và trả về `3`. Nếu không có bound, `a > b` sẽ không biên dịch được vì `Object` không có toán tử `>`.",
+        "en": "`T extends num` is a generic bound: `T` may only be `num` or a subtype (`int`, `double`), which is what allows the `>` operator inside the function. `String` is not a `num`, so `maxOf('a', 'b')` is a compile error. `maxOf(3, 2.5)` is still valid because Dart infers `T` as `num` (the common type of `int` and `double`) and returns `3`. Without the bound, `a > b` would not compile because `Object` has no `>` operator."
+      }
+    },
+    {
+      "id": "dart.language.011",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "language",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "enum Plan {\n  free(0),\n  pro(99);\n\n  final int price;\n  const Plan(this.price);\n\n  bool get isPaid => price > 0;\n}\n\nvoid main() {\n  print(Plan.pro.price);\n  print(Plan.free.isPaid);\n  print(Plan.values.map((p) => p.name).toList());\n  print(Plan.pro.index);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "99 / false / [free, pro] / 1",
+            "en": "99 / false / [free, pro] / 1"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "99 / false / [Plan.free, Plan.pro] / 2",
+            "en": "99 / false / [Plan.free, Plan.pro] / 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "99 / true / [free, pro] / 1",
+            "en": "99 / true / [free, pro] / 1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Plan.pro / false / [free, pro] / 0",
+            "en": "Plan.pro / false / [free, pro] / 0"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Enhanced enum (Dart 2.17+) cho phép enum có field `final`, `const` constructor và getter/method. `Plan.pro.price` là `99`, `Plan.free.isPaid` là `false` vì giá `0`. `name` trả về tên giá trị không kèm tên enum (`free`, `pro`), khác với `toString()` trả về `Plan.free`. `index` tính từ `0` theo thứ tự khai báo nên `pro` có index `1`.",
+        "en": "Enhanced enums (Dart 2.17+) let an enum have `final` fields, a `const` constructor and getters/methods. `Plan.pro.price` is `99`, and `Plan.free.isPaid` is `false` because its price is `0`. `name` returns the value's name without the enum prefix (`free`, `pro`), unlike `toString()` which returns `Plan.free`. `index` is zero-based in declaration order, so `pro` has index `1`."
+      }
+    },
+    {
+      "id": "dart.language.012",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "language",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "String describe(Object value) => switch (value) {\n  int n when n < 0 => 'negative',\n  int() => 'int',\n  String s => 'string ${s.length}',\n  _ => 'other',\n};\n\nvoid main() {\n  print(describe(-3));\n  print(describe('hi'));\n  print(describe(2.5));\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "int / string 2 / other",
+            "en": "int / string 2 / other"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "negative / string 2 / other",
+            "en": "negative / string 2 / other"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "negative / string 2 / int",
+            "en": "negative / string 2 / int"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch vì switch expression thiếu `break`",
+            "en": "Compile error because the switch expression is missing `break`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Switch expression thử các case từ trên xuống và lấy case khớp đầu tiên. `-3` khớp `int n when n < 0` nên trả `negative`; guard `when` được kiểm tra trước khi tới `int()`. `'hi'` khớp `String s` và `s` được bind để dùng `s.length`, nên được `string 2`. `2.5` là `double`, không khớp `int()`, nên rơi vào wildcard `_` và trả `other`. Switch expression không dùng `break`; mỗi case là `pattern => biểu thức`.",
+        "en": "A switch expression tries the cases top to bottom and takes the first match. `-3` matches `int n when n < 0`, so it returns `negative`; the `when` guard is checked before `int()` is reached. `'hi'` matches `String s`, binding `s` so `s.length` can be used, giving `string 2`. `2.5` is a `double`, not matched by `int()`, so it falls to the wildcard `_` and returns `other`. Switch expressions do not use `break`; each case is `pattern => expression`."
+      }
+    },
+    {
+      "id": "dart.language.013",
+      "contentVersion": 1,
+      "trackId": "dart",
+      "topicId": "language",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "(int, int) minMax(List<int> list) {\n  var min = list.first;\n  var max = list.first;\n  for (final n in list) {\n    if (n < min) min = n;\n    if (n > max) max = n;\n  }\n  return (min, max);\n}\n\nvoid main() {\n  final (lo, hi) = minMax([3, 1, 4]);\n  print('$lo-$hi');\n  var a = 1;\n  var b = 2;\n  (a, b) = (b, a);\n  print('$a $b');\n  print(minMax([5]) == (5, 5));\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "1-4 / 1 2 / true",
+            "en": "1-4 / 1 2 / true"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "(1, 4) / 2 1 / false",
+            "en": "(1, 4) / 2 1 / false"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "1-4 / 2 1 / true",
+            "en": "1-4 / 2 1 / true"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "1-4 / 2 1 / false",
+            "en": "1-4 / 2 1 / false"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Hàm trả về record `(int, int)` và `final (lo, hi) = ...` destructure record thành hai biến, nên in `1-4`. `(a, b) = (b, a)` là pattern assignment: vế phải được tạo thành record `(2, 1)` trước rồi mới gán, nên hoán đổi được hai biến mà không cần biến tạm, in `2 1`. Record có structural equality: hai record cùng shape và cùng giá trị thì `==` là `true`, khác với `List` chỉ so sánh identity. Đáp án `false` ở dòng cuối sai vì nhầm record so sánh như object thường.",
+        "en": "The function returns a `(int, int)` record and `final (lo, hi) = ...` destructures it into two variables, printing `1-4`. `(a, b) = (b, a)` is a pattern assignment: the right side is built into the record `(2, 1)` first and then assigned, so the variables are swapped without a temp variable, printing `2 1`. Records have structural equality: two records with the same shape and values are `==`, unlike `List` which compares identity. `false` on the last line is wrong because it treats records like ordinary objects."
+      }
     }
   ]
 }
