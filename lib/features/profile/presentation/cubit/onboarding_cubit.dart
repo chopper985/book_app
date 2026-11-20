@@ -60,11 +60,13 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     }
     emit(state.copyWith(saving: true));
     await _saveProfile(
-      displayName: state.name,
-      role: state.role!,
-      experience: state.experience!,
-      techStack: state.techStack,
-      interviewDate: state.interviewDate,
+      ProfileFields(
+        displayName: state.name,
+        role: state.role!,
+        experience: state.experience!,
+        techStack: state.techStack,
+        interviewDate: state.interviewDate,
+      ),
     );
     if (!isClosed) emit(state.copyWith(saving: false, done: true));
   }

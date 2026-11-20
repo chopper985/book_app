@@ -8,13 +8,14 @@ abstract class ProfileRepository {
   bool get hasProfile => profile != null;
 
   /// Creates or replaces the profile, keeping the original `createdAt`.
-  Future<LearnerProfile> save({
-    required String displayName,
-    required TargetRole role,
-    required ExperienceLevel experience,
-    required List<String> techStack,
-    DateTime? interviewDate,
-  });
+  /// [fields] are normalized (trimmed, blank optional text removed).
+  Future<LearnerProfile> save(ProfileFields fields);
+
+  /// Copies the picked image into app storage and returns its file name.
+  Future<String> storeAvatar(String sourcePath);
+
+  /// Absolute path of a stored avatar, `null` when the file is missing.
+  Future<String?> avatarPath(String fileName);
 
   /// Fires after the profile is saved.
   Stream<void> get changes;

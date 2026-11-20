@@ -15,12 +15,19 @@ import 'package:injectable/injectable.dart' as _i526;
 import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
 import '../../features/catalog/data/datasources/mock_dashboard_datasource.dart'
     as _i641;
+import '../../features/catalog/data/datasources/saved_tracks_local_datasource.dart'
+    as _i913;
 import '../../features/catalog/data/repositories/catalog_repository_impl.dart'
     as _i428;
+import '../../features/catalog/data/repositories/saved_tracks_repository_impl.dart'
+    as _i534;
 import '../../features/catalog/domain/repositories/catalog_repository.dart'
     as _i1018;
+import '../../features/catalog/domain/repositories/saved_tracks_repository.dart'
+    as _i452;
 import '../../features/catalog/domain/usecase/get_explore_data.dart' as _i4;
 import '../../features/catalog/domain/usecase/get_track_detail.dart' as _i875;
+import '../../features/catalog/domain/usecase/saved_tracks.dart' as _i385;
 import '../../features/catalog/presentation/cubit/explore_cubit.dart' as _i978;
 import '../../features/catalog/presentation/cubit/track_detail_cubit.dart'
     as _i805;
@@ -44,6 +51,8 @@ import '../../features/practice/presentation/cubit/practice_cubit.dart'
 import '../../features/practice/presentation/cubit/practice_hub_cubit.dart'
     as _i269;
 import '../../features/practice/presentation/cubit/result_cubit.dart' as _i36;
+import '../../features/profile/data/datasources/avatar_local_datasource.dart'
+    as _i544;
 import '../../features/profile/data/datasources/profile_local_datasource.dart'
     as _i1046;
 import '../../features/profile/data/repositories/profile_repository_impl.dart'
@@ -51,8 +60,11 @@ import '../../features/profile/data/repositories/profile_repository_impl.dart'
 import '../../features/profile/domain/repositories/profile_repository.dart'
     as _i894;
 import '../../features/profile/domain/usecase/profile_usecases.dart' as _i852;
+import '../../features/profile/presentation/cubit/edit_profile_cubit.dart'
+    as _i990;
 import '../../features/profile/presentation/cubit/onboarding_cubit.dart'
     as _i934;
+import '../../features/profile/presentation/cubit/profile_cubit.dart' as _i37;
 import '../../features/theme/presentation/cubit/theme_cubit.dart' as _i5;
 import '../helpers/app_clock.dart' as _i472;
 import '../utils/datasources/base_repository.dart' as _i961;
@@ -77,14 +89,25 @@ _i174.GetIt $initGetIt(
       () => _i641.MockDashboardDataSource());
   gh.lazySingleton<_i915.ContentAssetDataSource>(
       () => _i915.ContentAssetDataSource());
+  gh.lazySingleton<_i544.AvatarLocalDataSource>(
+      () => _i544.FileAvatarLocalDataSource());
   gh.lazySingleton<_i1027.ContentRepository>(
       () => _i463.ContentRepositoryImpl(gh<_i915.ContentAssetDataSource>()));
   gh.lazySingleton<_i264.PracticeLocalDataSource>(
       () => _i264.HivePracticeLocalDataSource());
+  gh.lazySingleton<_i913.SavedTracksLocalDataSource>(
+      () => _i913.HiveSavedTracksLocalDataSource());
   gh.lazySingleton<_i1046.ProfileLocalDataSource>(
       () => _i1046.HiveProfileLocalDataSource());
   gh.lazySingleton<_i961.BaseRepository>(
       () => _i961.BaseRepository(gh<_i721.DioConfiguration>()));
+  gh.lazySingleton<_i894.ProfileRepository>(() => _i334.ProfileRepositoryImpl(
+        gh<_i1046.ProfileLocalDataSource>(),
+        gh<_i544.AvatarLocalDataSource>(),
+        gh<_i472.AppClock>(),
+      ));
+  gh.lazySingleton<_i452.SavedTracksRepository>(() =>
+      _i534.SavedTracksRepositoryImpl(gh<_i913.SavedTracksLocalDataSource>()));
   gh.lazySingleton<_i980.PracticeRepository>(() => _i862.PracticeRepositoryImpl(
         gh<_i1027.ContentRepository>(),
         gh<_i264.PracticeLocalDataSource>(),
@@ -96,23 +119,26 @@ _i174.GetIt $initGetIt(
       () => _i673.StartPractice(gh<_i980.PracticeRepository>()));
   gh.factory<_i673.ResumePractice>(
       () => _i673.ResumePractice(gh<_i980.PracticeRepository>()));
+  gh.factory<_i673.ClearPracticeHistory>(
+      () => _i673.ClearPracticeHistory(gh<_i980.PracticeRepository>()));
   gh.factory<_i673.SavePractice>(
       () => _i673.SavePractice(gh<_i980.PracticeRepository>()));
   gh.factory<_i673.SubmitPractice>(
       () => _i673.SubmitPractice(gh<_i980.PracticeRepository>()));
   gh.factory<_i673.GetPracticeResult>(
       () => _i673.GetPracticeResult(gh<_i980.PracticeRepository>()));
-  gh.lazySingleton<_i894.ProfileRepository>(() => _i334.ProfileRepositoryImpl(
-        gh<_i1046.ProfileLocalDataSource>(),
-        gh<_i472.AppClock>(),
-      ));
   gh.lazySingleton<_i1018.CatalogRepository>(() => _i428.CatalogRepositoryImpl(
         gh<_i1027.ContentRepository>(),
         gh<_i980.PracticeRepository>(),
         gh<_i894.ProfileRepository>(),
+        gh<_i452.SavedTracksRepository>(),
         gh<_i641.MockDashboardDataSource>(),
         gh<_i472.AppClock>(),
       ));
+  gh.factory<_i385.GetSavedTrackIds>(
+      () => _i385.GetSavedTrackIds(gh<_i452.SavedTracksRepository>()));
+  gh.factory<_i385.ToggleSavedTrack>(
+      () => _i385.ToggleSavedTrack(gh<_i452.SavedTracksRepository>()));
   gh.factory<_i36.ResultCubit>(
       () => _i36.ResultCubit(gh<_i673.GetPracticeResult>()));
   gh.factory<_i411.PracticeCubit>(() => _i411.PracticeCubit(
@@ -125,6 +151,10 @@ _i174.GetIt $initGetIt(
       () => _i852.GetProfile(gh<_i894.ProfileRepository>()));
   gh.factory<_i852.SaveProfile>(
       () => _i852.SaveProfile(gh<_i894.ProfileRepository>()));
+  gh.factory<_i852.StoreAvatar>(
+      () => _i852.StoreAvatar(gh<_i894.ProfileRepository>()));
+  gh.factory<_i852.GetAvatarPath>(
+      () => _i852.GetAvatarPath(gh<_i894.ProfileRepository>()));
   gh.factory<_i1036.GetPracticeHub>(() => _i1036.GetPracticeHub(
         gh<_i1027.ContentRepository>(),
         gh<_i980.PracticeRepository>(),
@@ -147,13 +177,30 @@ _i174.GetIt $initGetIt(
         gh<_i4.GetTracks>(),
         gh<_i852.SaveProfile>(),
       ));
+  gh.factory<_i990.EditProfileCubit>(() => _i990.EditProfileCubit(
+        gh<_i852.GetProfile>(),
+        gh<_i852.GetAvatarPath>(),
+        gh<_i852.StoreAvatar>(),
+        gh<_i852.SaveProfile>(),
+        gh<_i4.GetTracks>(),
+      ));
   gh.factory<_i805.TrackDetailCubit>(() => _i805.TrackDetailCubit(
         gh<_i875.GetTrackDetail>(),
+        gh<_i385.ToggleSavedTrack>(),
         gh<_i4.WatchProgress>(),
       ));
   gh.factory<_i978.ExploreCubit>(() => _i978.ExploreCubit(
         gh<_i4.GetTracks>(),
         gh<_i4.GetExploreDashboard>(),
+        gh<_i4.WatchProgress>(),
+      ));
+  gh.factory<_i37.ProfileCubit>(() => _i37.ProfileCubit(
+        gh<_i852.GetProfile>(),
+        gh<_i852.GetAvatarPath>(),
+        gh<_i4.GetExploreDashboard>(),
+        gh<_i4.GetTracks>(),
+        gh<_i385.GetSavedTrackIds>(),
+        gh<_i673.ClearPracticeHistory>(),
         gh<_i4.WatchProgress>(),
       ));
   return getIt;

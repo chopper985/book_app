@@ -16,37 +16,24 @@ import 'package:AppName/features/content/presentation/extensions/localized_text_
 import 'package:AppName/gen/assets.gen.dart';
 
 /// "Technology Route Hero Card": title, badges and overall progress.
-class TrackHeroCard extends StatefulWidget {
+class TrackHeroCard extends StatelessWidget {
   final TrackDetail detail;
   final TrackProgress progress;
+  final VoidCallback onToggleSaved;
 
   const TrackHeroCard({
     super.key,
     required this.detail,
     required this.progress,
+    required this.onToggleSaved,
   });
 
   @override
-  State<TrackHeroCard> createState() => _TrackHeroCardState();
-}
-
-class _TrackHeroCardState extends State<TrackHeroCard> {
-  // MOCK: saved state is not persisted yet.
-  late final ValueNotifier<bool> _saved =
-      ValueNotifier(widget.detail.learning.isSaved);
-
-  @override
-  void dispose() {
-    _saved.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final track = widget.detail.track;
+    final track = detail.track;
     final style = TrackStyle.of(track.id);
     final badge = track.badge?.text;
-    final version = widget.detail.learning.versionLabel;
+    final version = detail.learning.versionLabel;
     final audience = track.audience?.text;
 
     return ClipRRect(
@@ -156,7 +143,10 @@ class _TrackHeroCardState extends State<TrackHeroCard> {
                         ),
                       ),
                       SizedBox(width: 8.dsp),
-                      _SaveButton(saved: _saved),
+                      _SaveButton(
+                        isSaved: detail.learning.isSaved,
+                        onTap: onToggleSaved,
+                      ),
                     ],
                   ),
                   SizedBox(height: 16.dsp),
@@ -169,7 +159,7 @@ class _TrackHeroCardState extends State<TrackHeroCard> {
                       color: AppPalette.teal,
                     ),
                     label: Strings.trackTotalQuestions.i18n
-                        .fill([widget.detail.questionCount]),
+                        .fill([detail.questionCount]),
                     color: AppPalette.teal,
                   ),
                   if (audience != null) ...[
@@ -181,7 +171,7 @@ class _TrackHeroCardState extends State<TrackHeroCard> {
                     ),
                   ],
                   SizedBox(height: 16.dsp),
-                  _OverallProgress(progress: widget.progress),
+                  _OverallProgress(progress: progress),
                 ],
               ),
             ),
@@ -193,15 +183,14 @@ class _TrackHeroCardState extends State<TrackHeroCard> {
 }
 
 class _SaveButton extends StatelessWidget {
-  final ValueNotifier<bool> saved;
+  final bool isSaved;
+  final VoidCallback onTap;
 
-  const _SaveButton({required this.saved});
+  const _SaveButton({required this.isSaved, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: saved,
-      builder: (context, isSaved, _) => Semantics(
+    return Semantics(
         button: true,
         label: isSaved ? Strings.trackUnsave.i18n : Strings.trackSave.i18n,
         child: Material(
@@ -209,7 +198,7 @@ class _SaveButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(6.dsp),
           child: InkWell(
             borderRadius: BorderRadius.circular(6.dsp),
-            onTap: () => saved.value = !isSaved,
+            onTap: onTap,
             child: SizedBox(
               width: 34.dsp,
               height: 36.dsp,
@@ -221,7 +210,6 @@ class _SaveButton extends StatelessWidget {
             ),
           ),
         ),
-      ),
     );
   }
 }

@@ -161,6 +161,12 @@ class PracticeRepositoryImpl implements PracticeRepository {
     return latest;
   }
 
+  @override
+  Future<void> clearHistory() async {
+    await _local.clear();
+    _changes.add(null);
+  }
+
   /// Fails when content changed and a question of the session is gone.
   Result<PracticeBundle> _practiceBundle(
     PracticeSession session,

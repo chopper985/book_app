@@ -8,6 +8,7 @@ part of 'app_router.dart';
 
 List<RouteBase> get $appRoutes => [
       $onboardingRoute,
+      $editProfileRoute,
       $mainShellRoute,
       $practiceRoute,
       $resultRoute,
@@ -27,6 +28,36 @@ mixin $OnboardingRoute on GoRouteData {
   @override
   String get location => GoRouteData.$location(
         '/onboarding',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $editProfileRoute => GoRouteData.$route(
+      path: '/profile-edit',
+      name: '/profile-edit',
+      hasOverriddenOnExit: false,
+      factory: $EditProfileRoute._fromState,
+    );
+
+mixin $EditProfileRoute on GoRouteData {
+  static EditProfileRoute _fromState(GoRouterState state) =>
+      const EditProfileRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/profile-edit',
       );
 
   @override

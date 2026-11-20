@@ -125,7 +125,11 @@ class _TrackDetailBody extends StatelessWidget {
             children: [
               const _BackLink(),
               SizedBox(height: 12.dsp),
-              TrackHeroCard(detail: detail, progress: progress),
+              TrackHeroCard(
+                detail: detail,
+                progress: progress,
+                onToggleSaved: context.read<TrackDetailCubit>().toggleSaved,
+              ),
               if (quick != null) ...[
                 SizedBox(height: 24.dsp),
                 RandomPracticeButton(

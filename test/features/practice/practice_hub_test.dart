@@ -16,6 +16,7 @@ import 'package:AppName/core/helpers/app_clock.dart';
 import 'package:AppName/core/utils/dio_api/result.dart';
 import 'package:AppName/features/catalog/data/datasources/mock_dashboard_datasource.dart';
 import 'package:AppName/features/catalog/data/repositories/catalog_repository_impl.dart';
+import 'package:AppName/features/catalog/data/repositories/saved_tracks_repository_impl.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
 import 'package:AppName/features/content/data/parsers/content_parser.dart';
 import 'package:AppName/features/content/domain/entities/content_catalog.dart';
@@ -31,7 +32,9 @@ import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart
 import 'package:AppName/features/practice/presentation/cubit/practice_hub_cubit.dart';
 import 'package:AppName/features/practice/presentation/screens/practice_hub_screen.dart';
 import 'package:AppName/features/profile/data/repositories/profile_repository_impl.dart';
+import '../../helpers/in_memory_avatar_datasource.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
+import '../../helpers/in_memory_saved_tracks_datasource.dart';
 import '../../helpers/in_memory_profile_datasource.dart';
 import '../content/content_test_data.dart';
 
@@ -91,14 +94,21 @@ void main() {
       (await const ContentParser().parse(readerOf(data))).catalog,
     );
     clock = _FixedClock();
-    final profiles =
-        ProfileRepositoryImpl(InMemoryProfileLocalDataSource(), clock);
-    practice =
-        PracticeRepositoryImpl(content, InMemoryPracticeLocalDataSource(), clock);
+    final profiles = ProfileRepositoryImpl(
+      InMemoryProfileLocalDataSource(),
+      InMemoryAvatarLocalDataSource(),
+      clock,
+    );
+    practice = PracticeRepositoryImpl(
+      content,
+      InMemoryPracticeLocalDataSource(),
+      clock,
+    );
     catalog = CatalogRepositoryImpl(
       content,
       practice,
       profiles,
+      SavedTracksRepositoryImpl(InMemorySavedTracksLocalDataSource()),
       MockDashboardDataSource(),
       clock,
     );
@@ -197,8 +207,7 @@ void main() {
     });
   });
 
-  testWidgets('hub screen renders sections on a small screen',
-      (tester) async {
+  testWidgets('hub screen renders sections on a small screen', (tester) async {
     late PracticeHubCubit cubit;
     await tester.runAsync(() async {
       await setUpRepositories();

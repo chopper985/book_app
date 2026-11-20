@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 
 // Project imports:
 import 'package:AppName/core/helpers/app_clock.dart';
+import 'package:AppName/features/profile/data/datasources/avatar_local_datasource.dart';
 import 'package:AppName/features/profile/data/datasources/profile_local_datasource.dart';
 import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
 import 'package:AppName/features/profile/domain/repositories/profile_repository.dart';
@@ -13,10 +14,11 @@ import 'package:AppName/features/profile/domain/repositories/profile_repository.
 @LazySingleton(as: ProfileRepository)
 class ProfileRepositoryImpl extends ProfileRepository {
   final ProfileLocalDataSource _local;
+  final AvatarLocalDataSource _avatars;
   final AppClock _clock;
   final StreamController<void> _changes = StreamController<void>.broadcast();
 
-  ProfileRepositoryImpl(this._local, this._clock);
+  ProfileRepositoryImpl(this._local, this._avatars, this._clock);
 
   @override
   LearnerProfile? get profile => _local.read();
@@ -25,25 +27,27 @@ class ProfileRepositoryImpl extends ProfileRepository {
   Stream<void> get changes => _changes.stream;
 
   @override
-  Future<LearnerProfile> save({
-    required String displayName,
-    required TargetRole role,
-    required ExperienceLevel experience,
-    required List<String> techStack,
-    DateTime? interviewDate,
-  }) async {
+  Future<LearnerProfile> save(ProfileFields fields) async {
     final now = _clock.now();
+    final previous = _local.read();
     final profile = LearnerProfile(
-      displayName: displayName,
-      role: role,
-      experience: experience,
-      techStack: List.unmodifiable(techStack),
-      interviewDate: interviewDate,
-      createdAt: _local.read()?.createdAt ?? now,
+      fields: fields.normalized(),
+      createdAt: previous?.createdAt ?? now,
       updatedAt: now,
     );
     await _local.write(profile);
+    // Replaced or removed avatars are deleted only once the profile no
+    // longer points to them.
+    if (previous?.avatarFileName != profile.avatarFileName) {
+      await _avatars.prune(keep: profile.avatarFileName);
+    }
     _changes.add(null);
     return profile;
   }
+
+  @override
+  Future<String> storeAvatar(String sourcePath) => _avatars.store(sourcePath);
+
+  @override
+  Future<String?> avatarPath(String fileName) => _avatars.pathOf(fileName);
 }

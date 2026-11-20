@@ -4,6 +4,7 @@ class Routes {
   static const String authenticationRoute = '/authentication';
   static const String loginRoute = '/login';
   static const String onboardingRoute = '/onboarding';
+  static const String editProfileRoute = '/profile-edit';
 
   // Bottom navigation tabs
   static const String roadmapsRoute = '/roadmaps';

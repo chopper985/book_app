@@ -18,6 +18,7 @@ import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
 import 'package:AppName/features/profile/presentation/cubit/onboarding_cubit.dart';
 import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
 import 'package:AppName/features/profile/presentation/widgets/choice_tile.dart';
+import 'package:AppName/features/profile/presentation/widgets/profile_form_fields.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -318,68 +319,20 @@ class _InterviewDateField extends StatelessWidget {
 
   const _InterviewDateField({required this.date, required this.onChanged});
 
-  Future<void> _pick(BuildContext context) async {
-    final today = DateUtils.dateOnly(DateTime.now());
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: date ?? today.add(const Duration(days: 7)),
-      firstDate: today,
-      lastDate: today.add(const Duration(days: 365)),
-    );
-    if (picked != null) onChanged(picked);
-  }
-
   @override
   Widget build(BuildContext context) {
-    final value = date;
+    final today = DateUtils.dateOnly(DateTime.now());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          Strings.onboardingInterviewDate.i18n,
-          style: AppText.mono(11, height: 16),
-        ),
-        SizedBox(height: 8.dsp),
-        Row(
-          children: [
-            Expanded(
-              child: OutlinedButton.icon(
-                onPressed: () => _pick(context),
-                style: OutlinedButton.styleFrom(
-                  minimumSize: Size.fromHeight(48.dsp),
-                  side: const BorderSide(color: AppPalette.surfaceHigh),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.dsp),
-                  ),
-                  alignment: Alignment.centerLeft,
-                ),
-                icon: Icon(
-                  Icons.event,
-                  size: 18.dsp,
-                  color: AppPalette.primary,
-                ),
-                label: Text(
-                  value == null
-                      ? Strings.onboardingPickDate.i18n
-                      : MaterialLocalizations.of(context)
-                          .formatMediumDate(value),
-                  style: AppText.sans(14, height: 20),
-                ),
-              ),
-            ),
-            if (value != null) ...[
-              SizedBox(width: 8.dsp),
-              IconButton(
-                tooltip: Strings.onboardingClearDate.i18n,
-                onPressed: () => onChanged(null),
-                icon: Icon(
-                  Icons.close,
-                  size: 18.dsp,
-                  color: AppPalette.onSurfaceVariant,
-                ),
-              ),
-            ],
-          ],
+        FieldLabel(Strings.onboardingInterviewDate.i18n),
+        DatePickerField(
+          date: date,
+          placeholder: Strings.onboardingPickDate.i18n,
+          firstDate: today,
+          lastDate: today.add(const Duration(days: 365)),
+          initialDate: today.add(const Duration(days: 7)),
+          onChanged: onChanged,
         ),
       ],
     );

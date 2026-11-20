@@ -20,19 +20,27 @@ class SaveProfile {
 
   SaveProfile(this._repository);
 
-  /// Trims the name; an empty name or stack is rejected by the caller.
-  Future<LearnerProfile> call({
-    required String displayName,
-    required TargetRole role,
-    required ExperienceLevel experience,
-    required List<String> techStack,
-    DateTime? interviewDate,
-  }) =>
-      _repository.save(
-        displayName: displayName.trim(),
-        role: role,
-        experience: experience,
-        techStack: techStack,
-        interviewDate: interviewDate,
-      );
+  Future<LearnerProfile> call(ProfileFields fields) =>
+      _repository.save(fields);
+}
+
+@injectable
+class StoreAvatar {
+  final ProfileRepository _repository;
+
+  StoreAvatar(this._repository);
+
+  /// Returns the stored file name.
+  Future<String> call(String sourcePath) =>
+      _repository.storeAvatar(sourcePath);
+}
+
+@injectable
+class GetAvatarPath {
+  final ProfileRepository _repository;
+
+  GetAvatarPath(this._repository);
+
+  Future<String?> call(String? fileName) async =>
+      fileName == null ? null : _repository.avatarPath(fileName);
 }

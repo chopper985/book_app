@@ -16,4 +16,7 @@ class StorageKeys {
 
   // Learner profile from onboarding: one JSON entry.
   static const String profileBox = 'profile';
+
+  // Bookmarked track ids: one JSON list.
+  static const String savedTracksBox = 'saved-tracks';
 }

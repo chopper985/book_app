@@ -31,6 +31,15 @@ class ResumePractice {
 }
 
 @injectable
+class ClearPracticeHistory {
+  final PracticeRepository _repository;
+
+  ClearPracticeHistory(this._repository);
+
+  Future<void> call() => _repository.clearHistory();
+}
+
+@injectable
 class SavePractice {
   final PracticeRepository _repository;
 

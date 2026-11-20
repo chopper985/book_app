@@ -6,6 +6,7 @@ import 'package:AppName/core/helpers/app_clock.dart';
 import 'package:AppName/core/utils/dio_api/result.dart';
 import 'package:AppName/features/catalog/data/datasources/mock_dashboard_datasource.dart';
 import 'package:AppName/features/catalog/data/repositories/catalog_repository_impl.dart';
+import 'package:AppName/features/catalog/data/repositories/saved_tracks_repository_impl.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
 import 'package:AppName/features/content/data/parsers/content_parser.dart';
 import 'package:AppName/features/content/domain/entities/content_catalog.dart';
@@ -15,7 +16,9 @@ import 'package:AppName/features/profile/data/repositories/profile_repository_im
 import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
 import 'package:AppName/features/profile/domain/usecase/profile_usecases.dart';
 import 'package:AppName/features/profile/presentation/cubit/onboarding_cubit.dart';
+import '../../helpers/in_memory_avatar_datasource.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
+import '../../helpers/in_memory_saved_tracks_datasource.dart';
 import '../../helpers/in_memory_profile_datasource.dart';
 import '../content/content_test_data.dart';
 
@@ -47,18 +50,25 @@ void main() {
     );
     clock = _FixedClock();
     profileLocal = InMemoryProfileLocalDataSource();
-    profiles = ProfileRepositoryImpl(profileLocal, clock);
+    profiles = ProfileRepositoryImpl(
+      profileLocal,
+      InMemoryAvatarLocalDataSource(),
+      clock,
+    );
     catalog = CatalogRepositoryImpl(
       content,
       PracticeRepositoryImpl(content, InMemoryPracticeLocalDataSource(), clock),
       profiles,
+      SavedTracksRepositoryImpl(InMemorySavedTracksLocalDataSource()),
       MockDashboardDataSource(),
       clock,
     );
   });
 
-  OnboardingCubit newCubit() =>
-      OnboardingCubit(GetTracks(catalog), SaveProfile(profiles));
+  OnboardingCubit newCubit() => OnboardingCubit(
+        GetTracks(catalog),
+        SaveProfile(profiles),
+      );
 
   test('each step needs an answer before continuing', () async {
     final cubit = newCubit();
@@ -108,15 +118,21 @@ void main() {
     await cubit.next();
 
     expect(cubit.state.done, isTrue);
-    final restarted = ProfileRepositoryImpl(profileLocal, clock);
+    final restarted = ProfileRepositoryImpl(
+      profileLocal,
+      InMemoryAvatarLocalDataSource(),
+      clock,
+    );
     expect(
       restarted.profile,
       LearnerProfile(
-        displayName: 'Lan',
-        role: TargetRole.mobile,
-        experience: ExperienceLevel.junior,
-        techStack: const ['go'],
-        interviewDate: DateTime(2026, 11, 27),
+        fields: ProfileFields(
+          displayName: 'Lan',
+          role: TargetRole.mobile,
+          experience: ExperienceLevel.junior,
+          techStack: const ['go'],
+          interviewDate: DateTime(2026, 11, 27),
+        ),
         createdAt: clock.value,
         updatedAt: clock.value,
       ),
@@ -125,10 +141,12 @@ void main() {
 
   test('saving again keeps createdAt and notifies listeners', () async {
     await profiles.save(
-      displayName: 'Lan',
-      role: TargetRole.mobile,
-      experience: ExperienceLevel.junior,
-      techStack: const ['dart'],
+      ProfileFields(
+        displayName: 'Lan',
+        role: TargetRole.mobile,
+        experience: ExperienceLevel.junior,
+        techStack: const ['dart'],
+      ),
     );
     final created = clock.value;
     clock.value = clock.value.add(const Duration(days: 1));
@@ -136,10 +154,12 @@ void main() {
     var changes = 0;
     final subscription = profiles.changes.listen((_) => changes++);
     final updated = await profiles.save(
-      displayName: 'Lan Anh',
-      role: TargetRole.mobile,
-      experience: ExperienceLevel.middle,
-      techStack: const ['dart'],
+      ProfileFields(
+        displayName: 'Lan Anh',
+        role: TargetRole.mobile,
+        experience: ExperienceLevel.middle,
+        techStack: const ['dart'],
+      ),
     );
     await Future<void>.delayed(Duration.zero);
     await subscription.cancel();
@@ -158,11 +178,13 @@ void main() {
   group('catalog uses the profile', () {
     test('learner name, experience and interview countdown', () async {
       await profiles.save(
-        displayName: 'Lan',
-        role: TargetRole.backend,
-        experience: ExperienceLevel.fresher,
-        techStack: const ['go'],
-        interviewDate: DateTime(2026, 11, 23),
+        ProfileFields(
+          displayName: 'Lan',
+          role: TargetRole.backend,
+          experience: ExperienceLevel.fresher,
+          techStack: const ['go'],
+          interviewDate: DateTime(2026, 11, 23),
+        ),
       );
       final learner = (await catalog.getDashboard()).learner;
       expect(learner.displayName, 'Lan');
@@ -175,10 +197,12 @@ void main() {
       expect(tracks.map((t) => t.track.id), ['dart', 'go']);
 
       await profiles.save(
-        displayName: 'Lan',
-        role: TargetRole.backend,
-        experience: ExperienceLevel.fresher,
-        techStack: const ['go'],
+        ProfileFields(
+          displayName: 'Lan',
+          role: TargetRole.backend,
+          experience: ExperienceLevel.fresher,
+          techStack: const ['go'],
+        ),
       );
       tracks = (await catalog.getTracks()).value!;
       expect(tracks.map((t) => t.track.id), ['go', 'dart']);
@@ -188,10 +212,12 @@ void main() {
       var changes = 0;
       final subscription = catalog.progressChanges.listen((_) => changes++);
       await profiles.save(
-        displayName: 'Lan',
-        role: TargetRole.backend,
-        experience: ExperienceLevel.fresher,
-        techStack: const ['go'],
+        ProfileFields(
+          displayName: 'Lan',
+          role: TargetRole.backend,
+          experience: ExperienceLevel.fresher,
+          techStack: const ['go'],
+        ),
       );
       await Future<void>.delayed(Duration.zero);
       await subscription.cancel();
@@ -201,11 +227,13 @@ void main() {
 
   test('interview countdown is null once the day has passed', () {
     final profile = LearnerProfile(
-      displayName: 'Lan',
-      role: TargetRole.mobile,
-      experience: ExperienceLevel.junior,
-      techStack: const [],
-      interviewDate: DateTime(2026, 11, 20),
+      fields: ProfileFields(
+        displayName: 'Lan',
+        role: TargetRole.mobile,
+        experience: ExperienceLevel.junior,
+        techStack: const [],
+        interviewDate: DateTime(2026, 11, 20),
+      ),
       createdAt: DateTime(2026, 11, 2),
       updatedAt: DateTime(2026, 11, 2),
     );

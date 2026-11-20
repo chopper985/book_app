@@ -30,6 +30,9 @@ abstract class PracticeRepository {
   /// The most recently touched session that is not submitted nor expired.
   Future<PracticeSession?> getLatestUnfinished();
 
+  /// Deletes every session and result on the device.
+  Future<void> clearHistory();
+
   /// Fires after a session is started, saved or submitted so screens showing
   /// progress can refresh.
   Stream<void> get changes;

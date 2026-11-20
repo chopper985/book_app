@@ -39,4 +39,10 @@ class InMemoryPracticeLocalDataSource implements PracticeLocalDataSource {
   @override
   Future<void> putResult(SessionResult result) async =>
       resultJson[result.sessionId] = PracticeJson.result(result);
+
+  @override
+  Future<void> clear() async {
+    sessionJson.clear();
+    resultJson.clear();
+  }
 }

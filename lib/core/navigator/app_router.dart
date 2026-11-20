@@ -8,10 +8,8 @@ import 'package:sizer/sizer.dart';
 
 // Project imports:
 import 'package:AppName/core/app/colors/app_colors.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
 import 'package:AppName/core/injection/injection_container.dart';
 import 'package:AppName/core/navigator/app_routes.dart';
-import 'package:AppName/core/navigator/coming_soon_screen.dart';
 import 'package:AppName/core/navigator/main_shell.dart';
 import 'package:AppName/features/catalog/presentation/cubit/explore_cubit.dart';
 import 'package:AppName/features/catalog/presentation/cubit/track_detail_cubit.dart';
@@ -25,8 +23,12 @@ import 'package:AppName/features/practice/presentation/screens/practice_hub_scre
 import 'package:AppName/features/practice/presentation/screens/practice_screen.dart';
 import 'package:AppName/features/practice/presentation/screens/result_screen.dart';
 import 'package:AppName/features/profile/domain/repositories/profile_repository.dart';
+import 'package:AppName/features/profile/presentation/cubit/edit_profile_cubit.dart';
 import 'package:AppName/features/profile/presentation/cubit/onboarding_cubit.dart';
+import 'package:AppName/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:AppName/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:AppName/features/profile/presentation/screens/onboarding_screen.dart';
+import 'package:AppName/features/profile/presentation/screens/profile_screen.dart';
 
 part 'app_router.g.dart';
 
@@ -123,6 +125,23 @@ class OnboardingRoute extends GoRouteData with $OnboardingRoute {
     return BlocProvider(
       create: (_) => getIt<OnboardingCubit>()..load(),
       child: const OnboardingScreen(),
+    );
+  }
+}
+
+/// Full-screen profile edit: avatar, personal details, interview info.
+@TypedGoRoute<EditProfileRoute>(
+  path: Routes.editProfileRoute,
+  name: Routes.editProfileRoute,
+)
+class EditProfileRoute extends GoRouteData with $EditProfileRoute {
+  const EditProfileRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider(
+      create: (_) => getIt<EditProfileCubit>()..load(),
+      child: const EditProfileScreen(),
     );
   }
 }
@@ -250,7 +269,10 @@ class ProfileRoute extends GoRouteData with $ProfileRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ComingSoonScreen(title: Strings.navProfile.i18n);
+    return BlocProvider(
+      create: (_) => getIt<ProfileCubit>()..load(),
+      child: const ProfileScreen(),
+    );
   }
 }
 

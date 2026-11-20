@@ -13,6 +13,7 @@ import 'package:AppName/core/helpers/app_clock.dart';
 import 'package:AppName/core/utils/dio_api/result.dart';
 import 'package:AppName/features/catalog/data/datasources/mock_dashboard_datasource.dart';
 import 'package:AppName/features/catalog/data/repositories/catalog_repository_impl.dart';
+import 'package:AppName/features/catalog/data/repositories/saved_tracks_repository_impl.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
 import 'package:AppName/features/content/data/parsers/content_parser.dart';
 import 'package:AppName/features/content/domain/entities/content_catalog.dart';
@@ -24,7 +25,9 @@ import 'package:AppName/features/profile/domain/usecase/profile_usecases.dart';
 import 'package:AppName/features/profile/presentation/cubit/onboarding_cubit.dart';
 import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
 import 'package:AppName/features/profile/presentation/screens/onboarding_screen.dart';
+import '../../helpers/in_memory_avatar_datasource.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
+import '../../helpers/in_memory_saved_tracks_datasource.dart';
 import '../../helpers/in_memory_profile_datasource.dart';
 import '../content/content_test_data.dart';
 
@@ -46,8 +49,11 @@ void main() {
         (await const ContentParser().parse(readerOf(files()))).catalog,
       );
       final clock = AppClock();
-      final profiles =
-          ProfileRepositoryImpl(InMemoryProfileLocalDataSource(), clock);
+      final profiles = ProfileRepositoryImpl(
+        InMemoryProfileLocalDataSource(),
+        InMemoryAvatarLocalDataSource(),
+        clock,
+      );
       final catalog = CatalogRepositoryImpl(
         content,
         PracticeRepositoryImpl(
@@ -56,10 +62,14 @@ void main() {
           clock,
         ),
         profiles,
+        SavedTracksRepositoryImpl(InMemorySavedTracksLocalDataSource()),
         MockDashboardDataSource(),
         clock,
       );
-      cubit = OnboardingCubit(GetTracks(catalog), SaveProfile(profiles));
+      cubit = OnboardingCubit(
+        GetTracks(catalog),
+        SaveProfile(profiles),
+      );
       await cubit.load();
     });
 

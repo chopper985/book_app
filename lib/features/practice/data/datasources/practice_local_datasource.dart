@@ -29,6 +29,8 @@ abstract class PracticeLocalDataSource {
   List<SessionResult> results();
 
   Future<void> putResult(SessionResult result);
+
+  Future<void> clear();
 }
 
 /// Each entry is a JSON string keyed by session id. Entries that fail to
@@ -72,6 +74,12 @@ class HivePracticeLocalDataSource implements PracticeLocalDataSource {
         result.sessionId,
         jsonEncode(PracticeJson.result(result)),
       );
+
+  @override
+  Future<void> clear() async {
+    await _sessions.clear();
+    await _results.clear();
+  }
 
   T? _decode<T>(String? raw, T Function(Map<String, dynamic>) fromJson) {
     if (raw == null) return null;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:i18n_extension/i18n_extension.dart';
 import 'package:sizer/sizer.dart';
 
 // Project imports:
@@ -29,6 +30,8 @@ class _AppState extends State<App> {
           return MaterialApp.router(
             title: "DevInterview",
             routerConfig: AppRouter.instance.router,
+            // Follows the in-app language so dates and pickers match it.
+            locale: context.locale,
             debugShowCheckedModeBanner: false,
             theme: AppTheme.dark().data,
             themeMode: ThemeMode.dark,

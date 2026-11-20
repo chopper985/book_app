@@ -16,6 +16,7 @@ import 'package:AppName/features/catalog/domain/entities/track_learning.dart';
 import 'package:AppName/features/catalog/domain/entities/track_not_found_failure.dart';
 import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
 import 'package:AppName/features/catalog/domain/repositories/catalog_repository.dart';
+import 'package:AppName/features/catalog/domain/repositories/saved_tracks_repository.dart';
 import 'package:AppName/features/content/domain/entities/content_catalog.dart';
 import 'package:AppName/features/content/domain/entities/quiz_set.dart';
 import 'package:AppName/features/content/domain/repositories/content_repository.dart';
@@ -27,6 +28,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
   final ContentRepository _contentRepository;
   final PracticeRepository _practiceRepository;
   final ProfileRepository _profileRepository;
+  final SavedTracksRepository _savedTracksRepository;
   final MockDashboardDataSource _dashboardDataSource;
   final AppClock _clock;
 
@@ -34,11 +36,12 @@ class CatalogRepositoryImpl implements CatalogRepository {
     this._contentRepository,
     this._practiceRepository,
     this._profileRepository,
+    this._savedTracksRepository,
     this._dashboardDataSource,
     this._clock,
   );
 
-  /// Practice history and profile changes, merged.
+  /// Practice history, profile and saved track changes, merged.
   @override
   Stream<void> get progressChanges {
     final subscriptions = <StreamSubscription<void>>[];
@@ -47,6 +50,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
       onListen: () => subscriptions.addAll([
         _practiceRepository.changes.listen(controller.add),
         _profileRepository.changes.listen(controller.add),
+        _savedTracksRepository.changes.listen(controller.add),
       ]),
       onCancel: () async {
         await Future.wait(subscriptions.map((s) => s.cancel()));
@@ -138,6 +142,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
         questionIdsByTopic: questionIdsByTopic,
         learning: TrackLearning(
           learner: _learner(progress),
+          isSaved: _savedTracksRepository.isSaved(trackId),
           versionLabel: _dashboardDataSource.versionLabel(trackId),
           dailySnippet: _dashboardDataSource.dailySnippet(trackId),
           topicPractice: {
