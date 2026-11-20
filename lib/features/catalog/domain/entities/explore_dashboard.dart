@@ -7,6 +7,9 @@ import 'package:interview_practice/features/profile/domain/entities/learner_prof
 class LearnerSummary extends Equatable {
   final String displayName;
 
+  /// Absolute path of the profile photo, `null` when none.
+  final String? avatarPath;
+
   /// Drives the role label in the header; `null` without a profile.
   final ExperienceLevel? experience;
 
@@ -29,11 +32,13 @@ class LearnerSummary extends Equatable {
     required this.practicedCount,
     required this.accuracyPercent,
     this.daysToInterview,
+    this.avatarPath,
   });
 
   @override
   List<Object?> get props => [
         displayName,
+        avatarPath,
         experience,
         daysToInterview,
         level,

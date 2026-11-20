@@ -7,14 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // Project imports:
 import 'package:interview_practice/core/app/colors/app_palette.dart';
 import 'package:interview_practice/core/app/languages/data/localization.dart';
-import 'package:interview_practice/core/app/themes/data/app_text.dart';
 import 'package:interview_practice/core/navigator/app_router.dart';
 import 'package:interview_practice/core/utils/sizer/design_size.dart';
-import 'package:interview_practice/core/utils/widgets/dev_header.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/learner_tab_header.dart';
 import 'package:interview_practice/features/content/presentation/widgets/content_issue_view.dart';
 import 'package:interview_practice/features/practice/presentation/cubit/practice_hub_cubit.dart';
 import 'package:interview_practice/features/practice/presentation/widgets/hub_sections.dart';
-import 'package:interview_practice/features/profile/presentation/extensions/profile_labels.dart';
 
 /// Practice tab: mistakes to review, quick practice and history.
 class PracticeHubScreen extends StatelessWidget {
@@ -51,33 +49,17 @@ class _Body extends StatelessWidget {
     final hub = state.hub;
     return Column(
       children: [
-        DevHeader(
-          roleLabel: state.learner.experience.headerLabel,
-          streakDays: state.learner.streakDays,
+        LearnerTabHeader(
+          learner: state.learner,
+          title: Strings.hubTitle.i18n,
+          subtitle: hub.mistakeCount > 0
+              ? Strings.hubMistakeCount.i18n.fill([hub.mistakeCount])
+              : Strings.hubSessionCount.i18n.fill([hub.sessionCount]),
         ),
         Expanded(
           child: ListView(
             padding: EdgeInsets.fromLTRB(16.dsp, 16.dsp, 16.dsp, 24.dsp),
             children: [
-              Text(
-                Strings.hubTitle.i18n,
-                style: AppText.sans(
-                  24,
-                  height: 32,
-                  weight: FontWeight.w700,
-                  letterSpacing: -0.6,
-                ),
-              ),
-              SizedBox(height: 2.dsp),
-              Text(
-                Strings.hubSubtitle.i18n,
-                style: AppText.sans(
-                  14,
-                  height: 20,
-                  color: AppPalette.onSurfaceVariant,
-                ),
-              ),
-              SizedBox(height: 16.dsp),
               HubStats(hub: hub),
               SizedBox(height: 24.dsp),
               HubSectionTitle(Strings.hubMistakesTitle.i18n),

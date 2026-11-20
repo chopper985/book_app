@@ -76,7 +76,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
     final now = _clock.now();
 
     return ExploreDashboard(
-      learner: _learner(progress),
+      learner: await _learner(progress),
       continueSession: unfinished == null
           ? null
           : ContinueSession(
@@ -166,7 +166,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
             ),
         },
         learning: TrackLearning(
-          learner: _learner(progress),
+          learner: await _learner(progress),
           isSaved: _savedTracksRepository.isSaved(trackId),
           versionLabel: _dashboardDataSource.versionLabel(trackId),
           dailySnippet: _dashboardDataSource.dailySnippet(trackId),
@@ -213,7 +213,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
         position: position,
         option: option,
         level: level,
-        learner: _learner(progress),
+        learner: await _learner(progress),
         mockSetId: mockSetId,
         mockQuestionIds: mockSet?.questionIds ?? const [],
         mockIsPremium: !(mockSet?.isFree ?? true),
@@ -257,10 +257,13 @@ class CatalogRepositoryImpl implements CatalogRepository {
         now: _clock.now(),
       );
 
-  LearnerSummary _learner(LearnerProgress progress) {
+  Future<LearnerSummary> _learner(LearnerProgress progress) async {
     final profile = _profileRepository.profile;
+    final avatar = profile?.avatarFileName;
     return LearnerSummary(
       displayName: profile?.displayName ?? '',
+      avatarPath:
+          avatar == null ? null : await _profileRepository.avatarPath(avatar),
       experience: profile?.experience,
       daysToInterview: profile?.daysToInterview(_clock.now()),
       level: progress.level,

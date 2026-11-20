@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:interview_practice/core/utils/widgets/app_avatar.dart';
 import 'package:interview_practice/core/app/colors/app_palette.dart';
 import 'package:interview_practice/core/app/languages/data/localization.dart';
 import 'package:interview_practice/core/app/themes/data/app_text.dart';
@@ -13,7 +14,6 @@ import 'package:interview_practice/features/catalog/domain/entities/track_overvi
 import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 import 'package:interview_practice/features/profile/presentation/extensions/profile_labels.dart';
-import 'package:interview_practice/features/profile/presentation/widgets/profile_form_fields.dart';
 
 class ProfileSectionTitle extends StatelessWidget {
   final String title;
@@ -87,7 +87,7 @@ class ProfileCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              ProfileAvatar(path: avatarPath, name: name),
+              AppAvatar(path: avatarPath, name: name),
               SizedBox(width: 12.dsp),
               Expanded(
                 child: Column(

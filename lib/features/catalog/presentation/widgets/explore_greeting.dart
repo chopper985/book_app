@@ -21,58 +21,6 @@ class ExploreGreeting extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Container(
-              width: 8.dsp,
-              height: 8.dsp,
-              decoration: const BoxDecoration(
-                color: AppPalette.teal,
-                shape: BoxShape.circle,
-              ),
-            ),
-            SizedBox(width: 4.dsp),
-            Expanded(
-              child: Text(
-                Strings.sessionActive.i18n,
-                style: AppText.mono(
-                  10,
-                  height: 14,
-                  color: AppPalette.teal,
-                  letterSpacing: 0.5,
-                ),
-              ),
-            ),
-            Container(
-              padding:
-                  EdgeInsets.symmetric(horizontal: 10.dsp, vertical: 4.dsp),
-              decoration: BoxDecoration(
-                color: AppPalette.surfaceHigh,
-                borderRadius: BorderRadius.circular(8.dsp),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AppSvg(
-                    Assets.figma.explore.icStreak,
-                    width: 9.33,
-                    height: 10.5,
-                  ),
-                  SizedBox(width: 6.dsp),
-                  Text(
-                    Strings.streakDays.i18n.fill([learner.streakDays]),
-                    style: AppText.mono(
-                      12,
-                      height: 16,
-                      color: AppPalette.teal,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 8.dsp),
         Text(
           Strings.greeting.i18n.fill([learner.displayName]),
           style: AppText.sans(
@@ -82,19 +30,6 @@ class ExploreGreeting extends StatelessWidget {
             letterSpacing: -0.6,
           ),
         ),
-        SizedBox(height: 2.dsp),
-        Text(
-          Strings.greetingSubtitle.i18n,
-          style: AppText.sans(
-            14,
-            height: 20,
-            color: AppPalette.onSurfaceVariant,
-          ),
-        ),
-        if (learner.daysToInterview case final days?) ...[
-          SizedBox(height: 8.dsp),
-          _InterviewCountdown(days: days),
-        ],
         SizedBox(height: 12.dsp),
         IntrinsicHeight(
           child: Row(
@@ -195,38 +130,6 @@ class _StatTile extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _InterviewCountdown extends StatelessWidget {
-  final int days;
-
-  const _InterviewCountdown({required this.days});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.dsp, vertical: 6.dsp),
-      decoration: BoxDecoration(
-        color: AppPalette.purpleContainer,
-        borderRadius: BorderRadius.circular(8.dsp),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.event, size: 14.dsp, color: AppPalette.purple),
-          SizedBox(width: 6.dsp),
-          Flexible(
-            child: Text(
-              days == 0
-                  ? Strings.interviewToday.i18n
-                  : Strings.interviewInDays.i18n.fill([days]),
-              style: AppText.mono(11, height: 16, color: AppPalette.purple),
             ),
           ),
         ],

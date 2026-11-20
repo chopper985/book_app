@@ -10,6 +10,7 @@ import 'package:sizer/sizer.dart';
 // Project imports:
 import 'package:interview_practice/core/app/languages/data/localization.dart';
 import 'package:interview_practice/features/catalog/data/datasources/user_roadmaps_local_datasource.dart';
+import 'package:interview_practice/features/catalog/data/repositories/user_roadmaps_repository_impl.dart';
 import 'package:interview_practice/features/catalog/domain/entities/user_roadmap.dart';
 import 'package:interview_practice/features/catalog/domain/usecase/filter_tracks.dart';
 import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
@@ -112,11 +113,14 @@ void main() {
 
       await graph.roadmaps.add('dart', QuestionLevel.junior);
       await graph.roadmaps.add('go', QuestionLevel.fresher);
+      // dart:fresher was used last among the dart roadmaps.
+      await graph.roadmaps.select('dart:fresher');
+      await graph.roadmaps.select('go:fresher');
       await cubit.openTrack('dart');
       expect(
-        graph.roadmaps.active?.trackId,
-        'dart',
-        reason: 'reuses an existing dart roadmap instead of adding one',
+        graph.roadmaps.active?.id,
+        'dart:fresher',
+        reason: 'reuses the most recently selected dart roadmap',
       );
       expect(graph.roadmaps.roadmaps, hasLength(3));
       await cubit.close();
@@ -137,15 +141,38 @@ void main() {
       expect(repo.active?.id, 'dart:junior');
     });
 
-    test('removing the active one activates the newest remaining', () async {
+    test('removing the active one activates the last selected remaining',
+        () async {
       final repo = graph.roadmaps;
       await repo.add('a', QuestionLevel.fresher);
       await repo.add('b', QuestionLevel.fresher);
+      await repo.add('c', QuestionLevel.fresher);
       await repo.select('a:fresher');
+      await repo.select('c:fresher');
+      await repo.remove('c:fresher');
+      expect(repo.active?.id, 'a:fresher', reason: 'used before c, not b');
       await repo.remove('a:fresher');
-      expect(repo.active?.id, 'b:fresher');
       await repo.remove('b:fresher');
       expect(repo.active, isNull);
+    });
+
+    test('selecting moves the roadmap to the top and survives a restart',
+        () async {
+      await graph.roadmaps.add('dart', QuestionLevel.junior);
+      await graph.roadmaps.add('go', QuestionLevel.fresher);
+      await graph.roadmaps.select('dart:junior');
+
+      final restarted =
+          UserRoadmapsRepositoryImpl(graph.roadmapsLocal, graph.clock);
+      expect(restarted.active?.id, 'dart:junior');
+      expect(
+        restarted.roadmaps.map((r) => r.id),
+        ['dart:junior', 'go:fresher'],
+      );
+
+      // Even without a stored active id, the last selected one opens.
+      graph.roadmapsLocal.json!.remove('active');
+      expect(restarted.active?.id, 'dart:junior');
     });
 
     test('json round trip skips unknown levels', () {

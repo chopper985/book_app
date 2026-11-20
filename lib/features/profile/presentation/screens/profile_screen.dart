@@ -13,9 +13,8 @@ import 'package:interview_practice/core/app/languages/service/service.dart';
 import 'package:interview_practice/core/app/themes/data/app_text.dart';
 import 'package:interview_practice/core/navigator/app_router.dart';
 import 'package:interview_practice/core/utils/sizer/design_size.dart';
-import 'package:interview_practice/core/utils/widgets/dev_header.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/learner_tab_header.dart';
 import 'package:interview_practice/features/profile/presentation/cubit/profile_cubit.dart';
-import 'package:interview_practice/features/profile/presentation/extensions/profile_labels.dart';
 import 'package:interview_practice/features/profile/presentation/widgets/choice_tile.dart';
 import 'package:interview_practice/features/profile/presentation/widgets/profile_sections.dart';
 
@@ -48,24 +47,17 @@ class _Body extends StatelessWidget {
     final profile = state.profile;
     return Column(
       children: [
-        DevHeader(
-          roleLabel: state.learner.experience.headerLabel,
-          streakDays: state.learner.streakDays,
+        LearnerTabHeader(
+          learner: state.learner,
+          title: Strings.profileTitle.i18n,
+          subtitle: '${Strings.levelNumber.i18n.fill([state.learner.level])}'
+              ' · ${state.learner.xp} XP',
+          isProfileTab: true,
         ),
         Expanded(
           child: ListView(
             padding: EdgeInsets.fromLTRB(16.dsp, 16.dsp, 16.dsp, 24.dsp),
             children: [
-              Text(
-                Strings.profileTitle.i18n,
-                style: AppText.sans(
-                  24,
-                  height: 32,
-                  weight: FontWeight.w700,
-                  letterSpacing: -0.6,
-                ),
-              ),
-              SizedBox(height: 16.dsp),
               if (profile != null) ...[
                 ProfileCard(
                   profile: profile,

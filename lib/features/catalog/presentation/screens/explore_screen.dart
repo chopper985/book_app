@@ -8,16 +8,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:interview_practice/core/app/languages/data/localization.dart';
 import 'package:interview_practice/core/navigator/app_router.dart';
 import 'package:interview_practice/core/utils/sizer/design_size.dart';
-import 'package:interview_practice/core/utils/widgets/dev_header.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/explore_cubit.dart';
 import 'package:interview_practice/features/catalog/presentation/widgets/continue_practice_card.dart';
 import 'package:interview_practice/features/catalog/presentation/widgets/daily_challenge_card.dart';
 import 'package:interview_practice/features/catalog/presentation/widgets/explore_greeting.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/learner_tab_header.dart';
 import 'package:interview_practice/features/catalog/presentation/widgets/roadmap_list_section.dart';
 import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:interview_practice/features/content/presentation/widgets/content_issue_view.dart';
 import 'package:interview_practice/features/practice/presentation/helpers/practice_launcher.dart';
-import 'package:interview_practice/features/profile/presentation/extensions/profile_labels.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
@@ -61,9 +60,14 @@ class _ExploreBody extends StatelessWidget {
 
     return Column(
       children: [
-        DevHeader(
-          roleLabel: learner.experience.headerLabel,
-          streakDays: learner.streakDays,
+        LearnerTabHeader(
+          learner: learner,
+          title: Strings.explore.i18n,
+          subtitle: switch (learner.daysToInterview) {
+            null => Strings.greetingSubtitle.i18n,
+            0 => Strings.interviewToday.i18n,
+            final days => Strings.interviewInDays.i18n.fill([days]),
+          },
         ),
         Expanded(
           child: ListView(

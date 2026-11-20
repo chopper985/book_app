@@ -50,8 +50,8 @@ class RemoveUserRoadmap {
   Future<void> call(String roadmapId) => _repository.remove(roadmapId);
 }
 
-/// Opens [trackId] in the Roadmaps tab: reuses the learner's roadmap of that
-/// track when there is one, otherwise adds it at the suggested level.
+/// Opens [trackId] in the Roadmaps tab: reuses the learner's most recently
+/// selected roadmap of that track, otherwise adds it at the suggested level.
 @injectable
 class OpenTrackRoadmap {
   final UserRoadmapsRepository _repository;

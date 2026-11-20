@@ -9,16 +9,15 @@ import 'package:interview_practice/core/app/colors/app_palette.dart';
 import 'package:interview_practice/core/app/languages/data/localization.dart';
 import 'package:interview_practice/core/injection/injection_container.dart';
 import 'package:interview_practice/core/navigator/app_router.dart';
-import 'package:interview_practice/core/utils/widgets/dev_header.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/position_detail_cubit.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/roadmap_picker_cubit.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/roadmaps_cubit.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/track_detail_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/learner_tab_header.dart';
 import 'package:interview_practice/features/catalog/presentation/widgets/position_detail_view.dart';
 import 'package:interview_practice/features/catalog/presentation/widgets/roadmap_picker_view.dart';
 import 'package:interview_practice/features/catalog/presentation/widgets/roadmap_switcher.dart';
 import 'package:interview_practice/features/catalog/presentation/widgets/track_detail_view.dart';
-import 'package:interview_practice/features/profile/presentation/extensions/profile_labels.dart';
 
 /// "Lộ trình" tab: asks for a language and a level the first time, then shows
 /// the active roadmap (Figma 310:866) with a switcher to change or add one.
@@ -36,9 +35,17 @@ class RoadmapsScreen extends StatelessWidget {
             ),
           RoadmapsLoaded() => Column(
               children: [
-                DevHeader(
-                  roleLabel: state.learner.experience.headerLabel,
-                  streakDays: state.learner.streakDays,
+                LearnerTabHeader(
+                  learner: state.learner,
+                  title: Strings.navRoadmaps.i18n,
+                  subtitle: switch (state.active) {
+                    null => Strings.pickerTitle.i18n,
+                    final active => roadmapLabel(
+                        active,
+                        state.tracks[active.trackId],
+                        state.positions[active.positionId],
+                      ),
+                  },
                 ),
                 Expanded(child: _Content(state: state)),
               ],

@@ -12,7 +12,7 @@ final class RoadmapsLoading extends RoadmapsState {
 }
 
 final class RoadmapsLoaded extends RoadmapsState {
-  /// Most recently added first.
+  /// Most recently selected first.
   final List<UserRoadmap> roadmaps;
 
   /// `null` until the learner picks a language and a level.

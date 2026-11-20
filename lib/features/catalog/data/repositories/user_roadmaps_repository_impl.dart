@@ -69,9 +69,15 @@ class UserRoadmapsRepositoryImpl implements UserRoadmapsRepository {
   @override
   Future<void> select(String roadmapId) async {
     final current = _local.read().roadmaps;
-    if (current.any((r) => r.id == roadmapId)) {
-      await _save(current, roadmapId);
-    }
+    final selected = current.where((r) => r.id == roadmapId).firstOrNull;
+    if (selected == null) return;
+    // Most recently selected first, so every fallback (app start without a
+    // readable active id, removing the active one, opening a track from
+    // Explore) lands on the roadmap used last.
+    await _save(
+      [selected, ...current.where((r) => r.id != roadmapId)],
+      roadmapId,
+    );
   }
 
   @override

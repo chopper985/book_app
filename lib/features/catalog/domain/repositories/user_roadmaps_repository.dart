@@ -3,7 +3,7 @@ import 'package:interview_practice/features/catalog/domain/entities/user_roadmap
 import 'package:interview_practice/features/content/domain/entities/question.dart';
 
 abstract class UserRoadmapsRepository {
-  /// Most recently added first.
+  /// Most recently selected (or added) first.
   List<UserRoadmap> get roadmaps;
 
   /// The roadmap shown in the Roadmaps tab; `null` when none was added.
@@ -20,9 +20,10 @@ abstract class UserRoadmapsRepository {
     required QuestionLevel level,
   });
 
+  /// Makes it active and moves it to the top of [roadmaps].
   Future<void> select(String roadmapId);
 
-  /// Removes it; the newest remaining one becomes active.
+  /// Removes it; the most recently selected remaining one becomes active.
   Future<void> remove(String roadmapId);
 
   Stream<void> get changes;

@@ -14,6 +14,16 @@ class AppTheme {
 
   final ThemeData data;
 
+  /// Dark-only app: transparent status bar with light icons, and a navigation
+  /// bar matching the bottom nav. `statusBarBrightness` is the iOS setting.
+  static const SystemUiOverlayStyle systemOverlayStyle = SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarBrightness: Brightness.dark,
+    statusBarIconBrightness: Brightness.light,
+    systemNavigationBarColor: AppPalette.surfaceLowest,
+    systemNavigationBarIconBrightness: Brightness.light,
+  );
+
   factory AppTheme.dark() {
     final themeData = ThemeData(
       useMaterial3: true,
@@ -45,12 +55,7 @@ class AppTheme {
         surfaceTintColor: AppPalette.surfaceLowest,
         backgroundColor: AppPalette.surfaceLowest,
         iconTheme: IconThemeData(color: AppPalette.onSurface),
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarBrightness: Brightness.dark,
-          statusBarIconBrightness: Brightness.light,
-          systemNavigationBarColor: AppPalette.surfaceLowest,
-        ),
+        systemOverlayStyle: systemOverlayStyle,
       ),
       dividerTheme: const DividerThemeData(
         color: AppPalette.surfaceHighest,

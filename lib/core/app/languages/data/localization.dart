@@ -77,7 +77,7 @@ class Strings {
 
   // Practice tab
   static const String hubTitle = "hubTitle";
-  static const String hubSubtitle = "hubSubtitle";
+  static const String hubSessionCount = "hubSessionCount";
   static const String hubStatSessions = "hubStatSessions";
   static const String hubStatAverage = "hubStatAverage";
   static const String hubStatMistakes = "hubStatMistakes";
@@ -202,9 +202,7 @@ class Strings {
   static const String comingSoon = "comingSoon";
   static const String comingSoonMessage = "comingSoonMessage";
   static const String appName = "appName";
-  static const String sessionActive = "sessionActive";
   static const String streakDays = "streakDays";
-  static const String streakShort = "streakShort";
   static const String greeting = "greeting";
   static const String greetingSubtitle = "greetingSubtitle";
   static const String currentLevel = "currentLevel";

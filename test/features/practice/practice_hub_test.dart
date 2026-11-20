@@ -247,8 +247,10 @@ void main() {
     expect(find.text(Strings.hubMistakesTitle.i18n), findsOneWidget);
     expect(
       find.text(Strings.hubMistakeCount.i18n.fill([1])),
-      findsOneWidget,
+      findsNWidgets(2),
+      reason: 'header subtitle and the mistakes row',
     );
+    expect(find.text(Strings.hubTitle.i18n), findsOneWidget);
 
     await tester.pumpWidget(const SizedBox());
     await tester.runAsync(cubit.close);

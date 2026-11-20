@@ -13,6 +13,7 @@ import 'package:i18n_extension/i18n_extension.dart';
 import 'package:interview_practice/core/analytics/app_firebase.dart';
 import 'package:interview_practice/core/app/application/application.dart';
 import 'package:interview_practice/core/app/languages/service/service.dart';
+import 'package:interview_practice/core/app/themes/data/app_themes.dart';
 import 'package:interview_practice/features/app/app.dart';
 
 Future<void> main() async {
@@ -23,11 +24,10 @@ Future<void> main() async {
       // Keep native splash screen up until app is finished bootstrapping
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-      SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-        ),
-      );
+      // The Android launch theme is fullscreen; bring the system bars back
+      // and draw edge to edge with light icons over the dark UI.
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setSystemUIOverlayStyle(AppTheme.systemOverlayStyle);
 
       // Before anything else, so startup errors reach Crashlytics.
       await AppFirebase.initialize();

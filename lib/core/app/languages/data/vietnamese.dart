@@ -51,9 +51,7 @@ Map<String, String> vietnamese = {
   Strings.comingSoon: "Sắp ra mắt",
   Strings.comingSoonMessage: "Tính năng đang được phát triển.",
   Strings.appName: "DevInterview",
-  Strings.sessionActive: "IDE SESSION ACTIVE",
   Strings.streakDays: "%d ngày liên tiếp",
-  Strings.streakShort: "%dD",
   Strings.greeting: "Chào %s!",
   Strings.greetingSubtitle: "Sẵn sàng nâng trình phỏng vấn hôm nay?",
   Strings.currentLevel: "Cấp độ hiện tại",
@@ -211,7 +209,6 @@ Map<String, String> vietnamese = {
   Strings.interviewInDays: "Còn %d ngày đến buổi phỏng vấn",
   Strings.interviewToday: "Hôm nay phỏng vấn, cố lên!",
   Strings.hubTitle: "Luyện tập",
-  Strings.hubSubtitle: "Ôn câu sai, luyện nhanh và xem lại các lần đã làm.",
   Strings.hubStatSessions: "Lần luyện",
   Strings.hubStatAverage: "Điểm TB",
   Strings.hubStatMistakes: "Cần ôn",
@@ -318,4 +315,5 @@ Map<String, String> vietnamese = {
   Strings.positionMockSubtitle: "%d câu ngẫu nhiên từ mọi phần · %d phút",
   Strings.positionTracks: "Các phần cần học",
   Strings.trackBackToPosition: "Quay lại lộ trình",
+  Strings.hubSessionCount: "%d lần luyện",
 };

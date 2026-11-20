@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,20 +28,25 @@ class _AppState extends State<App> {
       providers: AppCubit.providers,
       child: Sizer(
         builder: (context, orientation, deviceType) {
-          return MaterialApp.router(
-            title: "DevInterview",
-            routerConfig: AppRouter.instance.router,
-            // Follows the in-app language so dates and pickers match it.
-            locale: context.locale,
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.dark().data,
-            themeMode: ThemeMode.dark,
-            supportedLocales: LanguageService.supportLanguages,
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
+          // Screens without an AppBar would otherwise fall back to the
+          // platform default (dark icons on the dark UI).
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: AppTheme.systemOverlayStyle,
+            child: MaterialApp.router(
+              title: "DevInterview",
+              routerConfig: AppRouter.instance.router,
+              // Follows the in-app language so dates and pickers match it.
+              locale: context.locale,
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.dark().data,
+              themeMode: ThemeMode.dark,
+              supportedLocales: LanguageService.supportLanguages,
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+            ),
           );
         },
       ),

@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 // Project imports:
+import 'package:interview_practice/core/utils/widgets/app_avatar.dart';
 import 'package:interview_practice/core/app/colors/app_palette.dart';
 import 'package:interview_practice/core/app/languages/data/localization.dart';
 import 'package:interview_practice/core/app/themes/data/app_text.dart';
@@ -381,7 +382,7 @@ class _AvatarEditor extends StatelessWidget {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                ProfileAvatar(path: path, name: name, size: 96),
+                AppAvatar(path: path, name: name, size: 96),
                 Positioned(
                   right: 0,
                   bottom: 0,

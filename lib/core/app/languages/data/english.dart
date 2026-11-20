@@ -52,9 +52,7 @@ Map<String, String> english = {
   Strings.comingSoon: "Coming soon",
   Strings.comingSoonMessage: "This feature is in progress.",
   Strings.appName: "DevInterview",
-  Strings.sessionActive: "IDE SESSION ACTIVE",
   Strings.streakDays: "%d-day streak",
-  Strings.streakShort: "%dD",
   Strings.greeting: "Hi %s!",
   Strings.greetingSubtitle: "Ready to level up your interview skills today?",
   Strings.currentLevel: "Current level",
@@ -213,8 +211,6 @@ Map<String, String> english = {
   Strings.interviewInDays: "Interview in %d days",
   Strings.interviewToday: "Interview today, good luck!",
   Strings.hubTitle: "Practice",
-  Strings.hubSubtitle:
-      "Review mistakes, practice quickly and revisit past sessions.",
   Strings.hubStatSessions: "Sessions",
   Strings.hubStatAverage: "Avg score",
   Strings.hubStatMistakes: "To review",
@@ -322,4 +318,5 @@ Map<String, String> english = {
   Strings.positionMockSubtitle: "%d random questions across all parts · %d min",
   Strings.positionTracks: "Parts to study",
   Strings.trackBackToPosition: "Back to roadmap",
+  Strings.hubSessionCount: "%d sessions",
 };
