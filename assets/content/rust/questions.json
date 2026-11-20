@@ -1,0 +1,3336 @@
+{
+  "questions": [
+    {
+      "id": "rust.ownership.001",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "ownership",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Sau đoạn `let a = String::from(\"hi\"); let b = a;`, điều gì đúng về `a`?",
+        "en": "After `let a = String::from(\"hi\"); let b = a;`, what is true about `a`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ownership đã chuyển sang `b`; dùng `a` sau đó là lỗi biên dịch",
+            "en": "Ownership moved to `b`; using `a` afterwards is a compile error"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`a` và `b` trỏ chung vùng heap, cả hai đều dùng được",
+            "en": "`a` and `b` share the same heap buffer and both stay usable"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`a` được deep copy tự động sang `b`",
+            "en": "`a` is deep-copied into `b` automatically"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`a` trở thành chuỗi rỗng `\"\"`",
+            "en": "`a` becomes an empty string `\"\"`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`String` không implement `Copy`, nên phép gán `let b = a;` là một *move*: con trỏ, độ dài và capacity được chép sang `b`, còn `a` bị coi là không hợp lệ. Dùng `a` sau đó gây lỗi `E0382: borrow of moved value`. Rust không cho hai biến cùng sở hữu một buffer vì cả hai sẽ cùng drop, gây double free. Muốn giữ cả hai thì gọi `a.clone()` để deep copy một cách tường minh.",
+        "en": "`String` does not implement `Copy`, so `let b = a;` is a *move*: the pointer, length and capacity are copied into `b` and `a` is treated as invalid. Using `a` afterwards fails with `E0382: borrow of moved value`. Rust does not let two variables own the same buffer because both would drop it, causing a double free. To keep both, call `a.clone()` for an explicit deep copy."
+      }
+    },
+    {
+      "id": "rust.ownership.002",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "ownership",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn main() {\n    let mut x = 5;\n    let y = x;\n    x += 1;\n    let s1 = String::from(\"a\");\n    let s2 = s1.clone();\n    println!(\"{} {} {} {}\", x, y, s1, s2);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "6 6 a a",
+            "en": "6 6 a a"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "6 5 a a",
+            "en": "6 5 a a"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch: `x` đã bị move sang `y`",
+            "en": "Compile error: `x` was moved into `y`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch: `s1` đã bị move sang `s2`",
+            "en": "Compile error: `s1` was moved into `s2`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`i32` implement `Copy` nên `let y = x;` sao chép giá trị; `x` vẫn dùng được và việc tăng `x` không ảnh hưởng `y`, nên in `6 5`. `s1.clone()` tạo một `String` mới trên heap, `s1` không bị move nên vẫn in được. Đáp án `6 6` sai vì `y` là bản sao độc lập chứ không phải tham chiếu tới `x`.",
+        "en": "`i32` implements `Copy`, so `let y = x;` copies the value; `x` stays usable and incrementing it does not affect `y`, so it prints `6 5`. `s1.clone()` creates a new `String` on the heap and `s1` is not moved, so it can still be printed. `6 6` is wrong because `y` is an independent copy, not a reference to `x`."
+      }
+    },
+    {
+      "id": "rust.ownership.003",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "ownership",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Phân biệt `String` và `&str`. Vì sao tham số hàm thường nên là `&str`?",
+        "en": "Explain the difference between `String` and `&str`. Why should function parameters usually be `&str`?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`String` sở hữu dữ liệu UTF-8 trên heap, có thể thay đổi và tăng kích thước",
+          "en": "`String` owns UTF-8 data on the heap and can grow and be mutated"
+        },
+        {
+          "vi": "`&str` là string slice được mượn: con trỏ + độ dài, không sở hữu dữ liệu",
+          "en": "`&str` is a borrowed string slice: pointer + length, it owns nothing"
+        },
+        {
+          "vi": "String literal có kiểu `&'static str`, nằm sẵn trong binary",
+          "en": "String literals have type `&'static str` and live in the binary"
+        },
+        {
+          "vi": "Nhận `&str` linh hoạt hơn vì `&String` tự deref coercion thành `&str`, và literal truyền thẳng được",
+          "en": "Taking `&str` is more flexible: `&String` deref-coerces to `&str` and literals can be passed directly"
+        }
+      ],
+      "explanation": {
+        "vi": "`String` là kiểu sở hữu: nó giữ buffer UTF-8 trên heap, có thể `push_str` và bị drop khi owner ra khỏi scope. `&str` chỉ là một view mượn vào dữ liệu UTF-8 nằm ở đâu đó (trong một `String`, trong binary với literal `&'static str`…). Hàm chỉ cần đọc chuỗi nên nhận `&str`: caller có thể truyền `&my_string` (deref coercion) hoặc `\"literal\"` mà không phải cấp phát. Chỉ nhận `String` khi hàm thật sự cần ownership, ví dụ lưu vào struct.",
+        "en": "`String` is an owned type: it holds a UTF-8 buffer on the heap, can `push_str`, and is dropped when its owner goes out of scope. `&str` is just a borrowed view into UTF-8 data living somewhere else (inside a `String`, or in the binary for a `&'static str` literal). A function that only reads should take `&str`: callers can pass `&my_string` (deref coercion) or a `\"literal\"` without allocating. Take `String` only when the function really needs ownership, e.g. to store it in a struct."
+      }
+    },
+    {
+      "id": "rust.ownership.004",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "ownership",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch. Nguyên nhân chính là gì?",
+        "en": "This code does not compile. What is the main cause?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn print_len(s: String) -> usize {\n    s.len()\n}\n\nfn main() {\n    let name = String::from(\"Rust\");\n    let n = print_len(name);\n    println!(\"{} {}\", name, n);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`s.len()` trả về `i32`, không khớp `usize`",
+            "en": "`s.len()` returns `i32`, which does not match `usize`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`println!` không in được `String`",
+            "en": "`println!` cannot print a `String`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`name` đã bị move vào `print_len` nên không dùng lại trong `println!` được",
+            "en": "`name` was moved into `print_len`, so it cannot be used again in `println!`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải khai báo `let mut name` mới truyền vào hàm được",
+            "en": "`name` must be declared `let mut` to be passed to a function"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Truyền `String` theo giá trị vào hàm sẽ chuyển ownership vào tham số `s`; khi hàm kết thúc `s` bị drop. Vì vậy dòng `println!` dùng `name` báo lỗi `E0382: borrow of moved value: name`. Cách sửa: cho hàm nhận `&str` và gọi `print_len(&name)`. `mut` không liên quan vì hàm không thay đổi chuỗi.",
+        "en": "Passing a `String` by value moves ownership into the parameter `s`; when the function ends, `s` is dropped. So the `println!` line that uses `name` fails with `E0382: borrow of moved value: name`. Fix: make the function take `&str` and call `print_len(&name)`. `mut` is irrelevant because the function does not modify the string."
+      }
+    },
+    {
+      "id": "rust.ownership.005",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "ownership",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì (theo thứ tự dòng)?",
+        "en": "What does the following code print (line by line)?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "struct Noisy(&'static str);\n\nimpl Drop for Noisy {\n    fn drop(&mut self) {\n        println!(\"drop {}\", self.0);\n    }\n}\n\nfn main() {\n    let _a = Noisy(\"a\");\n    let _b = Noisy(\"b\");\n    let _ = Noisy(\"c\");\n    println!(\"end\");\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "end / drop a / drop b / drop c",
+            "en": "end / drop a / drop b / drop c"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "end / drop c / drop b / drop a",
+            "en": "end / drop c / drop b / drop a"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "drop c / end / drop a / drop b",
+            "en": "drop c / end / drop a / drop b"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "drop c / end / drop b / drop a",
+            "en": "drop c / end / drop b / drop a"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`let _ = expr;` không bind giá trị vào biến nào nên `Noisy(\"c\")` là temporary bị drop ngay cuối câu lệnh, in `drop c` trước `end`. Ngược lại `_a`, `_b` là biến thật (tiền tố `_` chỉ để tắt cảnh báo unused) nên sống tới cuối scope. Biến local được drop theo thứ tự ngược với thứ tự khai báo nên `b` drop trước `a`. Nhầm `_` với `_guard` là lỗi hay gặp: `let _ = mutex.lock().unwrap();` sẽ nhả khóa ngay lập tức.",
+        "en": "`let _ = expr;` binds nothing, so `Noisy(\"c\")` is a temporary dropped at the end of the statement, printing `drop c` before `end`. In contrast `_a` and `_b` are real variables (the `_` prefix only silences the unused warning), so they live until the end of the scope. Locals are dropped in reverse declaration order, so `b` drops before `a`. Confusing `_` with `_guard` is a common bug: `let _ = mutex.lock().unwrap();` releases the lock immediately."
+      }
+    },
+    {
+      "id": "rust.ownership.006",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "ownership",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao không thể `#[derive(Clone, Copy)]` cho `struct User { id: u32, name: String }`?",
+        "en": "Why can't you `#[derive(Clone, Copy)]` on `struct User { id: u32, name: String }`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Copy` chỉ áp dụng cho enum, không cho struct",
+            "en": "`Copy` only applies to enums, not structs"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải viết `Copy` trước `Clone` trong danh sách `derive`",
+            "en": "`Copy` must be listed before `Clone` in the `derive` list"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Copy` yêu cầu mọi field đều `Copy`, còn `String` sở hữu bộ nhớ heap nên chỉ `Clone` được",
+            "en": "`Copy` requires every field to be `Copy`, and `String` owns heap memory so it is only `Clone`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Struct có nhiều hơn một field không thể là `Copy`",
+            "en": "Structs with more than one field cannot be `Copy`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Copy` nghĩa là sao chép từng bit là đủ để tạo bản sao an toàn, vì thế mọi field phải `Copy` và kiểu không được implement `Drop`. `String` quản lý buffer trên heap; copy bit sẽ tạo hai owner cùng giải phóng một vùng nhớ. Compiler báo `E0204: the trait Copy cannot be implemented for this type`. Giải pháp là chỉ derive `Clone` và gọi `.clone()` khi thật sự cần. Thứ tự trong `derive` không quan trọng, và struct nhiều field vẫn `Copy` được nếu mọi field đều `Copy`.",
+        "en": "`Copy` means a bitwise copy is enough to produce a valid duplicate, so every field must be `Copy` and the type must not implement `Drop`. `String` manages a heap buffer; a bitwise copy would create two owners freeing the same memory. The compiler reports `E0204: the trait Copy cannot be implemented for this type`. The fix is to derive only `Clone` and call `.clone()` when you really need a copy. Order inside `derive` does not matter, and multi-field structs can be `Copy` if all fields are `Copy`."
+      }
+    },
+    {
+      "id": "rust.ownership.007",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "ownership",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đoạn code sau báo lỗi gì và cách sửa phù hợp là gì?",
+        "en": "What error does this code produce, and what is a good fix?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn main() {\n    let names = vec![String::from(\"An\"), String::from(\"Binh\")];\n    let first = names[0];\n    println!(\"{} {}\", first, names.len());\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`E0507`: không thể move ra khỏi index của `Vec`; dùng `&names[0]` hoặc `names[0].clone()`",
+            "en": "`E0507`: cannot move out of an index of a `Vec`; use `&names[0]` or `names[0].clone()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Panic lúc chạy vì index ngoài phạm vi",
+            "en": "Runtime panic because the index is out of bounds"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Biên dịch được và in `An 2`",
+            "en": "Compiles and prints `An 2`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`E0382`: toàn bộ `names` đã bị move vào `first`",
+            "en": "`E0382`: the whole `names` was moved into `first`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`names[0]` là một place expression trỏ vào phần tử bên trong `Vec`; gán nó cho biến sẽ cố move `String` ra ngoài, để lại một chỗ trống không hợp lệ trong vector. Rust cấm điều này với lỗi `E0507: cannot move out of index of Vec<String>`. Có thể mượn bằng `&names[0]`, sao chép bằng `.clone()`, hoặc thật sự lấy ra bằng `remove`/`swap_remove`/`into_iter`. Nếu phần tử là kiểu `Copy` như `i32` thì code này hợp lệ.",
+        "en": "`names[0]` is a place expression pointing inside the `Vec`; binding it to a variable tries to move the `String` out, leaving an invalid hole in the vector. Rust forbids this with `E0507: cannot move out of index of Vec<String>`. You can borrow with `&names[0]`, copy with `.clone()`, or really take it out with `remove`/`swap_remove`/`into_iter`. If the element were a `Copy` type like `i32`, this code would be fine."
+      }
+    },
+    {
+      "id": "rust.ownership.008",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "ownership",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `impl Builder { fn finish(&mut self) -> String { ... } }`, bạn muốn trả về field `self.buf: String` mà không clone và vẫn để `Builder` ở trạng thái hợp lệ. Cách nào đúng?",
+        "en": "In `impl Builder { fn finish(&mut self) -> String { ... } }`, you want to return the field `self.buf: String` without cloning while leaving `Builder` valid. Which approach is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`std::mem::take(&mut self.buf)`",
+            "en": "`std::mem::take(&mut self.buf)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`self.buf` (move trực tiếp ra ngoài)",
+            "en": "`self.buf` (move it out directly)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`*&self.buf`",
+            "en": "`*&self.buf`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`self.buf.as_str().to_owned()` vì không cấp phát",
+            "en": "`self.buf.as_str().to_owned()`, since it does not allocate"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Qua `&mut self` ta chỉ mượn `Builder`, nên `return self.buf` lỗi `E0507: cannot move out of self.buf which is behind a mutable reference` vì nó để lại field chưa khởi tạo. `std::mem::take` thay field bằng `Default::default()` (ở đây là `String::new()`, không cấp phát) và trả về giá trị cũ, nên vừa không clone vừa giữ struct hợp lệ. Tương tự có `mem::replace` khi cần giá trị thay thế khác và `Option::take` cho field kiểu `Option`. `to_owned()` thực chất cấp phát và copy toàn bộ chuỗi.",
+        "en": "Through `&mut self` we only borrow the `Builder`, so `return self.buf` fails with `E0507: cannot move out of self.buf which is behind a mutable reference`, because it would leave the field uninitialized. `std::mem::take` replaces the field with `Default::default()` (here `String::new()`, which does not allocate) and returns the old value, so there is no clone and the struct stays valid. Similarly, `mem::replace` takes a custom replacement and `Option::take` works for `Option` fields. `to_owned()` actually allocates and copies the whole string."
+      }
+    },
+    {
+      "id": "rust.borrowing.001",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "borrowing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `fn print_len(s: &String)` được gọi bằng `print_len(&name)`, điều gì xảy ra với `name` khi hàm kết thúc?",
+        "en": "Given `fn print_len(s: &String)` called as `print_len(&name)`, what happens to `name` when the function returns?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`name` bị drop vì tham số `s` ra khỏi scope",
+            "en": "`name` is dropped because the parameter `s` goes out of scope"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`name` bị move vào hàm và không dùng lại được",
+            "en": "`name` is moved into the function and cannot be reused"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không gì cả: hàm chỉ mượn, `name` vẫn là owner và dùng tiếp được",
+            "en": "Nothing: the function only borrows, `name` stays the owner and remains usable"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`name` bị clone ngầm khi truyền vào hàm",
+            "en": "`name` is implicitly cloned when passed in"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`&name` tạo một tham chiếu (borrow) mà không chuyển ownership. Khi `s` ra khỏi scope, chỉ tham chiếu biến mất; dữ liệu không bị drop vì `s` không sở hữu nó. Cũng không có clone nào xảy ra: chỉ một con trỏ được truyền vào. Vì vậy khi hàm chỉ cần đọc dữ liệu, nên nhận tham chiếu thay vì nhận theo giá trị.",
+        "en": "`&name` creates a reference (a borrow) without transferring ownership. When `s` goes out of scope only the reference disappears; the data is not dropped because `s` does not own it. No clone happens either: only a pointer is passed. That is why functions that only read data should take a reference instead of taking ownership."
+      }
+    },
+    {
+      "id": "rust.borrowing.002",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "borrowing",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Dòng nào gây lỗi biên dịch?",
+        "en": "Which line causes a compile error?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn main() {\n    let mut v = vec![1, 2, 3];\n    let first = &v[0];\n    v.push(4);\n    println!(\"{}\", first);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`let mut v = vec![1, 2, 3];`",
+            "en": "`let mut v = vec![1, 2, 3];`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`let first = &v[0];`",
+            "en": "`let first = &v[0];`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`v.push(4);`",
+            "en": "`v.push(4);`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`println!(\"{}\", first);`",
+            "en": "`println!(\"{}\", first);`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`first` là shared borrow vào `v` và còn được dùng ở `println!`, nên trong khoảng đó không được tạo mutable borrow. `v.push(4)` cần `&mut v` và có thể reallocate buffer, khiến `first` trỏ vào vùng nhớ đã giải phóng. Compiler báo `E0502: cannot borrow v as mutable because it is also borrowed as immutable` tại dòng `push`. Sửa bằng cách copy giá trị ra trước (`let first = v[0];`) hoặc dùng `first` xong rồi mới `push`.",
+        "en": "`first` is a shared borrow of `v` that is still used in `println!`, so no mutable borrow may be created in between. `v.push(4)` needs `&mut v` and may reallocate the buffer, which would leave `first` pointing at freed memory. The compiler reports `E0502: cannot borrow v as mutable because it is also borrowed as immutable` on the `push` line. Fix it by copying the value first (`let first = v[0];`) or by finishing with `first` before calling `push`."
+      }
+    },
+    {
+      "id": "rust.borrowing.003",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "borrowing",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày các quy tắc borrowing của Rust và vì sao chúng giúp tránh data race ngay lúc biên dịch.",
+        "en": "Describe Rust's borrowing rules and why they prevent data races at compile time."
+      },
+      "keyPoints": [
+        {
+          "vi": "Tại một thời điểm: nhiều `&T` HOẶC đúng một `&mut T`, không được đồng thời",
+          "en": "At any time: many `&T` OR exactly one `&mut T`, never both"
+        },
+        {
+          "vi": "Tham chiếu luôn phải hợp lệ, không được sống lâu hơn owner (không có dangling reference)",
+          "en": "References must always be valid and never outlive the owner (no dangling references)"
+        },
+        {
+          "vi": "Borrow checker kiểm tra lúc biên dịch, không tốn chi phí runtime",
+          "en": "The borrow checker runs at compile time with no runtime cost"
+        },
+        {
+          "vi": "Data race cần hai truy cập đồng thời trong đó có ít nhất một ghi; quy tắc 'aliasing XOR mutation' loại bỏ điều kiện đó",
+          "en": "A data race needs two concurrent accesses with at least one write; the 'aliasing XOR mutation' rule removes that condition"
+        }
+      ],
+      "explanation": {
+        "vi": "Rust cho phép hoặc nhiều tham chiếu chỉ đọc `&T`, hoặc duy nhất một tham chiếu ghi `&mut T` tới cùng dữ liệu, và mọi tham chiếu phải hết hạn trước khi owner bị drop. Data race xảy ra khi nhiều luồng truy cập cùng vùng nhớ mà ít nhất một luồng ghi và không đồng bộ; quy tắc 'aliasing XOR mutation' khiến tình huống đó không thể viết được trong safe Rust. Toàn bộ việc kiểm tra diễn ra lúc biên dịch nên không có chi phí runtime. Muốn chia sẻ và thay đổi cùng lúc thì phải dùng công cụ đồng bộ rõ ràng như `Mutex` hoặc `RefCell`.",
+        "en": "Rust allows either many read-only references `&T` or exactly one writable reference `&mut T` to the same data, and every reference must end before the owner is dropped. A data race happens when several threads access the same memory, at least one writes, and there is no synchronization; 'aliasing XOR mutation' makes that impossible to express in safe Rust. All checks happen at compile time, so there is no runtime cost. To share and mutate at the same time you must use explicit tools such as `Mutex` or `RefCell`."
+      }
+    },
+    {
+      "id": "rust.borrowing.004",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "borrowing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao hàm `make_greeting` không biên dịch, và cách sửa đúng nhất là gì?",
+        "en": "Why does `make_greeting` fail to compile, and what is the best fix?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn make_greeting() -> &String {\n    let s = String::from(\"hello\");\n    &s\n}\n\nfn main() {\n    println!(\"{}\", make_greeting());\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thiếu `mut` ở `let s`",
+            "en": "`let s` is missing `mut`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ cần thêm lifetime: `-> &'static String`",
+            "en": "Just add a lifetime: `-> &'static String`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`s` bị drop khi hàm kết thúc nên tham chiếu sẽ dangling; nên trả về `String` thay vì `&String`",
+            "en": "`s` is dropped when the function returns, so the reference would dangle; return `String` instead of `&String`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`println!` không nhận tham chiếu",
+            "en": "`println!` does not accept references"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Compiler báo `E0106: missing lifetime specifier` vì kiểu trả về là tham chiếu nhưng không có tham số nào để nó mượn. Bản chất là `s` là biến local, bị drop ở cuối hàm, nên `&s` sẽ trỏ vào vùng nhớ đã giải phóng. Thêm `'static` không giải quyết được: compiler chuyển sang báo `E0515: cannot return reference to local variable`. Cách đúng là trả về chính `String` để chuyển ownership ra cho caller.",
+        "en": "The compiler reports `E0106: missing lifetime specifier` because the return type is a reference but there is no parameter it could borrow from. The real issue is that `s` is a local dropped at the end of the function, so `&s` would point to freed memory. Adding `'static` does not help: the compiler then reports `E0515: cannot return reference to local variable`. The right fix is to return the `String` itself, moving ownership to the caller."
+      }
+    },
+    {
+      "id": "rust.borrowing.005",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "borrowing",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Chữ ký hàm nào sau đây KHÔNG biên dịch nếu không có lifetime annotation tường minh?",
+        "en": "Which function signature does NOT compile without an explicit lifetime annotation?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`fn first_word(s: &str) -> &str`",
+            "en": "`fn first_word(s: &str) -> &str`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`fn label(&self, prefix: &str) -> &str` (trong một `impl`)",
+            "en": "`fn label(&self, prefix: &str) -> &str` (inside an `impl`)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`fn pick(a: &str, b: &str) -> &str`",
+            "en": "`fn pick(a: &str, b: &str) -> &str`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`fn count(a: &str, b: &str) -> usize`",
+            "en": "`fn count(a: &str, b: &str) -> usize`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Lifetime elision có ba quy tắc: mỗi tham số tham chiếu nhận một lifetime riêng; nếu chỉ có đúng một lifetime đầu vào thì output dùng lifetime đó; nếu có `&self`/`&mut self` thì output dùng lifetime của `self`. `pick` có hai tham số tham chiếu và không có `self`, nên compiler không biết kết quả mượn từ `a` hay `b` và báo `E0106`. `first_word` thỏa quy tắc 2, method có `&self` thỏa quy tắc 3, còn `count` trả `usize` nên không cần lifetime cho output.",
+        "en": "Lifetime elision has three rules: each reference parameter gets its own lifetime; if there is exactly one input lifetime, the output uses it; if there is `&self`/`&mut self`, the output uses the lifetime of `self`. `pick` has two reference parameters and no `self`, so the compiler cannot tell whether the result borrows from `a` or `b` and reports `E0106`. `first_word` matches rule 2, the `&self` method matches rule 3, and `count` returns `usize` so its output needs no lifetime."
+      }
+    },
+    {
+      "id": "rust.borrowing.006",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "borrowing",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau báo lỗi gì?",
+        "en": "What error does this code report?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {\n    if x.len() > y.len() { x } else { y }\n}\n\nfn main() {\n    let a = String::from(\"hello\");\n    let result;\n    {\n        let b = String::from(\"hi\");\n        result = longest(&a, &b);\n    }\n    println!(\"{}\", result);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`a` không sống đủ lâu vì được khai báo trước `result`",
+            "en": "`a` does not live long enough because it is declared before `result`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`b` không sống đủ lâu (`E0597`) vì `result` còn được dùng sau khi `b` bị drop",
+            "en": "`b` does not live long enough (`E0597`) because `result` is used after `b` is dropped"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không lỗi: `longest` trả về `a` vì `\"hello\"` dài hơn",
+            "en": "No error: `longest` returns `a` because `\"hello\"` is longer"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không được khai báo `let result;` mà không khởi tạo ngay",
+            "en": "`let result;` cannot be declared without an initializer"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Chữ ký `longest<'a>` nói rằng kết quả chỉ sống tối đa bằng lifetime ngắn hơn trong hai tham số, ở đây là lifetime của `b`, kết thúc tại dấu `}` của block bên trong. Vì `result` được dùng sau block đó, compiler báo `E0597: b does not live long enough`. Borrow checker không chạy code để biết lúc chạy hàm sẽ trả `a`; nó chỉ dựa vào chữ ký hàm. Khai báo trễ `let result;` là hợp lệ miễn được gán trước khi đọc.",
+        "en": "The signature `longest<'a>` says the result lives at most as long as the shorter of the two inputs, here the lifetime of `b`, which ends at the inner block's `}`. Because `result` is used after that block, the compiler reports `E0597: b does not live long enough`. The borrow checker does not run the code to see that `a` would be returned; it relies only on the signature. Deferred initialization with `let result;` is fine as long as it is assigned before being read."
+      }
+    },
+    {
+      "id": "rust.borrowing.007",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "borrowing",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau có biên dịch không? Nếu có thì in ra gì?",
+        "en": "Does this code compile? If so, what does it print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn main() {\n    let mut s = String::from(\"a\");\n    let r = &s;\n    println!(\"{}\", r);\n    s.push('b');\n    println!(\"{}\", s);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lỗi biên dịch `E0502` vì `r` vẫn còn trong scope",
+            "en": "Compile error `E0502` because `r` is still in scope"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "a / a",
+            "en": "a / a"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "a / ab",
+            "en": "a / ab"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "ab / ab",
+            "en": "ab / ab"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Từ Rust 2018, borrow checker dùng Non-Lexical Lifetimes (NLL): một borrow kết thúc ở lần dùng cuối cùng, không phải ở cuối scope lexical. `r` được dùng lần cuối ở `println!` thứ nhất, nên sau đó `s.push('b')` lấy `&mut s` là hợp lệ. Kết quả in `a` rồi `ab`. Chỉ khi dùng `r` thêm một lần sau `push` thì mới lỗi `E0502`.",
+        "en": "Since Rust 2018 the borrow checker uses Non-Lexical Lifetimes (NLL): a borrow ends at its last use, not at the end of its lexical scope. `r` is last used in the first `println!`, so `s.push('b')` can take `&mut s` afterwards. It prints `a` then `ab`. Only using `r` again after the `push` would trigger `E0502`."
+      }
+    },
+    {
+      "id": "rust.borrowing.008",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "borrowing",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khai báo `struct Parser { input: &str }` báo lỗi `E0106`. Cách khai báo đúng là gì?",
+        "en": "The declaration `struct Parser { input: &str }` fails with `E0106`. What is the correct declaration?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`struct Parser { input: &'_ str }`",
+            "en": "`struct Parser { input: &'_ str }`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`struct Parser { input: &mut str }`",
+            "en": "`struct Parser { input: &mut str }`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`struct Parser { 'a input: &str }`",
+            "en": "`struct Parser { 'a input: &str }`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`struct Parser<'a> { input: &'a str }`",
+            "en": "`struct Parser<'a> { input: &'a str }`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Struct chứa tham chiếu phải khai báo tham số lifetime, nghĩa là một `Parser<'a>` không được sống lâu hơn dữ liệu mà `input` trỏ tới. Lifetime elision không áp dụng cho định nghĩa struct, và `'_` không được dùng trong khai báo field nên vẫn lỗi. `&mut str` vẫn là tham chiếu nên vẫn cần lifetime. Nếu không muốn quản lý lifetime, có thể lưu `String` để struct sở hữu dữ liệu.",
+        "en": "A struct holding a reference must declare a lifetime parameter, meaning a `Parser<'a>` cannot outlive the data `input` points to. Lifetime elision does not apply to struct definitions, and `'_` is not allowed in a field declaration, so it still errors. `&mut str` is still a reference and still needs a lifetime. If you do not want to manage lifetimes, store a `String` so the struct owns its data."
+      }
+    },
+    {
+      "id": "rust.borrowing.009",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "borrowing",
+      "level": "middle",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau có biên dịch không? Nếu có thì in ra gì?",
+        "en": "Does this code compile? If so, what does it print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn main() {\n    let mut v = vec![1, 2];\n    v.push(v.len());\n    println!(\"{:?}\", v);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lỗi `E0502`: `v` đang bị mượn mutable khi gọi `v.len()`",
+            "en": "Error `E0502`: `v` is mutably borrowed when `v.len()` is called"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[1, 2, 3]",
+            "en": "[1, 2, 3]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[1, 2, 2]",
+            "en": "[1, 2, 2]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "[1, 2, 0]",
+            "en": "[1, 2, 0]"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Theo trực giác, `v.push(...)` lấy `&mut v` trước rồi mới tính đối số `v.len()` cần `&v`, nên tưởng sẽ lỗi `E0502`. Thực tế compiler dùng *two-phase borrow* cho autoref của method call: mutable borrow được 'đặt chỗ' trước nhưng chỉ kích hoạt sau khi các đối số được tính xong, nên `v.len()` (bằng `2`) được đọc hợp lệ. Vì vậy kết quả là `[1, 2, 2]`. Two-phase borrow chỉ áp dụng cho autoref của method call và toán tử gán kép như `+=`, không phải cho mọi `&mut` viết tường minh.",
+        "en": "Intuitively, `v.push(...)` takes `&mut v` first and then evaluates the argument `v.len()`, which needs `&v`, so you might expect `E0502`. In fact the compiler uses a *two-phase borrow* for method-call autoref: the mutable borrow is reserved first but only activated after the arguments are evaluated, so reading `v.len()` (which is `2`) is allowed. The result is `[1, 2, 2]`. Two-phase borrows only apply to method-call autoref and compound assignment like `+=`, not to every explicit `&mut`."
+      }
+    },
+    {
+      "id": "rust.types.001",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "types",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Rust biểu diễn một giá trị 'có thể không có' như thế nào?",
+        "en": "How does Rust represent a value that may be absent?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gán `null` cho biến như các ngôn ngữ khác",
+            "en": "By assigning `null` to the variable like other languages"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Dùng con trỏ `*const T` có giá trị mặc định là 0",
+            "en": "With a `*const T` pointer that defaults to 0"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dùng enum `Option<T>` với hai biến thể `Some(T)` và `None`",
+            "en": "With the enum `Option<T>` and its variants `Some(T)` and `None`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thêm dấu `?` vào kiểu, ví dụ `i32?`",
+            "en": "By adding `?` to the type, e.g. `i32?`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Safe Rust không có `null`. `Option<T>` là enum chuẩn gồm `Some(T)` và `None`; vì `Option<i32>` là kiểu khác `i32`, compiler buộc bạn xử lý trường hợp `None` (bằng `match`, `if let`, `unwrap_or`…) trước khi dùng giá trị bên trong. Cú pháp `i32?` là của Kotlin/Dart, không tồn tại trong Rust, còn raw pointer chỉ dùng trong code `unsafe`.",
+        "en": "Safe Rust has no `null`. `Option<T>` is the standard enum with `Some(T)` and `None`; because `Option<i32>` is a different type from `i32`, the compiler forces you to handle `None` (with `match`, `if let`, `unwrap_or`…) before using the inner value. The `i32?` syntax belongs to Kotlin/Dart and does not exist in Rust, and raw pointers are for `unsafe` code only."
+      }
+    },
+    {
+      "id": "rust.types.002",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "types",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao đoạn code sau không biên dịch?",
+        "en": "Why does this code fail to compile?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "enum Direction { Up, Down, Left, Right }\n\nfn name(d: Direction) -> &'static str {\n    match d {\n        Direction::Up => \"up\",\n        Direction::Down => \"down\",\n        Direction::Left => \"left\",\n    }\n}\n\nfn main() {\n    println!(\"{}\", name(Direction::Up));\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mỗi nhánh `match` phải kết thúc bằng `return`",
+            "en": "Each `match` arm must end with `return`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`match` không exhaustive: thiếu nhánh `Direction::Right` (`E0004`)",
+            "en": "The `match` is not exhaustive: `Direction::Right` is missing (`E0004`)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không được trả `&'static str` từ một `match`",
+            "en": "You cannot return a `&'static str` from a `match`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Enum phải `#[derive(PartialEq)]` mới `match` được",
+            "en": "The enum must `#[derive(PartialEq)]` to be matched"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`match` trong Rust phải exhaustive: mọi biến thể của enum đều phải được xử lý. Thiếu `Direction::Right` nên compiler báo `E0004: non-exhaustive patterns: Direction::Right not covered`. Sửa bằng cách thêm nhánh còn thiếu hoặc dùng `_ =>`, nhưng liệt kê đủ sẽ tốt hơn vì khi thêm biến thể mới compiler sẽ nhắc bạn. Pattern matching trên enum không cần `PartialEq`; chỉ phép so sánh `==` mới cần.",
+        "en": "A Rust `match` must be exhaustive: every enum variant must be handled. `Direction::Right` is missing, so the compiler reports `E0004: non-exhaustive patterns: Direction::Right not covered`. Fix it by adding the missing arm or a `_ =>` arm, though listing every variant is better because the compiler will remind you when a new variant is added. Pattern matching on enums does not need `PartialEq`; only `==` does."
+      }
+    },
+    {
+      "id": "rust.types.003",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "types",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn classify(n: i32) -> &'static str {\n    match n {\n        i32::MIN..=-1 => \"negative\",\n        0 => \"zero\",\n        x if x % 2 == 0 => \"even\",\n        _ => \"odd\",\n    }\n}\n\nfn main() {\n    println!(\"{} {} {}\", classify(-3), classify(4), classify(7));\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "odd even odd",
+            "en": "odd even odd"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "negative even odd",
+            "en": "negative even odd"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "negative even even",
+            "en": "negative even even"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch: không được dùng guard `if` trong `match`",
+            "en": "Compile error: `if` guards are not allowed in `match`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Các nhánh `match` được thử từ trên xuống. `-3` khớp range `i32::MIN..=-1` nên ra `negative`. `4` không khớp hai nhánh đầu, tới nhánh `x if x % 2 == 0` có guard đúng nên ra `even`. `7` có guard sai nên rơi xuống `_` và ra `odd`. Match guard là cú pháp hợp lệ, và nhánh `_` giúp `match` exhaustive.",
+        "en": "`match` arms are tried top to bottom. `-3` matches the range `i32::MIN..=-1`, giving `negative`. `4` skips the first two arms and hits `x if x % 2 == 0`, whose guard is true, giving `even`. `7` fails the guard and falls through to `_`, giving `odd`. Match guards are valid syntax, and the `_` arm makes the `match` exhaustive."
+      }
+    },
+    {
+      "id": "rust.types.004",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "types",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn main() {\n    let values = [Some(3), None, Some(5)];\n    let mut total = 0;\n    for v in values {\n        if let Some(x) = v {\n            total += x;\n        } else {\n            total -= 1;\n        }\n    }\n    println!(\"{}\", total);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "7",
+            "en": "7"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "8",
+            "en": "8"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "9",
+            "en": "9"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch: `for` không lặp trực tiếp trên mảng được",
+            "en": "Compile error: `for` cannot iterate an array directly"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`if let Some(x) = v` chỉ chạy khối đầu khi `v` là `Some` và bind giá trị bên trong vào `x`; trường hợp `None` đi vào `else`. Tổng là `3 - 1 + 5 = 7`. Từ edition 2021, mảng implement `IntoIterator` theo giá trị nên `for v in values` lặp trực tiếp từng `Option<i32>`. `8` là kết quả nếu quên nhánh `else`.",
+        "en": "`if let Some(x) = v` runs the first block only when `v` is `Some`, binding the inner value to `x`; `None` goes to `else`. The total is `3 - 1 + 5 = 7`. Since edition 2021, arrays implement `IntoIterator` by value, so `for v in values` iterates each `Option<i32>` directly. `8` is what you get if you forget the `else` branch."
+      }
+    },
+    {
+      "id": "rust.types.005",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "types",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong đoạn code sau, `s` có kiểu gì và code có biên dịch không?",
+        "en": "In the code below, what is the type of `s`, and does it compile?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn main() {\n    let name_opt: Option<String> = Some(String::from(\"An\"));\n    match &name_opt {\n        Some(s) => println!(\"{}\", s.len()),\n        None => {}\n    }\n    println!(\"{:?}\", name_opt);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`s: String`, lỗi vì `name_opt` bị move vào `match`",
+            "en": "`s: String`; it fails because `name_opt` is moved into the `match`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`s: &&String`, biên dịch được",
+            "en": "`s: &&String`; it compiles"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`s: String`, biên dịch được vì `String` được clone ngầm",
+            "en": "`s: String`; it compiles because the `String` is cloned implicitly"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`s: &String`, biên dịch được vì `name_opt` chỉ bị mượn",
+            "en": "`s: &String`; it compiles because `name_opt` is only borrowed"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi match một tham chiếu `&Option<String>` bằng pattern không có `&`, Rust áp dụng *default binding modes* (match ergonomics): binding tự chuyển sang chế độ `ref`, nên `s` có kiểu `&String`. Nhờ vậy `name_opt` không bị move và vẫn in được sau `match`. Nếu viết `match name_opt { Some(s) => ... }` thì `s` là `String` và `name_opt` bị partial move. Rust không bao giờ clone ngầm.",
+        "en": "When you match a reference `&Option<String>` with a pattern that has no `&`, Rust applies *default binding modes* (match ergonomics): the binding switches to `ref` mode, so `s` is `&String`. As a result `name_opt` is not moved and can still be printed after the `match`. Writing `match name_opt { Some(s) => ... }` would make `s` a `String` and partially move `name_opt`. Rust never clones implicitly."
+      }
+    },
+    {
+      "id": "rust.types.006",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "types",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trong khối `impl`, phân biệt method nhận `self`, `&self`, `&mut self` và associated function (như `Self::new`). Khi nào dùng loại nào?",
+        "en": "Inside an `impl` block, distinguish methods taking `self`, `&self`, `&mut self` and associated functions (like `Self::new`). When do you use each?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`&self`: mượn chỉ đọc, gọi được nhiều lần (getter, tính toán)",
+          "en": "`&self`: read-only borrow, callable many times (getters, computations)"
+        },
+        {
+          "vi": "`&mut self`: mượn để thay đổi trạng thái, biến gọi phải là `mut`",
+          "en": "`&mut self`: borrows to mutate state; the receiver variable must be `mut`"
+        },
+        {
+          "vi": "`self`: lấy ownership, giá trị không dùng lại được; hợp với builder hoặc chuyển đổi `into_*`",
+          "en": "`self`: takes ownership so the value cannot be reused; fits builders and `into_*` conversions"
+        },
+        {
+          "vi": "Associated function không có `self`, gọi bằng `Type::func()`, ví dụ constructor `new`",
+          "en": "Associated functions have no `self` and are called as `Type::func()`, e.g. a `new` constructor"
+        }
+      ],
+      "explanation": {
+        "vi": "Receiver của method quyết định quan hệ ownership với giá trị: `&self` chỉ đọc, `&mut self` cho phép sửa, `self` tiêu thụ giá trị (ví dụ `String::into_bytes`, hoặc builder `fn build(self) -> Config`). Associated function không có receiver và được gọi qua tên kiểu, thường dùng làm constructor như `Vec::new()` hay `User::new(name)`. Nhờ auto-ref, `user.name()` tự thành `User::name(&user)`. Chọn receiver lỏng nhất đáp ứng nhu cầu để caller ít bị ràng buộc.",
+        "en": "A method's receiver defines its ownership relationship with the value: `&self` reads, `&mut self` mutates, `self` consumes it (e.g. `String::into_bytes` or a builder's `fn build(self) -> Config`). Associated functions have no receiver and are called through the type name, typically as constructors like `Vec::new()` or `User::new(name)`. Thanks to auto-ref, `user.name()` becomes `User::name(&user)`. Pick the least demanding receiver that does the job so callers are constrained as little as possible."
+      }
+    },
+    {
+      "id": "rust.types.007",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "types",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch. Vì sao?",
+        "en": "This code does not compile. Why?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn parse(input: &str) -> i32 {\n    let Ok(n) = input.parse::<i32>() else {\n        println!(\"invalid\");\n    };\n    n * 2\n}\n\nfn main() {\n    println!(\"{}\", parse(\"21\"));\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khối `else` của `let ... else` phải diverge (`return`, `panic!`, `break`…), ở đây nó trả về `()`",
+            "en": "The `else` block of `let ... else` must diverge (`return`, `panic!`, `break`…), but here it evaluates to `()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`let ... else` chỉ dùng được với `Option`, không dùng với `Result`",
+            "en": "`let ... else` only works with `Option`, not `Result`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Biến `n` chỉ tồn tại bên trong khối `else`",
+            "en": "The variable `n` only exists inside the `else` block"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`input.parse::<i32>()` bắt buộc phải đi kèm `?`",
+            "en": "`input.parse::<i32>()` must be followed by `?`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`let PATTERN = expr else { ... };` bind biến ra scope bên ngoài khi pattern khớp; nếu không khớp, khối `else` phải diverge (có kiểu `!`) vì sau đó không có giá trị nào cho `n`. Khối hiện tại chỉ gọi `println!` nên có kiểu `()`, compiler báo `E0308` với ghi chú `else` clause của `let...else` phải diverge. Sửa bằng cách thêm `return 0;` hoặc `panic!(...)` trong `else`. `let ... else` dùng được với mọi refutable pattern, kể cả `Ok(n)` của `Result`.",
+        "en": "`let PATTERN = expr else { ... };` binds variables into the outer scope when the pattern matches; otherwise the `else` block must diverge (have type `!`) because there is no value for `n` afterwards. Here the block only calls `println!` and has type `()`, so the compiler reports `E0308`, noting that the `else` clause of `let...else` must diverge. Fix it with `return 0;` or `panic!(...)` inside `else`. `let ... else` works with any refutable pattern, including `Ok(n)` on a `Result`."
+      }
+    },
+    {
+      "id": "rust.types.008",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "types",
+      "level": "middle",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Trên nền tảng 64-bit, đoạn code sau in ra gì?",
+        "en": "On a 64-bit platform, what does this code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "use std::mem::size_of;\n\nfn main() {\n    println!(\"{}\", size_of::<&u8>() == size_of::<Option<&u8>>());\n    println!(\"{}\", size_of::<Option<u32>>());\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "false / 8",
+            "en": "false / 8"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "true / 4",
+            "en": "true / 4"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "false / 5",
+            "en": "false / 5"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "true / 8",
+            "en": "true / 8"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`&u8` không bao giờ null, nên compiler dùng giá trị 0 (một *niche*) để biểu diễn `None`; nhờ đó `Option<&u8>` có cùng kích thước với con trỏ, tương tự `Option<Box<T>>` hay `Option<NonZeroU32>`. Với `u32`, mọi bit pattern đều hợp lệ nên không có niche và cần thêm discriminant; do alignment 4 byte, `Option<u32>` chiếm 8 byte chứ không phải 5. Đây là ví dụ zero-cost abstraction: `Option` của tham chiếu không tốn thêm bộ nhớ so với con trỏ nullable trong C.",
+        "en": "`&u8` is never null, so the compiler uses 0 (a *niche*) to represent `None`; therefore `Option<&u8>` is pointer-sized, just like `Option<Box<T>>` or `Option<NonZeroU32>`. For `u32` every bit pattern is valid, so there is no niche and a discriminant is needed; with 4-byte alignment, `Option<u32>` takes 8 bytes, not 5. This is a zero-cost abstraction: an `Option` of a reference costs no more memory than a nullable pointer in C."
+      }
+    },
+    {
+      "id": "rust.traits.001",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "traits",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trait trong Rust gần nhất với khái niệm nào?",
+        "en": "Which concept is a Rust trait closest to?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Class: chứa field dữ liệu và constructor",
+            "en": "A class: it holds data fields and constructors"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Interface: định nghĩa tập method chung, có thể kèm cài đặt mặc định",
+            "en": "An interface: it defines shared methods and may provide default implementations"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Macro: sinh code lúc biên dịch từ token",
+            "en": "A macro: it generates code from tokens at compile time"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Namespace: chỉ dùng để nhóm các hàm",
+            "en": "A namespace: it only groups functions"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Trait mô tả hành vi chung mà nhiều kiểu có thể cài đặt qua `impl Trait for Type`. Trait có thể có method mặc định, associated type và const, nhưng không chứa field dữ liệu. Rust không có kế thừa class; đa hình đạt được bằng trait kết hợp generic (static dispatch) hoặc `dyn Trait` (dynamic dispatch). Khác interface của Java, bạn còn có thể implement trait của mình cho kiểu có sẵn như `i32`.",
+        "en": "A trait describes shared behavior that many types implement via `impl Trait for Type`. Traits can have default methods, associated types and consts, but no data fields. Rust has no class inheritance; polymorphism comes from traits with generics (static dispatch) or `dyn Trait` (dynamic dispatch). Unlike Java interfaces, you can also implement your own trait for existing types such as `i32`."
+      }
+    },
+    {
+      "id": "rust.traits.002",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "traits",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Vì sao đoạn code sau không biên dịch?",
+        "en": "Why does this code fail to compile?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "struct Point {\n    x: i32,\n    y: i32,\n}\n\nfn main() {\n    let p = Point { x: 1, y: 2 };\n    println!(\"{:?}\", p);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`{:?}` chỉ in được kiểu số",
+            "en": "`{:?}` can only print numeric types"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Field `x`, `y` phải được khai báo `pub`",
+            "en": "Fields `x` and `y` must be declared `pub`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải in bằng `println!(\"{}\", p)` thay vì `{:?}`",
+            "en": "It must be printed with `println!(\"{}\", p)` instead of `{:?}`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Point` chưa implement `Debug`; thêm `#[derive(Debug)]` phía trên struct",
+            "en": "`Point` does not implement `Debug`; add `#[derive(Debug)]` above the struct"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`{:?}` yêu cầu kiểu implement trait `Debug`, còn `{}` yêu cầu `Display`. Struct tự định nghĩa không có sẵn trait nào, nên compiler báo `E0277: Point doesn't implement Debug`. Cách nhanh nhất là `#[derive(Debug)]`; còn `Display` thì phải tự `impl fmt::Display` vì không derive được. Đổi sang `{}` vẫn lỗi vì `Point` cũng chưa có `Display`.",
+        "en": "`{:?}` requires the type to implement `Debug`, while `{}` requires `Display`. A user-defined struct has neither by default, so the compiler reports `E0277: Point doesn't implement Debug`. The quickest fix is `#[derive(Debug)]`; `Display` must be implemented by hand with `impl fmt::Display` because it cannot be derived. Switching to `{}` still fails because `Point` has no `Display` either."
+      }
+    },
+    {
+      "id": "rust.traits.003",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "traits",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "trait Greet {\n    fn name(&self) -> String;\n    fn hello(&self) -> String {\n        format!(\"Hello, {}\", self.name())\n    }\n}\n\nstruct En;\nstruct Vi;\n\nimpl Greet for En {\n    fn name(&self) -> String { \"Ann\".to_string() }\n}\n\nimpl Greet for Vi {\n    fn name(&self) -> String { \"An\".to_string() }\n    fn hello(&self) -> String { format!(\"Xin chào, {}\", self.name()) }\n}\n\nfn main() {\n    println!(\"{} | {}\", En.hello(), Vi.hello());\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hello, Ann | Hello, An",
+            "en": "Hello, Ann | Hello, An"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lỗi biên dịch: `Vi` không được override method mặc định",
+            "en": "Compile error: `Vi` cannot override a default method"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hello, Ann | Xin chào, An",
+            "en": "Hello, Ann | Xin chào, An"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch: unit struct `En` không gọi method được",
+            "en": "Compile error: the unit struct `En` cannot call methods"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`En` chỉ cài đặt `name` nên dùng `hello` mặc định của trait, trong đó gọi `self.name()` của `En`, ra `Hello, Ann`. `Vi` override `hello` nên bản riêng của nó được dùng, ra `Xin chào, An`. Method mặc định có thể gọi các method bắt buộc khác của trait, và kiểu implement được phép ghi đè chúng. Unit struct như `En` vừa là kiểu vừa là giá trị, nên `En.hello()` hợp lệ.",
+        "en": "`En` implements only `name`, so it uses the trait's default `hello`, which calls `En`'s `self.name()` and yields `Hello, Ann`. `Vi` overrides `hello`, so its own version is used, yielding `Xin chào, An`. Default methods can call the trait's required methods, and implementors may override them. A unit struct like `En` is both a type and a value, so `En.hello()` is valid."
+      }
+    },
+    {
+      "id": "rust.traits.004",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "traits",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`#[derive(PartialEq)]` trên một struct mang lại khả năng gì?",
+        "en": "What does `#[derive(PartialEq)]` on a struct give you?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Sắp xếp và so sánh bằng `<`, `>`",
+            "en": "Ordering and comparison with `<`, `>`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "So sánh địa chỉ bộ nhớ của hai giá trị",
+            "en": "Comparing the memory addresses of two values"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dùng struct làm key của `HashMap` ngay lập tức",
+            "en": "Using the struct as a `HashMap` key right away"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "So sánh bằng `==`/`!=`, so sánh lần lượt từng field",
+            "en": "Comparison with `==`/`!=`, comparing field by field"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`derive(PartialEq)` sinh `impl PartialEq` so sánh từng field theo thứ tự khai báo (với enum thì so biến thể trước), nên mọi field cũng phải implement `PartialEq`. So sánh `<`, `>` cần `PartialOrd`. Làm key cho `HashMap` cần cả `Eq` và `Hash`, nên thường viết `#[derive(PartialEq, Eq, Hash)]`. Rust không so sánh theo địa chỉ trừ khi bạn dùng `std::ptr::eq` một cách tường minh.",
+        "en": "`derive(PartialEq)` generates an `impl PartialEq` that compares fields in declaration order (for enums, the variant first), so every field must implement `PartialEq` too. `<` and `>` require `PartialOrd`. A `HashMap` key needs both `Eq` and `Hash`, which is why you often see `#[derive(PartialEq, Eq, Hash)]`. Rust never compares by address unless you explicitly use `std::ptr::eq`."
+      }
+    },
+    {
+      "id": "rust.traits.005",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "traits",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao hàm sau không biên dịch và nên sửa thế nào?",
+        "en": "Why does this function fail to compile, and how should it be fixed?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "use std::fmt::Display;\n\nfn make(flag: bool) -> impl Display {\n    if flag { 42 } else { \"none\" }\n}\n\nfn main() {\n    println!(\"{}\", make(true));\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`i32` không implement `Display`",
+            "en": "`i32` does not implement `Display`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`impl Trait` chỉ dùng được ở vị trí tham số",
+            "en": "`impl Trait` is only allowed in argument position"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải thêm lifetime `'static` cho `\"none\"`",
+            "en": "`\"none\"` needs an explicit `'static` lifetime"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`impl Trait` ở vị trí trả về phải là một kiểu cụ thể duy nhất; muốn trả nhiều kiểu thì dùng `Box<dyn Display>`",
+            "en": "A return-position `impl Trait` must be one single concrete type; to return several types use `Box<dyn Display>`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`impl Trait` ở vị trí trả về là kiểu ẩn danh nhưng cố định: compiler chọn đúng một kiểu cụ thể cho mọi nhánh. Ở đây một nhánh là `i32`, nhánh kia là `&str`, nên compiler báo `E0308: if and else have incompatible types`. Dùng `Box<dyn Display>` (trait object, dynamic dispatch qua vtable) để trả nhiều kiểu khác nhau, hoặc gói chúng vào một enum. Cả `i32` và `&str` đều implement `Display`, nên đây không phải lỗi thiếu trait.",
+        "en": "A return-position `impl Trait` is an opaque but fixed type: the compiler picks exactly one concrete type for all branches. Here one branch is `i32` and the other `&str`, so it reports `E0308: if and else have incompatible types`. Use `Box<dyn Display>` (a trait object with vtable dispatch) to return different types, or wrap them in an enum. Both `i32` and `&str` implement `Display`, so this is not a missing-trait error."
+      }
+    },
+    {
+      "id": "rust.traits.006",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "traits",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Vì sao hàm `largest` không biên dịch?",
+        "en": "Why does `largest` fail to compile?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn largest<T>(items: &[T]) -> &T {\n    let mut max = &items[0];\n    for item in items {\n        if item > max {\n            max = item;\n        }\n    }\n    max\n}\n\nfn main() {\n    println!(\"{}\", largest(&[3, 9, 4]));\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`&items[0]` lỗi vì không mượn được phần tử của slice",
+            "en": "`&items[0]` fails because slice elements cannot be borrowed"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hàm generic không được trả về tham chiếu",
+            "en": "Generic functions cannot return references"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`for item in items` move từng phần tử ra khỏi slice",
+            "en": "`for item in items` moves each element out of the slice"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thiếu trait bound: cần `T: PartialOrd` để so sánh bằng `>`",
+            "en": "A missing trait bound: `T: PartialOrd` is needed to compare with `>`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Trong thân hàm generic, compiler chỉ cho dùng những thao tác mà trait bound đảm bảo. `T` không có bound nào nên compiler không biết `>` có tồn tại hay không, và báo `E0369: binary operation > cannot be applied to type &T`. Sửa thành `fn largest<T: PartialOrd>(items: &[T]) -> &T`. `for item in items` với `items: &[T]` cho ra `&T`, không move phần tử nào.",
+        "en": "Inside a generic function the compiler only allows operations guaranteed by the trait bounds. `T` has no bounds, so the compiler cannot know `>` exists and reports `E0369: binary operation > cannot be applied to type &T`. Fix: `fn largest<T: PartialOrd>(items: &[T]) -> &T`. `for item in items` with `items: &[T]` yields `&T`, so nothing is moved."
+      }
+    },
+    {
+      "id": "rust.traits.007",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "traits",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "trait Shape {\n    fn area(&self) -> f64;\n}\n\nstruct Square(f64);\nstruct Rect(f64, f64);\n\nimpl Shape for Square {\n    fn area(&self) -> f64 { self.0 * self.0 }\n}\n\nimpl Shape for Rect {\n    fn area(&self) -> f64 { self.0 * self.1 }\n}\n\nfn main() {\n    let shapes: Vec<Box<dyn Shape>> = vec![Box::new(Square(2.0)), Box::new(Rect(2.0, 3.0))];\n    let total: f64 = shapes.iter().map(|s| s.area()).sum();\n    println!(\"{}\", total);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "10",
+            "en": "10"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "10.0",
+            "en": "10.0"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch: `Vec` chỉ chứa được một kiểu cụ thể",
+            "en": "Compile error: a `Vec` can only hold one concrete type"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "4",
+            "en": "4"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Box<dyn Shape>` là trait object: mỗi phần tử là fat pointer gồm con trỏ dữ liệu và con trỏ vtable, nên một `Vec` chứa được nhiều kiểu cụ thể khác nhau cùng implement `Shape`. `s.area()` được dispatch động qua vtable: `4.0 + 6.0 = 10.0`. Định dạng `{}` của `f64` không in phần `.0` khi giá trị là số nguyên, nên kết quả là `10`; chỉ `{:?}` mới in `10.0`.",
+        "en": "`Box<dyn Shape>` is a trait object: each element is a fat pointer made of a data pointer and a vtable pointer, so one `Vec` can hold different concrete types that implement `Shape`. `s.area()` is dispatched dynamically through the vtable: `4.0 + 6.0 = 10.0`. The `{}` format for `f64` omits `.0` for whole numbers, so it prints `10`; only `{:?}` prints `10.0`."
+      }
+    },
+    {
+      "id": "rust.traits.008",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "traits",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong crate của bạn, viết `impl std::fmt::Display for Vec<i32> { ... }` thì sao?",
+        "en": "In your crate, what happens if you write `impl std::fmt::Display for Vec<i32> { ... }`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lỗi do orphan rule vì cả trait và kiểu đều thuộc crate khác; nên bọc bằng newtype `struct Scores(Vec<i32>)`",
+            "en": "It fails due to the orphan rule since both trait and type are foreign; wrap it in a newtype `struct Scores(Vec<i32>)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hợp lệ, vì `Vec<i32>` là kiểu cụ thể chứ không phải generic",
+            "en": "It is valid because `Vec<i32>` is a concrete type, not a generic"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hợp lệ nếu đặt trong một `mod` riêng",
+            "en": "It is valid if placed in its own `mod`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ lỗi khi in bằng `{}`",
+            "en": "It only fails when printed with `{}`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Orphan rule (coherence) chỉ cho phép `impl Trait for Type` khi trait hoặc kiểu được định nghĩa trong crate hiện tại. `Display` và `Vec` đều thuộc `std`, nên compiler báo `E0117: only traits defined in the current crate can be implemented for types defined outside of the crate`. Quy tắc này ngăn hai crate khác nhau cung cấp hai impl xung đột cho cùng một cặp trait–kiểu. Cách phổ biến là newtype pattern: `struct Scores(Vec<i32>);` rồi `impl Display for Scores`; đặt trong `mod` riêng không thay đổi gì.",
+        "en": "The orphan rule (coherence) only allows `impl Trait for Type` when the trait or the type is defined in the current crate. `Display` and `Vec` both live in `std`, so the compiler reports `E0117: only traits defined in the current crate can be implemented for types defined outside of the crate`. The rule prevents two crates from providing conflicting impls for the same trait–type pair. The usual workaround is the newtype pattern: `struct Scores(Vec<i32>);` then `impl Display for Scores`; putting it in a separate `mod` changes nothing."
+      }
+    },
+    {
+      "id": "rust.traits.009",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "traits",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích monomorphization của generic và so sánh static dispatch (generic/`impl Trait`) với dynamic dispatch (`dyn Trait`). Khi nào chọn cái nào?",
+        "en": "Explain monomorphization of generics and compare static dispatch (generics/`impl Trait`) with dynamic dispatch (`dyn Trait`). When do you choose each?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Generic được monomorphize: compiler sinh một bản code riêng cho mỗi kiểu cụ thể, gọi trực tiếp và inline được",
+          "en": "Generics are monomorphized: the compiler emits a separate copy per concrete type, called directly and inlinable"
+        },
+        {
+          "vi": "Cái giá của monomorphization: binary lớn hơn và thời gian biên dịch lâu hơn",
+          "en": "The cost of monomorphization: bigger binaries and longer compile times"
+        },
+        {
+          "vi": "`dyn Trait` dùng fat pointer + vtable: gọi gián tiếp, khó inline, nhưng chỉ một bản code và cho phép collection nhiều kiểu",
+          "en": "`dyn Trait` uses a fat pointer + vtable: indirect calls, hard to inline, but one copy of code and heterogeneous collections"
+        },
+        {
+          "vi": "`dyn Trait` yêu cầu trait dyn-compatible (object-safe) và thường đi sau `Box`, `&` hoặc `Arc`",
+          "en": "`dyn Trait` requires a dyn-compatible (object-safe) trait and usually sits behind `Box`, `&` or `Arc`"
+        },
+        {
+          "vi": "Chọn generic cho hot path cần hiệu năng; chọn `dyn` cho plugin, collection nhiều kiểu, hoặc để giảm code bloat",
+          "en": "Choose generics for performance-critical hot paths; choose `dyn` for plugins, heterogeneous collections, or to reduce code bloat"
+        }
+      ],
+      "explanation": {
+        "vi": "Với `fn f<T: Trait>(x: T)`, compiler sinh `f::<A>`, `f::<B>`… cho từng kiểu được dùng; mỗi lời gọi là static call nên có thể inline và tối ưu như code viết tay, đây là nền tảng của zero-cost abstraction. Đổi lại, nhiều bản sao làm binary lớn và biên dịch chậm. `&dyn Trait`/`Box<dyn Trait>` là fat pointer (data + vtable): chỉ một bản code, gọi gián tiếp qua vtable nên khó inline, nhưng cho phép trộn nhiều kiểu trong `Vec<Box<dyn Trait>>` và chọn kiểu lúc runtime. Trong thực tế thường dùng generic ở hot path và `dyn` ở ranh giới API, plugin hoặc khi cần giảm code bloat.",
+        "en": "For `fn f<T: Trait>(x: T)` the compiler emits `f::<A>`, `f::<B>`… for each type used; every call is static, so it can be inlined and optimized like hand-written code, which is the basis of zero-cost abstractions. The trade-off is larger binaries and slower builds. `&dyn Trait`/`Box<dyn Trait>` is a fat pointer (data + vtable): one copy of the code, indirect calls that are hard to inline, but you can mix types in a `Vec<Box<dyn Trait>>` and choose the type at runtime. In practice, generics go on hot paths and `dyn` at API boundaries, plugin systems, or where code bloat matters."
+      }
+    },
+    {
+      "id": "rust.traits.010",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "traits",
+      "level": "senior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch. Nguyên nhân là gì?",
+        "en": "This code does not compile. What is the cause?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "trait Cloner {\n    fn duplicate(&self) -> Self;\n}\n\nstruct A;\n\nimpl Cloner for A {\n    fn duplicate(&self) -> Self { A }\n}\n\nfn main() {\n    let items: Vec<Box<dyn Cloner>> = vec![Box::new(A)];\n    println!(\"{}\", items.len());\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trait `Cloner` không dyn-compatible (object-safe) vì method trả về `Self`; thêm `where Self: Sized` cho method hoặc trả `Box<dyn Cloner>`",
+            "en": "`Cloner` is not dyn-compatible (object-safe) because a method returns `Self`; add `where Self: Sized` to the method or return `Box<dyn Cloner>`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`A` là unit struct nên không đặt được vào `Box`",
+            "en": "`A` is a unit struct, so it cannot be put in a `Box`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thiếu `#[derive(Clone)]` cho `A`",
+            "en": "`A` is missing `#[derive(Clone)]`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Vec<Box<dyn Trait>>` cần ghi lifetime `'static` tường minh",
+            "en": "`Vec<Box<dyn Trait>>` needs an explicit `'static` lifetime"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Một trait chỉ dùng làm `dyn Trait` được khi mọi method gọi được qua vtable mà không cần biết kiểu cụ thể. Method trả `Self` vi phạm điều đó vì kích thước của `Self` không biết được khi gọi qua trait object, nên compiler báo `E0038` (trait is not dyn compatible, trước đây gọi là object safety). Thêm `where Self: Sized` để loại method đó khỏi vtable, hoặc đổi chữ ký thành `fn duplicate(&self) -> Box<dyn Cloner>` như pattern của crate `dyn-clone`. Generic method cũng gây ra lỗi tương tự.",
+        "en": "A trait can be used as `dyn Trait` only if every method can be called through a vtable without knowing the concrete type. A method returning `Self` breaks this because the size of `Self` is unknown behind a trait object, so the compiler reports `E0038` (the trait is not dyn compatible, formerly called object safety). Add `where Self: Sized` to exclude that method from the vtable, or change it to `fn duplicate(&self) -> Box<dyn Cloner>` like the `dyn-clone` crate does. Generic methods cause the same error."
+      }
+    },
+    {
+      "id": "rust.errors.001",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi nào nên trả về `Result<T, E>` thay vì `Option<T>`?",
+        "en": "When should a function return `Result<T, E>` instead of `Option<T>`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khi thất bại cần kèm thông tin lý do lỗi cho caller",
+            "en": "When a failure must carry information about why it failed"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Khi giá trị có thể không tồn tại và điều đó là bình thường",
+            "en": "When the value may simply be absent and that is normal"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Khi muốn chương trình dừng ngay lập tức",
+            "en": "When you want the program to stop immediately"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Result` chỉ dùng được trong hàm `async`",
+            "en": "`Result` can only be used in `async` functions"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Result<T, E>` có hai biến thể `Ok(T)` và `Err(E)`, trong đó `E` mô tả lỗi (file không tồn tại, input sai định dạng…), giúp caller quyết định cách xử lý. `Option<T>` phù hợp khi 'không có giá trị' là kết quả bình thường và không cần giải thích, ví dụ `vec.first()` hay `map.get(k)`. Muốn dừng chương trình là việc của `panic!`, không phải của kiểu trả về. `Result` dùng được ở mọi nơi, không chỉ trong `async`.",
+        "en": "`Result<T, E>` has `Ok(T)` and `Err(E)`, where `E` describes the failure (missing file, malformed input…) so the caller can decide how to handle it. `Option<T>` fits when 'no value' is a normal outcome that needs no explanation, e.g. `vec.first()` or `map.get(k)`. Stopping the program is what `panic!` is for, not a return type. `Result` works everywhere, not only in `async` code."
+      }
+    },
+    {
+      "id": "rust.errors.002",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác nhau giữa `unwrap()` và `expect(\"msg\")` là gì?",
+        "en": "What is the difference between `unwrap()` and `expect(\"msg\")`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`expect` trả về giá trị mặc định thay vì panic",
+            "en": "`expect` returns a default value instead of panicking"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`unwrap` trả về `Result` lồng nhau, còn `expect` thì không",
+            "en": "`unwrap` returns a nested `Result`, `expect` does not"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`expect` bắt panic, ghi log rồi chạy tiếp",
+            "en": "`expect` catches the panic, logs it and keeps running"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cả hai đều panic khi gặp `Err`/`None`; `expect` dùng thông điệp bạn truyền vào nên dễ debug hơn",
+            "en": "Both panic on `Err`/`None`; `expect` uses your message, which makes debugging easier"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`unwrap()` và `expect(msg)` đều lấy giá trị trong `Ok`/`Some` và panic nếu gặp `Err`/`None`. Khác biệt duy nhất là thông điệp panic: `expect` in chuỗi bạn cung cấp (kèm lỗi gốc với `Result`), giúp biết ngay giả định nào bị vi phạm. Quy ước phổ biến là viết thông điệp dạng điều kỳ vọng, ví dụ `expect(\"config.toml must exist\")`. Muốn giá trị mặc định thì dùng `unwrap_or`/`unwrap_or_default`, không phải `expect`.",
+        "en": "`unwrap()` and `expect(msg)` both extract the value from `Ok`/`Some` and panic on `Err`/`None`. The only difference is the panic message: `expect` prints your string (plus the underlying error for `Result`), so you immediately see which assumption broke. A common convention is to phrase it as the expectation, e.g. `expect(\"config.toml must exist\")`. For a default value use `unwrap_or`/`unwrap_or_default`, not `expect`."
+      }
+    },
+    {
+      "id": "rust.errors.003",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`opt.unwrap_or(load_default())` và `opt.unwrap_or_else(|| load_default())` khác nhau thế nào?",
+        "en": "How do `opt.unwrap_or(load_default())` and `opt.unwrap_or_else(|| load_default())` differ?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hoàn toàn giống nhau, chỉ khác cú pháp",
+            "en": "They are identical; only the syntax differs"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`unwrap_or` luôn gọi `load_default()` trước, kể cả khi `opt` là `Some`; `unwrap_or_else` chỉ gọi closure khi gặp `None`",
+            "en": "`unwrap_or` always calls `load_default()` first, even when `opt` is `Some`; `unwrap_or_else` calls the closure only on `None`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`unwrap_or_else` panic nếu closure trả về lỗi",
+            "en": "`unwrap_or_else` panics if the closure returns an error"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`unwrap_or` chỉ dùng được với `Result`, không dùng với `Option`",
+            "en": "`unwrap_or` only works on `Result`, not on `Option`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Đối số của hàm trong Rust được tính trước khi gọi (eager evaluation), nên `load_default()` luôn chạy dù `opt` có giá trị hay không. `unwrap_or_else` nhận closure và chỉ gọi nó khi gặp `None`/`Err`, phù hợp khi giá trị mặc định tốn kém như đọc file, cấp phát hay gọi mạng. Clippy có lint `or_fun_call` để nhắc điều này. Với giá trị rẻ như `0` thì `unwrap_or(0)` vẫn hoàn toàn ổn.",
+        "en": "Function arguments in Rust are evaluated before the call (eager evaluation), so `load_default()` always runs whether or not `opt` has a value. `unwrap_or_else` takes a closure and calls it only on `None`/`Err`, which suits expensive defaults like reading a file, allocating or a network call. Clippy's `or_fun_call` lint flags this. For cheap values like `0`, `unwrap_or(0)` is perfectly fine."
+      }
+    },
+    {
+      "id": "rust.errors.004",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đoạn code sau báo lỗi gì và sửa thế nào?",
+        "en": "What error does this code report, and how do you fix it?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "use std::fs;\n\nfn main() {\n    let text = fs::read_to_string(\"config.txt\")?;\n    println!(\"{}\", text);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`fs::read_to_string` trả về `String`, không phải `Result`",
+            "en": "`fs::read_to_string` returns `String`, not `Result`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không được dùng `?` với `std::io::Error`",
+            "en": "`?` cannot be used with `std::io::Error`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dùng `?` trong hàm trả về `()`; đổi thành `fn main() -> Result<(), Box<dyn std::error::Error>>` và thêm `Ok(())`",
+            "en": "`?` is used in a function returning `()`; change to `fn main() -> Result<(), Box<dyn std::error::Error>>` and add `Ok(())`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không lỗi biên dịch, chỉ panic khi thiếu file",
+            "en": "No compile error; it only panics if the file is missing"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Khi gặp `Err`, `?` sẽ `return` sớm lỗi đó, nên hàm chứa nó phải trả về `Result` (hoặc `Option`). `main` mặc định trả `()`, nên compiler báo `E0277: the ? operator can only be used in a function that returns Result or Option`. `main` được phép trả `Result<(), E>` với `E: Debug`; khi gặp lỗi, chương trình in lỗi ra stderr và thoát với mã khác 0. Đây là lỗi biên dịch, không phải panic lúc chạy.",
+        "en": "On `Err`, `?` returns the error early, so the enclosing function must return `Result` (or `Option`). `main` returns `()` by default, so the compiler reports `E0277: the ? operator can only be used in a function that returns Result or Option`. `main` may return `Result<(), E>` with `E: Debug`; on error the program prints it to stderr and exits with a non-zero code. This is a compile error, not a runtime panic."
+      }
+    },
+    {
+      "id": "rust.errors.005",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "use std::num::ParseIntError;\n\n#[derive(Debug)]\nenum AppError {\n    Parse(String),\n}\n\nimpl From<ParseIntError> for AppError {\n    fn from(e: ParseIntError) -> Self {\n        AppError::Parse(e.to_string())\n    }\n}\n\nfn double(s: &str) -> Result<i32, AppError> {\n    let n: i32 = s.parse()?;\n    Ok(n * 2)\n}\n\nfn main() {\n    println!(\"{:?}\", double(\"21\"));\n    println!(\"{:?}\", double(\"x\"));\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ok(42) / Err(ParseIntError { kind: InvalidDigit })",
+            "en": "Ok(42) / Err(ParseIntError { kind: InvalidDigit })"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ok(42) / Err(Parse(\"invalid digit found in string\"))",
+            "en": "Ok(42) / Err(Parse(\"invalid digit found in string\"))"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch: `?` không đổi được `ParseIntError` sang `AppError`",
+            "en": "Compile error: `?` cannot convert `ParseIntError` into `AppError`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ok(42) / panic khi parse `\"x\"`",
+            "en": "Ok(42) / a panic when parsing `\"x\"`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khi gặp `Err(e)`, toán tử `?` gọi `From::from(e)` để đổi sang kiểu lỗi của hàm rồi mới `return`. Vì có `impl From<ParseIntError> for AppError`, lỗi parse được bọc thành `AppError::Parse` với thông điệp `invalid digit found in string`. Chỉ khi thiếu impl `From` đó mới có lỗi biên dịch `E0277`. `?` không bao giờ panic; nó chỉ trả lỗi về cho caller.",
+        "en": "On `Err(e)`, the `?` operator calls `From::from(e)` to convert into the function's error type before returning. Because `impl From<ParseIntError> for AppError` exists, the parse error is wrapped as `AppError::Parse` with the message `invalid digit found in string`. Only without that `From` impl would you get compile error `E0277`. `?` never panics; it just returns the error to the caller."
+      }
+    },
+    {
+      "id": "rust.errors.006",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khi nào nên dùng `panic!` (hoặc `unwrap`), và khi nào nên trả về `Result`?",
+        "en": "When should you use `panic!` (or `unwrap`), and when should you return a `Result`?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`Result` cho lỗi có thể dự đoán và phục hồi: I/O, input người dùng, mạng",
+          "en": "`Result` for expected, recoverable failures: I/O, user input, network"
+        },
+        {
+          "vi": "`panic!` cho bug hoặc vi phạm invariant khiến chương trình không thể tiếp tục an toàn",
+          "en": "`panic!` for bugs or broken invariants where the program cannot safely continue"
+        },
+        {
+          "vi": "`unwrap`/`expect` chấp nhận được trong test, prototype, hoặc khi chắc chắn không lỗi (nên dùng `expect` ghi lý do)",
+          "en": "`unwrap`/`expect` are fine in tests, prototypes, or when failure is impossible (prefer `expect` with a reason)"
+        },
+        {
+          "vi": "Thư viện nên trả `Result` để caller tự quyết định thay vì tự panic",
+          "en": "Libraries should return `Result` and let the caller decide rather than panic"
+        },
+        {
+          "vi": "Panic unwind (hoặc abort) thread hiện tại, không phải cơ chế điều khiển luồng thông thường",
+          "en": "A panic unwinds (or aborts) the current thread; it is not normal control flow"
+        }
+      ],
+      "explanation": {
+        "vi": "Rust tách lỗi thành hai loại: lỗi có thể phục hồi được biểu diễn bằng `Result`, buộc caller xử lý; và lỗi không thể phục hồi (bug) dùng `panic!`. Ví dụ file cấu hình thiếu hay input sai định dạng nên trả `Result`, còn index vượt phạm vi do logic sai thì panic là hợp lý. `unwrap`/`expect` tiện trong test, ví dụ và khi bạn biết chắc giá trị hợp lệ (như parse một hằng số), và nên dùng `expect` để ghi lại giả định. Code thư viện tránh panic vì caller mất quyền lựa chọn; panic cũng có thể bị cấu hình `panic = \"abort\"` nên không nên dựa vào việc bắt nó.",
+        "en": "Rust splits errors into two kinds: recoverable ones, represented by `Result` so the caller must handle them, and unrecoverable ones (bugs), which use `panic!`. A missing config file or malformed input should return `Result`, while an out-of-bounds index caused by a logic error justifies a panic. `unwrap`/`expect` are handy in tests, examples and when you know the value is valid (e.g. parsing a constant), and `expect` documents the assumption. Library code avoids panicking because it takes the choice away from the caller; panics may also be configured as `panic = \"abort\"`, so do not rely on catching them."
+      }
+    },
+    {
+      "id": "rust.errors.007",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong hàm trả về `Result<&User, String>`, `users.get(&id)` trả về `Option<&User>`. Cách gọn và đúng nhất để dùng `?` là gì?",
+        "en": "In a function returning `Result<&User, String>`, `users.get(&id)` returns `Option<&User>`. What is the cleanest correct way to use `?`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`users.get(&id)?` vì `?` tự đổi `None` thành `Err`",
+            "en": "`users.get(&id)?`, because `?` turns `None` into `Err` automatically"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`users.get(&id).ok_or_else(|| format!(\"user {} not found\", id))?`",
+            "en": "`users.get(&id).ok_or_else(|| format!(\"user {} not found\", id))?`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`users.get(&id).unwrap()?`",
+            "en": "`users.get(&id).unwrap()?`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`users.get(&id).expect(\"not found\")?`",
+            "en": "`users.get(&id).expect(\"not found\")?`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`ok_or`/`ok_or_else` biến `Option<T>` thành `Result<T, E>`: `Some(v)` thành `Ok(v)`, `None` thành `Err(...)`, sau đó `?` hoạt động bình thường. Dùng `?` trực tiếp trên `Option` trong hàm trả `Result` sẽ lỗi `E0277` vì Rust không tự đổi `None` thành một giá trị lỗi nào. `ok_or_else` chỉ tạo chuỗi lỗi khi thật sự cần, tốt hơn `ok_or(format!(...))` vốn luôn cấp phát. `unwrap()` hay `expect()` trả về `&User` chứ không phải `Result`, nên không thể nối thêm `?`.",
+        "en": "`ok_or`/`ok_or_else` turn an `Option<T>` into a `Result<T, E>`: `Some(v)` becomes `Ok(v)` and `None` becomes `Err(...)`, after which `?` works normally. Using `?` directly on an `Option` inside a function returning `Result` fails with `E0277`, since Rust does not invent an error value for `None`. `ok_or_else` builds the error string only when needed, unlike `ok_or(format!(...))`, which always allocates. `unwrap()` and `expect()` return `&User`, not a `Result`, so you cannot chain `?` after them."
+      }
+    },
+    {
+      "id": "rust.errors.008",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn parse_pos(s: &str) -> Result<u32, String> {\n    s.trim().parse::<u32>().map_err(|_| format!(\"bad: {}\", s))\n}\n\nfn main() {\n    let r1 = parse_pos(\" 7 \").map(|n| n * 10);\n    let r2 = parse_pos(\"-1\").and_then(|n| Ok::<u32, String>(n + 1));\n    println!(\"{:?} {:?}\", r1, r2);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ok(70) Ok(0)",
+            "en": "Ok(70) Ok(0)"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Err(\"bad:  7 \") Err(\"bad: -1\")",
+            "en": "Err(\"bad:  7 \") Err(\"bad: -1\")"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Ok(7) Err(\"bad: -1\")",
+            "en": "Ok(7) Err(\"bad: -1\")"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ok(70) Err(\"bad: -1\")",
+            "en": "Ok(70) Err(\"bad: -1\")"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`\" 7 \".trim()` thành `\"7\"`, parse ra `7`, rồi `map` áp dụng closure lên giá trị bên trong `Ok`, cho `Ok(70)`. `\"-1\"` không parse được thành `u32` nên `map_err` tạo `Err(\"bad: -1\")`; `and_then` chỉ chạy closure khi là `Ok`, nên lỗi được truyền nguyên vẹn. Nói ngắn gọn, `map` biến đổi giá trị thành công, còn `and_then` nối tiếp một thao tác cũng có thể thất bại (giống flatMap).",
+        "en": "`\" 7 \".trim()` becomes `\"7\"`, which parses to `7`, and `map` applies the closure to the value inside `Ok`, giving `Ok(70)`. `\"-1\"` cannot be parsed as `u32`, so `map_err` produces `Err(\"bad: -1\")`; `and_then` only runs its closure on `Ok`, so the error passes through untouched. In short, `map` transforms a success value, while `and_then` chains another operation that can also fail (like flatMap)."
+      }
+    },
+    {
+      "id": "rust.errors.009",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "errors",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn thiết kế error handling cho một thư viện và một ứng dụng CLI dùng thư viện đó. Khi nào dùng `thiserror`, khi nào dùng `anyhow`, và vì sao?",
+        "en": "You are designing error handling for a library and a CLI app that uses it. When do you use `thiserror`, when `anyhow`, and why?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Thư viện: định nghĩa enum lỗi cụ thể (thường với `thiserror`) để caller `match` được từng biến thể",
+          "en": "Library: define a concrete error enum (often with `thiserror`) so callers can `match` each variant"
+        },
+        {
+          "vi": "`thiserror` chỉ là derive macro sinh `Display`, `std::error::Error` và `From` (`#[from]`), không lộ ra trong public API",
+          "en": "`thiserror` is just a derive macro generating `Display`, `std::error::Error` and `From` (`#[from]`); it does not leak into the public API"
+        },
+        {
+          "vi": "Ứng dụng: `anyhow::Result` gom mọi lỗi thành `anyhow::Error` và thêm ngữ cảnh bằng `.context()`/`.with_context()`",
+          "en": "Application: `anyhow::Result` collects any error into `anyhow::Error` and adds context with `.context()`/`.with_context()`"
+        },
+        {
+          "vi": "Giữ chuỗi nguyên nhân qua `source()` (`#[source]`/`#[from]`) thay vì đổi lỗi thành chuỗi",
+          "en": "Preserve the cause chain via `source()` (`#[source]`/`#[from]`) instead of stringifying errors"
+        },
+        {
+          "vi": "Không trả `anyhow::Error` từ API thư viện vì caller mất khả năng phân biệt lỗi",
+          "en": "Do not return `anyhow::Error` from a library API, since callers lose the ability to distinguish errors"
+        }
+      ],
+      "explanation": {
+        "vi": "Thư viện cần lỗi có cấu trúc: một `enum Error { Io(#[from] io::Error), InvalidConfig { line: usize }, ... }` cho phép caller phản ứng khác nhau với từng trường hợp; `thiserror` giảm boilerplate bằng cách sinh `Display`, `Error::source` và `From`. Ứng dụng thường chỉ cần báo lỗi rõ ràng cho người dùng, nên `anyhow::Error` (type-erased, có backtrace) cùng `.context(\"reading config\")` giúp tạo chuỗi nguyên nhân dễ đọc. Ở cả hai phía, nên giữ lỗi gốc làm `source` thay vì `to_string()` để không mất thông tin. Nếu ứng dụng cần xử lý một lỗi cụ thể, vẫn có thể `downcast_ref` từ `anyhow::Error`.",
+        "en": "A library needs structured errors: an `enum Error { Io(#[from] io::Error), InvalidConfig { line: usize }, ... }` lets callers react differently to each case, and `thiserror` removes boilerplate by generating `Display`, `Error::source` and `From`. An application usually just needs to report errors clearly, so `anyhow::Error` (type-erased, with backtraces) plus `.context(\"reading config\")` builds a readable cause chain. On both sides, keep the original error as the `source` rather than calling `to_string()`, so no information is lost. If the app must handle a specific error, it can still `downcast_ref` from `anyhow::Error`."
+      }
+    },
+    {
+      "id": "rust.collections.001",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác nhau chính giữa `[i32; 3]` và `Vec<i32>` là gì?",
+        "en": "What is the main difference between `[i32; 3]` and `Vec<i32>`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mảng có kích thước cố định biết lúc biên dịch (thường nằm trên stack); `Vec` có thể thay đổi kích thước và lưu dữ liệu trên heap",
+            "en": "An array has a fixed size known at compile time (usually on the stack); a `Vec` can grow and stores its data on the heap"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Vec` chỉ chứa được kiểu số, còn mảng chứa được mọi kiểu",
+            "en": "A `Vec` can only hold numbers, an array can hold anything"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Mảng có thể `push` thêm phần tử nếu khai báo `mut`",
+            "en": "An array can `push` elements if declared `mut`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không khác gì nhau, `Vec` chỉ là alias của mảng",
+            "en": "No difference; `Vec` is just an alias for an array"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`[i32; 3]` có độ dài là một phần của kiểu, cố định lúc biên dịch, và nằm trực tiếp tại chỗ khai báo (thường là stack). `Vec<i32>` gồm con trỏ, độ dài và capacity, dữ liệu nằm trên heap nên có thể `push`/`pop` và tự reallocate khi cần. `mut` chỉ cho phép sửa phần tử của mảng chứ không đổi được độ dài. Cả hai đều có thể mượn thành slice `&[i32]`, nên hàm nhận `&[i32]` dùng được cho cả hai.",
+        "en": "`[i32; 3]` has its length as part of the type, fixed at compile time, and lives inline where declared (usually the stack). `Vec<i32>` is a pointer, length and capacity with heap-allocated data, so it can `push`/`pop` and reallocate as needed. `mut` only lets you modify an array's elements, not change its length. Both can be borrowed as a slice `&[i32]`, so a function taking `&[i32]` works with either."
+      }
+    },
+    {
+      "id": "rust.collections.002",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "use std::collections::HashMap;\n\nfn main() {\n    let text = \"a b a c a b\";\n    let mut counts = HashMap::new();\n    for w in text.split_whitespace() {\n        *counts.entry(w).or_insert(0) += 1;\n    }\n    println!(\"{} {} {}\", counts[\"a\"], counts[\"b\"], counts[\"c\"]);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "3 2 1",
+            "en": "3 2 1"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "1 1 1",
+            "en": "1 1 1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thứ tự ngẫu nhiên vì `HashMap` không có thứ tự",
+            "en": "A random order, because `HashMap` is unordered"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch: không thể `+=` trên kết quả của `or_insert`",
+            "en": "Compile error: cannot `+=` on the result of `or_insert`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`entry(w)` trả về một `Entry`; `or_insert(0)` chèn `0` nếu key chưa có rồi trả về `&mut i32` tới giá trị, nên `*... += 1` tăng bộ đếm tại chỗ. Sau vòng lặp: `a` xuất hiện 3 lần, `b` 2 lần, `c` 1 lần. Thứ tự lặp của `HashMap` là không xác định, nhưng ở đây ta tra từng key cụ thể bằng `counts[\"a\"]` nên kết quả luôn là `3 2 1`.",
+        "en": "`entry(w)` returns an `Entry`; `or_insert(0)` inserts `0` if the key is missing and returns a `&mut i32` to the value, so `*... += 1` increments the counter in place. After the loop, `a` appears 3 times, `b` twice and `c` once. `HashMap` iteration order is unspecified, but here we look up specific keys with `counts[\"a\"]`, so the output is always `3 2 1`."
+      }
+    },
+    {
+      "id": "rust.collections.003",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `let v = vec![1, 2, 3];`, `v.get(10)` và `v[10]` khác nhau thế nào?",
+        "en": "Given `let v = vec![1, 2, 3];`, how do `v.get(10)` and `v[10]` differ?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cả hai đều trả về `None`",
+            "en": "Both return `None`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`v.get(10)` trả về `None`; `v[10]` panic lúc chạy vì index ngoài phạm vi",
+            "en": "`v.get(10)` returns `None`; `v[10]` panics at runtime with an out-of-bounds index"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả hai đều là lỗi biên dịch",
+            "en": "Both are compile errors"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`v[10]` trả về giá trị rác như C, còn `v.get(10)` panic",
+            "en": "`v[10]` returns garbage like C, while `v.get(10)` panics"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`get` trả về `Option<&T>`, nên truy cập ngoài phạm vi là `None` để bạn xử lý. Toán tử index `v[i]` luôn kiểm tra biên lúc chạy và panic với thông điệp `index out of bounds: the len is 3 but the index is 10`. Rust không bao giờ đọc bộ nhớ rác trong safe code như C. Compiler không biết độ dài của `Vec` lúc biên dịch nên không báo lỗi.",
+        "en": "`get` returns `Option<&T>`, so an out-of-range access is `None` for you to handle. The index operator `v[i]` always bounds-checks at runtime and panics with `index out of bounds: the len is 3 but the index is 10`. Safe Rust never reads garbage memory the way C can. The compiler does not know a `Vec`'s length at compile time, so there is no compile error."
+      }
+    },
+    {
+      "id": "rust.collections.004",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn main() {\n    let v = vec![1, 2, 3, 4, 5, 6];\n    let r: Vec<i32> = v.iter()\n        .filter(|&&x| x % 2 == 0)\n        .map(|x| x * x)\n        .collect();\n    println!(\"{:?}\", r);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[2, 4, 6]",
+            "en": "[2, 4, 6]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[4, 16, 36]",
+            "en": "[4, 16, 36]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[1, 9, 25]",
+            "en": "[1, 9, 25]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch: `|&&x|` sai cú pháp",
+            "en": "Compile error: `|&&x|` is invalid syntax"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`v.iter()` cho ra `&i32`, và `filter` truyền vào closure một tham chiếu tới item, tức `&&i32`; pattern `|&&x|` destructure hai lớp để `x` là `i32`. Chỉ các số chẵn `2, 4, 6` đi qua `filter`, rồi `map` bình phương chúng thành `4, 16, 36`. `collect()` gom vào `Vec<i32>` nhờ chú thích kiểu ở biến `r`. `x * x` với `x: &i32` vẫn hợp lệ vì `Mul` được implement cho tham chiếu.",
+        "en": "`v.iter()` yields `&i32`, and `filter` passes the closure a reference to the item, i.e. `&&i32`; the pattern `|&&x|` destructures both layers so `x` is an `i32`. Only the even numbers `2, 4, 6` pass `filter`, and `map` squares them into `4, 16, 36`. `collect()` builds a `Vec<i32>` thanks to the type annotation on `r`. `x * x` with `x: &i32` is fine because `Mul` is implemented for references."
+      }
+    },
+    {
+      "id": "rust.collections.005",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì (theo thứ tự dòng)?",
+        "en": "What does the following code print (line by line)?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn main() {\n    let v = vec![1, 2, 3];\n    let it = v.iter().map(|x| {\n        println!(\"map {}\", x);\n        x * 2\n    });\n    println!(\"before\");\n    let total: i32 = it.take(2).sum();\n    println!(\"{}\", total);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "map 1 / map 2 / map 3 / before / 6",
+            "en": "map 1 / map 2 / map 3 / before / 6"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "before / map 1 / map 2 / map 3 / 6",
+            "en": "before / map 1 / map 2 / map 3 / 6"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "map 1 / map 2 / before / 6",
+            "en": "map 1 / map 2 / before / 6"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "before / map 1 / map 2 / 6",
+            "en": "before / map 1 / map 2 / 6"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Iterator adapter như `map` là lazy: tạo `it` chỉ dựng một struct `Map` chứ chưa chạy closure, nên `before` được in trước. `sum()` là consumer kéo từng phần tử; `take(2)` dừng sau hai phần tử nên closure chỉ chạy cho `1` và `2`, tổng `2 + 4 = 6`. Phần tử `3` không bao giờ được xử lý. Cũng vì lazy nên một chuỗi `map` không có consumer sẽ không làm gì cả, và compiler cảnh báo `unused_must_use`.",
+        "en": "Iterator adapters like `map` are lazy: creating `it` only builds a `Map` struct without running the closure, so `before` prints first. `sum()` is a consumer that pulls items one by one; `take(2)` stops after two items, so the closure runs only for `1` and `2`, totaling `2 + 4 = 6`. The element `3` is never processed. Because of laziness, a `map` chain without a consumer does nothing at all, and the compiler warns with `unused_must_use`."
+      }
+    },
+    {
+      "id": "rust.collections.006",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `v: Vec<String>`, kiểu phần tử của `v.iter()`, `v.iter_mut()` và `v.into_iter()` lần lượt là gì?",
+        "en": "For `v: Vec<String>`, what item types do `v.iter()`, `v.iter_mut()` and `v.into_iter()` yield?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`&String`, `&mut String`, `String` (và `v` bị move)",
+            "en": "`&String`, `&mut String`, `String` (and `v` is moved)"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`String`, `&mut String`, `&String`",
+            "en": "`String`, `&mut String`, `&String`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả ba đều là `&String`",
+            "en": "All three yield `&String`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`&String`, `&mut String`, `&String`",
+            "en": "`&String`, `&mut String`, `&String`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`iter()` mượn chỉ đọc, `iter_mut()` mượn để sửa, còn `into_iter()` trên `Vec` tiêu thụ vector và trả từng phần tử theo giá trị, nên `v` không dùng lại được. Vòng `for s in v` gọi `v.into_iter()`, `for s in &v` tương đương `v.iter()`, và `for s in &mut v` tương đương `v.iter_mut()`. Nhầm lẫn phổ biến là `into_iter()` luôn cho tham chiếu: điều đó chỉ đúng khi gọi trên `&Vec`, tức `(&v).into_iter()`.",
+        "en": "`iter()` borrows immutably, `iter_mut()` borrows mutably, and `into_iter()` on a `Vec` consumes the vector and yields elements by value, so `v` cannot be used afterwards. `for s in v` calls `v.into_iter()`, `for s in &v` is equivalent to `v.iter()`, and `for s in &mut v` to `v.iter_mut()`. A common confusion is thinking `into_iter()` always yields references: that only holds when called on `&Vec`, i.e. `(&v).into_iter()`."
+      }
+    },
+    {
+      "id": "rust.collections.007",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Vì sao đoạn code sau không biên dịch?",
+        "en": "Why does this code fail to compile?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn main() {\n    let v = vec![1, 2, 3];\n    let doubled = v.iter().map(|x| x * 2).collect();\n    println!(\"{:?}\", doubled);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`map` chỉ dùng được sau `into_iter()`, không dùng sau `iter()`",
+            "en": "`map` only works after `into_iter()`, not after `iter()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`collect()` không biết gom vào kiểu nào; cần `let doubled: Vec<i32>` hoặc `collect::<Vec<_>>()`",
+            "en": "`collect()` does not know which collection to build; use `let doubled: Vec<i32>` or `collect::<Vec<_>>()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`x * 2` lỗi vì `x` là `&i32`",
+            "en": "`x * 2` fails because `x` is `&i32`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`println!` không in được `Vec`",
+            "en": "`println!` cannot print a `Vec`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`collect` là generic theo kiểu đích `B: FromIterator`, có thể là `Vec`, `HashSet`, `String`, `VecDeque`… Không có chú thích kiểu, compiler không suy ra được `B` và báo `E0283: type annotations needed`. Sửa bằng chú thích kiểu cho biến hoặc dùng turbofish `collect::<Vec<_>>()`. `&i32 * i32` vẫn hợp lệ nhờ impl `Mul` cho tham chiếu, nên vấn đề không nằm ở `map`.",
+        "en": "`collect` is generic over the target type `B: FromIterator`, which could be `Vec`, `HashSet`, `String`, `VecDeque`… Without an annotation the compiler cannot infer `B` and reports `E0283: type annotations needed`. Fix it with a type annotation on the variable or the turbofish `collect::<Vec<_>>()`. `&i32 * i32` is valid thanks to `Mul` impls on references, so `map` is not the problem."
+      }
+    },
+    {
+      "id": "rust.collections.008",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "fn make_adder(n: i32) -> impl Fn(i32) -> i32 {\n    move |x| x + n\n}\n\nfn main() {\n    let add5 = make_adder(5);\n    let mut counter = 0;\n    let mut tick = || counter += 1;\n    tick();\n    tick();\n    println!(\"{} {}\", add5(10), counter);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "15 0",
+            "en": "15 0"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lỗi biên dịch: `n` không sống đủ lâu trong closure trả về",
+            "en": "Compile error: `n` does not live long enough in the returned closure"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "10 2",
+            "en": "10 2"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "15 2",
+            "en": "15 2"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`move |x| x + n` chép `n` (kiểu `Copy`) vào closure, nên closure trả về không phụ thuộc biến local của `make_adder`; `add5(10)` cho `15`. Nếu bỏ `move`, closure chỉ mượn `n` và compiler báo `E0373` vì `n` chết khi hàm trả về. `tick` mượn `counter` mutable nên là `FnMut` và phải khai báo `let mut tick`; sau hai lần gọi `counter` bằng `2`. Đến `println!`, mutable borrow của `tick` đã kết thúc (NLL) nên đọc `counter` hợp lệ.",
+        "en": "`move |x| x + n` copies `n` (a `Copy` type) into the closure, so the returned closure does not depend on `make_adder`'s locals; `add5(10)` is `15`. Without `move`, the closure would only borrow `n` and the compiler would report `E0373` because `n` dies when the function returns. `tick` mutably borrows `counter`, so it is `FnMut` and must be declared `let mut tick`; after two calls `counter` is `2`. By the `println!`, `tick`'s mutable borrow has ended (NLL), so reading `counter` is allowed."
+      }
+    },
+    {
+      "id": "rust.collections.009",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "collections",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích sự khác nhau giữa `Fn`, `FnMut` và `FnOnce`. Compiler chọn trait nào cho một closure, và từ khóa `move` ảnh hưởng thế nào?",
+        "en": "Explain the difference between `Fn`, `FnMut` and `FnOnce`. Which trait does the compiler pick for a closure, and how does `move` affect it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`FnOnce`: gọi được một lần, có thể move giá trị đã capture ra ngoài (tiêu thụ chúng)",
+          "en": "`FnOnce`: callable once; it may move captured values out (consuming them)"
+        },
+        {
+          "vi": "`FnMut`: thay đổi trạng thái đã capture qua `&mut`, gọi được nhiều lần",
+          "en": "`FnMut`: mutates captured state through `&mut`; callable many times"
+        },
+        {
+          "vi": "`Fn`: chỉ đọc capture qua `&`, gọi được nhiều lần và có thể gọi đồng thời",
+          "en": "`Fn`: only reads captures through `&`; callable many times, even concurrently"
+        },
+        {
+          "vi": "Mọi `Fn` là `FnMut`, mọi `FnMut` là `FnOnce`; API nên yêu cầu bound lỏng nhất phù hợp",
+          "en": "Every `Fn` is `FnMut` and every `FnMut` is `FnOnce`; APIs should require the loosest suitable bound"
+        },
+        {
+          "vi": "`move` chỉ quyết định cách capture (by value), không quyết định trait: closure `move` chỉ đọc vẫn là `Fn`",
+          "en": "`move` only decides how values are captured (by value), not the trait: a `move` closure that only reads is still `Fn`"
+        }
+      ],
+      "explanation": {
+        "vi": "Compiler suy ra trait dựa trên những gì thân closure làm với biến capture: chỉ đọc thì `Fn`, có sửa thì `FnMut`, có move giá trị ra ngoài (ví dụ `drop(s)` hay trả về `s`) thì chỉ `FnOnce`. Ba trait tạo thành phân cấp `Fn: FnMut: FnOnce`, nên hàm nhận `F: FnOnce` chấp nhận mọi closure, còn `F: Fn` là khắt khe nhất. Ví dụ `Option::map` nhận `FnOnce` vì chỉ gọi một lần, còn `Iterator::map` cần `FnMut`, và `thread::spawn` cần `FnOnce + Send + 'static`. `move` buộc capture theo giá trị (cần thiết khi closure sống lâu hơn scope), nhưng một closure `move` chỉ đọc vẫn là `Fn`.",
+        "en": "The compiler infers the trait from what the body does with its captures: only reading gives `Fn`, mutating gives `FnMut`, and moving a value out (e.g. `drop(s)` or returning `s`) gives only `FnOnce`. The traits form the hierarchy `Fn: FnMut: FnOnce`, so a function taking `F: FnOnce` accepts any closure while `F: Fn` is the strictest. For example `Option::map` takes `FnOnce` because it calls it once, `Iterator::map` needs `FnMut`, and `thread::spawn` needs `FnOnce + Send + 'static`. `move` forces by-value capture (needed when the closure outlives the scope), but a `move` closure that only reads is still `Fn`."
+      }
+    },
+    {
+      "id": "rust.smart_pointers.001",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "smart_pointers",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao `enum List { Cons(i32, List), Nil }` không biên dịch, còn `Cons(i32, Box<List>)` thì được?",
+        "en": "Why does `enum List { Cons(i32, List), Nil }` fail to compile while `Cons(i32, Box<List>)` works?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`enum` không được chứa chính nó vì lý do an toàn luồng",
+            "en": "An `enum` cannot contain itself for thread-safety reasons"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Kiểu đệ quy trực tiếp có kích thước vô hạn; `Box` là con trỏ có kích thước cố định trỏ lên heap",
+            "en": "A directly recursive type has infinite size; `Box` is a fixed-size pointer to the heap"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Box` tắt borrow checker cho kiểu đệ quy",
+            "en": "`Box` disables the borrow checker for recursive types"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải dùng `Box` vì `i32` không nằm trên stack được",
+            "en": "`Box` is required because `i32` cannot live on the stack"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Compiler cần biết kích thước của mọi kiểu lúc biên dịch. `Cons(i32, List)` chứa trực tiếp một `List`, bên trong lại chứa `List`… nên kích thước là vô hạn và compiler báo `E0072: recursive type List has infinite size`. `Box<List>` chỉ là một con trỏ (8 byte trên 64-bit) tới dữ liệu trên heap, cắt vòng đệ quy về kích thước. `Box` không thay đổi gì về borrow checking; nó chỉ là smart pointer sở hữu dữ liệu trên heap.",
+        "en": "The compiler must know every type's size at compile time. `Cons(i32, List)` directly contains a `List`, which contains a `List`… so the size is infinite and the compiler reports `E0072: recursive type List has infinite size`. `Box<List>` is just a pointer (8 bytes on 64-bit) to heap data, which breaks the size recursion. `Box` changes nothing about borrow checking; it is simply an owning smart pointer to heap data."
+      }
+    },
+    {
+      "id": "rust.smart_pointers.002",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "smart_pointers",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`Rc<T>` dùng để làm gì?",
+        "en": "What is `Rc<T>` for?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chia sẻ dữ liệu an toàn giữa nhiều thread",
+            "en": "Safely sharing data across multiple threads"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cho nhiều owner cùng sở hữu một giá trị trong một thread; giá trị được drop khi reference count về 0",
+            "en": "Letting several owners share one value within a single thread; the value is dropped when the reference count hits 0"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cho phép thay đổi giá trị bên trong qua tham chiếu chung",
+            "en": "Allowing mutation of the inner value through shared references"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Deep copy giá trị mỗi lần gọi `Rc::clone`",
+            "en": "Deep-copying the value on every `Rc::clone`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Rc` (reference counted) cho phép nhiều phần của chương trình cùng sở hữu một giá trị trên heap, ví dụ nhiều node cùng trỏ tới một node con. `Rc::clone` chỉ tăng bộ đếm, không copy dữ liệu; khi `Rc` cuối cùng bị drop thì giá trị mới bị giải phóng. `Rc` dùng bộ đếm không atomic nên chỉ dùng trong một thread; đa luồng phải dùng `Arc`. `Rc` chỉ cho `&T`, muốn thay đổi phải kết hợp `RefCell`.",
+        "en": "`Rc` (reference counted) lets several parts of a program co-own a heap value, e.g. several nodes pointing to the same child. `Rc::clone` only bumps the counter without copying data; the value is freed when the last `Rc` is dropped. `Rc` uses a non-atomic counter, so it is single-threaded only; use `Arc` across threads. `Rc` only gives `&T`; to mutate you combine it with `RefCell`."
+      }
+    },
+    {
+      "id": "rust.smart_pointers.003",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "smart_pointers",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "use std::rc::Rc;\n\nfn main() {\n    let a = Rc::new(String::from(\"data\"));\n    let b = Rc::clone(&a);\n    {\n        let _c = Rc::clone(&a);\n        println!(\"{}\", Rc::strong_count(&a));\n    }\n    println!(\"{}\", Rc::strong_count(&b));\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "2 / 2",
+            "en": "2 / 2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "3 / 2",
+            "en": "3 / 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "3 / 3",
+            "en": "3 / 3"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "1 / 1",
+            "en": "1 / 1"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Mỗi `Rc::clone` tăng strong count lên 1 và trỏ tới cùng một `String`. Bên trong block có `a`, `b`, `_c` nên count là `3`. Khi ra khỏi block, `_c` bị drop và count giảm còn `2`; `a` và `b` chia sẻ cùng bộ đếm nên hỏi qua `b` cũng ra `2`. Đáp án `3 / 3` sai vì nó bỏ qua việc `_c` bị drop ở cuối block.",
+        "en": "Each `Rc::clone` increments the strong count and points to the same `String`. Inside the block there are `a`, `b` and `_c`, so the count is `3`. Leaving the block drops `_c`, bringing the count to `2`; `a` and `b` share one counter, so asking through `b` also gives `2`. `3 / 3` is wrong because it ignores that `_c` is dropped at the end of the block."
+      }
+    },
+    {
+      "id": "rust.smart_pointers.004",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "smart_pointers",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chuyện gì xảy ra khi chạy đoạn code sau?",
+        "en": "What happens when this code runs?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "use std::cell::RefCell;\n\nfn main() {\n    let cell = RefCell::new(vec![1]);\n    let r = cell.borrow();\n    cell.borrow_mut().push(2);\n    println!(\"{:?}\", r);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "In `[1]`",
+            "en": "Prints `[1]`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "In `[1, 2]`",
+            "en": "Prints `[1, 2]`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Panic lúc chạy với thông báo `already borrowed`",
+            "en": "A runtime panic with an `already borrowed` message"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch `E0502`",
+            "en": "Compile error `E0502`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`RefCell` chuyển việc kiểm tra quy tắc mượn từ lúc biên dịch sang lúc chạy: `borrow()` và `borrow_mut()` đều nhận `&self` nên compiler không báo lỗi. `r` là một `Ref` còn sống tới `println!`, nên khi gọi `borrow_mut()` `RefCell` thấy đang có shared borrow và panic với thông báo `RefCell already borrowed` (các phiên bản cũ in `already borrowed: BorrowMutError`). Dùng `try_borrow_mut()` để nhận `Result` thay vì panic, hoặc thu hẹp scope để `Ref` bị drop trước khi mượn mutable.",
+        "en": "`RefCell` moves borrow checking from compile time to runtime: `borrow()` and `borrow_mut()` both take `&self`, so the compiler reports nothing. `r` is a `Ref` that stays alive until `println!`, so when `borrow_mut()` is called the `RefCell` sees an active shared borrow and panics with `RefCell already borrowed` (older versions print `already borrowed: BorrowMutError`). Use `try_borrow_mut()` to get a `Result` instead of a panic, or narrow the scope so the `Ref` is dropped before borrowing mutably."
+      }
+    },
+    {
+      "id": "rust.smart_pointers.005",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "smart_pointers",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác nhau giữa `Cell<T>` và `RefCell<T>` là gì?",
+        "en": "What is the difference between `Cell<T>` and `RefCell<T>`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Cell` thay đổi bằng cách copy/thay thế cả giá trị (`get`/`set`) và không cho tham chiếu vào bên trong; `RefCell` cho mượn `&`/`&mut` với kiểm tra lúc runtime",
+            "en": "`Cell` mutates by copying/replacing the whole value (`get`/`set`) and never hands out inner references; `RefCell` lends `&`/`&mut` with runtime checks"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Cell` an toàn giữa các thread, còn `RefCell` thì không",
+            "en": "`Cell` is thread-safe while `RefCell` is not"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`RefCell` kiểm tra mượn lúc biên dịch, còn `Cell` kiểm tra lúc chạy",
+            "en": "`RefCell` checks borrows at compile time, `Cell` at runtime"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Cell` chỉ dùng được cho `String`",
+            "en": "`Cell` only works with `String`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Cả hai cung cấp interior mutability qua `&self`. `Cell<T>` không bao giờ cho tham chiếu vào giá trị bên trong, chỉ `get` (cần `T: Copy`), `set`, `replace`, `take`, nên không cần đếm borrow và không thể panic. `RefCell<T>` cho `Ref`/`RefMut` để mượn trực tiếp, đổi lại phải đếm borrow lúc runtime và có thể panic nếu vi phạm. Cả hai đều `!Sync`; bản đa luồng tương ứng là kiểu atomic và `Mutex`/`RwLock`.",
+        "en": "Both provide interior mutability through `&self`. `Cell<T>` never gives out references to its contents, only `get` (requires `T: Copy`), `set`, `replace` and `take`, so it needs no borrow tracking and cannot panic. `RefCell<T>` hands out `Ref`/`RefMut` for direct borrowing, at the cost of runtime borrow counting and possible panics on violations. Both are `!Sync`; their multi-threaded counterparts are atomics and `Mutex`/`RwLock`."
+      }
+    },
+    {
+      "id": "rust.smart_pointers.006",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "smart_pointers",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Vì sao đoạn code sau không biên dịch, và cách sửa phổ biến là gì?",
+        "en": "Why does this code fail to compile, and what is the usual fix?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "use std::rc::Rc;\n\nfn main() {\n    let shared = Rc::new(vec![1, 2]);\n    let other = Rc::clone(&shared);\n    other.push(3);\n    println!(\"{:?}\", shared);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ cần khai báo `let mut other`",
+            "en": "Declaring `let mut other` is enough"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Rc::clone` đã deep copy nên `shared` không thấy thay đổi",
+            "en": "`Rc::clone` made a deep copy, so `shared` will not see the change"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Rc` chỉ cho tham chiếu chung `&T` nên không gọi `push` được; dùng `Rc<RefCell<Vec<i32>>>` rồi `borrow_mut()`",
+            "en": "`Rc` only gives a shared `&T`, so `push` is not allowed; use `Rc<RefCell<Vec<i32>>>` and `borrow_mut()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Vec` không được đặt trong `Rc`",
+            "en": "A `Vec` cannot be placed inside an `Rc`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Rc<T>` implement `Deref` nhưng không implement `DerefMut`, vì nhiều owner cùng trỏ tới dữ liệu và cho `&mut` sẽ phá vỡ quy tắc aliasing. Vì vậy `other.push(3)` báo `E0596: cannot borrow data in an Rc as mutable`. `let mut other` không giúp được vì vấn đề nằm ở `Rc`, không ở biến. Cách phổ biến là `Rc<RefCell<Vec<i32>>>` với `other.borrow_mut().push(3)`; ngoài ra `Rc::make_mut` có thể clone-on-write khi cần.",
+        "en": "`Rc<T>` implements `Deref` but not `DerefMut`, because several owners point at the data and handing out `&mut` would break aliasing rules. So `other.push(3)` fails with `E0596: cannot borrow data in an Rc as mutable`. `let mut other` does not help because the issue is `Rc`, not the variable. The usual fix is `Rc<RefCell<Vec<i32>>>` with `other.borrow_mut().push(3)`; alternatively, `Rc::make_mut` can do clone-on-write."
+      }
+    },
+    {
+      "id": "rust.smart_pointers.007",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "smart_pointers",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "`Rc` có thể gây rò rỉ bộ nhớ như thế nào? `Weak<T>` giải quyết vấn đề đó ra sao?",
+        "en": "How can `Rc` leak memory, and how does `Weak<T>` solve it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Hai `Rc` trỏ vòng vào nhau (reference cycle) khiến strong count không bao giờ về 0, nên giá trị không bao giờ bị drop",
+          "en": "Two `Rc`s pointing at each other (a reference cycle) keep the strong count above 0, so the values are never dropped"
+        },
+        {
+          "vi": "Rò rỉ bộ nhớ vẫn là 'safe' trong Rust; borrow checker không ngăn được cycle",
+          "en": "Leaking memory is still 'safe' in Rust; the borrow checker cannot prevent cycles"
+        },
+        {
+          "vi": "`Weak` tạo bằng `Rc::downgrade`, không tăng strong count",
+          "en": "`Weak` is created with `Rc::downgrade` and does not increase the strong count"
+        },
+        {
+          "vi": "Truy cập qua `upgrade()` trả `Option<Rc<T>>`, là `None` nếu giá trị đã bị drop",
+          "en": "Access goes through `upgrade()`, which returns `Option<Rc<T>>`, `None` if the value was dropped"
+        },
+        {
+          "vi": "Mẫu phổ biến: cha giữ `Rc` tới con, con giữ `Weak` tới cha (cây, đồ thị, observer)",
+          "en": "Common pattern: parents hold `Rc` to children, children hold `Weak` to parents (trees, graphs, observers)"
+        }
+      ],
+      "explanation": {
+        "vi": "`Rc` chỉ giải phóng giá trị khi strong count về 0. Nếu A giữ `Rc` tới B và B giữ `Rc` tới A (thường qua `RefCell`), mỗi bên giữ count của bên kia ≥ 1 nên cả hai không bao giờ được drop. Rust coi rò rỉ là an toàn bộ nhớ (thậm chí có `mem::forget`), nên compiler không cảnh báo. `Weak` chỉ tăng weak count; giá trị vẫn bị drop khi hết strong reference, và `upgrade()` trả `None` sau đó. Thiết kế đúng là chọn hướng sở hữu: con trỏ 'xuôi' dùng `Rc`, con trỏ 'ngược' dùng `Weak`.",
+        "en": "`Rc` frees the value only when the strong count reaches 0. If A holds an `Rc` to B and B holds an `Rc` to A (usually via `RefCell`), each keeps the other's count ≥ 1, so neither is ever dropped. Rust considers leaks memory-safe (there is even `mem::forget`), so the compiler gives no warning. `Weak` only bumps the weak count; the value is still dropped when strong references run out, and `upgrade()` returns `None` afterwards. The right design picks an ownership direction: 'forward' pointers use `Rc`, 'back' pointers use `Weak`."
+      }
+    },
+    {
+      "id": "rust.smart_pointers.008",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "smart_pointers",
+      "level": "senior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao `Cell`, `RefCell`, `Mutex` và các kiểu atomic đều được xây dựng trên `UnsafeCell<T>`?",
+        "en": "Why are `Cell`, `RefCell`, `Mutex` and the atomic types all built on `UnsafeCell<T>`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Vì `UnsafeCell` nhanh hơn; về ngữ nghĩa, ép `&T` thành `*mut T` rồi ghi cũng hợp lệ trong `unsafe`",
+            "en": "Because `UnsafeCell` is faster; semantically, casting `&T` to `*mut T` and writing is also valid in `unsafe`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Vì `UnsafeCell` tự thêm khóa để chống data race",
+            "en": "Because `UnsafeCell` adds a lock to prevent data races"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Vì thay đổi dữ liệu phía sau một `&T` là undefined behavior trừ khi dữ liệu nằm trong `UnsafeCell`; đây là primitive duy nhất báo cho compiler bỏ giả định bất biến",
+            "en": "Because mutating data behind a `&T` is undefined behavior unless it lives in an `UnsafeCell`; it is the only primitive that tells the compiler to drop its immutability assumption"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Vì khối `unsafe` tắt borrow checker cho toàn bộ module",
+            "en": "Because an `unsafe` block disables the borrow checker for the whole module"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Compiler giả định dữ liệu phía sau `&T` không đổi trong suốt thời gian borrow và tối ưu dựa trên điều đó (ví dụ gắn thuộc tính `noalias`/`readonly` cho LLVM). Vì vậy ép `&T` thành `*mut T` rồi ghi là UB, kể cả trong `unsafe`. `UnsafeCell<T>` là ngoại lệ duy nhất được ngôn ngữ công nhận: `get()` trả `*mut T`, và kiểu bọc ngoài tự chịu trách nhiệm giữ invariant (`Cell` không cho tham chiếu vào trong, `RefCell` đếm borrow, `Mutex` dùng khóa). Bản thân `UnsafeCell` không đồng bộ gì và là `!Sync`; `unsafe` cũng không tắt borrow checker, nó chỉ mở thêm vài thao tác như deref raw pointer hay gọi hàm `unsafe`.",
+        "en": "The compiler assumes data behind a `&T` does not change for the duration of the borrow and optimizes accordingly (e.g. emitting `noalias`/`readonly` attributes for LLVM). So casting `&T` to `*mut T` and writing is UB, even inside `unsafe`. `UnsafeCell<T>` is the single exception the language recognizes: `get()` returns a `*mut T`, and the wrapping type is responsible for upholding its invariants (`Cell` never lends inner references, `RefCell` counts borrows, `Mutex` locks). `UnsafeCell` itself synchronizes nothing and is `!Sync`; and `unsafe` does not turn off the borrow checker, it only unlocks a few extra operations such as dereferencing raw pointers or calling `unsafe` functions."
+      }
+    },
+    {
+      "id": "rust.concurrency.001",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "concurrency",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`handle.join()` trên `JoinHandle<T>` mà `thread::spawn` trả về làm gì?",
+        "en": "What does `handle.join()` do on the `JoinHandle<T>` returned by `thread::spawn`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khởi động thread con; trước khi gọi `join` thread chưa chạy",
+            "en": "Starts the child thread; it does not run before `join` is called"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hủy thread con ngay lập tức",
+            "en": "Kills the child thread immediately"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chặn thread hiện tại tới khi thread con kết thúc, trả về `Result<T, _>` chứa giá trị closure trả về (`Err` nếu thread con panic)",
+            "en": "Blocks the current thread until the child finishes and returns a `Result<T, _>` with the closure's return value (`Err` if the child panicked)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gộp hai thread thành một để chạy tuần tự",
+            "en": "Merges two threads into one that runs sequentially"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`thread::spawn` khởi chạy thread ngay lập tức và trả về `JoinHandle<T>`. `join()` chờ thread đó kết thúc và trả `Ok(value)` với giá trị closure trả về, hoặc `Err` chứa payload nếu thread con panic, nên thường thấy `handle.join().unwrap()`. Nếu `main` kết thúc mà chưa `join`, các thread con bị dừng khi process thoát. Rust không có API an toàn để hủy thread từ bên ngoài; muốn dừng phải dùng tín hiệu như channel hoặc `AtomicBool`.",
+        "en": "`thread::spawn` starts the thread immediately and returns a `JoinHandle<T>`. `join()` waits for that thread to finish and returns `Ok(value)` with the closure's return value, or `Err` with the panic payload if the child panicked, hence the common `handle.join().unwrap()`. If `main` ends without joining, child threads are stopped when the process exits. Rust has no safe API to kill a thread from outside; to stop one, signal it via a channel or an `AtomicBool`."
+      }
+    },
+    {
+      "id": "rust.concurrency.002",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "concurrency",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Vì sao đoạn code sau không biên dịch?",
+        "en": "Why does this code fail to compile?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "use std::thread;\n\nfn main() {\n    let data = vec![1, 2, 3];\n    let handle = thread::spawn(|| {\n        println!(\"{:?}\", data);\n    });\n    handle.join().unwrap();\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Closure mượn `data` nhưng thread có thể sống lâu hơn `main`; cần thêm `move` trước closure",
+            "en": "The closure borrows `data` but the thread may outlive `main`; add `move` before the closure"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Vec<i32>` không implement `Send`",
+            "en": "`Vec<i32>` does not implement `Send`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải gọi `handle.join()` trước `thread::spawn`",
+            "en": "`handle.join()` must be called before `thread::spawn`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`println!` không được gọi trong thread con",
+            "en": "`println!` cannot be called in a child thread"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`thread::spawn` yêu cầu closure là `'static`, vì compiler không biết thread con sẽ chạy bao lâu so với biến local. Closure chỉ đọc `data` nên mặc định capture bằng tham chiếu, dẫn tới `E0373: closure may outlive the current function, but it borrows data`. `move ||` chuyển ownership của `data` vào closure và giải quyết lỗi. `Vec<i32>` là `Send` nên move qua thread hợp lệ; nếu muốn mượn dữ liệu local mà không move, hãy dùng `std::thread::scope`.",
+        "en": "`thread::spawn` requires a `'static` closure, because the compiler cannot know how long the child thread runs relative to local variables. The closure only reads `data`, so it captures it by reference by default, causing `E0373: closure may outlive the current function, but it borrows data`. `move ||` moves ownership of `data` into the closure and fixes it. `Vec<i32>` is `Send`, so moving it to a thread is fine; to borrow locals without moving, use `std::thread::scope`."
+      }
+    },
+    {
+      "id": "rust.concurrency.003",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "concurrency",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "use std::sync::mpsc;\nuse std::thread;\n\nfn main() {\n    let (tx, rx) = mpsc::channel();\n    thread::spawn(move || {\n        for i in 1..=3 {\n            tx.send(i * 10).unwrap();\n        }\n    });\n    let total: i32 = rx.iter().sum();\n    println!(\"{}\", total);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Treo mãi vì `rx.iter()` không bao giờ kết thúc",
+            "en": "It hangs forever because `rx.iter()` never ends"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "10",
+            "en": "10"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch: `tx` bị move vào closure",
+            "en": "Compile error: `tx` is moved into the closure"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "60",
+            "en": "60"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`tx` được move vào thread con; sau khi gửi `10, 20, 30` và closure kết thúc, `tx` bị drop. `rx.iter()` chặn chờ từng message và kết thúc khi mọi `Sender` đã bị drop, nên tổng là `60`. Nếu vẫn còn một `Sender` sống trong `main` (ví dụ đã `clone` mà không drop), `rx.iter()` sẽ treo mãi. Move `tx` vào closure chính là cách dùng đúng.",
+        "en": "`tx` is moved into the child thread; after sending `10, 20, 30` the closure ends and `tx` is dropped. `rx.iter()` blocks for each message and ends once every `Sender` has been dropped, so the total is `60`. If a `Sender` were still alive in `main` (e.g. a clone that was never dropped), `rx.iter()` would hang forever. Moving `tx` into the closure is exactly the right usage."
+      }
+    },
+    {
+      "id": "rust.concurrency.004",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Vì sao muốn chia sẻ dữ liệu có thể thay đổi giữa nhiều thread thường cần `Arc<Mutex<T>>`? Nêu các lưu ý khi dùng.",
+        "en": "Why does sharing mutable data across threads usually require `Arc<Mutex<T>>`? What should you watch out for?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`Arc` cho nhiều thread cùng sở hữu dữ liệu nhờ reference count atomic; `Rc` không `Send` nên không dùng được",
+          "en": "`Arc` lets many threads co-own the data with an atomic reference count; `Rc` is not `Send`, so it cannot be used"
+        },
+        {
+          "vi": "`Mutex` cung cấp interior mutability có khóa: tại một thời điểm chỉ một thread giữ `MutexGuard`",
+          "en": "`Mutex` provides locked interior mutability: only one thread holds the `MutexGuard` at a time"
+        },
+        {
+          "vi": "Khóa tự mở khi `MutexGuard` bị drop (RAII); nên giữ guard càng ngắn càng tốt",
+          "en": "The lock is released when the `MutexGuard` is dropped (RAII); keep guards as short-lived as possible"
+        },
+        {
+          "vi": "Rủi ro deadlock khi khóa nhiều mutex theo thứ tự khác nhau hoặc khóa lại trong cùng thread",
+          "en": "Deadlocks happen when locking several mutexes in different orders or re-locking in the same thread"
+        },
+        {
+          "vi": "Thread panic khi đang giữ khóa làm mutex bị poisoned: `lock()` trả về `Err`",
+          "en": "A thread panicking while holding the lock poisons the mutex: `lock()` returns `Err`"
+        }
+      ],
+      "explanation": {
+        "vi": "`Arc<T>` chỉ cho chia sẻ ownership và chỉ cho `&T`, nên cần thêm `Mutex<T>` (hoặc `RwLock`, atomic) để thay đổi dữ liệu một cách an toàn. `lock()` trả `MutexGuard`, deref thành `&mut T`, và tự mở khóa khi guard bị drop, nên cần chú ý scope của guard (ví dụ không giữ guard qua thao tác chậm hay qua `.await`). Rust ngăn data race lúc biên dịch nhưng không ngăn deadlock hay logic race, nên vẫn phải thiết kế thứ tự khóa. Với bộ đếm đơn giản, `AtomicUsize` thường nhẹ hơn `Mutex`.",
+        "en": "`Arc<T>` only shares ownership and only gives `&T`, so you add `Mutex<T>` (or `RwLock`, atomics) to mutate the data safely. `lock()` returns a `MutexGuard` that derefs to `&mut T` and unlocks when dropped, so the guard's scope matters (e.g. do not hold it across slow work or an `.await`). Rust prevents data races at compile time but not deadlocks or logic races, so lock ordering still needs design. For a simple counter, `AtomicUsize` is usually lighter than a `Mutex`."
+      }
+    },
+    {
+      "id": "rust.concurrency.005",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Vì sao đoạn code sau không biên dịch?",
+        "en": "Why does this code fail to compile?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "use std::rc::Rc;\nuse std::thread;\n\nfn main() {\n    let shared = Rc::new(5);\n    let s2 = Rc::clone(&shared);\n    let h = thread::spawn(move || {\n        println!(\"{}\", s2);\n    });\n    h.join().unwrap();\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thiếu `move` trước closure",
+            "en": "The closure is missing `move`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Rc<i32>` không implement `Send` vì reference count không atomic; đổi sang `Arc`",
+            "en": "`Rc<i32>` does not implement `Send` because its reference count is not atomic; switch to `Arc`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`i32` không in được trong thread con",
+            "en": "An `i32` cannot be printed in a child thread"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Rc::clone` phải được gọi bên trong closure",
+            "en": "`Rc::clone` must be called inside the closure"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`thread::spawn` yêu cầu closure và mọi thứ nó capture đều là `Send`. `Rc` dùng bộ đếm thường (không atomic); nếu hai thread cùng clone/drop thì count có thể bị hỏng, nên `Rc<T>` là `!Send` và compiler báo `E0277: Rc<i32> cannot be sent between threads safely`. Đổi sang `Arc` (atomic reference count) là đủ trong trường hợp này. Closure đã có `move`, nên vấn đề không nằm ở cách capture.",
+        "en": "`thread::spawn` requires the closure and everything it captures to be `Send`. `Rc` uses a plain (non-atomic) counter; two threads cloning/dropping at once could corrupt it, so `Rc<T>` is `!Send` and the compiler reports `E0277: Rc<i32> cannot be sent between threads safely`. Switching to `Arc` (atomic reference count) is enough here. The closure already uses `move`, so capturing is not the problem."
+      }
+    },
+    {
+      "id": "rust.concurrency.006",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Định nghĩa nào đúng cho `Send` và `Sync`?",
+        "en": "Which definition of `Send` and `Sync` is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`T: Send` nếu có thể chuyển ownership `T` sang thread khác; `T: Sync` nếu `&T` có thể chia sẻ giữa các thread (tức `&T: Send`)",
+            "en": "`T: Send` if ownership of `T` can move to another thread; `T: Sync` if `&T` can be shared between threads (i.e. `&T: Send`)"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Send` cho phép gửi qua channel, `Sync` cho phép dùng trong `async`",
+            "en": "`Send` allows sending over a channel, `Sync` allows use in `async`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Sync` nghĩa là kiểu tự có khóa bên trong",
+            "en": "`Sync` means the type has a built-in lock"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải tự `impl Send` cho mọi struct muốn dùng trong thread",
+            "en": "You must manually `impl Send` for every struct used in threads"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Send` và `Sync` là auto trait: compiler tự implement cho struct nếu mọi field đều `Send`/`Sync`, nên hiếm khi phải viết tay (và khi viết thì phải là `unsafe impl`). Ví dụ `Rc<T>` không `Send` cũng không `Sync`; `RefCell<T>` là `Send` (khi `T: Send`) nhưng không `Sync`; `Mutex<T>` là `Sync` khi `T: Send`. `Sync` không có nghĩa là có khóa bên trong, mà là truy cập qua `&T` từ nhiều thread không gây data race; `i32` là `Sync` mà không cần khóa nào.",
+        "en": "`Send` and `Sync` are auto traits: the compiler implements them for a struct when all fields are `Send`/`Sync`, so you rarely write them by hand (and doing so requires `unsafe impl`). For example `Rc<T>` is neither `Send` nor `Sync`; `RefCell<T>` is `Send` (when `T: Send`) but not `Sync`; `Mutex<T>` is `Sync` when `T: Send`. `Sync` does not mean there is a lock inside, only that access through `&T` from many threads cannot cause a data race; `i32` is `Sync` with no lock at all."
+      }
+    },
+    {
+      "id": "rust.concurrency.007",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong code async (ví dụ dùng `tokio`), gọi `fetch_user(1);` (một `async fn`) mà không có `.await` thì điều gì xảy ra?",
+        "en": "In async code (e.g. with `tokio`), what happens if you call `fetch_user(1);` (an `async fn`) without `.await`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hàm chạy ngầm trên một thread khác giống `thread::spawn`",
+            "en": "The function runs in the background on another thread, like `thread::spawn`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hàm chạy đồng bộ tới khi xong rồi mới trả về",
+            "en": "The function runs synchronously to completion before returning"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch: `async fn` bắt buộc phải được `.await`",
+            "en": "Compile error: an `async fn` must be `.await`ed"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không có gì chạy: lời gọi chỉ tạo một `Future` lazy rồi bị drop; compiler cảnh báo future không được sử dụng",
+            "en": "Nothing runs: the call only creates a lazy `Future` that is dropped; the compiler warns that the future is unused"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Future trong Rust là lazy: gọi `async fn` chỉ tạo state machine, chưa chạy dòng code nào bên trong. Chỉ khi được poll, qua `.await` trong một async context hoặc khi giao cho executor như `tokio::spawn`/`block_on`, nó mới tiến triển. Điều này khác JavaScript, nơi Promise bắt đầu chạy ngay khi được tạo. Compiler chỉ cảnh báo (`unused_must_use`) chứ không báo lỗi, nên đây là bug dễ bị bỏ sót.",
+        "en": "Rust futures are lazy: calling an `async fn` only builds a state machine without running any of its body. It makes progress only when polled, via `.await` in an async context or when handed to an executor such as `tokio::spawn`/`block_on`. This differs from JavaScript, where a Promise starts running as soon as it is created. The compiler only warns (`unused_must_use`) rather than erroring, which makes this bug easy to miss."
+      }
+    },
+    {
+      "id": "rust.concurrency.008",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "concurrency",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Hàm `require_send` mô phỏng bound `F: Send` của `tokio::spawn`. Vì sao đoạn code sau không biên dịch?",
+        "en": "`require_send` mimics the `F: Send` bound of `tokio::spawn`. Why does this code fail to compile?"
+      },
+      "code": {
+        "language": "rust",
+        "source": "use std::rc::Rc;\n\nasync fn tick() {}\n\nasync fn work() {\n    let data = Rc::new(1);\n    tick().await;\n    println!(\"{}\", data);\n}\n\nfn require_send<T: Send>(_: T) {}\n\nfn main() {\n    require_send(work());\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không được truyền kết quả của `async fn` vào một hàm thường",
+            "en": "The result of an `async fn` cannot be passed to a regular function"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`tick()` phải trả về giá trị thì mới `.await` được",
+            "en": "`tick()` must return a value to be `.await`ed"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`main` phải là `async` mới gọi được `work()`",
+            "en": "`main` must be `async` to call `work()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Rc` được giữ qua điểm `.await` nên nằm trong state của future, làm cả future thành `!Send`",
+            "en": "The `Rc` is held across an `.await`, so it is stored in the future's state and makes the whole future `!Send`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Future của `async fn` là một state machine lưu mọi biến còn sống qua một điểm `.await`. `data: Rc<i32>` còn được dùng sau `tick().await` nên trở thành một field của future; vì `Rc` là `!Send`, cả future là `!Send` và compiler báo `future cannot be sent between threads safely`. Runtime đa luồng như `tokio::spawn` có thể chuyển future giữa các worker thread ở mỗi `.await`, nên bound `Send` là bắt buộc. Sửa bằng `Arc`, hoặc đảm bảo `Rc` bị drop trước `.await` (đặt trong block riêng); còn gọi `work()` từ hàm thường là hợp lệ vì nó chỉ tạo future.",
+        "en": "An `async fn`'s future is a state machine that stores every variable alive across an `.await`. `data: Rc<i32>` is used after `tick().await`, so it becomes a field of the future; since `Rc` is `!Send`, the whole future is `!Send` and the compiler reports `future cannot be sent between threads safely`. A multi-threaded runtime like `tokio::spawn` may move the future between worker threads at each `.await`, so `Send` is mandatory. Fix it with `Arc`, or make sure the `Rc` is dropped before the `.await` (put it in its own block); calling `work()` from a regular function is fine because it only creates the future."
+      }
+    },
+    {
+      "id": "rust.concurrency.009",
+      "contentVersion": 1,
+      "trackId": "rust",
+      "topicId": "concurrency",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Vì sao `Future::poll` nhận `self: Pin<&mut Self>`? Giải thích `Pin` và `Unpin`.",
+        "en": "Why does `Future::poll` take `self: Pin<&mut Self>`? Explain `Pin` and `Unpin`."
+      },
+      "keyPoints": [
+        {
+          "vi": "`async fn` sinh state machine có thể tự tham chiếu: biến local mượn biến local khác qua điểm `.await`",
+          "en": "`async fn` produces state machines that can be self-referential: a local borrows another local across an `.await`"
+        },
+        {
+          "vi": "Nếu future bị move sau khi đã poll, con trỏ nội bộ sẽ dangling; `Pin` đảm bảo giá trị không bị move nữa cho tới khi drop",
+          "en": "If the future moved after being polled, its internal pointers would dangle; `Pin` guarantees it will not move again until dropped"
+        },
+        {
+          "vi": "`Unpin` là auto trait cho kiểu an toàn khi move dù bị pin (đa số kiểu thường); future sinh từ `async` là `!Unpin`",
+          "en": "`Unpin` is an auto trait for types that are safe to move even when pinned (most ordinary types); `async`-generated futures are `!Unpin`"
+        },
+        {
+          "vi": "Pin future bằng `Box::pin` (heap) hoặc `std::pin::pin!` (stack) trước khi poll thủ công hoặc dùng `&mut fut` trong `select!`",
+          "en": "Pin a future with `Box::pin` (heap) or `std::pin::pin!` (stack) before polling it manually or using `&mut fut` in `select!`"
+        },
+        {
+          "vi": "`Pin` là ràng buộc ở type system, không tốn chi phí runtime; tạo `Pin` cho kiểu `!Unpin` từ con trỏ tùy ý cần `unsafe` (`Pin::new_unchecked`)",
+          "en": "`Pin` is a type-system contract with no runtime cost; pinning a `!Unpin` value from an arbitrary pointer needs `unsafe` (`Pin::new_unchecked`)"
+        }
+      ],
+      "explanation": {
+        "vi": "Trong `async { let buf = [0u8; 64]; let r = &buf; read(r).await; }`, cả `buf` và `r` đều được lưu trong cùng struct future, nên `r` trỏ vào chính struct đó. Nếu struct bị move (ví dụ `mem::swap`) sau lần poll đầu, `r` sẽ trỏ vào vùng nhớ cũ. `Pin<&mut Self>` là cam kết rằng giá trị sẽ không bị move nữa, nên `poll` có thể dựa vào địa chỉ cố định; safe code không lấy được `&mut Self` từ `Pin` của kiểu `!Unpin`. Kiểu `Unpin` (như `i32`, `Vec`) không có vấn đề này nên `Pin` với chúng không có tác dụng gì. Trong thực tế hay gặp `Box::pin(fut)` để lưu `Pin<Box<dyn Future>>`, hoặc `tokio::pin!`/`std::pin::pin!` khi cần poll lại cùng một future trong vòng lặp `select!`.",
+        "en": "In `async { let buf = [0u8; 64]; let r = &buf; read(r).await; }`, both `buf` and `r` are stored in the same future struct, so `r` points into that very struct. If the struct moved (e.g. via `mem::swap`) after the first poll, `r` would point at the old location. `Pin<&mut Self>` is a promise that the value will not move again, so `poll` can rely on a stable address; safe code cannot get `&mut Self` out of a `Pin` for a `!Unpin` type. `Unpin` types (like `i32` or `Vec`) have no such issue, so pinning them has no effect. In practice you see `Box::pin(fut)` to store a `Pin<Box<dyn Future>>`, and `tokio::pin!`/`std::pin::pin!` when the same future must be polled repeatedly in a `select!` loop."
+      }
+    }
+  ]
+}

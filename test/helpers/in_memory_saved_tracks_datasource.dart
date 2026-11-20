@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:AppName/features/catalog/data/datasources/saved_tracks_local_datasource.dart';
+import 'package:interview_practice/features/catalog/data/datasources/saved_tracks_local_datasource.dart';
 
 class InMemorySavedTracksLocalDataSource implements SavedTracksLocalDataSource {
   List<String> ids = const [];

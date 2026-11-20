@@ -2,8 +2,8 @@
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
-import 'package:AppName/features/profile/domain/repositories/profile_repository.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
 
 @injectable
 class GetProfile {
@@ -20,8 +20,7 @@ class SaveProfile {
 
   SaveProfile(this._repository);
 
-  Future<LearnerProfile> call(ProfileFields fields) =>
-      _repository.save(fields);
+  Future<LearnerProfile> call(ProfileFields fields) => _repository.save(fields);
 }
 
 @injectable
@@ -31,8 +30,7 @@ class StoreAvatar {
   StoreAvatar(this._repository);
 
   /// Returns the stored file name.
-  Future<String> call(String sourcePath) =>
-      _repository.storeAvatar(sourcePath);
+  Future<String> call(String sourcePath) => _repository.storeAvatar(sourcePath);
 }
 
 @injectable

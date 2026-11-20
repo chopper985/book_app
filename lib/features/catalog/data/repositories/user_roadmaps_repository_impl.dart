@@ -5,11 +5,11 @@ import 'dart:async';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/helpers/app_clock.dart';
-import 'package:AppName/features/catalog/data/datasources/user_roadmaps_local_datasource.dart';
-import 'package:AppName/features/catalog/domain/entities/user_roadmap.dart';
-import 'package:AppName/features/catalog/domain/repositories/user_roadmaps_repository.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
+import 'package:interview_practice/core/helpers/app_clock.dart';
+import 'package:interview_practice/features/catalog/data/datasources/user_roadmaps_local_datasource.dart';
+import 'package:interview_practice/features/catalog/domain/entities/user_roadmap.dart';
+import 'package:interview_practice/features/catalog/domain/repositories/user_roadmaps_repository.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
 
 @LazySingleton(as: UserRoadmapsRepository)
 class UserRoadmapsRepositoryImpl implements UserRoadmapsRepository {
@@ -35,12 +35,33 @@ class UserRoadmapsRepositoryImpl implements UserRoadmapsRepository {
   Stream<void> get changes => _changes.stream;
 
   @override
-  Future<UserRoadmap> add(String trackId, QuestionLevel level) async {
-    final id = UserRoadmap.idOf(trackId, level);
+  Future<UserRoadmap> add(String trackId, QuestionLevel level) => _addOrReuse(
+        UserRoadmap(trackId: trackId, level: level, addedAt: _clock.now()),
+      );
+
+  @override
+  Future<UserRoadmap> addPosition({
+    required String positionId,
+    required String optionId,
+    required String mainTrackId,
+    required QuestionLevel level,
+  }) =>
+      _addOrReuse(
+        UserRoadmap(
+          trackId: mainTrackId,
+          level: level,
+          addedAt: _clock.now(),
+          positionId: positionId,
+          optionId: optionId,
+        ),
+      );
+
+  /// Moves an existing roadmap with the same id to the top instead of
+  /// adding a duplicate, and makes it active.
+  Future<UserRoadmap> _addOrReuse(UserRoadmap candidate) async {
+    final id = candidate.id;
     final current = _local.read().roadmaps;
-    final existing = current.where((r) => r.id == id).firstOrNull;
-    final roadmap = existing ??
-        UserRoadmap(trackId: trackId, level: level, addedAt: _clock.now());
+    final roadmap = current.where((r) => r.id == id).firstOrNull ?? candidate;
     await _save([roadmap, ...current.where((r) => r.id != id)], id);
     return roadmap;
   }
@@ -57,9 +78,8 @@ class UserRoadmapsRepositoryImpl implements UserRoadmapsRepository {
   Future<void> remove(String roadmapId) async {
     final data = _local.read();
     final remaining = data.roadmaps.where((r) => r.id != roadmapId).toList();
-    final activeId = data.activeId == roadmapId
-        ? remaining.firstOrNull?.id
-        : data.activeId;
+    final activeId =
+        data.activeId == roadmapId ? remaining.firstOrNull?.id : data.activeId;
     await _save(remaining, activeId);
   }
 

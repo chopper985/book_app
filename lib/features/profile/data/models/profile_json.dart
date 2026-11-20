@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 
 /// JSON mapping of [LearnerProfile]. Timestamps are UTC epoch milliseconds;
 /// calendar days (interview, birth date) are stored as `yyyy-MM-dd`.

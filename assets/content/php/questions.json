@@ -1,0 +1,3067 @@
+{
+  "questions": [
+    {
+      "id": "php.basics.001",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt giữa `==` và `===` trong PHP là gì?",
+        "en": "What is the difference between `==` and `===` in PHP?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`==` so sánh cả kiểu, còn `===` chỉ so sánh giá trị",
+            "en": "`==` also compares types, while `===` compares only values"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Từ PHP 8 hai toán tử hoàn toàn giống nhau",
+            "en": "Since PHP 8 the two operators are identical"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`===` chỉ dùng để so sánh object",
+            "en": "`===` can only be used to compare objects"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`===` so sánh cả giá trị lẫn kiểu và không ép kiểu; `==` ép kiểu (type juggling) rồi mới so sánh",
+            "en": "`===` compares both value and type without conversion; `==` juggles types before comparing"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`===` (identical) chỉ trả về `true` khi hai vế cùng kiểu và cùng giá trị, nên `1 === \"1\"` là `false`. `==` (equal) ép kiểu trước nên `1 == \"1\"` là `true`. PHP 8 đã làm `==` giữa số và chuỗi an toàn hơn nhưng vẫn có type juggling, vì vậy nên mặc định dùng `===`.",
+        "en": "`===` (identical) is `true` only when both sides have the same type and value, so `1 === \"1\"` is `false`. `==` (equal) juggles types first, so `1 == \"1\"` is `true`. PHP 8 made `==` between numbers and strings safer but it still juggles types, so `===` is the sensible default."
+      }
+    },
+    {
+      "id": "php.basics.002",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Với PHP 8.2, đoạn code sau in ra gì? (rút gọn `bool(...)`, mỗi `var_dump` một dòng)",
+        "en": "On PHP 8.2, what does the following code print? (`bool(...)` shortened, one line per `var_dump`)"
+      },
+      "code": {
+        "language": "php",
+        "source": "var_dump(0 == \"a\");\nvar_dump(\"1\" == \"01\");\nvar_dump(100 == \"1e2\");"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "false, true, true"
+        },
+        {
+          "id": "b",
+          "text": "true, true, true"
+        },
+        {
+          "id": "c",
+          "text": "false, false, true"
+        },
+        {
+          "id": "d",
+          "text": "false, true, false"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Từ PHP 8, khi so sánh số với chuỗi không phải số, số được chuyển thành chuỗi rồi so sánh chuỗi, nên `0 == \"a\"` là `false` (PHP 7 trả về `true` vì ép `\"a\"` thành `0`). `\"1\"` và `\"01\"` đều là numeric string nên được so sánh như số và bằng nhau. `\"1e2\"` là numeric string có giá trị `100` nên `100 == \"1e2\"` cũng là `true`.",
+        "en": "Since PHP 8, comparing a number with a non-numeric string casts the number to a string and compares strings, so `0 == \"a\"` is `false` (PHP 7 returned `true` by casting `\"a\"` to `0`). `\"1\"` and `\"01\"` are both numeric strings, so they are compared as numbers and are equal. `\"1e2\"` is a numeric string worth `100`, so `100 == \"1e2\"` is `true` too."
+      }
+    },
+    {
+      "id": "php.basics.003",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì? (rút gọn `bool(...)`)",
+        "en": "What does the following code print? (`bool(...)` shortened)"
+      },
+      "code": {
+        "language": "php",
+        "source": "$a = \"0\";\n$b = null;\nvar_dump(isset($a), empty($a), isset($b), is_null($b));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "true, true, false, true"
+        },
+        {
+          "id": "b",
+          "text": "true, false, false, true"
+        },
+        {
+          "id": "c",
+          "text": "false, true, false, true"
+        },
+        {
+          "id": "d",
+          "text": "true, true, true, true"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`isset()` trả về `true` khi biến tồn tại và khác `null`, nên `isset($a)` là `true` còn `isset($b)` là `false`. `empty()` trả về `true` với mọi giá trị falsy: `\"\"`, `\"0\"`, `0`, `null`, `false`, `[]`, nên chuỗi `\"0\"` vẫn bị coi là rỗng. Lỗi hay gặp là nghĩ `\"0\"` là chuỗi có ký tự nên `empty()` trả về `false`.",
+        "en": "`isset()` returns `true` when the variable exists and is not `null`, so `isset($a)` is `true` and `isset($b)` is `false`. `empty()` is `true` for every falsy value: `\"\"`, `\"0\"`, `0`, `null`, `false`, `[]`, so the string `\"0\"` counts as empty. A common mistake is assuming `\"0\"` is non-empty because it has a character."
+      }
+    },
+    {
+      "id": "php.basics.004",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`include` và `require` khác nhau thế nào khi file cần nạp không tồn tại?",
+        "en": "How do `include` and `require` differ when the file does not exist?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`require` gây fatal error và dừng script; `include` chỉ phát warning rồi chạy tiếp",
+            "en": "`require` raises a fatal error and stops the script; `include` only emits a warning and continues"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`include` gây fatal error, còn `require` chỉ phát warning",
+            "en": "`include` raises a fatal error, while `require` only emits a warning"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả hai đều chỉ phát notice và chạy tiếp",
+            "en": "Both only emit a notice and continue"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`include` chỉ nạp được file `.html`, `require` chỉ nạp được file `.php`",
+            "en": "`include` only loads `.html` files and `require` only loads `.php` files"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Khi không tìm thấy file, `require` gây lỗi nghiêm trọng (fatal) và dừng thực thi, còn `include` chỉ phát `E_WARNING` và chạy tiếp. Vì vậy file bắt buộc như `vendor/autoload.php` hay config nên dùng `require`. Các biến thể `require_once`/`include_once` còn đảm bảo file chỉ được nạp một lần.",
+        "en": "When the file is missing, `require` raises a fatal error and stops execution, while `include` only emits an `E_WARNING` and keeps going. So essential files such as `vendor/autoload.php` or config should use `require`. The `require_once`/`include_once` variants also make sure a file is loaded only once."
+      }
+    },
+    {
+      "id": "php.basics.005",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi nào nên dùng method `POST` thay vì `GET` cho một form?",
+        "en": "When should a form use `POST` instead of `GET`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khi muốn người dùng bookmark và chia sẻ được trang kết quả tìm kiếm",
+            "en": "When users should be able to bookmark and share a search results page"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Luôn dùng `POST` vì dữ liệu `POST` được mã hóa kể cả khi không có HTTPS",
+            "en": "Always, because `POST` data is encrypted even without HTTPS"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Khi request thay đổi dữ liệu trên server (tạo, sửa, xóa) hoặc gửi dữ liệu nhạy cảm, vì `GET` đặt tham số lên URL",
+            "en": "When the request changes server data (create, update, delete) or sends sensitive data, because `GET` puts parameters in the URL"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Khi cần đọc dữ liệu bằng `$_GET`, vì PHP 8 không còn `$_POST`",
+            "en": "When you want to read data via `$_GET`, since PHP 8 removed `$_POST`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Tham số `GET` nằm trên query string, hiện trong lịch sử trình duyệt, log server và header `Referer`, và request `GET` nên an toàn, idempotent. Dữ liệu `POST` nằm trong body, đọc bằng `$_POST`, phù hợp cho thao tác thay đổi dữ liệu. Tuy vậy `POST` không tự mã hóa gì cả; muốn bảo mật đường truyền phải dùng HTTPS.",
+        "en": "`GET` parameters live in the query string and show up in browser history, server logs and the `Referer` header, and `GET` requests should be safe and idempotent. `POST` data travels in the body, is read via `$_POST` and fits state-changing actions. However, `POST` encrypts nothing by itself; transport security requires HTTPS."
+      }
+    },
+    {
+      "id": "php.basics.006",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "php",
+        "source": "$arr = [1, 2, 3, 4, 5];\n$even = array_filter($arr, fn($n) => $n % 2 === 0);\necho json_encode($even);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "[2,4]"
+        },
+        {
+          "id": "b",
+          "text": "[1,3,5]"
+        },
+        {
+          "id": "c",
+          "text": "{\"0\":2,\"1\":4}"
+        },
+        {
+          "id": "d",
+          "text": "{\"1\":2,\"3\":4}"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`array_filter()` giữ nguyên key gốc, nên kết quả là `[1 => 2, 3 => 4]`. Vì key không liên tục từ 0, `json_encode()` coi đây là mảng kết hợp và sinh ra object JSON thay vì array. Muốn có `[2,4]` thì bọc thêm `array_values()` trước khi encode; đây là lỗi hay làm API trả về sai kiểu dữ liệu.",
+        "en": "`array_filter()` preserves the original keys, so the result is `[1 => 2, 3 => 4]`. Because the keys are not sequential from 0, `json_encode()` treats it as an associative array and emits a JSON object instead of a list. Wrap it in `array_values()` to get `[2,4]`; this bug often makes APIs return the wrong JSON type."
+      }
+    },
+    {
+      "id": "php.basics.007",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "php",
+        "source": "echo \"5\" + \"5\", \" \", \"5\" . \"5\";"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "55 10"
+        },
+        {
+          "id": "b",
+          "text": "55 55"
+        },
+        {
+          "id": "c",
+          "text": "10 10"
+        },
+        {
+          "id": "d",
+          "text": "10 55"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Trong PHP, `+` luôn là phép cộng số học nên hai numeric string `\"5\"` được chuyển thành số và cho `10`. Toán tử `.` mới là phép nối chuỗi, nên `\"5\" . \"5\"` là `\"55\"`. Khác JavaScript, PHP không dùng `+` để nối chuỗi.",
+        "en": "In PHP, `+` is always arithmetic addition, so the two numeric strings `\"5\"` become numbers and give `10`. The `.` operator is string concatenation, so `\"5\" . \"5\"` is `\"55\"`. Unlike JavaScript, PHP never uses `+` to join strings."
+      }
+    },
+    {
+      "id": "php.basics.008",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Phân biệt session và cookie trong PHP. Khi nào dùng cái nào và cần lưu ý gì về bảo mật?",
+        "en": "Explain the difference between sessions and cookies in PHP. When do you use each, and what are the security concerns?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Cookie lưu ở trình duyệt, gửi kèm mỗi request, người dùng đọc và sửa được",
+          "en": "Cookies live in the browser, are sent with every request and can be read and edited by the user"
+        },
+        {
+          "vi": "Session lưu dữ liệu ở server, trình duyệt chỉ giữ session id (cookie `PHPSESSID` hoặc `laravel_session`)",
+          "en": "Sessions keep data on the server; the browser only holds the session id (`PHPSESSID` or `laravel_session` cookie)"
+        },
+        {
+          "vi": "Dùng `session_start()` và `$_SESSION` (Laravel: `session()`), `setcookie()` để ghi cookie",
+          "en": "Use `session_start()` and `$_SESSION` (Laravel: `session()`), and `setcookie()` to write cookies"
+        },
+        {
+          "vi": "Bảo mật: cờ `HttpOnly`, `Secure`, `SameSite`; tạo lại session id sau khi đăng nhập để chống session fixation; không để dữ liệu nhạy cảm trong cookie",
+          "en": "Security: `HttpOnly`, `Secure`, `SameSite` flags; regenerate the session id after login against session fixation; keep sensitive data out of cookies"
+        }
+      ],
+      "explanation": {
+        "vi": "Cookie là dữ liệu nhỏ lưu ở client và gửi lên server mỗi request, nên không được tin tưởng và không chứa dữ liệu nhạy cảm. Session lưu dữ liệu phía server (file, Redis, database) và chỉ dùng cookie để mang session id. Sau khi đăng nhập cần tạo lại session id (`session_regenerate_id()`, Laravel tự làm khi login) và bật `HttpOnly`, `Secure`, `SameSite` cho cookie.",
+        "en": "A cookie is a small piece of client-side data sent with every request, so it is untrusted and must not hold sensitive data. A session stores data server-side (files, Redis, database) and only uses a cookie to carry the session id. After login, regenerate the session id (`session_regenerate_id()`; Laravel does it on login) and set `HttpOnly`, `Secure` and `SameSite` on cookies."
+      }
+    },
+    {
+      "id": "php.basics.009",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Mong đợi in ra `[2, 4, 6]` nhưng đoạn code in ra `Array ( [0] => 2 [1] => 4 [2] => 4 )`. Lỗi nằm ở đâu?",
+        "en": "Expected `[2, 4, 6]`, but the code prints `Array ( [0] => 2 [1] => 4 [2] => 4 )`. Where is the bug?"
+      },
+      "code": {
+        "language": "php",
+        "source": "$arr = [1, 2, 3];\nforeach ($arr as &$v) {\n    $v *= 2;\n}\n\nforeach ($arr as $v) {\n    // chỉ đọc giá trị\n}\nprint_r($arr);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Sau vòng lặp đầu, `$v` vẫn là reference tới `$arr[2]`; vòng lặp thứ hai gán lần lượt vào `$v` nên ghi đè phần tử cuối. Cần `unset($v)` sau vòng đầu",
+            "en": "After the first loop `$v` is still a reference to `$arr[2]`; the second loop assigns into `$v` and overwrites the last element. Call `unset($v)` after the first loop"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`$v *= 2` không sửa được phần tử vì `foreach` luôn copy array",
+            "en": "`$v *= 2` cannot change elements because `foreach` always copies the array"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Vòng `foreach` thứ hai có thân rỗng nên PHP báo lỗi và bỏ qua",
+            "en": "The second `foreach` has an empty body, so PHP errors and skips it"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`print_r()` in sai khi array chứa reference",
+            "en": "`print_r()` prints wrong values when an array contains references"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Sau `foreach ($arr as &$v)`, biến `$v` vẫn trỏ tới phần tử cuối `$arr[2]`. Vòng lặp thứ hai gán `$v = 2`, rồi `$v = 4` vào chính `$arr[2]`, nên khi tới phần tử cuối nó đã là `4`. Cách sửa là `unset($v)` ngay sau vòng lặp dùng reference, hoặc tránh reference và dùng `array_map()`.",
+        "en": "After `foreach ($arr as &$v)`, `$v` still points to the last element `$arr[2]`. The second loop assigns `$v = 2`, then `$v = 4` into `$arr[2]` itself, so by the last element it is already `4`. The fix is `unset($v)` right after the by-reference loop, or avoid references and use `array_map()`."
+      }
+    },
+    {
+      "id": "php.basics.010",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "php",
+        "source": "$a = [0 => 'x', 1 => 'y'];\n$b = [0 => 'z'];\necho json_encode(array_merge($a, $b)), ' | ', json_encode($a + $b);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "[\"z\",\"y\"] | [\"x\",\"y\"]"
+        },
+        {
+          "id": "b",
+          "text": "[\"x\",\"y\",\"z\"] | [\"x\",\"y\",\"z\"]"
+        },
+        {
+          "id": "c",
+          "text": "[\"z\",\"y\"] | [\"z\",\"y\"]"
+        },
+        {
+          "id": "d",
+          "text": "[\"x\",\"y\",\"z\"] | [\"x\",\"y\"]"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Với key số, `array_merge()` không ghi đè mà đánh lại index và nối phần tử của mảng sau vào cuối, nên ra `[\"x\",\"y\",\"z\"]`. Toán tử `+` là phép hợp theo key: giữ nguyên mảng bên trái và chỉ thêm các key chưa có, nên key `0` của `$b` bị bỏ qua. Chỉ với key chuỗi thì `array_merge()` mới ghi đè bằng giá trị của mảng sau.",
+        "en": "With numeric keys, `array_merge()` does not overwrite; it renumbers and appends the second array, giving `[\"x\",\"y\",\"z\"]`. The `+` operator is a key-based union: it keeps the left array and only adds missing keys, so `$b`'s key `0` is ignored. Only string keys are overwritten by the later array in `array_merge()`."
+      }
+    },
+    {
+      "id": "php.oop.001",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về `interface` và `abstract class` trong PHP?",
+        "en": "Which statement about `interface` and `abstract class` in PHP is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Interface có thể khai báo property instance có giá trị mặc định",
+            "en": "An interface can declare instance properties with default values"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Abstract class không có method abstract nào thì khởi tạo được bằng `new`",
+            "en": "An abstract class without abstract methods can be instantiated with `new`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Một class implement được nhiều interface nhưng chỉ extend được một class; abstract class có thể chứa property và method đã cài đặt",
+            "en": "A class can implement many interfaces but extend only one class; an abstract class can hold properties and implemented methods"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Một class có thể extend nhiều abstract class cùng lúc",
+            "en": "A class can extend several abstract classes at once"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "PHP chỉ cho kế thừa đơn (`extends` một class) nhưng một class có thể `implements` nhiều interface. Abstract class có thể có property, constructor và method đã cài đặt, còn interface chủ yếu khai báo chữ ký method và hằng số. Class đã đánh dấu `abstract` thì không bao giờ khởi tạo trực tiếp được, kể cả khi không có method abstract nào.",
+        "en": "PHP has single inheritance (`extends` one class), but a class can `implements` many interfaces. An abstract class may have properties, a constructor and implemented methods, while an interface mainly declares method signatures and constants. A class marked `abstract` can never be instantiated directly, even with no abstract methods."
+      }
+    },
+    {
+      "id": "php.oop.002",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "php",
+        "source": "class A\n{\n    public static function create(): static\n    {\n        return new static();\n    }\n\n    public static function make(): self\n    {\n        return new self();\n    }\n}\n\nclass B extends A {}\n\necho get_class(B::create()), ' ', get_class(B::make());"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "B A"
+        },
+        {
+          "id": "b",
+          "text": "A A"
+        },
+        {
+          "id": "c",
+          "text": "B B"
+        },
+        {
+          "id": "d",
+          "text": "A B"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`self` luôn trỏ tới class nơi method được viết (ở đây là `A`), nên `new self()` tạo `A` dù gọi qua `B`. `static` dùng late static binding, trỏ tới class được gọi lúc runtime, nên `B::create()` tạo `B`. Đây là lý do các factory method trong Laravel như `Model::query()` dùng `static`.",
+        "en": "`self` always refers to the class where the method is written (`A` here), so `new self()` creates an `A` even when called via `B`. `static` uses late static binding and refers to the class called at runtime, so `B::create()` creates a `B`. That is why factory methods such as Laravel's `Model::query()` use `static`."
+      }
+    },
+    {
+      "id": "php.oop.003",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Property khai báo `protected` truy cập được từ đâu?",
+        "en": "Where can a `protected` property be accessed from?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ở mọi nơi như `public` nhưng chỉ được đọc, không được gán",
+            "en": "Everywhere like `public`, but read-only"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Trong chính class đó và các class con kế thừa nó",
+            "en": "Inside the class itself and in classes that extend it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ trong chính class đó, class con không truy cập được",
+            "en": "Only inside the class itself, not in subclasses"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bất kỳ class nào cùng namespace",
+            "en": "Any class in the same namespace"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`protected` cho phép truy cập trong class khai báo và mọi class con, nhưng không truy cập được từ bên ngoài. `private` chặt hơn, chỉ class khai báo mới thấy, còn `public` truy cập ở mọi nơi. PHP không có visibility theo namespace hay package như Java.",
+        "en": "`protected` allows access in the declaring class and all subclasses, but not from outside. `private` is stricter, visible only in the declaring class, while `public` is accessible everywhere. PHP has no namespace- or package-level visibility like Java."
+      }
+    },
+    {
+      "id": "php.oop.004",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau gây fatal error. Nguyên nhân là gì?",
+        "en": "The following code causes a fatal error. What is the cause?"
+      },
+      "code": {
+        "language": "php",
+        "source": "trait Hello\n{\n    public function say(): string { return 'Hello'; }\n}\n\ntrait World\n{\n    public function say(): string { return 'World'; }\n}\n\nclass Greeter\n{\n    use Hello, World;\n}\n\necho (new Greeter())->say();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một class chỉ được `use` một trait",
+            "en": "A class may only `use` one trait"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hai trait cùng có method `say()` nên xung đột; phải chọn bằng `insteadof` (và dùng `as` để đặt alias nếu cần cả hai)",
+            "en": "Both traits define `say()`, so they collide; resolve it with `insteadof` (and `as` for an alias if you need both)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Method trong trait không được khai báo return type",
+            "en": "Trait methods cannot declare return types"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không có lỗi: PHP tự chọn trait khai báo sau nên in `World`",
+            "en": "There is no error: PHP picks the last trait and prints `World`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khi hai trait có method trùng tên, PHP không tự chọn mà báo fatal error do collision. Cách sửa: `use Hello, World { Hello::say insteadof World; World::say as sayWorld; }`. Lưu ý thứ tự ưu tiên: method của class ghi đè method của trait, và method của trait ghi đè method kế thừa từ class cha.",
+        "en": "When two traits have a method with the same name, PHP does not pick one; it raises a fatal collision error. Fix: `use Hello, World { Hello::say insteadof World; World::say as sayWorld; }`. Precedence: class methods override trait methods, and trait methods override inherited ones."
+      }
+    },
+    {
+      "id": "php.oop.005",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Với PHP 8.2, đoạn code sau in ra gì?",
+        "en": "On PHP 8.2, what does the following code print?"
+      },
+      "code": {
+        "language": "php",
+        "source": "final class Money\n{\n    public function __construct(public readonly int $amount) {}\n}\n\n$m = new Money(100);\ntry {\n    $m->amount = 200;\n} catch (Error $e) {\n    echo get_class($e), ': ', $e->getMessage();\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "200"
+        },
+        {
+          "id": "b",
+          "text": "Error: Cannot modify readonly property Money::$amount"
+        },
+        {
+          "id": "c",
+          "text": "100"
+        },
+        {
+          "id": "d",
+          "text": "Warning: Cannot modify readonly property Money::$amount"
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Constructor property promotion tạo property `$amount` và gán giá trị `100` trong constructor. Property `readonly` (PHP 8.1+) chỉ được khởi tạo một lần, từ bên trong class; mọi lần gán sau đó ném `Error` chứ không chỉ phát warning. Muốn \"sửa\" giá trị thì tạo object mới, ví dụ method `withAmount()` trả về `new self(...)`.",
+        "en": "Constructor property promotion creates the `$amount` property and assigns `100` in the constructor. A `readonly` property (PHP 8.1+) can be initialized only once, from inside the class; any later assignment throws an `Error`, not just a warning. To \"change\" it, return a new object, e.g. a `withAmount()` method returning `new self(...)`."
+      }
+    },
+    {
+      "id": "php.oop.006",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với enum dưới đây, `Status::tryFrom('deleted')` và `Status::from('deleted')` cho kết quả gì?",
+        "en": "Given the enum below, what do `Status::tryFrom('deleted')` and `Status::from('deleted')` return?"
+      },
+      "code": {
+        "language": "php",
+        "source": "enum Status: string\n{\n    case Active = 'active';\n    case Banned = 'banned';\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cả hai đều trả về `null`",
+            "en": "Both return `null`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cả hai đều ném `ValueError`",
+            "en": "Both throw a `ValueError`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`tryFrom` trả về case đầu tiên `Status::Active`, còn `from` trả về `null`",
+            "en": "`tryFrom` returns the first case `Status::Active`, while `from` returns `null`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`tryFrom` trả về `null`, còn `from` ném `ValueError`",
+            "en": "`tryFrom` returns `null`, while `from` throws a `ValueError`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Backed enum (PHP 8.1+) có hai method: `from()` ném `ValueError` khi giá trị không khớp case nào, còn `tryFrom()` trả về `null`. Dùng `from()` khi giá trị sai là lỗi lập trình, và `tryFrom()` khi xử lý input bên ngoài. Laravel hỗ trợ cast cột sang enum và rule validation `Rule::enum(Status::class)`.",
+        "en": "Backed enums (PHP 8.1+) have two methods: `from()` throws a `ValueError` when no case matches, while `tryFrom()` returns `null`. Use `from()` when a bad value is a programming error and `tryFrom()` for external input. Laravel supports casting columns to enums and the `Rule::enum(Status::class)` validation rule."
+      }
+    },
+    {
+      "id": "php.oop.007",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chạy file sau với PHP 8.2, kết quả là gì?",
+        "en": "Running this file on PHP 8.2, what happens?"
+      },
+      "code": {
+        "language": "php",
+        "source": "<?php\ndeclare(strict_types=1);\n\nfunction add(int $a, int $b): int\n{\n    return $a + $b;\n}\n\necho add(\"1\", 2);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "In ra `3`",
+            "en": "Prints `3`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "In ra `12`",
+            "en": "Prints `12`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Ném `TypeError` vì truyền string `\"1\"` cho tham số `int` trong strict mode",
+            "en": "A `TypeError` is thrown because the string `\"1\"` is passed to an `int` parameter in strict mode"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phát warning rồi in ra `3`",
+            "en": "Emits a warning, then prints `3`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Mặc định PHP dùng coercive mode nên `\"1\"` sẽ được ép thành `1` và in ra `3`. Với `declare(strict_types=1)` ở đầu file, các lời gọi hàm từ file đó yêu cầu đúng kiểu (chỉ cho phép int sang float), nên ném `TypeError`. Lưu ý `strict_types` áp dụng theo file gọi hàm, không theo file định nghĩa hàm.",
+        "en": "By default PHP uses coercive mode, so `\"1\"` would be converted to `1` and print `3`. With `declare(strict_types=1)` at the top of the file, calls made from that file require exact types (only int-to-float widening is allowed), so a `TypeError` is thrown. Note that `strict_types` applies per calling file, not per defining file."
+      }
+    },
+    {
+      "id": "php.oop.008",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày 4 tính chất của OOP và minh họa mỗi tính chất bằng cú pháp PHP.",
+        "en": "Describe the four pillars of OOP and illustrate each with PHP syntax."
+      },
+      "keyPoints": [
+        {
+          "vi": "Đóng gói (encapsulation): ẩn dữ liệu bằng `private`/`protected`, truy cập qua method hoặc `readonly`",
+          "en": "Encapsulation: hide data with `private`/`protected`, expose it via methods or `readonly`"
+        },
+        {
+          "vi": "Kế thừa (inheritance): `extends`, override method, gọi `parent::method()`",
+          "en": "Inheritance: `extends`, overriding methods, calling `parent::method()`"
+        },
+        {
+          "vi": "Đa hình (polymorphism): nhiều class implement cùng interface, code chỉ type-hint theo interface",
+          "en": "Polymorphism: several classes implement one interface and code type-hints the interface"
+        },
+        {
+          "vi": "Trừu tượng (abstraction): `interface`/`abstract class` định nghĩa hợp đồng, ẩn chi tiết cài đặt",
+          "en": "Abstraction: an `interface`/`abstract class` defines a contract and hides implementation details"
+        }
+      ],
+      "explanation": {
+        "vi": "Đóng gói giữ trạng thái nội bộ an toàn bằng visibility và chỉ cho thay đổi qua method có kiểm soát. Kế thừa tái sử dụng code bằng `extends`, còn đa hình cho phép thay implementation (ví dụ `PaymentGateway` có `StripeGateway`, `VnpayGateway`) mà code gọi không đổi. Trừu tượng thể hiện qua interface và abstract class, là nền tảng cho dependency injection trong Laravel.",
+        "en": "Encapsulation protects internal state with visibility and only allows changes through controlled methods. Inheritance reuses code via `extends`, and polymorphism lets you swap implementations (e.g. `PaymentGateway` with `StripeGateway`, `VnpayGateway`) without changing callers. Abstraction is expressed with interfaces and abstract classes and underpins dependency injection in Laravel."
+      }
+    },
+    {
+      "id": "php.oop.009",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "php",
+        "source": "class Box\n{\n    public array $items = [];\n    public ?Box $child = null;\n}\n\n$a = new Box();\n$a->child = new Box();\n\n$b = clone $a;\n$b->items[] = 1;\n$b->child->items[] = 2;\n\necho count($a->items), count($a->child->items);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "00"
+        },
+        {
+          "id": "b",
+          "text": "11"
+        },
+        {
+          "id": "c",
+          "text": "01"
+        },
+        {
+          "id": "d",
+          "text": "10"
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`clone` tạo shallow copy: property kiểu array được sao chép theo giá trị nên `$a->items` vẫn rỗng. Nhưng property kiểu object chỉ được copy handle, nên `$a->child` và `$b->child` là cùng một object và cùng nhận phần tử `2`. Muốn deep copy, cài `__clone()` với `$this->child = clone $this->child;`.",
+        "en": "`clone` makes a shallow copy: array properties are copied by value, so `$a->items` stays empty. Object properties only have their handle copied, so `$a->child` and `$b->child` are the same object and both see the `2`. For a deep copy, implement `__clone()` with `$this->child = clone $this->child;`."
+      }
+    },
+    {
+      "id": "php.modern.001",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "modern",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong một project ứng dụng (không phải library), nên xử lý file `composer.lock` thế nào?",
+        "en": "In an application project (not a library), what should you do with `composer.lock`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm vào `.gitignore` vì file được sinh tự động",
+            "en": "Add it to `.gitignore` because it is generated"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Xóa trước mỗi lần deploy để luôn lấy bản mới nhất",
+            "en": "Delete it before each deploy to always get the newest versions"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Commit vào git để mọi môi trường cài đúng cùng phiên bản bằng `composer install`",
+            "en": "Commit it to git so every environment installs the exact same versions with `composer install`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Sửa tay trong file để nâng version package",
+            "en": "Edit it by hand to bump package versions"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`composer.json` chỉ khai báo ràng buộc version (ví dụ `^11.0`), còn `composer.lock` ghi lại chính xác version đã cài của mọi package. Commit file lock giúp máy dev, CI và production chạy cùng một bộ dependency. Xóa lock hay bỏ khỏi git khiến mỗi lần cài có thể ra version khác và gây lỗi khó tái hiện.",
+        "en": "`composer.json` only declares version constraints (e.g. `^11.0`), while `composer.lock` records the exact installed version of every package. Committing the lock file keeps dev machines, CI and production on the same dependency set. Deleting or ignoring it means each install may resolve different versions, causing hard-to-reproduce bugs."
+      }
+    },
+    {
+      "id": "php.modern.002",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "modern",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`composer.json` có `\"autoload\": {\"psr-4\": {\"App\\\\\": \"app/\"}}`. Theo PSR-4, class `App\\Http\\Controllers\\UserController` phải nằm ở file nào?",
+        "en": "`composer.json` has `\"autoload\": {\"psr-4\": {\"App\\\\\": \"app/\"}}`. Under PSR-4, which file must contain `App\\Http\\Controllers\\UserController`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "`app/UserController.php`"
+        },
+        {
+          "id": "b",
+          "text": "`app/http/controllers/usercontroller.php`"
+        },
+        {
+          "id": "c",
+          "text": "`app/Http/Controllers/UserController.php`"
+        },
+        {
+          "id": "d",
+          "text": "`app/Http/Controllers/UserController.class.php`"
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "PSR-4 ánh xạ prefix namespace `App\\` vào thư mục `app/`; phần namespace còn lại thành thư mục con và tên class thành tên file `.php`. Đường dẫn phân biệt hoa thường trên Linux, nên tên viết thường có thể chạy trên macOS nhưng lỗi khi deploy. Sau khi sửa phần `autoload` cần chạy `composer dump-autoload`.",
+        "en": "PSR-4 maps the `App\\` namespace prefix to the `app/` directory; the remaining namespace segments become subdirectories and the class name becomes the `.php` file name. Paths are case-sensitive on Linux, so a lowercase name may work on macOS but fail after deploy. After editing the `autoload` section, run `composer dump-autoload`."
+      }
+    },
+    {
+      "id": "php.modern.003",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "modern",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "php",
+        "source": "$code = '200';\n\necho match ($code) {\n    200 => 'OK',\n    '200' => 'String OK',\n    default => 'Unknown',\n};"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "OK"
+        },
+        {
+          "id": "b",
+          "text": "String OK"
+        },
+        {
+          "id": "c",
+          "text": "Unknown"
+        },
+        {
+          "id": "d",
+          "text": "UnhandledMatchError"
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`match` so sánh nghiêm ngặt bằng `===`, nên chuỗi `'200'` không khớp số `200` mà khớp nhánh `'200'`. Nếu dùng `switch` (so sánh lỏng `==`) thì nhánh `200` sẽ khớp trước và in `OK`. `match` là biểu thức trả về giá trị, không có fallthrough và ném `UnhandledMatchError` khi không khớp nhánh nào mà không có `default`.",
+        "en": "`match` compares strictly with `===`, so the string `'200'` does not match the integer `200` but matches the `'200'` arm. A `switch` (loose `==`) would hit the `200` case first and print `OK`. `match` is an expression that returns a value, has no fallthrough and throws `UnhandledMatchError` when nothing matches and there is no `default`."
+      }
+    },
+    {
+      "id": "php.modern.004",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "modern",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "php",
+        "source": "$config = ['debug' => false, 'name' => ''];\n\necho $config['debug'] ?? 'yes', '|';\necho $config['name'] ?: 'App', '|';\necho $config['port'] ?? 8080;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "|App|8080"
+        },
+        {
+          "id": "b",
+          "text": "yes|App|8080"
+        },
+        {
+          "id": "c",
+          "text": "false||8080"
+        },
+        {
+          "id": "d",
+          "text": "yes||8080"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`??` (null coalescing) chỉ dùng giá trị mặc định khi vế trái không tồn tại hoặc là `null`; `false` vẫn được giữ và `echo false` in ra chuỗi rỗng. `?:` (Elvis) dùng giá trị mặc định khi vế trái falsy, nên chuỗi rỗng bị thay bằng `App`. Key `port` không tồn tại nên `??` trả về `8080` mà không phát warning.",
+        "en": "`??` (null coalescing) only falls back when the left side is missing or `null`; `false` is kept and `echo false` prints an empty string. `?:` (Elvis) falls back when the left side is falsy, so the empty string becomes `App`. The `port` key is missing, so `??` returns `8080` without a warning."
+      }
+    },
+    {
+      "id": "php.modern.005",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "modern",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "php",
+        "source": "function makeUser(string $name, int $age = 18, bool $admin = false): string\n{\n    return \"$name-$age-\" . ($admin ? 'y' : 'n');\n}\n\necho makeUser('An', admin: true);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "An-1-n"
+        },
+        {
+          "id": "b",
+          "text": "An-18-n"
+        },
+        {
+          "id": "c",
+          "text": "An-18-y"
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi vì bỏ qua tham số `$age`",
+            "en": "An error because `$age` is skipped"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Named arguments (PHP 8.0+) cho phép truyền tham số theo tên, nên `admin: true` gán thẳng vào `$admin` và `$age` giữ giá trị mặc định `18`. Không cần truyền lại các tham số mặc định ở giữa như trước đây. Lưu ý đổi tên tham số của hàm public lúc này cũng là breaking change với code gọi bằng tên.",
+        "en": "Named arguments (PHP 8.0+) pass values by parameter name, so `admin: true` goes straight to `$admin` and `$age` keeps its default `18`. You no longer need to repeat the defaults in between. Note that renaming a public function's parameters is now a breaking change for callers using names."
+      }
+    },
+    {
+      "id": "php.modern.006",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "modern",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Gọi `new PaymentService()` báo `Class \"App\\Services\\PaymentService\" not found`. Lỗi nằm ở đâu?",
+        "en": "`new PaymentService()` fails with `Class \"App\\Services\\PaymentService\" not found`. Where is the bug?"
+      },
+      "code": {
+        "language": "php",
+        "source": "// composer.json: \"autoload\": { \"psr-4\": { \"App\\\\\": \"src/\" } }\n\n// File: src/Services/PaymentService.php\nnamespace App\\Service;\n\nclass PaymentService\n{\n    public function charge(int $amount): bool\n    {\n        return true;\n    }\n}\n\n// File: src/Http/CheckoutController.php\nuse App\\Services\\PaymentService;\n\n$service = new PaymentService();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thiếu `require 'src/Services/PaymentService.php'` vì Composer không tự nạp class",
+            "en": "A `require 'src/Services/PaymentService.php'` is missing because Composer never loads classes"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Câu lệnh `use` phải đặt sau `new PaymentService()`",
+            "en": "The `use` statement must come after `new PaymentService()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Class phải có constructor thì mới được autoload",
+            "en": "The class needs a constructor to be autoloadable"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Namespace khai báo là `App\\Service` không khớp thư mục `Services`, nên PSR-4 autoloader không tìm ra class",
+            "en": "The declared namespace `App\\Service` does not match the `Services` directory, so the PSR-4 autoloader cannot find the class"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "PSR-4 suy ra đường dẫn từ namespace: `App\\Services\\PaymentService` tương ứng `src/Services/PaymentService.php`. File có đúng đường dẫn nhưng khai báo `namespace App\\Service`, nên class thực tế tên là `App\\Service\\PaymentService` và không khớp tên được tìm. Sửa namespace thành `App\\Services`; không cần `require` thủ công vì Composer autoload lo việc nạp file.",
+        "en": "PSR-4 derives the path from the namespace: `App\\Services\\PaymentService` maps to `src/Services/PaymentService.php`. The file is in the right place but declares `namespace App\\Service`, so the real class is `App\\Service\\PaymentService` and does not match the requested name. Change the namespace to `App\\Services`; no manual `require` is needed because Composer's autoloader loads the file."
+      }
+    },
+    {
+      "id": "php.modern.007",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "modern",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Phân biệt `composer install` và `composer update`. Khi deploy production nên dùng lệnh nào?",
+        "en": "Explain `composer install` versus `composer update`. Which one belongs in a production deploy?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`install` đọc `composer.lock` và cài đúng version đã khóa (nếu chưa có lock thì resolve và tạo lock)",
+          "en": "`install` reads `composer.lock` and installs the locked versions (if there is no lock it resolves and creates one)"
+        },
+        {
+          "vi": "`update` resolve lại version mới nhất thỏa ràng buộc trong `composer.json` và ghi đè `composer.lock`",
+          "en": "`update` re-resolves the newest versions allowed by `composer.json` and rewrites `composer.lock`"
+        },
+        {
+          "vi": "Production/CI dùng `composer install --no-dev --optimize-autoloader`, không chạy `update`",
+          "en": "Production/CI runs `composer install --no-dev --optimize-autoloader`, never `update`"
+        },
+        {
+          "vi": "Ràng buộc `^` / `~` quyết định phạm vi `update` được phép nâng; chạy `update` có chủ đích rồi test và commit lock",
+          "en": "`^` / `~` constraints define how far `update` may go; run `update` deliberately, then test and commit the lock"
+        }
+      ],
+      "explanation": {
+        "vi": "`composer install` tái tạo chính xác bộ dependency đã ghi trong lock nên an toàn và lặp lại được. `composer update` có thể nâng nhiều package cùng lúc, nên chỉ chạy trên máy dev khi chủ động nâng cấp, sau đó chạy test và commit lock. Trên production dùng `install --no-dev` để bỏ package dev và `--optimize-autoloader` để autoload nhanh hơn.",
+        "en": "`composer install` reproduces exactly the dependency set in the lock file, so it is safe and repeatable. `composer update` can bump many packages at once, so run it on a dev machine when you intend to upgrade, then test and commit the lock. In production use `install --no-dev` to skip dev packages and `--optimize-autoloader` for faster autoloading."
+      }
+    },
+    {
+      "id": "php.errors.001",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cấu hình hiển thị lỗi nào phù hợp cho server production?",
+        "en": "Which error display setup is right for a production server?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bật `display_errors` để người dùng báo lại lỗi chính xác",
+            "en": "Turn on `display_errors` so users can report the exact error"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đặt `error_reporting(0)` để không bao giờ có lỗi",
+            "en": "Set `error_reporting(0)` so errors never happen"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tắt `display_errors`, bật `log_errors` để ghi lỗi vào log (Laravel: `APP_DEBUG=false`)",
+            "en": "Turn off `display_errors` and turn on `log_errors` so errors go to the log (Laravel: `APP_DEBUG=false`)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bật `APP_DEBUG=true` để Laravel chạy nhanh hơn",
+            "en": "Set `APP_DEBUG=true` so Laravel runs faster"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Hiển thị lỗi ra trình duyệt trên production làm lộ đường dẫn file, câu SQL, thậm chí biến môi trường (trang debug của Laravel khi `APP_DEBUG=true`). Cách đúng là tắt hiển thị nhưng vẫn ghi đầy đủ vào log để đội dev theo dõi. `error_reporting(0)` không làm lỗi biến mất mà chỉ khiến bạn mất dấu vết khi debug.",
+        "en": "Showing errors in the browser in production leaks file paths, SQL and even environment variables (Laravel's debug page when `APP_DEBUG=true`). The right setup hides errors from users but still logs them fully for developers. `error_reporting(0)` does not make errors go away; it only removes the trail you need for debugging."
+      }
+    },
+    {
+      "id": "php.errors.002",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách nào đúng để lưu mật khẩu người dùng trong PHP?",
+        "en": "What is the correct way to store user passwords in PHP?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "`md5($password)`"
+        },
+        {
+          "id": "b",
+          "text": "`sha1($password . 'salt')`"
+        },
+        {
+          "id": "c",
+          "text": "`base64_encode($password)`"
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`password_hash($password, PASSWORD_DEFAULT)` khi lưu và `password_verify()` khi đăng nhập",
+            "en": "`password_hash($password, PASSWORD_DEFAULT)` when storing and `password_verify()` at login"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`password_hash()` dùng thuật toán chậm có chủ đích (mặc định bcrypt), tự sinh salt ngẫu nhiên và lưu cả salt lẫn cost trong chuỗi hash. `md5`/`sha1` quá nhanh nên dễ bị brute-force bằng GPU, còn `base64_encode` chỉ là mã hóa hai chiều, giải ngược được ngay. Trong Laravel dùng `Hash::make()` và `Hash::check()`.",
+        "en": "`password_hash()` uses a deliberately slow algorithm (bcrypt by default), generates a random salt and stores the salt and cost inside the hash string. `md5`/`sha1` are too fast and easy to brute-force on GPUs, and `base64_encode` is just reversible encoding. In Laravel use `Hash::make()` and `Hash::check()`."
+      }
+    },
+    {
+      "id": "php.errors.003",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong Blade, cách nào hiển thị bình luận do người dùng nhập mà an toàn trước XSS?",
+        "en": "In Blade, which option renders a user-submitted comment safely against XSS?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "`{!! $comment->body !!}`"
+        },
+        {
+          "id": "b",
+          "text": "`<?= $comment->body ?>`"
+        },
+        {
+          "id": "c",
+          "text": "`{{ $comment->body }}`"
+        },
+        {
+          "id": "d",
+          "text": "`@php echo $comment->body; @endphp`"
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`{{ }}` trong Blade tự escape qua `htmlspecialchars()`, nên `<script>` bị hiển thị thành văn bản thay vì chạy. `{!! !!}`, `<?= ?>` và `echo` đều in raw HTML, chỉ dùng cho nội dung đã được làm sạch. Trong PHP thuần, dùng `htmlspecialchars($s, ENT_QUOTES, 'UTF-8')` khi in dữ liệu ra HTML.",
+        "en": "Blade's `{{ }}` escapes output through `htmlspecialchars()`, so a `<script>` is shown as text instead of running. `{!! !!}`, `<?= ?>` and `echo` all print raw HTML and should only be used for sanitized content. In plain PHP, use `htmlspecialchars($s, ENT_QUOTES, 'UTF-8')` when writing data into HTML."
+      }
+    },
+    {
+      "id": "php.errors.004",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Hàm sau tìm user theo email lấy từ query string. Vấn đề nghiêm trọng nhất là gì?",
+        "en": "This function looks up a user by an email from the query string. What is the most serious problem?"
+      },
+      "code": {
+        "language": "php",
+        "source": "function findUser(PDO $pdo, string $email): array|false\n{\n    $sql = \"SELECT * FROM users WHERE email = '$email'\";\n\n    return $pdo->query($sql)->fetch();\n}\n\n$user = findUser($pdo, $_GET['email']);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ghép thẳng `$email` vào câu SQL gây SQL injection (vd `' OR '1'='1`); phải dùng `prepare()` với placeholder rồi `execute([$email])`",
+            "en": "Interpolating `$email` into the SQL allows SQL injection (e.g. `' OR '1'='1`); use `prepare()` with a placeholder, then `execute([$email])`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`fetch()` phải đổi thành `fetchAll()`",
+            "en": "`fetch()` must be changed to `fetchAll()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Câu SQL phải bọc bằng nháy đơn thay vì nháy kép",
+            "en": "The SQL string must use single quotes instead of double quotes"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`$_GET` không dùng được làm tham số khi gọi hàm",
+            "en": "`$_GET` cannot be passed as a function argument"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Input `' OR '1'='1` biến điều kiện thành luôn đúng, và kẻ tấn công có thể đọc hoặc xóa dữ liệu khác. Prepared statement gửi câu SQL và dữ liệu tách biệt nên giá trị không bao giờ được hiểu là code SQL: `$stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?'); $stmt->execute([$email]);`. Trong Laravel, query builder/Eloquent đã bind tham số, nhưng `whereRaw`/`DB::raw` ghép chuỗi vẫn bị injection như thường.",
+        "en": "The input `' OR '1'='1` makes the condition always true, and an attacker can read or delete other data. Prepared statements send SQL and data separately, so values are never parsed as SQL: `$stmt = $pdo->prepare('SELECT * FROM users WHERE email = ?'); $stmt->execute([$email]);`. In Laravel the query builder/Eloquent bind parameters, but string-built `whereRaw`/`DB::raw` are still injectable."
+      }
+    },
+    {
+      "id": "php.errors.005",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "php",
+        "source": "function test(): string\n{\n    try {\n        throw new RuntimeException('boom');\n    } catch (RuntimeException $e) {\n        echo 'catch ';\n        return 'return';\n    } finally {\n        echo 'finally ';\n    }\n}\n\necho test();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "catch finally return"
+        },
+        {
+          "id": "b",
+          "text": "catch return finally"
+        },
+        {
+          "id": "c",
+          "text": "finally catch return"
+        },
+        {
+          "id": "d",
+          "text": "catch return"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Exception được `catch` bắt, in `catch ` rồi biểu thức `return 'return'` được tính. Trước khi hàm thực sự trả về, khối `finally` luôn chạy và in `finally `. Sau đó `echo test()` mới in giá trị trả về `return`; nếu `finally` cũng có `return` thì nó sẽ ghi đè giá trị này.",
+        "en": "The exception is caught, `catch ` is printed and `return 'return'` is evaluated. Before the function actually returns, the `finally` block always runs and prints `finally `. Only then does `echo test()` print the returned `return`; if `finally` had its own `return`, it would override this value."
+      }
+    },
+    {
+      "id": "php.errors.006",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Chạy đoạn code sau trên PHP 8.2, chuyện gì xảy ra?",
+        "en": "Running this code on PHP 8.2, what happens?"
+      },
+      "code": {
+        "language": "php",
+        "source": "function ratio(int $a, int $b): float\n{\n    return $a / $b;\n}\n\ntry {\n    echo ratio(1, 0);\n} catch (Exception $e) {\n    echo 'caught';\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "In ra `caught`",
+            "en": "Prints `caught`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Fatal error \"Uncaught DivisionByZeroError\" vì lỗi này kế thừa `Error`, không phải `Exception`",
+            "en": "Fatal error \"Uncaught DivisionByZeroError\", because it extends `Error`, not `Exception`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "In ra `INF`",
+            "en": "Prints `INF`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phát warning \"Division by zero\" rồi in chuỗi rỗng",
+            "en": "Emits a \"Division by zero\" warning, then prints an empty string"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Từ PHP 8, chia cho 0 bằng `/` ném `DivisionByZeroError` (PHP 7 chỉ phát warning và trả về `INF`). `DivisionByZeroError` thuộc nhánh `Error`; cả `Error` và `Exception` cùng implement `Throwable` nhưng không kế thừa nhau, nên `catch (Exception $e)` không bắt được. Muốn bắt thì dùng `catch (DivisionByZeroError $e)` hoặc `catch (Throwable $e)` ở tầng xử lý chung.",
+        "en": "Since PHP 8, dividing by zero with `/` throws `DivisionByZeroError` (PHP 7 only warned and returned `INF`). `DivisionByZeroError` belongs to the `Error` branch; `Error` and `Exception` both implement `Throwable` but do not extend each other, so `catch (Exception $e)` misses it. Catch `DivisionByZeroError` or `Throwable` in a top-level handler instead."
+      }
+    },
+    {
+      "id": "php.errors.007",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một form `POST` trong Laravel luôn trả về lỗi `419 Page Expired`. Nguyên nhân thường gặp nhất là gì?",
+        "en": "A `POST` form in Laravel always returns `419 Page Expired`. What is the most common cause?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Route chưa khai báo thêm method `GET`",
+            "en": "The route does not also declare a `GET` method"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Model chưa khai báo `$fillable`",
+            "en": "The model does not declare `$fillable`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Form thiếu `@csrf` nên request không gửi kèm CSRF token hợp lệ",
+            "en": "The form is missing `@csrf`, so the request carries no valid CSRF token"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Server chưa bật HTTPS",
+            "en": "The server does not have HTTPS enabled"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Các route nhóm `web` đi qua middleware `ValidateCsrfToken`, so sánh token trong field `_token` (hoặc header `X-CSRF-TOKEN`) với token trong session; sai hoặc thiếu thì trả 419. `@csrf` sinh input ẩn chứa token, ngăn site khác giả mạo request từ trình duyệt của nạn nhân. Session hết hạn cũng gây 419; còn webhook bên ngoài thì loại trừ bằng `validateCsrfTokens(except: [...])` trong `bootstrap/app.php`.",
+        "en": "Routes in the `web` group pass through the `ValidateCsrfToken` middleware, which compares the `_token` field (or `X-CSRF-TOKEN` header) with the session token; a wrong or missing token returns 419. `@csrf` renders a hidden input with the token, stopping other sites from forging requests from the victim's browser. An expired session also causes 419; external webhooks are excluded with `validateCsrfTokens(except: [...])` in `bootstrap/app.php`."
+      }
+    },
+    {
+      "id": "php.errors.008",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Liệt kê các lỗ hổng bảo mật phổ biến trong ứng dụng PHP/Laravel và cách phòng chống từng loại.",
+        "en": "List the common security vulnerabilities in PHP/Laravel apps and how to prevent each one."
+      },
+      "keyPoints": [
+        {
+          "vi": "SQL injection: prepared statement / query builder, không ghép chuỗi trong `whereRaw`",
+          "en": "SQL injection: prepared statements / query builder, no string building in `whereRaw`"
+        },
+        {
+          "vi": "XSS: escape output (`{{ }}`, `htmlspecialchars`), cẩn thận với `{!! !!}`",
+          "en": "XSS: escape output (`{{ }}`, `htmlspecialchars`), be careful with `{!! !!}`"
+        },
+        {
+          "vi": "CSRF: token `@csrf` cho form, cookie `SameSite`",
+          "en": "CSRF: `@csrf` tokens for forms, `SameSite` cookies"
+        },
+        {
+          "vi": "Mật khẩu: `password_hash`/`Hash::make`; mass assignment: `$fillable` + `validated()`",
+          "en": "Passwords: `password_hash`/`Hash::make`; mass assignment: `$fillable` + `validated()`"
+        },
+        {
+          "vi": "Phân quyền bằng policy/gate (chống IDOR), giữ secret trong `.env`, `APP_DEBUG=false`, HTTPS, rate limiting",
+          "en": "Authorize with policies/gates (against IDOR), keep secrets in `.env`, `APP_DEBUG=false`, HTTPS, rate limiting"
+        }
+      ],
+      "explanation": {
+        "vi": "Phần lớn lỗ hổng web đến từ việc tin dữ liệu người dùng: đưa vào SQL (injection), ra HTML (XSS) hoặc vào model (mass assignment). Laravel có sẵn nhiều lớp bảo vệ như binding, auto-escape, CSRF middleware và hash mật khẩu, nhưng lập trình viên vẫn phải kiểm tra quyền trên từng resource. Cấu hình production đúng (`APP_DEBUG=false`, không commit `.env`, HTTPS) cũng quan trọng ngang với code.",
+        "en": "Most web vulnerabilities come from trusting user data: putting it into SQL (injection), into HTML (XSS) or into models (mass assignment). Laravel ships many defenses such as bindings, auto-escaping, CSRF middleware and password hashing, but developers must still authorize access to each resource. Correct production config (`APP_DEBUG=false`, no committed `.env`, HTTPS) matters as much as the code."
+      }
+    },
+    {
+      "id": "php.errors.009",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "errors",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn sẽ thiết kế cách xử lý exception cho một API Laravel 11/12 lớn như thế nào để log đầy đủ mà response vẫn nhất quán?",
+        "en": "How would you design exception handling for a large Laravel 11/12 API so logging is complete and responses stay consistent?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Tạo domain exception riêng (vd `InsufficientBalance`) thay vì ném `Exception` chung chung",
+          "en": "Create specific domain exceptions (e.g. `InsufficientBalance`) instead of throwing generic `Exception`"
+        },
+        {
+          "vi": "Cấu hình tập trung trong `bootstrap/app.php` qua `->withExceptions()` với `report()`, `render()`, `dontReport()`",
+          "en": "Configure centrally in `bootstrap/app.php` via `->withExceptions()` using `report()`, `render()`, `dontReport()`"
+        },
+        {
+          "vi": "Map exception sang HTTP status và một định dạng JSON lỗi thống nhất (code, message, errors)",
+          "en": "Map exceptions to HTTP statuses and a single JSON error format (code, message, errors)"
+        },
+        {
+          "vi": "Log kèm context (user id, request id), gửi về công cụ như Sentry; không lộ stack trace cho client",
+          "en": "Log with context (user id, request id) and ship to tools like Sentry; never expose stack traces to clients"
+        },
+        {
+          "vi": "Phân biệt lỗi nghiệp vụ dự kiến (4xx, không cần alert) và lỗi hệ thống (5xx, cần alert)",
+          "en": "Separate expected business errors (4xx, no alert) from system failures (5xx, alert)"
+        }
+      ],
+      "explanation": {
+        "vi": "Laravel 11 bỏ `app/Exceptions/Handler.php` khỏi skeleton mặc định và chuyển cấu hình vào `->withExceptions()` trong `bootstrap/app.php`. Exception class cũng có thể tự định nghĩa method `report()` và `render()`. Mục tiêu là client nhận định dạng lỗi ổn định, còn đội vận hành có log và alert đủ context, đồng thời không làm ồn bằng lỗi validation hay 404.",
+        "en": "Laravel 11 removed `app/Exceptions/Handler.php` from the default skeleton and moved the configuration into `->withExceptions()` in `bootstrap/app.php`. Exception classes can also define their own `report()` and `render()` methods. The goal is a stable error format for clients and context-rich logs and alerts for operators, without noise from validation errors or 404s."
+      }
+    },
+    {
+      "id": "php.laravel_core.001",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "laravel_core",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với route dưới đây, request `GET /users/42` được xử lý thế nào?",
+        "en": "Given the route below, how is `GET /users/42` handled?"
+      },
+      "code": {
+        "language": "php",
+        "source": "Route::get('/users/{id}', [UserController::class, 'show']);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`{id}` là query string nên phải gọi `/users?id=42`",
+            "en": "`{id}` is a query string, so you must call `/users?id=42`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Controller phải tự đọc `$_GET['id']`",
+            "en": "The controller must read `$_GET['id']` itself"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Route chỉ khớp khi `id` là số vì tên tham số là `id`",
+            "en": "The route only matches numbers because the parameter is named `id`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Laravel gọi `UserController::show()` và truyền `'42'` vào tham số tương ứng, vd `show(string $id)`",
+            "en": "Laravel calls `UserController::show()` and passes `'42'` into the matching parameter, e.g. `show(string $id)`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`{id}` là route parameter: phần URL tương ứng được truyền vào method controller (sau các dependency được inject). Tên tham số không tự giới hạn kiểu dữ liệu; muốn chỉ nhận số thì thêm `->whereNumber('id')`. Nếu đặt `{user}` và type-hint `User $user`, Laravel dùng route model binding để tự query model hoặc trả 404.",
+        "en": "`{id}` is a route parameter: that URL segment is passed to the controller method (after any injected dependencies). The name does not constrain the type; add `->whereNumber('id')` to accept digits only. With `{user}` and a `User $user` type hint, Laravel uses route model binding to fetch the model or return 404."
+      }
+    },
+    {
+      "id": "php.laravel_core.002",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "laravel_core",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích mô hình MVC trong Laravel: một request đi qua route, controller, model, view như thế nào?",
+        "en": "Explain MVC in Laravel: how does a request flow through the route, controller, model and view?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Route (`routes/web.php`, `routes/api.php`) ánh xạ method + URL tới controller hoặc closure",
+          "en": "Routes (`routes/web.php`, `routes/api.php`) map method + URL to a controller or closure"
+        },
+        {
+          "vi": "Controller nhận request, validate, gọi model/service và trả về response",
+          "en": "The controller receives the request, validates, calls models/services and returns a response"
+        },
+        {
+          "vi": "Model (Eloquent) đại diện một bảng, xử lý truy vấn và quan hệ",
+          "en": "The model (Eloquent) represents a table and handles queries and relationships"
+        },
+        {
+          "vi": "View (Blade) render HTML, hoặc API trả JSON qua API Resource; tạo nhanh bằng `php artisan make:controller`, `make:model -m`",
+          "en": "The view (Blade) renders HTML, or an API returns JSON via API Resources; scaffold with `php artisan make:controller`, `make:model -m`"
+        }
+      ],
+      "explanation": {
+        "vi": "MVC tách trách nhiệm: route quyết định ai xử lý, controller điều phối, model làm việc với dữ liệu và view lo hiển thị. Ví dụ `GET /posts` → `PostController@index` → `Post::latest()->paginate()` → `view('posts.index', compact('posts'))`. Controller nên mỏng; logic nghiệp vụ phức tạp chuyển sang service/action class.",
+        "en": "MVC separates responsibilities: routes decide who handles a request, controllers orchestrate, models work with data and views handle presentation. For example `GET /posts` → `PostController@index` → `Post::latest()->paginate()` → `view('posts.index', compact('posts'))`. Keep controllers thin and move complex business logic into service/action classes."
+      }
+    },
+    {
+      "id": "php.laravel_core.003",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "laravel_core",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `Route::resource('photos', PhotoController::class)`, request `PUT /photos/5` gọi method nào?",
+        "en": "With `Route::resource('photos', PhotoController::class)`, which method handles `PUT /photos/5`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "`edit`"
+        },
+        {
+          "id": "b",
+          "text": "`update`"
+        },
+        {
+          "id": "c",
+          "text": "`store`"
+        },
+        {
+          "id": "d",
+          "text": "`show`"
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Resource route sinh 7 route chuẩn; `PUT/PATCH /photos/{photo}` gọi `update`. `edit` là `GET /photos/{photo}/edit` để hiển thị form sửa, `store` là `POST /photos` và `show` là `GET /photos/{photo}`. Form HTML chỉ gửi được GET/POST nên dùng `@method('PUT')`; kiểm tra danh sách route bằng `php artisan route:list`.",
+        "en": "A resource route registers seven standard routes; `PUT/PATCH /photos/{photo}` maps to `update`. `edit` is `GET /photos/{photo}/edit` showing the edit form, `store` is `POST /photos` and `show` is `GET /photos/{photo}`. HTML forms only send GET/POST, so use `@method('PUT')`; list routes with `php artisan route:list`."
+      }
+    },
+    {
+      "id": "php.laravel_core.004",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "laravel_core",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Truy cập `/users/create` lại chạy `show()` với `$id = 'create'`. Lỗi nằm ở đâu?",
+        "en": "Visiting `/users/create` runs `show()` with `$id = 'create'`. Where is the bug?"
+      },
+      "code": {
+        "language": "php",
+        "source": "Route::get('/users/{id}', [UserController::class, 'show']);\nRoute::get('/users/create', [UserController::class, 'create']);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Route `/users/{id}` khai báo trước nên khớp luôn `/users/create`; đặt route tĩnh lên trước hoặc ràng buộc `->whereNumber('id')`",
+            "en": "`/users/{id}` is registered first and also matches `/users/create`; put the static route first or add `->whereNumber('id')`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`create` là từ khóa dành riêng nên không dùng được trong URL",
+            "en": "`create` is a reserved word and cannot appear in a URL"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Route `create` phải dùng `Route::post`",
+            "en": "The `create` route must use `Route::post`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thiếu `->name('users.create')` nên Laravel không tìm thấy route",
+            "en": "It lacks `->name('users.create')`, so Laravel cannot find the route"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Router của Laravel duyệt route theo thứ tự đăng ký và dùng route đầu tiên khớp. `{id}` khớp mọi chuỗi không chứa `/`, nên `create` bị coi là id. Đặt `/users/create` trước, hoặc giới hạn tham số bằng `whereNumber('id')`/`where('id', '[0-9]+')`; `Route::resource` đã đăng ký sẵn theo thứ tự đúng.",
+        "en": "Laravel's router checks routes in registration order and uses the first match. `{id}` matches any segment without `/`, so `create` is treated as an id. Register `/users/create` first, or constrain the parameter with `whereNumber('id')`/`where('id', '[0-9]+')`; `Route::resource` already registers them in the right order."
+      }
+    },
+    {
+      "id": "php.laravel_core.005",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "laravel_core",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong cấu trúc mặc định của Laravel 11/12, đăng ký global middleware hoặc alias middleware ở đâu?",
+        "en": "In the default Laravel 11/12 structure, where do you register global middleware or middleware aliases?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trong `bootstrap/app.php` qua `->withMiddleware(function (Middleware $middleware) { ... })`",
+            "en": "In `bootstrap/app.php` via `->withMiddleware(function (Middleware $middleware) { ... })`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thuộc tính `$middleware` trong `app/Http/Kernel.php`",
+            "en": "The `$middleware` property in `app/Http/Kernel.php`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "File `config/middleware.php`",
+            "en": "The `config/middleware.php` file"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "File `routes/middleware.php`",
+            "en": "The `routes/middleware.php` file"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Laravel 11 rút gọn skeleton và bỏ `app/Http/Kernel.php`; middleware được cấu hình trong `bootstrap/app.php` bằng `$middleware->append()`, `->web(append: [...])` hay `->alias([...])`. `Kernel.php` chỉ còn ở project nâng cấp từ Laravel 10 mà chưa chuyển cấu trúc. Thứ tự append quyết định thứ tự middleware chạy.",
+        "en": "Laravel 11 slimmed the skeleton and removed `app/Http/Kernel.php`; middleware is configured in `bootstrap/app.php` with `$middleware->append()`, `->web(append: [...])` or `->alias([...])`. `Kernel.php` only remains in projects upgraded from Laravel 10 without migrating the structure. The append order determines the order middleware runs."
+      }
+    },
+    {
+      "id": "php.laravel_core.006",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "laravel_core",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Gọi `GET /`, các chuỗi được echo theo thứ tự nào?",
+        "en": "When calling `GET /`, in what order are the strings echoed?"
+      },
+      "code": {
+        "language": "php",
+        "source": "class A\n{\n    public function handle(Request $request, Closure $next): Response\n    {\n        echo 'A1 ';\n        $response = $next($request);\n        echo 'A2 ';\n        return $response;\n    }\n}\n\n// class B giống hệt A nhưng echo 'B1 ' và 'B2 '\n\nRoute::get('/', function () {\n    echo 'C ';\n    return 'ok';\n})->middleware([A::class, B::class]);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "A1 A2 B1 B2 C"
+        },
+        {
+          "id": "b",
+          "text": "B1 A1 C A2 B2"
+        },
+        {
+          "id": "c",
+          "text": "A1 B1 C B2 A2"
+        },
+        {
+          "id": "d",
+          "text": "A1 B1 C A2 B2"
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Middleware hoạt động như các lớp vỏ hành: code trước `$next()` chạy theo thứ tự khai báo (A rồi B), sau đó tới route. Khi response quay về, phần code sau `$next()` chạy theo thứ tự ngược lại (B rồi A). Vì vậy middleware sửa request đặt code trước `$next()`, còn middleware sửa response (thêm header) đặt code sau `$next()`.",
+        "en": "Middleware works like onion layers: code before `$next()` runs in declaration order (A then B), then the route runs. As the response travels back, the code after `$next()` runs in reverse order (B then A). So middleware that changes the request works before `$next()`, while middleware that changes the response (e.g. adds headers) works after it."
+      }
+    },
+    {
+      "id": "php.laravel_core.007",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "laravel_core",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Mô tả vòng đời của một HTTP request trong Laravel 11/12, từ `public/index.php` đến khi trả response.",
+        "en": "Describe the lifecycle of an HTTP request in Laravel 11/12, from `public/index.php` to the response."
+      },
+      "keyPoints": [
+        {
+          "vi": "`public/index.php` nạp `vendor/autoload.php` và tạo Application từ `bootstrap/app.php`",
+          "en": "`public/index.php` loads `vendor/autoload.php` and builds the Application from `bootstrap/app.php`"
+        },
+        {
+          "vi": "HTTP kernel bootstrap: nạp env/config, xử lý lỗi, rồi `register()` và `boot()` tất cả service provider",
+          "en": "The HTTP kernel bootstraps: loads env/config and error handling, then `register()`s and `boot()`s every service provider"
+        },
+        {
+          "vi": "Request đi qua global middleware, router khớp route, chạy route/group middleware rồi tới controller (dependency resolve qua service container)",
+          "en": "The request passes global middleware, the router matches a route, route/group middleware runs, then the controller (dependencies resolved by the service container)"
+        },
+        {
+          "vi": "Response đi ngược qua middleware, được gửi về client; sau đó chạy `terminate()` của terminable middleware",
+          "en": "The response travels back through middleware and is sent; then terminable middleware `terminate()` runs"
+        }
+      ],
+      "explanation": {
+        "vi": "Hiểu lifecycle giúp biết đặt code ở đâu: binding trong `register()`, cấu hình phụ thuộc service khác trong `boot()`, logic theo request trong middleware hoặc controller. Mọi service provider được boot ở mỗi request với PHP-FPM, nên provider nặng làm chậm toàn bộ ứng dụng. Với Octane, phần bootstrap chỉ chạy một lần mỗi worker, đó là lý do cần cẩn thận với state giữ lại giữa các request.",
+        "en": "Knowing the lifecycle tells you where code belongs: bindings in `register()`, setup that depends on other services in `boot()`, per-request logic in middleware or controllers. Under PHP-FPM every provider boots on every request, so a heavy provider slows the whole app. Under Octane bootstrapping runs once per worker, which is why state kept between requests needs care."
+      }
+    },
+    {
+      "id": "php.laravel_core.008",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "laravel_core",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao trong method `register()` của service provider không nên dùng tới service khác (vd resolve một binding, gọi `View::composer`)?",
+        "en": "Why should a service provider's `register()` method avoid using other services (e.g. resolving a binding or calling `View::composer`)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`register()` chỉ nên bind vào container vì lúc đó các provider khác có thể chưa được register; logic dùng service khác đặt trong `boot()`, chạy sau khi mọi provider đã register",
+            "en": "`register()` should only bind into the container because other providers may not be registered yet; code that uses other services belongs in `boot()`, which runs after all providers are registered"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`register()` chạy sau `boot()` nên mọi thay đổi sẽ bị ghi đè",
+            "en": "`register()` runs after `boot()`, so changes there get overwritten"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`register()` chỉ chạy khi chạy test, không chạy trên production",
+            "en": "`register()` only runs in tests, not in production"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`boot()` không được type-hint dependency nên mọi thứ phải làm trong `register()`",
+            "en": "`boot()` cannot type-hint dependencies, so everything must happen in `register()`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Laravel gọi `register()` của tất cả provider trước, rồi mới gọi `boot()` của từng provider. Vì vậy trong `register()` một service có thể chưa được bind, còn trong `boot()` thì mọi binding đã sẵn sàng và method này còn hỗ trợ type-hint dependency. Đây cũng là nơi đăng ký view composer, event listener, macro hay gate.",
+        "en": "Laravel calls `register()` on every provider first, and only then calls `boot()` on each. So in `register()` a service may not be bound yet, while in `boot()` all bindings are ready and the method even supports dependency type-hints. That is also where view composers, event listeners, macros and gates are registered."
+      }
+    },
+    {
+      "id": "php.laravel_core.009",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "laravel_core",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Facade như `Cache::get('key')` trong Laravel hoạt động như thế nào?",
+        "en": "How does a facade such as `Cache::get('key')` work in Laravel?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Cache` là class chỉ có static method nên không thể mock khi test",
+            "en": "`Cache` is a class of static methods, so it cannot be mocked in tests"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Facade tạo object mới bằng `new` ở mỗi lần gọi",
+            "en": "A facade creates a new object with `new` on every call"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Class facade dùng `__callStatic()` để lấy object thật từ service container theo `getFacadeAccessor()` rồi gọi method trên object đó",
+            "en": "The facade class uses `__callStatic()` to fetch the real object from the service container via `getFacadeAccessor()` and calls the method on it"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Facade là alias của helper `cache()` được compile sẵn lúc cài đặt",
+            "en": "A facade is an alias of the `cache()` helper compiled at install time"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Facade là \"static proxy\": lời gọi static được chuyển qua `__callStatic()` tới instance thật lấy từ container (ví dụ key `cache`). Vì instance đến từ container, test có thể thay bằng `Cache::shouldReceive(...)` hoặc fake như `Queue::fake()`. Nhược điểm là dependency bị ẩn, nên trong class lớn nhiều người ưu tiên inject qua constructor.",
+        "en": "A facade is a \"static proxy\": the static call goes through `__callStatic()` to the real instance resolved from the container (for example the `cache` key). Because the instance comes from the container, tests can swap it with `Cache::shouldReceive(...)` or fakes like `Queue::fake()`. The downside is hidden dependencies, so many teams prefer constructor injection in larger classes."
+      }
+    },
+    {
+      "id": "php.laravel_core.010",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "laravel_core",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Một codebase Laravel đã lên hàng trăm controller và model, nhiều team cùng làm. Bạn sẽ tổ chức kiến trúc thế nào để dễ bảo trì?",
+        "en": "A Laravel codebase has grown to hundreds of controllers and models with several teams. How would you structure it to stay maintainable?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Chia theo domain/module (vd `app/Domain/Billing`, `app/Domain/Orders`) thay vì chỉ theo loại file",
+          "en": "Organize by domain/module (e.g. `app/Domain/Billing`, `app/Domain/Orders`) rather than only by file type"
+        },
+        {
+          "vi": "Controller mỏng: validation ở Form Request, nghiệp vụ trong Action/Service class, query phức tạp trong scope hoặc query object",
+          "en": "Thin controllers: validation in Form Requests, business logic in Action/Service classes, complex queries in scopes or query objects"
+        },
+        {
+          "vi": "Interface + container binding ở ranh giới với hệ thống ngoài (payment, SMS) để test và thay thế",
+          "en": "Interfaces + container bindings at external boundaries (payments, SMS) for testing and swapping"
+        },
+        {
+          "vi": "Event/queue tách side effect giữa module; DTO hoặc API Resource cho dữ liệu vào/ra",
+          "en": "Events/queues decouple side effects between modules; DTOs or API Resources for data in/out"
+        },
+        {
+          "vi": "Không bọc Eloquent bằng repository một cách máy móc; giữ quy ước bằng Larastan, Pint, feature test và CI",
+          "en": "Don't wrap Eloquent in repositories by reflex; enforce conventions with Larastan, Pint, feature tests and CI"
+        }
+      ],
+      "explanation": {
+        "vi": "Cấu trúc mặc định của Laravel hợp với app nhỏ, nhưng khi lớn lên, gom code theo domain giúp mỗi team sở hữu một vùng rõ ràng và giảm xung đột. Tách nghiệp vụ khỏi controller giúp tái sử dụng logic cho HTTP, command và job. Cần cân bằng: trừu tượng hóa ở nơi thật sự thay đổi (hệ thống ngoài), còn lại tận dụng Eloquent và quy ước của framework thay vì thêm tầng không cần thiết.",
+        "en": "Laravel's default structure suits small apps, but as it grows, grouping code by domain gives each team a clear area and reduces conflicts. Pulling business logic out of controllers lets HTTP, commands and jobs reuse it. Balance matters: abstract where things really vary (external systems) and otherwise lean on Eloquent and framework conventions instead of adding needless layers."
+      }
+    },
+    {
+      "id": "php.eloquent.001",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "eloquent",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Migration trong Laravel dùng để làm gì?",
+        "en": "What are migrations used for in Laravel?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Sao chép dữ liệu giữa hai database production",
+            "en": "Copying data between two production databases"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tự sinh model và controller từ các bảng có sẵn",
+            "en": "Generating models and controllers from existing tables"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Quản lý thay đổi schema database bằng code có version, chạy bằng `php artisan migrate` và rollback được",
+            "en": "Managing database schema changes as versioned code, applied with `php artisan migrate` and reversible"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ dùng cho SQLite khi chạy test",
+            "en": "Only for SQLite when running tests"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Mỗi migration có `up()` để áp dụng thay đổi và `down()` để hoàn tác, giúp cả team và mọi môi trường có cùng schema. `php artisan migrate` chạy các migration chưa chạy, `migrate:rollback` hoàn tác batch gần nhất. Migration đã chạy trên production thì không sửa lại mà tạo migration mới.",
+        "en": "Each migration has `up()` to apply a change and `down()` to revert it, keeping every teammate and environment on the same schema. `php artisan migrate` runs pending migrations and `migrate:rollback` reverts the last batch. Never edit a migration that already ran in production; add a new one."
+      }
+    },
+    {
+      "id": "php.eloquent.002",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "eloquent",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với hai model dưới đây, theo quy ước mặc định foreign key nằm ở đâu?",
+        "en": "Given the two models below, where does the foreign key live by default?"
+      },
+      "code": {
+        "language": "php",
+        "source": "class User extends Model\n{\n    public function posts(): HasMany\n    {\n        return $this->hasMany(Post::class);\n    }\n}\n\nclass Post extends Model\n{\n    public function user(): BelongsTo\n    {\n        return $this->belongsTo(User::class);\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cột `post_id` trong bảng `users`",
+            "en": "A `post_id` column in the `users` table"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Bảng trung gian `post_user`",
+            "en": "A `post_user` pivot table"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cột `posts_id` trong bảng `users`",
+            "en": "A `posts_id` column in the `users` table"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cột `user_id` trong bảng `posts`",
+            "en": "A `user_id` column in the `posts` table"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Quan hệ một-nhiều đặt foreign key ở phía \"nhiều\": mỗi post thuộc một user nên bảng `posts` có cột `user_id`. Laravel suy ra tên này từ tên model cha dạng snake_case cộng `_id`. Bảng trung gian như `post_user` chỉ dùng cho quan hệ nhiều-nhiều (`belongsToMany`).",
+        "en": "A one-to-many relation puts the foreign key on the \"many\" side: each post belongs to one user, so `posts` has a `user_id` column. Laravel derives the name from the parent model in snake_case plus `_id`. A pivot table like `post_user` is only for many-to-many (`belongsToMany`)."
+      }
+    },
+    {
+      "id": "php.eloquent.003",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "eloquent",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Trang danh sách 50 bài viết chạy rất chậm và Debugbar báo 51 query. Lỗi nằm ở đâu?",
+        "en": "A page listing 50 posts is very slow and Debugbar reports 51 queries. Where is the problem?"
+      },
+      "code": {
+        "language": "php",
+        "source": "// Controller\n$posts = Post::latest()->take(50)->get();\n\n// Blade view\n@foreach ($posts as $post)\n    <p>{{ $post->title }} - {{ $post->author->name }}</p>\n@endforeach"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mỗi lần truy cập `$post->author` chạy thêm một query (N+1); cần eager load bằng `Post::with('author')`",
+            "en": "Each `$post->author` access runs another query (N+1); eager load with `Post::with('author')`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`latest()` phải gọi sau `get()`",
+            "en": "`latest()` must be called after `get()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`{{ }}` không in được thuộc tính của quan hệ",
+            "en": "`{{ }}` cannot print relation attributes"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`take(50)` lấy hết bảng rồi mới cắt bằng PHP",
+            "en": "`take(50)` loads the whole table and slices it in PHP"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Quan hệ được lazy load khi truy cập lần đầu, nên 1 query lấy posts cộng 50 query lấy author là N+1. `Post::with('author')` gộp thành 2 query: một lấy posts, một lấy users với `WHERE id IN (...)`. Có thể bật `Model::preventLazyLoading(! app()->isProduction())` để bắt lỗi này ngay khi dev.",
+        "en": "Relations are lazy-loaded on first access, so 1 query for posts plus 50 for authors is the N+1 problem. `Post::with('author')` collapses it to 2 queries: one for posts and one for users with `WHERE id IN (...)`. Enable `Model::preventLazyLoading(! app()->isProduction())` to catch it during development."
+      }
+    },
+    {
+      "id": "php.eloquent.004",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "eloquent",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Người dùng chỉ được sửa tên, nhưng có người tự thăng mình lên admin bằng cách gửi thêm `is_admin=1`. Lỗi nằm ở đâu?",
+        "en": "Users may only change their name, yet someone made themselves admin by sending `is_admin=1`. Where is the bug?"
+      },
+      "code": {
+        "language": "php",
+        "source": "class User extends Model\n{\n    protected $guarded = [];\n}\n\n// UserController\npublic function update(Request $request, User $user)\n{\n    $request->validate(['name' => 'required|string|max:100']);\n\n    $user->update($request->all());\n\n    return back();\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`validate()` phải gọi sau `update()`",
+            "en": "`validate()` must be called after `update()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`$guarded = []` tắt bảo vệ mass assignment và `$request->all()` đưa mọi field vào `update()`; dùng `$fillable` và chỉ truyền dữ liệu đã validate",
+            "en": "`$guarded = []` disables mass-assignment protection and `$request->all()` feeds every field into `update()`; use `$fillable` and pass only validated data"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`back()` không dùng được trong controller",
+            "en": "`back()` cannot be used in a controller"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`update()` không lưu database, cần gọi thêm `save()`",
+            "en": "`update()` does not persist; `save()` is also required"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`validate()` chỉ kiểm tra các field có rule, các field khác vẫn nằm trong `$request->all()`. Khi `$guarded` rỗng, Eloquent cho gán mọi cột, kể cả `is_admin`. Cách sửa: khai báo `protected $fillable = ['name'];` và dùng giá trị trả về của `validate()` hoặc `$request->validated()` khi gọi `update()`.",
+        "en": "`validate()` only checks fields that have rules; other fields remain in `$request->all()`. With an empty `$guarded`, Eloquent allows every column, including `is_admin`. Fix: declare `protected $fillable = ['name'];` and pass the return value of `validate()` or `$request->validated()` to `update()`."
+      }
+    },
+    {
+      "id": "php.eloquent.005",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "eloquent",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`User::where('email', $email)->first()` trả về gì khi không có bản ghi nào khớp?",
+        "en": "What does `User::where('email', $email)->first()` return when no record matches?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một Collection rỗng",
+            "en": "An empty Collection"
+          }
+        },
+        {
+          "id": "b",
+          "text": "`null`"
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Ném `ModelNotFoundException`",
+            "en": "It throws `ModelNotFoundException`"
+          }
+        },
+        {
+          "id": "d",
+          "text": "`false`"
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`first()` và `find()` trả về `null` khi không tìm thấy, nên cần kiểm tra trước khi truy cập property. `get()` mới trả về Collection (rỗng nếu không có kết quả). `firstOrFail()`/`findOrFail()` ném `ModelNotFoundException`, và Laravel tự chuyển exception này thành response 404.",
+        "en": "`first()` and `find()` return `null` when nothing is found, so check before accessing properties. `get()` is the one that returns a Collection (empty when there are no results). `firstOrFail()`/`findOrFail()` throw `ModelNotFoundException`, which Laravel turns into a 404 response."
+      }
+    },
+    {
+      "id": "php.eloquent.006",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "eloquent",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt giữa `$user->posts` và `$user->posts()` là gì?",
+        "en": "What is the difference between `$user->posts` and `$user->posts()`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hai cách viết hoàn toàn giống nhau",
+            "en": "They are exactly the same"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`$user->posts` trả về Collection kết quả (lazy load một lần rồi cache trên model); `$user->posts()` trả về relation (query builder) để nối thêm điều kiện",
+            "en": "`$user->posts` returns the result Collection (lazy-loaded once and cached on the model); `$user->posts()` returns the relation (a query builder) for further constraints"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`$user->posts()` trả về Collection, còn `$user->posts` trả về query builder",
+            "en": "`$user->posts()` returns a Collection, while `$user->posts` returns a query builder"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`$user->posts` chạy lại query mới mỗi lần truy cập",
+            "en": "`$user->posts` runs a fresh query on every access"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Dynamic property `$user->posts` chạy query ở lần đầu và lưu kết quả vào model, các lần sau dùng lại. Method `$user->posts()` trả về object `HasMany` để nối `where()`, `count()`, `paginate()`... và chạy SQL tương ứng. Ví dụ `$user->posts()->count()` chạy `COUNT(*)` trong database, còn `$user->posts->count()` tải hết post về rồi mới đếm bằng PHP.",
+        "en": "The dynamic property `$user->posts` runs the query on first access and caches the result on the model for later use. The method `$user->posts()` returns a `HasMany` object you can chain with `where()`, `count()`, `paginate()`... running the matching SQL. For example `$user->posts()->count()` runs `COUNT(*)` in the database, while `$user->posts->count()` loads every post and counts in PHP."
+      }
+    },
+    {
+      "id": "php.eloquent.007",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "eloquent",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Hai request rút tiền gửi cùng lúc đôi khi làm số dư bị âm, dù code đã nằm trong transaction (MySQL InnoDB). Lỗi nằm ở đâu?",
+        "en": "Two concurrent withdrawal requests sometimes drive the balance negative, even though the code is inside a transaction (MySQL InnoDB). Where is the bug?"
+      },
+      "code": {
+        "language": "php",
+        "source": "public function withdraw(int $accountId, int $amount): void\n{\n    DB::transaction(function () use ($accountId, $amount) {\n        $account = Account::findOrFail($accountId);\n\n        if ($account->balance < $amount) {\n            throw new InsufficientFunds();\n        }\n\n        $account->balance -= $amount;\n        $account->save();\n    });\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`DB::transaction()` không rollback khi closure ném exception",
+            "en": "`DB::transaction()` does not roll back when the closure throws"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải dùng `DB::beginTransaction()` thủ công thì transaction mới có hiệu lực",
+            "en": "Only a manual `DB::beginTransaction()` makes the transaction effective"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đổi `save()` thành `update()` là đủ để thao tác thành atomic",
+            "en": "Replacing `save()` with `update()` is enough to make it atomic"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Transaction không tự khóa dòng khi đọc nên hai request cùng đọc số dư cũ; cần `Account::lockForUpdate()->findOrFail($accountId)` (`SELECT ... FOR UPDATE`) trong transaction",
+            "en": "A transaction does not lock rows on read, so both requests see the old balance; use `Account::lockForUpdate()->findOrFail($accountId)` (`SELECT ... FOR UPDATE`) inside the transaction"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Ở mức isolation mặc định `REPEATABLE READ`, `SELECT` thường của InnoDB là consistent read không khóa, nên hai transaction cùng thấy số dư 100 và cùng trừ. `lockForUpdate()` khóa dòng đó, request thứ hai phải chờ transaction đầu commit rồi mới đọc số dư mới. Cách khác là update atomic có điều kiện (`UPDATE ... SET balance = balance - ? WHERE id = ? AND balance >= ?`) rồi kiểm tra số dòng bị ảnh hưởng; `DB::transaction()` vẫn rollback đúng khi có exception.",
+        "en": "Under the default `REPEATABLE READ` isolation, a plain InnoDB `SELECT` is a non-locking consistent read, so both transactions see a balance of 100 and both subtract. `lockForUpdate()` locks the row, so the second request waits for the first to commit and then reads the new balance. An alternative is a conditional atomic update (`UPDATE ... SET balance = balance - ? WHERE id = ? AND balance >= ?`) and checking affected rows; `DB::transaction()` does roll back correctly on exceptions."
+      }
+    },
+    {
+      "id": "php.eloquent.008",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "eloquent",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đoạn code sau chạy xong vẫn còn nhiều user có `active = false`. Vì sao?",
+        "en": "After this code runs, many users still have `active = false`. Why?"
+      },
+      "code": {
+        "language": "php",
+        "source": "User::where('active', false)->chunk(100, function ($users) {\n    foreach ($users as $user) {\n        $user->update(['active' => true]);\n    }\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`chunk()` tải toàn bộ bảng vào bộ nhớ trước rồi mới chia nhỏ",
+            "en": "`chunk()` loads the whole table into memory first and then splits it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`chunk()` phân trang bằng `OFFSET`; khi cập nhật chính cột đang lọc, tập kết quả co lại nên các trang sau bỏ sót bản ghi. Nên dùng `chunkById()`",
+            "en": "`chunk()` pages with `OFFSET`; updating the filtered column shrinks the result set, so later pages skip records. Use `chunkById()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`update()` trong closure của `chunk()` bị bỏ qua vì chạy trong read-only transaction",
+            "en": "`update()` inside a `chunk()` closure is ignored because it runs in a read-only transaction"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`chunk()` không kết hợp được với `where()`",
+            "en": "`chunk()` cannot be combined with `where()`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Trang 1 lấy 100 user `active = false` và bật chúng lên; trang 2 dùng `OFFSET 100` trên tập kết quả đã giảm 100 dòng, nên nhảy qua 100 user chưa xử lý. `chunkById()` phân trang bằng `WHERE id > last_id` nên không bị lệch khi dữ liệu thay đổi. Nếu không cần model event, một câu `User::where('active', false)->update(['active' => true])` là nhanh nhất.",
+        "en": "Page 1 fetches 100 users with `active = false` and activates them; page 2 uses `OFFSET 100` on a result set that just lost 100 rows, so it skips 100 unprocessed users. `chunkById()` pages with `WHERE id > last_id`, so it stays correct as data changes. If you don't need model events, a single `User::where('active', false)->update(['active' => true])` is fastest."
+      }
+    },
+    {
+      "id": "php.eloquent.009",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "eloquent",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "php",
+        "source": "$orders = collect([\n    ['status' => 'paid', 'total' => 100],\n    ['status' => 'pending', 'total' => 50],\n    ['status' => 'paid', 'total' => 70],\n]);\n\necho $orders->groupBy('status')->map->count()->toJson();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "[2,1]"
+        },
+        {
+          "id": "b",
+          "text": "{\"paid\":170,\"pending\":50}"
+        },
+        {
+          "id": "c",
+          "text": "{\"paid\":[100,70],\"pending\":[50]}"
+        },
+        {
+          "id": "d",
+          "text": "{\"paid\":2,\"pending\":1}"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`groupBy('status')` tạo Collection với key là giá trị `status`, mỗi key chứa một Collection con. `->map->count()` là higher order message, tương đương `map(fn ($group) => $group->count())`, nên mỗi nhóm được thay bằng số phần tử. Key là chuỗi nên `toJson()` sinh object; muốn tính tổng tiền thì dùng `->map->sum('total')`.",
+        "en": "`groupBy('status')` builds a Collection keyed by `status`, each key holding a sub-Collection. `->map->count()` is a higher order message, equivalent to `map(fn ($group) => $group->count())`, so each group becomes its item count. The keys are strings, so `toJson()` emits an object; for revenue use `->map->sum('total')`."
+      }
+    },
+    {
+      "id": "php.api.001",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "api",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Client gọi API với header `Accept: application/json` và `$request->validate()` thất bại. Mặc định Laravel trả về gì?",
+        "en": "A client calls the API with `Accept: application/json` and `$request->validate()` fails. What does Laravel return by default?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Redirect `302` về trang trước kèm lỗi trong session",
+            "en": "A `302` redirect back with errors in the session"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Status `500` kèm stack trace",
+            "en": "A `500` status with a stack trace"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Status `200` với `success: false`",
+            "en": "A `200` status with `success: false`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Response JSON status `422` chứa `message` và `errors` theo từng field",
+            "en": "A JSON response with status `422` containing `message` and per-field `errors`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Validation thất bại ném `ValidationException`; Laravel kiểm tra request có mong đợi JSON hay không (`expectsJson()`). Với API, response là `422 Unprocessable Content` kèm object `errors`. Với form web thông thường thì Laravel mới redirect về trang trước, flash lỗi và old input vào session.",
+        "en": "A failed validation throws `ValidationException`; Laravel checks whether the request expects JSON (`expectsJson()`). For APIs the response is `422 Unprocessable Content` with an `errors` object. Only for a normal web form does Laravel redirect back and flash the errors and old input to the session."
+      }
+    },
+    {
+      "id": "php.api.002",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "api",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong một Form Request, method `authorize()` trả về `false`. Chuyện gì xảy ra?",
+        "en": "In a Form Request, `authorize()` returns `false`. What happens?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Laravel bỏ qua `rules()` nhưng vẫn gọi controller",
+            "en": "Laravel skips `rules()` but still calls the controller"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Request bị chặn trước khi vào controller và Laravel trả về `403 This action is unauthorized.`",
+            "en": "The request is stopped before the controller and Laravel returns `403 This action is unauthorized.`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Laravel trả về `422` kèm danh sách lỗi validation",
+            "en": "Laravel returns `422` with validation errors"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Laravel trả về `401` và redirect về trang đăng nhập",
+            "en": "Laravel returns `401` and redirects to the login page"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Form Request được resolve trước khi controller chạy: `authorize()` được kiểm tra trước, nếu `false` thì ném `AuthorizationException` thành 403; sau đó mới validate theo `rules()`. Nhờ vậy controller chỉ nhận dữ liệu hợp lệ qua `$request->validated()`. 401 là lỗi chưa xác thực (chưa đăng nhập), khác với 403 là đã biết là ai nhưng không có quyền.",
+        "en": "A Form Request is resolved before the controller runs: `authorize()` is checked first and `false` throws an `AuthorizationException` that becomes 403; only then are the `rules()` validated. So the controller only ever receives valid data through `$request->validated()`. 401 means unauthenticated (not logged in), unlike 403, where the user is known but not allowed."
+      }
+    },
+    {
+      "id": "php.api.003",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "api",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "API Resource (`JsonResource`) trong Laravel dùng để làm gì?",
+        "en": "What is an API Resource (`JsonResource`) for in Laravel?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chuyển model/collection thành JSON theo định dạng kiểm soát được: chọn field, đổi tên, ẩn dữ liệu nhạy cảm, `whenLoaded()`",
+            "en": "Turning models/collections into JSON in a controlled shape: choosing fields, renaming, hiding sensitive data, `whenLoaded()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Định nghĩa route cho API",
+            "en": "Defining API routes"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Validate dữ liệu đầu vào",
+            "en": "Validating input data"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cache response vào Redis",
+            "en": "Caching responses in Redis"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Resource là tầng biến đổi giữa model và JSON trả về, giúp API không phụ thuộc trực tiếp vào cấu trúc bảng. Trả thẳng model sẽ lộ mọi cột không có trong `$hidden` và đổi schema là đổi luôn API. Dùng `new UserResource($user)` cho một bản ghi và `UserResource::collection($users)` cho danh sách; validate đầu vào là việc của Form Request.",
+        "en": "A resource is the transformation layer between models and the JSON you return, so the API does not mirror the table structure. Returning models directly exposes every column not in `$hidden`, and any schema change becomes an API change. Use `new UserResource($user)` for one record and `UserResource::collection($users)` for lists; input validation belongs to Form Requests."
+      }
+    },
+    {
+      "id": "php.api.004",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "api",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh Laravel Sanctum và Passport. Khi nào chọn cái nào?",
+        "en": "Compare Laravel Sanctum and Passport. When do you choose each?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Sanctum: nhẹ, cấp API token (personal access token, lưu hash trong DB) cho mobile app hoặc client đơn giản",
+          "en": "Sanctum: lightweight API tokens (personal access tokens stored hashed in the DB) for mobile apps or simple clients"
+        },
+        {
+          "vi": "Sanctum còn xác thực SPA cùng domain gốc bằng cookie session + CSRF (stateful)",
+          "en": "Sanctum also authenticates first-party SPAs on the same root domain via session cookies + CSRF (stateful)"
+        },
+        {
+          "vi": "Passport là OAuth2 server đầy đủ (authorization code, client credentials, refresh token) khi bên thứ ba cần truy cập",
+          "en": "Passport is a full OAuth2 server (authorization code, client credentials, refresh tokens) for third-party access"
+        },
+        {
+          "vi": "Laravel 11/12: `php artisan install:api` cài Sanctum; bảo vệ route bằng `auth:sanctum`, giới hạn quyền bằng token abilities",
+          "en": "Laravel 11/12: `php artisan install:api` installs Sanctum; protect routes with `auth:sanctum` and limit tokens with abilities"
+        }
+      ],
+      "explanation": {
+        "vi": "Phần lớn dự án chỉ cần app của chính mình (SPA, mobile) gọi API, và Sanctum đủ dùng với cấu hình đơn giản. Passport phù hợp khi bạn trở thành nhà cung cấp OAuth2 cho ứng dụng bên thứ ba, ví dụ \"Đăng nhập bằng tài khoản X\". Chọn Passport khi không cần sẽ thêm nhiều bảng, key và độ phức tạp.",
+        "en": "Most projects only need their own apps (SPA, mobile) to call the API, and Sanctum covers that with a simple setup. Passport fits when you become an OAuth2 provider for third-party apps, e.g. \"Sign in with X\". Choosing Passport without that need adds tables, keys and complexity."
+      }
+    },
+    {
+      "id": "php.api.005",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "api",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Endpoint sửa bài viết đã yêu cầu đăng nhập, nhưng có lỗ hổng nghiêm trọng. Lỗi nằm ở đâu?",
+        "en": "The post-update endpoint already requires login, but it has a serious hole. Where is the bug?"
+      },
+      "code": {
+        "language": "php",
+        "source": "Route::middleware('auth:sanctum')->put('/posts/{post}', function (Request $request, Post $post) {\n    $data = $request->validate([\n        'title' => 'required|string|max:255',\n    ]);\n\n    $post->update($data);\n\n    return new PostResource($post);\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`validate()` không dùng được trong route closure",
+            "en": "`validate()` cannot be used in a route closure"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thiếu kiểm tra quyền: bất kỳ user đã đăng nhập nào cũng sửa được bài của người khác; cần policy và `Gate::authorize('update', $post)` (hoặc middleware `can:update,post`)",
+            "en": "No authorization: any logged-in user can edit anyone's post; add a policy and `Gate::authorize('update', $post)` (or the `can:update,post` middleware)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Route model binding không hoạt động với method `PUT`",
+            "en": "Route model binding does not work with `PUT`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải trả về `PostResource::collection($post)`",
+            "en": "It must return `PostResource::collection($post)`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Authentication (`auth:sanctum`) chỉ xác nhận người gọi là ai, không kiểm tra họ có được sửa bài này không, nên đổi id trên URL là sửa được bài người khác (IDOR). Định nghĩa `PostPolicy::update(User $user, Post $post)` trả về `$user->id === $post->user_id` rồi gọi `Gate::authorize('update', $post)`. Lưu ý trong Laravel 11, base `Controller` mặc định không còn trait `AuthorizesRequests` nên `$this->authorize()` cần thêm trait đó.",
+        "en": "Authentication (`auth:sanctum`) only establishes who the caller is, not whether they may edit this post, so changing the id in the URL edits someone else's post (IDOR). Define `PostPolicy::update(User $user, Post $post)` returning `$user->id === $post->user_id` and call `Gate::authorize('update', $post)`. Note that in Laravel 11 the base `Controller` no longer includes `AuthorizesRequests` by default, so `$this->authorize()` needs that trait."
+      }
+    },
+    {
+      "id": "php.api.006",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "api",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "API tạo mới một resource thành công thì theo chuẩn REST nên trả về status code nào?",
+        "en": "Following REST conventions, which status code should an API return after successfully creating a resource?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "`201 Created`"
+        },
+        {
+          "id": "b",
+          "text": "`204 No Content`"
+        },
+        {
+          "id": "c",
+          "text": "`302 Found`"
+        },
+        {
+          "id": "d",
+          "text": "`400 Bad Request`"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`201 Created` báo resource mới đã được tạo, thường kèm body là resource đó (và header `Location`). `204` dùng khi thành công nhưng không có body, ví dụ sau khi xóa; `302` là redirect, không phù hợp cho API JSON; `400` là lỗi phía client. Trong Laravel, trả về `new UserResource($user)` với model vừa được tạo sẽ tự có status 201, hoặc dùng `response()->json($data, 201)`.",
+        "en": "`201 Created` says a new resource was created, usually with that resource in the body (and a `Location` header). `204` is for success with no body, e.g. after a delete; `302` is a redirect and wrong for JSON APIs; `400` is a client error. In Laravel, returning `new UserResource($user)` for a freshly created model yields 201 automatically, or use `response()->json($data, 201)`."
+      }
+    },
+    {
+      "id": "php.api.007",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "api",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Phân biệt Gate và Policy trong Laravel, và các cách kiểm tra quyền trong controller, route và Blade.",
+        "en": "Explain Gates versus Policies in Laravel, and the ways to check permissions in controllers, routes and Blade."
+      },
+      "keyPoints": [
+        {
+          "vi": "Gate: closure kiểm tra quyền cho hành động không gắn với model cụ thể (vd `view-admin-dashboard`), định nghĩa trong `AppServiceProvider::boot()`",
+          "en": "Gate: a closure for actions not tied to a specific model (e.g. `view-admin-dashboard`), defined in `AppServiceProvider::boot()`"
+        },
+        {
+          "vi": "Policy: class gom quyền theo model (`viewAny`, `view`, `update`, `delete`), được auto-discover theo tên `PostPolicy`",
+          "en": "Policy: a class grouping a model's permissions (`viewAny`, `view`, `update`, `delete`), auto-discovered by the `PostPolicy` name"
+        },
+        {
+          "vi": "Kiểm tra bằng `Gate::authorize()`, `Gate::allows()`, `$user->can()`, middleware `can:update,post`, `@can` trong Blade",
+          "en": "Check with `Gate::authorize()`, `Gate::allows()`, `$user->can()`, the `can:update,post` middleware, `@can` in Blade"
+        },
+        {
+          "vi": "`before()` cho super admin; authorization (403) khác authentication (401)",
+          "en": "`before()` for super admins; authorization (403) is distinct from authentication (401)"
+        }
+      ],
+      "explanation": {
+        "vi": "Gate phù hợp cho quyền đơn lẻ, còn Policy giúp gom logic phân quyền của một model vào một chỗ khi ứng dụng lớn dần. Cả hai đều đi qua cùng cơ chế `Gate`, nên có thể kiểm tra ở controller, route middleware hay Blade. Khi quyền bị từ chối, `authorize()` ném `AuthorizationException` và trả về 403.",
+        "en": "Gates suit one-off permissions, while Policies keep a model's authorization logic in one place as the app grows. Both go through the same `Gate` machinery, so you can check them in controllers, route middleware or Blade. When access is denied, `authorize()` throws an `AuthorizationException` and returns 403."
+      }
+    },
+    {
+      "id": "php.performance.001",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao nên đưa việc gửi email xác nhận đơn hàng vào queue thay vì gửi trực tiếp trong controller?",
+        "en": "Why push the order-confirmation email onto a queue instead of sending it directly in the controller?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Vì queue làm email đến hộp thư người nhận nhanh hơn",
+            "en": "Because queues make the email reach the inbox faster"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Vì Mailable chỉ hoạt động khi chạy qua queue",
+            "en": "Because Mailables only work through a queue"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Vì dùng queue thì không cần cấu hình SMTP",
+            "en": "Because with a queue you don't need to configure SMTP"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Để response trả về nhanh; việc chậm chạy nền trong worker và có thể retry khi lỗi",
+            "en": "So the response returns quickly; the slow work runs in a background worker and can be retried on failure"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Gửi mail qua SMTP có thể mất vài giây hoặc lỗi mạng, làm người dùng chờ hoặc nhận lỗi dù đơn đã tạo. Với queue, controller chỉ ghi job (vd `Mail::to($user)->queue(...)` hoặc job implement `ShouldQueue`) rồi trả response, worker `php artisan queue:work` xử lý sau và retry khi thất bại. Queue không làm email đến nhanh hơn; driver `sync` thì vẫn chạy ngay trong request.",
+        "en": "Sending mail over SMTP can take seconds or fail on the network, making users wait or see an error even though the order exists. With a queue the controller only records a job (e.g. `Mail::to($user)->queue(...)` or a `ShouldQueue` job) and responds; a `php artisan queue:work` worker processes it later and retries failures. Queues don't make delivery faster, and the `sync` driver still runs inside the request."
+      }
+    },
+    {
+      "id": "php.performance.002",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Sau khi deploy code mới, job trong queue vẫn chạy logic cũ. Nguyên nhân và cách xử lý?",
+        "en": "After deploying new code, queued jobs still run the old logic. What is the cause and the fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`queue:work` là process chạy lâu và đã nạp code cũ vào bộ nhớ; cần chạy `php artisan queue:restart` khi deploy để Supervisor khởi động lại worker",
+            "en": "`queue:work` is a long-running process holding the old code in memory; run `php artisan queue:restart` on deploy so Supervisor restarts the workers"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Do cache cũ, chỉ cần `php artisan cache:clear`",
+            "en": "Stale cache; `php artisan cache:clear` is enough"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Job đã serialize cả code PHP vào queue nên phải xóa hết queue",
+            "en": "Jobs serialize their PHP code into the queue, so the queue must be wiped"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải đổi `QUEUE_CONNECTION` sang `sync` sau mỗi lần deploy",
+            "en": "`QUEUE_CONNECTION` must be switched to `sync` after each deploy"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Worker boot ứng dụng một lần rồi xử lý job liên tục, nên không thấy file PHP mới cho tới khi process khởi động lại. `queue:restart` đặt cờ trong cache để worker thoát an toàn sau job hiện tại, và Supervisor/systemd sẽ chạy lại worker với code mới. Payload job chỉ chứa tên class và dữ liệu đã serialize, không chứa code.",
+        "en": "A worker boots the app once and keeps processing jobs, so it never sees new PHP files until the process restarts. `queue:restart` sets a cache flag so workers exit gracefully after their current job, and Supervisor/systemd starts them again with the new code. The job payload only holds the class name and serialized data, not code."
+      }
+    },
+    {
+      "id": "php.performance.003",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "performance",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Dùng Redis queue, job `SendInvoice` thỉnh thoảng lỗi `ModelNotFoundException` hoặc gửi hóa đơn không có sản phẩm. Lỗi nằm ở đâu?",
+        "en": "With a Redis queue, the `SendInvoice` job sometimes fails with `ModelNotFoundException` or sends an invoice with no items. Where is the bug?"
+      },
+      "code": {
+        "language": "php",
+        "source": "DB::transaction(function () use ($data) {\n    $order = Order::create($data);\n\n    SendInvoice::dispatch($order);\n\n    $order->items()->createMany($data['items']);\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Order::create()` không trả về model nên `$order` là `null`",
+            "en": "`Order::create()` does not return a model, so `$order` is `null`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải dùng `dispatchSync()` để job chạy nhanh hơn trong queue",
+            "en": "Use `dispatchSync()` so the job runs faster on the queue"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`DB::transaction()` không cho tạo nhiều bản ghi trong một closure",
+            "en": "`DB::transaction()` does not allow creating multiple records in one closure"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Job được đẩy vào queue khi transaction chưa commit nên worker có thể chạy trước khi dữ liệu hiển thị; dùng `->afterCommit()` hoặc `after_commit => true` trong config queue",
+            "en": "The job is queued before the transaction commits, so a worker may run before the data is visible; use `->afterCommit()` or `after_commit => true` in the queue config"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Với `SerializesModels`, job chỉ lưu id của order và query lại trong worker. Redis nằm ngoài transaction của database, nên worker có thể lấy job ngay, khi order chưa commit (không tìm thấy) hoặc items chưa được tạo. `SendInvoice::dispatch($order)->afterCommit()` hoãn việc đẩy job tới khi transaction commit, và bỏ job nếu transaction rollback.",
+        "en": "With `SerializesModels`, the job stores only the order id and re-queries it in the worker. Redis sits outside the database transaction, so a worker may pick the job up immediately, while the order is uncommitted (not found) or its items do not exist yet. `SendInvoice::dispatch($order)->afterCommit()` delays queuing until the transaction commits and drops the job if it rolls back."
+      }
+    },
+    {
+      "id": "php.performance.004",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "performance",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn thiết kế hệ thống queue cho thanh toán và gửi thông báo thế nào để đảm bảo độ tin cậy, không xử lý trùng và không mất job?",
+        "en": "How would you design queues for payments and notifications so they are reliable, never double-process and never lose jobs?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Giả định at-least-once: job có thể chạy lại (retry, worker chết, timeout) nên handler phải idempotent (idempotency key, unique constraint, kiểm tra trạng thái)",
+          "en": "Assume at-least-once delivery: jobs may run again (retries, crashed workers, timeouts), so handlers must be idempotent (idempotency keys, unique constraints, state checks)"
+        },
+        {
+          "vi": "Cấu hình `tries`, `backoff`, `maxExceptions`; `timeout` của job phải nhỏ hơn `retry_after` của connection để hai worker không chạy cùng một job",
+          "en": "Configure `tries`, `backoff`, `maxExceptions`; the job `timeout` must be shorter than the connection's `retry_after` so two workers never run one job"
+        },
+        {
+          "vi": "Dùng `ShouldBeUnique`, middleware `WithoutOverlapping` hoặc `Cache::lock()` cho tài nguyên dùng chung",
+          "en": "Use `ShouldBeUnique`, the `WithoutOverlapping` middleware or `Cache::lock()` for shared resources"
+        },
+        {
+          "vi": "Theo dõi `failed_jobs`, method `failed()`, alert và dashboard (Horizon với Redis)",
+          "en": "Monitor `failed_jobs`, the `failed()` method, alerts and dashboards (Horizon for Redis)"
+        },
+        {
+          "vi": "Dispatch `afterCommit` hoặc outbox pattern để job khớp với dữ liệu đã commit; tách queue theo mức ưu tiên",
+          "en": "Dispatch `afterCommit` or use an outbox so jobs match committed data; separate queues by priority"
+        }
+      ],
+      "explanation": {
+        "vi": "Queue không đảm bảo exactly-once, nên an toàn phải đến từ thiết kế handler: trước khi trừ tiền hay gửi SMS, kiểm tra xem thao tác với khóa đó đã thực hiện chưa. Cấu hình timeout và retry sai có thể khiến cùng một job chạy song song hai lần. Job thất bại phải được lưu, cảnh báo và có cách chạy lại (`queue:retry`) thay vì âm thầm mất.",
+        "en": "Queues don't guarantee exactly-once, so safety comes from handler design: before charging or sending an SMS, check whether the operation for that key already happened. Misconfigured timeouts and retries can make the same job run twice in parallel. Failed jobs must be stored, alerted on and retryable (`queue:retry`) rather than silently lost."
+      }
+    },
+    {
+      "id": "php.performance.005",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đoạn code sau hoạt động thế nào?",
+        "en": "How does the following code behave?"
+      },
+      "code": {
+        "language": "php",
+        "source": "$total = Cache::remember('orders.total', 600, function () {\n    return DB::table('orders')->count();\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Luôn chạy closure và ghi đè cache ở mỗi lần gọi",
+            "en": "It always runs the closure and overwrites the cache on every call"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nếu key đã có trong cache thì trả về luôn; nếu chưa có thì chạy closure, lưu kết quả 600 giây rồi trả về",
+            "en": "If the key is cached it is returned directly; otherwise the closure runs and its result is stored for 600 seconds and returned"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lưu kết quả trong 600 phút",
+            "en": "It stores the result for 600 minutes"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ cache được khi driver là Redis",
+            "en": "It only caches when the driver is Redis"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Cache::remember()` là pattern cache-aside: đọc cache, nếu miss thì tính rồi ghi lại. TTL tính bằng giây (từ Laravel 5.8), không phải phút. Mọi driver (file, database, Redis, Memcached) đều hỗ trợ; khi dữ liệu thay đổi cần `Cache::forget('orders.total')` để không trả số liệu cũ.",
+        "en": "`Cache::remember()` is the cache-aside pattern: read the cache and, on a miss, compute and store the value. The TTL is in seconds (since Laravel 5.8), not minutes. Every driver (file, database, Redis, Memcached) supports it; when the data changes, call `Cache::forget('orders.total')` to avoid stale numbers."
+      }
+    },
+    {
+      "id": "php.performance.006",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong feature test, bạn muốn kiểm tra endpoint có dispatch job `SendInvoice` mà không thực sự chạy job. Cách đúng là gì?",
+        "en": "In a feature test, you want to assert the endpoint dispatches `SendInvoice` without actually running it. What is the right way?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đặt `QUEUE_CONNECTION=sync` rồi kiểm tra hộp thư thật",
+            "en": "Set `QUEUE_CONNECTION=sync` and check a real inbox"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi `Queue::fake()` trước khi gửi request, sau đó `Queue::assertPushed(SendInvoice::class)`",
+            "en": "Call `Queue::fake()` before the request, then `Queue::assertPushed(SendInvoice::class)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chạy `php artisan queue:work` song song trong lúc chạy test",
+            "en": "Run `php artisan queue:work` alongside the test run"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Kiểm tra bảng `failed_jobs` sau khi gọi endpoint",
+            "en": "Check the `failed_jobs` table after calling the endpoint"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Queue::fake()` thay queue thật bằng bản giả ghi lại job được push, nên test nhanh và không có side effect. Sau đó dùng `assertPushed`, `assertNotPushed` hoặc truyền closure để kiểm tra dữ liệu của job. Tương tự có `Mail::fake()`, `Event::fake()`, `Http::fake()`; còn logic bên trong job nên được test riêng bằng cách gọi `handle()`.",
+        "en": "`Queue::fake()` replaces the real queue with a fake that records pushed jobs, so tests are fast and side-effect free. Then use `assertPushed`, `assertNotPushed` or a closure to inspect the job's data. There are matching `Mail::fake()`, `Event::fake()` and `Http::fake()`; the job's own logic should be tested separately by calling `handle()`."
+      }
+    },
+    {
+      "id": "php.performance.007",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "performance",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Server production bật OPcache với `opcache.validate_timestamps=0`. Sau khi deploy file PHP mới, ứng dụng vẫn chạy code cũ. Giải thích và cách xử lý?",
+        "en": "Production runs OPcache with `opcache.validate_timestamps=0`. After deploying new PHP files, the app still runs old code. What is going on and what is the fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ cần chạy `composer dump-autoload` là code mới được nạp",
+            "en": "Running `composer dump-autoload` is enough to load the new code"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "JIT đã biên dịch ra mã máy nên phải build lại PHP từ source",
+            "en": "JIT compiled machine code, so PHP must be rebuilt from source"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "OPcache giữ opcode đã biên dịch trong shared memory và không kiểm tra file thay đổi; cần reload PHP-FPM (hoặc reset OPcache) trong bước deploy",
+            "en": "OPcache keeps compiled opcodes in shared memory and never checks for file changes; reload PHP-FPM (or reset OPcache) as a deploy step"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Trình duyệt cache file PHP, cần xóa cache trình duyệt",
+            "en": "The browser caches PHP files, so clear the browser cache"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "OPcache lưu kết quả biên dịch script để không phải parse lại mỗi request; với `validate_timestamps=0` nó không bao giờ kiểm tra mtime nên nhanh hơn nhưng phải xóa cache thủ công khi deploy. Reload PHP-FPM (`systemctl reload php8.3-fpm`) hoặc gọi `opcache_reset()` trong context FPM là cách phổ biến. JIT (PHP 8.0+) chủ yếu có lợi cho code nặng CPU, còn app web thường bị giới hạn bởi I/O nên lợi ích nhỏ.",
+        "en": "OPcache stores compiled scripts so they are not re-parsed each request; with `validate_timestamps=0` it never checks mtimes, which is faster but means you must clear it on deploy. Reloading PHP-FPM (`systemctl reload php8.3-fpm`) or calling `opcache_reset()` within the FPM context is the usual approach. JIT (PHP 8.0+) mainly helps CPU-heavy code; typical web apps are I/O-bound, so the gains are small."
+      }
+    },
+    {
+      "id": "php.performance.008",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "performance",
+      "level": "senior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Chạy bằng PHP-FPM thì đúng, chuyển sang Laravel Octane thì người dùng thấy báo cáo của tenant khác. Lỗi nằm ở đâu?",
+        "en": "It works under PHP-FPM, but after moving to Laravel Octane users see other tenants' reports. Where is the bug?"
+      },
+      "code": {
+        "language": "php",
+        "source": "// AppServiceProvider::register()\n$this->app->singleton(TenantContext::class, function ($app) {\n    return new TenantContext($app['request']->header('X-Tenant'));\n});\n\n// ReportController\npublic function index(TenantContext $tenant)\n{\n    return Report::where('tenant_id', $tenant->id)->get();\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Octane không đọc được header tùy chỉnh như `X-Tenant`",
+            "en": "Octane cannot read custom headers such as `X-Tenant`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải bật OPcache thì Octane mới tách dữ liệu theo request",
+            "en": "OPcache must be enabled for Octane to isolate request data"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Octane giữ ứng dụng trong bộ nhớ giữa các request; singleton được tạo một lần với header của request đầu tiên rồi dùng lại cho mọi request sau. Dùng `scoped()` hoặc đọc tenant từ request hiện tại",
+            "en": "Octane keeps the app in memory across requests; the singleton is built once from the first request's header and reused for every later request. Use `scoped()` or read the tenant from the current request"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cần đổi `->get()` thành `->cursor()` để tránh dùng chung kết quả",
+            "en": "`->get()` must become `->cursor()` to avoid sharing results"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Với PHP-FPM, mỗi request có container mới nên singleton chỉ sống trong một request và lỗi bị che giấu. Octane boot ứng dụng một lần cho mỗi worker, nên singleton giữ `TenantContext` của request đầu tiên và mọi request sau dùng sai tenant. Dùng `$this->app->scoped(...)` (được reset mỗi request), hoặc resolve tenant trong middleware từ request hiện tại; tránh inject request/config vào singleton và tránh static property tích lũy state.",
+        "en": "Under PHP-FPM every request gets a fresh container, so a singleton only lives for one request and the bug stays hidden. Octane boots the app once per worker, so the singleton keeps the first request's `TenantContext` and every later request uses the wrong tenant. Use `$this->app->scoped(...)` (reset per request) or resolve the tenant in middleware from the current request; never inject the request/config into singletons or accumulate state in static properties."
+      }
+    },
+    {
+      "id": "php.performance.009",
+      "contentVersion": 1,
+      "trackId": "php",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong Laravel 11/12, để `Schedule::command('report:send')->dailyAt('08:00')` thực sự chạy trên server, cần làm gì?",
+        "en": "In Laravel 11/12, what is needed for `Schedule::command('report:send')->dailyAt('08:00')` to actually run on the server?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tạo một cron riêng cho từng task, chạy lúc 8:00",
+            "en": "Create a separate cron entry for each task at 8:00"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thêm một cron chạy mỗi phút: `* * * * * cd /path-to-project && php artisan schedule:run`",
+            "en": "Add one cron entry that runs every minute: `* * * * * cd /path-to-project && php artisan schedule:run`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chạy `php artisan queue:work` là đủ",
+            "en": "Running `php artisan queue:work` is enough"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không cần gì, Laravel tự chạy task khi có request đến",
+            "en": "Nothing; Laravel runs tasks automatically when requests arrive"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Scheduler của Laravel cần một cron duy nhất gọi `schedule:run` mỗi phút; lệnh này kiểm tra task nào đến hạn và chạy chúng. Ở Laravel 11/12, schedule được khai báo trong `routes/console.php` thay vì `app/Console/Kernel.php`. Khi dev có thể dùng `php artisan schedule:work`; nhiều server thì thêm `->onOneServer()` để task không chạy trùng.",
+        "en": "Laravel's scheduler needs a single cron entry that calls `schedule:run` every minute; it checks which tasks are due and runs them. In Laravel 11/12 schedules are defined in `routes/console.php` instead of `app/Console/Kernel.php`. Locally you can use `php artisan schedule:work`; on multiple servers add `->onOneServer()` so tasks don't run twice."
+      }
+    }
+  ]
+}

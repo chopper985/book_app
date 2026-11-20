@@ -11,28 +11,28 @@ import 'package:i18n_extension/i18n_extension.dart' show I18n;
 import 'package:sizer/sizer.dart';
 
 // Project imports:
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/helpers/app_clock.dart';
-import 'package:AppName/core/utils/dio_api/result.dart';
-import 'package:AppName/features/catalog/data/datasources/mock_dashboard_datasource.dart';
-import 'package:AppName/features/catalog/data/repositories/catalog_repository_impl.dart';
-import 'package:AppName/features/catalog/data/repositories/saved_tracks_repository_impl.dart';
-import 'package:AppName/features/catalog/data/repositories/user_roadmaps_repository_impl.dart';
-import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
-import 'package:AppName/features/content/data/parsers/content_parser.dart';
-import 'package:AppName/features/content/domain/entities/content_catalog.dart';
-import 'package:AppName/features/content/domain/entities/localized_text.dart';
-import 'package:AppName/features/content/domain/entities/quiz_set.dart';
-import 'package:AppName/features/content/domain/entities/track.dart';
-import 'package:AppName/features/content/domain/repositories/content_repository.dart';
-import 'package:AppName/features/practice/data/repositories/practice_repository_impl.dart';
-import 'package:AppName/features/practice/domain/entities/practice_hub.dart';
-import 'package:AppName/features/practice/domain/usecase/get_practice_hub.dart';
-import 'package:AppName/features/practice/domain/usecase/practice_usecases.dart';
-import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart';
-import 'package:AppName/features/practice/presentation/cubit/practice_hub_cubit.dart';
-import 'package:AppName/features/practice/presentation/screens/practice_hub_screen.dart';
-import 'package:AppName/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/helpers/app_clock.dart';
+import 'package:interview_practice/core/utils/dio_api/result.dart';
+import 'package:interview_practice/features/catalog/data/datasources/mock_dashboard_datasource.dart';
+import 'package:interview_practice/features/catalog/data/repositories/catalog_repository_impl.dart';
+import 'package:interview_practice/features/catalog/data/repositories/saved_tracks_repository_impl.dart';
+import 'package:interview_practice/features/catalog/data/repositories/user_roadmaps_repository_impl.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
+import 'package:interview_practice/features/content/data/parsers/content_parser.dart';
+import 'package:interview_practice/features/content/domain/entities/content_catalog.dart';
+import 'package:interview_practice/features/content/domain/entities/localized_text.dart';
+import 'package:interview_practice/features/content/domain/entities/quiz_set.dart';
+import 'package:interview_practice/features/content/domain/entities/track.dart';
+import 'package:interview_practice/features/content/domain/repositories/content_repository.dart';
+import 'package:interview_practice/features/practice/data/repositories/practice_repository_impl.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_hub.dart';
+import 'package:interview_practice/features/practice/domain/usecase/get_practice_hub.dart';
+import 'package:interview_practice/features/practice/domain/usecase/practice_usecases.dart';
+import 'package:interview_practice/features/practice/presentation/cubit/practice_cubit.dart';
+import 'package:interview_practice/features/practice/presentation/cubit/practice_hub_cubit.dart';
+import 'package:interview_practice/features/practice/presentation/screens/practice_hub_screen.dart';
+import 'package:interview_practice/features/profile/data/repositories/profile_repository_impl.dart';
 import '../../helpers/in_memory_avatar_datasource.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
 import '../../helpers/in_memory_saved_tracks_datasource.dart';
@@ -111,7 +111,10 @@ void main() {
       practice,
       profiles,
       SavedTracksRepositoryImpl(InMemorySavedTracksLocalDataSource()),
-      UserRoadmapsRepositoryImpl(        InMemoryUserRoadmapsLocalDataSource(),        AppClock(),      ),
+      UserRoadmapsRepositoryImpl(
+        InMemoryUserRoadmapsLocalDataSource(),
+        AppClock(),
+      ),
       MockDashboardDataSource(),
       clock,
     );

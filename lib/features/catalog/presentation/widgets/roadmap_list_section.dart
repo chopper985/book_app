@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/app_svg.dart';
-import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
-import 'package:AppName/features/catalog/presentation/widgets/roadmap_card.dart';
-import 'package:AppName/gen/assets.gen.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/app_svg.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_overview.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/roadmap_card.dart';
+import 'package:interview_practice/gen/assets.gen.dart';
 
 /// Section title with an optional subtitle and "See all" button.
 class RoadmapSectionHeader extends StatelessWidget {
@@ -80,7 +80,8 @@ class RoadmapCategoryPills extends StatelessWidget {
     ('mobile', Strings.categoryMobile),
     ('frontend', Strings.categoryFrontend),
     ('backend', Strings.categoryBackend),
-    ('systems', Strings.categorySystems),
+    ('general', Strings.categoryGeneral),
+    ('testing', Strings.categoryTesting),
   ];
 
   @override
@@ -91,9 +92,8 @@ class RoadmapCategoryPills extends StatelessWidget {
         children: [
           for (final (category, label) in _categories) ...[
             _CategoryPill(
-              label: category == null
-                  ? label.i18n.fill([totalCount])
-                  : label.i18n,
+              label:
+                  category == null ? label.i18n.fill([totalCount]) : label.i18n,
               selected: selected == category,
               onTap: () => onSelect(category),
             ),

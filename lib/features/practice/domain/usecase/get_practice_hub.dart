@@ -2,14 +2,14 @@
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/utils/dio_api/result.dart';
-import 'package:AppName/features/content/domain/entities/content_catalog.dart';
-import 'package:AppName/features/content/domain/entities/quiz_set.dart';
-import 'package:AppName/features/content/domain/repositories/content_repository.dart';
-import 'package:AppName/features/practice/domain/entities/practice_hub.dart';
-import 'package:AppName/features/practice/domain/entities/session_result.dart';
-import 'package:AppName/features/practice/domain/repositories/practice_repository.dart';
-import 'package:AppName/features/profile/domain/repositories/profile_repository.dart';
+import 'package:interview_practice/core/utils/dio_api/result.dart';
+import 'package:interview_practice/features/content/domain/entities/content_catalog.dart';
+import 'package:interview_practice/features/content/domain/entities/quiz_set.dart';
+import 'package:interview_practice/features/content/domain/repositories/content_repository.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_hub.dart';
+import 'package:interview_practice/features/practice/domain/entities/session_result.dart';
+import 'package:interview_practice/features/practice/domain/repositories/practice_repository.dart';
+import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
 
 /// Builds the Practice tab from history and content.
 @injectable
@@ -46,8 +46,7 @@ class GetPracticeHub {
         sessionCount: results.length,
         averageScorePercent: scored.isEmpty
             ? 0
-            : (scored.fold(0, (sum, r) => sum + r.scorePercent) /
-                    scored.length)
+            : (scored.fold(0, (sum, r) => sum + r.scorePercent) / scored.length)
                 .round(),
       ),
     );
@@ -80,8 +79,8 @@ class GetPracticeHub {
       for (final MapEntry(key: setId, value: wrong) in wrongBySet.entries)
         if ((sets[setId], catalog.trackById(sets[setId]?.trackId ?? ''))
             case (final set?, final track?))
-          if (set.questionIds.where(wrong.contains).toList()
-              case final ids when ids.isNotEmpty)
+          if (set.questionIds.where(wrong.contains).toList() case final ids
+              when ids.isNotEmpty)
             MistakeGroup(set: set, track: track, questionIds: ids),
     ]..sort((a, b) {
         final byCount = b.questionIds.length.compareTo(a.questionIds.length);

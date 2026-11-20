@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/navigator/app_router.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/dev_header.dart';
-import 'package:AppName/features/catalog/presentation/cubit/explore_cubit.dart';
-import 'package:AppName/features/catalog/presentation/widgets/continue_practice_card.dart';
-import 'package:AppName/features/catalog/presentation/widgets/daily_challenge_card.dart';
-import 'package:AppName/features/catalog/presentation/widgets/explore_greeting.dart';
-import 'package:AppName/features/catalog/presentation/widgets/roadmap_list_section.dart';
-import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
-import 'package:AppName/features/content/presentation/widgets/content_issue_view.dart';
-import 'package:AppName/features/practice/presentation/helpers/practice_launcher.dart';
-import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/navigator/app_router.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/dev_header.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/explore_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/continue_practice_card.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/daily_challenge_card.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/explore_greeting.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/roadmap_list_section.dart';
+import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:interview_practice/features/content/presentation/widgets/content_issue_view.dart';
+import 'package:interview_practice/features/practice/presentation/helpers/practice_launcher.dart';
+import 'package:interview_practice/features/profile/presentation/extensions/profile_labels.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
@@ -87,8 +87,8 @@ class _ExploreBody extends StatelessWidget {
                 title: Strings.exploreMyTracks.i18n,
                 subtitle: Strings.exploreMyTracksSubtitle.i18n,
                 onSeeAll: () async {
-                  final added = await const RoadmapPickerRoute()
-                      .push<bool>(context);
+                  final added =
+                      await const RoadmapPickerRoute().push<bool>(context);
                   if ((added ?? false) && context.mounted) {
                     const RoadmapsRoute().go(context);
                   }
@@ -111,8 +111,7 @@ class _ExploreBody extends StatelessWidget {
                   title: challenge.title,
                   rewardXp: challenge.rewardXp,
                   streakDays: learner.streakDays,
-                  onSolve: () =>
-                      openPractice(context, setId: challenge.setId),
+                  onSolve: () => openPractice(context, setId: challenge.setId),
                 ),
               ],
             ],

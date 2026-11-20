@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/app_svg.dart';
-import 'package:AppName/features/practice/domain/entities/practice_session.dart';
-import 'package:AppName/features/practice/presentation/widgets/practice_timer_pill.dart';
-import 'package:AppName/gen/assets.gen.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/app_svg.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_session.dart';
+import 'package:interview_practice/features/practice/presentation/widgets/practice_timer_pill.dart';
+import 'package:interview_practice/gen/assets.gen.dart';
 
 /// Step counter, question type, timer, flag and stepped progress bar.
 class PracticeStepTracker extends StatelessWidget {

@@ -1,0 +1,3323 @@
+{
+  "questions": [
+    {
+      "id": "kotlin.basics.001",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt giữa `val` và `var` trong Kotlin là gì?",
+        "en": "What is the difference between `val` and `var` in Kotlin?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`val` làm cho object hoàn toàn bất biến, kể cả nội dung bên trong",
+            "en": "A `val` makes the object fully immutable, including its contents"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`var` chỉ dùng được cho kiểu nguyên thủy như `Int`, `Boolean`",
+            "en": "A `var` can only hold primitive types such as `Int` or `Boolean`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`val` là hằng số compile-time giống `const val`",
+            "en": "A `val` is a compile-time constant, just like `const val`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`val` không thể gán lại sau khi khởi tạo, nhưng object nó trỏ tới vẫn có thể thay đổi bên trong",
+            "en": "A `val` cannot be reassigned after initialization, but the object it points to can still be mutated"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`val` là tham chiếu chỉ đọc: không gán lại được, nhưng nếu nó trỏ tới `MutableList` thì vẫn `add` được phần tử. `var` cho phép gán lại giá trị mới. Hiểu nhầm phổ biến là `val` làm object bất biến; thực tế tính bất biến phụ thuộc vào kiểu của object. `const val` mới là hằng số compile-time, chỉ dùng ở top-level hoặc trong `object` với kiểu nguyên thủy/`String`.",
+        "en": "A `val` is a read-only reference: it cannot be reassigned, but if it points to a `MutableList` you can still `add` to it. A `var` can be reassigned. The common misconception is that `val` makes the object immutable; immutability actually depends on the object's type. Only `const val` is a compile-time constant, allowed at top level or in an `object` with primitive/`String` types."
+      }
+    },
+    {
+      "id": "kotlin.basics.002",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "fun main() {\n    val s: String? = null\n    println(s?.length ?: -1)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "null",
+            "en": "null"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "0",
+            "en": "0"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Ném `NullPointerException`",
+            "en": "Throws `NullPointerException`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "-1",
+            "en": "-1"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`s?.length` dùng safe call: vì `s` là `null` nên cả biểu thức trả về `null` thay vì ném lỗi. Toán tử Elvis `?:` trả về vế phải khi vế trái là `null`, nên kết quả là `-1`. Chỉ khi dùng `s!!.length` mới ném `NullPointerException`.",
+        "en": "`s?.length` is a safe call: since `s` is `null`, the whole expression evaluates to `null` instead of throwing. The Elvis operator `?:` returns its right side when the left side is `null`, so the result is `-1`. Only `s!!.length` would throw a `NullPointerException`."
+      }
+    },
+    {
+      "id": "kotlin.basics.003",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong Kotlin, `a == b` và `a === b` khác nhau thế nào?",
+        "en": "In Kotlin, how do `a == b` and `a === b` differ?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`==` so sánh cấu trúc qua `equals()`, `===` so sánh xem có cùng một object (tham chiếu) không",
+            "en": "`==` checks structural equality via `equals()`, `===` checks whether both refer to the same object"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`==` so sánh tham chiếu giống Java, `===` gọi `equals()`",
+            "en": "`==` compares references like in Java, `===` calls `equals()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hai toán tử giống hệt nhau, `===` chỉ là cú pháp cũ",
+            "en": "They are identical; `===` is just legacy syntax"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`===` so sánh cả giá trị lẫn kiểu, `==` chỉ so sánh giá trị",
+            "en": "`===` compares both value and type, `==` compares only value"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trong Kotlin, `a == b` được dịch thành `a?.equals(b) ?: (b === null)`, tức là so sánh cấu trúc và an toàn với `null`. `===` là so sánh tham chiếu: chỉ `true` khi hai biến trỏ tới cùng một object. Người từng viết Java hay nhầm `==` là so sánh tham chiếu, nhưng ở Kotlin điều đó ngược lại; còn ý nghĩa \"so sánh cả kiểu\" là của JavaScript, không phải Kotlin.",
+        "en": "In Kotlin, `a == b` translates to `a?.equals(b) ?: (b === null)`, i.e. null-safe structural equality. `===` is referential equality: it is `true` only when both variables point to the same object. Java developers often assume `==` compares references, but in Kotlin it is the other way round; the \"also compares types\" meaning belongs to JavaScript, not Kotlin."
+      }
+    },
+    {
+      "id": "kotlin.basics.004",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "fun main() {\n    val x = 7\n    val size = when {\n        x < 5 -> \"small\"\n        x in 5..9 -> \"medium\"\n        else -> \"large\"\n    }\n    println(size)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "small",
+            "en": "small"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "medium",
+            "en": "medium"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "large",
+            "en": "large"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch vì `when` thiếu đối số",
+            "en": "Compile error because `when` has no argument"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`when` không có đối số hoạt động như chuỗi `if-else if`: nhánh đầu tiên có điều kiện `true` được chọn. `7 < 5` là `false`, còn `7 in 5..9` là `true` vì range `5..9` bao gồm cả hai đầu, nên kết quả là `medium`. `when` không đối số là cú pháp hợp lệ, và ở đây có nhánh `else` nên biểu thức đã đầy đủ.",
+        "en": "A `when` without an argument works like an `if-else if` chain: the first branch whose condition is `true` wins. `7 < 5` is `false` and `7 in 5..9` is `true` because the range `5..9` is inclusive on both ends, so the result is `medium`. An argument-less `when` is valid syntax, and the `else` branch makes the expression exhaustive."
+      }
+    },
+    {
+      "id": "kotlin.basics.005",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `data class User(val name: String, val age: Int)`, compiler KHÔNG tự sinh hàm nào sau đây?",
+        "en": "For `data class User(val name: String, val age: Int)`, which function is NOT generated by the compiler?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`copy()`",
+            "en": "`copy()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`component1()`",
+            "en": "`component1()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`toString()`",
+            "en": "`toString()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`compareTo()`",
+            "en": "`compareTo()`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Data class tự sinh `equals()`, `hashCode()`, `toString()`, `copy()` và các hàm `componentN()` (dùng cho destructuring) dựa trên các property trong primary constructor. `compareTo()` không được sinh; muốn so sánh thứ tự phải tự implement `Comparable` hoặc dùng `compareBy`. `component1()` có tồn tại nên viết được `val (name, age) = user`.",
+        "en": "A data class generates `equals()`, `hashCode()`, `toString()`, `copy()` and `componentN()` functions (used for destructuring) from the properties in the primary constructor. `compareTo()` is not generated; to order instances you implement `Comparable` yourself or use `compareBy`. `component1()` does exist, which is why `val (name, age) = user` works."
+      }
+    },
+    {
+      "id": "kotlin.basics.006",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "fun main() {\n    val a = \"hi\".let { it.uppercase() }\n    val b = \"hi\".also { it.uppercase() }\n    val c = \"hi\".run { length }\n    println(\"$a $b $c\")\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "HI hi 2",
+            "en": "HI hi 2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "HI HI 2",
+            "en": "HI HI 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "hi HI 2",
+            "en": "hi HI 2"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "HI hi hi",
+            "en": "HI hi hi"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`let` trả về kết quả của lambda nên `a` là `\"HI\"`. `also` luôn trả về chính receiver ban đầu, giá trị `uppercase()` bên trong bị bỏ đi, nên `b` vẫn là `\"hi\"` (String là bất biến). `run` có receiver là `this` và trả về kết quả lambda, nên `c` là `length` = 2. Nhầm phổ biến là nghĩ `also` trả về kết quả lambda giống `let`.",
+        "en": "`let` returns the lambda result, so `a` is `\"HI\"`. `also` always returns the original receiver and discards the `uppercase()` result, so `b` stays `\"hi\"` (Strings are immutable). `run` uses `this` as receiver and returns the lambda result, so `c` is `length` = 2. The common mistake is thinking `also` returns the lambda result like `let`."
+      }
+    },
+    {
+      "id": "kotlin.basics.007",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Chương trình sau crash khi chạy. Nguyên nhân là gì?",
+        "en": "The following program crashes at runtime. What is the cause?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "class Profile {\n    lateinit var name: String\n\n    fun greet() = \"Hi $name\"\n}\n\nfun main() {\n    val profile = Profile()\n    println(profile.greet())\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`lateinit` không được dùng với kiểu `String`",
+            "en": "`lateinit` cannot be used with the `String` type"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Property `lateinit` phải là `val`",
+            "en": "A `lateinit` property must be a `val`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`name` là `lateinit` nhưng được đọc trước khi gán, nên ném `UninitializedPropertyAccessException`",
+            "en": "`name` is `lateinit` but is read before being assigned, so `UninitializedPropertyAccessException` is thrown"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hàm `greet()` thiếu khai báo kiểu trả về",
+            "en": "`greet()` is missing an explicit return type"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`lateinit` cho phép khai báo property non-null mà chưa khởi tạo ngay, nhưng đọc nó trước khi gán sẽ ném `UninitializedPropertyAccessException`. Cách sửa: gán `name` trước khi dùng, kiểm tra `::name.isInitialized`, hoặc đổi sang `String?`/giá trị mặc định. `lateinit` dùng được với `String` (chỉ cấm kiểu nguyên thủy như `Int` và kiểu nullable) và bắt buộc là `var`, không phải `val`.",
+        "en": "`lateinit` lets you declare a non-null property without initializing it immediately, but reading it before assignment throws `UninitializedPropertyAccessException`. Fix: assign `name` before use, check `::name.isInitialized`, or switch to `String?`/a default value. `lateinit` works with `String` (only primitive types like `Int` and nullable types are disallowed) and it must be a `var`, not a `val`."
+      }
+    },
+    {
+      "id": "kotlin.basics.008",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "open class Shape\nclass Circle : Shape()\n\nfun Shape.name() = \"Shape\"\nfun Circle.name() = \"Circle\"\n\nfun printName(s: Shape) {\n    println(s.name())\n}\n\nfun main() {\n    printName(Circle())\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Circle",
+            "en": "Circle"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lỗi biên dịch vì hai extension trùng tên",
+            "en": "Compile error because the two extensions clash"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Shape",
+            "en": "Shape"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "ShapeCircle",
+            "en": "ShapeCircle"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Extension function được resolve tĩnh theo kiểu khai báo của biến lúc compile, không theo kiểu thực tế lúc chạy. Tham số `s` có kiểu `Shape` nên `s.name()` luôn gọi `Shape.name()` và in `Shape`, dù object thực là `Circle`. Hai extension cho hai receiver khác nhau là hợp lệ; muốn có đa hình thật phải dùng member function `open`/`override`.",
+        "en": "Extension functions are resolved statically by the declared type of the expression at compile time, not by the runtime type. Parameter `s` is declared as `Shape`, so `s.name()` always calls `Shape.name()` and prints `Shape`, even though the object is a `Circle`. Two extensions on different receivers are perfectly legal; real polymorphism requires `open`/`override` member functions."
+      }
+    },
+    {
+      "id": "kotlin.basics.009",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày cơ chế null safety của Kotlin và các toán tử thường dùng khi làm việc với kiểu nullable.",
+        "en": "Explain Kotlin's null safety and the operators commonly used with nullable types."
+      },
+      "keyPoints": [
+        {
+          "vi": "Kiểu mặc định là non-null; thêm `?` (vd `String?`) mới được chứa `null`, compiler kiểm tra lúc biên dịch",
+          "en": "Types are non-null by default; adding `?` (e.g. `String?`) allows `null`, checked at compile time"
+        },
+        {
+          "vi": "Safe call `?.` trả về `null` thay vì ném lỗi; Elvis `?:` cung cấp giá trị mặc định",
+          "en": "Safe call `?.` returns `null` instead of throwing; Elvis `?:` provides a default"
+        },
+        {
+          "vi": "`!!` ép non-null và ném `NullPointerException` nếu là `null`, nên hạn chế dùng",
+          "en": "`!!` asserts non-null and throws `NullPointerException` on `null`, so avoid it"
+        },
+        {
+          "vi": "Smart cast sau khi kiểm tra `if (x != null)` và `?.let { }` để chạy code khi khác `null`",
+          "en": "Smart casts after `if (x != null)` checks, and `?.let { }` to run code only when non-null"
+        },
+        {
+          "vi": "Platform type từ Java (`String!`) không được kiểm tra, cần cẩn thận ở ranh giới Java",
+          "en": "Platform types from Java (`String!`) are unchecked, so be careful at the Java boundary"
+        }
+      ],
+      "explanation": {
+        "vi": "Kotlin tách kiểu non-null (`String`) và nullable (`String?`), nên phần lớn lỗi `NullPointerException` bị chặn ngay lúc biên dịch. Với kiểu nullable, dùng `?.` để gọi an toàn, `?:` để đưa giá trị mặc định hoặc `return`/`throw` sớm, và `?.let { }` để chạy khối code khi giá trị khác `null`. Sau khi kiểm tra `if (x != null)`, compiler smart cast `x` thành non-null (với `val` hoặc biến local không bị thay đổi). `!!` chỉ nên dùng khi chắc chắn, vì nó ném `NullPointerException`. Giá trị lấy từ Java là platform type, compiler không kiểm tra nên cần chú thích `@Nullable`/`@NonNull` hoặc tự kiểm tra.",
+        "en": "Kotlin separates non-null (`String`) and nullable (`String?`) types, so most `NullPointerException`s are caught at compile time. With nullable types, use `?.` for safe calls, `?:` for a default value or an early `return`/`throw`, and `?.let { }` to run a block only when the value is non-null. After an `if (x != null)` check the compiler smart-casts `x` to non-null (for `val`s or local variables that are not modified). Use `!!` only when you are certain, since it throws `NullPointerException`. Values coming from Java are platform types that the compiler does not check, so rely on `@Nullable`/`@NonNull` annotations or check them yourself."
+      }
+    },
+    {
+      "id": "kotlin.collections.001",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Điều gì xảy ra với đoạn code sau?",
+        "en": "What happens with the following code?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "fun main() {\n    val list = listOf(1, 2, 3)\n    list.add(4)\n    println(list)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chạy được và `list` thành `[1, 2, 3, 4]`",
+            "en": "It runs and `list` becomes `[1, 2, 3, 4]`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ném `UnsupportedOperationException` lúc chạy",
+            "en": "Throws `UnsupportedOperationException` at runtime"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch: `List` chỉ đọc nên không có hàm `add`",
+            "en": "Compile error: `List` is read-only and has no `add` function"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch vì `list` là `val`",
+            "en": "Compile error because `list` is a `val`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`listOf` trả về kiểu `List<Int>`, là interface chỉ đọc nên không có `add`; compiler báo lỗi ngay. Muốn thêm phần tử phải dùng `mutableListOf` (kiểu `MutableList`) hoặc tạo list mới bằng `list + 4`. Lỗi không đến từ `val`: `val` chỉ cấm gán lại biến, còn một `val` kiểu `MutableList` vẫn `add` được.",
+        "en": "`listOf` returns a `List<Int>`, a read-only interface without `add`, so the compiler rejects the call. To add elements use `mutableListOf` (a `MutableList`) or create a new list with `list + 4`. The error is not caused by `val`: `val` only forbids reassignment, and a `val` of type `MutableList` can still `add`."
+      }
+    },
+    {
+      "id": "kotlin.collections.002",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "fun main() {\n    val nums = listOf(1, 2, 3, 4)\n    val result = nums\n        .filter { it % 2 == 0 }\n        .map { it * 10 }\n    println(result)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[20, 40]",
+            "en": "[20, 40]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[10, 30]",
+            "en": "[10, 30]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[2, 4]",
+            "en": "[2, 4]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "[10, 20, 30, 40]",
+            "en": "[10, 20, 30, 40]"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`filter { it % 2 == 0 }` giữ lại các số chẵn `[2, 4]`, sau đó `map { it * 10 }` biến đổi từng phần tử thành `[20, 40]`. Các hàm này trả về list mới và không thay đổi `nums`. Đáp án `[10, 30]` là kết quả nếu nhầm điều kiện lọc thành số lẻ.",
+        "en": "`filter { it % 2 == 0 }` keeps the even numbers `[2, 4]`, then `map { it * 10 }` transforms each element into `[20, 40]`. These functions return new lists and leave `nums` unchanged. `[10, 30]` is what you would get by mistakenly keeping the odd numbers."
+      }
+    },
+    {
+      "id": "kotlin.collections.003",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `val prices: Map<String, Int> = mapOf(\"tea\" to 20)`, biểu thức `prices[\"coffee\"]` trả về gì?",
+        "en": "Given `val prices: Map<String, Int> = mapOf(\"tea\" to 20)`, what does `prices[\"coffee\"]` return?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ném `NoSuchElementException`",
+            "en": "Throws `NoSuchElementException`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`0`",
+            "en": "`0`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`null`, kiểu của biểu thức là `Int?`",
+            "en": "`null`; the expression's type is `Int?`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch vì key không tồn tại",
+            "en": "Compile error because the key does not exist"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Toán tử `[]` trên `Map` gọi `get()`, trả về `V?` và cho ra `null` khi không có key. Vì vậy thường kết hợp với Elvis: `prices[\"coffee\"] ?: 0`. `NoSuchElementException` chỉ xảy ra khi gọi `getValue(\"coffee\")`; còn compiler không biết key nào tồn tại nên không báo lỗi.",
+        "en": "The `[]` operator on a `Map` calls `get()`, which returns `V?` and yields `null` for a missing key. That is why it is usually combined with Elvis: `prices[\"coffee\"] ?: 0`. `NoSuchElementException` only happens with `getValue(\"coffee\")`, and the compiler cannot know which keys exist, so there is no compile error."
+      }
+    },
+    {
+      "id": "kotlin.collections.004",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "fun main() {\n    val nums = listOf(3, 1, 2)\n    val sortedNums = nums.sorted()\n    println(\"$nums $sortedNums\")\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[1, 2, 3] [1, 2, 3]",
+            "en": "[1, 2, 3] [1, 2, 3]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[3, 1, 2] [1, 2, 3]",
+            "en": "[3, 1, 2] [1, 2, 3]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[3, 1, 2] [3, 1, 2]",
+            "en": "[3, 1, 2] [3, 1, 2]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch vì `List` không có `sorted()`",
+            "en": "Compile error because `List` has no `sorted()`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`sorted()` không sắp xếp tại chỗ mà trả về một list mới đã sắp xếp, nên `nums` vẫn giữ thứ tự `[3, 1, 2]`. Hàm sắp xếp tại chỗ là `sort()`, và chỉ có trên `MutableList`. Nhầm `sorted()` với `sort()` dẫn tới đáp án `[1, 2, 3] [1, 2, 3]`.",
+        "en": "`sorted()` does not sort in place; it returns a new sorted list, so `nums` keeps the order `[3, 1, 2]`. The in-place function is `sort()`, which only exists on `MutableList`. Confusing `sorted()` with `sort()` leads to `[1, 2, 3] [1, 2, 3]`."
+      }
+    },
+    {
+      "id": "kotlin.collections.005",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "fun main() {\n    val r = sequenceOf(1, 2, 3, 4)\n        .map { print(\"m$it \"); it * 2 }\n        .filter { print(\"f$it \"); it > 4 }\n        .first()\n    println(\"-> $r\")\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "m1 m2 m3 m4 f2 f4 f6 f8 -> 6",
+            "en": "m1 m2 m3 m4 f2 f4 f6 f8 -> 6"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "m1 f2 m2 f4 m3 f6 -> 6",
+            "en": "m1 f2 m2 f4 m3 f6 -> 6"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "m1 m2 m3 f2 f4 f6 -> 6",
+            "en": "m1 m2 m3 f2 f4 f6 -> 6"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "-> 6",
+            "en": "-> 6"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Sequence` xử lý lazy và theo từng phần tử: mỗi phần tử đi qua `map` rồi `filter` trước khi sang phần tử kế tiếp. Phần tử 3 tạo ra `6 > 4` nên `first()` dừng ngay, phần tử 4 không bao giờ được xử lý. Đáp án `m1 m2 m3 m4 f2 f4 f6 f8` là hành vi của `List` (eager, xử lý hết từng bước); còn `-> 6` sai vì terminal operation `first()` vẫn kích hoạt các lambda.",
+        "en": "A `Sequence` is lazy and processes element by element: each element goes through `map` and then `filter` before the next one starts. Element 3 produces `6 > 4`, so `first()` stops immediately and element 4 is never processed. `m1 m2 m3 m4 f2 f4 f6 f8` is the eager `List` behavior (each step over all elements), and `-> 6` alone is wrong because the terminal operation `first()` still runs the lambdas."
+      }
+    },
+    {
+      "id": "kotlin.collections.006",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "collections",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao type parameter `reified` chỉ dùng được trong hàm `inline`?",
+        "en": "Why can a `reified` type parameter only be used in an `inline` function?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "inline fun <reified T> List<Any>.firstOfType(): T? {\n    for (item in this) {\n        if (item is T) return item\n    }\n    return null\n}\n\nval n: Int? = listOf(\"a\", 1, 2.0).firstOfType<Int>()"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Vì hàm `inline` chạy trên thread riêng có giữ thông tin kiểu",
+            "en": "Because `inline` functions run on a separate thread that keeps type information"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Vì thân hàm được chép vào nơi gọi, compiler thay `T` bằng kiểu thực tế nên `T::class` và `is T` hoạt động dù JVM xóa kiểu generic",
+            "en": "Because the body is copied to each call site, the compiler substitutes the actual type for `T`, so `T::class` and `is T` work despite JVM type erasure"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Vì `reified` dùng reflection lúc chạy và `inline` bật reflection",
+            "en": "Because `reified` uses runtime reflection, which `inline` enables"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đó chỉ là quy ước style, hàm thường cũng dùng `reified` được",
+            "en": "It is only a style convention; regular functions can use `reified` too"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Trên JVM, generic bị type erasure nên hàm thường không biết `T` là gì lúc chạy. Hàm `inline` được chép thân vào từng nơi gọi, nên compiler có thể thay `T` bằng kiểu cụ thể (vd `User`) tại đó, cho phép `T::class.java`, `is T`, `filterIsInstance<T>()`. Đây là cơ chế compile-time, không phải reflection; và compiler báo lỗi nếu dùng `reified` trong hàm không `inline`.",
+        "en": "On the JVM generics are erased, so a regular function cannot know what `T` is at runtime. An `inline` function's body is copied into each call site, so the compiler can substitute the concrete type (e.g. `User`) there, enabling `T::class.java`, `is T` and `filterIsInstance<T>()`. This is a compile-time mechanism, not reflection, and the compiler rejects `reified` in a non-`inline` function."
+      }
+    },
+    {
+      "id": "kotlin.collections.007",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau định xóa các số chẵn nhưng lại crash. Vì sao?",
+        "en": "This code tries to remove even numbers but crashes. Why?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "fun main() {\n    val items = mutableListOf(1, 2, 3, 4)\n    for (x in items) {\n        if (x % 2 == 0) {\n            items.remove(x)\n        }\n    }\n    println(items)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`remove(x)` xóa theo index nên gây `IndexOutOfBoundsException`",
+            "en": "`remove(x)` removes by index, causing `IndexOutOfBoundsException`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`mutableListOf` không hỗ trợ `remove`",
+            "en": "`mutableListOf` does not support `remove`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải khai báo `items` là `var` thì mới xóa được",
+            "en": "`items` must be a `var` to remove elements"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Xóa phần tử khỏi list trong khi đang duyệt bằng `for` gây `ConcurrentModificationException`; nên dùng `removeAll { it % 2 == 0 }`",
+            "en": "Removing from the list while iterating it with `for` throws `ConcurrentModificationException`; use `removeAll { it % 2 == 0 }` instead"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Vòng `for` dùng `Iterator` của `ArrayList`; khi list bị sửa trực tiếp bằng `items.remove(x)`, lần gọi `next()` tiếp theo phát hiện `modCount` thay đổi và ném `ConcurrentModificationException`. Cách sửa: `items.removeAll { it % 2 == 0 }`, dùng `iterator.remove()`, hoặc tạo list mới bằng `filter`. Với `MutableList<Int>`, `remove(x)` xóa theo giá trị (hàm xóa theo index là `removeAt`), nên không phải lỗi index.",
+        "en": "The `for` loop uses the `ArrayList`'s `Iterator`; when the list is modified directly via `items.remove(x)`, the next `next()` call sees `modCount` changed and throws `ConcurrentModificationException`. Fix: `items.removeAll { it % 2 == 0 }`, use `iterator.remove()`, or build a new list with `filter`. On a `MutableList<Int>`, `remove(x)` removes by value (removing by index is `removeAt`), so this is not an index error."
+      }
+    },
+    {
+      "id": "kotlin.collections.008",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "fun main() {\n    val fruits = listOf(\"apple\", \"avocado\", \"banana\")\n    val byLetter = fruits.associateBy { it.first() }\n    println(byLetter)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "{a=apple, b=banana}",
+            "en": "{a=apple, b=banana}"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "{a=avocado, b=banana}",
+            "en": "{a=avocado, b=banana}"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "{a=[apple, avocado], b=[banana]}",
+            "en": "{a=[apple, avocado], b=[banana]}"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ném `IllegalArgumentException` vì trùng key",
+            "en": "Throws `IllegalArgumentException` because of a duplicate key"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`associateBy` tạo `Map` với key do lambda sinh ra; khi hai phần tử cùng key thì phần tử sau ghi đè phần tử trước, nên `a` ứng với `avocado`. Thứ tự key theo thứ tự xuất hiện vì kết quả là `LinkedHashMap`. Kết quả dạng `{a=[apple, avocado], ...}` là của `groupBy`, hàm gom tất cả phần tử cùng key vào một list.",
+        "en": "`associateBy` builds a `Map` keyed by the lambda result; when two elements share a key, the later one overwrites the earlier, so `a` maps to `avocado`. Keys keep insertion order because the result is a `LinkedHashMap`. The `{a=[apple, avocado], ...}` shape is what `groupBy` returns, since it collects all elements with the same key into a list."
+      }
+    },
+    {
+      "id": "kotlin.collections.009",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Higher-order function và lambda trong Kotlin là gì? Cho ví dụ cách khai báo và gọi.",
+        "en": "What are higher-order functions and lambdas in Kotlin? Give an example of declaring and calling one."
+      },
+      "keyPoints": [
+        {
+          "vi": "Higher-order function nhận hàm làm tham số hoặc trả về hàm, vd `fun repeatTwice(action: () -> Unit)`",
+          "en": "A higher-order function takes a function as a parameter or returns one, e.g. `fun repeatTwice(action: () -> Unit)`"
+        },
+        {
+          "vi": "Function type có dạng `(A, B) -> R`, có thể nullable `(() -> Unit)?`",
+          "en": "Function types look like `(A, B) -> R` and can be nullable `(() -> Unit)?`"
+        },
+        {
+          "vi": "Lambda `{ x -> x * 2 }`; tham số duy nhất có thể gọi là `it`; giá trị trả về là biểu thức cuối",
+          "en": "Lambda `{ x -> x * 2 }`; a single parameter can be `it`; the last expression is the return value"
+        },
+        {
+          "vi": "Trailing lambda: lambda ở cuối được đặt ngoài ngoặc, vd `list.filter { it > 0 }`",
+          "en": "Trailing lambda syntax: a last lambda argument goes outside the parentheses, e.g. `list.filter { it > 0 }`"
+        },
+        {
+          "vi": "Có thể truyền function reference như `::println` hoặc `String::length`",
+          "en": "You can pass function references like `::println` or `String::length`"
+        }
+      ],
+      "explanation": {
+        "vi": "Higher-order function là hàm nhận hàm khác làm tham số hoặc trả về một hàm, ví dụ `map`, `filter`, `forEach` trong thư viện chuẩn. Kiểu hàm được viết như `(Int) -> String`; lambda là cách viết nhanh một hàm ẩn danh, vd `{ n: Int -> \"#$n\" }`, với tham số duy nhất có thể dùng `it` và biểu thức cuối là giá trị trả về. Khi lambda là tham số cuối, Kotlin cho đặt nó ngoài ngoặc (trailing lambda), nên viết được `list.filter { it > 0 }`. Ngoài lambda còn có thể truyền function reference như `::println`. Đây là nền tảng của DSL Kotlin, ví dụ `apply { }` hay builder trong Compose.",
+        "en": "A higher-order function takes another function as a parameter or returns one, e.g. `map`, `filter`, `forEach` in the standard library. Function types are written like `(Int) -> String`; a lambda is a short anonymous function such as `{ n: Int -> \"#$n\" }`, where a single parameter can be referred to as `it` and the last expression is the return value. When the lambda is the last argument it can go outside the parentheses (trailing lambda), giving `list.filter { it > 0 }`. Besides lambdas you can pass function references such as `::println`. This is the foundation of Kotlin DSLs, e.g. `apply { }` or Compose builders."
+      }
+    },
+    {
+      "id": "kotlin.oop.001",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao đoạn code sau không biên dịch được?",
+        "en": "Why does the following code not compile?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "class Animal {\n    fun sound() = \"...\"\n}\n\nclass Dog : Animal()"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Class trong Kotlin mặc định là `final`; `Animal` cần được đánh dấu `open` để kế thừa",
+            "en": "Kotlin classes are `final` by default; `Animal` must be marked `open` to be subclassed"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Class con phải dùng từ khóa `extends`",
+            "en": "A subclass must use the `extends` keyword"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Dog` phải khai báo primary constructor riêng",
+            "en": "`Dog` must declare its own primary constructor"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Kotlin không hỗ trợ kế thừa class, chỉ hỗ trợ interface",
+            "en": "Kotlin does not support class inheritance, only interfaces"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Khác với Java, mọi class và member trong Kotlin mặc định là `final`, nhằm tránh kế thừa ngoài ý muốn. Muốn cho kế thừa phải viết `open class Animal`, và muốn override hàm thì hàm đó cũng phải `open`. Kotlin dùng dấu `:` thay cho `extends`, nên cú pháp `class Dog : Animal()` là đúng.",
+        "en": "Unlike Java, every class and member in Kotlin is `final` by default to prevent accidental inheritance. To allow subclassing write `open class Animal`, and a function must also be `open` to be overridden. Kotlin uses `:` instead of `extends`, so `class Dog : Animal()` is the correct syntax."
+      }
+    },
+    {
+      "id": "kotlin.oop.002",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra các dòng theo thứ tự nào?",
+        "en": "In what order are the lines printed?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "object Counter {\n    var count = 0\n\n    init {\n        println(\"init\")\n    }\n}\n\nfun main() {\n    println(\"start\")\n    Counter.count++\n    Counter.count++\n    println(Counter.count)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "init → start → 2",
+            "en": "init → start → 2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "start → init → init → 2",
+            "en": "start → init → init → 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "start → init → 2",
+            "en": "start → init → 2"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "start → 2",
+            "en": "start → 2"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`object` khai báo một singleton được khởi tạo lazy, tức là ở lần đầu tiên được truy cập. Vì vậy `start` in trước, rồi `init` khi `Counter.count` được dùng lần đầu, và khối `init` chỉ chạy một lần duy nhất. Hai lần tăng cùng tác động lên một instance nên kết quả là `2`.",
+        "en": "An `object` declares a singleton that is initialized lazily, on first access. So `start` prints first, then `init` when `Counter.count` is first used, and the `init` block runs only once. Both increments act on the same instance, so the result is `2`."
+      }
+    },
+    {
+      "id": "kotlin.oop.003",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về `companion object`?",
+        "en": "Which statement about `companion object` is correct?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "class User private constructor(val name: String) {\n    companion object {\n        fun create(name: String) = User(name.trim())\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mỗi instance của `User` có một companion object riêng",
+            "en": "Each `User` instance has its own companion object"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Member của nó được gọi qua tên class, vd `User.create(\"An\")`, và mỗi class chỉ có tối đa một companion",
+            "en": "Its members are called through the class name, e.g. `User.create(\"An\")`, and a class has at most one companion"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải tạo instance `User()` trước mới gọi được `create`",
+            "en": "You must create a `User()` instance before calling `create`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`companion object` không thể implement interface",
+            "en": "A `companion object` cannot implement interfaces"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`companion object` là một object gắn với class, dùng cho factory method hoặc hằng số, và được gọi qua tên class giống static member trong Java. Chỉ có một instance chung cho cả class, không phải mỗi object một bản. Companion vẫn là object thật nên có thể implement interface hoặc có extension; muốn sinh static thật cho Java thì thêm `@JvmStatic`.",
+        "en": "A `companion object` is an object tied to its class, used for factory methods or constants, and accessed through the class name like Java static members. There is a single shared instance per class, not one per object. It is still a real object, so it can implement interfaces or have extensions; add `@JvmStatic` to generate true statics for Java callers."
+      }
+    },
+    {
+      "id": "kotlin.oop.004",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "data class User(val name: String, val age: Int)\n\nfun main() {\n    val a = User(\"An\", 20)\n    val b = User(\"An\", 20)\n    val c = a.copy(age = 21)\n    println(\"${a == b} ${a === b} ${a == c}\")\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "false false false",
+            "en": "false false false"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "true false false",
+            "en": "true false false"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "true true false",
+            "en": "true true false"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "true false true",
+            "en": "true false true"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Data class sinh `equals()` so sánh các property trong primary constructor, nên `a == b` là `true`. Nhưng `a` và `b` là hai object khác nhau nên `a === b` (so sánh tham chiếu) là `false`. `copy(age = 21)` tạo object mới với `age` khác nên `a == c` là `false`.",
+        "en": "A data class generates `equals()` that compares the primary-constructor properties, so `a == b` is `true`. But `a` and `b` are two distinct objects, so `a === b` (referential equality) is `false`. `copy(age = 21)` creates a new object with a different `age`, so `a == c` is `false`."
+      }
+    },
+    {
+      "id": "kotlin.oop.005",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Từ khóa `by inner` trong khai báo class dưới đây có tác dụng gì?",
+        "en": "What does `by inner` do in the class declaration below?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "class LoggingList<T>(\n    private val inner: MutableList<T>,\n) : MutableList<T> by inner {\n    override fun add(element: T): Boolean {\n        println(\"add $element\")\n        return inner.add(element)\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Compiler tự sinh các hàm của `MutableList` chuyển tiếp sang `inner`, trừ những hàm được override như `add`",
+            "en": "The compiler generates all `MutableList` members forwarding to `inner`, except the overridden ones like `add`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Biến `inner` được khởi tạo lazy khi dùng lần đầu",
+            "en": "`inner` is initialized lazily on first use"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`LoggingList` kế thừa class `ArrayList` của `inner`",
+            "en": "`LoggingList` inherits from `inner`'s `ArrayList` class"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Mọi hàm, kể cả `add`, đều gọi thẳng vào `inner` và bỏ qua override",
+            "en": "Every function, including `add`, calls `inner` directly and ignores the override"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Class delegation `: MutableList<T> by inner` yêu cầu compiler sinh toàn bộ member của interface, mỗi hàm chỉ gọi sang `inner`. Hàm nào bạn tự `override` (ở đây là `add`) sẽ dùng bản của bạn. Đây là cách áp dụng \"composition over inheritance\" mà không phải viết tay hàng chục hàm chuyển tiếp. Nó không liên quan tới `by lazy` (property delegation) và cũng không kế thừa class cụ thể nào.",
+        "en": "Class delegation `: MutableList<T> by inner` makes the compiler generate every interface member as a call forwarded to `inner`. Members you `override` yourself (here `add`) use your version. It is a way to apply \"composition over inheritance\" without hand-writing dozens of forwarding methods. It is unrelated to `by lazy` (property delegation) and does not inherit any concrete class."
+      }
+    },
+    {
+      "id": "kotlin.oop.006",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Lập trình viên mong đợi in ra `false` nhưng lại nhận `true`. Lỗi nằm ở đâu?",
+        "en": "The developer expects `false` but gets `true`. Where is the bug?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "data class Item(val id: Int) {\n    var name: String = \"\"\n}\n\nfun main() {\n    val a = Item(1).apply { name = \"A\" }\n    val b = Item(1).apply { name = \"B\" }\n    println(a == b)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`name` khai báo trong thân class nên không tham gia `equals()`/`hashCode()` do data class sinh ra",
+            "en": "`name` is declared in the class body, so it is excluded from the generated `equals()`/`hashCode()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`apply` tạo bản sao nên `name` không được gán",
+            "en": "`apply` creates a copy, so `name` is never assigned"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`==` trên data class so sánh tham chiếu",
+            "en": "`==` on a data class compares references"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Data class không được có property `var`",
+            "en": "A data class cannot have `var` properties"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Data class chỉ dùng các property trong primary constructor để sinh `equals()`, `hashCode()`, `toString()` và `copy()`. `name` nằm trong thân class nên bị bỏ qua, hai object cùng `id = 1` được coi là bằng nhau. Cách sửa: đưa vào constructor, `data class Item(val id: Int, val name: String)`. `apply` thao tác trực tiếp trên object và trả về chính nó, nên `name` vẫn được gán bình thường.",
+        "en": "A data class only uses primary-constructor properties to generate `equals()`, `hashCode()`, `toString()` and `copy()`. `name` lives in the class body, so it is ignored and two objects with `id = 1` are considered equal. Fix: move it into the constructor, `data class Item(val id: Int, val name: String)`. `apply` operates on the object itself and returns it, so `name` is assigned as expected."
+      }
+    },
+    {
+      "id": "kotlin.oop.007",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về interface trong Kotlin?",
+        "en": "Which statement about Kotlin interfaces is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Interface không được chứa hàm có thân",
+            "en": "An interface cannot contain functions with bodies"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một class chỉ implement được một interface",
+            "en": "A class can implement only one interface"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Có thể viết `val count: Int = 0` trong interface để lưu giá trị",
+            "en": "You can write `val count: Int = 0` in an interface to store a value"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Interface có thể khai báo property và hàm có thân mặc định, nhưng không lưu state (không có backing field)",
+            "en": "An interface can declare properties and functions with default bodies, but cannot hold state (no backing fields)"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Interface Kotlin cho phép hàm có implementation mặc định và property abstract hoặc property có getter tự tính, nhưng không có backing field nên không lưu state. Vì vậy `val count: Int = 0` không hợp lệ, phải viết `val count: Int get() = 0` hoặc để class implement. Một class có thể implement nhiều interface; nếu hai interface có cùng hàm mặc định thì class phải override và chọn bằng `super<A>.foo()`.",
+        "en": "Kotlin interfaces allow functions with default implementations and abstract or computed (getter-only) properties, but they have no backing fields and so hold no state. That is why `val count: Int = 0` is invalid; write `val count: Int get() = 0` or let the class implement it. A class can implement many interfaces; if two provide the same default function, the class must override it and pick one via `super<A>.foo()`."
+      }
+    },
+    {
+      "id": "kotlin.oop.008",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "oop",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với các khai báo dưới đây, lời gọi nào biên dịch được?",
+        "en": "Given the declarations below, which calls compile?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "fun printAll(items: List<Any>) = items.forEach { println(it) }\nfun addAny(items: MutableList<Any>) = items.add(42)\n\nval names: List<String> = listOf(\"a\", \"b\")\nval mutableNames: MutableList<String> = mutableListOf(\"a\")\n\n// printAll(names)\n// addAny(mutableNames)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cả hai đều biên dịch được vì `String` là con của `Any`",
+            "en": "Both compile because `String` is a subtype of `Any`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`printAll(names)` biên dịch được, `addAny(mutableNames)` thì không",
+            "en": "`printAll(names)` compiles, `addAny(mutableNames)` does not"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả hai đều không biên dịch được vì generic là invariant",
+            "en": "Neither compiles because generics are invariant"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`addAny(mutableNames)` biên dịch được, `printAll(names)` thì không",
+            "en": "`addAny(mutableNames)` compiles, `printAll(names)` does not"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`List<out E>` được khai báo covariant: list chỉ đọc chỉ \"xuất\" phần tử, nên `List<String>` là kiểu con của `List<Any>` một cách an toàn. `MutableList<E>` là invariant vì nó vừa đọc vừa ghi; nếu cho truyền `MutableList<String>` vào chỗ `MutableList<Any>` thì `add(42)` sẽ nhét `Int` vào list `String`. Đó là lý do chỉ `printAll(names)` hợp lệ; muốn hàm nhận được thì khai báo `MutableList<in Int>` hoặc dùng generic `T`.",
+        "en": "`List<out E>` is declared covariant: a read-only list only produces elements, so `List<String>` is safely a subtype of `List<Any>`. `MutableList<E>` is invariant because it both reads and writes; allowing a `MutableList<String>` where `MutableList<Any>` is expected would let `add(42)` put an `Int` into a list of `String`. That is why only `printAll(names)` is valid; to accept it you would declare `MutableList<in Int>` or use a generic `T`."
+      }
+    },
+    {
+      "id": "kotlin.oop.009",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh `sealed class`/`sealed interface` với `enum class`. Khi nào nên dùng mỗi loại, ví dụ để mô hình hóa UI state?",
+        "en": "Compare `sealed class`/`sealed interface` with `enum class`. When should you use each, e.g. for modeling UI state?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`enum` có tập hằng cố định, mỗi hằng là một instance duy nhất với cùng cấu trúc",
+          "en": "An `enum` has a fixed set of constants, each a single instance with the same shape"
+        },
+        {
+          "vi": "`sealed` cho tập subclass đóng, mỗi subclass có dữ liệu riêng và có thể có nhiều instance",
+          "en": "A `sealed` hierarchy is a closed set of subclasses, each with its own data and many instances"
+        },
+        {
+          "vi": "Cả hai cho `when` exhaustive không cần `else`, compiler báo khi thiếu nhánh",
+          "en": "Both enable exhaustive `when` without `else`; the compiler flags missing branches"
+        },
+        {
+          "vi": "UI state như `Loading`/`Success(data)`/`Error(message)` hợp với `sealed interface`",
+          "en": "UI state like `Loading`/`Success(data)`/`Error(message)` fits a `sealed interface`"
+        },
+        {
+          "vi": "Subclass của sealed phải nằm cùng module và package",
+          "en": "Subclasses of a sealed type must be in the same module and package"
+        }
+      ],
+      "explanation": {
+        "vi": "`enum class` phù hợp khi các giá trị là tập hằng cố định có cùng cấu trúc, như `Direction.NORTH` hay `Level.JUNIOR`; mỗi hằng chỉ có một instance và có sẵn `values()`/`entries`, `ordinal`. `sealed class`/`sealed interface` định nghĩa một tập subclass đóng, mỗi subclass mang dữ liệu khác nhau và có thể tạo nhiều instance, ví dụ `Success(val items: List<Item>)` và `Error(val message: String)`. Cả hai đều giúp `when` exhaustive nên thêm trường hợp mới sẽ buộc cập nhật mọi chỗ xử lý. Vì UI state thường mang dữ liệu khác nhau theo trạng thái, `sealed interface` là lựa chọn phổ biến; subclass của sealed phải nằm cùng module và package.",
+        "en": "An `enum class` fits a fixed set of constants with the same shape, like `Direction.NORTH` or `Level.JUNIOR`; each constant is a single instance and comes with `values()`/`entries` and `ordinal`. A `sealed class`/`sealed interface` defines a closed set of subclasses, each carrying different data and allowing many instances, e.g. `Success(val items: List<Item>)` and `Error(val message: String)`. Both make `when` exhaustive, so adding a new case forces every handler to be updated. Because UI states usually carry different data per state, a `sealed interface` is the common choice; sealed subclasses must live in the same module and package."
+      }
+    },
+    {
+      "id": "kotlin.coroutines.001",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "coroutines",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về hàm `suspend`?",
+        "en": "Which statement about `suspend` functions is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nó tự động chạy trên background thread",
+            "en": "It automatically runs on a background thread"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nó có thể tạm dừng mà không block thread, và chỉ được gọi từ coroutine hoặc từ hàm `suspend` khác",
+            "en": "It can pause without blocking the thread, and can only be called from a coroutine or another `suspend` function"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Nó chạy song song với code gọi nó và trả kết quả qua callback",
+            "en": "It runs in parallel with the caller and returns the result through a callback"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Có thể gọi nó từ bất kỳ hàm thường nào, kể cả `onClick` listener",
+            "en": "It can be called from any regular function, including an `onClick` listener"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`suspend` đánh dấu hàm có thể tạm dừng tại các suspension point (vd `delay`, `withContext`) và giải phóng thread trong lúc chờ, sau đó tiếp tục như code tuần tự. Vì cần continuation do compiler truyền vào, nó chỉ gọi được từ coroutine hoặc hàm `suspend` khác. Hiểu nhầm phổ biến là `suspend` tự chuyển sang background thread; thực tế thread do dispatcher quyết định, nên code blocking trong hàm `suspend` vẫn block thread hiện tại.",
+        "en": "`suspend` marks a function that can pause at suspension points (e.g. `delay`, `withContext`) and free the thread while waiting, then resume as if it were sequential code. Because it needs a continuation passed in by the compiler, it can only be called from a coroutine or another `suspend` function. A common misconception is that `suspend` moves work to a background thread; the thread is actually decided by the dispatcher, so blocking code inside a `suspend` function still blocks the current thread."
+      }
+    },
+    {
+      "id": "kotlin.coroutines.002",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "coroutines",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt chính giữa `launch` và `async` là gì?",
+        "en": "What is the main difference between `launch` and `async`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`launch` chạy trên Main, `async` luôn chạy trên background thread",
+            "en": "`launch` runs on Main, `async` always runs on a background thread"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`async` block thread cho tới khi có kết quả",
+            "en": "`async` blocks the thread until the result is ready"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`launch` trả về `Job` cho việc không cần kết quả; `async` trả về `Deferred<T>` và lấy kết quả bằng `await()`",
+            "en": "`launch` returns a `Job` for fire-and-forget work; `async` returns a `Deferred<T>` whose result you get with `await()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`launch` chỉ dùng được trong `runBlocking`",
+            "en": "`launch` can only be used inside `runBlocking`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Cả hai đều là coroutine builder chạy trong một `CoroutineScope`. `launch` trả về `Job` (hủy hoặc `join` được) và dùng khi không cần giá trị trả về; `async` trả về `Deferred<T>`, gọi `await()` để lấy kết quả mà không block thread, thường dùng để chạy song song nhiều tác vụ. Thread chạy được quyết định bởi dispatcher của scope hoặc tham số truyền vào, không phải bởi việc chọn `launch` hay `async`.",
+        "en": "Both are coroutine builders running in a `CoroutineScope`. `launch` returns a `Job` (which you can cancel or `join`) and is used when no result is needed; `async` returns a `Deferred<T>`, and `await()` gets the result without blocking the thread, often to run tasks in parallel. The thread is chosen by the scope's dispatcher or the argument you pass, not by picking `launch` versus `async`."
+      }
+    },
+    {
+      "id": "kotlin.coroutines.003",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "coroutines",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày `Dispatchers.Main`, `Dispatchers.IO` và `Dispatchers.Default` trên Android. Khi nào dùng mỗi loại?",
+        "en": "Explain `Dispatchers.Main`, `Dispatchers.IO` and `Dispatchers.Default` on Android. When do you use each?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`Main`: main thread, dùng cập nhật UI; `viewModelScope`/`lifecycleScope` mặc định dùng `Main.immediate`",
+          "en": "`Main`: the main thread, for UI updates; `viewModelScope`/`lifecycleScope` default to `Main.immediate`"
+        },
+        {
+          "vi": "`IO`: pool thread lớn cho tác vụ blocking như file, database, network",
+          "en": "`IO`: a large thread pool for blocking work like files, databases and networking"
+        },
+        {
+          "vi": "`Default`: pool cỡ số nhân CPU cho tác vụ tính toán nặng như parse JSON lớn, sort",
+          "en": "`Default`: a pool sized to CPU cores for CPU-heavy work like parsing large JSON or sorting"
+        },
+        {
+          "vi": "Chuyển dispatcher bằng `withContext(Dispatchers.IO) { }` và trả kết quả về coroutine gọi",
+          "en": "Switch dispatchers with `withContext(Dispatchers.IO) { }`, returning the result to the caller"
+        },
+        {
+          "vi": "Hàm `suspend` nên main-safe; nên inject dispatcher để dễ test",
+          "en": "`suspend` functions should be main-safe; inject dispatchers for testability"
+        }
+      ],
+      "explanation": {
+        "vi": "`Dispatchers.Main` chạy trên main thread, là nơi duy nhất được cập nhật UI; các scope Android như `viewModelScope` dùng `Dispatchers.Main.immediate` mặc định. `Dispatchers.IO` có nhiều thread hơn, dành cho tác vụ blocking như đọc file, truy vấn database hay gọi network đồng bộ. `Dispatchers.Default` có số thread xấp xỉ số nhân CPU, dành cho tính toán nặng. Cách dùng chuẩn là để hàm repository tự `withContext(Dispatchers.IO)` để nó main-safe, ViewModel chỉ việc gọi từ Main. Dispatcher nên được inject qua constructor để thay bằng `StandardTestDispatcher` khi viết test.",
+        "en": "`Dispatchers.Main` runs on the main thread, the only place allowed to update the UI; Android scopes like `viewModelScope` use `Dispatchers.Main.immediate` by default. `Dispatchers.IO` has more threads and is meant for blocking work such as reading files, database queries or synchronous network calls. `Dispatchers.Default` has roughly one thread per CPU core and is meant for heavy computation. The standard practice is for repository functions to use `withContext(Dispatchers.IO)` themselves so they are main-safe, letting the ViewModel call them from Main. Dispatchers should be injected through the constructor so tests can swap in a `StandardTestDispatcher`."
+      }
+    },
+    {
+      "id": "kotlin.coroutines.004",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "coroutines",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra các dòng theo thứ tự nào?",
+        "en": "In what order are the lines printed?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "import kotlinx.coroutines.*\n\nfun main() = runBlocking {\n    launch {\n        delay(100)\n        println(\"A\")\n    }\n    println(\"B\")\n    delay(200)\n    println(\"C\")\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "A → B → C",
+            "en": "A → B → C"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "B → A → C",
+            "en": "B → A → C"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "B → C → A",
+            "en": "B → C → A"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "B → C",
+            "en": "B → C"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`launch` chỉ lên lịch cho coroutine con chứ không chạy ngay, nên `runBlocking` tiếp tục và in `B` trước. Khi `runBlocking` gọi `delay(200)`, coroutine con được chạy, chờ 100ms rồi in `A`; sau 200ms mới tới `C`. `runBlocking` luôn chờ mọi coroutine con kết thúc, nên `A` không bao giờ bị bỏ qua.",
+        "en": "`launch` only schedules the child coroutine instead of running it immediately, so `runBlocking` continues and prints `B` first. When `runBlocking` calls `delay(200)`, the child runs, waits 100ms and prints `A`; `C` comes after 200ms. `runBlocking` always waits for all its children, so `A` is never skipped."
+      }
+    },
+    {
+      "id": "kotlin.coroutines.005",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "coroutines",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Gọi `load()` làm app crash. Nguyên nhân là gì?",
+        "en": "Calling `load()` crashes the app. What is the cause?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "class NewsViewModel : ViewModel() {\n    private val _news = MutableStateFlow<List<News>>(emptyList())\n    val news: StateFlow<List<News>> = _news\n\n    fun load() {\n        viewModelScope.launch {\n            val json = URL(\"https://example.com/news\").readText()\n            _news.value = parseNews(json)\n        }\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không được gán `_news.value` bên trong coroutine",
+            "en": "`_news.value` cannot be assigned inside a coroutine"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`viewModelScope` phải được hủy thủ công trong `onCleared()`",
+            "en": "`viewModelScope` must be cancelled manually in `onCleared()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`launch` cần được thay bằng `async`",
+            "en": "`launch` must be replaced with `async`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`viewModelScope` chạy trên Main, nên `readText()` gọi network blocking trên main thread, gây `NetworkOnMainThreadException`",
+            "en": "`viewModelScope` runs on Main, so the blocking `readText()` network call runs on the main thread and throws `NetworkOnMainThreadException`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`viewModelScope` dùng `Dispatchers.Main.immediate`, và `URL.readText()` là lời gọi network blocking chứ không phải hàm `suspend`, nên nó chạy thẳng trên main thread và Android ném `NetworkOnMainThreadException`. Cách sửa: bọc phần đọc mạng trong `withContext(Dispatchers.IO) { }`, hoặc tốt hơn là dùng Retrofit với hàm `suspend` trong repository. `viewModelScope` tự hủy khi ViewModel bị clear, và `StateFlow.value` an toàn khi gán từ coroutine.",
+        "en": "`viewModelScope` uses `Dispatchers.Main.immediate`, and `URL.readText()` is a blocking network call, not a `suspend` function, so it runs right on the main thread and Android throws `NetworkOnMainThreadException`. Fix: wrap the network read in `withContext(Dispatchers.IO) { }`, or better, use Retrofit with `suspend` functions in a repository. `viewModelScope` is cancelled automatically when the ViewModel is cleared, and assigning `StateFlow.value` from a coroutine is safe."
+      }
+    },
+    {
+      "id": "kotlin.coroutines.006",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "coroutines",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng khi so sánh `StateFlow` với `LiveData`?",
+        "en": "Which statement is correct when comparing `StateFlow` with `LiveData`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`StateFlow` bắt buộc có giá trị ban đầu và tự nó không lifecycle-aware; UI nên collect bằng `repeatOnLifecycle` hoặc `collectAsStateWithLifecycle`",
+            "en": "`StateFlow` requires an initial value and is not lifecycle-aware by itself; the UI should collect it with `repeatOnLifecycle` or `collectAsStateWithLifecycle`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`StateFlow` phát lại mọi giá trị, kể cả khi bằng giá trị hiện tại",
+            "en": "`StateFlow` emits every value, even one equal to the current value"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`StateFlow` tự dừng collect khi Activity vào background",
+            "en": "`StateFlow` automatically stops collection when the Activity goes to the background"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`LiveData` hỗ trợ đầy đủ các operator như `debounce`, `combine`, `flatMapLatest`",
+            "en": "`LiveData` fully supports operators like `debounce`, `combine` and `flatMapLatest`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`StateFlow` luôn giữ một giá trị nên cần giá trị ban đầu, và nó bỏ qua giá trị mới nếu bằng (`equals`) giá trị hiện tại. Khác với `LiveData.observe(owner)`, bản thân `StateFlow` không biết lifecycle, nên collect bằng `lifecycleScope.launch` đơn thuần sẽ tiếp tục chạy khi app ở background; phải dùng `repeatOnLifecycle(STARTED)` hoặc `collectAsStateWithLifecycle()` trong Compose. Ưu điểm của `StateFlow` là thuần Kotlin, test dễ và có toàn bộ operator của Flow, điều mà `LiveData` không có.",
+        "en": "A `StateFlow` always holds a value, so it needs an initial one, and it skips a new value that `equals` the current value. Unlike `LiveData.observe(owner)`, a `StateFlow` is not lifecycle-aware, so collecting it with a plain `lifecycleScope.launch` keeps running in the background; use `repeatOnLifecycle(STARTED)` or `collectAsStateWithLifecycle()` in Compose. The upside of `StateFlow` is that it is pure Kotlin, easy to test, and has all Flow operators, which `LiveData` lacks."
+      }
+    },
+    {
+      "id": "kotlin.coroutines.007",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "coroutines",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì (các dòng được nối bằng dấu cách)?",
+        "en": "What does this code print (lines joined with spaces)?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "import kotlinx.coroutines.*\nimport kotlinx.coroutines.flow.*\n\nval numbers = flow {\n    println(\"start\")\n    emit(1)\n    emit(2)\n}\n\nfun main() = runBlocking {\n    println(\"before\")\n    numbers.collect { println(it) }\n    numbers.collect { println(it) }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "before start 1 2 start 1 2",
+            "en": "before start 1 2 start 1 2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "before start 1 2 1 2",
+            "en": "before start 1 2 1 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "start before 1 2 1 2",
+            "en": "start before 1 2 1 2"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "before start 1 2",
+            "en": "before start 1 2"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`flow { }` tạo cold flow: khối builder không chạy khi khai báo mà chạy lại từ đầu cho mỗi lần `collect`. Vì vậy `before` in trước, rồi mỗi lần collect lại in `start` và phát `1`, `2`. Đáp án `before start 1 2 1 2` là hành vi của hot stream có chia sẻ như `SharedFlow`/`shareIn`, nơi upstream chỉ chạy một lần.",
+        "en": "`flow { }` creates a cold flow: the builder block does not run when declared, it runs from the start for every `collect`. So `before` prints first, then each collection prints `start` and emits `1`, `2`. `before start 1 2 1 2` would be the behavior of a shared hot stream such as `SharedFlow`/`shareIn`, where the upstream runs only once."
+      }
+    },
+    {
+      "id": "kotlin.coroutines.008",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "coroutines",
+      "level": "middle",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "import kotlinx.coroutines.*\n\nfun main() = runBlocking {\n    try {\n        coroutineScope {\n            launch {\n                delay(100)\n                println(\"A\")\n            }\n            launch {\n                throw IllegalStateException(\"boom\")\n            }\n        }\n    } catch (e: IllegalStateException) {\n        println(\"caught ${e.message}\")\n    }\n    println(\"end\")\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "caught boom → end",
+            "en": "caught boom → end"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "A → caught boom → end",
+            "en": "A → caught boom → end"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Crash vì exception trong `launch` không bắt được bằng `try/catch`",
+            "en": "Crash, because an exception inside `launch` cannot be caught with `try/catch`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "caught boom → A → end",
+            "en": "caught boom → A → end"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Theo structured concurrency, khi coroutine con thứ hai ném exception, `coroutineScope` hủy các con còn lại (coroutine đang `delay` nên không in `A`), chờ chúng kết thúc rồi ném lại exception đó. Vì `coroutineScope` là hàm `suspend` ném lại lỗi, `try/catch` bao quanh nó bắt được, nên in `caught boom` rồi `end`. Ý \"không bắt được\" chỉ đúng khi đặt `try/catch` quanh lời gọi `launch` trong một scope khác, vì lúc đó exception đi lên Job cha chứ không qua lệnh gọi.",
+        "en": "Under structured concurrency, when the second child throws, `coroutineScope` cancels its other children (the one in `delay` never prints `A`), waits for them, then rethrows the exception. Since `coroutineScope` is a `suspend` function that rethrows, a surrounding `try/catch` catches it, printing `caught boom` and then `end`. The \"cannot be caught\" idea only applies when `try/catch` wraps a bare `launch` call in some other scope, because then the exception propagates to the parent Job rather than through the call."
+      }
+    },
+    {
+      "id": "kotlin.coroutines.009",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "coroutines",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Sau khi rời màn hình (ViewModel bị clear), app bị treo và log `failed` liên tục. Lỗi nằm ở đâu?",
+        "en": "After leaving the screen (the ViewModel is cleared), the app freezes and logs `failed` endlessly. Where is the bug?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "class SyncViewModel(\n    private val repository: SyncRepository,\n) : ViewModel() {\n    fun startSync() {\n        viewModelScope.launch {\n            while (true) {\n                try {\n                    repository.sync()\n                    delay(5_000)\n                } catch (e: Exception) {\n                    Log.e(\"Sync\", \"failed\", e)\n                }\n            }\n        }\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`catch (e: Exception)` nuốt luôn `CancellationException`, nên vòng lặp không bao giờ thoát sau khi scope bị hủy",
+            "en": "`catch (e: Exception)` also swallows `CancellationException`, so the loop never exits after the scope is cancelled"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`delay` không được dùng trong vòng `while`",
+            "en": "`delay` cannot be used inside a `while` loop"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`viewModelScope` không tự hủy khi ViewModel bị clear",
+            "en": "`viewModelScope` is not cancelled when the ViewModel is cleared"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`repository.sync()` phải được gọi bằng `async`",
+            "en": "`repository.sync()` must be called with `async`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Khi `viewModelScope` bị hủy, các suspension point như `delay` ném `CancellationException` để coroutine dừng. Ở đây nó bị `catch (e: Exception)` bắt và chỉ log, vòng lặp chạy tiếp, mỗi lần `delay` lại ném ngay lập tức, tạo vòng lặp vô hạn trên main thread. Cách sửa: rethrow `CancellationException` (hoặc gọi `ensureActive()`), dùng `while (isActive)`, và chỉ bắt các exception cụ thể như `IOException`. `viewModelScope` vẫn được hủy đúng cách; vấn đề là code đã chặn cơ chế hủy cooperative.",
+        "en": "When `viewModelScope` is cancelled, suspension points like `delay` throw `CancellationException` so the coroutine stops. Here it is caught by `catch (e: Exception)` and merely logged, the loop continues, and each `delay` throws again immediately, creating an infinite loop on the main thread. Fix: rethrow `CancellationException` (or call `ensureActive()`), use `while (isActive)`, and catch only specific exceptions such as `IOException`. `viewModelScope` is cancelled correctly; the code is what defeats cooperative cancellation."
+      }
+    },
+    {
+      "id": "kotlin.coroutines.010",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "coroutines",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích vì sao cancellation trong Kotlin coroutines là cooperative, và những lỗi thường gặp khi xử lý cancellation trong code production.",
+        "en": "Explain why cancellation in Kotlin coroutines is cooperative, and the common mistakes when handling cancellation in production code."
+      },
+      "keyPoints": [
+        {
+          "vi": "Hủy chỉ đặt Job sang trạng thái cancelling; coroutine dừng khi gặp suspension point ném `CancellationException`",
+          "en": "Cancelling only moves the Job to cancelling; the coroutine stops when a suspension point throws `CancellationException`"
+        },
+        {
+          "vi": "Vòng lặp CPU hoặc code blocking phải tự kiểm tra `isActive`/`ensureActive()`/`yield()`",
+          "en": "CPU loops or blocking code must check `isActive`/`ensureActive()`/`yield()` themselves"
+        },
+        {
+          "vi": "Không nuốt `CancellationException` bằng `catch (e: Exception)` hay `runCatching`; phải rethrow",
+          "en": "Never swallow `CancellationException` via `catch (e: Exception)` or `runCatching`; rethrow it"
+        },
+        {
+          "vi": "Cleanup cần suspend trong `finally` phải bọc `withContext(NonCancellable)`",
+          "en": "Suspending cleanup in `finally` must be wrapped in `withContext(NonCancellable)`"
+        },
+        {
+          "vi": "Hủy lan từ cha xuống con; `SupervisorJob`/`supervisorScope` chỉ ngăn lỗi của con lan lên cha",
+          "en": "Cancellation flows from parent to children; `SupervisorJob`/`supervisorScope` only stop child failures propagating up"
+        }
+      ],
+      "explanation": {
+        "vi": "Gọi `cancel()` không dừng coroutine ngay mà chỉ đánh dấu Job đang bị hủy; các hàm suspend của `kotlinx.coroutines` như `delay`, `withContext`, `await` kiểm tra trạng thái này và ném `CancellationException` để stack unwind tự nhiên. Vì vậy code tính toán dài hoặc gọi API blocking không có suspension point sẽ chạy tiếp, cần chủ động kiểm tra `isActive`, `ensureActive()` hoặc `yield()`, hoặc dùng `runInterruptible` cho code blocking. Lỗi phổ biến nhất là bắt `Exception`/`Throwable` hoặc dùng `runCatching` trong coroutine, vô tình nuốt `CancellationException` khiến coroutine \"sống lại\". Trong `finally`, mọi lời gọi suspend sẽ ném ngay vì Job đã bị hủy, nên cleanup như ghi database phải đặt trong `withContext(NonCancellable)`. Cuối cùng, hủy cha thì hủy toàn bộ con, còn `SupervisorJob` chỉ thay đổi chiều lỗi của con đi lên chứ không làm con miễn nhiễm với việc cha bị hủy.",
+        "en": "Calling `cancel()` does not stop a coroutine immediately; it only marks the Job as cancelling, and `kotlinx.coroutines` suspend functions like `delay`, `withContext` and `await` check this and throw `CancellationException` so the stack unwinds naturally. Long computations or blocking APIs with no suspension points keep running, so they must check `isActive`, `ensureActive()` or `yield()`, or use `runInterruptible` for blocking code. The most common mistake is catching `Exception`/`Throwable` or using `runCatching` inside a coroutine, accidentally swallowing `CancellationException` and \"reviving\" the coroutine. Inside `finally`, any suspend call throws immediately because the Job is already cancelled, so cleanup such as a database write must go inside `withContext(NonCancellable)`. Finally, cancelling a parent cancels all children, while a `SupervisorJob` only changes how child failures propagate upward; it does not shield children from the parent's cancellation."
+      }
+    },
+    {
+      "id": "kotlin.lifecycle.001",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "lifecycle",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Khi `MainActivity` được mở lần đầu và hiển thị cho người dùng, Logcat in các dòng theo thứ tự nào?",
+        "en": "When `MainActivity` is launched for the first time and becomes visible, in what order does Logcat print the lines?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "class MainActivity : AppCompatActivity() {\n    override fun onResume() {\n        super.onResume()\n        Log.d(\"LC\", \"onResume\")\n    }\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        Log.d(\"LC\", \"onCreate\")\n    }\n\n    override fun onStart() {\n        super.onStart()\n        Log.d(\"LC\", \"onStart\")\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "onResume → onCreate → onStart",
+            "en": "onResume → onCreate → onStart"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "onCreate → onResume → onStart",
+            "en": "onCreate → onResume → onStart"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "onStart → onCreate → onResume",
+            "en": "onStart → onCreate → onResume"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "onCreate → onStart → onResume",
+            "en": "onCreate → onStart → onResume"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Thứ tự callback do hệ thống quyết định, không phụ thuộc thứ tự bạn viết các hàm trong class. Khi Activity khởi chạy, hệ thống gọi `onCreate` (tạo UI, khởi tạo), `onStart` (Activity hiển thị) rồi `onResume` (Activity ở foreground và nhận tương tác). Đáp án `onResume → onCreate → onStart` là bẫy dành cho người đọc theo thứ tự khai báo trong code.",
+        "en": "Callback order is decided by the system, not by the order you write the methods in the class. On launch, the system calls `onCreate` (set up UI and state), `onStart` (the Activity becomes visible), then `onResume` (it is in the foreground and interactive). `onResume → onCreate → onStart` is the trap for reading the declaration order in the code."
+      }
+    },
+    {
+      "id": "kotlin.lifecycle.002",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "lifecycle",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Mặc định, khi người dùng xoay màn hình thì điều gì xảy ra với Activity đang hiển thị?",
+        "en": "By default, what happens to the visible Activity when the user rotates the screen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Activity chỉ gọi `onPause` rồi `onResume`, giữ nguyên instance",
+            "en": "The Activity only goes through `onPause` and `onResume`, keeping the same instance"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không có callback nào được gọi, chỉ layout được vẽ lại",
+            "en": "No callbacks are called; only the layout is redrawn"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Toàn bộ process của app bị khởi động lại",
+            "en": "The whole app process is restarted"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Activity bị hủy (`onDestroy`) và một instance mới được tạo lại (`onCreate`)",
+            "en": "The Activity is destroyed (`onDestroy`) and a new instance is created (`onCreate`)"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Xoay màn hình là một configuration change, và mặc định Android hủy Activity hiện tại rồi tạo instance mới để nạp lại resource phù hợp (layout, string, kích thước). Vì vậy state chỉ nằm trong field của Activity sẽ mất, trừ khi lưu qua `ViewModel`, `onSaveInstanceState` hoặc `rememberSaveable`. Process vẫn giữ nguyên, nên `ViewModel` và singleton không bị ảnh hưởng.",
+        "en": "Rotation is a configuration change, and by default Android destroys the current Activity and creates a new instance so it can load the right resources (layouts, strings, dimensions). State kept only in Activity fields is lost unless you store it in a `ViewModel`, `onSaveInstanceState` or `rememberSaveable`. The process stays alive, so `ViewModel`s and singletons are unaffected."
+      }
+    },
+    {
+      "id": "kotlin.lifecycle.003",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "lifecycle",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Activity A mở Activity B (toàn màn hình, không trong suốt). Thứ tự callback nào đúng?",
+        "en": "Activity A starts Activity B (full screen, opaque). Which callback order is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "A.onPause → A.onStop → B.onCreate → B.onStart → B.onResume",
+            "en": "A.onPause → A.onStop → B.onCreate → B.onStart → B.onResume"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "B.onCreate → B.onStart → B.onResume → A.onPause → A.onStop",
+            "en": "B.onCreate → B.onStart → B.onResume → A.onPause → A.onStop"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "A.onStop → B.onCreate → B.onStart → B.onResume → A.onPause",
+            "en": "A.onStop → B.onCreate → B.onStart → B.onResume → A.onPause"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "A.onPause → B.onCreate → B.onStart → B.onResume → A.onStop",
+            "en": "A.onPause → B.onCreate → B.onStart → B.onResume → A.onStop"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Hệ thống gọi `A.onPause` trước, sau đó chạy `onCreate`, `onStart`, `onResume` của B, và chỉ khi B đã hiển thị và che A thì mới gọi `A.onStop`. Vì vậy không nên làm việc nặng trong `onPause` vì nó trì hoãn việc B xuất hiện. Đáp án dừng A hoàn toàn rồi mới tạo B là sai, vì Android ưu tiên đưa B lên nhanh nhất có thể.",
+        "en": "The system calls `A.onPause` first, then B's `onCreate`, `onStart` and `onResume`, and only once B is visible and covers A does it call `A.onStop`. That is why heavy work in `onPause` is discouraged: it delays B appearing. The option that fully stops A before creating B is wrong, because Android prioritizes showing B as quickly as possible."
+      }
+    },
+    {
+      "id": "kotlin.lifecycle.004",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "lifecycle",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau có vấn đề gì nghiêm trọng?",
+        "en": "What is the serious problem in this code?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "class ProfileViewModel : ViewModel() {\n    lateinit var context: Context\n\n    fun onSaved() {\n        Toast.makeText(context, \"Saved\", Toast.LENGTH_SHORT).show()\n    }\n}\n\nclass ProfileActivity : AppCompatActivity() {\n    private val viewModel: ProfileViewModel by viewModels()\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        viewModel.context = this\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Toast` không thể hiển thị từ ViewModel trong mọi trường hợp",
+            "en": "A `Toast` can never be shown from a ViewModel"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`lateinit` không dùng được với kiểu `Context`",
+            "en": "`lateinit` cannot be used with `Context`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "ViewModel giữ tham chiếu tới Activity; sau khi xoay màn hình ViewModel vẫn sống và giữ Activity cũ, gây memory leak",
+            "en": "The ViewModel keeps a reference to the Activity; after rotation the ViewModel survives and holds the old Activity, causing a memory leak"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải gán `context` trong `onResume` thay vì `onCreate`",
+            "en": "`context` must be assigned in `onResume` instead of `onCreate`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`ViewModel` sống lâu hơn Activity qua configuration change, nên khi Activity cũ bị hủy, ViewModel vẫn giữ tham chiếu tới nó và cả cây View, khiến garbage collector không thu hồi được. Đây là kiểu leak Activity context kinh điển, LeakCanary sẽ báo ngay. Cách sửa: ViewModel phát sự kiện UI (vd qua `StateFlow`/`Channel`) để Activity tự hiển thị `Toast`, hoặc nếu thực sự cần thì dùng `Application` context qua `AndroidViewModel`/DI. Đổi chỗ gán sang `onResume` vẫn leak y như cũ.",
+        "en": "A `ViewModel` outlives the Activity across configuration changes, so after the old Activity is destroyed the ViewModel still references it and its whole View tree, so the garbage collector cannot reclaim it. This is the classic Activity-context leak that LeakCanary flags immediately. Fix: have the ViewModel emit a UI event (e.g. via `StateFlow`/`Channel`) and let the Activity show the `Toast`, or if truly needed use the `Application` context via `AndroidViewModel`/DI. Assigning it in `onResume` instead still leaks the same way."
+      }
+    },
+    {
+      "id": "kotlin.lifecycle.005",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "lifecycle",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Dữ liệu nào sau đây vẫn còn sau khi hệ thống kill process của app ở background (process death) rồi người dùng quay lại?",
+        "en": "Which data survives when the system kills the app process in the background (process death) and the user returns?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một field thường trong `ViewModel`",
+            "en": "A plain field in the `ViewModel`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một `var` trong `companion object`",
+            "en": "A `var` in a `companion object`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Giá trị lưu bằng `remember { }` trong Compose",
+            "en": "A value stored with `remember { }` in Compose"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Giá trị lưu trong `SavedStateHandle` của ViewModel",
+            "en": "A value stored in the ViewModel's `SavedStateHandle`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi process bị kill, toàn bộ bộ nhớ (ViewModel, singleton, `companion object`) mất hết; hệ thống chỉ giữ lại Bundle saved instance state. `SavedStateHandle` được lưu vào Bundle này nên được khôi phục khi Activity được tạo lại. `ViewModel` chỉ sống qua configuration change, còn `remember` thậm chí mất cả khi xoay màn hình; muốn sống qua process death trong Compose phải dùng `rememberSaveable`.",
+        "en": "When the process is killed, all memory (ViewModels, singletons, `companion object`s) is gone; the system keeps only the saved-instance-state Bundle. `SavedStateHandle` is persisted into that Bundle, so it is restored when the Activity is recreated. A `ViewModel` only survives configuration changes, and `remember` does not even survive rotation; to survive process death in Compose use `rememberSaveable`."
+      }
+    },
+    {
+      "id": "kotlin.lifecycle.006",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "lifecycle",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Sau khi người dùng mở màn hình khác rồi quay lại (fragment bị đưa vào back stack), `submitList` bị gọi nhiều lần cho mỗi thay đổi. Lỗi ở đâu?",
+        "en": "After the user navigates away and back (the fragment goes to the back stack), `submitList` is called several times per change. Where is the bug?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "class FeedFragment : Fragment(R.layout.fragment_feed) {\n    private val vm: FeedViewModel by viewModels()\n    private val adapter = FeedAdapter()\n\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\n        super.onViewCreated(view, savedInstanceState)\n        view.findViewById<RecyclerView>(R.id.list).adapter = adapter\n        vm.items.observe(this) { items ->\n            adapter.submitList(items)\n        }\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`by viewModels()` tạo ViewModel mới mỗi lần quay lại",
+            "en": "`by viewModels()` creates a new ViewModel every time you return"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Observe bằng `this` (Fragment) thay vì `viewLifecycleOwner`, nên observer cũ không được gỡ khi view bị hủy và mỗi lần tạo view lại thêm observer mới",
+            "en": "Observing with `this` (the Fragment) instead of `viewLifecycleOwner`, so old observers are not removed when the view is destroyed and each new view adds another one"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải observe trong `onCreate` của Activity",
+            "en": "You must observe in the Activity's `onCreate`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`LiveData` không dùng được trong Fragment",
+            "en": "`LiveData` cannot be used in a Fragment"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khi Fragment vào back stack, view của nó bị hủy (`onDestroyView`) nhưng chính Fragment vẫn sống. Observer gắn với `this` chỉ bị gỡ khi Fragment bị hủy hẳn, nên mỗi lần `onViewCreated` chạy lại sẽ thêm một observer mới cùng tồn tại, và observer cũ còn tham chiếu tới view đã hủy. Cách sửa là dùng `vm.items.observe(viewLifecycleOwner) { }`. `by viewModels()` vẫn trả về cùng ViewModel nên không phải nguyên nhân.",
+        "en": "When a Fragment goes to the back stack, its view is destroyed (`onDestroyView`) but the Fragment itself stays alive. An observer bound to `this` is removed only when the Fragment is fully destroyed, so every rerun of `onViewCreated` adds another live observer, and old ones still reference the destroyed view. Fix: `vm.items.observe(viewLifecycleOwner) { }`. `by viewModels()` still returns the same ViewModel, so it is not the cause."
+      }
+    },
+    {
+      "id": "kotlin.lifecycle.007",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "lifecycle",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách nào được khuyến nghị để collect `uiState: StateFlow` trong Activity dùng View system?",
+        "en": "What is the recommended way to collect `uiState: StateFlow` in an Activity using the View system?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`lifecycleScope.launch { vm.uiState.collect { render(it) } }` trong `onCreate`",
+            "en": "`lifecycleScope.launch { vm.uiState.collect { render(it) } }` in `onCreate`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`GlobalScope.launch(Dispatchers.Main) { vm.uiState.collect { render(it) } }`",
+            "en": "`GlobalScope.launch(Dispatchers.Main) { vm.uiState.collect { render(it) } }`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`runBlocking { vm.uiState.collect { render(it) } }` trong `onStart`",
+            "en": "`runBlocking { vm.uiState.collect { render(it) } }` in `onStart`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { vm.uiState.collect { render(it) } } }` trong `onCreate`",
+            "en": "`lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.STARTED) { vm.uiState.collect { render(it) } } }` in `onCreate`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`repeatOnLifecycle(STARTED)` bắt đầu collect khi Activity ở trạng thái STARTED, hủy khi xuống STOPPED và tự collect lại khi quay về, nên không cập nhật UI ẩn và không tốn tài nguyên ở background. Chỉ dùng `lifecycleScope.launch` thì coroutine sống tới `onDestroy`, vẫn collect khi app ở background. `GlobalScope` không bị hủy theo Activity nên gây leak, còn `runBlocking` trên main thread sẽ block UI vĩnh viễn vì `StateFlow` không bao giờ kết thúc.",
+        "en": "`repeatOnLifecycle(STARTED)` starts collecting when the Activity is STARTED, cancels when it drops to STOPPED and restarts when it comes back, so hidden UI is not updated and no resources are wasted in the background. A plain `lifecycleScope.launch` lives until `onDestroy` and keeps collecting in the background. `GlobalScope` is not tied to the Activity and leaks, and `runBlocking` on the main thread blocks the UI forever because a `StateFlow` never completes."
+      }
+    },
+    {
+      "id": "kotlin.lifecycle.008",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "lifecycle",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Process death là gì? Làm sao để app khôi phục đúng trạng thái sau process death và kiểm thử trường hợp này?",
+        "en": "What is process death? How do you make an app restore its state correctly after process death, and how do you test it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Hệ thống kill process ở background khi thiếu bộ nhớ; back stack và saved state Bundle được giữ, bộ nhớ thì mất",
+          "en": "The system kills a background process under memory pressure; the back stack and saved-state Bundle are kept, memory is lost"
+        },
+        {
+          "vi": "ViewModel, singleton, cache in-memory đều mất; Activity được tạo lại với `savedInstanceState != null`",
+          "en": "ViewModels, singletons and in-memory caches are lost; the Activity is recreated with `savedInstanceState != null`"
+        },
+        {
+          "vi": "Lưu state UI nhỏ (id, query, tab) bằng `SavedStateHandle`/`rememberSaveable`; dữ liệu lớn lưu bền vững (Room, DataStore) rồi tải lại",
+          "en": "Save small UI state (ids, queries, tabs) via `SavedStateHandle`/`rememberSaveable`; persist large data (Room, DataStore) and reload it"
+        },
+        {
+          "vi": "Bundle có giới hạn kích thước (~1MB cho transaction), vượt quá gây `TransactionTooLargeException`",
+          "en": "The Bundle has a size limit (~1MB per transaction); exceeding it throws `TransactionTooLargeException`"
+        },
+        {
+          "vi": "Kiểm thử bằng `adb shell am kill <package>` khi app ở background hoặc tùy chọn \"Don't keep activities\"",
+          "en": "Test with `adb shell am kill <package>` while backgrounded, or the \"Don't keep activities\" option"
+        }
+      ],
+      "explanation": {
+        "vi": "Process death xảy ra khi app ở background và hệ thống cần bộ nhớ: process bị kill nhưng task, back stack và saved instance state vẫn được lưu, nên khi người dùng quay lại, Android tạo process mới và dựng lại Activity cuối cùng như chưa có gì xảy ra. Lúc đó mọi thứ trong bộ nhớ như ViewModel, singleton hay cache đều mất, và code giả định \"đã có dữ liệu từ màn trước\" sẽ crash hoặc hiện màn trống. Cách xử lý là lưu state nhỏ để định danh màn hình (id, từ khóa, tab, scroll) vào `SavedStateHandle` hoặc `rememberSaveable`, còn dữ liệu lớn thì lưu bền vững trong Room/DataStore hoặc tải lại từ server dựa trên id đó. Bundle bị giới hạn kích thước nên không nhét list lớn hay bitmap vào. Để kiểm thử, đưa app xuống background rồi chạy `adb shell am kill <package>` (hoặc dùng Logcat \"Terminate application\"), sau đó mở lại từ Recents; \"Don't keep activities\" thì giả lập việc Activity bị hủy.",
+        "en": "Process death happens when the app is in the background and the system needs memory: the process is killed but the task, back stack and saved instance state are kept, so when the user returns Android starts a new process and recreates the last Activity as if nothing happened. At that point everything in memory, such as ViewModels, singletons and caches, is gone, and code that assumes \"the previous screen already loaded the data\" crashes or shows an empty screen. The fix is to save small state that identifies the screen (ids, queries, tabs, scroll) in `SavedStateHandle` or `rememberSaveable`, and to persist large data in Room/DataStore or reload it from the server using that id. The Bundle is size-limited, so never put large lists or bitmaps in it. To test, background the app, run `adb shell am kill <package>` (or Logcat's \"Terminate application\"), then reopen it from Recents; \"Don't keep activities\" simulates Activity destruction."
+      }
+    },
+    {
+      "id": "kotlin.compose.001",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "compose",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về hàm `@Composable`?",
+        "en": "Which statement about a `@Composable` function is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nó mô tả UI dựa trên state hiện tại, có thể chạy lại (recompose) khi state thay đổi, và chỉ gọi được từ composable khác",
+            "en": "It describes UI from the current state, can re-run (recompose) when state changes, and can only be called from other composables"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nó trả về một object `View` để thêm vào layout",
+            "en": "It returns a `View` object to add to a layout"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Nó chỉ chạy đúng một lần khi màn hình được tạo",
+            "en": "It runs exactly once when the screen is created"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nó có thể được gọi từ bất kỳ hàm thường nào, như `onClick` listener",
+            "en": "It can be called from any regular function, such as an `onClick` listener"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Composable là hàm mô tả UI theo kiểu declarative: thường trả về `Unit` và \"phát\" UI vào cây composition thay vì trả về `View`. Khi state mà nó đọc thay đổi, Compose gọi lại hàm đó (recomposition) để cập nhật UI, nên hàm có thể chạy nhiều lần và không nên chứa side effect trực tiếp. Annotation `@Composable` khiến compiler thêm tham số ẩn `Composer`, vì vậy chỉ gọi được từ composable khác chứ không từ callback như `onClick`.",
+        "en": "A composable is a function that declaratively describes UI: it usually returns `Unit` and emits UI into the composition instead of returning a `View`. When state it reads changes, Compose calls it again (recomposition) to update the UI, so it may run many times and should not contain direct side effects. The `@Composable` annotation makes the compiler add a hidden `Composer` parameter, so it can only be called from other composables, not from callbacks like `onClick`."
+      }
+    },
+    {
+      "id": "kotlin.compose.002",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "compose",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh `remember`, `rememberSaveable` và lưu state trong `ViewModel` trong Jetpack Compose.",
+        "en": "Compare `remember`, `rememberSaveable` and holding state in a `ViewModel` in Jetpack Compose."
+      },
+      "keyPoints": [
+        {
+          "vi": "`remember` giữ giá trị qua recomposition nhưng mất khi composable rời composition hoặc khi đổi cấu hình",
+          "en": "`remember` keeps a value across recompositions but loses it when the composable leaves the composition or on configuration change"
+        },
+        {
+          "vi": "`rememberSaveable` lưu vào saved instance state nên sống qua xoay màn hình và process death",
+          "en": "`rememberSaveable` stores into saved instance state, so it survives rotation and process death"
+        },
+        {
+          "vi": "`rememberSaveable` chỉ lưu kiểu đưa được vào `Bundle`, kiểu khác cần `Saver`",
+          "en": "`rememberSaveable` only stores `Bundle`-compatible types; other types need a `Saver`"
+        },
+        {
+          "vi": "`ViewModel` giữ state màn hình/business logic, sống qua config change, không phụ thuộc composition",
+          "en": "A `ViewModel` holds screen/business state, survives config changes and is independent of composition"
+        },
+        {
+          "vi": "Kết hợp: state UI cục bộ dùng `remember(Saveable)`, state màn hình đặt trong `ViewModel`",
+          "en": "Combine them: local UI state uses `remember(Saveable)`, screen state lives in the `ViewModel`"
+        }
+      ],
+      "explanation": {
+        "vi": "`remember` lưu giá trị trong composition: nó tồn tại qua các lần recomposition nhưng mất khi composable rời khỏi cây hoặc Activity bị tạo lại khi xoay màn hình. `rememberSaveable` lưu thêm vào cơ chế saved instance state, nên giữ được giá trị qua configuration change và cả process death, với điều kiện kiểu dữ liệu đưa được vào `Bundle` hoặc có `Saver`. `ViewModel` phù hợp cho state của màn hình và logic nghiệp vụ như danh sách tải từ repository; nó sống qua configuration change và tách khỏi UI để dễ test. Thực tế, state UI nhỏ như ô tìm kiếm đang mở hay tab đang chọn dùng `rememberSaveable`, còn dữ liệu màn hình đặt trong `ViewModel` (kèm `SavedStateHandle` nếu cần sống qua process death).",
+        "en": "`remember` stores a value in the composition: it survives recompositions but is lost when the composable leaves the tree or when the Activity is recreated on rotation. `rememberSaveable` also writes to the saved-instance-state mechanism, so it survives configuration changes and even process death, as long as the type fits in a `Bundle` or has a `Saver`. A `ViewModel` suits screen state and business logic, such as a list loaded from a repository; it survives configuration changes and is decoupled from the UI, which makes it easy to test. In practice small UI state, like whether search is expanded or which tab is selected, uses `rememberSaveable`, while screen data lives in the `ViewModel` (with `SavedStateHandle` if it must survive process death)."
+      }
+    },
+    {
+      "id": "kotlin.compose.003",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "compose",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Bấm nút `+1` nhưng số hiển thị luôn là 0. Lỗi ở đâu?",
+        "en": "Tapping `+1` but the number always shows 0. Where is the bug?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "@Composable\nfun Counter() {\n    var count by mutableStateOf(0)\n\n    Column {\n        Text(\"Count: $count\")\n        Button(onClick = { count++ }) {\n            Text(\"+1\")\n        }\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`count` phải khai báo là `val`",
+            "en": "`count` must be declared as `val`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không được thay đổi state trong `onClick`",
+            "en": "State cannot be changed inside `onClick`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Text` không hiển thị được biến `Int`",
+            "en": "`Text` cannot display an `Int` variable"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`mutableStateOf(0)` không được bọc trong `remember`, nên mỗi lần recompose lại tạo state mới bằng 0",
+            "en": "`mutableStateOf(0)` is not wrapped in `remember`, so each recomposition creates a fresh state set to 0"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Thay đổi `count` khiến `Counter` recompose, nhưng vì `mutableStateOf(0)` nằm trực tiếp trong thân hàm nên mỗi lần chạy lại nó tạo một state mới với giá trị 0. Cách sửa là `var count by remember { mutableStateOf(0) }` (hoặc `mutableIntStateOf`) để giữ state qua các lần recomposition. Android Lint cũng cảnh báo lỗi này với rule `UnrememberedMutableState`. Thay đổi state trong `onClick` là cách dùng đúng, không phải nguyên nhân.",
+        "en": "Changing `count` makes `Counter` recompose, but since `mutableStateOf(0)` sits directly in the function body, each run creates a new state with value 0. Fix: `var count by remember { mutableStateOf(0) }` (or `mutableIntStateOf`) to keep the state across recompositions. Android Lint also flags this with the `UnrememberedMutableState` rule. Updating state in `onClick` is correct usage, not the cause."
+      }
+    },
+    {
+      "id": "kotlin.compose.004",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "compose",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Muốn nền đỏ phủ cả vùng padding 16.dp quanh `Text`, nên viết modifier nào?",
+        "en": "To make the red background cover the 16.dp padding around a `Text`, which modifier should you write?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Modifier.background(Color.Red).padding(16.dp)`",
+            "en": "`Modifier.background(Color.Red).padding(16.dp)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Modifier.padding(16.dp).background(Color.Red)`",
+            "en": "`Modifier.padding(16.dp).background(Color.Red)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hai cách giống nhau vì thứ tự modifier không quan trọng",
+            "en": "Both are the same because modifier order does not matter"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Modifier.padding(16.dp, Color.Red)`",
+            "en": "`Modifier.padding(16.dp, Color.Red)`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Modifier được áp dụng theo thứ tự từ trái sang phải, mỗi modifier bao lấy phần phía sau. `background` đặt trước sẽ vẽ trên toàn bộ kích thước, sau đó `padding` mới thu nhỏ vùng của nội dung, nên nền đỏ phủ cả padding. Viết `padding` trước thì vùng padding nằm ngoài và trong suốt, chỉ phần bên trong có nền đỏ; vì vậy thứ tự modifier rất quan trọng.",
+        "en": "Modifiers apply in order from left to right, each one wrapping what follows. Putting `background` first paints the full size, and then `padding` shrinks the content area, so the red covers the padding. Writing `padding` first leaves the padding outside and transparent, with red only inside; that is why modifier order matters."
+      }
+    },
+    {
+      "id": "kotlin.compose.005",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "compose",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Theo nguyên tắc state hoisting, composable `SearchBar` nên có signature nào?",
+        "en": "Following state hoisting, which signature should the `SearchBar` composable have?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`fun SearchBar(viewModel: SearchViewModel)`",
+            "en": "`fun SearchBar(viewModel: SearchViewModel)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`fun SearchBar(query: String, onQueryChange: (String) -> Unit, modifier: Modifier = Modifier)`",
+            "en": "`fun SearchBar(query: String, onQueryChange: (String) -> Unit, modifier: Modifier = Modifier)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`fun SearchBar(): String`",
+            "en": "`fun SearchBar(): String`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`fun SearchBar(query: MutableState<String>)`",
+            "en": "`fun SearchBar(query: MutableState<String>)`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "State hoisting đưa state lên composable cha: con nhận giá trị hiện tại (`query`) và một callback (`onQueryChange`) để báo sự kiện, trở thành stateless, dễ tái sử dụng, preview và test. Truyền cả `ViewModel` vào composable con làm nó phụ thuộc chặt vào một ViewModel cụ thể và khó preview. Truyền `MutableState` cho phép con tự sửa state của cha, làm mờ nguồn sự thật duy nhất; còn composable thì không trả về giá trị như `String`.",
+        "en": "State hoisting moves state up to the parent: the child receives the current value (`query`) and a callback (`onQueryChange`) for events, becoming stateless and easy to reuse, preview and test. Passing the whole `ViewModel` couples the child to a specific ViewModel and makes it hard to preview. Passing a `MutableState` lets the child mutate the parent's state directly, blurring the single source of truth, and composables do not return values like `String`."
+      }
+    },
+    {
+      "id": "kotlin.compose.006",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "compose",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Màn hình sau gọi API liên tục. Lỗi ở đâu?",
+        "en": "This screen keeps calling the API over and over. Where is the bug?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "@Composable\nfun ProfileScreen(\n    userId: String,\n    viewModel: ProfileViewModel,\n) {\n    viewModel.loadProfile(userId)\n    val state by viewModel.state.collectAsStateWithLifecycle()\n    ProfileContent(state)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`collectAsStateWithLifecycle` tự gọi lại API mỗi khi collect",
+            "en": "`collectAsStateWithLifecycle` re-calls the API whenever it collects"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`loadProfile` được gọi trực tiếp trong thân composable nên chạy lại ở mỗi lần recompose; nên đặt trong `LaunchedEffect(userId)`",
+            "en": "`loadProfile` is called directly in the composable body, so it reruns on every recomposition; it belongs in `LaunchedEffect(userId)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải dùng `remember` cho tham số `viewModel`",
+            "en": "The `viewModel` parameter must be wrapped in `remember`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`ProfileContent` phải được gọi trước `loadProfile`",
+            "en": "`ProfileContent` must be called before `loadProfile`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Thân composable có thể chạy lại bất cứ lúc nào khi recompose, nên side effect như gọi API không được đặt trực tiếp ở đó. Ở đây `loadProfile` cập nhật `state`, `state` thay đổi gây recompose, recompose lại gọi `loadProfile`, tạo vòng lặp gọi API. Cách sửa là `LaunchedEffect(userId) { viewModel.loadProfile(userId) }` để chỉ chạy khi `userId` đổi, hoặc tốt hơn là để ViewModel tự tải dựa trên `SavedStateHandle`. `collectAsStateWithLifecycle` chỉ đọc flow, không tự gọi lại API.",
+        "en": "A composable body can rerun at any time during recomposition, so side effects like API calls must not live there directly. Here `loadProfile` updates `state`, the state change triggers recomposition, and recomposition calls `loadProfile` again, creating a loop of API calls. Fix: `LaunchedEffect(userId) { viewModel.loadProfile(userId) }` so it runs only when `userId` changes, or better, let the ViewModel load by itself based on `SavedStateHandle`. `collectAsStateWithLifecycle` only reads the flow and does not re-call the API."
+      }
+    },
+    {
+      "id": "kotlin.compose.007",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "compose",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao nên truyền `key` cho `items` trong `LazyColumn`, vd `items(todos, key = { it.id })`?",
+        "en": "Why should you pass a `key` to `items` in a `LazyColumn`, e.g. `items(todos, key = { it.id })`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Vì `LazyColumn` báo lỗi biên dịch nếu thiếu `key`",
+            "en": "Because `LazyColumn` fails to compile without a `key`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Để `LazyColumn` sắp xếp danh sách theo `id`",
+            "en": "So the `LazyColumn` sorts the list by `id`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Để state của mỗi item (vd `remember`, checkbox, animation) đi theo đúng item khi danh sách thêm, xóa hay đổi thứ tự",
+            "en": "So each item's state (e.g. `remember`, a checkbox, animations) follows the right item when the list inserts, removes or reorders"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Để các item không bao giờ bị recompose",
+            "en": "So items are never recomposed"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Mặc định Compose định danh item theo vị trí; khi chèn hoặc xóa ở đầu danh sách, state `remember` của item ở vị trí cũ sẽ bị gán nhầm sang item khác. Cung cấp `key` ổn định và duy nhất (như `id`) giúp Compose giữ state và vị trí cuộn đúng theo từng item, đồng thời bật `animateItem()`. `key` là tham số tùy chọn và không sắp xếp dữ liệu; item vẫn recompose khi dữ liệu của nó thay đổi.",
+        "en": "By default Compose identifies items by position; inserting or removing at the top of the list makes `remember`ed state from an old position attach to a different item. A stable, unique `key` (like an `id`) lets Compose keep state and scroll position tied to each item, and enables `animateItem()`. `key` is optional and does not sort data; an item still recomposes when its data changes."
+      }
+    },
+    {
+      "id": "kotlin.compose.008",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "compose",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Người dùng bấm nút 3 lần. Tổng cộng `effect` được in ra bao nhiêu lần?",
+        "en": "The user taps the button 3 times. How many times in total is `effect` printed?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "@Composable\nfun Screen() {\n    var count by remember { mutableIntStateOf(0) }\n\n    LaunchedEffect(Unit) {\n        println(\"effect\")\n    }\n\n    Button(onClick = { count++ }) {\n        Text(\"Tapped $count\")\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "4",
+            "en": "4"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "3",
+            "en": "3"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "1",
+            "en": "1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "0",
+            "en": "0"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`LaunchedEffect(Unit)` chạy block khi composable vào composition lần đầu, và chỉ chạy lại khi key thay đổi; `Unit` không bao giờ đổi nên nó chỉ chạy đúng một lần. Recomposition do `count` thay đổi không khởi động lại effect, đó chính là lý do dùng `LaunchedEffect` thay vì gọi code trực tiếp trong thân hàm. Đáp án 4 là nhầm rằng effect chạy lại mỗi lần recompose.",
+        "en": "`LaunchedEffect(Unit)` runs its block when the composable first enters the composition and only relaunches when its key changes; `Unit` never changes, so it runs exactly once. Recomposition caused by `count` changing does not restart the effect, which is exactly why you use `LaunchedEffect` instead of calling code directly in the body. 4 assumes the effect reruns on every recomposition."
+      }
+    },
+    {
+      "id": "kotlin.compose.009",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "compose",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với strong skipping mode (mặc định từ Kotlin 2.0.20), Compose quyết định skip một composable restartable có tham số unstable như `List<Item>` thế nào?",
+        "en": "With strong skipping mode (the default since Kotlin 2.0.20), how does Compose decide whether to skip a restartable composable with an unstable parameter like `List<Item>`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Composable có tham số unstable không bao giờ được skip",
+            "en": "A composable with any unstable parameter is never skipped"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Mọi tham số đều được so sánh bằng `equals()`",
+            "en": "All parameters are compared with `equals()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Compose so sánh `hashCode()` của toàn bộ tham số",
+            "en": "Compose compares the `hashCode()` of all parameters"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tham số unstable được so sánh bằng instance equality (`===`), tham số stable so sánh bằng `equals()`; nếu tất cả bằng nhau thì skip",
+            "en": "Unstable parameters are compared by instance equality (`===`), stable ones by `equals()`; if all are equal it is skipped"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Trước strong skipping, composable có tham số unstable (như `List` vì là interface có thể mutable) không thể skip, nên recompose mỗi khi cha recompose. Từ Kotlin 2.0.20, strong skipping bật mặc định: mọi composable restartable đều skippable, tham số unstable được so sánh bằng `===` và tham số stable bằng `equals()`. Hệ quả là nếu bạn tạo list mới với nội dung y hệt mỗi lần, composable vẫn recompose; nên giữ instance ổn định hoặc dùng kiểu immutable/`@Immutable`. Lambda cũng được tự động `remember` theo các giá trị capture.",
+        "en": "Before strong skipping, a composable with an unstable parameter (such as `List`, an interface that might be mutable) could not be skipped and recomposed whenever its parent did. Since Kotlin 2.0.20 strong skipping is on by default: all restartable composables are skippable, unstable parameters are compared with `===` and stable ones with `equals()`. As a result, creating a new list with identical contents each time still causes recomposition, so keep instances stable or use immutable/`@Immutable` types. Lambdas are also automatically `remember`ed based on their captured values."
+      }
+    },
+    {
+      "id": "kotlin.compose.010",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "compose",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Một màn hình Compose bị giật do recompose quá nhiều. Bạn chẩn đoán và tối ưu thế nào?",
+        "en": "A Compose screen janks because of excessive recomposition. How do you diagnose and optimize it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Đo trước: Layout Inspector (recomposition counts), Compose compiler reports/metrics, trace trong release build với Baseline Profile",
+          "en": "Measure first: Layout Inspector recomposition counts, Compose compiler reports/metrics, release-build traces with Baseline Profiles"
+        },
+        {
+          "vi": "Tăng stability: data class `val` immutable, `@Immutable`/`@Stable`, `ImmutableList` hoặc file cấu hình stability",
+          "en": "Improve stability: immutable `val` data classes, `@Immutable`/`@Stable`, `ImmutableList` or a stability configuration file"
+        },
+        {
+          "vi": "Đọc state muộn nhất có thể: truyền lambda `() -> Int`, dùng modifier dạng lambda như `Modifier.offset { }` để đọc ở phase layout/draw",
+          "en": "Defer state reads: pass `() -> Int` lambdas, use lambda modifiers like `Modifier.offset { }` to read in layout/draw"
+        },
+        {
+          "vi": "`derivedStateOf` khi state thay đổi nhiều hơn kết quả cần dùng (vd `firstVisibleItemIndex > 0`)",
+          "en": "`derivedStateOf` when state changes more often than the derived result (e.g. `firstVisibleItemIndex > 0`)"
+        },
+        {
+          "vi": "`key` ổn định trong Lazy list, `remember` các phép tính nặng, tránh tạo object mới mỗi lần recompose",
+          "en": "Stable `key`s in lazy lists, `remember` expensive calculations, avoid allocating new objects on each recomposition"
+        }
+      ],
+      "explanation": {
+        "vi": "Đầu tiên cần đo: Layout Inspector cho biết số lần recompose và skip của từng composable, Compose compiler reports cho biết tham số nào unstable, và luôn đánh giá hiệu năng trên release build có R8 và Baseline Profile vì debug build chậm hơn nhiều. Với stability, dùng model `val` bất biến, `@Immutable`/`@Stable` hoặc collection bất biến, và có thể khai báo stability configuration cho class từ module khác. Kỹ thuật hiệu quả nhất thường là đọc state muộn: truyền lambda thay vì giá trị, dùng `Modifier.offset { }`/`graphicsLayer { }` để state thay đổi liên tục (scroll, animation) chỉ ảnh hưởng phase layout hoặc draw mà không recompose. `derivedStateOf` lọc bớt các thay đổi không làm đổi kết quả, ví dụ chỉ hiện nút \"lên đầu\" khi `firstVisibleItemIndex > 0`. Cuối cùng là các quy tắc cơ bản: `key` cho Lazy list, `remember` phép tính nặng và tránh tạo list/lambda mới không cần thiết trong composition.",
+        "en": "Start by measuring: Layout Inspector shows recomposition and skip counts per composable, Compose compiler reports reveal which parameters are unstable, and always judge performance on a release build with R8 and Baseline Profiles because debug builds are much slower. For stability, use immutable `val` models, `@Immutable`/`@Stable` or immutable collections, and declare a stability configuration for classes from other modules. The most effective technique is often deferring state reads: pass lambdas instead of values and use `Modifier.offset { }`/`graphicsLayer { }` so rapidly changing state (scroll, animation) only affects the layout or draw phase without recomposition. `derivedStateOf` filters out changes that do not alter the result, e.g. showing a \"scroll to top\" button only when `firstVisibleItemIndex > 0`. Finally the basics: `key`s in lazy lists, `remember` for expensive calculations, and avoiding needless new lists/lambdas during composition."
+      }
+    },
+    {
+      "id": "kotlin.architecture.001",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "architecture",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày kiến trúc MVVM trong một app Android. Mỗi lớp chịu trách nhiệm gì?",
+        "en": "Describe the MVVM architecture in an Android app. What is each layer responsible for?"
+      },
+      "keyPoints": [
+        {
+          "vi": "View (Activity/Fragment/Composable) hiển thị state và chuyển sự kiện người dùng cho ViewModel",
+          "en": "The View (Activity/Fragment/Composable) renders state and forwards user events to the ViewModel"
+        },
+        {
+          "vi": "ViewModel giữ và biến đổi UI state, gọi repository, sống qua configuration change",
+          "en": "The ViewModel holds and transforms UI state, calls repositories and survives configuration changes"
+        },
+        {
+          "vi": "ViewModel không tham chiếu tới View hay Activity context",
+          "en": "The ViewModel never references Views or the Activity context"
+        },
+        {
+          "vi": "Model/data layer (repository, data source) lo dữ liệu từ network, database",
+          "en": "The Model/data layer (repositories, data sources) provides data from network and database"
+        },
+        {
+          "vi": "Luồng dữ liệu một chiều: state đi xuống qua `StateFlow`, sự kiện đi lên qua hàm của ViewModel",
+          "en": "Unidirectional flow: state goes down via `StateFlow`, events go up via ViewModel functions"
+        }
+      ],
+      "explanation": {
+        "vi": "Trong MVVM, View chỉ hiển thị dữ liệu và gửi sự kiện như bấm nút, nhập chữ cho ViewModel, không chứa logic nghiệp vụ. ViewModel giữ UI state (thường là `StateFlow<UiState>`), xử lý sự kiện và gọi repository; nó sống qua configuration change và không được giữ tham chiếu tới View hay Activity để tránh leak. Lớp Model gồm repository và các data source như Retrofit, Room, chịu trách nhiệm lấy và lưu dữ liệu. Google khuyến nghị luồng dữ liệu một chiều (UDF): state đi xuống UI, sự kiện đi lên ViewModel, giúp UI dễ đoán và dễ test.",
+        "en": "In MVVM, the View only renders data and sends events such as clicks or text input to the ViewModel, with no business logic. The ViewModel holds UI state (usually a `StateFlow<UiState>`), handles events and calls repositories; it survives configuration changes and must not reference Views or the Activity to avoid leaks. The Model layer consists of repositories and data sources such as Retrofit and Room, responsible for fetching and storing data. Google recommends unidirectional data flow (UDF): state flows down to the UI and events flow up to the ViewModel, which makes the UI predictable and testable."
+      }
+    },
+    {
+      "id": "kotlin.architecture.002",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "architecture",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vai trò chính của Repository trong kiến trúc Android là gì?",
+        "en": "What is the main role of a Repository in Android architecture?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hiển thị dữ liệu lên màn hình",
+            "en": "Display data on the screen"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lưu state UI qua configuration change",
+            "en": "Keep UI state across configuration changes"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Che giấu nguồn dữ liệu (API, database, cache) sau một API thống nhất và quyết định nguồn sự thật",
+            "en": "Hide data sources (API, database, cache) behind a single API and decide the source of truth"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thay thế hoàn toàn ViewModel",
+            "en": "Completely replace the ViewModel"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Repository là lớp trung gian giữa ViewModel và các data source: ViewModel chỉ gọi `repository.getNews()` mà không cần biết dữ liệu đến từ Retrofit, Room hay cache. Repository có thể kết hợp nguồn, ví dụ đọc từ database làm single source of truth và làm mới từ network. Việc giữ UI state qua configuration change là nhiệm vụ của ViewModel, không phải repository.",
+        "en": "A repository sits between the ViewModel and the data sources: the ViewModel just calls `repository.getNews()` without knowing whether data comes from Retrofit, Room or a cache. It can combine sources, for example reading from the database as the single source of truth while refreshing from the network. Keeping UI state across configuration changes is the ViewModel's job, not the repository's."
+      }
+    },
+    {
+      "id": "kotlin.architecture.003",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "architecture",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Hàm DAO `fun observeNotes(): Flow<List<Note>>` trong Room hoạt động thế nào?",
+        "en": "How does the Room DAO function `fun observeNotes(): Flow<List<Note>>` behave?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ phát một lần rồi kết thúc, giống hàm `suspend`",
+            "en": "It emits once and completes, like a `suspend` function"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phát danh sách hiện tại khi được collect, và tự phát lại mỗi khi bảng `note` thay đổi; Room chạy truy vấn ngoài main thread",
+            "en": "It emits the current list when collected and re-emits whenever the `note` table changes; Room runs the query off the main thread"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bắt buộc phải khai báo là `suspend fun` mới biên dịch được",
+            "en": "It must be declared as `suspend fun` to compile"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải tự gọi trong `withContext(Dispatchers.IO)`, nếu không sẽ crash trên main thread",
+            "en": "It must be called inside `withContext(Dispatchers.IO)` or it crashes on the main thread"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khi DAO trả về `Flow`, Room tạo một observable query: lần collect đầu phát kết quả hiện tại, sau đó mỗi lần bảng liên quan bị insert/update/delete thì truy vấn chạy lại và phát danh sách mới. Hàm trả `Flow` không cần `suspend` vì bản thân `Flow` đã lazy, và Room tự thực thi trên executor riêng nên main-safe. Với thao tác một lần như insert hay lấy một bản ghi, dùng `suspend fun`.",
+        "en": "When a DAO returns `Flow`, Room creates an observable query: the first collection emits the current result, and whenever the involved tables are inserted, updated or deleted the query reruns and emits a new list. The function does not need `suspend` because `Flow` is already lazy, and Room executes on its own executor, so it is main-safe. For one-shot operations like inserting or fetching a single row, use a `suspend fun`."
+      }
+    },
+    {
+      "id": "kotlin.architecture.004",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "architecture",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Gọi `getUser(\"42\")` ném exception ngay. Lỗi nằm ở đâu?",
+        "en": "Calling `getUser(\"42\")` throws immediately. Where is the bug?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "interface UserApi {\n    @GET(\"users/{id}\")\n    suspend fun getUser(@Path(\"userId\") id: String): User\n}\n\nval api = Retrofit.Builder()\n    .baseUrl(\"https://api.example.com/\")\n    .addConverterFactory(MoshiConverterFactory.create())\n    .build()\n    .create(UserApi::class.java)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hàm Retrofit không được là `suspend`",
+            "en": "Retrofit functions cannot be `suspend`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`@GET` phải bắt đầu bằng dấu `/`",
+            "en": "`@GET` must start with `/`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Placeholder trong URL là `{id}` nhưng `@Path` khai báo `\"userId\"`, nên Retrofit ném `IllegalArgumentException`",
+            "en": "The URL placeholder is `{id}` but `@Path` declares `\"userId\"`, so Retrofit throws `IllegalArgumentException`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Kiểu trả về phải là `Call<User>`",
+            "en": "The return type must be `Call<User>`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Retrofit kiểm tra annotation khi phân tích method (lần gọi đầu): tên trong `@Path(\"userId\")` phải khớp placeholder `{userId}` trong URL. Ở đây URL dùng `{id}` nên Retrofit báo `URL \"users/{id}\" does not contain \"{userId}\"`. Cách sửa: đổi thành `@Path(\"id\")` hoặc URL `users/{userId}`. Retrofit hỗ trợ hàm `suspend` trả thẳng `User` từ phiên bản 2.6, và đường dẫn tương đối không cần `/` đầu (thậm chí `/` đầu sẽ bỏ qua phần path của base URL).",
+        "en": "Retrofit validates annotations when it parses the method (on first call): the name in `@Path(\"userId\")` must match a `{userId}` placeholder in the URL. Here the URL uses `{id}`, so Retrofit reports `URL \"users/{id}\" does not contain \"{userId}\"`. Fix: use `@Path(\"id\")` or the URL `users/{userId}`. Retrofit has supported `suspend` functions returning `User` directly since 2.6, and a relative path needs no leading `/` (a leading `/` would even drop the base URL's path segment)."
+      }
+    },
+    {
+      "id": "kotlin.architecture.005",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "architecture",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Để Hilt inject `ProfileRepository` vào ViewModel, cần làm gì?",
+        "en": "What is needed for Hilt to inject `ProfileRepository` into a ViewModel?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tạo ViewModel bằng `ProfileViewModel(repo)` trong `onCreate`",
+            "en": "Create it with `ProfileViewModel(repo)` in `onCreate`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đánh dấu field `@Inject lateinit var repo` trong ViewModel là đủ",
+            "en": "Marking a `@Inject lateinit var repo` field in the ViewModel is enough"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đánh dấu ViewModel `@HiltViewModel` với `@Inject constructor`, Activity/Fragment chứa nó `@AndroidEntryPoint`, và lấy bằng `by viewModels()` hoặc `hiltViewModel()`",
+            "en": "Annotate the ViewModel with `@HiltViewModel` and an `@Inject constructor`, mark the host Activity/Fragment `@AndroidEntryPoint`, and obtain it via `by viewModels()` or `hiltViewModel()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đặt ViewModel trong `@Module` với `@Provides`",
+            "en": "Put the ViewModel in a `@Module` with `@Provides`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Hilt tạo ViewModel qua `HiltViewModelFactory`: class cần `@HiltViewModel` và `@Inject constructor(private val repo: ProfileRepository)`, host phải là `@AndroidEntryPoint` (và `Application` có `@HiltAndroidApp`). Bản thân `ProfileRepository` cũng phải được Hilt biết, qua `@Inject constructor` hoặc `@Binds`/`@Provides` trong module. Tự gọi constructor sẽ tạo ViewModel không sống qua configuration change; còn ViewModel không hỗ trợ field injection hay `@Provides` trực tiếp.",
+        "en": "Hilt creates ViewModels via `HiltViewModelFactory`: the class needs `@HiltViewModel` and `@Inject constructor(private val repo: ProfileRepository)`, and the host must be `@AndroidEntryPoint` (with `@HiltAndroidApp` on the `Application`). `ProfileRepository` itself must also be known to Hilt, via an `@Inject constructor` or `@Binds`/`@Provides` in a module. Calling the constructor yourself yields a ViewModel that does not survive configuration changes, and ViewModels do not support field injection or direct `@Provides`."
+      }
+    },
+    {
+      "id": "kotlin.architecture.006",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "architecture",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi điều hướng từ danh sách sang màn chi tiết sản phẩm bằng Navigation, nên truyền gì?",
+        "en": "When navigating from a list to a product detail screen with Navigation, what should you pass?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Truyền toàn bộ object `Product` dạng JSON trong route",
+            "en": "Pass the whole `Product` object as JSON in the route"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lưu `Product` vào biến global rồi đọc ở màn chi tiết",
+            "en": "Store the `Product` in a global variable and read it on the detail screen"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ truyền `productId`, màn chi tiết tự lấy dữ liệu từ repository (vd đọc id qua `SavedStateHandle`)",
+            "en": "Pass only the `productId`; the detail screen loads the data from the repository (e.g. reading the id via `SavedStateHandle`)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Truyền danh sách sản phẩm để màn chi tiết tự tìm",
+            "en": "Pass the whole product list so the detail screen can find it"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Hướng dẫn chính thức khuyên chỉ truyền dữ liệu tối thiểu như id; màn đích dùng id để lấy dữ liệu từ nguồn sự thật (repository/Room). Argument được lưu vào back stack và saved state nên object lớn làm tốn bộ nhớ, có thể vượt giới hạn Bundle và dễ lỗi thời so với dữ liệu thật. Biến global càng nguy hiểm vì mất sau process death. Với Navigation type-safe, route là `@Serializable data class ProductDetail(val id: String)` và ViewModel đọc bằng `savedStateHandle.toRoute<ProductDetail>()`.",
+        "en": "The official guidance is to pass only minimal data such as an id; the destination uses it to load data from the source of truth (repository/Room). Arguments are saved in the back stack and saved state, so large objects waste memory, may exceed Bundle limits and go stale relative to the real data. A global variable is even worse because it disappears after process death. With type-safe Navigation, the route is `@Serializable data class ProductDetail(val id: String)` and the ViewModel reads it via `savedStateHandle.toRoute<ProductDetail>()`."
+      }
+    },
+    {
+      "id": "kotlin.architecture.007",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "architecture",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong Hilt, scope nào cho một instance dùng chung trong một Activity, sống qua configuration change nhưng không phải singleton toàn app?",
+        "en": "In Hilt, which scope gives one instance shared within an Activity that survives configuration changes but is not app-wide?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`@ActivityRetainedScoped`",
+            "en": "`@ActivityRetainedScoped`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`@ActivityScoped`",
+            "en": "`@ActivityScoped`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`@Singleton`",
+            "en": "`@Singleton`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`@ViewModelScoped`",
+            "en": "`@ViewModelScoped`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`@ActivityRetainedScoped` gắn với `ActivityRetainedComponent`, tồn tại từ lần tạo Activity đầu tiên tới khi Activity kết thúc hẳn, nên sống qua xoay màn hình và dùng chung được giữa các ViewModel của Activity đó. `@ActivityScoped` gắn với `ActivityComponent`, bị hủy và tạo lại cùng mỗi instance Activity khi xoay. `@ViewModelScoped` chỉ dùng chung trong một ViewModel, còn `@Singleton` sống suốt process; chọn scope quá rộng làm giữ object lâu hơn cần thiết.",
+        "en": "`@ActivityRetainedScoped` is tied to `ActivityRetainedComponent`, which lives from the first Activity creation until the Activity is finished for good, so it survives rotation and can be shared by that Activity's ViewModels. `@ActivityScoped` is tied to `ActivityComponent`, destroyed and recreated with each Activity instance on rotation. `@ViewModelScoped` is shared within a single ViewModel, and `@Singleton` lives for the whole process; picking too wide a scope keeps objects alive longer than needed."
+      }
+    },
+    {
+      "id": "kotlin.architecture.008",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "architecture",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn sẽ thiết kế modularization cho một app Android lớn (nhiều team, build chậm) như thế nào?",
+        "en": "How would you design modularization for a large Android app (many teams, slow builds)?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Tách `:app`, `:feature:*` và `:core:*` (data, domain, designsystem, network, database); feature không phụ thuộc feature khác",
+          "en": "Split into `:app`, `:feature:*` and `:core:*` (data, domain, designsystem, network, database); features never depend on each other"
+        },
+        {
+          "vi": "Hướng phụ thuộc một chiều; cân nhắc tách `api`/`impl` để thay đổi impl không làm rebuild module phụ thuộc",
+          "en": "One-way dependencies; consider `api`/`impl` splits so impl changes do not rebuild dependents"
+        },
+        {
+          "vi": "Điều hướng giữa feature qua route/contract trong module chung, nối bằng DI tại `:app`",
+          "en": "Navigate between features through routes/contracts in a shared module, wired by DI in `:app`"
+        },
+        {
+          "vi": "Dùng `implementation` thay `api`, convention plugin và version catalog để thống nhất cấu hình Gradle",
+          "en": "Prefer `implementation` over `api`, and use convention plugins plus a version catalog for consistent Gradle config"
+        },
+        {
+          "vi": "Lợi ích: build song song, cache, ownership rõ ràng; đánh đổi: chi phí cấu hình và quá nhiều module nhỏ",
+          "en": "Benefits: parallel and cached builds, clear ownership; trade-offs: configuration overhead and too many tiny modules"
+        }
+      ],
+      "explanation": {
+        "vi": "Một cấu trúc phổ biến (như app mẫu Now in Android) gồm `:app` lắp ráp mọi thứ, các module `:feature:*` theo tính năng và các module `:core:*` dùng chung như data, model, network, database, designsystem. Nguyên tắc quan trọng nhất là phụ thuộc một chiều: feature chỉ phụ thuộc core, không phụ thuộc feature khác; khi cần điều hướng chéo thì dùng route hoặc interface trong module chung và nối bằng Hilt ở `:app`. Với codebase rất lớn, tách `api`/`impl` giúp thay đổi bên trong impl không làm rebuild các module phụ thuộc, kết hợp dùng `implementation` thay vì `api` để không lộ dependency. Convention plugin trong `build-logic` và version catalog giữ cấu hình Gradle nhất quán. Lợi ích là build incremental và song song nhanh hơn, ownership theo team rõ ràng; đánh đổi là chi phí thiết lập và việc chia quá nhỏ làm tăng thời gian configuration, nên cần đo bằng Build Scan trước và sau.",
+        "en": "A common structure (like the Now in Android sample) has `:app` assembling everything, `:feature:*` modules per feature, and shared `:core:*` modules such as data, model, network, database and designsystem. The key rule is one-way dependencies: features depend only on core, never on other features; cross-feature navigation goes through routes or interfaces in a shared module, wired with Hilt in `:app`. In very large codebases, an `api`/`impl` split keeps changes inside an impl from rebuilding dependents, combined with `implementation` instead of `api` so dependencies are not leaked. Convention plugins in `build-logic` and a version catalog keep Gradle config consistent. The benefits are faster incremental and parallel builds and clear team ownership; the trade-offs are setup cost and, when split too finely, longer configuration time, so measure with Build Scans before and after."
+      }
+    },
+    {
+      "id": "kotlin.platform.001",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "platform",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt giữa explicit Intent và implicit Intent là gì?",
+        "en": "What is the difference between an explicit Intent and an implicit Intent?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Explicit chỉ rõ component đích (vd `Intent(this, DetailActivity::class.java)`); implicit chỉ khai báo action/data để hệ thống tìm app phù hợp",
+            "en": "An explicit Intent names the target component (e.g. `Intent(this, DetailActivity::class.java)`); an implicit one declares an action/data and lets the system find a matching app"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Explicit dùng để mở app khác, implicit dùng trong cùng app",
+            "en": "Explicit opens other apps, implicit is for within the same app"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Implicit Intent không thể mang dữ liệu kèm theo",
+            "en": "An implicit Intent cannot carry extras"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Explicit Intent chỉ dùng được cho Service",
+            "en": "An explicit Intent can only target a Service"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Explicit Intent chỉ định chính xác class đích, thường dùng để mở Activity hoặc Service trong chính app. Implicit Intent mô tả việc cần làm như `ACTION_VIEW` với một URL hoặc `ACTION_SEND`, hệ thống so khớp với `intent-filter` của các app để chọn component xử lý. Cả hai đều mang được extras; đáp án ngược vai trò là nhầm phổ biến.",
+        "en": "An explicit Intent names the exact target class and is typically used to start an Activity or Service in your own app. An implicit Intent describes what to do, such as `ACTION_VIEW` with a URL or `ACTION_SEND`, and the system matches it against apps' `intent-filter`s to pick a handler. Both can carry extras; swapping the roles is the common mistake."
+      }
+    },
+    {
+      "id": "kotlin.platform.002",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "platform",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "App cần dùng camera trên Android 6.0 (API 23) trở lên. Cách xử lý quyền nào đúng?",
+        "en": "An app needs the camera on Android 6.0 (API 23) and above. What is the correct way to handle the permission?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ cần khai báo trong `AndroidManifest.xml`, quyền tự được cấp khi cài app",
+            "en": "Declaring it in `AndroidManifest.xml` is enough; it is granted at install time"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ cần xin lúc chạy, không cần khai báo trong manifest",
+            "en": "Requesting at runtime is enough; no manifest declaration is needed"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Khai báo `CAMERA` trong manifest và xin quyền lúc chạy, vd qua `ActivityResultContracts.RequestPermission`, trước khi dùng",
+            "en": "Declare `CAMERA` in the manifest and request it at runtime, e.g. via `ActivityResultContracts.RequestPermission`, before use"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Camera không cần quyền nếu dùng CameraX",
+            "en": "The camera needs no permission when using CameraX"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`CAMERA` là dangerous permission: từ API 23 nó phải được khai báo trong manifest và người dùng cấp lúc chạy. Nếu thiếu khai báo manifest, hộp thoại xin quyền sẽ không hiện và kết quả luôn bị từ chối. Cách hiện đại là dùng Activity Result API với `RequestPermission`, kiểm tra `checkSelfPermission` trước và hiển thị giải thích khi `shouldShowRequestPermissionRationale` trả về `true`. CameraX vẫn cần quyền `CAMERA`.",
+        "en": "`CAMERA` is a dangerous permission: since API 23 it must be declared in the manifest and granted by the user at runtime. Without the manifest declaration, the request dialog never appears and the result is always denied. The modern approach is the Activity Result API with `RequestPermission`, checking `checkSelfPermission` first and showing a rationale when `shouldShowRequestPermissionRationale` returns `true`. CameraX still requires the `CAMERA` permission."
+      }
+    },
+    {
+      "id": "kotlin.platform.003",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "platform",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trường hợp nào phù hợp nhất để dùng WorkManager?",
+        "en": "Which case is the best fit for WorkManager?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cập nhật UI ngay khi người dùng bấm nút",
+            "en": "Updating the UI right when the user taps a button"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Báo thức phải kêu đúng 7:00:00 sáng",
+            "en": "An alarm that must ring at exactly 7:00:00 AM"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phát nhạc liên tục khi người dùng nghe",
+            "en": "Continuously playing music while the user listens"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Upload log hoặc đồng bộ dữ liệu cần chắc chắn hoàn thành, kể cả khi app bị đóng hoặc máy khởi động lại",
+            "en": "Uploading logs or syncing data that must complete even if the app is closed or the device reboots"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "WorkManager dành cho công việc nền có thể trì hoãn nhưng cần được đảm bảo chạy: nó lưu work vào database, chạy lại sau khi app bị kill hoặc máy reboot, hỗ trợ constraint (có mạng, đang sạc) và retry với backoff. Việc cập nhật UI ngay lập tức dùng coroutine trong `viewModelScope`. Báo thức đúng giờ dùng `AlarmManager` với exact alarm, còn phát nhạc liên tục cần foreground service, vì WorkManager không đảm bảo thời điểm chính xác.",
+        "en": "WorkManager is for deferrable background work that must be guaranteed to run: it persists work in a database, reruns it after the app is killed or the device reboots, supports constraints (network, charging) and retries with backoff. Immediate UI updates use coroutines in `viewModelScope`. An exact-time alarm uses `AlarmManager` exact alarms, and continuous music playback needs a foreground service, because WorkManager does not guarantee precise timing."
+      }
+    },
+    {
+      "id": "kotlin.platform.004",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "platform",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Trên Android 13, app đã được cấp quyền `POST_NOTIFICATIONS` nhưng thông báo vẫn không hiện. Lỗi ở đâu?",
+        "en": "On Android 13 the app has been granted `POST_NOTIFICATIONS`, yet the notification never appears. Where is the bug?"
+      },
+      "code": {
+        "language": "kotlin",
+        "source": "fun showDelivered(context: Context) {\n    val notification = NotificationCompat.Builder(context, \"orders\")\n        .setSmallIcon(R.drawable.ic_order)\n        .setContentTitle(\"Order delivered\")\n        .setContentText(\"Your order #1024 has arrived\")\n        .build()\n\n    NotificationManagerCompat.from(context).notify(1, notification)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`setSmallIcon` là tùy chọn và phải bỏ đi",
+            "en": "`setSmallIcon` is optional and must be removed"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Id thông báo phải khác 1",
+            "en": "The notification id must not be 1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Channel `\"orders\"` chưa bao giờ được tạo; từ Android 8.0 thông báo gửi tới channel không tồn tại sẽ bị bỏ qua",
+            "en": "The `\"orders\"` channel is never created; since Android 8.0 notifications posted to a missing channel are dropped"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải dùng `Notification.Builder` thay vì `NotificationCompat.Builder`",
+            "en": "You must use `Notification.Builder` instead of `NotificationCompat.Builder`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Từ Android 8.0 (API 26), mọi thông báo phải thuộc về một `NotificationChannel` đã được đăng ký; channel id `\"orders\"` chưa được tạo nên hệ thống bỏ qua thông báo (Logcat chỉ ghi cảnh báo). Cách sửa: tạo channel một lần, vd trong `Application.onCreate`, bằng `NotificationChannelCompat.Builder(\"orders\", IMPORTANCE_DEFAULT)` rồi `createNotificationChannel`. `setSmallIcon` lại là bắt buộc, còn `NotificationCompat` là lựa chọn khuyến nghị để tương thích ngược.",
+        "en": "Since Android 8.0 (API 26), every notification must belong to a registered `NotificationChannel`; the `\"orders\"` channel was never created, so the system drops the notification (Logcat only logs a warning). Fix: create the channel once, e.g. in `Application.onCreate`, with `NotificationChannelCompat.Builder(\"orders\", IMPORTANCE_DEFAULT)` and `createNotificationChannel`. `setSmallIcon` is actually required, and `NotificationCompat` is the recommended choice for backward compatibility."
+      }
+    },
+    {
+      "id": "kotlin.platform.005",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "platform",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "App chạy tốt ở debug, nhưng bản release (`isMinifyEnabled = true`) crash khi parse JSON bằng Gson. Nguyên nhân khả dĩ nhất?",
+        "en": "The app works in debug, but the release build (`isMinifyEnabled = true`) crashes when parsing JSON with Gson. What is the most likely cause?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bản release không có quyền `INTERNET`",
+            "en": "The release build lacks the `INTERNET` permission"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "R8 đổi tên hoặc xóa field của model mà Gson truy cập bằng reflection; cần keep rule, `@SerializedName` hoặc `@Keep`",
+            "en": "R8 renamed or removed model fields that Gson accesses via reflection; add keep rules, `@SerializedName` or `@Keep`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gson chỉ chạy ở chế độ debug",
+            "en": "Gson only works in debug mode"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bản release dùng một bản Kotlin khác",
+            "en": "The release build uses a different Kotlin version"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khi bật minify, R8 thu gọn code, xóa phần không dùng và đổi tên class/field. Gson ánh xạ JSON vào field bằng reflection theo tên, nên field bị đổi tên thành `a`, `b` sẽ không khớp, hoặc constructor bị xóa gây crash. Cách sửa là thêm `-keep` rule cho các model, đánh dấu `@SerializedName`/`@Keep`, hoặc chuyển sang thư viện sinh code lúc compile như kotlinx.serialization hay Moshi codegen. Quyền manifest giống nhau giữa debug và release, nên đó không phải nguyên nhân.",
+        "en": "With minify enabled, R8 shrinks code, removes unused parts and renames classes/fields. Gson maps JSON to fields by name via reflection, so fields renamed to `a`, `b` no longer match, or removed constructors cause a crash. Fix: add `-keep` rules for the models, annotate with `@SerializedName`/`@Keep`, or switch to a compile-time codegen library such as kotlinx.serialization or Moshi codegen. Manifest permissions are identical between debug and release, so they are not the cause."
+      }
+    },
+    {
+      "id": "kotlin.platform.006",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "platform",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Từ Android 12 (API 31), khi tạo `PendingIntent` cho thông báo, điều gì là bắt buộc?",
+        "en": "Since Android 12 (API 31), what is mandatory when creating a `PendingIntent` for a notification?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ định rõ `FLAG_IMMUTABLE` hoặc `FLAG_MUTABLE`, ưu tiên `FLAG_IMMUTABLE` trừ khi cần sửa intent",
+            "en": "Explicitly specify `FLAG_IMMUTABLE` or `FLAG_MUTABLE`, preferring `FLAG_IMMUTABLE` unless the intent must be modified"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Luôn dùng `FLAG_UPDATE_CURRENT` và không cần cờ nào khác",
+            "en": "Always use `FLAG_UPDATE_CURRENT` with no other flags"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`PendingIntent` chỉ được trỏ tới `BroadcastReceiver`",
+            "en": "A `PendingIntent` may only target a `BroadcastReceiver`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải xin quyền `PENDING_INTENT` lúc chạy",
+            "en": "You must request a `PENDING_INTENT` runtime permission"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "App target API 31 trở lên phải khai báo tính mutable cho mọi `PendingIntent`; thiếu cờ sẽ ném `IllegalArgumentException` khi tạo. `FLAG_IMMUTABLE` an toàn hơn vì app khác nhận `PendingIntent` không thể sửa intent bên trong; chỉ dùng `FLAG_MUTABLE` khi thật sự cần, ví dụ inline reply. `FLAG_UPDATE_CURRENT` vẫn dùng được nhưng phải kết hợp, ví dụ `FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE`.",
+        "en": "Apps targeting API 31+ must declare mutability for every `PendingIntent`; omitting the flag throws `IllegalArgumentException` at creation. `FLAG_IMMUTABLE` is safer because other apps receiving the `PendingIntent` cannot modify the inner intent; use `FLAG_MUTABLE` only when really needed, e.g. inline replies. `FLAG_UPDATE_CURRENT` is still allowed but must be combined, e.g. `FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE`."
+      }
+    },
+    {
+      "id": "kotlin.platform.007",
+      "contentVersion": 1,
+      "trackId": "kotlin",
+      "topicId": "platform",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày các bước chuẩn bị và phát hành một bản release app Android lên Google Play.",
+        "en": "Describe the steps to prepare and publish an Android release build to Google Play."
+      },
+      "keyPoints": [
+        {
+          "vi": "Tăng `versionCode` (số nguyên tăng dần) và cập nhật `versionName` trong Gradle",
+          "en": "Bump `versionCode` (an increasing integer) and update `versionName` in Gradle"
+        },
+        {
+          "vi": "Build type `release` bật `isMinifyEnabled`/`isShrinkResources` (R8) và kiểm tra keep rules",
+          "en": "The `release` build type enables `isMinifyEnabled`/`isShrinkResources` (R8) with verified keep rules"
+        },
+        {
+          "vi": "Ký bằng upload key, giữ keystore và mật khẩu bí mật ngoài repo; dùng Play App Signing",
+          "en": "Sign with the upload key, keep the keystore and passwords out of the repo; use Play App Signing"
+        },
+        {
+          "vi": "Build Android App Bundle (`.aab`) bằng `bundleRelease` thay vì APK",
+          "en": "Build an Android App Bundle (`.aab`) with `bundleRelease` instead of an APK"
+        },
+        {
+          "vi": "Đưa lên track internal/closed testing, theo dõi crash rồi staged rollout lên production",
+          "en": "Upload to internal/closed testing, monitor crashes, then do a staged rollout to production"
+        }
+      ],
+      "explanation": {
+        "vi": "Mỗi bản phát hành cần `versionCode` lớn hơn bản trước (Play dùng số này để so sánh) và `versionName` hiển thị cho người dùng. Build type `release` nên bật R8 (`isMinifyEnabled = true`, `isShrinkResources = true`) để thu gọn và làm rối code, sau đó kiểm tra kỹ vì thiếu keep rule hay gây crash chỉ ở release. App được ký bằng upload key trong keystore, không commit keystore hay mật khẩu vào git mà đọc từ biến môi trường hoặc CI secrets; Play App Signing giữ app signing key thật. Google Play yêu cầu định dạng `.aab` (build bằng `./gradlew bundleRelease`) để tối ưu APK theo từng thiết bị. Cuối cùng nên đưa lên internal hoặc closed testing, theo dõi Crashlytics/Android vitals rồi staged rollout theo phần trăm người dùng.",
+        "en": "Every release needs a `versionCode` higher than the previous one (Play compares this number) and a user-facing `versionName`. The `release` build type should enable R8 (`isMinifyEnabled = true`, `isShrinkResources = true`) to shrink and obfuscate code, and then be tested carefully because missing keep rules often cause release-only crashes. The app is signed with an upload key in a keystore; never commit the keystore or passwords to git, read them from environment variables or CI secrets, and let Play App Signing hold the real app signing key. Google Play requires the `.aab` format (built with `./gradlew bundleRelease`) to deliver optimized APKs per device. Finally, upload to internal or closed testing, monitor Crashlytics/Android vitals, and do a staged rollout by percentage of users."
+      }
+    }
+  ]
+}

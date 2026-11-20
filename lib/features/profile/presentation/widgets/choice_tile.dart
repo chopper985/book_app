@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
 
 /// Selectable card with a title, optional hint and a check mark, in the style
 /// of the practice option tiles.

@@ -2,10 +2,9 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/app_svg.dart';
-import 'package:AppName/features/catalog/presentation/widgets/track_style.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/track_logo.dart';
 
 /// Track logo on a rounded square.
 class TrackIconBox extends StatelessWidget {
@@ -16,7 +15,6 @@ class TrackIconBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = TrackStyle.of(trackId);
     return Container(
       width: size.dsp,
       height: size.dsp,
@@ -25,11 +23,7 @@ class TrackIconBox extends StatelessWidget {
         color: AppPalette.surfaceHigh,
         borderRadius: BorderRadius.circular(8.dsp),
       ),
-      child: AppSvg(
-        style.icon,
-        width: style.iconSize.width,
-        height: style.iconSize.height,
-      ),
+      child: TrackLogo(trackId: trackId, scale: size / 36),
     );
   }
 }

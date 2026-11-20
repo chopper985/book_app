@@ -2,16 +2,16 @@
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
-import 'package:AppName/core/analytics/app_analytics.dart';
-import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
-import 'package:AppName/features/catalog/domain/usecase/get_track_detail.dart';
-import 'package:AppName/features/catalog/domain/usecase/saved_tracks.dart';
-import 'package:AppName/features/catalog/presentation/cubit/track_detail_cubit.dart';
-import 'package:AppName/features/practice/domain/usecase/practice_usecases.dart';
-import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
-import 'package:AppName/features/profile/domain/usecase/profile_usecases.dart';
-import 'package:AppName/features/profile/presentation/cubit/onboarding_cubit.dart';
+import 'package:interview_practice/core/analytics/app_analytics.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_track_detail.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/saved_tracks.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/track_detail_cubit.dart';
+import 'package:interview_practice/features/practice/domain/usecase/practice_usecases.dart';
+import 'package:interview_practice/features/practice/presentation/cubit/practice_cubit.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/domain/usecase/profile_usecases.dart';
+import 'package:interview_practice/features/profile/presentation/cubit/onboarding_cubit.dart';
 import '../helpers/test_graph.dart';
 
 /// Records every call as `name {params}`.

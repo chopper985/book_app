@@ -1,0 +1,3332 @@
+{
+  "questions": [
+    {
+      "id": "typescript.basics.001",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt chính giữa `any` và `unknown` là gì?",
+        "en": "What is the main difference between `any` and `unknown`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`unknown` bắt buộc thu hẹp kiểu trước khi dùng, còn `any` tắt kiểm tra kiểu",
+            "en": "`unknown` must be narrowed before use, while `any` turns type checking off"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`any` an toàn hơn vì vẫn được compiler kiểm tra",
+            "en": "`any` is safer because the compiler still checks it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`unknown` chỉ chứa được `null` hoặc `undefined`",
+            "en": "`unknown` can only hold `null` or `undefined`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hai kiểu giống hệt nhau, chỉ khác tên",
+            "en": "They are identical, only the name differs"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Cả hai đều nhận được mọi giá trị. `any` tắt hoàn toàn kiểm tra kiểu nên gọi `value.foo()` vẫn biên dịch được và chỉ lỗi lúc chạy. `unknown` là phiên bản an toàn: muốn dùng giá trị thì phải thu hẹp kiểu trước bằng `typeof`, `instanceof` hoặc type guard. Vì vậy nên ưu tiên `unknown` cho dữ liệu chưa rõ kiểu.",
+        "en": "Both accept any value. `any` switches type checking off entirely, so `value.foo()` still compiles and only fails at runtime. `unknown` is the safe counterpart: you must narrow it first with `typeof`, `instanceof` or a type guard before using it. Prefer `unknown` for data whose type you do not know yet."
+      }
+    },
+    {
+      "id": "typescript.basics.002",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "const raw: unknown = \"42\";\nconst n = raw as number;\nconsole.log(typeof n, n + 1);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "number 43",
+            "en": "number 43"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "string 421",
+            "en": "string 421"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "number NaN",
+            "en": "number NaN"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`as number` chỉ là type assertion: nó bảo compiler coi giá trị là `number` nhưng không chuyển đổi gì lúc chạy, vì kiểu bị xoá khi biên dịch sang JavaScript. `n` thực chất vẫn là chuỗi `\"42\"`, nên `typeof n` là `string` và `n + 1` là phép nối chuỗi ra `421`. Muốn đổi kiểu thật phải dùng `Number(raw)`.",
+        "en": "`as number` is only a type assertion: it tells the compiler to treat the value as a `number` but converts nothing at runtime, because types are erased when compiling to JavaScript. `n` is still the string `\"42\"`, so `typeof n` is `string` and `n + 1` concatenates to `421`. To really convert, use `Number(raw)`."
+      }
+    },
+    {
+      "id": "typescript.basics.003",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `const status = \"ok\";` và `let mode = \"dark\";`, TypeScript suy ra kiểu của `status` và `mode` là gì?",
+        "en": "Given `const status = \"ok\";` and `let mode = \"dark\";`, what types does TypeScript infer for `status` and `mode`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`string` / `string`",
+            "en": "`string` / `string`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`\"ok\"` / `\"dark\"`",
+            "en": "`\"ok\"` / `\"dark\"`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`\"ok\"` / `string`",
+            "en": "`\"ok\"` / `string`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`string` / `\"dark\"`",
+            "en": "`string` / `\"dark\"`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`const` không thể gán lại nên TypeScript giữ literal type hẹp nhất là `\"ok\"`. `let` có thể gán giá trị khác sau này nên kiểu được nới rộng (widening) thành `string`. Muốn `let` giữ literal type thì phải khai báo tường minh, ví dụ `let mode: \"dark\" | \"light\" = \"dark\"`.",
+        "en": "A `const` cannot be reassigned, so TypeScript keeps the narrowest literal type `\"ok\"`. A `let` may be reassigned later, so its type is widened to `string`. To keep a literal type on a `let`, annotate it, e.g. `let mode: \"dark\" | \"light\" = \"dark\"`."
+      }
+    },
+    {
+      "id": "typescript.basics.004",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "function printLength(value: unknown) {\n  console.log(value.length);\n}\n\nprintLength(\"hello\");"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thiếu kiểu trả về `: void` cho hàm",
+            "en": "The function is missing a `: void` return type"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`console.log` không nhận tham số kiểu `number`",
+            "en": "`console.log` does not accept a `number` argument"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải gọi `printLength<string>(\"hello\")`",
+            "en": "It must be called as `printLength<string>(\"hello\")`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không truy cập `.length` trên `unknown` được; cần thu hẹp kiểu, ví dụ `typeof value === \"string\"`",
+            "en": "You cannot access `.length` on `unknown`; narrow it first, e.g. `typeof value === \"string\"`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Tham số kiểu `unknown` không cho truy cập thuộc tính nào khi chưa thu hẹp kiểu, nên `value.length` báo lỗi `'value' is of type 'unknown'`. Cách sửa đúng là kiểm tra trước, ví dụ `if (typeof value === \"string\" || Array.isArray(value))`, sau đó mới dùng `.length`. Đổi sang `any` cũng hết lỗi nhưng mất luôn sự an toàn mà `unknown` mang lại.",
+        "en": "A parameter of type `unknown` allows no property access until it is narrowed, so `value.length` fails with `'value' is of type 'unknown'`. The right fix is to check first, e.g. `if (typeof value === \"string\" || Array.isArray(value))`, then use `.length`. Switching to `any` also silences the error but throws away the safety `unknown` provides."
+      }
+    },
+    {
+      "id": "typescript.basics.005",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Kiểu `never` biểu diễn điều gì?",
+        "en": "What does the `never` type represent?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Giá trị không bao giờ xảy ra, ví dụ hàm luôn `throw` hoặc nhánh không thể tới",
+            "en": "A value that never occurs, e.g. a function that always throws or an unreachable branch"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giá trị `null` hoặc `undefined`",
+            "en": "The value `null` or `undefined`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hàm chạy xong nhưng không trả về gì, giống `void`",
+            "en": "A function that finishes but returns nothing, same as `void`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bất kỳ kiểu nào, giống `any`",
+            "en": "Any type at all, same as `any`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`never` là kiểu không có giá trị nào: dùng cho hàm luôn `throw` hoặc lặp vô hạn, và cho nhánh code không thể xảy ra sau khi đã thu hẹp hết các trường hợp. Nó khác `void`: hàm `void` vẫn kết thúc bình thường, chỉ là không trả về giá trị có ích. Lưu ý function declaration luôn throw vẫn được suy ra là `void`, nên muốn có `never` phải khai báo `: never`.",
+        "en": "`never` is the type with no values: it is used for functions that always `throw` or loop forever, and for code branches that cannot happen after every case has been narrowed away. It differs from `void`: a `void` function still finishes normally, it just returns nothing useful. Note that a function declaration that always throws is still inferred as `void`, so you must annotate `: never` explicitly."
+      }
+    },
+    {
+      "id": "typescript.basics.006",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Type inference trong TypeScript là gì? Khi nào nên khai báo kiểu tường minh thay vì để compiler tự suy luận?",
+        "en": "What is type inference in TypeScript? When should you write a type annotation instead of letting the compiler infer it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Compiler tự suy kiểu từ giá trị khởi tạo, `return` và ngữ cảnh",
+          "en": "The compiler infers types from initial values, `return` and context"
+        },
+        {
+          "vi": "Biến cục bộ thường để inference, tránh annotation thừa",
+          "en": "Local variables usually rely on inference, avoiding redundant annotations"
+        },
+        {
+          "vi": "Annotate tham số hàm và kiểu trả về của API export/công khai",
+          "en": "Annotate function parameters and return types of exported/public APIs"
+        },
+        {
+          "vi": "Annotate khi khởi tạo rỗng (`[]`, `null`) hoặc cần kiểu rộng hơn",
+          "en": "Annotate when initialising with empty values (`[]`, `null`) or when a wider type is needed"
+        }
+      ],
+      "explanation": {
+        "vi": "TypeScript tự suy ra kiểu từ giá trị khởi tạo, giá trị trả về và ngữ cảnh sử dụng, nên biến cục bộ như `const total = 0` không cần annotation. Nên khai báo tường minh ở ranh giới: tham số hàm, kiểu trả về của hàm export và API công khai, để lỗi xuất hiện đúng chỗ và hợp đồng không vô tình thay đổi. Cũng cần annotation khi giá trị khởi tạo chưa đủ thông tin, như `[]` hay `null`, hoặc khi muốn kiểu rộng hơn giá trị ban đầu.",
+        "en": "TypeScript infers types from initial values, return values and usage context, so a local like `const total = 0` needs no annotation. Annotate at boundaries: function parameters, return types of exported functions and public APIs, so errors show up in the right place and the contract does not change by accident. You also need annotations when the initial value carries too little information, like `[]` or `null`, or when you want a wider type than the initial value."
+      }
+    },
+    {
+      "id": "typescript.basics.007",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "const config = { mode: \"dev\", retries: 3 } as const;\n\nconst mutable = config as { mode: string };\nmutable.mode = \"prod\";\n\nconsole.log(config.mode);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "dev",
+            "en": "dev"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "prod",
+            "en": "prod"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "TypeError: Cannot assign to read only property",
+            "en": "TypeError: Cannot assign to read only property"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`as const` chỉ có tác dụng lúc biên dịch: thuộc tính thành `readonly` và kiểu giữ literal `\"dev\"`. Nó không gọi `Object.freeze`, nên object lúc chạy vẫn sửa được. Assertion sang `{ mode: string }` hợp lệ vì `readonly` không ảnh hưởng tính tương thích khi gán, nên lệnh gán chạy bình thường và in ra `prod`.",
+        "en": "`as const` only matters at compile time: properties become `readonly` and the type keeps the literal `\"dev\"`. It does not call `Object.freeze`, so the runtime object is still mutable. The assertion to `{ mode: string }` is allowed because `readonly` does not affect assignability, so the assignment runs and `prod` is printed."
+      }
+    },
+    {
+      "id": "typescript.basics.008",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "type Method = \"GET\" | \"POST\";\n\nfunction request(url: string, method: Method) {\n  console.log(method, url);\n}\n\nconst options = { url: \"/users\", method: \"GET\" };\nrequest(options.url, options.method);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`url` phải có kiểu `URL` thay vì `string`",
+            "en": "`url` must be of type `URL` instead of `string`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải đổi `const options` thành `let options`",
+            "en": "`const options` must become `let options`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`options.method` bị widen thành `string`; dùng `as const` hoặc khai báo kiểu cho `options`",
+            "en": "`options.method` is widened to `string`; use `as const` or annotate `options`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`type Method` phải đổi thành `interface Method`",
+            "en": "`type Method` must become `interface Method`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Khi khai báo `const options = { ... }` không có annotation, thuộc tính `method` bị nới rộng thành `string` vì object vẫn có thể bị sửa. `string` không gán được cho `Method` (`\"GET\" | \"POST\"`), nên lời gọi `request` báo lỗi. Cách sửa: thêm `as const` cho object, khai báo `method: \"GET\" as const`, hoặc annotate `const options: { url: string; method: Method }`.",
+        "en": "Declaring `const options = { ... }` without an annotation widens the `method` property to `string`, because the object can still be mutated. `string` is not assignable to `Method` (`\"GET\" | \"POST\"`), so the `request` call fails. Fix: add `as const` to the object, write `method: \"GET\" as const`, or annotate `const options: { url: string; method: Method }`."
+      }
+    },
+    {
+      "id": "typescript.basics.009",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "basics",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "So với annotation `const routes: Record<string, Route> = {...}`, viết `{...} satisfies Record<string, Route>` mang lại gì?",
+        "en": "Compared to annotating `const routes: Record<string, Route> = {...}`, what does `{...} satisfies Record<string, Route>` give you?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "type Route = { path: string };\n\nconst routes = {\n  home: { path: \"/\" },\n  user: { path: \"/user\" },\n} satisfies Record<string, Route>;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chuyển object sang `Record` lúc chạy",
+            "en": "It converts the object into a `Record` at runtime"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tắt excess property check cho object literal",
+            "en": "It disables excess property checks for the object literal"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Biến mọi thuộc tính thành `readonly` như `as const`",
+            "en": "It makes every property `readonly`, like `as const`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Kiểm tra khớp `Record<string, Route>` nhưng vẫn giữ kiểu suy luận cụ thể (biết chính xác key `home`, `user`)",
+            "en": "It checks against `Record<string, Route>` while keeping the specific inferred type (the exact keys `home`, `user`)"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`satisfies` kiểm tra giá trị có khớp kiểu đích không, nhưng kiểu của biến vẫn là kiểu được suy luận từ chính giá trị. Nhờ vậy `routes.home` được biết chắc là tồn tại, còn `routes.hom` (gõ sai) bị báo lỗi. Với annotation `Record<string, Route>`, kiểu cụ thể bị mất: mọi key `string` đều hợp lệ và lỗi gõ sai không được phát hiện. `satisfies` không làm gì lúc chạy.",
+        "en": "`satisfies` checks that the value matches the target type, but the variable keeps the type inferred from the value itself. So `routes.home` is known to exist, and a typo like `routes.hom` is an error. With the `Record<string, Route>` annotation the specific type is lost: every `string` key is accepted and typos go unnoticed. `satisfies` does nothing at runtime."
+      }
+    },
+    {
+      "id": "typescript.basics.010",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "basics",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Với `type UserId = string` và `type OrderId = string`, compiler có chặn việc truyền nhầm `OrderId` vào hàm nhận `UserId` không? Thiết kế cách để compiler bắt được lỗi này.",
+        "en": "With `type UserId = string` and `type OrderId = string`, does the compiler stop you passing an `OrderId` to a function expecting a `UserId`? Design a way to make the compiler catch it."
+      },
+      "keyPoints": [
+        {
+          "vi": "Alias không tạo kiểu mới; structural typing khiến hai alias thay thế được cho nhau",
+          "en": "An alias creates no new type; structural typing makes both aliases interchangeable"
+        },
+        {
+          "vi": "Branded type: `string & { readonly __brand: \"UserId\" }` hoặc dùng `unique symbol`",
+          "en": "Branded type: `string & { readonly __brand: \"UserId\" }` or a `unique symbol`"
+        },
+        {
+          "vi": "Chỉ tạo giá trị qua hàm validate/cast duy nhất ở ranh giới (API, DB)",
+          "en": "Create values only through a single validating/casting function at the boundary (API, DB)"
+        },
+        {
+          "vi": "Không tốn chi phí runtime; đánh đổi là phải cast ở điểm vào",
+          "en": "Zero runtime cost; the trade-off is casting at entry points"
+        }
+      ],
+      "explanation": {
+        "vi": "Type alias chỉ là tên khác của `string`, và TypeScript dùng structural typing nên hai alias hoàn toàn thay thế được cho nhau. Kỹ thuật branded type giả lập nominal typing: `type UserId = string & { readonly __brand: \"UserId\" }`, có thể dùng `unique symbol` để brand không bị trùng. Giá trị chỉ được tạo qua một hàm duy nhất như `toUserId(raw)` dùng `as` sau khi validate, thường đặt ở ranh giới API hoặc DB. Brand chỉ tồn tại ở tầng kiểu nên không tốn chi phí lúc chạy, đổi lại phải cast ở những điểm vào.",
+        "en": "A type alias is just another name for `string`, and TypeScript is structurally typed, so the two aliases are fully interchangeable. Branded types emulate nominal typing: `type UserId = string & { readonly __brand: \"UserId\" }`, optionally with a `unique symbol` so brands cannot collide. Values are created only through one function such as `toUserId(raw)` that uses `as` after validation, usually at the API or DB boundary. The brand exists only at the type level, so there is no runtime cost, at the price of casting at entry points."
+      }
+    },
+    {
+      "id": "typescript.objects.001",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "objects",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Điều nào chỉ `type` alias làm được, còn `interface` thì không?",
+        "en": "Which of these can only a `type` alias do, not an `interface`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Biểu diễn union, ví dụ `type Id = string | number`",
+            "en": "Express a union, e.g. `type Id = string | number`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Mô tả object có method",
+            "en": "Describe an object with methods"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Được mở rộng từ kiểu khác",
+            "en": "Be extended from another type"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Được dùng trong `class X implements ...`",
+            "en": "Be used in `class X implements ...`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`interface` chỉ mô tả kiểu object (kể cả function, class shape), còn `type` alias đặt tên được cho mọi kiểu: union, tuple, primitive, mapped type hay conditional type. Cả hai đều mô tả object có method, đều mở rộng được (`extends` hoặc `&`) và đều dùng được với `implements`.",
+        "en": "An `interface` only describes object types (including function and class shapes), while a `type` alias can name any type: unions, tuples, primitives, mapped types or conditional types. Both can describe objects with methods, both can be extended (`extends` or `&`) and both work with `implements`."
+      }
+    },
+    {
+      "id": "typescript.objects.002",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "objects",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `interface User { name: string; age?: number }` và `strict: true`, `user.age` có kiểu gì?",
+        "en": "Given `interface User { name: string; age?: number }` and `strict: true`, what is the type of `user.age`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`number`",
+            "en": "`number`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`number | undefined`",
+            "en": "`number | undefined`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`number | null`",
+            "en": "`number | null`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`any`",
+            "en": "`any`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Dấu `?` biến thuộc tính thành optional: object có thể không có `age`. Khi đọc, giá trị có thể là `undefined`, nên kiểu là `number | undefined` và phải kiểm tra trước khi dùng như số, ví dụ `user.age ?? 0`. TypeScript không dùng `null` cho thuộc tính optional.",
+        "en": "The `?` makes the property optional: the object may not have `age`. When read, the value may be `undefined`, so the type is `number | undefined` and you must check before using it as a number, e.g. `user.age ?? 0`. TypeScript does not use `null` for optional properties."
+      }
+    },
+    {
+      "id": "typescript.objects.003",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "objects",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "interface Point {\n  readonly x: number;\n  readonly y: number;\n}\n\nconst p: Point = { x: 1, y: 2 };\np.x = 10;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải khai báo `let p` thay vì `const p`",
+            "en": "`p` must be declared with `let` instead of `const`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`readonly` chỉ dùng được trong class",
+            "en": "`readonly` can only be used in classes"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`x` là `readonly` nên không gán lại được; tạo object mới `{ ...p, x: 10 }`",
+            "en": "`x` is `readonly` and cannot be reassigned; create a new object `{ ...p, x: 10 }`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Object literal thiếu thuộc tính `z`",
+            "en": "The object literal is missing a `z` property"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Thuộc tính `readonly` chỉ được gán khi khởi tạo object, nên `p.x = 10` báo lỗi `Cannot assign to 'x' because it is a read-only property`. Cách sửa đúng là tạo object mới: `const moved = { ...p, x: 10 }`. Đổi `const p` thành `let p` không giúp gì vì `readonly` áp lên thuộc tính chứ không phải biến.",
+        "en": "A `readonly` property can only be set when the object is created, so `p.x = 10` fails with `Cannot assign to 'x' because it is a read-only property`. The right fix is to create a new object: `const moved = { ...p, x: 10 }`. Changing `const p` to `let p` does not help because `readonly` applies to the property, not the variable."
+      }
+    },
+    {
+      "id": "typescript.objects.004",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "objects",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "interface Named {\n  name: string;\n}\n\nfunction greet(item: Named): string {\n  return \"Hi \" + item.name;\n}\n\nconst dog = { name: \"Milu\", legs: 4 };\nconsole.log(greet(dog));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lỗi biên dịch: `legs` không có trong `Named`",
+            "en": "Compile error: `legs` is not in `Named`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hi undefined",
+            "en": "Hi undefined"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hi [object Object]",
+            "en": "Hi [object Object]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hi Milu",
+            "en": "Hi Milu"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "TypeScript dùng structural typing: `dog` có `name: string` nên tương thích với `Named`, thuộc tính thừa `legs` không sao. Excess property check chỉ áp dụng khi truyền trực tiếp object literal, ví dụ `greet({ name: \"Milu\", legs: 4 })` mới báo lỗi. Ở đây `dog` là biến nên code biên dịch và in `Hi Milu`.",
+        "en": "TypeScript uses structural typing: `dog` has `name: string`, so it is compatible with `Named` and the extra `legs` property is fine. Excess property checks only apply to object literals passed directly, e.g. `greet({ name: \"Milu\", legs: 4 })` would be an error. Here `dog` is a variable, so the code compiles and prints `Hi Milu`."
+      }
+    },
+    {
+      "id": "typescript.objects.005",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "objects",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khi nào bạn chọn `interface`, khi nào chọn `type` alias để khai báo kiểu?",
+        "en": "When do you choose an `interface` and when a `type` alias to declare a type?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Cả hai mô tả được object; phần lớn trường hợp thay thế được",
+          "en": "Both describe objects; mostly interchangeable"
+        },
+        {
+          "vi": "`interface`: `extends`, declaration merging, hợp với API công khai",
+          "en": "`interface`: `extends`, declaration merging, good for public APIs"
+        },
+        {
+          "vi": "`type`: bắt buộc cho union, tuple, mapped/conditional type",
+          "en": "`type`: required for unions, tuples, mapped/conditional types"
+        },
+        {
+          "vi": "Thống nhất convention trong codebase",
+          "en": "Keep a consistent convention in the codebase"
+        }
+      ],
+      "explanation": {
+        "vi": "Với kiểu object, hai cách gần như thay thế được cho nhau. `interface` hợp với shape của object và API công khai: mở rộng bằng `extends`, hỗ trợ declaration merging và thường cho thông báo lỗi dễ đọc hơn intersection. `type` cần thiết cho union, tuple, alias của primitive, mapped type và conditional type. Quan trọng nhất là thống nhất theo convention của team.",
+        "en": "For object types the two are mostly interchangeable. An `interface` suits object shapes and public APIs: it extends with `extends`, supports declaration merging and usually gives clearer errors than intersections. A `type` is required for unions, tuples, primitive aliases, mapped types and conditional types. Most importantly, follow the team convention consistently."
+      }
+    },
+    {
+      "id": "typescript.objects.006",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "objects",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Dòng nào báo lỗi biên dịch?",
+        "en": "Which line causes a compile error?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "interface Options {\n  timeout: number;\n}\n\nconst a: Options = { timeout: 1000, retry: 3 }; // (1)\n\nconst raw = { timeout: 1000, retry: 3 };\nconst b: Options = raw; // (2)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ dòng (1)",
+            "en": "Only line (1)"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cả (1) và (2)",
+            "en": "Both (1) and (2)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ dòng (2)",
+            "en": "Only line (2)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không dòng nào",
+            "en": "Neither line"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Excess property check chỉ chạy với object literal \"tươi\" được gán trực tiếp cho biến có kiểu: dòng (1) báo `Object literal may only specify known properties`. Ở dòng (2), `raw` là biến đã có kiểu riêng, nên chỉ cần tương thích cấu trúc (có `timeout: number`) là đủ. Đây là cơ chế giúp bắt lỗi gõ sai tên thuộc tính mà không phá structural typing.",
+        "en": "Excess property checks only run on \"fresh\" object literals assigned directly to a typed target: line (1) fails with `Object literal may only specify known properties`. On line (2), `raw` is a variable with its own type, so it only needs to be structurally compatible (it has `timeout: number`). This catches misspelled property names without breaking structural typing."
+      }
+    },
+    {
+      "id": "typescript.objects.007",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "objects",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "type Profile = { nickname?: string };\n\nconst a: Profile = {};\nconst b: Profile = { nickname: undefined };\n\nconsole.log(\"nickname\" in a, \"nickname\" in b, Object.keys(b).length);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "false false 0",
+            "en": "false false 0"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "false true 1",
+            "en": "false true 1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "true true 1",
+            "en": "true true 1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Không bật `exactOptionalPropertyTypes`, thuộc tính optional chấp nhận cả việc vắng mặt lẫn giá trị `undefined`, nên cả hai object đều hợp lệ. Lúc chạy hai trường hợp khác nhau: `a` không có key `nickname`, còn `b` có key với giá trị `undefined`. Vì vậy kết quả là `false true 1`. Bật `exactOptionalPropertyTypes` thì dòng khai báo `b` sẽ báo lỗi.",
+        "en": "Without `exactOptionalPropertyTypes`, an optional property accepts both being absent and holding `undefined`, so both objects are valid. At runtime they differ: `a` has no `nickname` key, while `b` has the key with value `undefined`. So the output is `false true 1`. With `exactOptionalPropertyTypes` enabled, the declaration of `b` becomes an error."
+      }
+    },
+    {
+      "id": "typescript.objects.008",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "objects",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ba khai báo `interface Settings` dưới đây cho kết quả gì?",
+        "en": "What is the result of the three `interface Settings` declarations below?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "interface Settings {\n  theme: string;\n}\n\ninterface Settings {\n  fontSize: number;\n}\n\ninterface Settings {\n  theme: \"dark\" | \"light\";\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`theme` có kiểu `\"dark\" | \"light\"` vì khai báo sau ghi đè",
+            "en": "`theme` becomes `\"dark\" | \"light\"` because the later declaration wins"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`theme` có kiểu `string`, khai báo thứ ba bị bỏ qua",
+            "en": "`theme` stays `string`, the third declaration is ignored"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch: `theme` khai báo lại với kiểu khác",
+            "en": "Compile error: `theme` is redeclared with a different type"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch: `interface` không được khai báo trùng tên",
+            "en": "Compile error: an `interface` name cannot be declared twice"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Các `interface` cùng tên trong cùng scope được gộp (declaration merging), nên `fontSize` được thêm vào `Settings`. Tuy nhiên thuộc tính không phải function khai báo lại phải có cùng kiểu, nên khai báo thứ ba báo `Subsequent property declarations must have the same type`. Chỉ method mới được gộp thành overload. Merging là nền tảng của module augmentation, ví dụ thêm field vào `Request` của Express.",
+        "en": "Same-named `interface`s in the same scope are merged (declaration merging), so `fontSize` is added to `Settings`. However, a non-function property declared again must have the same type, so the third declaration fails with `Subsequent property declarations must have the same type`. Only methods are merged into overloads. Merging is the basis of module augmentation, e.g. adding a field to Express's `Request`."
+      }
+    },
+    {
+      "id": "typescript.objects.009",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "objects",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "interface User {\n  name: string;\n  email: string;\n}\n\nfunction printUser(user: User) {\n  Object.keys(user).forEach((key) => {\n    console.log(key, user[key]);\n  });\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`forEach` không dùng được trên mảng key",
+            "en": "`forEach` cannot be used on the key array"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Callback thiếu kiểu trả về `void`",
+            "en": "The callback is missing a `void` return type"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`interface` phải đổi thành `type` mới index được",
+            "en": "The `interface` must become a `type` to be indexable"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Object.keys` trả về `string[]` nên `user[key]` không index được; ép `as (keyof User)[]` hoặc dùng `Object.entries`",
+            "en": "`Object.keys` returns `string[]`, so `user[key]` cannot index; cast `as (keyof User)[]` or use `Object.entries`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Object.keys` trả về `string[]` chứ không phải `(keyof User)[]`, vì theo structural typing một giá trị kiểu `User` lúc chạy có thể mang thêm key khác. Dùng `string` để index `User` (không có index signature) gây lỗi `Element implicitly has an 'any' type`. Khi chắc chắn object không có key thừa, có thể ép `Object.keys(user) as (keyof User)[]`; hoặc dùng `Object.entries(user)` và chấp nhận value kiểu rộng.",
+        "en": "`Object.keys` returns `string[]`, not `(keyof User)[]`, because under structural typing a `User` value may carry extra keys at runtime. Indexing `User` (which has no index signature) with a `string` causes `Element implicitly has an 'any' type`. When you are sure there are no extra keys, cast `Object.keys(user) as (keyof User)[]`; or use `Object.entries(user)` and accept a wider value type."
+      }
+    },
+    {
+      "id": "typescript.unions.001",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "unions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong hàm nhận `value: string | number`, lời gọi nào hợp lệ khi chưa thu hẹp kiểu?",
+        "en": "In a function taking `value: string | number`, which call is valid without narrowing?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`value.toString()`",
+            "en": "`value.toString()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`value.toUpperCase()`",
+            "en": "`value.toUpperCase()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`value.toFixed(2)`",
+            "en": "`value.toFixed(2)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`value.length`",
+            "en": "`value.length`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Với union, bạn chỉ dùng được những member có ở mọi thành phần. Cả `string` và `number` đều có `toString()`, nên gọi được ngay. `toUpperCase`, `length` chỉ có ở `string`, `toFixed` chỉ có ở `number`; muốn dùng phải thu hẹp bằng `typeof value === \"string\"` trước.",
+        "en": "With a union you can only use members present on every constituent. Both `string` and `number` have `toString()`, so it can be called directly. `toUpperCase` and `length` exist only on `string`, `toFixed` only on `number`; to use them you must narrow with `typeof value === \"string\"` first."
+      }
+    },
+    {
+      "id": "typescript.unions.002",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "unions",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "function describe(input: string | number | boolean): string {\n  if (typeof input === \"string\") return \"text:\" + input.length;\n  if (typeof input === \"number\") return \"num:\" + input.toFixed(1);\n  return \"bool:\" + !input;\n}\n\nconsole.log(describe(\"hi\"), describe(3), describe(false));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "text:2 num:3 bool:false",
+            "en": "text:2 num:3 bool:false"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "text:2 num:3.0 bool:true",
+            "en": "text:2 num:3.0 bool:true"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "text:hi num:3.0 bool:true",
+            "en": "text:hi num:3.0 bool:true"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Mỗi `if (typeof ...)` thu hẹp kiểu của `input`, nên trong nhánh `string` dùng được `.length`, trong nhánh `number` dùng được `.toFixed`. Sau hai lần `return`, kiểu còn lại chỉ là `boolean`. `\"hi\".length` là 2, `(3).toFixed(1)` là `\"3.0\"`, `!false` là `true`, nên kết quả là `text:2 num:3.0 bool:true`.",
+        "en": "Each `if (typeof ...)` narrows `input`, so `.length` is available in the `string` branch and `.toFixed` in the `number` branch. After two `return`s, only `boolean` remains. `\"hi\".length` is 2, `(3).toFixed(1)` is `\"3.0\"` and `!false` is `true`, so the output is `text:2 num:3.0 bool:true`."
+      }
+    },
+    {
+      "id": "typescript.unions.003",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "unions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `type Entity = HasId & HasName` (trong đó `HasId = { id: number }`, `HasName = { name: string }`), một giá trị kiểu `Entity` phải có gì?",
+        "en": "Given `type Entity = HasId & HasName` (where `HasId = { id: number }` and `HasName = { name: string }`), what must a value of type `Entity` have?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ cần `id` hoặc `name`",
+            "en": "Either `id` or `name`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không có thuộc tính nào vì hai kiểu không có key chung",
+            "en": "No properties, because the types share no keys"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả `id` và `name`",
+            "en": "Both `id` and `name`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không có giá trị nào, `Entity` là `never`",
+            "en": "No value at all, `Entity` is `never`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Intersection `A & B` nghĩa là giá trị phải thoả cả `A` lẫn `B`, nên `Entity` cần đủ `id` và `name`. Ngược lại, union `A | B` chỉ cần thoả một trong hai. Intersection của hai primitive không giao nhau như `string & number` mới là `never`.",
+        "en": "An intersection `A & B` means the value must satisfy both `A` and `B`, so `Entity` needs both `id` and `name`. A union `A | B`, by contrast, only needs to satisfy one of them. Only an intersection of disjoint primitives such as `string & number` becomes `never`."
+      }
+    },
+    {
+      "id": "typescript.unions.004",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "unions",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "function shout(message: string | string[]) {\n  return message.toUpperCase();\n}\n\nshout(\"hello\");\nshout([\"a\", \"b\"]);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm `as string`: `(message as string).toUpperCase()`",
+            "en": "Add `as string`: `(message as string).toUpperCase()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hàm thiếu kiểu trả về `: string`",
+            "en": "The function is missing a `: string` return type"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không được truyền mảng literal `[\"a\", \"b\"]` vào hàm",
+            "en": "An array literal `[\"a\", \"b\"]` cannot be passed to a function"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`string[]` không có `toUpperCase`; thu hẹp bằng `Array.isArray(message)` trước",
+            "en": "`string[]` has no `toUpperCase`; narrow with `Array.isArray(message)` first"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`toUpperCase` chỉ có trên `string`, không có trên `string[]`, nên TypeScript báo `Property 'toUpperCase' does not exist on type 'string | string[]'`. Cần thu hẹp kiểu trước: `if (Array.isArray(message)) return message.map((m) => m.toUpperCase());`, sau đó `message` chỉ còn là `string`. Ép `as string` sẽ hết lỗi nhưng vỡ lúc chạy khi truyền mảng.",
+        "en": "`toUpperCase` exists on `string` but not on `string[]`, so TypeScript reports `Property 'toUpperCase' does not exist on type 'string | string[]'`. Narrow first: `if (Array.isArray(message)) return message.map((m) => m.toUpperCase());`, after which `message` is just `string`. Casting with `as string` silences it but crashes at runtime when an array is passed."
+      }
+    },
+    {
+      "id": "typescript.unions.005",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "unions",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao sau `if (r.status === \"success\")`, TypeScript cho phép truy cập `r.data`?",
+        "en": "Why does TypeScript allow `r.data` after `if (r.status === \"success\")`?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "type Result =\n  | { status: \"success\"; data: string }\n  | { status: \"error\"; message: string };\n\nfunction show(r: Result) {\n  if (r.status === \"success\") {\n    console.log(r.data);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`status` là discriminant có literal type riêng ở mỗi thành phần, nên `r` được thu hẹp",
+            "en": "`status` is a discriminant with its own literal type per member, so `r` is narrowed"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "TypeScript luôn cho truy cập mọi thuộc tính của union",
+            "en": "TypeScript always allows any property of a union"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Vì `data` được khai báo trước `message`",
+            "en": "Because `data` is declared before `message`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Vì phép so sánh `===` ép `r` sang `any`",
+            "en": "Because the `===` comparison turns `r` into `any`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Đây là discriminated union: mọi thành phần đều có thuộc tính chung `status` với literal type khác nhau. So sánh `r.status === \"success\"` giúp TypeScript loại bỏ các thành phần không khớp, nên `r` được thu hẹp về `{ status: \"success\"; data: string }`. Discriminant phải là literal type; nếu `status` là `string` thì không thu hẹp được.",
+        "en": "This is a discriminated union: every member shares a `status` property with a different literal type. Comparing `r.status === \"success\"` lets TypeScript eliminate the non-matching members, so `r` is narrowed to `{ status: \"success\"; data: string }`. The discriminant must be a literal type; if `status` were `string`, no narrowing would happen."
+      }
+    },
+    {
+      "id": "typescript.unions.006",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "unions",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "type Shape =\n  | { kind: \"circle\"; radius: number }\n  | { kind: \"square\"; size: number }\n  | { kind: \"triangle\"; base: number; height: number };\n\nfunction area(shape: Shape): number {\n  switch (shape.kind) {\n    case \"circle\":\n      return Math.PI * shape.radius ** 2;\n    case \"square\":\n      return shape.size ** 2;\n    default: {\n      const unreachable: never = shape;\n      return unreachable;\n    }\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không được khai báo biến kiểu `never`",
+            "en": "A variable of type `never` cannot be declared"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thiếu `case \"triangle\"`, nên `shape` ở `default` không phải `never`; thêm case đó",
+            "en": "`case \"triangle\"` is missing, so `shape` in `default` is not `never`; add that case"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Math.PI * shape.radius ** 2` sai thứ tự toán tử",
+            "en": "`Math.PI * shape.radius ** 2` has the wrong operator precedence"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`switch` không thu hẹp được discriminated union, phải dùng `if`",
+            "en": "`switch` cannot narrow a discriminated union; `if` is required"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Nhánh `default` gán `shape` cho biến kiểu `never` là kỹ thuật exhaustive check: nếu còn trường hợp chưa xử lý, kiểu còn lại không phải `never` và compiler báo lỗi. Ở đây thiếu `case \"triangle\"`, nên báo `Type '{ kind: \"triangle\"; ... }' is not assignable to type 'never'`. Cách sửa là thêm `case \"triangle\": return (shape.base * shape.height) / 2;`, không phải xoá dòng kiểm tra.",
+        "en": "Assigning `shape` to a `never` variable in `default` is an exhaustive check: if a case is unhandled, the remaining type is not `never` and the compiler errors. Here `case \"triangle\"` is missing, so it reports `Type '{ kind: \"triangle\"; ... }' is not assignable to type 'never'`. The fix is to add `case \"triangle\": return (shape.base * shape.height) / 2;`, not to delete the check."
+      }
+    },
+    {
+      "id": "typescript.unions.007",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "unions",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "interface Cat {\n  meow(): void;\n}\ninterface Dog {\n  bark(): void;\n}\n\nfunction isCat(pet: Cat | Dog): boolean {\n  return \"meow\" in pet;\n}\n\nfunction speak(pet: Cat | Dog) {\n  if (isCat(pet)) {\n    pet.meow();\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Toán tử `in` không dùng được với interface",
+            "en": "The `in` operator cannot be used with interfaces"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải viết `pet instanceof Cat` trong `isCat`",
+            "en": "`isCat` must use `pet instanceof Cat`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`isCat` trả về `boolean` nên không thu hẹp kiểu; đổi kiểu trả về thành `pet is Cat`",
+            "en": "`isCat` returns `boolean`, which does not narrow; change the return type to `pet is Cat`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Interface không được chứa method không có thân",
+            "en": "An interface cannot contain methods without a body"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Hàm trả về `boolean` thì TypeScript không biết kết quả `true` nghĩa là `pet` là `Cat`, nên trong `if` kiểu vẫn là `Cat | Dog` và `pet.meow()` lỗi. Cần khai báo type predicate: `function isCat(pet: Cat | Dog): pet is Cat`. Từ TS 5.5, nếu bỏ annotation `: boolean`, compiler có thể tự suy ra predicate cho trường hợp đơn giản như này, nhưng annotation `boolean` tường minh sẽ chặn việc đó.",
+        "en": "When the function returns `boolean`, TypeScript does not know that `true` means `pet` is a `Cat`, so inside the `if` the type is still `Cat | Dog` and `pet.meow()` fails. Declare a type predicate: `function isCat(pet: Cat | Dog): pet is Cat`. Since TS 5.5, dropping the `: boolean` annotation lets the compiler infer the predicate in a simple case like this, but an explicit `boolean` annotation prevents that."
+      }
+    },
+    {
+      "id": "typescript.unions.008",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "unions",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Tại vị trí `(*)`, `u` có kiểu gì?",
+        "en": "At position `(*)`, what is the type of `u`?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "type Admin = { role: \"admin\"; permissions: string[] };\ntype Guest = { visitCount: number };\n\nfunction info(u: Admin | Guest) {\n  if (\"permissions\" in u) {\n    // (*)\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Guest`",
+            "en": "`Guest`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Admin | Guest`",
+            "en": "`Admin | Guest`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`never`",
+            "en": "`never`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Admin`",
+            "en": "`Admin`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Toán tử `in` là một cách narrowing: `\"permissions\" in u` chỉ đúng với các thành phần có (hoặc có thể có) thuộc tính `permissions`. Chỉ `Admin` khai báo `permissions`, nên trong nhánh `if` `u` là `Admin`, còn nhánh `else` là `Guest`. Cách này hữu ích khi các kiểu không có discriminant chung.",
+        "en": "The `in` operator narrows: `\"permissions\" in u` is only true for members that have (or may have) a `permissions` property. Only `Admin` declares `permissions`, so inside the `if` `u` is `Admin`, and in the `else` it is `Guest`. This is useful when the types share no discriminant."
+      }
+    },
+    {
+      "id": "typescript.generics.001",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "generics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao `function identity<T>(value: T): T` tốt hơn `function identity(value: any): any`?",
+        "en": "Why is `function identity<T>(value: T): T` better than `function identity(value: any): any`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Giữ được kiểu của đầu ra theo đầu vào, ví dụ `identity(\"a\")` trả về `string`",
+            "en": "The output type follows the input, e.g. `identity(\"a\")` returns `string`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chạy nhanh hơn vì không phải kiểm tra kiểu lúc chạy",
+            "en": "It runs faster because there is no runtime type check"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ nhận được kiểu object",
+            "en": "It only accepts object types"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tự động chuyển đổi giá trị sang kiểu `T`",
+            "en": "It converts the value to type `T` automatically"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Generic giữ liên kết giữa kiểu đầu vào và đầu ra: `identity(\"a\")` trả về `string`, `identity(42)` trả về `number`, và lỗi dùng sai vẫn được bắt. Với `any`, kết quả cũng là `any` nên mọi kiểm tra phía sau đều mất. Cả hai cách đều chạy như nhau lúc chạy vì kiểu bị xoá.",
+        "en": "Generics keep the link between input and output types: `identity(\"a\")` returns `string`, `identity(42)` returns `number`, and misuse is still caught. With `any` the result is also `any`, so every check after it is lost. Both versions behave the same at runtime because types are erased."
+      }
+    },
+    {
+      "id": "typescript.generics.002",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "generics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "function first<T>(items: T[]): T | undefined {\n  return items[0];\n}\n\nconst a = first([10, 20, 30]);\nconst b = first<string>([]);\nconsole.log(a, b);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "10 null",
+            "en": "10 null"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "10 undefined",
+            "en": "10 undefined"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[ 10 ] undefined",
+            "en": "[ 10 ] undefined"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`T` được suy ra là `number` cho lời gọi đầu, nên `a` có kiểu `number | undefined` và giá trị `10`. Lời gọi thứ hai chỉ định `T = string` với mảng rỗng; `items[0]` của mảng rỗng là `undefined` (không phải `null`). Kết quả in ra `10 undefined`.",
+        "en": "`T` is inferred as `number` for the first call, so `a` has type `number | undefined` and value `10`. The second call sets `T = string` with an empty array; `items[0]` of an empty array is `undefined` (not `null`). The output is `10 undefined`."
+      }
+    },
+    {
+      "id": "typescript.generics.003",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "generics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`Array<string>` và `string[]` khác nhau thế nào?",
+        "en": "How do `Array<string>` and `string[]` differ?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`string[]` là mảng readonly",
+            "en": "`string[]` is a readonly array"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Array<string>` cho phép phần tử `null`",
+            "en": "`Array<string>` allows `null` elements"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Giống hệt nhau, `string[]` là cú pháp rút gọn",
+            "en": "They are identical; `string[]` is shorthand"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Array<string>` chậm hơn lúc chạy",
+            "en": "`Array<string>` is slower at runtime"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Hai cách viết hoàn toàn tương đương, `string[]` chỉ là cú pháp rút gọn của generic `Array<string>`. Nhiều team ưu tiên `string[]` cho kiểu đơn giản và `Array<...>` khi kiểu phần tử phức tạp như `Array<string | number>`. Mảng chỉ đọc viết là `readonly string[]` hoặc `ReadonlyArray<string>`.",
+        "en": "They are exactly equivalent; `string[]` is just shorthand for the generic `Array<string>`. Many teams prefer `string[]` for simple types and `Array<...>` when the element type is complex, like `Array<string | number>`. A read-only array is written `readonly string[]` or `ReadonlyArray<string>`."
+      }
+    },
+    {
+      "id": "typescript.generics.004",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "generics",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Generic trong TypeScript là gì và vì sao cần nó? Cho ví dụ.",
+        "en": "What are generics in TypeScript and why are they needed? Give an example."
+      },
+      "keyPoints": [
+        {
+          "vi": "Tham số hoá kiểu để tái sử dụng code cho nhiều kiểu",
+          "en": "Parameterises types to reuse code across many types"
+        },
+        {
+          "vi": "Giữ type safety, khác với dùng `any`",
+          "en": "Keeps type safety, unlike using `any`"
+        },
+        {
+          "vi": "Ví dụ: `Array<T>`, `Promise<T>`, hàm/class generic tự viết",
+          "en": "Examples: `Array<T>`, `Promise<T>`, custom generic functions/classes"
+        },
+        {
+          "vi": "TypeScript thường tự suy ra `T`; giới hạn bằng `extends`",
+          "en": "TypeScript usually infers `T`; constrain it with `extends`"
+        }
+      ],
+      "explanation": {
+        "vi": "Generic cho phép tham số hoá kiểu giống như tham số hoá giá trị trong hàm, để một hàm, class hay interface dùng được với nhiều kiểu mà vẫn type-safe. Ví dụ quen thuộc là `Array<T>`, `Promise<T>` hay `function first<T>(items: T[]): T | undefined`. Thường không cần truyền `T` vì TypeScript tự suy ra từ đối số. Có thể giới hạn `T` bằng constraint như `T extends { id: number }`.",
+        "en": "Generics let you parameterise types the way function parameters parameterise values, so one function, class or interface works with many types while staying type-safe. Familiar examples are `Array<T>`, `Promise<T>` or `function first<T>(items: T[]): T | undefined`. You usually do not pass `T` explicitly because TypeScript infers it from the arguments. `T` can be limited with a constraint such as `T extends { id: number }`."
+      }
+    },
+    {
+      "id": "typescript.generics.005",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "generics",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "function longest<T>(a: T, b: T): T {\n  return a.length >= b.length ? a : b;\n}\n\nconsole.log(longest(\"abc\", \"de\"));\nconsole.log(longest([1, 2], [1, 2, 3]));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải gọi `longest<string>(...)` tường minh",
+            "en": "It must be called explicitly as `longest<string>(...)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không được truyền mảng vào hàm generic",
+            "en": "Arrays cannot be passed to a generic function"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Toán tử `>=` không dùng được với `number`",
+            "en": "The `>=` operator does not work on `number`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`T` chưa có constraint; khai báo `T extends { length: number }`",
+            "en": "`T` has no constraint; declare `T extends { length: number }`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`T` không có constraint nên có thể là bất kỳ kiểu nào, kể cả `number`, và TypeScript báo `Property 'length' does not exist on type 'T'`. Thêm constraint `T extends { length: number }` để chỉ nhận kiểu có `length`, khi đó cả `string` lẫn mảng đều hợp lệ và kiểu trả về vẫn giữ đúng `T`. Dùng `any` cũng hết lỗi nhưng mất kiểu trả về.",
+        "en": "`T` has no constraint, so it could be anything, including `number`, and TypeScript reports `Property 'length' does not exist on type 'T'`. Adding the constraint `T extends { length: number }` accepts only types with `length`, so both strings and arrays work and the return type stays `T`. Using `any` also removes the error but loses the return type."
+      }
+    },
+    {
+      "id": "typescript.generics.006",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "generics",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`v` có kiểu gì?",
+        "en": "What is the type of `v`?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "function getProp<T, K extends keyof T>(obj: T, key: K): T[K] {\n  return obj[key];\n}\n\nconst user = { id: 1, name: \"An\", active: true };\nconst v = getProp(user, \"name\");"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`string`",
+            "en": "`string`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`string | number | boolean`",
+            "en": "`string | number | boolean`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`any`",
+            "en": "`any`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`\"name\"`",
+            "en": "`\"name\"`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`K extends keyof T` giới hạn `key` trong các key của `user` (`\"id\" | \"name\" | \"active\"`), và kiểu trả về `T[K]` là indexed access type. Với `key = \"name\"`, `K` được suy ra là literal `\"name\"`, nên `T[K]` là `string`. Gọi `getProp(user, \"email\")` sẽ lỗi biên dịch vì `\"email\"` không thuộc `keyof T`.",
+        "en": "`K extends keyof T` limits `key` to the keys of `user` (`\"id\" | \"name\" | \"active\"`), and the return type `T[K]` is an indexed access type. With `key = \"name\"`, `K` is inferred as the literal `\"name\"`, so `T[K]` is `string`. Calling `getProp(user, \"email\")` is a compile error because `\"email\"` is not in `keyof T`."
+      }
+    },
+    {
+      "id": "typescript.generics.007",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "generics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "class Stack<T> {\n  private items: T[] = [];\n\n  push(item: T): this {\n    this.items.push(item);\n    return this;\n  }\n\n  pop(): T | undefined {\n    return this.items.pop();\n  }\n\n  get size(): number {\n    return this.items.length;\n  }\n}\n\nconst s = new Stack<number>().push(1).push(2).push(3);\ns.pop();\nconsole.log(s.size, s.pop());"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "3 3",
+            "en": "3 3"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "2 2",
+            "en": "2 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "2 3",
+            "en": "2 3"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "3 2",
+            "en": "3 2"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`push` trả về `this` nên gọi nối chuỗi được, stack chứa `[1, 2, 3]`. Lệnh `s.pop()` đầu tiên lấy ra `3`, còn lại `[1, 2]`. Trong `console.log`, đối số được tính từ trái sang phải: `s.size` là `2` trước, sau đó `s.pop()` trả về `2`. Kết quả: `2 2`.",
+        "en": "`push` returns `this`, so calls can be chained and the stack holds `[1, 2, 3]`. The first `s.pop()` removes `3`, leaving `[1, 2]`. Inside `console.log` the arguments are evaluated left to right: `s.size` is `2` first, then `s.pop()` returns `2`. Output: `2 2`."
+      }
+    },
+    {
+      "id": "typescript.generics.008",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "generics",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`r.data` có kiểu gì?",
+        "en": "What is the type of `r.data`?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "interface ApiResponse<T = unknown> {\n  data: T;\n  status: number;\n}\n\nconst r: ApiResponse = { data: { id: 1 }, status: 200 };"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`{ id: number }`",
+            "en": "`{ id: number }`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`any`",
+            "en": "`any`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`unknown`",
+            "en": "`unknown`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch vì thiếu tham số kiểu",
+            "en": "Compile error: missing type argument"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Khi dùng `ApiResponse` mà không truyền tham số kiểu, TypeScript lấy giá trị mặc định `T = unknown`. Annotation kiểu của biến không suy luận `T` từ giá trị gán vào, nên `r.data` là `unknown` dù object thật có `id`. Muốn có kiểu cụ thể thì viết `ApiResponse<{ id: number }>`. Default type parameter hay dùng để API dễ dùng mà vẫn an toàn.",
+        "en": "When `ApiResponse` is used without a type argument, TypeScript uses the default `T = unknown`. A variable annotation does not infer `T` from the assigned value, so `r.data` is `unknown` even though the actual object has `id`. For a specific type, write `ApiResponse<{ id: number }>`. Default type parameters keep APIs convenient while staying safe."
+      }
+    },
+    {
+      "id": "typescript.generics.009",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "generics",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích variance trong TypeScript: vì sao với `strictFunctionTypes`, `(x: Animal) => void` gán được cho `(x: Dog) => void` nhưng ngược lại thì không? Method syntax khác gì?",
+        "en": "Explain variance in TypeScript: why, with `strictFunctionTypes`, is `(x: Animal) => void` assignable to `(x: Dog) => void` but not the reverse? How does method syntax differ?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Covariance ở vị trí đầu ra: kiểu con dùng thay kiểu cha",
+          "en": "Covariance in output positions: a subtype can replace a supertype"
+        },
+        {
+          "vi": "Tham số hàm contravariant dưới `strictFunctionTypes`, kèm ví dụ `Cat` truyền vào handler của `Dog`",
+          "en": "Parameters are contravariant under `strictFunctionTypes`, with the `Cat`-into-`Dog`-handler example"
+        },
+        {
+          "vi": "Method syntax vẫn bivariant; dùng function property để kiểm tra chặt",
+          "en": "Method syntax stays bivariant; use function properties for strict checks"
+        },
+        {
+          "vi": "Mảng mutable covariant là unsound",
+          "en": "Covariant mutable arrays are unsound"
+        },
+        {
+          "vi": "Annotation `in`/`out` (TS 4.7+) để ghi rõ variance",
+          "en": "`in`/`out` annotations (TS 4.7+) declare variance explicitly"
+        }
+      ],
+      "explanation": {
+        "vi": "Kiểu ở vị trí đầu ra (giá trị trả về, thuộc tính readonly) là covariant: `Dog` dùng được ở nơi cần `Animal`. Tham số hàm là contravariant: hàm xử lý được mọi `Animal` thì an toàn khi chỉ nhận `Dog`, còn hàm chỉ biết `Dog` mà nhận `Cat` sẽ hỏng. `strictFunctionTypes` chỉ áp dụng cho kiểu khai báo bằng cú pháp function property; method syntax như `handle(x: T): void` vẫn bivariant vì lý do tương thích, nên kém an toàn hơn. Mảng mutable cũng covariant một cách unsound, và TS 4.7+ cho phép ghi rõ variance bằng `in`/`out` trên type parameter.",
+        "en": "Output positions (return values, readonly properties) are covariant: a `Dog` can be used where an `Animal` is expected. Function parameters are contravariant: a function that handles any `Animal` is safe where only `Dog`s are passed, while a function that only knows `Dog` breaks when given a `Cat`. `strictFunctionTypes` only applies to types written as function properties; method syntax such as `handle(x: T): void` stays bivariant for compatibility, which is less safe. Mutable arrays are also covariant in an unsound way, and TS 4.7+ lets you state variance explicitly with `in`/`out` on type parameters."
+      }
+    },
+    {
+      "id": "typescript.utility.001",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "utility",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`Partial<User>` tạo ra kiểu gì?",
+        "en": "What type does `Partial<User>` produce?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Kiểu chỉ chứa thuộc tính bắt buộc của `User`",
+            "en": "A type with only the required properties of `User`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Kiểu `User` mà mọi thuộc tính là `readonly`",
+            "en": "`User` with every property `readonly`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Kiểu chỉ chứa một nửa số thuộc tính của `User`",
+            "en": "A type with half of `User`'s properties"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Kiểu giống `User` nhưng mọi thuộc tính đều optional",
+            "en": "Same as `User` but every property is optional"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Partial<T>` là mapped type thêm `?` cho mọi thuộc tính của `T`, nên mọi field đều thành optional. Nó hay dùng cho dữ liệu cập nhật một phần hoặc tuỳ chọn có giá trị mặc định. Ngược lại, `Required<T>` bỏ `?`, còn `Readonly<T>` thêm `readonly`.",
+        "en": "`Partial<T>` is a mapped type that adds `?` to every property of `T`, so all fields become optional. It is common for partial updates or options with defaults. Conversely, `Required<T>` removes `?` and `Readonly<T>` adds `readonly`."
+      }
+    },
+    {
+      "id": "typescript.utility.002",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "utility",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt giữa `Pick<User, \"id\" | \"name\">` và `Omit<User, \"password\">` là gì?",
+        "en": "What is the difference between `Pick<User, \"id\" | \"name\">` and `Omit<User, \"password\">`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Pick` giữ các key được liệt kê, `Omit` bỏ các key được liệt kê",
+            "en": "`Pick` keeps the listed keys, `Omit` removes the listed keys"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Pick` bỏ các key được liệt kê, `Omit` giữ chúng",
+            "en": "`Pick` removes the listed keys, `Omit` keeps them"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Pick` xoá thuộc tính khỏi object lúc chạy",
+            "en": "`Pick` deletes properties from the object at runtime"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hai kiểu luôn cho kết quả giống nhau",
+            "en": "They always produce the same type"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Pick<T, K>` tạo kiểu mới chỉ gồm các key được liệt kê trong `K`. `Omit<T, K>` làm ngược lại: giữ mọi key của `T` trừ các key trong `K`. Chọn `Pick` khi chỉ cần vài field, `Omit` khi muốn bỏ ít field như `password`.",
+        "en": "`Pick<T, K>` creates a new type with only the keys listed in `K`. `Omit<T, K>` does the opposite: it keeps every key of `T` except those in `K`. Choose `Pick` when you need a few fields and `Omit` when you want to drop a few, like `password`."
+      }
+    },
+    {
+      "id": "typescript.utility.003",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "utility",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "interface Options {\n  color: string;\n  size: number;\n}\n\nconst defaults: Options = { color: \"red\", size: 1 };\n\nfunction create(opts: Partial<Options>): Options {\n  return { ...defaults, ...opts };\n}\n\nconst a = create({ size: 3 });\nconsole.log(a.color, a.size, create({}).size);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "red 3 undefined",
+            "en": "red 3 undefined"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "red 3 1",
+            "en": "red 3 1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "undefined 3 1",
+            "en": "undefined 3 1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Partial<Options>` cho phép truyền chỉ một phần tuỳ chọn. Spread `{ ...defaults, ...opts }` lấy giá trị mặc định rồi ghi đè bằng những gì được truyền vào. `create({ size: 3 })` cho `color: \"red\", size: 3`, còn `create({})` giữ nguyên `size: 1`, nên kết quả là `red 3 1`.",
+        "en": "`Partial<Options>` lets callers pass only some options. The spread `{ ...defaults, ...opts }` starts with the defaults and overrides them with whatever was passed. `create({ size: 3 })` yields `color: \"red\", size: 3`, and `create({})` keeps `size: 1`, so the output is `red 3 1`."
+      }
+    },
+    {
+      "id": "typescript.utility.004",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "utility",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Object literal nào gán được cho biến kiểu `PublicUser`?",
+        "en": "Which object literal can be assigned to a variable of type `PublicUser`?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "interface User {\n  id: number;\n  email: string;\n  password: string;\n}\n\ntype PublicUser = Omit<User, \"password\">;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`{ id: 1, email: \"a@x.com\", password: \"123\" }`",
+            "en": "`{ id: 1, email: \"a@x.com\", password: \"123\" }`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`{ id: 1 }`",
+            "en": "`{ id: 1 }`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`{ id: 1, email: \"a@x.com\" }`",
+            "en": "`{ id: 1, email: \"a@x.com\" }`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`{ email: \"a@x.com\" }`",
+            "en": "`{ email: \"a@x.com\" }`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Omit<User, \"password\">` giữ `id` và `email`, cả hai vẫn bắt buộc. Object có thêm `password` bị excess property check chặn vì gán trực tiếp object literal. Object thiếu `email` hoặc thiếu `id` cũng không hợp lệ.",
+        "en": "`Omit<User, \"password\">` keeps `id` and `email`, both still required. An object that also has `password` is rejected by the excess property check because it is a direct object literal. Objects missing `email` or `id` are invalid too."
+      }
+    },
+    {
+      "id": "typescript.utility.005",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "utility",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "type Lang = \"vi\" | \"en\" | \"ja\";\n\nconst greetings: Record<Lang, string> = {\n  vi: \"Xin chào\",\n  en: \"Hello\",\n};\n\nconsole.log(greetings.vi);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Record` chỉ nhận key kiểu `string`, không nhận union",
+            "en": "`Record` only accepts `string` keys, not a union"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giá trị tiếng Việt có dấu không hợp lệ trong `string`",
+            "en": "Vietnamese text with diacritics is not a valid `string`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải truy cập bằng `greetings[\"vi\"]` thay vì `greetings.vi`",
+            "en": "It must be accessed as `greetings[\"vi\"]` instead of `greetings.vi`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Record<Lang, string>` bắt buộc đủ key; thiếu `ja` (thêm vào hoặc dùng `Partial<Record<...>>`)",
+            "en": "`Record<Lang, string>` requires all keys; `ja` is missing (add it or use `Partial<Record<...>>`)"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Record<Lang, string>` yêu cầu đủ mọi key trong union `Lang`, nên thiếu `ja` sẽ báo `Property 'ja' is missing`. Đây là điểm mạnh của `Record`: thêm ngôn ngữ mới vào `Lang` thì compiler chỉ ra mọi chỗ chưa dịch. Nếu thật sự cho phép thiếu, dùng `Partial<Record<Lang, string>>` và xử lý trường hợp `undefined` khi đọc.",
+        "en": "`Record<Lang, string>` requires every key of the `Lang` union, so the missing `ja` reports `Property 'ja' is missing`. That is the strength of `Record`: add a new language to `Lang` and the compiler points to every untranslated spot. If missing keys are truly allowed, use `Partial<Record<Lang, string>>` and handle `undefined` when reading."
+      }
+    },
+    {
+      "id": "typescript.utility.006",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "utility",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`User` có kiểu gì?",
+        "en": "What is the type of `User`?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "function createUser(name: string) {\n  return { name, createdAt: new Date() };\n}\n\ntype User = ReturnType<typeof createUser>;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`{ name: string; createdAt: Date }`",
+            "en": "`{ name: string; createdAt: Date }`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`(name: string) => { name: string; createdAt: Date }`",
+            "en": "`(name: string) => { name: string; createdAt: Date }`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Function`",
+            "en": "`Function`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`any`",
+            "en": "`any`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`ReturnType<F>` lấy kiểu trả về của một function type. Vì `createUser` là giá trị, cần `typeof createUser` để lấy kiểu của nó, sau đó `ReturnType` cho ra `{ name: string; createdAt: Date }`. Viết `ReturnType<createUser>` sẽ lỗi vì `createUser` không phải kiểu. Cách này giúp không phải khai báo lại kiểu mà hàm đã suy ra.",
+        "en": "`ReturnType<F>` extracts the return type of a function type. Since `createUser` is a value, you need `typeof createUser` to get its type, then `ReturnType` yields `{ name: string; createdAt: Date }`. Writing `ReturnType<createUser>` fails because `createUser` is not a type. This avoids re-declaring a type the function already infers."
+      }
+    },
+    {
+      "id": "typescript.utility.007",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "utility",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "type Status = \"idle\" | \"loading\" | \"done\";\n\nconst labels: Record<Status, string> = {\n  idle: \"Idle\",\n  loading: \"Loading\",\n  done: \"Done\",\n};\n\nfunction label(s: Status): string {\n  return labels[s] ?? \"Unknown\";\n}\n\nconsole.log(label(\"loading\"), label(\"oops\" as Status));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Loading undefined",
+            "en": "Loading undefined"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Loading Unknown",
+            "en": "Loading Unknown"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi lúc chạy",
+            "en": "Runtime error"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`label(\"loading\")` tra được `\"Loading\"`. Với `\"oops\" as Status`, assertion đánh lừa compiler: lúc chạy không có key `oops` nên `labels[s]` là `undefined`, và `??` thay bằng `\"Unknown\"`. Bài học là `as` không kiểm tra gì lúc chạy; dữ liệu từ bên ngoài cần validate trước khi coi là `Status`.",
+        "en": "`label(\"loading\")` finds `\"Loading\"`. With `\"oops\" as Status`, the assertion fools the compiler: at runtime there is no `oops` key, so `labels[s]` is `undefined` and `??` replaces it with `\"Unknown\"`. The lesson is that `as` checks nothing at runtime; external data needs validation before being treated as a `Status`."
+      }
+    },
+    {
+      "id": "typescript.utility.008",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "utility",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khi nào nên dẫn xuất kiểu bằng `Pick`, `Omit`, `Partial` từ kiểu có sẵn, khi nào nên viết một interface mới?",
+        "en": "When should you derive types with `Pick`, `Omit`, `Partial` from an existing type, and when should you write a new interface?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Một nguồn sự thật: đổi kiểu gốc thì kiểu dẫn xuất tự cập nhật",
+          "en": "Single source of truth: derived types follow the base type"
+        },
+        {
+          "vi": "Ví dụ DTO: `Omit<User, \"id\">` cho create, `Partial<...>` cho update",
+          "en": "DTO example: `Omit<User, \"id\">` for create, `Partial<...>` for update"
+        },
+        {
+          "vi": "`Omit` không kiểm tra key tồn tại, gõ sai không bị báo",
+          "en": "`Omit` does not check that keys exist, so typos go unnoticed"
+        },
+        {
+          "vi": "Viết kiểu riêng khi ý nghĩa nghiệp vụ khác hoặc thay đổi độc lập",
+          "en": "Write a separate type when the domain meaning differs or evolves independently"
+        }
+      ],
+      "explanation": {
+        "vi": "Dẫn xuất giữ một nguồn sự thật: sửa `User` thì các kiểu như `CreateUserDto = Omit<User, \"id\" | \"createdAt\">` hay `UpdateUserDto = Partial<CreateUserDto>` tự cập nhật theo. Cần biết `Omit` không báo lỗi khi key không tồn tại, nên gõ sai tên key sẽ lặng lẽ không có tác dụng. Nếu kiểu mới mang ý nghĩa nghiệp vụ khác hẳn hoặc sẽ thay đổi độc lập, viết riêng để tránh coupling. Lồng quá nhiều utility type cũng làm kiểu khó đọc.",
+        "en": "Deriving keeps a single source of truth: change `User` and types like `CreateUserDto = Omit<User, \"id\" | \"createdAt\">` or `UpdateUserDto = Partial<CreateUserDto>` follow automatically. Note that `Omit` does not error on keys that do not exist, so a misspelled key silently does nothing. If the new type has a different domain meaning or will evolve independently, write it separately to avoid coupling. Deeply nested utility types also hurt readability."
+      }
+    },
+    {
+      "id": "typescript.utility.009",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "utility",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`A` có kiểu gì?",
+        "en": "What is the type of `A`?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "type Unwrap<T> = T extends Promise<infer U> ? U : T;\n\ntype A = Unwrap<Promise<string> | number>;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Promise<string> | number`",
+            "en": "`Promise<string> | number`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`string`",
+            "en": "`string`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`string | number`",
+            "en": "`string | number`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`never`",
+            "en": "`never`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Conditional type trên tham số kiểu trần (`T extends ...`) là distributive: với union, nó áp dụng cho từng thành phần rồi gộp lại. `Promise<string>` khớp `Promise<infer U>` nên `infer` bắt được `U = string`; `number` không khớp nên giữ nguyên `number`. Kết quả là `string | number`. Muốn tắt tính distributive thì bọc hai vế: `[T] extends [Promise<infer U>]`.",
+        "en": "A conditional type on a naked type parameter (`T extends ...`) is distributive: over a union it applies to each member and unions the results. `Promise<string>` matches `Promise<infer U>`, so `infer` captures `U = string`; `number` does not match and stays `number`. The result is `string | number`. To disable distribution, wrap both sides: `[T] extends [Promise<infer U>]`."
+      }
+    },
+    {
+      "id": "typescript.utility.010",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "utility",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "type Getters<T> = {\n  [K in keyof T as `get${Capitalize<K>}`]: () => T[K];\n};\n\ninterface Person {\n  name: string;\n  age: number;\n}\n\ntype PersonGetters = Getters<Person>;\n// mong muốn / expected: { getName: () => string; getAge: () => number }"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mapped type không hỗ trợ mệnh đề `as`",
+            "en": "Mapped types do not support an `as` clause"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Template literal type không dùng được trong key",
+            "en": "Template literal types cannot be used as keys"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải viết `T[keyof T]` thay vì `T[K]`",
+            "en": "`T[K]` must be written as `T[keyof T]`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`K` có thể là `number | symbol`; dùng `Capitalize<string & K>`",
+            "en": "`K` may be `number | symbol`; use `Capitalize<string & K>`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`keyof T` có thể gồm `string | number | symbol`, trong khi `Capitalize` chỉ nhận kiểu con của `string`, nên compiler báo `Type 'K' does not satisfy the constraint 'string'`. Cách sửa như trong Handbook: `` `get${Capitalize<string & K>}` ``, intersection với `string` loại bỏ key `number`/`symbol`. Cú pháp `as` trong mapped type (key remapping) vẫn đúng, không cần bỏ.",
+        "en": "`keyof T` may include `string | number | symbol`, while `Capitalize` only accepts subtypes of `string`, so the compiler reports `Type 'K' does not satisfy the constraint 'string'`. The Handbook fix is `` `get${Capitalize<string & K>}` ``; intersecting with `string` drops `number`/`symbol` keys. The `as` clause in the mapped type (key remapping) is fine and should stay."
+      }
+    },
+    {
+      "id": "typescript.classes.001",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "classes",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong method `show()` của class con `Savings`, truy cập được những thuộc tính nào của `Account`?",
+        "en": "Inside the `show()` method of the subclass `Savings`, which `Account` properties can be accessed?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "class Account {\n  public owner = \"An\";\n  protected balance = 100;\n  private pin = \"1234\";\n}\n\nclass Savings extends Account {\n  show() {\n    // this.owner? this.balance? this.pin?\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`owner`, `balance`",
+            "en": "`owner`, `balance`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`owner`",
+            "en": "`owner`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`owner`, `balance`, `pin`",
+            "en": "`owner`, `balance`, `pin`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`owner`, `pin`",
+            "en": "`owner`, `pin`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`public` truy cập được ở mọi nơi, `protected` truy cập được trong class đó và các class con, còn `private` chỉ trong chính class khai báo. Vì vậy `Savings` dùng được `owner` và `balance` nhưng `this.pin` báo lỗi. Lưu ý đây là kiểm tra lúc biên dịch của TypeScript.",
+        "en": "`public` is accessible everywhere, `protected` within the class and its subclasses, and `private` only inside the declaring class. So `Savings` can use `owner` and `balance`, but `this.pin` is an error. Note these are TypeScript compile-time checks."
+      }
+    },
+    {
+      "id": "typescript.classes.002",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "classes",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "abstract class Shape {\n  abstract area(): number;\n\n  describe(): string {\n    return `Area: ${this.area()}`;\n  }\n}\n\nconst s = new Shape();\nconsole.log(s.describe());"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Abstract class không được có method có thân như `describe`",
+            "en": "An abstract class cannot have a concrete method like `describe`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không `new` được abstract class; tạo class con cài đặt `area()`",
+            "en": "An abstract class cannot be `new`-ed; create a subclass that implements `area()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`abstract area()` phải có thân hàm",
+            "en": "`abstract area()` must have a body"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Template string không dùng được trong class",
+            "en": "Template strings cannot be used inside a class"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Abstract class chỉ dùng làm lớp cơ sở, không tạo instance trực tiếp được, nên `new Shape()` báo `Cannot create an instance of an abstract class`. Cách sửa là tạo class con cài đặt `area()`, ví dụ `class Square extends Shape { area() { return 4; } }`, rồi `new Square()`. Method `describe` có thân trong abstract class là hoàn toàn hợp lệ.",
+        "en": "An abstract class is only a base class and cannot be instantiated directly, so `new Shape()` fails with `Cannot create an instance of an abstract class`. The fix is a subclass that implements `area()`, e.g. `class Square extends Shape { area() { return 4; } }`, then `new Square()`. A concrete `describe` method inside an abstract class is perfectly valid."
+      }
+    },
+    {
+      "id": "typescript.classes.003",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "classes",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`class Car implements Vehicle` (với `Vehicle` là interface) nghĩa là gì?",
+        "en": "What does `class Car implements Vehicle` (where `Vehicle` is an interface) mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Car` kế thừa cài đặt method từ `Vehicle`",
+            "en": "`Car` inherits method implementations from `Vehicle`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Car` chỉ được có đúng các member của `Vehicle`, không thêm được",
+            "en": "`Car` may only have `Vehicle`'s members, nothing more"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Compiler kiểm tra `Car` có đủ member của `Vehicle`; không kế thừa code nào",
+            "en": "The compiler checks `Car` has all of `Vehicle`'s members; no code is inherited"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lúc chạy có thể kiểm tra `car instanceof Vehicle`",
+            "en": "At runtime you can check `car instanceof Vehicle`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`implements` chỉ yêu cầu compiler kiểm tra `Car` có đủ các member mà `Vehicle` khai báo với kiểu tương thích. Nó không kế thừa code nào và không sinh ra gì lúc chạy, khác với `extends` một class. Một class có thể `implements` nhiều interface cùng lúc.",
+        "en": "`implements` only asks the compiler to check that `Car` has every member `Vehicle` declares, with compatible types. It inherits no code and produces nothing at runtime, unlike `extends` on a class. A class can `implements` several interfaces at once."
+      }
+    },
+    {
+      "id": "typescript.classes.004",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "classes",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Constructor `constructor(private readonly id: string) {}` làm gì?",
+        "en": "What does the constructor `constructor(private readonly id: string) {}` do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ khai báo kiểu tham số, phải tự gán `this.id = id`",
+            "en": "It only types the parameter; you must assign `this.id = id` yourself"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tạo biến cục bộ `id` chỉ tồn tại trong constructor",
+            "en": "Creates a local `id` variable that only exists in the constructor"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch: tham số không được có modifier",
+            "en": "Compile error: parameters cannot have modifiers"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Khai báo field `id` private, readonly và tự gán `this.id = id`",
+            "en": "Declares a private, readonly `id` field and assigns `this.id = id` automatically"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Đây là parameter property: thêm modifier (`private`, `public`, `protected`, `readonly`) vào tham số constructor sẽ vừa khai báo field vừa gán `this.id = id`. Cú pháp này sinh code lúc chạy nên không phải erasable syntax; Node type stripping không hỗ trợ và flag `erasableSyntaxOnly` (TS 5.8) sẽ báo lỗi. Trong dự án đó, hãy khai báo field và gán trong constructor như bình thường.",
+        "en": "This is a parameter property: putting a modifier (`private`, `public`, `protected`, `readonly`) on a constructor parameter both declares the field and assigns `this.id = id`. It generates runtime code, so it is not erasable syntax; Node type stripping does not support it and the `erasableSyntaxOnly` flag (TS 5.8) reports it. In such projects, declare the field and assign it in the constructor as usual."
+      }
+    },
+    {
+      "id": "typescript.classes.005",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "classes",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "class Wallet {\n  private balance = 100;\n  #pin = \"0000\";\n\n  hasPin(): boolean {\n    return this.#pin.length > 0;\n  }\n}\n\nconst w = new Wallet();\nconst leaked = w as any;\nconsole.log(leaked.balance, leaked.pin, Object.keys(w));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "100 undefined [ 'balance' ]",
+            "en": "100 undefined [ 'balance' ]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "undefined undefined []",
+            "en": "undefined undefined []"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "100 0000 [ 'balance', 'pin' ]",
+            "en": "100 0000 [ 'balance', 'pin' ]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`private` của TypeScript chỉ là kiểm tra lúc biên dịch; sau khi xoá kiểu, `balance` là field bình thường nên `(w as any).balance` đọc được `100` và nó xuất hiện trong `Object.keys`. `#pin` là private field của JavaScript, được bảo vệ thật lúc chạy: không truy cập bằng tên `pin` được và không xuất hiện trong `Object.keys`. Kết quả: `100 undefined [ 'balance' ]`.",
+        "en": "TypeScript's `private` is only a compile-time check; once types are erased, `balance` is an ordinary field, so `(w as any).balance` reads `100` and it shows up in `Object.keys`. `#pin` is a JavaScript private field, truly protected at runtime: it cannot be reached as `pin` and is not listed by `Object.keys`. Output: `100 undefined [ 'balance' ]`."
+      }
+    },
+    {
+      "id": "typescript.classes.006",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "classes",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "interface Logger {\n  log(message: string): void;\n  error(message: string, cause?: unknown): void;\n}\n\nclass ConsoleLogger implements Logger {\n  log(message: string) {\n    console.log(message);\n  }\n}\n\nnew ConsoleLogger().log(\"started\");"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`log` phải khai báo kiểu trả về `: void`",
+            "en": "`log` must declare a `: void` return type"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`ConsoleLogger` thiếu method `error` mà `Logger` yêu cầu",
+            "en": "`ConsoleLogger` is missing the `error` method required by `Logger`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Interface không được có tham số optional `cause?`",
+            "en": "An interface cannot have an optional `cause?` parameter"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải dùng `extends Logger` thay vì `implements`",
+            "en": "`extends Logger` must be used instead of `implements`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`implements Logger` buộc class phải có đủ member của interface. `ConsoleLogger` thiếu `error`, nên compiler báo `Class 'ConsoleLogger' incorrectly implements interface 'Logger'. Property 'error' is missing`. Cách sửa là thêm method `error(message: string, cause?: unknown)`. Tham số optional `cause?` trong interface là hợp lệ.",
+        "en": "`implements Logger` forces the class to have every member of the interface. `ConsoleLogger` lacks `error`, so the compiler reports `Class 'ConsoleLogger' incorrectly implements interface 'Logger'. Property 'error' is missing`. The fix is to add an `error(message: string, cause?: unknown)` method. The optional `cause?` parameter in the interface is valid."
+      }
+    },
+    {
+      "id": "typescript.classes.007",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "classes",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`import type { User } from \"./user\";` khác `import { User } from \"./user\";` ở điểm nào?",
+        "en": "How does `import type { User } from \"./user\";` differ from `import { User } from \"./user\";`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Import nhanh hơn vì được cache lúc chạy",
+            "en": "It imports faster because it is cached at runtime"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cho phép dùng `User` cả như kiểu lẫn giá trị",
+            "en": "It allows using `User` both as a type and a value"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bị xoá hoàn toàn khi biên dịch, chỉ dùng `User` làm kiểu, không tạo import lúc chạy",
+            "en": "It is fully erased on compile; `User` is usable only as a type and no runtime import is created"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ dùng được với file `.d.ts`",
+            "en": "It only works with `.d.ts` files"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`import type` chỉ import phần kiểu và luôn bị xoá hoàn toàn khi biên dịch, nên không tạo import lúc chạy và không kích hoạt side effect của module. Vì thế không dùng `User` như giá trị được (ví dụ `new User()`). Với `verbatimModuleSyntax` hoặc công cụ chỉ strip type như esbuild, Node, cần đánh dấu rõ import nào là type.",
+        "en": "`import type` imports only types and is always fully erased at compile time, so no runtime import is created and the module's side effects are not triggered. Hence `User` cannot be used as a value (e.g. `new User()`). With `verbatimModuleSyntax` or strip-only tools such as esbuild or Node, you need to mark type-only imports explicitly."
+      }
+    },
+    {
+      "id": "typescript.classes.008",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "classes",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "File `.d.ts` là gì? Khi nào bạn cần viết hoặc dùng nó?",
+        "en": "What is a `.d.ts` file? When do you need to write or use one?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Chỉ chứa khai báo kiểu, không có code chạy",
+          "en": "Contains only type declarations, no runtime code"
+        },
+        {
+          "vi": "Mô tả kiểu cho thư viện JS: `@types/...` hoặc đóng gói kèm thư viện",
+          "en": "Types for JS libraries: `@types/...` or bundled with the library"
+        },
+        {
+          "vi": "Sinh tự động với `declaration: true` khi publish thư viện TS",
+          "en": "Generated with `declaration: true` when publishing a TS library"
+        },
+        {
+          "vi": "Tự viết: `declare module`, `declare global`, module augmentation",
+          "en": "Hand-written: `declare module`, `declare global`, module augmentation"
+        }
+      ],
+      "explanation": {
+        "vi": "File `.d.ts` chỉ chứa khai báo kiểu, không có code thực thi, dùng để mô tả kiểu cho code JavaScript. Thư viện viết bằng JS thường có type qua gói `@types/...` (DefinitelyTyped) hoặc tự đóng gói `.d.ts`; thư viện TS sinh ra chúng với `declaration: true`. Bạn tự viết khi dùng module chưa có type (`declare module \"x\"`), khai báo biến toàn cục hoặc mở rộng kiểu có sẵn bằng `declare global`/module augmentation. `skipLibCheck` bỏ qua kiểm tra các file này để build nhanh hơn.",
+        "en": "A `.d.ts` file contains only type declarations, no executable code, and describes types for JavaScript code. JS libraries usually ship types through `@types/...` packages (DefinitelyTyped) or bundle their own `.d.ts`; TS libraries generate them with `declaration: true`. You write one yourself for an untyped module (`declare module \"x\"`), to declare globals or to extend existing types via `declare global`/module augmentation. `skipLibCheck` skips checking these files for faster builds."
+      }
+    },
+    {
+      "id": "typescript.classes.009",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "classes",
+      "level": "middle",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "class Base {\n  constructor() {\n    this.init();\n  }\n\n  init(): void {}\n}\n\nclass Child extends Base {\n  value?: string;\n\n  init(): void {\n    this.value = \"ready\";\n  }\n}\n\nconsole.log(new Child().value);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "ready",
+            "en": "ready"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "TypeError: Cannot set properties of undefined",
+            "en": "TypeError: Cannot set properties of undefined"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "undefined",
+            "en": "undefined"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi target từ ES2022 trở lên (`useDefineForClassFields` mặc định là `true`), và với Node chạy class field gốc, khai báo `value?: string;` trở thành field JavaScript `value;`. Field của class con được khởi tạo sau khi `super()` trả về, nên giá trị `\"ready\"` mà `init()` gán trong constructor của `Base` bị ghi đè thành `undefined`. Cách sửa: dùng `declare value?: string;` để chỉ khai báo kiểu, hoặc không gọi method ghi đè được từ constructor của lớp cha.",
+        "en": "With target ES2022 or later (`useDefineForClassFields` defaults to `true`), and with Node running native class fields, the declaration `value?: string;` becomes a JavaScript field `value;`. Subclass fields are initialised after `super()` returns, so the `\"ready\"` that `init()` set during `Base`'s constructor is overwritten with `undefined`. Fix: use `declare value?: string;` to declare only the type, or avoid calling overridable methods from a base constructor."
+      }
+    },
+    {
+      "id": "typescript.async.001",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "async",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Kiểu trả về được suy ra của `async function getCount() { return 1; }` là gì?",
+        "en": "What is the inferred return type of `async function getCount() { return 1; }`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Promise<number>`",
+            "en": "`Promise<number>`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`number`",
+            "en": "`number`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Promise<void>`",
+            "en": "`Promise<void>`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Promise<any>`",
+            "en": "`Promise<any>`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Hàm `async` luôn trả về Promise: giá trị `return` được bọc vào Promise, nên kiểu là `Promise<number>`. Người gọi phải `await getCount()` hoặc `.then` mới lấy được `number`. Nếu annotation, phải viết `: Promise<number>`; viết `: number` sẽ lỗi.",
+        "en": "An `async` function always returns a Promise: the `return` value is wrapped, so the type is `Promise<number>`. Callers must `await getCount()` or use `.then` to get the `number`. When annotating, write `: Promise<number>`; writing `: number` is an error."
+      }
+    },
+    {
+      "id": "typescript.async.002",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "async",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "async function getName(): Promise<string> {\n  return \"An\";\n}\n\nconst result = getName();\nconsole.log(typeof result, result instanceof Promise);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "string false",
+            "en": "string false"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "object true",
+            "en": "object true"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "object false",
+            "en": "object false"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "string true",
+            "en": "string true"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Gọi hàm `async` mà không `await` thì nhận về chính đối tượng Promise, không phải chuỗi `\"An\"`. `typeof` của Promise là `object` và `result instanceof Promise` là `true`. Kiểu của `result` là `Promise<string>`; muốn có chuỗi phải `await getName()`.",
+        "en": "Calling an `async` function without `await` gives you the Promise object itself, not the string `\"An\"`. `typeof` a Promise is `object`, and `result instanceof Promise` is `true`. The type of `result` is `Promise<string>`; to get the string you must `await getName()`."
+      }
+    },
+    {
+      "id": "typescript.async.003",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "async",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "async function loadUser(id: number) {\n  try {\n    const res = await fetch(`/api/users/${id}`);\n    return await res.json();\n  } catch (err) {\n    console.error(err.message);\n    return null;\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không được `return await` trong khối `try`",
+            "en": "`return await` is not allowed inside `try`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải khai báo `catch (err: Error)`",
+            "en": "It must be declared as `catch (err: Error)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`err` có kiểu `unknown`; kiểm tra `err instanceof Error` trước khi đọc `message`",
+            "en": "`err` is `unknown`; check `err instanceof Error` before reading `message`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hàm `async` không được trả về `null`",
+            "en": "An `async` function cannot return `null`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Với `strict: true` (bao gồm `useUnknownInCatchVariables`), biến trong `catch` có kiểu `unknown` vì JavaScript cho phép `throw` mọi giá trị, không chỉ `Error`. Vì vậy `err.message` báo `'err' is of type 'unknown'`. Cách sửa: `console.error(err instanceof Error ? err.message : String(err))`. Viết `catch (err: any)` cũng hết lỗi nhưng bỏ qua an toàn kiểu.",
+        "en": "With `strict: true` (which includes `useUnknownInCatchVariables`), the `catch` variable is `unknown` because JavaScript can `throw` any value, not just an `Error`. So `err.message` reports `'err' is of type 'unknown'`. Fix: `console.error(err instanceof Error ? err.message : String(err))`. Writing `catch (err: any)` also compiles but gives up type safety."
+      }
+    },
+    {
+      "id": "typescript.async.004",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "async",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`A` và `B` lần lượt có kiểu gì?",
+        "en": "What are the types of `A` and `B`?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "type A = Awaited<Promise<Promise<number>>>;\ntype B = Awaited<string | Promise<boolean>>;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Promise<number>` / `string | Promise<boolean>`",
+            "en": "`Promise<number>` / `string | Promise<boolean>`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`number` / `boolean`",
+            "en": "`number` / `boolean`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Promise<number>` / `string | boolean`",
+            "en": "`Promise<number>` / `string | boolean`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`number` / `string | boolean`",
+            "en": "`number` / `string | boolean`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Awaited<T>` mô phỏng `await`: nó gỡ Promise một cách đệ quy, nên `Promise<Promise<number>>` thành `number`. Với union, `Awaited` áp dụng cho từng thành phần: `string` giữ nguyên, `Promise<boolean>` thành `boolean`, nên `B` là `string | boolean`. Đây cũng là kiểu TypeScript dùng cho kết quả của `await` và `Promise.all`.",
+        "en": "`Awaited<T>` models `await`: it unwraps Promises recursively, so `Promise<Promise<number>>` becomes `number`. Over a union it applies to each member: `string` stays, `Promise<boolean>` becomes `boolean`, so `B` is `string | boolean`. It is also the type TypeScript uses for the results of `await` and `Promise.all`."
+      }
+    },
+    {
+      "id": "typescript.async.005",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "async",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "async function main() {\n  const [count, name] = await Promise.all([\n    Promise.resolve(3),\n    Promise.resolve(\"TS\"),\n  ]);\n  console.log(typeof count, typeof name, count * 2);\n}\n\nmain();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "number string 6",
+            "en": "number string 6"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "object object NaN",
+            "en": "object object NaN"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "number number 6",
+            "en": "number number 6"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Với mảng literal, `Promise.all` được typing để giữ tuple, nên `count` là `number` và `name` là `string` chứ không phải `string | number`. Lúc chạy, các giá trị được resolve theo đúng thứ tự trong mảng. Kết quả in ra `number string 6`.",
+        "en": "For an array literal, `Promise.all` is typed to preserve the tuple, so `count` is `number` and `name` is `string` rather than `string | number`. At runtime the values resolve in array order. The output is `number string 6`."
+      }
+    },
+    {
+      "id": "typescript.async.006",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "async",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Vì sao `const user: User = await res.json();` không thực sự an toàn? Bạn typing dữ liệu từ API thế nào?",
+        "en": "Why is `const user: User = await res.json();` not truly safe? How do you type data coming from an API?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`res.json()` trả về `any`, annotation không kiểm tra gì",
+          "en": "`res.json()` returns `any`; the annotation checks nothing"
+        },
+        {
+          "vi": "Kiểu bị xoá lúc chạy, dữ liệu sai vẫn lọt qua",
+          "en": "Types are erased at runtime, so bad data gets through"
+        },
+        {
+          "vi": "Coi dữ liệu là `unknown` và validate bằng type guard/schema (`zod`...)",
+          "en": "Treat data as `unknown` and validate with a type guard/schema (`zod`...)"
+        },
+        {
+          "vi": "Suy kiểu từ schema để kiểu và validation không lệch nhau",
+          "en": "Derive the type from the schema so type and validation stay in sync"
+        }
+      ],
+      "explanation": {
+        "vi": "`res.json()` trả về `Promise<any>`, nên annotation `User` được chấp nhận mà không kiểm tra gì; kiểu bị xoá lúc chạy nên dữ liệu sai vẫn lọt qua và lỗi xuất hiện ở chỗ khác. Helper kiểu `fetchJson<T>()` cũng chỉ là assertion trá hình. Cách đúng là coi dữ liệu là `unknown` rồi validate lúc chạy bằng type guard hoặc thư viện schema như `zod`, và suy kiểu từ schema (`z.infer`) để kiểu và kiểm tra luôn khớp nhau.",
+        "en": "`res.json()` returns `Promise<any>`, so the `User` annotation is accepted without any check; types are erased at runtime, so bad data slips through and fails somewhere else. A `fetchJson<T>()` helper is just a disguised assertion too. The right way is to treat the data as `unknown` and validate it at runtime with a type guard or a schema library like `zod`, deriving the type from the schema (`z.infer`) so type and check always match."
+      }
+    },
+    {
+      "id": "typescript.async.007",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "async",
+      "level": "middle",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "async function main() {\n  const results = await Promise.allSettled([\n    Promise.resolve(1),\n    Promise.reject(new Error(\"boom\")),\n    Promise.resolve(3),\n  ]);\n\n  const summary = results.map((r) =>\n    r.status === \"fulfilled\" ? r.value : `err:${r.reason.message}`,\n  );\n  console.log(summary);\n}\n\nmain();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Uncaught Error: boom",
+            "en": "Uncaught Error: boom"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[ 1, 'err:boom', 3 ]",
+            "en": "[ 1, 'err:boom', 3 ]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[ 1, 3 ]",
+            "en": "[ 1, 3 ]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "[ 1, undefined, 3 ]",
+            "en": "[ 1, undefined, 3 ]"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Promise.allSettled` không bao giờ reject: nó chờ mọi Promise và trả về mảng `PromiseSettledResult`, một discriminated union theo `status`. Kiểm tra `r.status === \"fulfilled\"` thu hẹp để đọc `r.value`, nhánh còn lại là `rejected` với `r.reason`. Lưu ý `reason` có kiểu `any`, nên trong code thật nên kiểm tra `instanceof Error`. Kết quả: `[ 1, 'err:boom', 3 ]`.",
+        "en": "`Promise.allSettled` never rejects: it waits for every Promise and returns an array of `PromiseSettledResult`, a discriminated union on `status`. Checking `r.status === \"fulfilled\"` narrows so `r.value` can be read; the other branch is `rejected` with `r.reason`. Note that `reason` is typed `any`, so real code should check `instanceof Error`. Output: `[ 1, 'err:boom', 3 ]`."
+      }
+    },
+    {
+      "id": "typescript.config.001",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "config",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bật `\"strict\": true` trong `tsconfig.json` có tác dụng gì?",
+        "en": "What does `\"strict\": true` in `tsconfig.json` do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm kiểm tra kiểu lúc chạy vào code JavaScript",
+            "en": "Adds runtime type checks to the JavaScript output"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ kiểm tra cú pháp, bỏ qua kiểu",
+            "en": "Checks only syntax and ignores types"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bật một nhóm kiểm tra như `strictNullChecks`, `noImplicitAny`",
+            "en": "Enables a group of checks like `strictNullChecks`, `noImplicitAny`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cấm dùng file `.js` trong dự án",
+            "en": "Forbids `.js` files in the project"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`strict` là công tắc bật cả nhóm kiểm tra nghiêm ngặt như `strictNullChecks`, `noImplicitAny`, `strictFunctionTypes`, `useUnknownInCatchVariables`. Nó chỉ ảnh hưởng lúc biên dịch, không thêm kiểm tra nào lúc chạy. Dự án mới nên bật ngay từ đầu vì bật muộn sẽ phát sinh rất nhiều lỗi cần sửa.",
+        "en": "`strict` is a switch that enables a family of strict checks such as `strictNullChecks`, `noImplicitAny`, `strictFunctionTypes` and `useUnknownInCatchVariables`. It only affects compilation and adds no runtime checks. New projects should enable it from the start, because turning it on later surfaces many errors to fix."
+      }
+    },
+    {
+      "id": "typescript.config.002",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "config",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `interface User { name: string }`, viết `if (value instanceof User)` thì sao?",
+        "en": "Given `interface User { name: string }`, what happens with `if (value instanceof User)`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hoạt động bình thường như với class",
+            "en": "It works just like with a class"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Luôn trả về `false` lúc chạy",
+            "en": "It always returns `false` at runtime"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ hoạt động khi bật `strict`",
+            "en": "It only works when `strict` is enabled"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch: interface chỉ là kiểu, không tồn tại lúc chạy",
+            "en": "Compile error: an interface is only a type and does not exist at runtime"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Interface chỉ tồn tại lúc biên dịch và bị xoá hoàn toàn khi sinh JavaScript, nên không có giá trị `User` để `instanceof` so sánh. TypeScript báo `'User' only refers to a type, but is being used as a value here`. Muốn kiểm tra lúc chạy, hãy viết type guard kiểm tra thuộc tính hoặc dùng `class` (class có tồn tại lúc chạy).",
+        "en": "An interface exists only at compile time and is fully erased in the JavaScript output, so there is no `User` value for `instanceof` to compare against. TypeScript reports `'User' only refers to a type, but is being used as a value here`. To check at runtime, write a type guard that inspects properties or use a `class` (classes exist at runtime)."
+      }
+    },
+    {
+      "id": "typescript.config.003",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "config",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "TypeScript kiểm tra kiểu vào lúc nào? Điều gì xảy ra với kiểu khi code chạy, và điều đó ảnh hưởng gì đến quy trình build/CI?",
+        "en": "When does TypeScript check types? What happens to types when the code runs, and how does that affect the build/CI process?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Kiểm tra kiểu chỉ diễn ra lúc biên dịch",
+          "en": "Type checking happens only at compile time"
+        },
+        {
+          "vi": "Kiểu bị xoá, lúc chạy là JavaScript thuần",
+          "en": "Types are erased; at runtime it is plain JavaScript"
+        },
+        {
+          "vi": "esbuild/Babel/Node type stripping chỉ xoá kiểu, không kiểm tra",
+          "en": "esbuild/Babel/Node type stripping only strip types, without checking"
+        },
+        {
+          "vi": "Chạy `tsc --noEmit` trong CI; biết `noEmitOnError`",
+          "en": "Run `tsc --noEmit` in CI; know about `noEmitOnError`"
+        }
+      ],
+      "explanation": {
+        "vi": "TypeScript chỉ kiểm tra kiểu lúc biên dịch; sau đó kiểu bị xoá và chỉ còn JavaScript thuần, nên lúc chạy không có kiểm tra kiểu nào. Nhiều công cụ như esbuild, Babel, Vite hay Node type stripping chỉ xoá kiểu mà không kiểm tra, nên code sai kiểu vẫn chạy. Vì vậy cần chạy `tsc --noEmit` trong CI hoặc trước khi merge. Mặc định `tsc` vẫn sinh file JS dù có lỗi, trừ khi bật `noEmitOnError`.",
+        "en": "TypeScript checks types only at compile time; afterwards types are erased and plain JavaScript remains, so there are no type checks at runtime. Many tools such as esbuild, Babel, Vite or Node type stripping only strip types without checking, so ill-typed code still runs. That is why `tsc --noEmit` should run in CI or before merging. By default `tsc` still emits JS when there are errors, unless `noEmitOnError` is enabled."
+      }
+    },
+    {
+      "id": "typescript.config.004",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "config",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "So sánh `enum Role { Admin = \"ADMIN\", User = \"USER\" }` với `type Role = \"ADMIN\" | \"USER\"`, nhận định nào đúng?",
+        "en": "Comparing `enum Role { Admin = \"ADMIN\", User = \"USER\" }` with `type Role = \"ADMIN\" | \"USER\"`, which statement is true?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`enum` sinh object lúc chạy; union bị xoá hoàn toàn khi biên dịch",
+            "en": "`enum` emits a runtime object; the union is fully erased at compile time"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Union sinh object lúc chạy; `enum` bị xoá hoàn toàn",
+            "en": "The union emits a runtime object; the `enum` is fully erased"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ `enum` mới hỗ trợ exhaustive check trong `switch`",
+            "en": "Only an `enum` supports exhaustive checks in `switch`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hai cách sinh ra JavaScript giống hệt nhau",
+            "en": "Both produce identical JavaScript"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`enum` là một trong số ít tính năng TypeScript sinh code lúc chạy: nó tạo ra một object JavaScript. Union của string literal bị xoá hoàn toàn, không tốn byte nào, và vẫn có autocomplete cùng exhaustive check. Vì `enum` không phải erasable syntax, các công cụ chỉ strip type như Node không chạy được nó, nên nhiều team ưu tiên union hoặc object `as const`.",
+        "en": "`enum` is one of the few TypeScript features that emits runtime code: it creates a JavaScript object. A union of string literals is fully erased, costs zero bytes, and still gives autocomplete and exhaustive checks. Because `enum` is not erasable syntax, strip-only tools such as Node cannot run it, so many teams prefer unions or `as const` objects."
+      }
+    },
+    {
+      "id": "typescript.config.005",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "config",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi bật `noUncheckedIndexedAccess`, `s` có kiểu gì?",
+        "en": "With `noUncheckedIndexedAccess` enabled, what is the type of `s`?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "const scores: Record<string, number> = { an: 9 };\nconst s = scores[\"binh\"];"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`number`",
+            "en": "`number`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`number | undefined`",
+            "en": "`number | undefined`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`undefined`",
+            "en": "`undefined`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`unknown`",
+            "en": "`unknown`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Mặc định, đọc qua index signature trả về `number` dù key có thể không tồn tại, nên `scores[\"binh\"]` bị coi là số trong khi thực tế là `undefined`. `noUncheckedIndexedAccess` thêm `| undefined` vào kết quả truy cập index (cả với mảng như `arr[0]`), buộc bạn kiểm tra trước khi dùng. Flag này không nằm trong `strict` nên phải bật riêng.",
+        "en": "By default, reading through an index signature yields `number` even though the key may not exist, so `scores[\"binh\"]` is treated as a number while it is actually `undefined`. `noUncheckedIndexedAccess` adds `| undefined` to indexed access results (arrays like `arr[0]` too), forcing a check before use. It is not part of `strict`, so it must be enabled separately."
+      }
+    },
+    {
+      "id": "typescript.config.006",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "config",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được với `strict: true`. Nguyên nhân và cách sửa đúng là gì?",
+        "en": "The following code does not compile with `strict: true`. What is the cause and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "interface Product {\n  id: number;\n  name: string;\n}\n\nconst products: Product[] = [{ id: 1, name: \"Phone\" }];\n\nfunction productName(id: number): string {\n  const found = products.find((p) => p.id === id);\n  return found.name;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`find` không dùng được với mảng interface",
+            "en": "`find` cannot be used on an array of interfaces"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Callback `(p) => p.id === id` thiếu kiểu cho `p`",
+            "en": "The callback `(p) => p.id === id` is missing a type for `p`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`find` trả về `Product | undefined`; xử lý trường hợp không tìm thấy",
+            "en": "`find` returns `Product | undefined`; handle the not-found case"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Kiểu trả về phải là `string | null`",
+            "en": "The return type must be `string | null`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Array.prototype.find` trả về `Product | undefined` vì có thể không tìm thấy. Với `strictNullChecks` (nằm trong `strict`), `found.name` báo `'found' is possibly 'undefined'`. Cách sửa tuỳ nghiệp vụ: `return found?.name ?? \"Unknown\";` hoặc `if (!found) throw new Error(...)`. Dùng `found!.name` chỉ là bịt lỗi và sẽ vỡ lúc chạy khi không có sản phẩm.",
+        "en": "`Array.prototype.find` returns `Product | undefined` because nothing may match. With `strictNullChecks` (part of `strict`), `found.name` reports `'found' is possibly 'undefined'`. The fix depends on the business rule: `return found?.name ?? \"Unknown\";` or `if (!found) throw new Error(...)`. Using `found!.name` just hides the error and crashes at runtime when no product matches."
+      }
+    },
+    {
+      "id": "typescript.config.007",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "config",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích các option `target`, `lib` và `module` trong `tsconfig.json`. Chọn chúng thế nào cho một app front-end và một thư viện Node?",
+        "en": "Explain the `target`, `lib` and `module` options in `tsconfig.json`. How would you choose them for a front-end app versus a Node library?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`target`: phiên bản JS sinh ra, hạ cấp cú pháp mới",
+          "en": "`target`: emitted JS version, downlevels newer syntax"
+        },
+        {
+          "vi": "`lib`: kiểu cho API có sẵn (DOM, ES2022...), không polyfill",
+          "en": "`lib`: types for built-in APIs (DOM, ES2022...), no polyfills"
+        },
+        {
+          "vi": "`module`/`moduleResolution`: định dạng module và cách resolve import",
+          "en": "`module`/`moduleResolution`: module format and import resolution"
+        },
+        {
+          "vi": "Bundler app: `ESNext` + `bundler`; thư viện Node: `NodeNext`",
+          "en": "Bundled app: `ESNext` + `bundler`; Node library: `NodeNext`"
+        }
+      ],
+      "explanation": {
+        "vi": "`target` quyết định phiên bản JavaScript được sinh ra, cú pháp mới hơn target sẽ bị hạ cấp. `lib` quyết định những API có sẵn nào được khai báo kiểu, ví dụ `DOM` hay `ES2022`; nó không polyfill, nên khai báo `lib` mới mà runtime cũ vẫn lỗi lúc chạy. `module` (đi cùng `moduleResolution`) quyết định định dạng module và cách tìm file import. App dùng bundler thường chọn `module: \"ESNext\"` với `moduleResolution: \"bundler\"`, còn thư viện chạy trên Node chọn `\"NodeNext\"` để khớp với cách Node xử lý ESM/CommonJS.",
+        "en": "`target` sets the JavaScript version emitted; syntax newer than the target is downlevelled. `lib` decides which built-in APIs are typed, e.g. `DOM` or `ES2022`; it does not polyfill, so declaring a newer `lib` on an older runtime still fails at runtime. `module` (together with `moduleResolution`) sets the module format and how imports are resolved. A bundled app usually picks `module: \"ESNext\"` with `moduleResolution: \"bundler\"`, while a library running on Node picks `\"NodeNext\"` to match how Node handles ESM/CommonJS."
+      }
+    },
+    {
+      "id": "typescript.config.008",
+      "contentVersion": 1,
+      "trackId": "typescript",
+      "topicId": "config",
+      "level": "senior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Dự án Node ESM (`\"type\": \"module\"`) với `\"module\": \"nodenext\"`. Trong `src/index.ts`, cách import `src/utils.ts` nào đúng?",
+        "en": "A Node ESM project (`\"type\": \"module\"`) uses `\"module\": \"nodenext\"`. In `src/index.ts`, which way of importing `src/utils.ts` is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`import { sum } from \"./utils\";`",
+            "en": "`import { sum } from \"./utils\";`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`import { sum } from \"./utils.ts\";` (không cần option nào thêm)",
+            "en": "`import { sum } from \"./utils.ts\";` (no extra option needed)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`import { sum } from \"utils\";`",
+            "en": "`import { sum } from \"utils\";`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`import { sum } from \"./utils.js\";`",
+            "en": "`import { sum } from \"./utils.js\";`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`nodenext` mô phỏng đúng luật của Node: import tương đối trong ESM phải có phần mở rộng đầy đủ, và đó là đuôi của file sau khi biên dịch, tức `./utils.js`. TypeScript tự ánh xạ `./utils.js` về `./utils.ts` khi kiểm tra kiểu. Bỏ đuôi chỉ hợp lệ với `moduleResolution: \"bundler\"`, còn đuôi `.ts` cần `allowImportingTsExtensions` (kèm `noEmit`) hoặc `rewriteRelativeImportExtensions` (TS 5.7+). Đây là đánh đổi chính khi chọn giữa `bundler` và `nodenext`.",
+        "en": "`nodenext` models Node's real rules: relative imports in ESM need a full extension, and it is the extension of the compiled file, i.e. `./utils.js`. TypeScript maps `./utils.js` back to `./utils.ts` when type checking. Omitting the extension is only valid with `moduleResolution: \"bundler\"`, and a `.ts` extension needs `allowImportingTsExtensions` (with `noEmit`) or `rewriteRelativeImportExtensions` (TS 5.7+). This is the key trade-off between `bundler` and `nodenext`."
+      }
+    }
+  ]
+}

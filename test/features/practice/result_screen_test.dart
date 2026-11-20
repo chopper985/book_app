@@ -7,17 +7,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sizer/sizer.dart';
 
 // Project imports:
-import 'package:AppName/core/helpers/app_clock.dart';
-import 'package:AppName/core/utils/dio_api/result.dart';
-import 'package:AppName/features/content/data/parsers/content_parser.dart';
-import 'package:AppName/features/content/domain/entities/content_catalog.dart';
-import 'package:AppName/features/content/domain/repositories/content_repository.dart';
-import 'package:AppName/features/practice/data/repositories/practice_repository_impl.dart';
-import 'package:AppName/features/practice/domain/usecase/practice_usecases.dart';
-import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart';
-import 'package:AppName/features/practice/presentation/cubit/result_cubit.dart';
-import 'package:AppName/features/practice/presentation/screens/result_screen.dart';
-import 'package:AppName/features/practice/presentation/widgets/result_review_card.dart';
+import 'package:interview_practice/core/helpers/app_clock.dart';
+import 'package:interview_practice/core/utils/dio_api/result.dart';
+import 'package:interview_practice/features/content/data/parsers/content_parser.dart';
+import 'package:interview_practice/features/content/domain/entities/content_catalog.dart';
+import 'package:interview_practice/features/content/domain/repositories/content_repository.dart';
+import 'package:interview_practice/features/practice/data/repositories/practice_repository_impl.dart';
+import 'package:interview_practice/features/practice/domain/usecase/practice_usecases.dart';
+import 'package:interview_practice/features/practice/presentation/cubit/practice_cubit.dart';
+import 'package:interview_practice/features/practice/presentation/cubit/result_cubit.dart';
+import 'package:interview_practice/features/practice/presentation/screens/result_screen.dart';
+import 'package:interview_practice/features/practice/presentation/widgets/result_review_card.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
 import '../content/content_test_data.dart';
 
@@ -60,8 +60,7 @@ void main() {
       final catalog =
           (await const ContentParser().parse(readerOf(data))).catalog;
       final clock = _FixedClock();
-      final repository =
-          PracticeRepositoryImpl(
+      final repository = PracticeRepositoryImpl(
         _FakeContentRepository(catalog),
         InMemoryPracticeLocalDataSource(),
         clock,

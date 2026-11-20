@@ -5,25 +5,28 @@ import 'dart:async';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/helpers/app_clock.dart';
-import 'package:AppName/core/utils/dio_api/result.dart';
-import 'package:AppName/features/catalog/data/datasources/mock_dashboard_datasource.dart';
-import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
-import 'package:AppName/features/catalog/domain/entities/learner_progress.dart';
-import 'package:AppName/features/catalog/domain/entities/quiz_set_summary.dart';
-import 'package:AppName/features/catalog/domain/entities/track_detail.dart';
-import 'package:AppName/features/catalog/domain/entities/track_learning.dart';
-import 'package:AppName/features/catalog/domain/entities/track_not_found_failure.dart';
-import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
-import 'package:AppName/features/catalog/domain/repositories/catalog_repository.dart';
-import 'package:AppName/features/catalog/domain/repositories/saved_tracks_repository.dart';
-import 'package:AppName/features/catalog/domain/repositories/user_roadmaps_repository.dart';
-import 'package:AppName/features/content/domain/entities/content_catalog.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
-import 'package:AppName/features/content/domain/entities/quiz_set.dart';
-import 'package:AppName/features/content/domain/repositories/content_repository.dart';
-import 'package:AppName/features/practice/domain/repositories/practice_repository.dart';
-import 'package:AppName/features/profile/domain/repositories/profile_repository.dart';
+import 'package:interview_practice/core/helpers/app_clock.dart';
+import 'package:interview_practice/core/utils/dio_api/result.dart';
+import 'package:interview_practice/features/catalog/data/datasources/mock_dashboard_datasource.dart';
+import 'package:interview_practice/features/catalog/domain/entities/explore_dashboard.dart';
+import 'package:interview_practice/features/catalog/domain/entities/learner_progress.dart';
+import 'package:interview_practice/features/catalog/domain/entities/position_detail.dart';
+import 'package:interview_practice/features/catalog/domain/entities/quiz_set_summary.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_detail.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_learning.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_not_found_failure.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_overview.dart';
+import 'package:interview_practice/features/catalog/domain/repositories/catalog_repository.dart';
+import 'package:interview_practice/features/catalog/domain/repositories/saved_tracks_repository.dart';
+import 'package:interview_practice/features/catalog/domain/repositories/user_roadmaps_repository.dart';
+import 'package:interview_practice/features/content/domain/entities/content_catalog.dart';
+import 'package:interview_practice/features/content/domain/entities/position.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/content/domain/entities/quiz_set.dart';
+import 'package:interview_practice/features/content/domain/entities/track.dart';
+import 'package:interview_practice/features/content/domain/repositories/content_repository.dart';
+import 'package:interview_practice/features/practice/domain/repositories/practice_repository.dart';
+import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
 
 @LazySingleton(as: CatalogRepository)
 class CatalogRepositoryImpl implements CatalogRepository {
@@ -174,6 +177,78 @@ class CatalogRepositoryImpl implements CatalogRepository {
           },
         ),
       ),
+    );
+  }
+
+  @override
+  Future<Result<List<Position>>> getPositions() async {
+    final result = await _contentRepository.loadCatalog();
+    final catalog = result.value;
+    if (catalog == null) return Result.failure(result.error!);
+    return Result.success(catalog.positions);
+  }
+
+  @override
+  Future<Result<PositionDetail>> getPositionDetail(
+    String positionId,
+    String optionId,
+    QuestionLevel level,
+  ) async {
+    final result = await _contentRepository.loadCatalog();
+    final catalog = result.value;
+    if (catalog == null) return Result.failure(result.error!);
+
+    final position = catalog.positionById(positionId);
+    final option = position?.optionById(optionId);
+    if (position == null || option == null) {
+      return Result.failure(TrackNotFoundFailure('$positionId/$optionId'));
+    }
+
+    final progress = await _progress();
+    final mockSetId = ContentCatalog.positionSetId(positionId, optionId, level);
+    final mockSet =
+        catalog.sets.where((set) => set.id == mockSetId).firstOrNull;
+    return Result.success(
+      PositionDetail(
+        position: position,
+        option: option,
+        level: level,
+        learner: _learner(progress),
+        mockSetId: mockSetId,
+        mockQuestionIds: mockSet?.questionIds ?? const [],
+        mockIsPremium: !(mockSet?.isFree ?? true),
+        tracks: [
+          for (final trackId in position.trackIdsFor(option))
+            if (catalog.trackById(trackId) case final track?)
+              _trackProgress(
+                track,
+                catalog,
+                progress,
+                level,
+                isMain: option.trackIds.contains(trackId),
+              ),
+        ],
+      ),
+    );
+  }
+
+  PositionTrackProgress _trackProgress(
+    Track track,
+    ContentCatalog catalog,
+    LearnerProgress progress,
+    QuestionLevel level, {
+    required bool isMain,
+  }) {
+    final ids = [
+      for (final question in catalog.questions)
+        if (question.trackId == track.id && question.level.index <= level.index)
+          question.id,
+    ];
+    return PositionTrackProgress(
+      track: track,
+      isMain: isMain,
+      total: ids.length,
+      answered: (progress.completion(ids) * ids.length).round(),
     );
   }
 

@@ -2,7 +2,7 @@
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/features/catalog/domain/repositories/saved_tracks_repository.dart';
+import 'package:interview_practice/features/catalog/domain/repositories/saved_tracks_repository.dart';
 
 @injectable
 class GetSavedTrackIds {

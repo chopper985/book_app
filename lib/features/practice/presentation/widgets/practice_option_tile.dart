@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
 
 /// Answer option card. Selected: tinted, left accent bar and check.
 class PracticeOptionTile extends StatelessWidget {

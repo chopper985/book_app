@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_overview.dart';
 
 /// Keeps tracks of one category (`null` keeps every category) whose name,
 /// tagline or topic names contain [query], ignoring case and Vietnamese

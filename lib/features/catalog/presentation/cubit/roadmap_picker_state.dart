@@ -1,5 +1,7 @@
 part of 'roadmap_picker_cubit.dart';
 
+enum RoadmapPickerMode { language, position }
+
 sealed class RoadmapPickerState extends Equatable {
   const RoadmapPickerState();
 
@@ -26,6 +28,10 @@ final class RoadmapPickerLoaded extends RoadmapPickerState {
   final QuestionLevel level;
   final bool saving;
   final bool done;
+  final RoadmapPickerMode mode;
+  final List<Position> positions;
+  final String? positionId;
+  final String? optionId;
 
   const RoadmapPickerLoaded({
     required this.tracks,
@@ -38,14 +44,40 @@ final class RoadmapPickerLoaded extends RoadmapPickerState {
     this.selectedTrackId,
     this.saving = false,
     this.done = false,
+    this.mode = RoadmapPickerMode.language,
+    this.positions = const [],
+    this.positionId,
+    this.optionId,
   });
 
-  bool get canConfirm => selectedTrackId != null && !saving && !done;
+  Position? get position =>
+      positions.where((p) => p.id == positionId).firstOrNull;
 
-  /// The picked track + level is already one of the learner's roadmaps.
-  bool get isExisting =>
-      selectedTrackId != null &&
-      roadmapIds.contains(UserRoadmap.idOf(selectedTrackId!, level));
+  PositionOption? get option => position?.optionById(optionId ?? '');
+
+  /// Names of every track the picked position option includes.
+  List<String> get positionTrackIds => switch ((position, option)) {
+        (final position?, final option?) => position.trackIdsFor(option),
+        _ => const [],
+      };
+
+  bool get canConfirm =>
+      !saving &&
+      !done &&
+      switch (mode) {
+        RoadmapPickerMode.language => selectedTrackId != null,
+        RoadmapPickerMode.position => option != null,
+      };
+
+  /// The picked roadmap is already one of the learner's roadmaps.
+  bool get isExisting => switch (mode) {
+        RoadmapPickerMode.language => selectedTrackId != null &&
+            roadmapIds.contains(UserRoadmap.idOf(selectedTrackId!, level)),
+        RoadmapPickerMode.position => option != null &&
+            roadmapIds.contains(
+              UserRoadmap.positionIdOf(positionId!, optionId!, level),
+            ),
+      };
 
   RoadmapPickerLoaded copyWith({
     List<TrackOverview>? visibleTracks,
@@ -55,6 +87,9 @@ final class RoadmapPickerLoaded extends RoadmapPickerState {
     QuestionLevel? level,
     bool? saving,
     bool? done,
+    RoadmapPickerMode? mode,
+    String? positionId,
+    String? optionId,
   }) {
     return RoadmapPickerLoaded(
       tracks: tracks,
@@ -67,6 +102,10 @@ final class RoadmapPickerLoaded extends RoadmapPickerState {
       level: level ?? this.level,
       saving: saving ?? this.saving,
       done: done ?? this.done,
+      mode: mode ?? this.mode,
+      positions: positions,
+      positionId: positionId ?? this.positionId,
+      optionId: optionId ?? this.optionId,
     );
   }
 
@@ -82,5 +121,9 @@ final class RoadmapPickerLoaded extends RoadmapPickerState {
         level,
         saving,
         done,
+        mode,
+        positions,
+        positionId,
+        optionId,
       ];
 }

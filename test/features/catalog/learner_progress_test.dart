@@ -2,8 +2,8 @@
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
-import 'package:AppName/features/catalog/domain/entities/learner_progress.dart';
-import 'package:AppName/features/practice/domain/entities/session_result.dart';
+import 'package:interview_practice/features/catalog/domain/entities/learner_progress.dart';
+import 'package:interview_practice/features/practice/domain/entities/session_result.dart';
 
 SessionResult result(
   DateTime submittedAt,

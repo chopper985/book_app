@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
-import 'package:AppName/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
 
 /// SVG asset sized in Figma px. [color] recolors single-color icons.
 class AppSvg extends StatelessWidget {

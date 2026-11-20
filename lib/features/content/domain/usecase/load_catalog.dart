@@ -2,9 +2,9 @@
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/utils/dio_api/result.dart';
-import 'package:AppName/features/content/domain/entities/content_catalog.dart';
-import 'package:AppName/features/content/domain/repositories/content_repository.dart';
+import 'package:interview_practice/core/utils/dio_api/result.dart';
+import 'package:interview_practice/features/content/domain/entities/content_catalog.dart';
+import 'package:interview_practice/features/content/domain/repositories/content_repository.dart';
 
 @injectable
 class LoadCatalog {

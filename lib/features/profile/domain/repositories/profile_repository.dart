@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 
 abstract class ProfileRepository {
   /// Synchronous so the router can redirect before the first frame.

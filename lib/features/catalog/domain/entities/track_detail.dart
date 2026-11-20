@@ -5,11 +5,11 @@ import 'dart:math' as math;
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:AppName/features/catalog/domain/entities/quiz_set_summary.dart';
-import 'package:AppName/features/catalog/domain/entities/track_learning.dart';
-import 'package:AppName/features/catalog/domain/entities/track_progress.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
-import 'package:AppName/features/content/domain/entities/track.dart';
+import 'package:interview_practice/features/catalog/domain/entities/quiz_set_summary.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_learning.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_progress.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/content/domain/entities/track.dart';
 
 /// A set to start, optionally limited to some of its questions.
 class PracticeTarget extends Equatable {
@@ -53,10 +53,10 @@ class TrackDetail extends Equatable {
         for (final topic in track.topics)
           if (questionIdsByTopic[topic.id]?.isNotEmpty ?? false)
             TopicProgress.from(
-            topic,
-            questionIdsByTopic[topic.id]?.length ?? 0,
-            learning.topicPractice[topic.id],
-          ),
+              topic,
+              questionIdsByTopic[topic.id]?.length ?? 0,
+              learning.topicPractice[topic.id],
+            ),
       ]);
 
   QuizSetSummary? get firstFreeSet {

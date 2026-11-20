@@ -5,11 +5,11 @@ import 'dart:async';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/helpers/app_clock.dart';
-import 'package:AppName/features/profile/data/datasources/avatar_local_datasource.dart';
-import 'package:AppName/features/profile/data/datasources/profile_local_datasource.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
-import 'package:AppName/features/profile/domain/repositories/profile_repository.dart';
+import 'package:interview_practice/core/helpers/app_clock.dart';
+import 'package:interview_practice/features/profile/data/datasources/avatar_local_datasource.dart';
+import 'package:interview_practice/features/profile/data/datasources/profile_local_datasource.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
 
 @LazySingleton(as: ProfileRepository)
 class ProfileRepositoryImpl extends ProfileRepository {

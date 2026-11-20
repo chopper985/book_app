@@ -1,0 +1,3287 @@
+{
+  "questions": [
+    {
+      "id": "nodejs.event_loop.001",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "event_loop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Câu nào mô tả đúng nhất việc Node.js là \"single-threaded\"?",
+        "en": "Which statement best describes Node.js being \"single-threaded\"?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Code JS chạy trên một main thread; I/O được giao cho OS/`libuv` xử lý bất đồng bộ",
+            "en": "JS code runs on one main thread; I/O is delegated to the OS/`libuv` asynchronously"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Toàn bộ process Node.js chỉ có đúng một OS thread",
+            "en": "The whole Node.js process has exactly one OS thread"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Mỗi request HTTP được xử lý trên một thread riêng",
+            "en": "Each HTTP request is handled on its own thread"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Node.js chỉ xử lý được một request tại một thời điểm",
+            "en": "Node.js can only handle one request at a time"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Code JavaScript của bạn chạy trên một main thread duy nhất (event loop), còn các tác vụ I/O được giao cho hệ điều hành hoặc threadpool của `libuv`, nên một process vẫn phục vụ được hàng nghìn kết nối đồng thời. Sai lầm phổ biến là nghĩ cả process chỉ có đúng một OS thread hoặc mỗi request có thread riêng: thực tế Node có thêm các thread nội bộ (threadpool, GC của V8) nhưng không tạo thread cho từng request.",
+        "en": "Your JavaScript code runs on a single main thread (the event loop), while I/O is handed off to the OS or the `libuv` threadpool, so one process can still serve thousands of concurrent connections. A common mistake is thinking the whole process has exactly one OS thread or that each request gets its own thread: Node does have internal threads (the threadpool, V8's GC), but it does not create a thread per request."
+      }
+    },
+    {
+      "id": "nodejs.event_loop.002",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "event_loop",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì theo thứ tự?",
+        "en": "What does the following code print, in order?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "console.log('A');\nsetTimeout(() => console.log('B'), 0);\nPromise.resolve().then(() => console.log('C'));\nconsole.log('D');"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "A D C B",
+            "en": "A D C B"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "A B C D",
+            "en": "A B C D"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "A D B C",
+            "en": "A D B C"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "A C D B",
+            "en": "A C D B"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Code đồng bộ chạy trước nên in `A` rồi `D`. Sau đó Node xử lý hết microtask queue (callback của `Promise.then`) nên in `C`, rồi mới tới phase timers của event loop để chạy `setTimeout` và in `B`. `setTimeout(..., 0)` không chạy ngay mà luôn phải chờ call stack trống và microtask được xử lý xong.",
+        "en": "Synchronous code runs first, printing `A` then `D`. Node then drains the microtask queue (the `Promise.then` callback), printing `C`, and only then reaches the timers phase to run the `setTimeout` callback and print `B`. `setTimeout(..., 0)` never runs immediately; it waits for the call stack to empty and for microtasks to be processed."
+      }
+    },
+    {
+      "id": "nodejs.event_loop.003",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "event_loop",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày các phase chính của event loop trong Node.js và vị trí của `process.nextTick`/Promise trong đó.",
+        "en": "Describe the main phases of the Node.js event loop and where `process.nextTick`/Promises fit in."
+      },
+      "keyPoints": [
+        {
+          "vi": "timers: chạy callback `setTimeout`/`setInterval` đã đến hạn",
+          "en": "timers: runs due `setTimeout`/`setInterval` callbacks"
+        },
+        {
+          "vi": "poll: nhận sự kiện I/O và chạy callback I/O; có thể chờ I/O khi rảnh",
+          "en": "poll: retrieves I/O events and runs I/O callbacks; may wait for I/O when idle"
+        },
+        {
+          "vi": "check: chạy callback `setImmediate`; close callbacks: sự kiện `close`",
+          "en": "check: runs `setImmediate` callbacks; close callbacks: `close` events"
+        },
+        {
+          "vi": "Sau mỗi callback: xả hàng đợi `process.nextTick` rồi tới microtask Promise",
+          "en": "After each callback: drain the `process.nextTick` queue, then Promise microtasks"
+        }
+      ],
+      "explanation": {
+        "vi": "Mỗi vòng lặp đi qua các phase: timers (callback của `setTimeout`/`setInterval` đã đến hạn), pending callbacks, poll (nhận sự kiện I/O mới và chạy callback I/O, có thể chờ ở đây nếu không có việc gì), check (`setImmediate`) và close callbacks (ví dụ `socket.on('close')`). `process.nextTick` và microtask của Promise không thuộc phase nào: sau mỗi callback, Node xử lý hết hàng đợi `nextTick` rồi tới hàng đợi Promise trước khi chạy callback tiếp theo. Đây là lý do callback của Promise luôn chạy trước `setTimeout(..., 0)`.",
+        "en": "Each loop iteration goes through these phases: timers (due `setTimeout`/`setInterval` callbacks), pending callbacks, poll (fetches new I/O events and runs I/O callbacks, and may block here when idle), check (`setImmediate`) and close callbacks (e.g. `socket.on('close')`). `process.nextTick` and Promise microtasks belong to no phase: after each callback, Node drains the `nextTick` queue and then the Promise queue before running the next callback. That is why Promise callbacks always run before `setTimeout(..., 0)`."
+      }
+    },
+    {
+      "id": "nodejs.event_loop.004",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "event_loop",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "File `main.js` (CommonJS) được chạy bằng `node main.js`. Kết quả in ra là gì?",
+        "en": "The file `main.js` (CommonJS) is run with `node main.js`. What is printed?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "setImmediate(() => console.log('immediate'));\nPromise.resolve().then(() => console.log('promise'));\nprocess.nextTick(() => console.log('nextTick'));\nconsole.log('sync');"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "sync → promise → nextTick → immediate",
+            "en": "sync → promise → nextTick → immediate"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "sync → immediate → nextTick → promise",
+            "en": "sync → immediate → nextTick → promise"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "sync → nextTick → promise → immediate",
+            "en": "sync → nextTick → promise → immediate"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "nextTick → sync → promise → immediate",
+            "en": "nextTick → sync → promise → immediate"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Code đồng bộ in `sync` trước. Khi call stack trống, Node xử lý hàng đợi `process.nextTick` trước hàng đợi microtask của Promise, nên `nextTick` in trước `promise`. `setImmediate` chạy ở phase check của event loop, tức sau khi cả hai hàng đợi trên đã được xả. Lưu ý: trong file ES module, thứ tự giữa `nextTick` và `promise` có thể đảo ngược vì module được đánh giá bên trong một microtask.",
+        "en": "Synchronous code prints `sync` first. Once the call stack is empty, Node processes the `process.nextTick` queue before the Promise microtask queue, so `nextTick` prints before `promise`. `setImmediate` runs in the check phase of the event loop, after both queues have been drained. Note: in an ES module file, `nextTick` and `promise` can swap because the module is evaluated inside a microtask."
+      }
+    },
+    {
+      "id": "nodejs.event_loop.005",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "event_loop",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Bên trong callback của `fs.readFile`, thứ tự in ra là gì?",
+        "en": "Inside the `fs.readFile` callback, what is the print order?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const fs = require('fs');\n\nfs.readFile(__filename, () => {\n  setTimeout(() => console.log('timeout'), 0);\n  setImmediate(() => console.log('immediate'));\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Luôn là timeout → immediate",
+            "en": "Always timeout → immediate"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ngẫu nhiên, mỗi lần chạy một khác",
+            "en": "Random, it differs on every run"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ in immediate, timeout bị bỏ qua",
+            "en": "Only immediate; the timeout is skipped"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Luôn là immediate → timeout",
+            "en": "Always immediate → timeout"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Callback của `fs.readFile` chạy ở phase poll. Sau poll, event loop đi tới phase check nên `setImmediate` luôn chạy trước, rồi vòng lặp tiếp theo mới tới phase timers để chạy `setTimeout`. Thứ tự này luôn cố định trong một I/O callback. Chỉ khi gọi cả hai từ main module thì thứ tự mới không xác định, vì phụ thuộc vào thời gian khởi động process.",
+        "en": "The `fs.readFile` callback runs in the poll phase. After poll, the loop moves to the check phase, so `setImmediate` always runs first, and the timers phase of the next iteration runs the `setTimeout` callback. This order is guaranteed inside an I/O callback. Only when both are scheduled from the main module is the order non-deterministic, since it depends on process start-up timing."
+      }
+    },
+    {
+      "id": "nodejs.event_loop.006",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "event_loop",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Điều gì xảy ra khi chạy đoạn code sau?",
+        "en": "What happens when the following code runs?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "function loop() {\n  process.nextTick(loop);\n}\nloop();\n\nsetTimeout(() => console.log('timer'), 0);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`timer` được in sau khoảng 0ms như bình thường",
+            "en": "`timer` is printed after about 0ms as usual"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`timer` không bao giờ được in, event loop bị kẹt ở hàng đợi `nextTick`",
+            "en": "`timer` is never printed; the event loop is stuck on the `nextTick` queue"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Process crash ngay với `RangeError: Maximum call stack size exceeded`",
+            "en": "The process crashes right away with `RangeError: Maximum call stack size exceeded`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Node tự phát hiện vòng lặp và dừng `loop` sau 1000 lần",
+            "en": "Node detects the loop and stops `loop` after 1000 iterations"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Node xả hết hàng đợi `process.nextTick` trước khi cho event loop đi tiếp. Vì `loop` liên tục thêm `nextTick` mới, hàng đợi không bao giờ rỗng nên event loop bị \"bỏ đói\" (starvation): timer, I/O và request mới đều không được xử lý dù CPU chạy 100%. Không có stack overflow vì mỗi callback chạy riêng, không lồng nhau. Với việc lặp lâu, dùng `setImmediate` để nhường event loop.",
+        "en": "Node drains the whole `process.nextTick` queue before letting the event loop continue. Since `loop` keeps adding new ticks, the queue never empties and the event loop is starved: timers, I/O and new requests are never processed while the CPU sits at 100%. There is no stack overflow because each callback runs separately, not nested. For long-running iteration, use `setImmediate` to yield to the event loop."
+      }
+    },
+    {
+      "id": "nodejs.event_loop.007",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "event_loop",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "File CommonJS sau in ra gì?",
+        "en": "What does this CommonJS file print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "async function task() {\n  console.log(1);\n  await null;\n  console.log(2);\n}\n\ntask();\nprocess.nextTick(() => console.log(3));\nconsole.log(4);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "1 2 4 3",
+            "en": "1 2 4 3"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "1 4 3 2",
+            "en": "1 4 3 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "1 4 2 3",
+            "en": "1 4 2 3"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "4 1 3 2",
+            "en": "4 1 3 2"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Gọi `task()` chạy đồng bộ tới `await` đầu tiên nên in `1`. Phần sau `await` được đưa vào microtask queue. Tiếp theo `nextTick` được đăng ký và `4` được in đồng bộ. Khi call stack trống, hàng đợi `nextTick` chạy trước microtask nên in `3`, rồi phần còn lại của `task` in `2`. Nhiều người nghĩ `await null` không \"nhường\" gì, nhưng mọi `await` đều tạm dừng hàm tới ít nhất một microtask.",
+        "en": "Calling `task()` runs synchronously up to the first `await`, printing `1`. The rest after `await` is queued as a microtask. Then the `nextTick` callback is registered and `4` is printed synchronously. When the stack empties, the `nextTick` queue runs before microtasks, printing `3`, and then the rest of `task` prints `2`. Many people assume `await null` yields nothing, but every `await` suspends the function for at least one microtask."
+      }
+    },
+    {
+      "id": "nodejs.event_loop.008",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "event_loop",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trên máy 8 nhân với cấu hình mặc định, khi chạy đoạn code sau bạn sẽ quan sát thấy gì?",
+        "en": "On an 8-core machine with the default configuration, what do you observe when running this code?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const crypto = require('crypto');\nconst start = Date.now();\n\nfor (let i = 0; i < 6; i++) {\n  crypto.pbkdf2('pw', 'salt', 300000, 64, 'sha512', () => {\n    console.log(i, Date.now() - start);\n  });\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cả 6 lệnh xong cùng lúc vì máy có 8 nhân",
+            "en": "All 6 finish together because the machine has 8 cores"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "4 lệnh xong gần cùng lúc, 2 lệnh còn lại mất khoảng gấp đôi thời gian",
+            "en": "4 calls finish at about the same time; the other 2 take roughly twice as long"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "6 lệnh chạy lần lượt trên main thread, mỗi lệnh chờ lệnh trước",
+            "en": "The 6 calls run one by one on the main thread, each waiting for the previous one"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thứ tự in luôn là 5, 4, 3, 2, 1, 0",
+            "en": "The print order is always 5, 4, 3, 2, 1, 0"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`crypto.pbkdf2` (bản async) chạy trên threadpool của `libuv`, mặc định chỉ có 4 thread (`UV_THREADPOOL_SIZE`, tối đa 1024). Vì vậy 4 lệnh đầu chạy song song và xong gần như cùng lúc, 2 lệnh còn lại phải chờ thread rảnh nên mất khoảng gấp đôi thời gian, dù máy có 8 nhân. Threadpool cũng phục vụ `fs`, `dns.lookup`, `zlib`, nên các tác vụ này có thể chặn lẫn nhau; còn socket mạng dùng cơ chế bất đồng bộ của OS (epoll/kqueue) và không chiếm threadpool.",
+        "en": "The async `crypto.pbkdf2` runs on the `libuv` threadpool, which has only 4 threads by default (`UV_THREADPOOL_SIZE`, max 1024). So the first 4 calls run in parallel and finish at about the same time, while the last 2 wait for a free thread and take roughly twice as long, even on 8 cores. The threadpool also serves `fs`, `dns.lookup` and `zlib`, so these can queue behind each other; network sockets use the OS async mechanisms (epoll/kqueue) and do not occupy the threadpool."
+      }
+    },
+    {
+      "id": "nodejs.event_loop.009",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "event_loop",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Một API Node.js trên production thỉnh thoảng có p99 latency tăng vọt dù CPU trung bình thấp. Bạn chẩn đoán như thế nào?",
+        "en": "A production Node.js API occasionally shows p99 latency spikes even though average CPU is low. How do you diagnose it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Đo event loop lag/utilization (`monitorEventLoopDelay`) và so với biểu đồ latency",
+          "en": "Measure event loop lag/utilization (`monitorEventLoopDelay`) and correlate it with latency"
+        },
+        {
+          "vi": "Profile CPU (`--cpu-prof`, flame graph) để tìm code đồng bộ chặn loop",
+          "en": "Profile the CPU (`--cpu-prof`, flame graphs) to find synchronous code blocking the loop"
+        },
+        {
+          "vi": "Kiểm tra GC pause và memory leak (`--trace-gc`, heap snapshot)",
+          "en": "Check GC pauses and memory leaks (`--trace-gc`, heap snapshots)"
+        },
+        {
+          "vi": "Dùng tracing/metrics để thấy thời gian chờ pool DB, threadpool, dịch vụ phía sau",
+          "en": "Use tracing/metrics to see waits on the DB pool, threadpool and downstream services"
+        },
+        {
+          "vi": "Khắc phục: `worker_threads`, chia nhỏ/stream dữ liệu, tăng pool, thêm cache",
+          "en": "Fix: `worker_threads`, chunk/stream the data, size the pools, add caching"
+        }
+      ],
+      "explanation": {
+        "vi": "Trước tiên đo độ trễ event loop bằng `perf_hooks.monitorEventLoopDelay()` hoặc event loop utilization và đặt cạnh biểu đồ latency: nếu lag tăng cùng lúc thì có đoạn code đồng bộ chặn loop (parse JSON lớn, regex backtracking, crypto sync, vòng lặp lớn). Dùng `--cpu-prof`, `--inspect` hoặc flame graph (clinic, 0x) để tìm hàm nóng. Kiểm tra GC và bộ nhớ (`--trace-gc`, heap snapshot), vì GC pause dài cũng gây spike. Nếu loop không lag, hãy dùng distributed tracing (OpenTelemetry) để xem thời gian chờ connection pool, threadpool bão hoà hoặc dịch vụ phía sau. Cách xử lý: chuyển việc nặng sang `worker_threads`, chia nhỏ hoặc stream dữ liệu, tăng pool hoặc thêm cache.",
+        "en": "First measure event loop delay with `perf_hooks.monitorEventLoopDelay()` or event loop utilization and line it up with the latency graph: if lag spikes at the same time, some synchronous code is blocking the loop (large JSON parsing, regex backtracking, sync crypto, big loops). Use `--cpu-prof`, `--inspect` or flame graphs (clinic, 0x) to find the hot functions. Check GC and memory (`--trace-gc`, heap snapshots), since long GC pauses also cause spikes. If the loop is not lagging, use distributed tracing (OpenTelemetry) to see waits on the connection pool, a saturated threadpool or downstream services. Fixes: move heavy work to `worker_threads`, chunk or stream the data, size the pools or add caching."
+      }
+    },
+    {
+      "id": "nodejs.modules.001",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "modules",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về CommonJS và ES Modules (ESM) trong Node.js?",
+        "en": "Which statement about CommonJS and ES Modules (ESM) in Node.js is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "ESM được phân tích tĩnh (`import`/`export`), còn CommonJS nạp đồng bộ lúc chạy bằng `require`",
+            "en": "ESM is statically analysed (`import`/`export`), while CommonJS loads synchronously at runtime via `require`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Câu lệnh `import` tĩnh có thể đặt trong khối `if` giống như `require`",
+            "en": "A static `import` statement can be placed inside an `if` block just like `require`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "ESM không được Node.js hỗ trợ, chỉ dùng được trên trình duyệt",
+            "en": "ESM is not supported by Node.js; it only works in browsers"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hai hệ module giống hệt nhau, chỉ khác cú pháp",
+            "en": "The two module systems are identical apart from syntax"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "CommonJS dùng `require`/`module.exports`, được nạp đồng bộ lúc chạy nên có thể gọi `require` ở bất cứ đâu. ESM dùng `import`/`export`, được phân tích tĩnh trước khi chạy và nạp bất đồng bộ; vì vậy câu lệnh `import` tĩnh phải nằm ở top-level, muốn nạp có điều kiện thì dùng `import()` động. Node chọn hệ module theo đuôi `.mjs`/`.cjs` hoặc trường `\"type\"` trong `package.json`.",
+        "en": "CommonJS uses `require`/`module.exports` and loads synchronously at runtime, so `require` can be called anywhere. ESM uses `import`/`export`, is statically analysed before execution and loads asynchronously; static `import` statements must therefore be top-level, and conditional loading uses dynamic `import()`. Node picks the module system from the `.mjs`/`.cjs` extension or the `\"type\"` field in `package.json`."
+      }
+    },
+    {
+      "id": "nodejs.modules.002",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "modules",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `package.json` có `\"express\": \"^4.18.2\"`. Khi cài mới (không có lock file), npm có thể cài phiên bản nào?",
+        "en": "`package.json` contains `\"express\": \"^4.18.2\"`. On a fresh install (no lock file), which versions may npm install?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`>=4.18.2 <5.0.0`",
+            "en": "`>=4.18.2 <5.0.0`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ đúng `4.18.2`",
+            "en": "Exactly `4.18.2` only"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`>=4.18.2 <4.19.0`",
+            "en": "`>=4.18.2 <4.19.0`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Mọi bản `>=4.18.2`, kể cả 5.x",
+            "en": "Any version `>=4.18.2`, including 5.x"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Dấu `^` cho phép mọi bản cập nhật không đổi số đầu tiên khác 0, tức `>=4.18.2 <5.0.0`, nên npm cài bản 4.x mới nhất. Theo semver, MAJOR tăng khi có breaking change nên `^` sẽ không tự nhảy lên 5.x. Khoảng `>=4.18.2 <4.19.0` là ý nghĩa của dấu `~`.",
+        "en": "The `^` caret allows any update that keeps the left-most non-zero number, i.e. `>=4.18.2 <5.0.0`, so npm installs the latest 4.x. Under semver, MAJOR bumps signal breaking changes, so `^` never jumps to 5.x on its own. The range `>=4.18.2 <4.19.0` is what the `~` tilde means."
+      }
+    },
+    {
+      "id": "nodejs.modules.003",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "modules",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "`package-lock.json` dùng để làm gì? Khi nào nên dùng `npm ci` thay cho `npm install`?",
+        "en": "What is `package-lock.json` for? When should you use `npm ci` instead of `npm install`?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Lock file ghi phiên bản chính xác + `integrity` của cả cây dependency",
+          "en": "The lock file records exact versions + `integrity` for the whole dependency tree"
+        },
+        {
+          "vi": "Commit lock file để mọi máy/CI cài giống nhau",
+          "en": "Commit the lock file so every machine/CI installs the same tree"
+        },
+        {
+          "vi": "`npm ci`: cài đúng theo lock, xoá `node_modules`, lỗi nếu lệch `package.json` → dùng cho CI",
+          "en": "`npm ci`: installs exactly from the lock, wipes `node_modules`, fails on mismatch → use in CI"
+        },
+        {
+          "vi": "`npm install`: dùng khi phát triển, có thể cập nhật lock file",
+          "en": "`npm install`: for development; may update the lock file"
+        }
+      ],
+      "explanation": {
+        "vi": "`package.json` chỉ khai báo khoảng phiên bản, còn `package-lock.json` ghi lại chính xác phiên bản và hash `integrity` của toàn bộ cây dependency, kể cả dependency gián tiếp. Commit lock file giúp mọi máy và CI cài ra cùng một cây, tránh lỗi \"máy tôi chạy được\". `npm ci` xoá `node_modules` rồi cài đúng theo lock file và báo lỗi nếu lock không khớp `package.json`, nên phù hợp cho CI và build production. `npm install` có thể cập nhật lock file trong khoảng cho phép, dùng khi phát triển hoặc thêm package. Không commit `node_modules`.",
+        "en": "`package.json` only declares version ranges, while `package-lock.json` records the exact versions and `integrity` hashes of the whole dependency tree, including transitive dependencies. Committing the lock file makes every machine and CI install the same tree, avoiding \"works on my machine\" bugs. `npm ci` deletes `node_modules`, installs exactly what the lock file says, and fails if the lock does not match `package.json`, so it suits CI and production builds. `npm install` may update the lock within allowed ranges and is for development or adding packages. Do not commit `node_modules`."
+      }
+    },
+    {
+      "id": "nodejs.modules.004",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "modules",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt giữa `dependencies` và `devDependencies` trong `package.json` là gì?",
+        "en": "What is the difference between `dependencies` and `devDependencies` in `package.json`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`devDependencies` không bao giờ được cài, kể cả trên máy dev",
+            "en": "`devDependencies` are never installed, even on a dev machine"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`dependencies` luôn được cài global, `devDependencies` cài local",
+            "en": "`dependencies` are always installed globally, `devDependencies` locally"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không có khác biệt, chỉ để phân loại cho dễ đọc",
+            "en": "There is no difference; it is just for readability"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`devDependencies` chỉ cần cho dev/build/test và bị bỏ qua khi cài với `--omit=dev`",
+            "en": "`devDependencies` are only for dev/build/test and are skipped with `--omit=dev`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`devDependencies` là các package chỉ cần khi phát triển, build hoặc test như `jest`, `eslint`, `typescript`, `nodemon`. Khi cài cho production bằng `npm install --omit=dev` (hoặc `NODE_ENV=production`), npm bỏ qua nhóm này để image nhẹ hơn và ít bề mặt tấn công hơn. Ở máy dev, `npm install` vẫn cài cả hai nhóm, nên đáp án \"devDependencies không bao giờ được cài\" là sai.",
+        "en": "`devDependencies` are packages needed only for development, building or testing, such as `jest`, `eslint`, `typescript` or `nodemon`. A production install with `npm install --omit=dev` (or `NODE_ENV=production`) skips them, giving a smaller image and a smaller attack surface. On a dev machine `npm install` still installs both groups, so \"devDependencies are never installed\" is wrong."
+      }
+    },
+    {
+      "id": "nodejs.modules.005",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "modules",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chạy `node main.js`, kết quả in ra là gì?",
+        "en": "Running `node main.js`, what is printed?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "// counter.js\nlet count = 0;\nmodule.exports = { inc: () => ++count };\n\n// main.js\nconst a = require('./counter');\nconst b = require('./counter');\na.inc();\na.inc();\nconsole.log(b.inc(), a === b);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "3 true",
+            "en": "3 true"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "1 false",
+            "en": "1 false"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "1 true",
+            "en": "1 true"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "3 false",
+            "en": "3 false"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Lần `require` đầu tiên chạy `counter.js` và lưu `module.exports` vào `require.cache`; lần thứ hai trả về đúng object đã cache, nên `a` và `b` là một. Biến `count` được dùng chung: hai lần `a.inc()` đưa nó lên 2, `b.inc()` trả về 3. Đây là lý do module CommonJS hoạt động như singleton trong một process.",
+        "en": "The first `require` runs `counter.js` and stores `module.exports` in `require.cache`; the second returns the very same cached object, so `a` and `b` are identical. The `count` variable is shared: two `a.inc()` calls bring it to 2 and `b.inc()` returns 3. This is why CommonJS modules behave like singletons within a process."
+      }
+    },
+    {
+      "id": "nodejs.modules.006",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "modules",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chạy `node main.js`, kết quả in ra là gì?",
+        "en": "Running `node main.js`, what is printed?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "// math.js\nexports.add = (a, b) => a + b;\nexports = { sub: (a, b) => a - b };\n\n// main.js\nconst math = require('./math');\nconsole.log(Object.keys(math));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[ 'sub' ]",
+            "en": "[ 'sub' ]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[ 'add', 'sub' ]",
+            "en": "[ 'add', 'sub' ]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[]",
+            "en": "[]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "[ 'add' ]",
+            "en": "[ 'add' ]"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`exports` chỉ là một biến tham chiếu tới `module.exports`. Dòng đầu thêm `add` vào object đó. Dòng thứ hai gán `exports` sang object mới, làm mất liên kết với `module.exports`, nên `sub` không được export. `require` luôn trả về `module.exports`, vì vậy chỉ có `add`. Muốn thay cả object thì phải gán `module.exports = { ... }`.",
+        "en": "`exports` is just a variable referencing `module.exports`. The first line adds `add` to that object. The second line reassigns `exports` to a new object, breaking the link with `module.exports`, so `sub` is never exported. `require` always returns `module.exports`, so only `add` is there. To replace the whole object you must assign `module.exports = { ... }`."
+      }
+    },
+    {
+      "id": "nodejs.modules.007",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "modules",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Hai module phụ thuộc vòng tròn. Chạy `node a.js`, kết quả in ra là gì?",
+        "en": "Two modules depend on each other. Running `node a.js`, what is printed?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "// a.js\nexports.name = 'a';\nconst b = require('./b');\nconsole.log('in a, b.done =', b.done);\nexports.done = true;\n\n// b.js\nconst a = require('./a');\nconsole.log('in b, a.done =', a.done);\nexports.done = true;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "in b, a.done = undefined\nin a, b.done = true",
+            "en": "in b, a.done = undefined\nin a, b.done = true"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "in b, a.done = true\nin a, b.done = true",
+            "en": "in b, a.done = true\nin a, b.done = true"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "in a, b.done = undefined\nin b, a.done = true",
+            "en": "in a, b.done = undefined\nin b, a.done = true"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi: Circular dependency detected",
+            "en": "Error: Circular dependency detected"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`a.js` bắt đầu chạy, gán `exports.name` rồi `require('./b')`. `b.js` gọi lại `require('./a')`; vì `a` đang được nạp dở nên Node trả về object `exports` chưa hoàn chỉnh của nó (chỉ có `name`), do đó `a.done` là `undefined`. `b.js` chạy xong và đặt `done = true`, rồi `a.js` chạy tiếp và in `b.done = true`. Node không ném lỗi với vòng phụ thuộc (bản mới chỉ in thêm cảnh báo truy cập property không tồn tại), nhưng bạn sẽ nhận được export dở dang, nên cần tránh hoặc tách phần dùng chung ra module thứ ba.",
+        "en": "`a.js` starts, sets `exports.name`, then calls `require('./b')`. `b.js` calls `require('./a')` back; since `a` is still loading, Node returns its incomplete `exports` object (only `name`), so `a.done` is `undefined`. `b.js` finishes and sets `done = true`, then `a.js` resumes and prints `b.done = true`. Node does not throw on cycles (recent versions only print a warning about accessing a missing property), but you get partially initialised exports, so avoid them or move shared code into a third module."
+      }
+    },
+    {
+      "id": "nodejs.modules.008",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "modules",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chạy `node app.mjs` trên Node.js 22, kết quả là gì?",
+        "en": "Running `node app.mjs` on Node.js 22, what is the result?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "// app.mjs\nimport path from 'node:path';\n\nconsole.log(typeof require);\nconsole.log(path.basename(__dirname));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "In `undefined`, sau đó ném `ReferenceError: __dirname is not defined in ES module scope`",
+            "en": "Prints `undefined`, then throws `ReferenceError: __dirname is not defined in ES module scope`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "In `function` và tên thư mục chứa file",
+            "en": "Prints `function` and the name of the containing folder"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "In `undefined` và tên thư mục chứa file",
+            "en": "Prints `undefined` and the name of the containing folder"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ném `SyntaxError` ngay từ dòng `import`",
+            "en": "Throws a `SyntaxError` at the `import` line"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trong ES module, các biến bọc module của CommonJS như `require`, `module`, `__filename`, `__dirname` không tồn tại. `typeof` một biến chưa khai báo không ném lỗi nên dòng đầu in `undefined`, còn dòng hai truy cập trực tiếp `__dirname` nên ném `ReferenceError`. Trong ESM hãy dùng `import.meta.dirname`/`import.meta.filename` (Node 20.11+) hoặc `path.dirname(fileURLToPath(import.meta.url))`.",
+        "en": "In an ES module, the CommonJS wrapper variables such as `require`, `module`, `__filename` and `__dirname` do not exist. `typeof` on an undeclared variable does not throw, so the first line prints `undefined`, while the second line reads `__dirname` directly and throws a `ReferenceError`. In ESM, use `import.meta.dirname`/`import.meta.filename` (Node 20.11+) or `path.dirname(fileURLToPath(import.meta.url))`."
+      }
+    },
+    {
+      "id": "nodejs.async.001",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "async",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong callback kiểu Node.js như `fs.readFile(path, (a, b) => {...})`, tham số đầu tiên `a` là gì?",
+        "en": "In a Node.js-style callback such as `fs.readFile(path, (a, b) => {...})`, what is the first parameter `a`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nội dung file đọc được",
+            "en": "The file contents"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đường dẫn file vừa đọc",
+            "en": "The path of the file that was read"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Object lỗi, hoặc `null` nếu thành công",
+            "en": "An error object, or `null` on success"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Một Promise chứa kết quả",
+            "en": "A Promise holding the result"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Node dùng quy ước error-first callback: tham số đầu là object lỗi (hoặc `null` nếu thành công), dữ liệu kết quả nằm ở các tham số sau. Vì vậy callback luôn phải kiểm tra `if (err)` trước và thường `return` ngay sau khi xử lý lỗi. Với code mới, có thể dùng bản Promise như `fs/promises` cùng `async/await`.",
+        "en": "Node uses the error-first callback convention: the first argument is an error object (or `null` on success) and the result data comes in the following arguments. So the callback must check `if (err)` first and usually `return` right after handling it. In new code you can use the Promise-based APIs such as `fs/promises` with `async/await`."
+      }
+    },
+    {
+      "id": "nodejs.async.002",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "async",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "async function getNumber() {\n  return 42;\n}\n\nconst result = getNumber();\nconsole.log(result);\nconsole.log(result instanceof Promise);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "42\nfalse",
+            "en": "42\nfalse"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Promise { <pending> }\ntrue",
+            "en": "Promise { <pending> }\ntrue"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Promise { 42 }\ntrue",
+            "en": "Promise { 42 }\ntrue"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "undefined\nfalse",
+            "en": "undefined\nfalse"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Hàm `async` luôn trả về một Promise, kể cả khi bạn `return` một giá trị thường; giá trị đó trở thành giá trị resolve. Vì `return 42` không cần chờ gì, Promise đã ở trạng thái fulfilled khi được in, nên Node hiển thị `Promise { 42 }`. Muốn lấy `42` phải dùng `await getNumber()` hoặc `.then()`.",
+        "en": "An `async` function always returns a Promise, even when you `return` a plain value; that value becomes the resolved value. Since `return 42` waits on nothing, the Promise is already fulfilled when logged, so Node shows `Promise { 42 }`. To get `42` you need `await getNumber()` or `.then()`."
+      }
+    },
+    {
+      "id": "nodejs.async.003",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "async",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cần gửi file log 2 GB cho client qua HTTP. Vì sao nên dùng `fs.createReadStream(...).pipe(res)` thay vì `fs.readFile` rồi `res.end(data)`?",
+        "en": "You need to send a 2 GB log file to a client over HTTP. Why use `fs.createReadStream(...).pipe(res)` instead of `fs.readFile` then `res.end(data)`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`fs.readFile` chạy trên main thread còn stream chạy trên thread riêng",
+            "en": "`fs.readFile` runs on the main thread while streams run on their own thread"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Stream xử lý theo chunk nên tốn ít bộ nhớ và client nhận dữ liệu sớm",
+            "en": "Streams work in chunks, so they use little memory and the client gets data early"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Stream tự động nén file trước khi gửi",
+            "en": "Streams compress the file automatically before sending"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`res.end` không nhận được `Buffer`",
+            "en": "`res.end` cannot accept a `Buffer`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Stream đọc và gửi dữ liệu theo từng chunk (mặc định 64 KB), nên bộ nhớ dùng gần như cố định và client nhận byte đầu tiên ngay, không phải chờ đọc xong cả file. `fs.readFile` phải nạp toàn bộ 2 GB vào một `Buffer`, rất tốn RAM và còn có thể vượt giới hạn kích thước buffer. Stream không làm I/O nhanh hơn về bản chất; lợi ích chính là bộ nhớ và độ trễ.",
+        "en": "A stream reads and sends data in chunks (64 KB by default), so memory use stays roughly constant and the client gets the first bytes immediately instead of waiting for the whole file. `fs.readFile` must load all 2 GB into a single `Buffer`, which wastes RAM and can even exceed the maximum buffer size. Streams do not make I/O inherently faster; the gains are memory and latency."
+      }
+    },
+    {
+      "id": "nodejs.async.004",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "async",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const EventEmitter = require('events');\nconst bus = new EventEmitter();\n\nbus.on('order', (id) => console.log('handle', id));\n\nconsole.log('before');\nbus.emit('order', 7);\nconsole.log('after');"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "before\nafter\nhandle 7",
+            "en": "before\nafter\nhandle 7"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "handle 7\nbefore\nafter",
+            "en": "handle 7\nbefore\nafter"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "before\nhandle 7\nafter",
+            "en": "before\nhandle 7\nafter"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "before\nafter",
+            "en": "before\nafter"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`EventEmitter.emit` gọi các listener một cách đồng bộ, theo thứ tự đăng ký, ngay trong lời gọi `emit`. Vì vậy `handle 7` được in giữa `before` và `after`. Nhiều người nhầm rằng event luôn bất đồng bộ; nếu muốn listener chạy sau, phải tự bọc trong `setImmediate` hoặc `process.nextTick`.",
+        "en": "`EventEmitter.emit` calls listeners synchronously, in registration order, inside the `emit` call itself. So `handle 7` is printed between `before` and `after`. Many people assume events are always asynchronous; if you want a listener to run later, wrap it in `setImmediate` or `process.nextTick` yourself."
+      }
+    },
+    {
+      "id": "nodejs.async.005",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "async",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "`saveAll` được kỳ vọng in `saved: 3` nhưng lại in `saved: 0`. Lỗi nằm ở đâu?",
+        "en": "`saveAll` is expected to print `saved: 3` but prints `saved: 0`. Where is the bug?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const ids = [1, 2, 3];\nconst sleep = (ms) => new Promise((r) => setTimeout(r, ms));\n\nasync function saveAll() {\n  const saved = [];\n  ids.forEach(async (id) => {\n    await sleep(10);\n    saved.push(id);\n  });\n  return saved;\n}\n\nsaveAll().then((saved) => console.log('saved:', saved.length));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`sleep(10)` quá ngắn nên `setTimeout` bị bỏ qua",
+            "en": "`sleep(10)` is too short, so `setTimeout` is skipped"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`saved` phải khai báo bằng `let` thay vì `const`",
+            "en": "`saved` must be declared with `let` instead of `const`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`forEach` không chờ callback `async`, nên hàm trả về trước khi `push`",
+            "en": "`forEach` does not await `async` callbacks, so the function returns before any `push`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải gọi `saveAll()` bằng `await` ở top-level",
+            "en": "`saveAll()` must be called with a top-level `await`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Array.prototype.forEach` không chờ callback `async`: nó gọi ba callback, mỗi cái trả về một Promise bị bỏ qua, rồi kết thúc ngay. Vì vậy `return saved` chạy khi chưa có phần tử nào được thêm. Sửa bằng `for (const id of ids) { await ... }` nếu cần tuần tự, hoặc `await Promise.all(ids.map(async (id) => ...))` nếu chạy song song. Thời gian `sleep` không phải nguyên nhân.",
+        "en": "`Array.prototype.forEach` does not wait for `async` callbacks: it calls the three callbacks, ignores the Promises they return, and finishes immediately. So `return saved` runs before anything has been pushed. Fix it with `for (const id of ids) { await ... }` for sequential work, or `await Promise.all(ids.map(async (id) => ...))` for parallel work. The `sleep` duration is not the cause."
+      }
+    },
+    {
+      "id": "nodejs.async.006",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "async",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "async function fail() {\n  throw new Error('boom');\n}\n\nasync function run() {\n  try {\n    return fail();\n  } catch (e) {\n    return 'caught';\n  }\n}\n\nrun()\n  .then((v) => console.log('value', v))\n  .catch((e) => console.log('error', e.message));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "value caught",
+            "en": "value caught"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "value undefined",
+            "en": "value undefined"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "value [object Promise]",
+            "en": "value [object Promise]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "error boom",
+            "en": "error boom"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`return fail()` trả về Promise mà không `await`, nên khối `try` kết thúc ngay khi Promise được trả về, trước khi nó bị reject. Promise của `run` đi theo Promise bị reject đó, nên `.catch` bên ngoài nhận được lỗi và in `error boom`; khối `catch` bên trong không bao giờ chạy. Muốn bắt lỗi tại chỗ phải viết `return await fail();`.",
+        "en": "`return fail()` returns the Promise without `await`, so the `try` block is left as soon as the Promise is returned, before it rejects. The Promise of `run` adopts that rejected Promise, so the outer `.catch` receives the error and prints `error boom`; the inner `catch` block never runs. To catch it locally, write `return await fail();`."
+      }
+    },
+    {
+      "id": "nodejs.async.007",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "async",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chạy đoạn code sau trên Node.js 20 với cấu hình mặc định, điều gì xảy ra?",
+        "en": "Running this code on Node.js 20 with the default configuration, what happens?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "Promise.reject(new Error('lost'));\n\nsetTimeout(() => console.log('still alive'), 100);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "In cảnh báo `UnhandledPromiseRejectionWarning` rồi vẫn in `still alive`",
+            "en": "Prints an `UnhandledPromiseRejectionWarning` and then still prints `still alive`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ in `still alive`, lỗi bị bỏ qua",
+            "en": "Only prints `still alive`; the error is ignored"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Process in lỗi `Error: lost` rồi thoát với exit code 1, không in `still alive`",
+            "en": "The process prints `Error: lost` and exits with code 1; `still alive` is not printed"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không in gì và process treo mãi",
+            "en": "Prints nothing and the process hangs forever"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Từ Node.js 15, chế độ mặc định là `--unhandled-rejections=throw`: một Promise bị reject mà không có handler sẽ được xử lý như uncaught exception, process in stack trace và thoát với exit code 1. Vì vậy timer không kịp chạy và `still alive` không được in. Hành vi \"chỉ in cảnh báo rồi chạy tiếp\" là của Node 14 trở về trước. Luôn `await`/`.catch` Promise và có thể log thêm qua `process.on('unhandledRejection')`.",
+        "en": "Since Node.js 15 the default is `--unhandled-rejections=throw`: a rejected Promise without a handler is treated as an uncaught exception, so the process prints the stack trace and exits with code 1. The timer never gets to run and `still alive` is not printed. \"Print a warning and keep going\" was the behaviour of Node 14 and earlier. Always `await`/`.catch` your Promises, and optionally log via `process.on('unhandledRejection')`."
+      }
+    },
+    {
+      "id": "nodejs.async.008",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "async",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Script ghi 10 triệu dòng sau làm RAM tăng lên vài GB. Nguyên nhân là gì?",
+        "en": "This script writing 10 million lines makes RAM grow to several GB. What is the cause?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const fs = require('fs');\nconst out = fs.createWriteStream('big.txt');\n\nfor (let i = 0; i < 1e7; i++) {\n  out.write(`line ${i}\\n`);\n}\nout.end();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải gọi `out.end()` bên trong vòng lặp",
+            "en": "`out.end()` must be called inside the loop"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`createWriteStream` luôn đọc toàn bộ file vào RAM trước khi ghi",
+            "en": "`createWriteStream` always loads the whole file into RAM before writing"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bỏ qua giá trị trả về của `write()`, không chờ `'drain'`, nên dữ liệu dồn hết vào bộ nhớ",
+            "en": "It ignores the return value of `write()` and never waits for `'drain'`, so data piles up in memory"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Template string tạo memory leak, phải dùng nối chuỗi `+`",
+            "en": "Template strings leak memory; use `+` concatenation instead"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`write()` trả về `false` khi buffer nội bộ vượt `highWaterMark`, báo hiệu producer cần dừng lại (backpressure). Vòng lặp bỏ qua tín hiệu này nên mọi chunk bị dồn vào bộ nhớ nhanh hơn tốc độ ghi đĩa; vì vòng lặp đồng bộ, stream thậm chí không ghi được gì cho tới khi vòng lặp kết thúc. Cách sửa: khi `write()` trả `false` thì `await once(out, 'drain')`, hoặc tạo `Readable` (ví dụ `Readable.from(generator)`) rồi dùng `pipeline`. `end()` không phải vấn đề.",
+        "en": "`write()` returns `false` once the internal buffer exceeds `highWaterMark`, signalling the producer to pause (backpressure). The loop ignores this, so every chunk piles up in memory faster than the disk can absorb it; since the loop is synchronous, nothing is even written until it ends. Fix: when `write()` returns `false`, `await once(out, 'drain')`, or build a `Readable` (e.g. `Readable.from(generator)`) and use `pipeline`. `end()` is not the problem."
+      }
+    },
+    {
+      "id": "nodejs.async.009",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "async",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao nên dùng `stream.pipeline` thay cho chuỗi `src.pipe(gzip).pipe(dest)`?",
+        "en": "Why prefer `stream.pipeline` over chaining `src.pipe(gzip).pipe(dest)`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`pipeline` lan truyền lỗi và huỷ mọi stream khi có lỗi; `.pipe()` thì không",
+            "en": "`pipeline` propagates errors and destroys every stream on failure; `.pipe()` does not"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`.pipe()` đã bị xoá khỏi Node.js 20",
+            "en": "`.pipe()` was removed in Node.js 20"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`pipeline` chạy mỗi stream trên một thread riêng nên nhanh hơn",
+            "en": "`pipeline` runs each stream on its own thread, so it is faster"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`pipeline` tắt backpressure để ghi nhanh hơn",
+            "en": "`pipeline` disables backpressure to write faster"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`.pipe()` có xử lý backpressure nhưng không chuyển tiếp lỗi: nếu một stream giữa chuỗi lỗi, các stream khác không bị huỷ, file descriptor có thể bị rò rỉ và bạn phải gắn `'error'` cho từng stream. `pipeline` (hoặc bản `stream/promises`) nối các stream, huỷ tất cả khi một cái lỗi và trả lỗi về một callback/Promise duy nhất. `pipe` không bị xoá khỏi Node, và `pipeline` vẫn giữ backpressure chứ không tắt nó.",
+        "en": "`.pipe()` handles backpressure but does not forward errors: if one stream in the chain fails, the others are not destroyed, file descriptors can leak, and you must attach `'error'` to every stream. `pipeline` (or its `stream/promises` version) connects the streams, destroys all of them when any fails, and reports the error to a single callback/Promise. `pipe` has not been removed from Node, and `pipeline` keeps backpressure rather than disabling it."
+      }
+    },
+    {
+      "id": "nodejs.express.001",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "express",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Middleware trong Express là gì?",
+        "en": "What is middleware in Express?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một server trung gian đứng giữa Express và database",
+            "en": "A separate server sitting between Express and the database"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hàm chỉ chạy một lần khi server khởi động",
+            "en": "A function that runs only once when the server starts"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Các middleware chạy song song với nhau cho mỗi request",
+            "en": "Middleware functions run in parallel for each request"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hàm `(req, res, next)` trong chuỗi xử lý, có thể sửa req/res, kết thúc response hoặc gọi `next()`",
+            "en": "A `(req, res, next)` function in the chain that can modify req/res, end the response or call `next()`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Middleware là hàm có dạng `(req, res, next)` nằm trong chuỗi xử lý request. Nó có thể đọc/sửa `req` và `res`, kết thúc response, hoặc gọi `next()` để chuyển cho hàm tiếp theo. Logging, parse body, xác thực, CORS đều là middleware. Middleware chạy theo đúng thứ tự được khai báo bằng `app.use`/route, không phải song song.",
+        "en": "Middleware is a function of the form `(req, res, next)` in the request-handling chain. It can read/modify `req` and `res`, end the response, or call `next()` to pass control to the next function. Logging, body parsing, authentication and CORS are all middleware. Middleware runs in the exact order it is registered with `app.use`/routes, not in parallel."
+      }
+    },
+    {
+      "id": "nodejs.express.002",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "express",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Gọi `GET /health` thì client chờ mãi không có phản hồi. Lỗi ở đâu?",
+        "en": "Calling `GET /health` makes the client wait forever. Where is the bug?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const express = require('express');\nconst app = express();\n\napp.use((req, res, next) => {\n  console.log(`${req.method} ${req.url}`);\n});\n\napp.get('/health', (req, res) => {\n  res.json({ ok: true });\n});\n\napp.listen(3000);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`app.use` phải đặt sau `app.get`",
+            "en": "`app.use` must be placed after `app.get`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Middleware logging không gọi `next()`",
+            "en": "The logging middleware never calls `next()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`res.json` phải đổi thành `res.send`",
+            "en": "`res.json` must be changed to `res.send`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`app.listen` thiếu callback",
+            "en": "`app.listen` is missing a callback"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Middleware logging không gửi response và cũng không gọi `next()`, nên request dừng lại ở đó và route `/health` không bao giờ chạy; client chờ đến khi timeout. Sửa bằng cách thêm `next()` sau `console.log`. Thứ tự `app.use` trước `app.get` là đúng, không phải nguyên nhân.",
+        "en": "The logging middleware neither sends a response nor calls `next()`, so the request stops there and the `/health` route never runs; the client waits until it times out. Fix it by calling `next()` after `console.log`. Registering `app.use` before `app.get` is correct and is not the cause."
+      }
+    },
+    {
+      "id": "nodejs.express.003",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "express",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Route `app.get('/users/:id', handler)` nhận request `GET /users/42?sort=name`. Trong `handler`, giá trị nào đúng?",
+        "en": "The route `app.get('/users/:id', handler)` receives `GET /users/42?sort=name`. Inside `handler`, which values are correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`req.params.id === 42` (kiểu number)",
+            "en": "`req.params.id === 42` (a number)"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`req.params.id === '42'` và `req.query.sort === 'name'`",
+            "en": "`req.params.id === '42'` and `req.query.sort === 'name'`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`req.query.id === '42'` và `req.params.sort === 'name'`",
+            "en": "`req.query.id === '42'` and `req.params.sort === 'name'`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`req.body.id === '42'`",
+            "en": "`req.body.id === '42'`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Tham số trên path (`:id`) nằm trong `req.params`, còn query string nằm trong `req.query`. Cả hai luôn là chuỗi, nên `req.params.id` là `'42'` chứ không phải số; muốn số phải tự chuyển và validate (`Number(...)`). `req.body` chỉ có dữ liệu khi request có body và đã dùng middleware parse body.",
+        "en": "Path parameters (`:id`) live in `req.params`, while the query string is in `req.query`. Both are always strings, so `req.params.id` is `'42'`, not a number; convert and validate it yourself (`Number(...)`). `req.body` only has data when the request has a body and a body-parsing middleware is used."
+      }
+    },
+    {
+      "id": "nodejs.express.004",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "express",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Client gửi `POST /users` với body JSON nhưng trong handler `req.body` là `undefined`. Nguyên nhân phổ biến nhất?",
+        "en": "A client sends `POST /users` with a JSON body, but `req.body` is `undefined` in the handler. What is the most common cause?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chưa đăng ký `app.use(express.json())` trước route",
+            "en": "`app.use(express.json())` was not registered before the route"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Express không hỗ trợ body JSON, phải dùng form",
+            "en": "Express does not support JSON bodies; use forms instead"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải đọc body từ `req.params`",
+            "en": "The body must be read from `req.params`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Request `POST` không được có body",
+            "en": "`POST` requests may not have a body"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Express không tự parse body. Cần đăng ký `app.use(express.json())` trước các route để đọc body có `Content-Type: application/json` và gán vào `req.body`. Client cũng phải gửi đúng header này, nếu không parser sẽ bỏ qua. Dùng `POST` cho tạo mới là đúng; method không phải nguyên nhân.",
+        "en": "Express does not parse bodies by itself. Register `app.use(express.json())` before the routes so bodies with `Content-Type: application/json` are parsed into `req.body`. The client must also send that header, or the parser skips the body. Using `POST` for creation is correct; the method is not the cause."
+      }
+    },
+    {
+      "id": "nodejs.express.005",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "express",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Quan hệ giữa Express và module `http` có sẵn của Node.js là gì?",
+        "en": "What is the relationship between Express and Node.js's built-in `http` module?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Express thay `http` bằng một server viết bằng C++ nhanh hơn",
+            "en": "Express replaces `http` with a faster server written in C++"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Express xây trên `http`, bổ sung routing, middleware và helper cho req/res",
+            "en": "Express is built on `http`, adding routing, middleware and req/res helpers"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không có Express thì Node.js không thể lắng nghe cổng HTTP",
+            "en": "Without Express, Node.js cannot listen on an HTTP port"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Express tự động chạy mỗi route trên một thread riêng",
+            "en": "Express automatically runs each route on its own thread"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Express là framework xây trên module `http`: `app` thực chất là một request handler được truyền vào `http.createServer`, và `app.listen` chỉ là lối tắt cho việc đó. Express bổ sung routing, chuỗi middleware và các helper như `res.json`, `res.status`, `req.params`. Nó không thay thế server bằng engine riêng và không tự chạy đa luồng; bạn hoàn toàn có thể viết server chỉ với `http`.",
+        "en": "Express is a framework built on top of the `http` module: `app` is really a request handler passed to `http.createServer`, and `app.listen` is just a shortcut for that. Express adds routing, a middleware chain and helpers such as `res.json`, `res.status` and `req.params`. It does not replace the server with its own engine and does not run multi-threaded; you can write a server with `http` alone."
+      }
+    },
+    {
+      "id": "nodejs.express.006",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "express",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Client lần lượt gọi `GET /hi` rồi `GET /bye`. Server in ra console những gì?",
+        "en": "A client calls `GET /hi` and then `GET /bye`. What does the server print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const app = express();\n\napp.use((req, res, next) => { console.log('A'); next(); });\n\napp.get('/hi', (req, res) => {\n  console.log('B');\n  res.send('ok');\n});\n\napp.use((req, res, next) => { console.log('C'); next(); });\n\napp.use((req, res) => {\n  console.log('D');\n  res.status(404).end();\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "A B C D A C D",
+            "en": "A B C D A C D"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "A C B A C D",
+            "en": "A C B A C D"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "A B A C D",
+            "en": "A B A C D"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "A B A D",
+            "en": "A B A D"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Express chạy middleware và route theo thứ tự khai báo. Với `GET /hi`: `A` chạy rồi `next()`, route `/hi` khớp, in `B` và gửi response, nên `C`, `D` không chạy. Với `GET /bye`: `A` chạy, route `/hi` không khớp nên bị bỏ qua, `C` chạy rồi tới middleware cuối in `D` và trả 404. Middleware khai báo sau một route vẫn chạy cho request không khớp route đó, đây là cách viết handler 404.",
+        "en": "Express runs middleware and routes in registration order. For `GET /hi`: `A` runs and calls `next()`, the `/hi` route matches, prints `B` and sends the response, so `C` and `D` never run. For `GET /bye`: `A` runs, the `/hi` route does not match and is skipped, `C` runs and then the last middleware prints `D` and returns 404. Middleware registered after a route still runs for requests that do not match it, which is how 404 handlers work."
+      }
+    },
+    {
+      "id": "nodejs.express.007",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "express",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Khi `findOrder` lỗi, client nhận trang HTML lỗi mặc định của Express thay vì JSON. Vì sao?",
+        "en": "When `findOrder` fails, the client gets Express's default HTML error page instead of JSON. Why?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "app.get('/orders/:id', async (req, res, next) => {\n  try {\n    const order = await findOrder(req.params.id);\n    res.json(order);\n  } catch (err) {\n    next(err);\n  }\n});\n\napp.use((err, req, res) => {\n  res.status(500).json({ message: err.message });\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trong `catch` phải `throw err` thay vì `next(err)`",
+            "en": "The `catch` must `throw err` instead of calling `next(err)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Error middleware phải được khai báo trước route",
+            "en": "The error middleware must be registered before the route"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`res.status(500).json` không dùng được trong error middleware",
+            "en": "`res.status(500).json` cannot be used in error middleware"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Error middleware chỉ có 3 tham số; Express cần đủ 4 `(err, req, res, next)`",
+            "en": "The error middleware has only 3 parameters; Express needs all 4 `(err, req, res, next)`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Express nhận diện error-handling middleware dựa vào số tham số: phải đúng 4 tham số `(err, req, res, next)`. Hàm chỉ có 3 tham số bị coi là middleware thường, nên khi `next(err)` được gọi, Express bỏ qua nó và rơi xuống handler mặc định trả HTML 500. Thêm tham số `next` (dù không dùng) là sửa được. Việc gọi `next(err)` trong `catch` là đúng.",
+        "en": "Express recognises error-handling middleware by its arity: it must have exactly 4 parameters `(err, req, res, next)`. A 3-parameter function is treated as regular middleware, so when `next(err)` is called Express skips it and falls through to the default handler, which returns an HTML 500. Adding the `next` parameter (even if unused) fixes it. Calling `next(err)` in the `catch` is correct."
+      }
+    },
+    {
+      "id": "nodejs.express.008",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "express",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Ứng dụng dùng Express 4. Khi `db.findUser` ném lỗi, error middleware không chạy. Vì sao?",
+        "en": "The app uses Express 4. When `db.findUser` throws, the error middleware never runs. Why?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "// Express 4.x\napp.get('/users/:id', async (req, res) => {\n  const user = await db.findUser(req.params.id); // có thể throw\n  if (!user) return res.status(404).json({ message: 'Not found' });\n  res.json(user);\n});\n\napp.use((err, req, res, next) => {\n  res.status(500).json({ message: 'Internal error' });\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Error middleware phải có 3 tham số",
+            "en": "The error middleware must have 3 parameters"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Express 4 không bắt Promise bị reject từ handler `async`, cần `try/catch` + `next(err)`",
+            "en": "Express 4 does not catch rejected Promises from `async` handlers; use `try/catch` + `next(err)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không được dùng `return` trước `res.status(404)`",
+            "en": "You must not use `return` before `res.status(404)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`req.params.id` phải được `await`",
+            "en": "`req.params.id` must be awaited"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Express 4 không theo dõi Promise trả về từ handler: khi hàm `async` bị reject, lỗi không được chuyển cho `next`, nên error middleware không chạy, request bị treo và trên Node 15+ unhandled rejection còn làm process crash. Cách sửa: bọc `try/catch` và gọi `next(err)`, dùng wrapper `asyncHandler`, hoặc nâng lên Express 5, vốn tự chuyển Promise bị reject cho `next(err)`. Error middleware 4 tham số ở đây đã đúng.",
+        "en": "Express 4 does not track the Promise returned by a handler: when the `async` function rejects, the error is not passed to `next`, so the error middleware never runs, the request hangs, and on Node 15+ the unhandled rejection even crashes the process. Fix: wrap in `try/catch` and call `next(err)`, use an `asyncHandler` wrapper, or upgrade to Express 5, which forwards rejected Promises to `next(err)` automatically. The 4-parameter error middleware here is already correct."
+      }
+    },
+    {
+      "id": "nodejs.express.009",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "express",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Lỗi `ERR_HTTP_HEADERS_SENT: Cannot set headers after they are sent to the client` thường do đâu?",
+        "en": "What usually causes `ERR_HTTP_HEADERS_SENT: Cannot set headers after they are sent to the client`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gửi response hai lần cho cùng một request, ví dụ quên `return` sau `res.json()`",
+            "en": "Sending two responses for the same request, e.g. a missing `return` after `res.json()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Header vượt quá kích thước tối đa 8 KB",
+            "en": "The headers exceed the 8 KB maximum size"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chưa cấu hình CORS cho domain của client",
+            "en": "CORS is not configured for the client's domain"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gọi `res.status()` trước `res.json()`",
+            "en": "Calling `res.status()` before `res.json()`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Lỗi này xuất hiện khi một request bị gửi response hai lần, ví dụ gọi `res.json()` trong nhánh `if` mà quên `return`, nên code chạy tiếp và gọi `res.json()` lần nữa, hoặc vừa gửi response vừa gọi `next()`. Cách tránh: luôn `return res...` khi kết thúc sớm và đảm bảo mỗi đường đi chỉ gửi một response. Nó không liên quan tới CORS hay kích thước header.",
+        "en": "This error happens when a request gets a response twice, e.g. calling `res.json()` inside an `if` branch without `return`, so execution continues and calls `res.json()` again, or sending a response and also calling `next()`. Avoid it by always writing `return res...` on early exits and making sure each code path sends exactly one response. It has nothing to do with CORS or header size."
+      }
+    },
+    {
+      "id": "nodejs.rest_api.001",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "rest_api",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`POST /users` tạo user mới thành công. Response chuẩn REST nên là gì?",
+        "en": "`POST /users` successfully creates a new user. What should the RESTful response be?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`201 Created`, kèm resource vừa tạo và header `Location`",
+            "en": "`201 Created`, with the created resource and a `Location` header"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`204 No Content`",
+            "en": "`204 No Content`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`202 Accepted`",
+            "en": "`202 Accepted`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`302 Found` chuyển hướng tới `/users`",
+            "en": "`302 Found` redirecting to `/users`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`201 Created` báo rằng một resource mới đã được tạo, thường kèm body là resource vừa tạo và header `Location: /users/{id}`. `200 OK` vẫn chạy được nhưng kém rõ nghĩa. `204 No Content` dùng khi thành công mà không có body (ví dụ `DELETE`), còn `202 Accepted` dùng khi request được nhận để xử lý bất đồng bộ.",
+        "en": "`201 Created` tells the client a new resource was created, usually with the created resource in the body and a `Location: /users/{id}` header. `200 OK` works but is less precise. `204 No Content` is for success without a body (e.g. `DELETE`), and `202 Accepted` is for requests accepted for asynchronous processing."
+      }
+    },
+    {
+      "id": "nodejs.rest_api.002",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "rest_api",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "User đã đăng nhập (token hợp lệ) nhưng không phải admin gọi `DELETE /admin/users/5`. API nên trả status nào?",
+        "en": "A logged-in user (valid token) who is not an admin calls `DELETE /admin/users/5`. Which status should the API return?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`401 Unauthorized`",
+            "en": "`401 Unauthorized`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`400 Bad Request`",
+            "en": "`400 Bad Request`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`403 Forbidden`",
+            "en": "`403 Forbidden`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`500 Internal Server Error`",
+            "en": "`500 Internal Server Error`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`403 Forbidden` nghĩa là server biết bạn là ai nhưng bạn không có quyền làm việc này. `401 Unauthorized` (thực chất là \"unauthenticated\") dùng khi thiếu hoặc sai thông tin xác thực, ví dụ không có token hay token hết hạn, và client nên đăng nhập lại. Một số API trả `404` để giấu sự tồn tại của resource, nhưng về ngữ nghĩa thì `403` là chuẩn.",
+        "en": "`403 Forbidden` means the server knows who you are but you are not allowed to do this. `401 Unauthorized` (really \"unauthenticated\") is for missing or invalid credentials, such as no token or an expired one, and the client should log in again. Some APIs return `404` to hide that a resource exists, but semantically `403` is the standard answer."
+      }
+    },
+    {
+      "id": "nodejs.rest_api.003",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "rest_api",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Thiết kế các endpoint REST cho resource sản phẩm (xem danh sách, xem chi tiết, tạo, cập nhật, xoá). Giải thích lựa chọn của bạn.",
+        "en": "Design the REST endpoints for a product resource (list, detail, create, update, delete). Explain your choices."
+      },
+      "keyPoints": [
+        {
+          "vi": "Danh từ số nhiều cho resource: `/products`, `/products/:id`",
+          "en": "Plural nouns for resources: `/products`, `/products/:id`"
+        },
+        {
+          "vi": "HTTP method thể hiện hành động: GET/POST/PUT|PATCH/DELETE, không dùng động từ trong URL",
+          "en": "HTTP methods express the action: GET/POST/PUT|PATCH/DELETE, no verbs in URLs"
+        },
+        {
+          "vi": "Status code đúng ngữ nghĩa: 200, 201, 204, 400, 404",
+          "en": "Meaningful status codes: 200, 201, 204, 400, 404"
+        },
+        {
+          "vi": "Lọc/sắp xếp/phân trang qua query string",
+          "en": "Filtering/sorting/pagination via the query string"
+        },
+        {
+          "vi": "Body JSON và format lỗi thống nhất",
+          "en": "Consistent JSON bodies and error format"
+        }
+      ],
+      "explanation": {
+        "vi": "Dùng danh từ số nhiều cho resource và để HTTP method thể hiện hành động: `GET /products`, `GET /products/:id`, `POST /products`, `PUT` hoặc `PATCH /products/:id`, `DELETE /products/:id`, thay vì `/getProducts` hay `/deleteProduct`. Trả đúng status code: 200 khi đọc, 201 khi tạo, 204 khi xoá, 400 khi dữ liệu sai, 404 khi không tìm thấy. Lọc, sắp xếp, phân trang qua query string như `?category=phone&sort=-price&page=2`. Dùng JSON thống nhất, kể cả format lỗi (ví dụ `{ code, message, details }`).",
+        "en": "Use plural nouns for resources and let the HTTP method express the action: `GET /products`, `GET /products/:id`, `POST /products`, `PUT` or `PATCH /products/:id`, `DELETE /products/:id`, instead of `/getProducts` or `/deleteProduct`. Return proper status codes: 200 for reads, 201 for creation, 204 for deletion, 400 for invalid input, 404 when not found. Filter, sort and paginate via the query string, e.g. `?category=phone&sort=-price&page=2`. Use consistent JSON, including a uniform error format (e.g. `{ code, message, details }`)."
+      }
+    },
+    {
+      "id": "nodejs.rest_api.004",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "rest_api",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Theo ngữ nghĩa HTTP, nhóm method nào đều là idempotent (gọi nhiều lần cho cùng kết quả như gọi một lần)?",
+        "en": "Per HTTP semantics, which group of methods are all idempotent (calling them many times has the same effect as once)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`GET`, `POST`, `PUT`",
+            "en": "`GET`, `POST`, `PUT`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`POST`, `PATCH`, `DELETE`",
+            "en": "`POST`, `PATCH`, `DELETE`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ `GET`",
+            "en": "Only `GET`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`GET`, `PUT`, `DELETE`",
+            "en": "`GET`, `PUT`, `DELETE`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`GET`, `PUT` và `DELETE` là idempotent: đặt resource về cùng một trạng thái hay xoá nó nhiều lần thì trạng thái cuối trên server vẫn như nhau (response có thể khác, ví dụ lần sau `DELETE` trả 404). `POST` không idempotent vì mỗi lần gọi có thể tạo thêm một resource mới. `PATCH` không được đảm bảo idempotent, ví dụ `{ \"op\": \"increment\" }`. Vì vậy client và proxy chỉ tự retry an toàn với method idempotent.",
+        "en": "`GET`, `PUT` and `DELETE` are idempotent: setting a resource to the same state or deleting it repeatedly leaves the server in the same final state (the response may differ, e.g. a later `DELETE` returns 404). `POST` is not idempotent, since each call may create another resource. `PATCH` is not guaranteed to be idempotent, e.g. `{ \"op\": \"increment\" }`. That is why clients and proxies only retry idempotent methods automatically."
+      }
+    },
+    {
+      "id": "nodejs.rest_api.005",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "rest_api",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Handler phân trang nhận query string `page=abc&limit=500`. Đoạn code in ra gì?",
+        "en": "A pagination handler receives the query string `page=abc&limit=500`. What does the code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const params = new URLSearchParams('page=abc&limit=500');\n\nconst page = Math.max(parseInt(params.get('page'), 10) || 1, 1);\nconst limit = Math.min(Number(params.get('limit')) || 20, 100);\nconst offset = (page - 1) * limit;\n\nconsole.log(page, limit, offset);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "NaN 500 NaN",
+            "en": "NaN 500 NaN"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "1 500 0",
+            "en": "1 500 0"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "1 20 0",
+            "en": "1 20 0"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "1 100 0",
+            "en": "1 100 0"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`parseInt('abc', 10)` cho `NaN`, `NaN || 1` thành `1`, nên `page` là 1. `Number('500')` là 500 nhưng `Math.min(500, 100)` giới hạn còn 100, vì vậy `offset = (1 - 1) * 100 = 0`. Đây là cách phòng thủ đúng: không tin query string, đặt giá trị mặc định và giới hạn `limit` tối đa để client không thể kéo cả bảng trong một request.",
+        "en": "`parseInt('abc', 10)` gives `NaN` and `NaN || 1` becomes `1`, so `page` is 1. `Number('500')` is 500 but `Math.min(500, 100)` caps it at 100, so `offset = (1 - 1) * 100 = 0`. This is the right defensive approach: never trust the query string, apply defaults, and cap `limit` so a client cannot pull the whole table in one request."
+      }
+    },
+    {
+      "id": "nodejs.rest_api.006",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "rest_api",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh phân trang offset (`?page=&limit=`) và cursor (`?after=&limit=`). Khi nào nên dùng cursor?",
+        "en": "Compare offset pagination (`?page=&limit=`) and cursor pagination (`?after=&limit=`). When should you use cursors?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Offset: đơn giản, nhảy được tới trang N, có tổng số trang",
+          "en": "Offset: simple, can jump to page N, can show a page count"
+        },
+        {
+          "vi": "Offset chậm dần ở trang sâu và bị lệch/trùng khi dữ liệu thay đổi",
+          "en": "Offset gets slower on deep pages and drifts/duplicates when data changes"
+        },
+        {
+          "vi": "Cursor: lọc theo giá trị bản ghi cuối trên index, tốc độ ổn định, không lệch",
+          "en": "Cursor: filters on the last record's values via an index; stable speed, no drift"
+        },
+        {
+          "vi": "Cursor không nhảy trang tuỳ ý; cần cột phá hoà duy nhất, cursor dạng opaque",
+          "en": "Cursors cannot jump to any page; need a unique tiebreaker and an opaque cursor"
+        }
+      ],
+      "explanation": {
+        "vi": "Offset dùng `LIMIT ... OFFSET ...`: dễ làm, nhảy thẳng tới trang N được và dễ hiển thị tổng số trang. Nhược điểm là DB vẫn phải quét qua mọi dòng bị bỏ qua nên trang càng sâu càng chậm, và khi có dữ liệu mới chèn vào thì các trang bị lệch, gây trùng hoặc sót bản ghi. Cursor dùng giá trị của bản ghi cuối (ví dụ `WHERE (created_at, id) < ($1, $2) ORDER BY created_at DESC, id DESC LIMIT 20`) trên một index, nên tốc độ ổn định và không bị lệch. Đổi lại cursor không nhảy được tới trang bất kỳ. Dùng cursor cho feed, infinite scroll hoặc bảng lớn; cursor nên là chuỗi opaque (base64) và cần một cột phụ duy nhất để phá hoà.",
+        "en": "Offset uses `LIMIT ... OFFSET ...`: easy to build, lets you jump to page N and show a total page count. The downside is that the DB still scans every skipped row, so deep pages get slower, and inserts shift the pages, causing duplicated or missed records. Cursors use the last record's values (e.g. `WHERE (created_at, id) < ($1, $2) ORDER BY created_at DESC, id DESC LIMIT 20`) on an index, so speed stays constant and pages don't drift. The trade-off is that you cannot jump to an arbitrary page. Use cursors for feeds, infinite scroll or large tables; make the cursor an opaque string (base64) and include a unique tiebreaker column."
+      }
+    },
+    {
+      "id": "nodejs.rest_api.007",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "rest_api",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "API đang được app mobile dùng cần đổi field `name` thành `fullName` (breaking change). Cách làm hợp lý nhất?",
+        "en": "An API used by mobile apps must rename the field `name` to `fullName` (a breaking change). What is the most sensible approach?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đổi tên ngay trên API hiện tại, app sẽ tự cập nhật",
+            "en": "Rename it in place; the apps will update themselves"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Trả `500` cho app cũ để buộc người dùng cập nhật",
+            "en": "Return `500` to old apps to force users to update"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thêm phiên bản mới (ví dụ `/v2`), giữ `/v1` chạy song song rồi deprecate có lịch",
+            "en": "Add a new version (e.g. `/v2`), keep `/v1` running in parallel, then deprecate on a schedule"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chuyển endpoint sang `PATCH` để client biết có thay đổi",
+            "en": "Switch the endpoint to `PATCH` so clients know something changed"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "App mobile cũ không thể cập nhật ngay, nên breaking change phải đi qua một phiên bản API mới, ví dụ `/v2/users` (hoặc header phiên bản), trong khi `/v1` vẫn chạy như cũ. Sau đó thông báo lịch ngừng hỗ trợ (header `Deprecation`/`Sunset`), theo dõi lượng gọi `/v1` rồi mới tắt. Đổi trực tiếp sẽ làm crash các bản app cũ. Một cách khác là trả về cả hai field trong giai đoạn chuyển tiếp.",
+        "en": "Old mobile apps cannot update instantly, so a breaking change must ship in a new API version, e.g. `/v2/users` (or a version header), while `/v1` keeps working as before. Then announce a deprecation schedule (`Deprecation`/`Sunset` headers), monitor `/v1` traffic and only then retire it. Renaming in place would crash old app versions. An alternative is to return both fields during a transition period."
+      }
+    },
+    {
+      "id": "nodejs.rest_api.008",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "rest_api",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Thiết kế `POST /payments` sao cho client retry (do timeout mạng) không tạo ra hai giao dịch trùng.",
+        "en": "Design `POST /payments` so that client retries (after network timeouts) never create duplicate charges."
+      },
+      "keyPoints": [
+        {
+          "vi": "Client gửi `Idempotency-Key` duy nhất, giữ nguyên khi retry",
+          "en": "The client sends a unique `Idempotency-Key` and reuses it on retry"
+        },
+        {
+          "vi": "Server lưu key + hash body + response với unique constraint, ghi nguyên tử cùng transaction",
+          "en": "The server stores key + body hash + response under a unique constraint, atomically in the same transaction"
+        },
+        {
+          "vi": "Key đã xong → trả lại response cũ; khác body → `422`/`409`; đang xử lý → `409`",
+          "en": "Completed key → replay the stored response; different body → `422`/`409`; in progress → `409`"
+        },
+        {
+          "vi": "TTL cho key, phạm vi theo user; truyền key tiếp cho payment gateway",
+          "en": "TTL on keys, scoped per user; pass a key on to the payment gateway"
+        }
+      ],
+      "explanation": {
+        "vi": "Client sinh một `Idempotency-Key` (UUID) cho mỗi thao tác thanh toán và gửi lại đúng key đó khi retry. Server lưu key cùng hash của request body và response trong một bảng có unique constraint (hoặc Redis `SET NX`); việc ghi key phải nguyên tử, nằm cùng transaction với việc tạo payment. Khi gặp lại key đã hoàn tất, trả lại đúng response đã lưu thay vì xử lý lại; nếu cùng key mà body khác thì trả `422`/`409`; nếu request đầu còn đang chạy thì trả `409` hoặc bảo client thử lại sau. Key có TTL (ví dụ 24 giờ) và được gắn theo từng user/merchant. Khi gọi cổng thanh toán bên ngoài, truyền tiếp idempotency key để cả chuỗi đều an toàn.",
+        "en": "The client generates an `Idempotency-Key` (UUID) per payment action and resends the same key on retry. The server stores the key with a hash of the request body and the response in a table with a unique constraint (or Redis `SET NX`); recording the key must be atomic and in the same transaction as creating the payment. When a completed key is seen again, return the stored response instead of processing again; if the same key comes with a different body, return `422`/`409`; if the first request is still in flight, return `409` or ask the client to retry later. Keys have a TTL (e.g. 24 hours) and are scoped per user/merchant. When calling an external payment gateway, pass an idempotency key along so the whole chain is safe."
+      }
+    },
+    {
+      "id": "nodejs.database.001",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "database",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao ứng dụng Node.js nên dùng connection pool (ví dụ `new Pool()` của `pg`) thay vì mở kết nối mới cho mỗi request?",
+        "en": "Why should a Node.js app use a connection pool (e.g. `pg`'s `new Pool()`) instead of opening a new connection per request?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Pool tự cache kết quả query để không phải gọi DB lại",
+            "en": "The pool caches query results so the DB isn't hit again"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Pool chạy mỗi query trên một CPU core riêng",
+            "en": "The pool runs each query on its own CPU core"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không có pool thì Node.js chỉ chạy được một query trong suốt vòng đời process",
+            "en": "Without a pool, Node.js can only run one query for the life of the process"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tái sử dụng kết nối đã mở và giới hạn số kết nối tối đa tới DB",
+            "en": "It reuses open connections and caps the number of connections to the DB"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Mở kết nối DB tốn kém: bắt tay TCP, TLS, xác thực, và phía DB phải cấp tài nguyên (với PostgreSQL là một process cho mỗi kết nối). Pool giữ sẵn một số kết nối đã mở để tái sử dụng và giới hạn số kết nối tối đa (`max`), nên vừa giảm độ trễ vừa bảo vệ DB khỏi bị quá tải khi lưu lượng tăng. Pool không làm câu query chạy nhanh hơn, cũng không tự cache kết quả.",
+        "en": "Opening a DB connection is expensive: TCP handshake, TLS, authentication, and the DB must allocate resources (one process per connection in PostgreSQL). A pool keeps a set of open connections for reuse and caps the maximum (`max`), which both cuts latency and protects the DB from being overwhelmed under load. A pool does not make the query itself faster, and it does not cache results."
+      }
+    },
+    {
+      "id": "nodejs.database.002",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "database",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Endpoint tìm user theo email sau có lỗ hổng nghiêm trọng. Đó là gì?",
+        "en": "This endpoint that looks up users by email has a serious vulnerability. What is it?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "app.get('/users', async (req, res) => {\n  const { email } = req.query;\n  const result = await pool.query(\n    `SELECT id, name FROM users WHERE email = '${email}'`\n  );\n  res.json(result.rows);\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải dùng `pool.connect()` thay vì `pool.query()`",
+            "en": "It must use `pool.connect()` instead of `pool.query()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thiếu `LIMIT` nên query có thể chậm",
+            "en": "There is no `LIMIT`, so the query may be slow"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Template string không dùng được với `pg`",
+            "en": "Template strings cannot be used with `pg`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "SQL injection do nối trực tiếp input vào câu SQL; cần dùng parameterized query (`$1`)",
+            "en": "SQL injection from concatenating input into SQL; use a parameterized query (`$1`)"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Giá trị `email` từ query string được nối thẳng vào câu SQL, nên kẻ tấn công gửi `' OR '1'='1` là lấy được toàn bộ user, hoặc chèn thêm lệnh khác: đây là SQL injection. Sửa bằng parameterized query: `pool.query('SELECT id, name FROM users WHERE email = $1', [email])`; driver gửi giá trị tách biệt khỏi câu lệnh nên dữ liệu không thể bị hiểu là SQL. Tự escape chuỗi hay chỉ validate phía client đều không đủ an toàn.",
+        "en": "The `email` value from the query string is concatenated straight into the SQL, so an attacker can send `' OR '1'='1` to dump every user, or append other statements: this is SQL injection. Fix it with a parameterized query: `pool.query('SELECT id, name FROM users WHERE email = $1', [email])`; the driver sends the value separately from the statement, so data can never be interpreted as SQL. Escaping strings by hand or validating only on the client is not safe enough."
+      }
+    },
+    {
+      "id": "nodejs.database.003",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "database",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "ORM (như Prisma, Sequelize, TypeORM) là gì?",
+        "en": "What is an ORM (such as Prisma, Sequelize or TypeORM)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một hệ quản trị database mới thay thế PostgreSQL",
+            "en": "A new database engine that replaces PostgreSQL"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Công cụ chỉ dùng được với NoSQL",
+            "en": "A tool that only works with NoSQL"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dùng ORM thì không cần quan tâm hiệu năng query nữa",
+            "en": "With an ORM you no longer need to care about query performance"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thư viện ánh xạ bảng/dòng DB thành model/object trong code và sinh SQL giúp bạn",
+            "en": "A library that maps DB tables/rows to models/objects in code and generates SQL for you"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "ORM (Object-Relational Mapping) ánh xạ bảng và dòng trong database thành model/object trong code, cho phép truy vấn bằng API của ngôn ngữ (ví dụ `prisma.user.findMany({ where: ... })`) thay vì viết SQL tay, thường kèm migration và type an toàn. ORM không phải là database và vẫn sinh ra SQL bên dưới, nên vẫn cần hiểu SQL để tránh query chậm. Mongoose là ODM, khái niệm tương tự nhưng cho MongoDB.",
+        "en": "An ORM (Object-Relational Mapping) maps database tables and rows to models/objects in code, letting you query through a language API (e.g. `prisma.user.findMany({ where: ... })`) instead of hand-written SQL, often with migrations and type safety. An ORM is not a database and still generates SQL underneath, so you still need SQL knowledge to avoid slow queries. Mongoose is an ODM, the same idea for MongoDB."
+      }
+    },
+    {
+      "id": "nodejs.database.004",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "database",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi chuyển tiền từ tài khoản A sang B, chữ \"A\" (Atomicity) trong ACID đảm bảo điều gì?",
+        "en": "When transferring money from account A to B, what does the \"A\" (Atomicity) in ACID guarantee?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Dữ liệu đã commit không bị mất khi server mất điện",
+            "en": "Committed data is not lost when the server loses power"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hoặc cả hai bước trừ/cộng tiền cùng thành công, hoặc không bước nào được áp dụng",
+            "en": "Either both the debit and the credit succeed, or neither is applied"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hai transaction chạy song song không nhìn thấy dữ liệu dở dang của nhau",
+            "en": "Two concurrent transactions don't see each other's partial data"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Mỗi câu query chạy nhanh hơn khi nằm trong transaction",
+            "en": "Each query runs faster inside a transaction"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Atomicity nghĩa là mọi câu lệnh trong transaction cùng thành công hoặc cùng bị huỷ (`ROLLBACK`): không thể có chuyện A bị trừ tiền mà B không được cộng. Ý \"các transaction chạy song song không thấy dữ liệu dở dang của nhau\" là Isolation, còn \"dữ liệu đã commit không mất khi server tắt\" là Durability.",
+        "en": "Atomicity means all statements in a transaction succeed together or are all undone (`ROLLBACK`): A can never be debited without B being credited. \"Concurrent transactions don't see each other's partial data\" is Isolation, and \"committed data survives a server crash\" is Durability."
+      }
+    },
+    {
+      "id": "nodejs.database.005",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "database",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "API lấy 50 bài viết kèm tác giả (Prisma) rất chậm. Vấn đề là gì?",
+        "en": "An API that loads 50 posts with their authors (Prisma) is very slow. What is the problem?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "const posts = await prisma.post.findMany({ take: 50 });\n\nfor (const post of posts) {\n  post.author = await prisma.user.findUnique({\n    where: { id: post.authorId },\n  });\n}\n\nres.json(posts);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`take: 50` quá lớn, Prisma chỉ hỗ trợ tối đa 20",
+            "en": "`take: 50` is too large; Prisma supports at most 20"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`findUnique` phải đổi thành `findFirst`",
+            "en": "`findUnique` must be changed to `findFirst`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "N+1 query: mỗi post thêm một query lấy author; nên dùng `include` hoặc truy vấn `in`",
+            "en": "N+1 queries: one extra author query per post; use `include` or an `in` query"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải bọc vòng lặp trong `Promise.all` là hết chậm",
+            "en": "Wrapping the loop in `Promise.all` would fix the slowness"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Đây là lỗi N+1 query: 1 query lấy danh sách post, sau đó thêm 1 query cho mỗi post để lấy author, tổng cộng 51 round-trip tới DB và chạy tuần tự vì `await` trong vòng lặp. Sửa bằng `prisma.post.findMany({ take: 50, include: { author: true } })` hoặc gom id rồi lấy một lần với `where: { id: { in: authorIds } }`. Dùng `Promise.all` chỉ chạy song song 50 query chứ không giảm số query.",
+        "en": "This is the N+1 query problem: 1 query for the posts, then 1 more query per post for its author, 51 DB round trips in total, run sequentially because of `await` in the loop. Fix it with `prisma.post.findMany({ take: 50, include: { author: true } })`, or collect the ids and fetch once with `where: { id: { in: authorIds } }`. `Promise.all` would only run the 50 queries in parallel without reducing their number."
+      }
+    },
+    {
+      "id": "nodejs.database.006",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "database",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "API `GET /orders?status=paid` chạy ngày càng chậm khi bảng `orders` lên hàng triệu dòng. Bạn điều tra và tối ưu thế nào?",
+        "en": "`GET /orders?status=paid` gets slower and slower as the `orders` table grows to millions of rows. How do you investigate and optimise it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Đo trước: slow query log/tracing để biết chậm ở DB hay ở code",
+          "en": "Measure first: slow-query logs/tracing to see whether the DB or the code is slow"
+        },
+        {
+          "vi": "`EXPLAIN ANALYZE` để phát hiện `Seq Scan`",
+          "en": "`EXPLAIN ANALYZE` to spot a `Seq Scan`"
+        },
+        {
+          "vi": "Thêm index (composite) khớp với `WHERE` + `ORDER BY`",
+          "en": "Add a (composite) index matching `WHERE` + `ORDER BY`"
+        },
+        {
+          "vi": "Chỉ lấy cột cần, phân trang có giới hạn; cân nhắc cache",
+          "en": "Select only needed columns, paginate with a cap; consider caching"
+        },
+        {
+          "vi": "Index có chi phí khi ghi, không thêm tràn lan",
+          "en": "Indexes cost write performance; don't add them blindly"
+        }
+      ],
+      "explanation": {
+        "vi": "Đầu tiên đo xem thời gian nằm ở DB hay ở code: bật log query chậm hoặc tracing. Chạy `EXPLAIN ANALYZE` với câu SQL thật để xem có `Seq Scan` trên cả bảng không. Thêm index khớp với điều kiện lọc và sắp xếp, ví dụ composite index `(status, created_at)` cho `WHERE status = ? ORDER BY created_at DESC`. Chỉ `SELECT` các cột cần thiết và luôn phân trang với `limit` tối đa thay vì trả hết. Nếu dữ liệu đọc nhiều mà ít đổi, cân nhắc cache; nhớ rằng index làm thao tác ghi chậm hơn nên đừng thêm tràn lan.",
+        "en": "First measure whether the time is spent in the DB or in code: enable slow-query logs or tracing. Run `EXPLAIN ANALYZE` on the real SQL to see whether there is a `Seq Scan` over the whole table. Add an index that matches the filter and sort, e.g. a composite index `(status, created_at)` for `WHERE status = ? ORDER BY created_at DESC`. `SELECT` only the needed columns and always paginate with a capped `limit` instead of returning everything. If the data is read-heavy and rarely changes, consider caching; remember that indexes slow down writes, so don't add them blindly."
+      }
+    },
+    {
+      "id": "nodejs.database.007",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "database",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Schema Mongoose có `email: { type: String, unique: true }` nhưng trong DB vẫn xuất hiện email trùng. Giải thích nào đúng?",
+        "en": "A Mongoose schema has `email: { type: String, unique: true }`, yet duplicate emails still appear in the DB. Which explanation is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`unique` chỉ có tác dụng với kiểu `Number`",
+            "en": "`unique` only works on `Number` fields"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "MongoDB không hỗ trợ ràng buộc unique",
+            "en": "MongoDB does not support unique constraints"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải viết thêm `required: true` thì `unique` mới hoạt động",
+            "en": "`unique` only works when `required: true` is also set"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`unique` chỉ tạo unique index, không phải validator; nếu index chưa được tạo thì vẫn ghi trùng được",
+            "en": "`unique` only builds a unique index, it is not a validator; without the index, duplicates get through"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Trong Mongoose, `unique: true` không phải validator mà chỉ là chỉ dẫn để tạo unique index trong MongoDB. Nếu index chưa được tạo (ví dụ tắt `autoIndex` trên production, hoặc collection đã có dữ liệu trùng nên build index thất bại) thì MongoDB vẫn nhận bản ghi trùng. Cần tạo index bằng migration hoặc `Model.syncIndexes()`, làm sạch dữ liệu cũ, và bắt lỗi `E11000 duplicate key` để trả `409`. Kiểm tra trùng bằng `findOne` trước khi lưu vẫn có race condition.",
+        "en": "In Mongoose, `unique: true` is not a validator; it is only a hint to build a unique index in MongoDB. If the index has not been created (e.g. `autoIndex` disabled in production, or existing duplicates made the index build fail), MongoDB happily accepts duplicates. Create the index via a migration or `Model.syncIndexes()`, clean up old data, and catch `E11000 duplicate key` errors to return `409`. Checking with `findOne` before saving still has a race condition."
+      }
+    },
+    {
+      "id": "nodejs.database.008",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "database",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách lưu số tiền (giá sản phẩm, số dư) nào an toàn nhất?",
+        "en": "What is the safest way to store money amounts (prices, balances)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`FLOAT` vì tiết kiệm dung lượng",
+            "en": "`FLOAT`, because it saves space"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`DECIMAL/NUMERIC` hoặc số nguyên theo đơn vị nhỏ nhất (cent)",
+            "en": "`DECIMAL/NUMERIC` or integers in the smallest unit (cents)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chuỗi tự do như `\"1.000.000đ\"`",
+            "en": "A free-form string such as `\"1.000.000đ\"`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`DOUBLE` vì đủ chính xác tới 15 chữ số",
+            "en": "`DOUBLE`, because it is precise to 15 digits"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`FLOAT`/`DOUBLE` và kiểu `number` của JS là số thực nhị phân nên không biểu diễn chính xác 0.1, dẫn tới `0.1 + 0.2 === 0.30000000000000004` và sai lệch khi cộng dồn. Hãy lưu bằng `DECIMAL/NUMERIC` với độ chính xác cố định, hoặc số nguyên theo đơn vị nhỏ nhất (cent, hoặc đồng với VND). Lưu ý driver `pg` trả `NUMERIC` dưới dạng string để không mất chính xác; tính toán bằng thư viện decimal hoặc `BigInt`.",
+        "en": "`FLOAT`/`DOUBLE` and the JS `number` type are binary floating point, so they cannot represent 0.1 exactly, giving `0.1 + 0.2 === 0.30000000000000004` and drift as values accumulate. Store amounts as `DECIMAL/NUMERIC` with fixed precision, or as integers in the smallest unit (cents, or dong for VND). Note that the `pg` driver returns `NUMERIC` as a string to avoid precision loss; compute with a decimal library or `BigInt`."
+      }
+    },
+    {
+      "id": "nodejs.database.009",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "database",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Sau một thời gian chạy, mọi request dùng DB đều bị treo dù PostgreSQL vẫn khỏe. Lỗi trong hàm sau là gì?",
+        "en": "After running for a while, every DB request hangs even though PostgreSQL is healthy. What is wrong with this function?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "async function transfer(from, to, amount) {\n  const client = await pool.connect();\n  await client.query('BEGIN');\n  await client.query(\n    'UPDATE accounts SET balance = balance - $1 WHERE id = $2',\n    [amount, from]\n  );\n  await client.query(\n    'UPDATE accounts SET balance = balance + $1 WHERE id = $2',\n    [amount, to]\n  );\n  await client.query('COMMIT');\n  client.release();\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải dùng `pool.query` cho từng câu thay vì một `client`",
+            "en": "Each statement should use `pool.query` instead of one `client`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`BEGIN` phải gọi sau hai câu `UPDATE`",
+            "en": "`BEGIN` must be called after the two `UPDATE`s"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Khi có lỗi thì không `ROLLBACK` và không `release()` client, làm pool cạn kết nối",
+            "en": "On error there is no `ROLLBACK` and the client is never `release()`d, exhausting the pool"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tham số `$1`, `$2` không dùng được trong `UPDATE`",
+            "en": "`$1`, `$2` placeholders cannot be used in `UPDATE`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Nếu một câu `UPDATE` ném lỗi (ví dụ vi phạm constraint), hàm thoát ngay: không `ROLLBACK` và `client.release()` không bao giờ được gọi. Kết nối bị giữ mãi trong trạng thái transaction lỗi; sau `max` lần (mặc định 10) pool cạn kiệt và mọi `pool.connect()` sau đó chờ vô hạn. Sửa: bọc trong `try { ... COMMIT } catch { await client.query('ROLLBACK'); throw } finally { client.release() }`. Dùng chung một `client` cho cả transaction là đúng; dùng `pool.query` cho từng câu mới là sai vì mỗi câu có thể chạy trên kết nối khác.",
+        "en": "If either `UPDATE` throws (e.g. a constraint violation), the function exits immediately: there is no `ROLLBACK` and `client.release()` is never called. The connection stays checked out in an aborted transaction; after `max` failures (10 by default) the pool is exhausted and every later `pool.connect()` waits forever. Fix: wrap it in `try { ... COMMIT } catch { await client.query('ROLLBACK'); throw } finally { client.release() }`. Using one `client` for the whole transaction is correct; using `pool.query` per statement would be wrong, since each could run on a different connection."
+      }
+    },
+    {
+      "id": "nodejs.security.001",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "security",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách lưu mật khẩu người dùng nào là đúng?",
+        "en": "Which is the correct way to store user passwords?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mã hoá AES để có thể giải mã khi user quên mật khẩu",
+            "en": "Encrypt with AES so it can be decrypted when users forget it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hash bằng `bcrypt`/`argon2` (chậm, có salt) rồi so sánh bằng `compare`",
+            "en": "Hash with `bcrypt`/`argon2` (slow, salted) and check with `compare`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hash một lần bằng SHA-256 là đủ an toàn",
+            "en": "A single SHA-256 hash is secure enough"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Mã hoá Base64 trước khi lưu",
+            "en": "Encode it with Base64 before storing"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Mật khẩu phải được hash bằng thuật toán chậm có salt, thiết kế riêng cho mật khẩu như `bcrypt`, `argon2` hoặc `scrypt`, rồi so sánh bằng hàm `compare`/`verify` của thư viện. Mã hoá AES là sai vì ai có key là giải mã được toàn bộ. SHA-256 hay MD5 quá nhanh nên kẻ tấn công có thể brute-force hàng tỷ lần mỗi giây bằng GPU. Base64 chỉ là encoding, không phải bảo mật.",
+        "en": "Passwords must be hashed with a slow, salted algorithm designed for passwords, such as `bcrypt`, `argon2` or `scrypt`, and checked with the library's `compare`/`verify`. AES encryption is wrong because anyone with the key can decrypt every password. SHA-256 or MD5 are too fast, letting attackers brute-force billions of guesses per second on GPUs. Base64 is just an encoding, not security."
+      }
+    },
+    {
+      "id": "nodejs.security.002",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "security",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "File cấu hình sau được commit lên Git. Vấn đề chính là gì?",
+        "en": "This config file is committed to Git. What is the main problem?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "// config.js (được commit lên Git)\nmodule.exports = {\n  databaseUrl: 'postgres://admin:P%40ssw0rd@prod-db:5432/shop',\n  jwtSecret: 'my-jwt-secret',\n  port: 3000,\n};"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Secret bị hard-code và commit lên Git; phải đưa vào biến môi trường/secret manager",
+            "en": "Secrets are hard-coded and committed; move them to environment variables/a secret manager"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`port` phải là chuỗi `'3000'`",
+            "en": "`port` must be the string `'3000'`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải dùng `export default` thay vì `module.exports`",
+            "en": "It must use `export default` instead of `module.exports`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tên biến phải viết hoa toàn bộ thì mới bảo mật",
+            "en": "Variable names must be all uppercase to be secure"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mật khẩu database và JWT secret bị hard-code trong source code, nên bất kỳ ai đọc được repo, kể cả lịch sử commit, đều có quyền truy cập production. Hãy đọc chúng từ biến môi trường (`process.env.DATABASE_URL`, `process.env.JWT_SECRET`), dùng file `.env` chỉ ở local và thêm vào `.gitignore`, còn production dùng secret manager. Nếu secret đã bị commit thì phải đổi (rotate) ngay, xoá file thôi là không đủ vì Git vẫn giữ lịch sử.",
+        "en": "The database password and JWT secret are hard-coded in source, so anyone who can read the repo, including its commit history, can access production. Read them from environment variables (`process.env.DATABASE_URL`, `process.env.JWT_SECRET`), keep a `.env` file only locally and add it to `.gitignore`, and use a secret manager in production. If a secret was ever committed, rotate it immediately; deleting the file is not enough because Git keeps the history."
+      }
+    },
+    {
+      "id": "nodejs.security.003",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "security",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Frontend ở `http://localhost:5173` gọi API ở `http://localhost:3000` thì bị lỗi CORS trên trình duyệt, nhưng gọi bằng Postman lại chạy. Vì sao?",
+        "en": "A frontend at `http://localhost:5173` calling an API at `http://localhost:3000` gets a CORS error in the browser, but the same call works in Postman. Why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Server có tường lửa chặn mọi request từ trình duyệt",
+            "en": "The server has a firewall blocking all browser requests"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Postman dùng HTTP/3 nên không bị CORS",
+            "en": "Postman uses HTTP/3, so it is exempt from CORS"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "CORS do trình duyệt áp dụng; server phải trả `Access-Control-Allow-Origin` cho origin của frontend",
+            "en": "CORS is enforced by browsers; the server must send `Access-Control-Allow-Origin` for the frontend's origin"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải tắt CORS trong code frontend",
+            "en": "CORS must be disabled in the frontend code"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "CORS là cơ chế do trình duyệt thực thi: khác cổng là khác origin, nên trình duyệt chỉ cho JavaScript đọc response khi server trả header `Access-Control-Allow-Origin` cho phép origin đó (với một số request còn có preflight `OPTIONS`). Postman không phải trình duyệt nên không áp dụng CORS. Cách sửa nằm ở server, ví dụ middleware `cors({ origin: 'http://localhost:5173' })`; CORS không phải tường lửa và không chặn được request từ công cụ khác.",
+        "en": "CORS is enforced by the browser: a different port means a different origin, so the browser only lets JavaScript read the response if the server sends an `Access-Control-Allow-Origin` header allowing that origin (some requests also trigger an `OPTIONS` preflight). Postman is not a browser, so CORS does not apply. The fix is on the server, e.g. the `cors({ origin: 'http://localhost:5173' })` middleware; CORS is not a firewall and does not block requests from other tools."
+      }
+    },
+    {
+      "id": "nodejs.security.004",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "security",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về phần payload của JWT (ví dụ token ký bằng HS256)?",
+        "en": "Which statement about the payload of a JWT (e.g. one signed with HS256) is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Payload được mã hoá bằng secret nên không ai đọc được",
+            "en": "The payload is encrypted with the secret, so nobody can read it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Payload chỉ được encode Base64URL, ai có token cũng đọc được; chữ ký chỉ chống sửa đổi",
+            "en": "The payload is only Base64URL-encoded, readable by anyone; the signature only prevents tampering"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Có thể sửa payload tuỳ ý mà token vẫn hợp lệ",
+            "en": "The payload can be edited freely and the token stays valid"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Payload là nơi an toàn để lưu mật khẩu người dùng",
+            "en": "The payload is a safe place to store the user's password"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "JWT gồm `header.payload.signature`, trong đó payload chỉ được mã hoá Base64URL chứ không được mã hoá bí mật, nên ai có token cũng đọc được nội dung. Chữ ký chỉ đảm bảo payload không bị sửa (integrity), không che giấu dữ liệu. Vì vậy không đặt mật khẩu hay thông tin nhạy cảm vào payload; nếu thật sự cần mã hoá thì dùng JWE.",
+        "en": "A JWT is `header.payload.signature`, and the payload is only Base64URL-encoded, not encrypted, so anyone holding the token can read it. The signature only guarantees the payload has not been altered (integrity); it does not hide anything. So never put passwords or sensitive data in the payload; if you really need encryption, use JWE."
+      }
+    },
+    {
+      "id": "nodejs.security.005",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "security",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh xác thực bằng session (cookie + lưu phía server) và JWT. Khi nào nên chọn cách nào?",
+        "en": "Compare session-based auth (cookie + server-side store) with JWT. When would you choose each?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Session: trạng thái ở server, cookie chỉ giữ id; thu hồi dễ, cần store dùng chung khi scale",
+          "en": "Sessions: state on the server, the cookie holds only an id; easy revocation, needs a shared store to scale"
+        },
+        {
+          "vi": "JWT: tự chứa, verify chữ ký không cần DB; hợp mobile/microservice",
+          "en": "JWT: self-contained, verified by signature without a DB; suits mobile/microservices"
+        },
+        {
+          "vi": "JWT khó thu hồi trước hạn → access token ngắn hạn + refresh token",
+          "en": "JWTs are hard to revoke early → short-lived access tokens + refresh tokens"
+        },
+        {
+          "vi": "Luôn dùng HTTPS; cookie cần `httpOnly`, `Secure`, `SameSite`",
+          "en": "Always use HTTPS; cookies need `httpOnly`, `Secure`, `SameSite`"
+        }
+      ],
+      "explanation": {
+        "vi": "Với session, server lưu trạng thái đăng nhập (trong Redis/DB) và client chỉ giữ session id trong cookie `httpOnly`; thu hồi rất dễ (xoá session) nhưng mỗi request phải tra store, và khi scale nhiều instance cần store dùng chung. JWT là token tự chứa, có chữ ký, server chỉ cần verify chữ ký nên không cần tra DB, hợp với mobile app, nhiều service hoặc API bên thứ ba; đổi lại rất khó thu hồi trước khi hết hạn và payload lộ nội dung. Thực tế: web app cùng domain thường dùng session; API cho mobile/microservice dùng access token JWT ngắn hạn kèm refresh token lưu phía server. Dù chọn cách nào cũng cần HTTPS, và cookie cần `Secure`, `SameSite` để chống CSRF.",
+        "en": "With sessions, the server keeps the login state (in Redis/a DB) and the client only holds a session id in an `httpOnly` cookie; revoking is trivial (delete the session), but every request needs a store lookup, and scaling across instances needs a shared store. A JWT is a self-contained signed token, and the server only verifies the signature without a DB lookup, which suits mobile apps, multiple services or third-party APIs; the trade-off is that it is hard to revoke before expiry and its payload is readable. In practice: same-domain web apps often use sessions; APIs for mobile/microservices use short-lived JWT access tokens plus server-side refresh tokens. Either way you need HTTPS, and cookies need `Secure` and `SameSite` against CSRF."
+      }
+    },
+    {
+      "id": "nodejs.security.006",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "security",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Middleware xác thực sau có lỗ hổng cho phép giả mạo người dùng bất kỳ. Lỗi ở đâu?",
+        "en": "This auth middleware lets anyone impersonate any user. Where is the bug?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const jwt = require('jsonwebtoken');\n\nfunction auth(req, res, next) {\n  const token = req.headers.authorization?.split(' ')[1];\n  if (!token) return res.status(401).json({ message: 'No token' });\n\n  const payload = jwt.decode(token);\n  if (!payload) return res.status(401).json({ message: 'Invalid token' });\n\n  req.user = payload;\n  next();\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải lấy token từ `req.body` thay vì header",
+            "en": "The token must be read from `req.body` instead of the header"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Trả `403` thay vì `401` khi thiếu token",
+            "en": "It should return `403` instead of `401` when the token is missing"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Optional chaining `?.` không dùng được trong Node.js",
+            "en": "Optional chaining `?.` is not supported in Node.js"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Dùng `jwt.decode` nên không kiểm tra chữ ký; phải dùng `jwt.verify` với secret",
+            "en": "It uses `jwt.decode`, which skips signature checks; use `jwt.verify` with the secret"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`jwt.decode` chỉ giải mã Base64 phần payload mà không kiểm tra chữ ký, nên kẻ tấn công tự tạo token với `{ \"id\": 1, \"role\": \"admin\" }` là qua được. Phải dùng `jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] })` trong `try/catch`; hàm này kiểm tra chữ ký và cả `exp`, rồi trả `401` khi lỗi. Việc tách token từ header `Bearer` ở đây là đúng.",
+        "en": "`jwt.decode` only Base64-decodes the payload without checking the signature, so an attacker can craft a token with `{ \"id\": 1, \"role\": \"admin\" }` and get through. Use `jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] })` inside a `try/catch`; it checks the signature and `exp`, and you return `401` on failure. Extracting the token from the `Bearer` header is fine here."
+      }
+    },
+    {
+      "id": "nodejs.security.007",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "security",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với web app, nơi nào an toàn hơn để giữ token đăng nhập trên trình duyệt?",
+        "en": "For a web app, where is the safer place to keep the login token in the browser?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`localStorage`, vì chỉ domain của mình đọc được",
+            "en": "`localStorage`, because only your own domain can read it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Query string của URL để gửi kèm mọi request",
+            "en": "The URL query string, so it goes with every request"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cookie `httpOnly; Secure; SameSite` để JavaScript không đọc được",
+            "en": "An `httpOnly; Secure; SameSite` cookie so JavaScript cannot read it"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Biến global `window.token`",
+            "en": "A global `window.token` variable"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Cookie `httpOnly` không thể đọc bằng JavaScript, nên nếu trang bị XSS thì kẻ tấn công cũng không lấy được token; thêm `Secure` để chỉ gửi qua HTTPS và `SameSite=Lax/Strict` (hoặc CSRF token) để chống CSRF. `localStorage`/`sessionStorage` đọc được bằng mọi script trên trang, nên một lỗ hổng XSS hay thư viện bên thứ ba bị nhiễm là đủ để đánh cắp token. Đặt token trong URL còn tệ hơn vì nó lọt vào log và lịch sử trình duyệt.",
+        "en": "An `httpOnly` cookie cannot be read by JavaScript, so even with an XSS bug the attacker cannot exfiltrate the token; add `Secure` so it only travels over HTTPS and `SameSite=Lax/Strict` (or a CSRF token) against CSRF. `localStorage`/`sessionStorage` are readable by any script on the page, so one XSS hole or a compromised third-party library is enough to steal the token. Putting the token in the URL is even worse, since it leaks into logs and browser history."
+      }
+    },
+    {
+      "id": "nodejs.security.008",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "security",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "API dùng `express-rate-limit` (100 request/phút theo IP) chạy sau Nginx. Sau khi deploy, chỉ vài phút là mọi người dùng đều bị `429`. Nguyên nhân có khả năng nhất?",
+        "en": "An API using `express-rate-limit` (100 requests/minute per IP) runs behind Nginx. After deploying, every user starts getting `429` within minutes. What is the most likely cause?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`express-rate-limit` không hoạt động khi có Nginx",
+            "en": "`express-rate-limit` does not work behind Nginx"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giới hạn 100 request/phút luôn quá thấp cho mọi API",
+            "en": "100 requests/minute is always too low for any API"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`req.ip` luôn là IP của Nginx do chưa cấu hình `trust proxy`, nên mọi user chung một bộ đếm",
+            "en": "`req.ip` is always Nginx's IP because `trust proxy` is not set, so all users share one counter"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nginx tự nhân đôi mỗi request gửi tới Node",
+            "en": "Nginx duplicates every request it forwards to Node"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Sau reverse proxy, kết nối TCP tới Node đến từ Nginx, nên `req.ip` của mọi request đều là IP của proxy và tất cả người dùng bị gộp chung vào một bộ đếm. Cần cấu hình `app.set('trust proxy', 1)` (đúng số proxy tin cậy) để Express lấy IP thật từ `X-Forwarded-For`, và Nginx phải đặt header đó. Không nên tin `X-Forwarded-For` một cách mù quáng khi không có proxy, vì client có thể tự giả mạo header này.",
+        "en": "Behind a reverse proxy, the TCP connection to Node comes from Nginx, so `req.ip` is the proxy's IP for every request and all users share one counter. Configure `app.set('trust proxy', 1)` (the actual number of trusted proxies) so Express takes the real IP from `X-Forwarded-For`, and make Nginx set that header. Don't trust `X-Forwarded-For` blindly when there is no proxy, since clients can forge it."
+      }
+    },
+    {
+      "id": "nodejs.security.009",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "security",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Hệ thống dùng JWT access token. Làm sao để có thể thu hồi phiên (logout mọi thiết bị, token bị lộ) mà vẫn giữ lợi ích stateless?",
+        "en": "A system uses JWT access tokens. How can you revoke sessions (log out all devices, leaked token) while keeping most of the stateless benefit?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Access token ngắn hạn + refresh token lưu server, xoay vòng và thu hồi được; cần thì thêm denylist `jti`",
+            "en": "Short-lived access tokens + server-stored, rotated, revocable refresh tokens; add a `jti` denylist if needed"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ cần xoá token khỏi `localStorage` ở client",
+            "en": "Just delete the token from `localStorage` on the client"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đặt `exp` 30 ngày để user ít phải đăng nhập lại",
+            "en": "Set `exp` to 30 days so users rarely have to log in again"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đổi JWT secret mỗi khi một user logout",
+            "en": "Rotate the JWT secret every time a user logs out"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Cách phổ biến là access token sống ngắn (5–15 phút) được verify stateless, kèm refresh token sống lâu lưu phía server (lưu dạng hash) và xoay vòng mỗi lần dùng (rotation). Khi logout hay phát hiện refresh token cũ bị dùng lại (dấu hiệu bị đánh cắp), server thu hồi cả họ token, và access token hiện có chỉ còn hiệu lực tối đa vài phút. Nếu cần chặn ngay thì thêm denylist theo `jti` (trong Redis, TTL bằng `exp`) hoặc `tokenVersion` cho user. Xoá token ở client không thu hồi được gì vì bản sao bị lộ vẫn dùng được.",
+        "en": "The usual approach is short-lived access tokens (5–15 minutes) verified statelessly, plus long-lived refresh tokens stored server-side (hashed) and rotated on every use. On logout, or when an old refresh token is reused (a sign of theft), the server revokes the whole token family, and any live access token is valid for at most a few minutes. If you need immediate cut-off, add a `jti` denylist (in Redis, TTL equal to `exp`) or a per-user `tokenVersion`. Deleting the token on the client revokes nothing, since a leaked copy still works."
+      }
+    },
+    {
+      "id": "nodejs.scaling.001",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "scaling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Module `cluster` của Node.js giúp gì?",
+        "en": "What does the Node.js `cluster` module help with?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Fork nhiều worker process dùng chung một cổng để tận dụng nhiều CPU core",
+            "en": "Forks multiple worker processes sharing one port to use multiple CPU cores"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cho nhiều thread dùng chung biến và bộ nhớ trong một process",
+            "en": "Lets several threads share variables and memory in one process"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tự động kết nối nhiều database thành một cụm",
+            "en": "Automatically joins several databases into a cluster"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tăng tốc từng request bằng cách chạy nó trên GPU",
+            "en": "Speeds up each request by running it on the GPU"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Một process Node chỉ chạy JavaScript trên một core. `cluster` fork nhiều worker process (thường bằng số core), các worker cùng lắng nghe một cổng và primary process chia kết nối cho chúng, nhờ vậy tận dụng được mọi core. Mỗi worker có bộ nhớ riêng nên không chia sẻ biến hay cache trong RAM; trạng thái chung phải đặt ở Redis/DB. PM2 ở chế độ cluster cũng dùng cơ chế này.",
+        "en": "A single Node process runs JavaScript on one core. `cluster` forks several worker processes (usually one per core) that share the same port, with the primary process distributing connections, so every core is used. Each worker has its own memory and shares no variables or in-RAM cache; shared state must live in Redis/a DB. PM2's cluster mode uses the same mechanism."
+      }
+    },
+    {
+      "id": "nodejs.scaling.002",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "scaling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "PM2 thường được dùng để làm gì khi chạy Node.js trên server?",
+        "en": "What is PM2 typically used for when running Node.js on a server?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Biên dịch JavaScript thành file thực thi nhanh hơn",
+            "en": "Compiling JavaScript into a faster executable"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thay thế npm để cài package",
+            "en": "Replacing npm for installing packages"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Làm ORM kết nối tới database",
+            "en": "Acting as an ORM for database access"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Quản lý process: tự restart khi crash, cluster mode, reload không downtime, quản lý log",
+            "en": "Process management: auto-restart on crash, cluster mode, zero-downtime reload, log management"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "PM2 là process manager: tự khởi động lại app khi crash, chạy nhiều instance ở cluster mode (`pm2 start app.js -i max`), reload không downtime (`pm2 reload`), quản lý log và tự chạy lại khi server khởi động (`pm2 startup`). Nó không biên dịch code sang mã máy và không thay thế load balancer hay database. Trên Kubernetes/Docker, phần lớn việc này do orchestrator đảm nhận nên thường chạy thẳng `node`.",
+        "en": "PM2 is a process manager: it restarts the app on crash, runs multiple instances in cluster mode (`pm2 start app.js -i max`), does zero-downtime reloads (`pm2 reload`), manages logs and starts on boot (`pm2 startup`). It does not compile code to machine code and does not replace a load balancer or a database. On Kubernetes/Docker the orchestrator handles most of this, so you usually run `node` directly."
+      }
+    },
+    {
+      "id": "nodejs.scaling.003",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "scaling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong một request handler, thao tác nào chặn event loop và làm mọi request khác phải chờ?",
+        "en": "Inside a request handler, which operation blocks the event loop and makes every other request wait?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`await pool.query('SELECT ...')`",
+            "en": "`await pool.query('SELECT ...')`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`JSON.parse` một chuỗi JSON 200 MB",
+            "en": "`JSON.parse` on a 200 MB JSON string"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`await fs.promises.readFile('a.txt')`",
+            "en": "`await fs.promises.readFile('a.txt')`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`await fetch('https://api.example.com')`",
+            "en": "`await fetch('https://api.example.com')`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`JSON.parse` một chuỗi 200 MB là công việc CPU đồng bộ trên main thread, nên trong lúc nó chạy, server không xử lý được request nào khác. Các thao tác `await` như query DB, `fs.promises.readFile` hay `fetch` đều nhường event loop trong lúc chờ I/O, nên không chặn. Với tác vụ CPU nặng, hãy dùng stream parser, chia nhỏ việc hoặc chuyển sang `worker_threads`.",
+        "en": "`JSON.parse` on a 200 MB string is synchronous CPU work on the main thread, so while it runs the server cannot handle any other request. `await`ed operations such as a DB query, `fs.promises.readFile` or `fetch` yield the event loop while waiting on I/O, so they don't block. For heavy CPU work, use a streaming parser, chunk the work or move it to `worker_threads`."
+      }
+    },
+    {
+      "id": "nodejs.scaling.004",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "scaling",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Khi nhiều người đăng nhập cùng lúc, toàn bộ API (kể cả `/health`) chậm hẳn. Nguyên nhân trong handler sau là gì?",
+        "en": "When many users log in at once, the whole API (even `/health`) slows to a crawl. What in this handler causes it?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "app.post('/login', async (req, res) => {\n  const user = await findUserByEmail(req.body.email);\n  if (!user) return res.status(401).end();\n\n  const hash = crypto\n    .pbkdf2Sync(req.body.password, user.salt, 600000, 64, 'sha512')\n    .toString('hex');\n\n  if (hash !== user.passwordHash) return res.status(401).end();\n  res.json({ token: signToken(user) });\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`await findUserByEmail` chặn event loop trong lúc chờ DB",
+            "en": "`await findUserByEmail` blocks the event loop while waiting for the DB"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`pbkdf2Sync` chạy đồng bộ, chặn event loop hàng trăm ms mỗi lần đăng nhập",
+            "en": "`pbkdf2Sync` runs synchronously, blocking the event loop for hundreds of ms per login"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`res.status(401).end()` phải đổi thành `res.sendStatus(401)`",
+            "en": "`res.status(401).end()` must be changed to `res.sendStatus(401)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`toString('hex')` tạo memory leak",
+            "en": "`toString('hex')` causes a memory leak"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`crypto.pbkdf2Sync` với 600.000 vòng chạy đồng bộ trên main thread, mỗi lần mất hàng trăm mili giây; trong lúc đó event loop bị chặn nên mọi request khác, kể cả `/health`, phải xếp hàng. Dùng bản async `crypto.pbkdf2` (hoặc `util.promisify`, `bcrypt.compare`), vốn chạy trên threadpool của libuv. Ngoài ra nên so sánh hash bằng `crypto.timingSafeEqual` thay vì `!==`. Việc `await findUserByEmail` không phải nguyên nhân vì nó nhường event loop.",
+        "en": "`crypto.pbkdf2Sync` with 600,000 iterations runs synchronously on the main thread and takes hundreds of milliseconds each time; meanwhile the event loop is blocked, so every other request, including `/health`, queues up. Use the async `crypto.pbkdf2` (or `util.promisify`, `bcrypt.compare`), which runs on the libuv threadpool. You should also compare hashes with `crypto.timingSafeEqual` rather than `!==`. `await findUserByEmail` is not the cause, since it yields the event loop."
+      }
+    },
+    {
+      "id": "nodejs.scaling.005",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "scaling",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const start = Date.now();\n\nsetTimeout(() => {\n  console.log('timer', Date.now() - start >= 100);\n}, 0);\n\nwhile (Date.now() - start < 100) {}\n\nconsole.log('loop done');"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "timer false\nloop done",
+            "en": "timer false\nloop done"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "loop done\ntimer true",
+            "en": "loop done\ntimer true"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "timer true\nloop done",
+            "en": "timer true\nloop done"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "loop done\ntimer false",
+            "en": "loop done\ntimer false"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`setTimeout(..., 0)` chỉ đưa callback vào hàng đợi, nó chỉ chạy khi call stack trống. Vòng `while` đồng bộ giữ main thread khoảng 100 ms, nên `loop done` được in trước, sau đó timer mới chạy và thời gian đã trôi qua lúc này là ít nhất 100 ms, nên in `timer true`. Đây là minh hoạ cho việc code CPU đồng bộ làm trễ mọi timer và request khác.",
+        "en": "`setTimeout(..., 0)` only queues the callback; it runs once the call stack is empty. The synchronous `while` loop holds the main thread for about 100 ms, so `loop done` prints first, then the timer runs, and by then at least 100 ms have passed, so it prints `timer true`. This shows how synchronous CPU work delays every other timer and request."
+      }
+    },
+    {
+      "id": "nodejs.scaling.006",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "scaling",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "App chạy 4 instance bằng PM2 cluster mode và cache danh sách sản phẩm trong một `Map` ở RAM. Sau khi admin sửa giá, người dùng lúc thấy giá mới lúc thấy giá cũ. Vì sao và cách sửa?",
+        "en": "An app runs 4 instances with PM2 cluster mode and caches the product list in an in-memory `Map`. After an admin edits a price, users sometimes see the new price and sometimes the old one. Why, and how do you fix it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mỗi instance có `Map` riêng nên chỉ một instance được xoá cache; dùng cache chung như Redis",
+            "en": "Each instance has its own `Map`, so only one is invalidated; use a shared cache such as Redis"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Map` trong JS không đảm bảo thứ tự nên trả dữ liệu ngẫu nhiên",
+            "en": "A JS `Map` does not preserve order, so it returns random data"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "PM2 cluster mode tự đồng bộ bộ nhớ giữa các instance nhưng có độ trễ",
+            "en": "PM2 cluster mode syncs memory between instances, but with a delay"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tăng TTL của cache lên để dữ liệu ổn định hơn",
+            "en": "Increase the cache TTL to make the data more stable"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mỗi instance là một process riêng với bộ nhớ riêng, nên request sửa giá chỉ xoá cache trong instance đã nhận nó; 3 instance còn lại vẫn trả dữ liệu cũ cho tới khi hết hạn. Load balancer chia request ngẫu nhiên nên người dùng thấy lúc mới lúc cũ. Dùng cache chung như Redis để mọi instance cùng đọc và cùng bị invalidate, hoặc phát sự kiện invalidate qua pub/sub nếu vẫn muốn giữ cache local. Tăng TTL chỉ làm tình trạng tệ hơn.",
+        "en": "Each instance is a separate process with its own memory, so the price-update request only clears the cache in the instance that received it; the other 3 keep serving stale data until it expires. The load balancer spreads requests, so users see new and old values alternately. Use a shared cache such as Redis so every instance reads and invalidates the same data, or broadcast invalidation via pub/sub if you want to keep a local cache. Raising the TTL only makes it worse."
+      }
+    },
+    {
+      "id": "nodejs.scaling.007",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "scaling",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày cách implement graceful shutdown cho một API Node.js chạy trên Kubernetes/Docker.",
+        "en": "Explain how to implement graceful shutdown for a Node.js API running on Kubernetes/Docker."
+      },
+      "keyPoints": [
+        {
+          "vi": "Bắt `SIGTERM`, chuyển readiness sang chưa sẵn sàng để ngừng nhận traffic mới",
+          "en": "Handle `SIGTERM` and flip readiness to not-ready to stop new traffic"
+        },
+        {
+          "vi": "`server.close()` chờ request đang chạy xong; xử lý kết nối keep-alive còn mở",
+          "en": "`server.close()` lets in-flight requests finish; deal with lingering keep-alive connections"
+        },
+        {
+          "vi": "Ngừng nhận job, đóng pool DB/Redis, flush log",
+          "en": "Stop taking jobs, close DB/Redis pools, flush logs"
+        },
+        {
+          "vi": "Timer buộc thoát ngắn hơn grace period",
+          "en": "A forced-exit timer shorter than the grace period"
+        },
+        {
+          "vi": "Đảm bảo process Node nhận được tín hiệu (PID 1, `tini`, không bọc bởi `npm start`)",
+          "en": "Make sure the Node process receives the signal (PID 1, `tini`, not wrapped by `npm start`)"
+        }
+      ],
+      "explanation": {
+        "vi": "Khi deploy hoặc scale down, orchestrator gửi `SIGTERM` rồi sau một khoảng thời gian (mặc định 30 giây trên Kubernetes) gửi `SIGKILL`. Bắt `process.on('SIGTERM')`, đánh dấu readiness probe là chưa sẵn sàng để không nhận traffic mới, gọi `server.close()` để ngừng nhận kết nối mới và chờ các request đang chạy xong; từ Node 19 hàm này cũng tự đóng các kết nối keep-alive đang rảnh, còn kết nối vẫn treo khi hết hạn chờ thì đóng bằng `server.closeAllConnections()`. Ngừng nhận job mới từ queue, sau đó đóng pool DB, Redis và flush log/metrics. Đặt timer buộc thoát (`process.exit(1)`) ngắn hơn grace period phòng khi có request bị treo. Đảm bảo `node` là PID 1 (hoặc dùng `tini`, `exec` trong entrypoint) để thực sự nhận được tín hiệu, vì `npm start` có thể không chuyển tiếp `SIGTERM`.",
+        "en": "On deploy or scale-down, the orchestrator sends `SIGTERM` and, after a grace period (30 seconds by default on Kubernetes), `SIGKILL`. Handle `process.on('SIGTERM')`, mark the readiness probe as not ready so no new traffic arrives, call `server.close()` to stop accepting connections and let in-flight requests finish; since Node 19 it also closes idle keep-alive connections, and connections still open at the deadline can be closed with `server.closeAllConnections()`. Stop consuming new queue jobs, then close the DB pool and Redis and flush logs/metrics. Set a forced-exit timer (`process.exit(1)`) shorter than the grace period in case a request hangs. Make sure `node` is PID 1 (or use `tini`, `exec` in the entrypoint) so it actually receives the signal, since `npm start` may not forward `SIGTERM`."
+      }
+    },
+    {
+      "id": "nodejs.scaling.008",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "scaling",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh `worker_threads` và `cluster` (hoặc chạy nhiều process). Khi nào dùng cái nào?",
+        "en": "Compare `worker_threads` with `cluster` (or running multiple processes). When do you use each?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`cluster`: nhiều process, bộ nhớ riêng, scale request I/O theo core, cô lập lỗi",
+          "en": "`cluster`: many processes, separate memory, scales I/O request handling across cores, isolates failures"
+        },
+        {
+          "vi": "`worker_threads`: nhiều thread trong một process, giao tiếp `postMessage`/`SharedArrayBuffer`",
+          "en": "`worker_threads`: many threads in one process, talking via `postMessage`/`SharedArrayBuffer`"
+        },
+        {
+          "vi": "`worker_threads` cho việc CPU-bound để không chặn main thread; không giúp I/O",
+          "en": "`worker_threads` for CPU-bound work so the main thread isn't blocked; no help for I/O"
+        },
+        {
+          "vi": "Dùng worker pool (Piscina) thay vì tạo thread mỗi request",
+          "en": "Use a worker pool (Piscina) instead of a thread per request"
+        },
+        {
+          "vi": "Trên container: một process mỗi container, scale bằng replica",
+          "en": "In containers: one process per container, scale with replicas"
+        }
+      ],
+      "explanation": {
+        "vi": "`cluster` (hoặc nhiều container sau load balancer) tạo nhiều process, mỗi process có event loop, heap V8 và bộ nhớ riêng; nó dùng để scale khả năng xử lý request I/O ra nhiều core và cô lập lỗi, vì một worker crash không kéo theo các worker khác. `worker_threads` chạy nhiều thread trong cùng một process, mỗi thread có isolate V8 riêng, giao tiếp qua `postMessage` (structured clone) hoặc chia sẻ bộ nhớ bằng `SharedArrayBuffer`/chuyển quyền sở hữu `ArrayBuffer`. Dùng `worker_threads` cho tác vụ CPU nặng như xử lý ảnh, nén, parse lớn hay hash để main thread vẫn phục vụ request, thường qua một worker pool (ví dụ Piscina) thay vì tạo thread cho mỗi request. Worker không giúp gì với I/O vì Node vốn đã xử lý I/O bất đồng bộ. Trên Kubernetes thường chạy một process mỗi container và scale bằng replica, rồi dùng thêm `worker_threads` cho phần CPU-bound.",
+        "en": "`cluster` (or multiple containers behind a load balancer) creates several processes, each with its own event loop, V8 heap and memory; it scales I/O request handling across cores and isolates failures, since one crashing worker doesn't take down the others. `worker_threads` runs multiple threads inside one process, each with its own V8 isolate, communicating via `postMessage` (structured clone) or sharing memory through `SharedArrayBuffer`/transferring `ArrayBuffer` ownership. Use `worker_threads` for CPU-heavy tasks such as image processing, compression, large parsing or hashing so the main thread keeps serving requests, usually via a worker pool (e.g. Piscina) rather than a thread per request. Workers don't help with I/O, which Node already handles asynchronously. On Kubernetes you typically run one process per container and scale with replicas, adding `worker_threads` for CPU-bound parts."
+      }
+    },
+    {
+      "id": "nodejs.scaling.009",
+      "contentVersion": 1,
+      "trackId": "nodejs",
+      "topicId": "scaling",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Thiết kế chiến lược cache Redis cho endpoint `GET /products/:id` có lượng đọc rất lớn. Cần lưu ý những gì?",
+        "en": "Design a Redis caching strategy for a very read-heavy `GET /products/:id` endpoint. What must you consider?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Cache-aside: đọc Redis, miss thì đọc DB rồi set kèm TTL",
+          "en": "Cache-aside: read Redis; on miss, read the DB and set with a TTL"
+        },
+        {
+          "vi": "Khi ghi: cập nhật DB rồi xoá key; TTL làm lưới an toàn",
+          "en": "On writes: update the DB, then delete the key; the TTL is a safety net"
+        },
+        {
+          "vi": "Chống stampede: TTL có jitter, lock/single-flight, stale-while-revalidate",
+          "en": "Prevent stampedes: jittered TTLs, lock/single-flight, stale-while-revalidate"
+        },
+        {
+          "vi": "Thiết kế key có namespace/version; cache cả kết quả rỗng; không trộn dữ liệu riêng user",
+          "en": "Namespaced/versioned keys; cache empty results; never mix per-user data"
+        },
+        {
+          "vi": "Theo dõi hit ratio/memory; fail open về DB khi Redis lỗi",
+          "en": "Monitor hit ratio/memory; fail open to the DB when Redis is down"
+        }
+      ],
+      "explanation": {
+        "vi": "Phổ biến nhất là cache-aside: đọc Redis trước, nếu miss thì đọc DB rồi ghi vào Redis với TTL. Khi cập nhật sản phẩm, ghi DB trước rồi xoá key (không ghi đè), để tránh race condition ghi giá trị cũ; TTL là lưới an toàn khi việc xoá bị lỗi. Thêm jitter ngẫu nhiên vào TTL để các key không hết hạn cùng lúc, và chống cache stampede khi key nóng hết hạn bằng lock/single-flight hoặc stale-while-revalidate. Cache cả kết quả \"không tồn tại\" với TTL ngắn để chống tấn công dò id. Thiết kế key có namespace và version (ví dụ `product:v2:123`), không cache dữ liệu riêng của từng user dưới key chung, và theo dõi hit ratio, latency, bộ nhớ, chính sách eviction của Redis. Khi Redis lỗi, app vẫn phải đọc được DB (fail open) kèm timeout ngắn.",
+        "en": "The most common pattern is cache-aside: read Redis first; on a miss, read the DB and write to Redis with a TTL. On product updates, write the DB first and then delete the key (rather than overwrite it) to avoid races that write stale values; the TTL is a safety net if the delete fails. Add random jitter to TTLs so keys don't expire together, and prevent cache stampedes on hot keys with a lock/single-flight or stale-while-revalidate. Cache \"not found\" results with a short TTL to resist id-probing. Design namespaced, versioned keys (e.g. `product:v2:123`), never cache per-user data under a shared key, and monitor hit ratio, latency, memory and Redis's eviction policy. If Redis fails, the app must still read from the DB (fail open) with short timeouts."
+      }
+    }
+  ]
+}

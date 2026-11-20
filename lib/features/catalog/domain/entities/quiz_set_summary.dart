@@ -2,8 +2,8 @@
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:AppName/features/content/domain/entities/question.dart';
-import 'package:AppName/features/content/domain/entities/quiz_set.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/content/domain/entities/quiz_set.dart';
 
 class QuizSetSummary extends Equatable {
   final QuizSet set;

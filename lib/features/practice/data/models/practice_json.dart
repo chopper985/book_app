@@ -1,6 +1,6 @@
 // Project imports:
-import 'package:AppName/features/practice/domain/entities/practice_session.dart';
-import 'package:AppName/features/practice/domain/entities/session_result.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_session.dart';
+import 'package:interview_practice/features/practice/domain/entities/session_result.dart';
 
 /// JSON mapping of practice entities for local storage. Dates are stored as
 /// UTC epoch milliseconds so they survive time zone changes.

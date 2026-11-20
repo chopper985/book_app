@@ -2,7 +2,7 @@
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:AppName/features/content/domain/entities/localized_text.dart';
+import 'package:interview_practice/features/content/domain/entities/localized_text.dart';
 
 class QuizSet extends Equatable {
   final String id;
@@ -18,7 +18,7 @@ class QuizSet extends Equatable {
 
   /// Generated per topic and level (see `ContentCatalog.withTopicSets`),
   /// not authored in `sets.json`. Hidden from set lists.
-  final bool isTopicSet;
+  final bool isGenerated;
 
   const QuizSet({
     required this.id,
@@ -27,7 +27,7 @@ class QuizSet extends Equatable {
     required this.questionIds,
     this.durationMinutes,
     this.accessPlanId,
-    this.isTopicSet = false,
+    this.isGenerated = false,
   });
 
   bool get isFree => accessPlanId == null;
@@ -42,6 +42,6 @@ class QuizSet extends Equatable {
         questionIds,
         durationMinutes,
         accessPlanId,
-        isTopicSet,
+        isGenerated,
       ];
 }

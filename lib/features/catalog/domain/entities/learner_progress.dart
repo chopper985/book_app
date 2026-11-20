@@ -2,8 +2,8 @@
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:AppName/features/catalog/domain/entities/track_learning.dart';
-import 'package:AppName/features/practice/domain/entities/session_result.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_learning.dart';
+import 'package:interview_practice/features/practice/domain/entities/session_result.dart';
 
 /// Learner statistics derived from the graded sessions on the device.
 class LearnerProgress extends Equatable {

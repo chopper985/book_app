@@ -6,7 +6,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/analytics/app_firebase.dart';
+import 'package:interview_practice/core/analytics/app_firebase.dart';
 
 /// How a practice session was opened.
 enum PracticeMode {
@@ -206,7 +206,10 @@ class NoopAppAnalytics implements AppAnalytics {
   }) async {}
 
   @override
-  Future<void> trackSaved({required String trackId, required bool saved}) async {}
+  Future<void> trackSaved({
+    required String trackId,
+    required bool saved,
+  }) async {}
 
   @override
   Future<void> profileUpdated({

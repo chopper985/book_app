@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 // Project imports:
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/features/content/domain/entities/content_issue.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/features/content/domain/entities/content_issue.dart';
 
 /// Lists every content problem so the author can fix the data.
 class ContentIssueView extends StatelessWidget {

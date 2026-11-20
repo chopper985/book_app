@@ -1,6 +1,6 @@
 // Project imports:
-import 'package:AppName/features/content/data/models/content_format_exception.dart';
-import 'package:AppName/features/content/domain/entities/localized_text.dart';
+import 'package:interview_practice/features/content/data/models/content_format_exception.dart';
+import 'package:interview_practice/features/content/domain/entities/localized_text.dart';
 
 /// Typed access to a JSON object that reports the failing field.
 class JsonReader {

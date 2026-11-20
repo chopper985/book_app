@@ -1,7 +1,7 @@
 // Project imports:
-import 'package:AppName/features/content/data/models/json_reader.dart';
-import 'package:AppName/features/content/domain/entities/localized_text.dart';
-import 'package:AppName/features/content/domain/entities/track.dart';
+import 'package:interview_practice/features/content/data/models/json_reader.dart';
+import 'package:interview_practice/features/content/domain/entities/localized_text.dart';
+import 'package:interview_practice/features/content/domain/entities/track.dart';
 
 class TrackModel {
   const TrackModel._();

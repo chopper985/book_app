@@ -7,13 +7,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/analytics/app_analytics.dart';
-import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
-import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
-import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
-import 'package:AppName/features/practice/domain/usecase/practice_usecases.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
-import 'package:AppName/features/profile/domain/usecase/profile_usecases.dart';
+import 'package:interview_practice/core/analytics/app_analytics.dart';
+import 'package:interview_practice/features/catalog/domain/entities/explore_dashboard.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_overview.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
+import 'package:interview_practice/features/practice/domain/usecase/practice_usecases.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/domain/usecase/profile_usecases.dart';
 
 part 'profile_state.dart';
 

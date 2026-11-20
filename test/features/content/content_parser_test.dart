@@ -2,9 +2,9 @@
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
-import 'package:AppName/features/content/data/parsers/content_parser.dart';
-import 'package:AppName/features/content/domain/entities/content_issue.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/content/data/parsers/content_parser.dart';
+import 'package:interview_practice/features/content/domain/entities/content_issue.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
 import 'content_test_data.dart';
 
 void main() {

@@ -7,16 +7,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/analytics/app_analytics.dart';
-import 'package:AppName/features/catalog/domain/entities/quiz_set_summary.dart';
-import 'package:AppName/features/catalog/domain/entities/track_detail.dart';
-import 'package:AppName/features/catalog/domain/usecase/filter_quiz_sets.dart';
-import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
-import 'package:AppName/features/catalog/domain/usecase/get_track_detail.dart';
-import 'package:AppName/features/catalog/domain/usecase/saved_tracks.dart';
-import 'package:AppName/features/content/domain/entities/content_failure.dart';
-import 'package:AppName/features/content/domain/entities/content_issue.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
+import 'package:interview_practice/core/analytics/app_analytics.dart';
+import 'package:interview_practice/features/catalog/domain/entities/quiz_set_summary.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_detail.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/filter_quiz_sets.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_track_detail.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/saved_tracks.dart';
+import 'package:interview_practice/features/content/domain/entities/content_failure.dart';
+import 'package:interview_practice/features/content/domain/entities/content_issue.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
 
 part 'track_detail_state.dart';
 

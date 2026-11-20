@@ -2,10 +2,10 @@
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/utils/dio_api/result.dart';
-import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
-import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
-import 'package:AppName/features/catalog/domain/repositories/catalog_repository.dart';
+import 'package:interview_practice/core/utils/dio_api/result.dart';
+import 'package:interview_practice/features/catalog/domain/entities/explore_dashboard.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_overview.dart';
+import 'package:interview_practice/features/catalog/domain/repositories/catalog_repository.dart';
 
 @injectable
 class GetTracks {

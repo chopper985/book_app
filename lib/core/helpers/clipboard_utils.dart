@@ -2,9 +2,9 @@
 import 'package:flutter/services.dart';
 
 // Project imports:
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/helpers/device_utils.dart';
-import 'package:AppName/core/utils/dialog/show_dialog_complete.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/helpers/device_utils.dart';
+import 'package:interview_practice/core/utils/dialog/show_dialog_complete.dart';
 
 /// A Flutter Clipboard Plugin.
 class ClipboardUtils {

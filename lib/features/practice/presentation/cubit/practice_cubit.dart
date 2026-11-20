@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/analytics/app_analytics.dart';
-import 'package:AppName/features/practice/domain/entities/practice_bundle.dart';
-import 'package:AppName/features/practice/domain/entities/practice_session.dart';
-import 'package:AppName/features/practice/domain/usecase/practice_usecases.dart';
+import 'package:interview_practice/core/analytics/app_analytics.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_bundle.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_session.dart';
+import 'package:interview_practice/features/practice/domain/usecase/practice_usecases.dart';
 
 part 'practice_state.dart';
 

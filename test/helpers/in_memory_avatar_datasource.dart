@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:AppName/features/profile/data/datasources/avatar_local_datasource.dart';
+import 'package:interview_practice/features/profile/data/datasources/avatar_local_datasource.dart';
 
 /// Records stored avatars by name instead of copying files.
 class InMemoryAvatarLocalDataSource implements AvatarLocalDataSource {

@@ -9,10 +9,10 @@ import 'package:hive_ce/hive.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/constants/storage_key.dart';
-import 'package:AppName/features/practice/data/models/practice_json.dart';
-import 'package:AppName/features/practice/domain/entities/practice_session.dart';
-import 'package:AppName/features/practice/domain/entities/session_result.dart';
+import 'package:interview_practice/core/constants/storage_key.dart';
+import 'package:interview_practice/features/practice/data/models/practice_json.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_session.dart';
+import 'package:interview_practice/features/practice/domain/entities/session_result.dart';
 
 /// Stores unfinished sessions and graded results on the device.
 abstract class PracticeLocalDataSource {

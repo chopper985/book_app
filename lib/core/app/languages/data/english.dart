@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:AppName/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
 
 Map<String, String> english = {
   Strings.home: "Home",
@@ -43,7 +43,8 @@ Map<String, String> english = {
   Strings.issueMissingTranslation: "Missing language: %s",
   Strings.issueEmptySet: "Set has no questions",
   Strings.issueInvalidVersion: "Invalid content version: %s",
-  Strings.issuePremiumLevelInFreeSet: "Free set contains a Middle/Senior question: %s",
+  Strings.issuePremiumLevelInFreeSet:
+      "Free set contains a Middle/Senior question: %s",
   Strings.navExplore: "Explore",
   Strings.navRoadmaps: "Roadmaps",
   Strings.navPractice: "Practice",
@@ -70,7 +71,8 @@ Map<String, String> english = {
   Strings.categoryMobile: "Mobile Dev",
   Strings.categoryFrontend: "Frontend",
   Strings.categoryBackend: "Backend Core",
-  Strings.categorySystems: "Systems",
+  Strings.categoryGeneral: "Core skills",
+  Strings.categoryTesting: "Testing",
   Strings.trackQuestionsTagline: "%d questions • %s",
   Strings.completedOfTotal: "%d / %d completed",
   Strings.dailyChallenge: "Today's challenge",
@@ -179,9 +181,11 @@ Map<String, String> english = {
   Strings.onboardingNameHint: "Your name",
   Strings.onboardingRoleTitle: "Which position are you applying for?",
   Strings.onboardingExperienceTitle: "How much experience do you have?",
-  Strings.onboardingExperienceSubtitle: "Used to pick the right question difficulty.",
+  Strings.onboardingExperienceSubtitle:
+      "Used to pick the right question difficulty.",
   Strings.onboardingStackTitle: "Which technologies do you work with?",
-  Strings.onboardingStackSubtitle: "Pick at least one. Matching roadmaps come first.",
+  Strings.onboardingStackSubtitle:
+      "Pick at least one. Matching roadmaps come first.",
   Strings.onboardingInterviewDate: "Interview date (optional)",
   Strings.onboardingPickDate: "Pick a date",
   Strings.onboardingClearDate: "Clear date",
@@ -209,12 +213,14 @@ Map<String, String> english = {
   Strings.interviewInDays: "Interview in %d days",
   Strings.interviewToday: "Interview today, good luck!",
   Strings.hubTitle: "Practice",
-  Strings.hubSubtitle: "Review mistakes, practice quickly and revisit past sessions.",
+  Strings.hubSubtitle:
+      "Review mistakes, practice quickly and revisit past sessions.",
   Strings.hubStatSessions: "Sessions",
   Strings.hubStatAverage: "Avg score",
   Strings.hubStatMistakes: "To review",
   Strings.hubMistakesTitle: "Review mistakes",
-  Strings.hubMistakesEmpty: "No mistakes to review yet. Do a few sessions to get started!",
+  Strings.hubMistakesEmpty:
+      "No mistakes to review yet. Do a few sessions to get started!",
   Strings.hubMistakeCount: "%d to review",
   Strings.hubReviewNow: "Review",
   Strings.hubQuickTitle: "Quick practice",
@@ -239,9 +245,11 @@ Map<String, String> english = {
   Strings.profileSettingsTitle: "Settings",
   Strings.profileLanguage: "Language",
   Strings.profileReset: "Reset practice progress",
-  Strings.profileResetHint: "Deletes history, XP and streak. Your profile is kept.",
+  Strings.profileResetHint:
+      "Deletes history, XP and streak. Your profile is kept.",
   Strings.profileResetTitle: "Reset all progress?",
-  Strings.profileResetMessage: "Practice history, XP and streak will be permanently deleted and cannot be restored.",
+  Strings.profileResetMessage:
+      "Practice history, XP and streak will be permanently deleted and cannot be restored.",
   Strings.profileResetConfirm: "Reset",
   Strings.profileResetCancel: "Cancel",
   Strings.profileResetDone: "Practice progress reset",
@@ -287,7 +295,8 @@ Map<String, String> english = {
   Strings.pickerAddTitle: "Add a roadmap",
   Strings.pickerLanguage: "Language / Technology",
   Strings.pickerLevel: "Level",
-  Strings.pickerLevelHint: "Includes questions from Fresher up to the chosen level.",
+  Strings.pickerLevelHint:
+      "Includes questions from Fresher up to the chosen level.",
   Strings.pickerPremium: "Premium",
   Strings.pickerConfirm: "View roadmap",
   Strings.pickerExisting: "You already follow this roadmap; tap to open it.",
@@ -296,7 +305,21 @@ Map<String, String> english = {
   Strings.switcherAdd: "Add a roadmap",
   Strings.switcherRemove: "Remove roadmap",
   Strings.switcherRemoveTitle: "Remove this roadmap?",
-  Strings.switcherRemoveMessage: "Your practice progress is kept; you can add it again later.",
+  Strings.switcherRemoveMessage:
+      "Your practice progress is kept; you can add it again later.",
   Strings.switcherRemoveConfirm: "Remove",
   Strings.switcherRemoveCancel: "Cancel",
+  Strings.pickerModeLanguage: "By language",
+  Strings.pickerModePosition: "By position",
+  Strings.pickerPosition: "Position",
+  Strings.pickerOption: "Main platform / language",
+  Strings.pickerIncludes: "Includes: %s",
+  Strings.positionMain: "Main",
+  Strings.positionCore: "Core skill",
+  Strings.positionProgress: "Overall progress",
+  Strings.positionAnswered: "%d/%d questions",
+  Strings.positionMockTitle: "%s mock test",
+  Strings.positionMockSubtitle: "%d random questions across all parts · %d min",
+  Strings.positionTracks: "Parts to study",
+  Strings.trackBackToPosition: "Back to roadmap",
 };

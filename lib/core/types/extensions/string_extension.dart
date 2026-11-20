@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:AppName/core/constants/constants.dart';
+import 'package:interview_practice/core/constants/constants.dart';
 
 extension StringExtension on String {
   String formatVietnamese() {

@@ -2,7 +2,7 @@
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:AppName/features/content/domain/entities/localized_text.dart';
+import 'package:interview_practice/features/content/domain/entities/localized_text.dart';
 
 /// Ordered from easiest to hardest.
 enum QuestionLevel {

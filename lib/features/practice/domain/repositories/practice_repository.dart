@@ -1,8 +1,8 @@
 // Project imports:
-import 'package:AppName/core/utils/dio_api/result.dart';
-import 'package:AppName/features/practice/domain/entities/practice_bundle.dart';
-import 'package:AppName/features/practice/domain/entities/practice_session.dart';
-import 'package:AppName/features/practice/domain/entities/session_result.dart';
+import 'package:interview_practice/core/utils/dio_api/result.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_bundle.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_session.dart';
+import 'package:interview_practice/features/practice/domain/entities/session_result.dart';
 
 abstract class PracticeRepository {
   /// Starts a session for [setId]. [onlyQuestionIds] limits it to a subset,

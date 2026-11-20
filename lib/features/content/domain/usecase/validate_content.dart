@@ -1,8 +1,8 @@
 // Project imports:
-import 'package:AppName/features/content/domain/entities/content_catalog.dart';
-import 'package:AppName/features/content/domain/entities/content_issue.dart';
-import 'package:AppName/features/content/domain/entities/localized_text.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/content/domain/entities/content_catalog.dart';
+import 'package:interview_practice/features/content/domain/entities/content_issue.dart';
+import 'package:interview_practice/features/content/domain/entities/localized_text.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
 
 /// Semantic checks on parsed content. Pure Dart so `tool/validate_content.dart`
 /// runs the exact same rules as the app.
@@ -14,6 +14,7 @@ class ValidateContent {
     _checkTracks(catalog, issues);
     _checkQuestions(catalog, issues);
     _checkSets(catalog, issues);
+    _checkPositions(catalog, issues);
     return issues;
   }
 
@@ -138,6 +139,37 @@ class ValidateContent {
         } else if (set.isFree && question.level.isPremium) {
           issues.add(
             _issue(ContentIssueCode.premiumLevelInFreeSet, path, questionId),
+          );
+        }
+      }
+    }
+  }
+
+  /// Positions may only reference available tracks.
+  void _checkPositions(ContentCatalog catalog, List<ContentIssue> issues) {
+    final positionIds = <String>{};
+    for (final position in catalog.positions) {
+      final path = 'positions.json › ${position.id}';
+      if (!positionIds.add(position.id)) {
+        issues.add(_issue(ContentIssueCode.duplicateId, path, position.id));
+      }
+      _checkText(position.name, '$path.name', issues);
+      if (position.options.isEmpty) {
+        issues.add(_issue(ContentIssueCode.emptySet, path));
+      }
+      final optionIds = <String>{};
+      final referenced = <String>[...position.coreTrackIds];
+      for (final option in position.options) {
+        if (!optionIds.add(option.id)) {
+          issues.add(_issue(ContentIssueCode.duplicateId, path, option.id));
+        }
+        _checkText(option.name, '$path.${option.id}', issues);
+        referenced.addAll(option.trackIds);
+      }
+      for (final trackId in referenced.toSet()) {
+        if (catalog.trackById(trackId)?.isAvailable != true) {
+          issues.add(
+            _issue(ContentIssueCode.missingReference, path, trackId),
           );
         }
       }

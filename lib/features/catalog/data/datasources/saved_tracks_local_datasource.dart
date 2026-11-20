@@ -9,7 +9,7 @@ import 'package:hive_ce/hive.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/constants/storage_key.dart';
+import 'package:interview_practice/core/constants/storage_key.dart';
 
 abstract class SavedTracksLocalDataSource {
   List<String> read();

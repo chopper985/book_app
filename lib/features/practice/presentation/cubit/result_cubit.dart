@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/features/practice/domain/entities/practice_bundle.dart';
-import 'package:AppName/features/practice/domain/usecase/practice_usecases.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_bundle.dart';
+import 'package:interview_practice/features/practice/domain/usecase/practice_usecases.dart';
 
 part 'result_state.dart';
 

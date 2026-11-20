@@ -5,11 +5,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/app_svg.dart';
-import 'package:AppName/gen/assets.gen.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/app_svg.dart';
+import 'package:interview_practice/gen/assets.gen.dart';
 
 /// Session clock: remaining time of a timed set (calls [onTimeout] once at
 /// zero) or elapsed time since [startedAt] when [endsAt] is `null`.

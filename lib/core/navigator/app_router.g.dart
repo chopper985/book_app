@@ -9,6 +9,7 @@ part of 'app_router.dart';
 List<RouteBase> get $appRoutes => [
       $onboardingRoute,
       $editProfileRoute,
+      $trackRoadmapRoute,
       $roadmapPickerRoute,
       $mainShellRoute,
       $practiceRoute,
@@ -59,6 +60,43 @@ mixin $EditProfileRoute on GoRouteData {
   @override
   String get location => GoRouteData.$location(
         '/profile-edit',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $trackRoadmapRoute => GoRouteData.$route(
+      path: '/track/:trackId',
+      name: '/track/:trackId',
+      hasOverriddenOnExit: false,
+      factory: $TrackRoadmapRoute._fromState,
+    );
+
+mixin $TrackRoadmapRoute on GoRouteData {
+  static TrackRoadmapRoute _fromState(GoRouterState state) => TrackRoadmapRoute(
+        trackId: state.pathParameters['trackId']!,
+        level: state.uri.queryParameters['level'],
+      );
+
+  TrackRoadmapRoute get _self => this as TrackRoadmapRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+        '/track/${Uri.encodeComponent(_self.trackId)}',
+        queryParams: {
+          if (_self.level != null) 'level': _self.level,
+        },
       );
 
   @override

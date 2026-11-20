@@ -2,13 +2,13 @@
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/utils/dio_api/result.dart';
-import 'package:AppName/features/content/data/datasources/content_asset_datasource.dart';
-import 'package:AppName/features/content/data/parsers/content_parser.dart';
-import 'package:AppName/features/content/domain/entities/content_catalog.dart';
-import 'package:AppName/features/content/domain/entities/content_failure.dart';
-import 'package:AppName/features/content/domain/repositories/content_repository.dart';
-import 'package:AppName/features/content/domain/usecase/validate_content.dart';
+import 'package:interview_practice/core/utils/dio_api/result.dart';
+import 'package:interview_practice/features/content/data/datasources/content_asset_datasource.dart';
+import 'package:interview_practice/features/content/data/parsers/content_parser.dart';
+import 'package:interview_practice/features/content/domain/entities/content_catalog.dart';
+import 'package:interview_practice/features/content/domain/entities/content_failure.dart';
+import 'package:interview_practice/features/content/domain/repositories/content_repository.dart';
+import 'package:interview_practice/features/content/domain/usecase/validate_content.dart';
 
 @LazySingleton(as: ContentRepository)
 class ContentRepositoryImpl implements ContentRepository {

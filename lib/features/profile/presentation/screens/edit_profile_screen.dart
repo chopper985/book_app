@@ -8,16 +8,16 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
-import 'package:AppName/features/profile/presentation/cubit/edit_profile_cubit.dart';
-import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
-import 'package:AppName/features/profile/presentation/widgets/profile_form_fields.dart';
-import 'package:AppName/features/profile/presentation/widgets/profile_sections.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/presentation/cubit/edit_profile_cubit.dart';
+import 'package:interview_practice/features/profile/presentation/extensions/profile_labels.dart';
+import 'package:interview_practice/features/profile/presentation/widgets/profile_form_fields.dart';
+import 'package:interview_practice/features/profile/presentation/widgets/profile_sections.dart';
 
 /// Avatar, personal details and interview preferences.
 class EditProfileScreen extends StatelessWidget {

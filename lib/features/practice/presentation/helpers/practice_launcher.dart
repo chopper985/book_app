@@ -2,13 +2,13 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/injection/injection_container.dart';
-import 'package:AppName/core/navigator/app_router.dart';
-import 'package:AppName/features/practice/domain/entities/session_result.dart';
-import 'package:AppName/features/practice/domain/usecase/find_completed_result.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/injection/injection_container.dart';
+import 'package:interview_practice/core/navigator/app_router.dart';
+import 'package:interview_practice/features/practice/domain/entities/session_result.dart';
+import 'package:interview_practice/features/practice/domain/usecase/find_completed_result.dart';
 
 enum _RetryChoice { retry, viewResult }
 

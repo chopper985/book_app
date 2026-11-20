@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/app_progress_bar.dart';
-import 'package:AppName/core/utils/widgets/app_svg.dart';
-import 'package:AppName/core/utils/widgets/dev_header.dart';
-import 'package:AppName/gen/assets.gen.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/app_progress_bar.dart';
+import 'package:interview_practice/core/utils/widgets/app_svg.dart';
+import 'package:interview_practice/core/utils/widgets/dev_header.dart';
+import 'package:interview_practice/gen/assets.gen.dart';
 
 /// Report header: back, logo, title, level badge, avatar and the score strip.
 class ResultHeader extends StatelessWidget {

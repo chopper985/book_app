@@ -2,8 +2,8 @@
 import 'package:i18n_extension/i18n_extension.dart';
 
 // Project imports:
-import 'package:AppName/core/app/languages/data/english.dart';
-import 'package:AppName/core/app/languages/data/vietnamese.dart';
+import 'package:interview_practice/core/app/languages/data/english.dart';
+import 'package:interview_practice/core/app/languages/data/vietnamese.dart';
 
 class Strings {
   static const String home = "home";
@@ -30,6 +30,19 @@ class Strings {
   static const String levelNumber = "levelNumber";
 
   // Explore & roadmaps tabs
+  static const String pickerModeLanguage = "pickerModeLanguage";
+  static const String pickerModePosition = "pickerModePosition";
+  static const String pickerPosition = "pickerPosition";
+  static const String pickerOption = "pickerOption";
+  static const String pickerIncludes = "pickerIncludes";
+  static const String positionMain = "positionMain";
+  static const String positionCore = "positionCore";
+  static const String positionProgress = "positionProgress";
+  static const String positionAnswered = "positionAnswered";
+  static const String positionMockTitle = "positionMockTitle";
+  static const String positionMockSubtitle = "positionMockSubtitle";
+  static const String positionTracks = "positionTracks";
+  static const String trackBackToPosition = "trackBackToPosition";
   static const String pickerTitle = "pickerTitle";
   static const String pickerSubtitle = "pickerSubtitle";
   static const String pickerAddTitle = "pickerAddTitle";
@@ -133,7 +146,8 @@ class Strings {
   static const String onboardingNameHint = "onboardingNameHint";
   static const String onboardingRoleTitle = "onboardingRoleTitle";
   static const String onboardingExperienceTitle = "onboardingExperienceTitle";
-  static const String onboardingExperienceSubtitle = "onboardingExperienceSubtitle";
+  static const String onboardingExperienceSubtitle =
+      "onboardingExperienceSubtitle";
   static const String onboardingStackTitle = "onboardingStackTitle";
   static const String onboardingStackSubtitle = "onboardingStackSubtitle";
   static const String onboardingInterviewDate = "onboardingInterviewDate";
@@ -180,8 +194,7 @@ class Strings {
   static const String issueMissingTranslation = "issueMissingTranslation";
   static const String issueEmptySet = "issueEmptySet";
   static const String issueInvalidVersion = "issueInvalidVersion";
-  static const String issuePremiumLevelInFreeSet =
-      "issuePremiumLevelInFreeSet";
+  static const String issuePremiumLevelInFreeSet = "issuePremiumLevelInFreeSet";
   static const String navExplore = "navExplore";
   static const String navRoadmaps = "navRoadmaps";
   static const String navPractice = "navPractice";
@@ -208,7 +221,8 @@ class Strings {
   static const String categoryMobile = "categoryMobile";
   static const String categoryFrontend = "categoryFrontend";
   static const String categoryBackend = "categoryBackend";
-  static const String categorySystems = "categorySystems";
+  static const String categoryGeneral = "categoryGeneral";
+  static const String categoryTesting = "categoryTesting";
   static const String trackQuestionsTagline = "trackQuestionsTagline";
   static const String completedOfTotal = "completedOfTotal";
   static const String dailyChallenge = "dailyChallenge";

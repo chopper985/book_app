@@ -36,6 +36,8 @@ import '../../features/catalog/domain/usecase/get_track_detail.dart' as _i875;
 import '../../features/catalog/domain/usecase/saved_tracks.dart' as _i385;
 import '../../features/catalog/domain/usecase/user_roadmaps.dart' as _i301;
 import '../../features/catalog/presentation/cubit/explore_cubit.dart' as _i978;
+import '../../features/catalog/presentation/cubit/position_detail_cubit.dart'
+    as _i1012;
 import '../../features/catalog/presentation/cubit/roadmap_picker_cubit.dart'
     as _i966;
 import '../../features/catalog/presentation/cubit/roadmaps_cubit.dart' as _i152;
@@ -201,6 +203,10 @@ _i174.GetIt $initGetIt(
         gh<_i980.PracticeRepository>(),
         gh<_i894.ProfileRepository>(),
       ));
+  gh.factory<_i301.AddPositionRoadmap>(() => _i301.AddPositionRoadmap(
+        gh<_i409.UserRoadmapsRepository>(),
+        gh<_i1018.CatalogRepository>(),
+      ));
   gh.factory<_i4.GetTracks>(
       () => _i4.GetTracks(gh<_i1018.CatalogRepository>()));
   gh.factory<_i4.GetExploreDashboard>(
@@ -209,6 +215,10 @@ _i174.GetIt $initGetIt(
       () => _i4.WatchProgress(gh<_i1018.CatalogRepository>()));
   gh.factory<_i875.GetTrackDetail>(
       () => _i875.GetTrackDetail(gh<_i1018.CatalogRepository>()));
+  gh.factory<_i301.GetPositions>(
+      () => _i301.GetPositions(gh<_i1018.CatalogRepository>()));
+  gh.factory<_i301.GetPositionDetail>(
+      () => _i301.GetPositionDetail(gh<_i1018.CatalogRepository>()));
   gh.factory<_i269.PracticeHubCubit>(() => _i269.PracticeHubCubit(
         gh<_i1036.GetPracticeHub>(),
         gh<_i4.GetExploreDashboard>(),
@@ -219,6 +229,29 @@ _i174.GetIt $initGetIt(
         gh<_i385.ToggleSavedTrack>(),
         gh<_i4.WatchProgress>(),
         analytics: gh<_i1033.AppAnalytics>(),
+      ));
+  gh.factory<_i1012.PositionDetailCubit>(() => _i1012.PositionDetailCubit(
+        gh<_i301.GetPositionDetail>(),
+        gh<_i4.WatchProgress>(),
+      ));
+  gh.factory<_i966.RoadmapPickerCubit>(() => _i966.RoadmapPickerCubit(
+        gh<_i4.GetTracks>(),
+        gh<_i385.GetSavedTrackIds>(),
+        gh<_i301.GetUserRoadmaps>(),
+        gh<_i301.SuggestRoadmapLevel>(),
+        gh<_i852.GetProfile>(),
+        gh<_i301.AddUserRoadmap>(),
+        gh<_i301.GetPositions>(),
+        gh<_i301.AddPositionRoadmap>(),
+      ));
+  gh.factory<_i152.RoadmapsCubit>(() => _i152.RoadmapsCubit(
+        gh<_i301.GetUserRoadmaps>(),
+        gh<_i301.SelectUserRoadmap>(),
+        gh<_i301.RemoveUserRoadmap>(),
+        gh<_i4.GetTracks>(),
+        gh<_i4.GetExploreDashboard>(),
+        gh<_i301.GetPositions>(),
+        gh<_i4.WatchProgress>(),
       ));
   gh.factory<_i934.OnboardingCubit>(() => _i934.OnboardingCubit(
         gh<_i4.GetTracks>(),
@@ -241,14 +274,6 @@ _i174.GetIt $initGetIt(
         gh<_i301.OpenTrackRoadmap>(),
         gh<_i4.WatchProgress>(),
       ));
-  gh.factory<_i966.RoadmapPickerCubit>(() => _i966.RoadmapPickerCubit(
-        gh<_i4.GetTracks>(),
-        gh<_i385.GetSavedTrackIds>(),
-        gh<_i301.GetUserRoadmaps>(),
-        gh<_i301.SuggestRoadmapLevel>(),
-        gh<_i852.GetProfile>(),
-        gh<_i301.AddUserRoadmap>(),
-      ));
   gh.factory<_i990.EditProfileCubit>(() => _i990.EditProfileCubit(
         gh<_i852.GetProfile>(),
         gh<_i852.GetAvatarPath>(),
@@ -256,14 +281,6 @@ _i174.GetIt $initGetIt(
         gh<_i852.SaveProfile>(),
         gh<_i4.GetTracks>(),
         analytics: gh<_i1033.AppAnalytics>(),
-      ));
-  gh.factory<_i152.RoadmapsCubit>(() => _i152.RoadmapsCubit(
-        gh<_i301.GetUserRoadmaps>(),
-        gh<_i301.SelectUserRoadmap>(),
-        gh<_i301.RemoveUserRoadmap>(),
-        gh<_i4.GetTracks>(),
-        gh<_i4.GetExploreDashboard>(),
-        gh<_i4.WatchProgress>(),
       ));
   return getIt;
 }

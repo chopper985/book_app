@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 
 // Project imports:
-import 'package:AppName/core/navigator/app_router.dart';
+import 'package:interview_practice/core/navigator/app_router.dart';
 
 AppBar appBarTitleBack(
   BuildContext context, {

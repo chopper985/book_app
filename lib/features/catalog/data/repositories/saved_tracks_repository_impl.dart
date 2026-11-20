@@ -5,8 +5,8 @@ import 'dart:async';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/features/catalog/data/datasources/saved_tracks_local_datasource.dart';
-import 'package:AppName/features/catalog/domain/repositories/saved_tracks_repository.dart';
+import 'package:interview_practice/features/catalog/data/datasources/saved_tracks_local_datasource.dart';
+import 'package:interview_practice/features/catalog/domain/repositories/saved_tracks_repository.dart';
 
 @LazySingleton(as: SavedTracksRepository)
 class SavedTracksRepositoryImpl extends SavedTracksRepository {

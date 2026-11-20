@@ -2,11 +2,15 @@
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/features/catalog/domain/entities/user_roadmap.dart';
-import 'package:AppName/features/catalog/domain/repositories/user_roadmaps_repository.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
-import 'package:AppName/features/profile/domain/repositories/profile_repository.dart';
+import 'package:interview_practice/core/utils/dio_api/result.dart';
+import 'package:interview_practice/features/catalog/domain/entities/position_detail.dart';
+import 'package:interview_practice/features/catalog/domain/entities/user_roadmap.dart';
+import 'package:interview_practice/features/catalog/domain/repositories/catalog_repository.dart';
+import 'package:interview_practice/features/catalog/domain/repositories/user_roadmaps_repository.dart';
+import 'package:interview_practice/features/content/domain/entities/position.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
 
 @injectable
 class GetUserRoadmaps {
@@ -81,4 +85,57 @@ class SuggestRoadmapLevel {
         null =>
           QuestionLevel.fresher,
       };
+}
+
+/// Adds a position roadmap; its icon is the option's main track, or the
+/// first core track when the option has none (manual testing).
+@injectable
+class AddPositionRoadmap {
+  final UserRoadmapsRepository _repository;
+  final CatalogRepository _catalogRepository;
+
+  AddPositionRoadmap(this._repository, this._catalogRepository);
+
+  Future<UserRoadmap?> call(
+    String positionId,
+    String optionId,
+    QuestionLevel level,
+  ) async {
+    final positions = (await _catalogRepository.getPositions()).value;
+    final position =
+        positions?.where((position) => position.id == positionId).firstOrNull;
+    final option = position?.optionById(optionId);
+    if (position == null || option == null) return null;
+    final mainTrackId = position.trackIdsFor(option).firstOrNull;
+    if (mainTrackId == null) return null;
+    return _repository.addPosition(
+      positionId: positionId,
+      optionId: optionId,
+      mainTrackId: mainTrackId,
+      level: level,
+    );
+  }
+}
+
+@injectable
+class GetPositions {
+  final CatalogRepository _repository;
+
+  GetPositions(this._repository);
+
+  Future<Result<List<Position>>> call() => _repository.getPositions();
+}
+
+@injectable
+class GetPositionDetail {
+  final CatalogRepository _repository;
+
+  GetPositionDetail(this._repository);
+
+  Future<Result<PositionDetail>> call(UserRoadmap roadmap) =>
+      _repository.getPositionDetail(
+        roadmap.positionId!,
+        roadmap.optionId!,
+        roadmap.level,
+      );
 }

@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
 
 /// Small caps label above a form control. A [required] field gets a red
 /// asterisk; optional fields have no marker.
@@ -298,8 +298,8 @@ class ProfileAvatar extends StatelessWidget {
               height: dimension,
               fit: BoxFit.cover,
               // Decode at display size instead of the full photo.
-              cacheWidth: (dimension * MediaQuery.devicePixelRatioOf(context))
-                  .round(),
+              cacheWidth:
+                  (dimension * MediaQuery.devicePixelRatioOf(context)).round(),
               errorBuilder: (context, _, __) => Icon(
                 Icons.person,
                 size: dimension * 0.5,

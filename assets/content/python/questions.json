@@ -1,0 +1,3017 @@
+{
+  "questions": [
+    {
+      "id": "python.basics.001",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Kiểu dữ liệu built-in nào sau đây là immutable (không thay đổi được sau khi tạo)?",
+        "en": "Which of these built-in types is immutable?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "`list`"
+        },
+        {
+          "id": "b",
+          "text": "`tuple`"
+        },
+        {
+          "id": "c",
+          "text": "`dict`"
+        },
+        {
+          "id": "d",
+          "text": "`set`"
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`tuple` không cho thêm, xóa hay gán lại phần tử sau khi tạo; `str`, `int` và `frozenset` cũng là immutable. `list`, `dict` và `set` là mutable nên có thể sửa tại chỗ. Lưu ý: nếu tuple chứa một list thì list bên trong vẫn sửa được, tuple chỉ giữ cố định các tham chiếu.",
+        "en": "A `tuple` cannot add, remove or reassign elements after creation; `str`, `int` and `frozenset` are immutable too. `list`, `dict` and `set` are mutable and can be changed in place. Note: if a tuple holds a list, that inner list can still be modified; the tuple only fixes its references."
+      }
+    },
+    {
+      "id": "python.basics.002",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "a = [1, 2, 3]\nb = a\nb.append(4)\nprint(a)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "[1, 2, 3]"
+        },
+        {
+          "id": "b",
+          "text": "[4]"
+        },
+        {
+          "id": "c",
+          "text": "None"
+        },
+        {
+          "id": "d",
+          "text": "[1, 2, 3, 4]"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`b = a` không copy list mà chỉ cho `b` trỏ tới cùng một object với `a`. Vì vậy `b.append(4)` sửa chính list mà `a` đang trỏ tới và kết quả là `[1, 2, 3, 4]`. Muốn có bản sao độc lập, dùng `a.copy()`, `list(a)` hoặc `a[:]`.",
+        "en": "`b = a` does not copy the list; it makes `b` refer to the same object as `a`. So `b.append(4)` mutates the very list `a` points to, and the result is `[1, 2, 3, 4]`. For an independent copy use `a.copy()`, `list(a)` or `a[:]`."
+      }
+    },
+    {
+      "id": "python.basics.003",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "s = \"python\"\nprint(s[1:4], s[-2:], s[::-2])"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "yth on nhy"
+        },
+        {
+          "id": "b",
+          "text": "ytho on nhy"
+        },
+        {
+          "id": "c",
+          "text": "yth on nohtyp"
+        },
+        {
+          "id": "d",
+          "text": "pyt on nhy"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`s[1:4]` lấy chỉ số 1 đến 3 (không gồm 4) nên ra `yth`. `s[-2:]` lấy 2 ký tự cuối là `on`. `s[::-2]` đi ngược từ cuối với bước 2, lấy các chỉ số 5, 3, 1 nên ra `nhy`.",
+        "en": "`s[1:4]` takes indices 1 to 3 (4 excluded), giving `yth`. `s[-2:]` takes the last two characters, `on`. `s[::-2]` walks backwards from the end with step 2, picking indices 5, 3, 1, which gives `nhy`."
+      }
+    },
+    {
+      "id": "python.basics.004",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "print([x * x for x in range(6) if x % 2 == 0])"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "[0, 4, 16]"
+        },
+        {
+          "id": "b",
+          "text": "[4, 16, 36]"
+        },
+        {
+          "id": "c",
+          "text": "[0, 4, 16, 36]"
+        },
+        {
+          "id": "d",
+          "text": "[1, 9, 25]"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`range(6)` sinh 0 đến 5, điều kiện `if x % 2 == 0` chỉ giữ 0, 2, 4. Biểu thức `x * x` bình phương từng số nên kết quả là `[0, 4, 16]`. List comprehension đọc theo thứ tự: biểu thức, vòng `for`, rồi bộ lọc `if`.",
+        "en": "`range(6)` yields 0 to 5 and the `if x % 2 == 0` filter keeps only 0, 2, 4. The `x * x` expression squares each, so the result is `[0, 4, 16]`. A list comprehension reads as: expression, `for` loop, then the `if` filter."
+      }
+    },
+    {
+      "id": "python.basics.005",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt giữa `==` và `is` trong Python là gì?",
+        "en": "What is the difference between `==` and `is` in Python?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`==` so sánh giá trị, `is` kiểm tra có cùng là một object hay không",
+            "en": "`==` compares values, `is` checks whether both are the same object"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hai toán tử hoàn toàn giống nhau",
+            "en": "The two operators are identical"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`is` so sánh giá trị, `==` so sánh địa chỉ bộ nhớ",
+            "en": "`is` compares values, `==` compares memory addresses"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`is` chỉ dùng được với số nguyên",
+            "en": "`is` only works with integers"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`==` so sánh giá trị bằng cách gọi `__eq__`, còn `is` kiểm tra hai tên có cùng trỏ tới một object (cùng `id()`). Hai list `[1] == [1]` là `True` nhưng `[1] is [1]` là `False`. Dùng `is` cho singleton như `x is None`; đừng dùng `is` để so sánh số hay chuỗi vì kết quả phụ thuộc vào cơ chế cache của CPython.",
+        "en": "`==` compares values by calling `__eq__`, while `is` checks whether two names refer to the same object (same `id()`). `[1] == [1]` is `True` but `[1] is [1]` is `False`. Use `is` for singletons like `x is None`; never use `is` to compare numbers or strings, because the result depends on CPython caching details."
+      }
+    },
+    {
+      "id": "python.basics.006",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khi nào nên dùng `list`, `tuple`, `set` và `dict`? So sánh ngắn gọn.",
+        "en": "When should you use a `list`, a `tuple`, a `set` and a `dict`? Compare them briefly."
+      },
+      "keyPoints": [
+        {
+          "vi": "`list`: có thứ tự, mutable, cho phép trùng, truy cập theo index",
+          "en": "`list`: ordered, mutable, allows duplicates, index access"
+        },
+        {
+          "vi": "`tuple`: immutable, dùng cho bản ghi cố định, hashable nên làm key được",
+          "en": "`tuple`: immutable, for fixed records, hashable so usable as a key"
+        },
+        {
+          "vi": "`set`: phần tử duy nhất, kiểm tra `in` trung bình O(1)",
+          "en": "`set`: unique items, average O(1) `in` checks"
+        },
+        {
+          "vi": "`dict`: ánh xạ key → value, tra cứu O(1), giữ thứ tự chèn",
+          "en": "`dict`: key → value mapping, O(1) lookup, keeps insertion order"
+        }
+      ],
+      "explanation": {
+        "vi": "`list` là dãy có thứ tự, mutable, cho phép trùng lặp, dùng cho tập phần tử thay đổi. `tuple` immutable nên hợp với bản ghi cố định và có thể làm key của `dict`. `set` chứa phần tử duy nhất, kiểm tra `in` trung bình O(1). `dict` ánh xạ key sang value, tra cứu trung bình O(1) và giữ thứ tự chèn từ Python 3.7.",
+        "en": "A `list` is an ordered, mutable sequence that allows duplicates, good for changing collections. A `tuple` is immutable, fits fixed records and can be a `dict` key. A `set` holds unique items with average O(1) `in` checks. A `dict` maps keys to values with average O(1) lookup and keeps insertion order since Python 3.7."
+      }
+    },
+    {
+      "id": "python.basics.007",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "a = [[1, 2], [3]]\nb = a.copy()\nb[0].append(9)\nb.append([4])\nprint(a)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "[[1, 2], [3]]"
+        },
+        {
+          "id": "b",
+          "text": "[[1, 2, 9], [3], [4]]"
+        },
+        {
+          "id": "c",
+          "text": "[[1, 2], [3], [4]]"
+        },
+        {
+          "id": "d",
+          "text": "[[1, 2, 9], [3]]"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`a.copy()` là shallow copy: tạo list ngoài mới nhưng các list con vẫn là cùng object. `b[0].append(9)` sửa list con dùng chung nên `a` thấy `[1, 2, 9]`. `b.append([4])` chỉ thêm vào list ngoài của `b`, không ảnh hưởng `a`. Cần bản sao độc lập hoàn toàn thì dùng `copy.deepcopy`.",
+        "en": "`a.copy()` is a shallow copy: it creates a new outer list, but the inner lists are the same objects. `b[0].append(9)` mutates a shared inner list, so `a` sees `[1, 2, 9]`. `b.append([4])` only adds to `b`'s outer list and does not affect `a`. For a fully independent copy use `copy.deepcopy`."
+      }
+    },
+    {
+      "id": "python.basics.008",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Hàm cần tạo lưới 3x3 độc lập, nhưng đoạn code in ra `[[1, 0, 0], [1, 0, 0], [1, 0, 0]]`. Lỗi nằm ở đâu?",
+        "en": "The function should build an independent 3x3 grid, but the code prints `[[1, 0, 0], [1, 0, 0], [1, 0, 0]]`. Where is the bug?"
+      },
+      "code": {
+        "language": "python",
+        "source": "def make_grid(n):\n    return [[0] * n] * n\n\ngrid = make_grid(3)\ngrid[0][0] = 1\nprint(grid)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`grid[0][0] = 1` phải viết là `grid[0, 0] = 1`",
+            "en": "`grid[0][0] = 1` must be written as `grid[0, 0] = 1`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`[[0] * n] * n` tạo n tham chiếu tới cùng một list con",
+            "en": "`[[0] * n] * n` creates n references to the same inner list"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`[0] * n` tạo ra tuple nên không sửa được",
+            "en": "`[0] * n` creates a tuple, so it cannot be changed"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`print(grid)` in nhầm biến",
+            "en": "`print(grid)` prints the wrong variable"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Toán tử `*` trên list lặp lại tham chiếu, nên `[[0] * n] * n` tạo ra n phần tử cùng trỏ tới một list con. Sửa một ô ở hàng 0 thì mọi hàng đều thay đổi. Cách đúng là `[[0] * n for _ in range(n)]` để mỗi vòng lặp tạo một list con mới. `[0] * n` thì an toàn vì `0` là immutable.",
+        "en": "The `*` operator on a list repeats references, so `[[0] * n] * n` creates n entries pointing to one inner list. Changing a cell in row 0 changes every row. The fix is `[[0] * n for _ in range(n)]`, which builds a fresh inner list on each iteration. `[0] * n` itself is safe because `0` is immutable."
+      }
+    },
+    {
+      "id": "python.basics.009",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Giá trị nào dùng làm key của `dict` được?",
+        "en": "Which value can be used as a `dict` key?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "`[1, 2]`"
+        },
+        {
+          "id": "b",
+          "text": "`{1, 2}`"
+        },
+        {
+          "id": "c",
+          "text": "`(1, 2)`"
+        },
+        {
+          "id": "d",
+          "text": "`{'a': 1}`"
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Key của `dict` phải hashable, tức có `__hash__` ổn định suốt vòng đời object. `tuple` chứa các phần tử immutable như `(1, 2)` là hashable. `list`, `set` và `dict` là mutable nên unhashable, dùng làm key sẽ ném `TypeError: unhashable type`.",
+        "en": "A `dict` key must be hashable, meaning it has a `__hash__` that stays stable for the object's lifetime. A tuple of immutable items such as `(1, 2)` is hashable. `list`, `set` and `dict` are mutable and therefore unhashable; using them as keys raises `TypeError: unhashable type`."
+      }
+    },
+    {
+      "id": "python.basics.010",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích mutable và immutable trong Python, và vì sao điều này quan trọng khi truyền tham số vào hàm.",
+        "en": "Explain mutable vs immutable objects in Python and why it matters when passing arguments to functions."
+      },
+      "keyPoints": [
+        {
+          "vi": "Mutable sửa được tại chỗ (`list`, `dict`, `set`); immutable thì không (`int`, `str`, `tuple`)",
+          "en": "Mutable objects change in place (`list`, `dict`, `set`); immutable ones cannot (`int`, `str`, `tuple`)"
+        },
+        {
+          "vi": "Python truyền tham chiếu tới object (call by sharing)",
+          "en": "Python passes object references (call by sharing)"
+        },
+        {
+          "vi": "Sửa object mutable trong hàm thì bên gọi thấy; gán lại tên tham số thì không",
+          "en": "Mutating an argument is visible to the caller; rebinding the parameter is not"
+        },
+        {
+          "vi": "Chỉ object hashable (thường là immutable) mới làm key `dict`/phần tử `set` được",
+          "en": "Only hashable (usually immutable) objects can be `dict` keys or `set` members"
+        },
+        {
+          "vi": "Dùng `copy`/`deepcopy` hoặc trả object mới để tránh side effect",
+          "en": "Use `copy`/`deepcopy` or return a new object to avoid side effects"
+        }
+      ],
+      "explanation": {
+        "vi": "Python truyền tham chiếu tới object (\"call by sharing\"), không copy giá trị. Nếu hàm sửa tại chỗ một object mutable như `list` hay `dict`, bên gọi sẽ thấy thay đổi; còn gán lại tên tham số trong hàm thì không ảnh hưởng bên ngoài. Object immutable như `int`, `str`, `tuple` không thể bị sửa nên an toàn khi chia sẻ và có thể làm key của `dict`. Khi cần, hãy copy phòng thủ hoặc trả về object mới thay vì sửa đầu vào.",
+        "en": "Python passes references to objects (\"call by sharing\"), not copies of values. If a function mutates a mutable object such as a `list` or `dict` in place, the caller sees the change; rebinding the parameter name inside the function does not affect the caller. Immutable objects such as `int`, `str` and `tuple` cannot be modified, so they are safe to share and can be `dict` keys. When needed, copy defensively or return a new object instead of mutating the input."
+      }
+    },
+    {
+      "id": "python.functions.001",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `def f(*args, **kwargs)`, `args` và `kwargs` có kiểu gì?",
+        "en": "In `def f(*args, **kwargs)`, what are the types of `args` and `kwargs`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`args` là `list`, `kwargs` là `dict`",
+            "en": "`args` is a `list`, `kwargs` is a `dict`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cả hai đều là `list`",
+            "en": "Both are `list`s"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`args` là `tuple`, `kwargs` là `dict`",
+            "en": "`args` is a `tuple`, `kwargs` is a `dict`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`args` là `dict`, `kwargs` là `tuple`",
+            "en": "`args` is a `dict`, `kwargs` is a `tuple`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`*args` gom các positional argument thừa thành một `tuple`. `**kwargs` gom các keyword argument thừa thành một `dict` với key là tên tham số. Cách này hay dùng khi viết decorator hoặc wrapper cần chuyển tiếp mọi tham số.",
+        "en": "`*args` collects extra positional arguments into a `tuple`. `**kwargs` collects extra keyword arguments into a `dict` keyed by parameter name. This is common in decorators and wrappers that need to forward every argument."
+      }
+    },
+    {
+      "id": "python.functions.002",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "def f(a, b=2, *args, **kwargs):\n    print(a, b, args, kwargs)\n\nf(1, 3, 4, x=5)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "1 3 (4,) {'x': 5}"
+        },
+        {
+          "id": "b",
+          "text": "1 2 (3, 4) {'x': 5}"
+        },
+        {
+          "id": "c",
+          "text": "1 3 [4] {'x': 5}"
+        },
+        {
+          "id": "d",
+          "text": "1 3 (4,) {}"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Positional argument được gán theo thứ tự: `a = 1`, `b = 3` (ghi đè giá trị mặc định 2). Phần positional còn lại là `4` rơi vào `args` dưới dạng tuple `(4,)`. Keyword argument `x=5` không khớp tham số nào nên vào `kwargs` là `{'x': 5}`.",
+        "en": "Positional arguments bind in order: `a = 1`, `b = 3` (overriding the default 2). The remaining positional `4` goes into `args` as the tuple `(4,)`. The keyword argument `x=5` matches no parameter, so it lands in `kwargs` as `{'x': 5}`."
+      }
+    },
+    {
+      "id": "python.functions.003",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "def add(item, bucket=[]):\n    bucket.append(item)\n    return bucket\n\na = add(1)\nb = add(2)\nprint(a, b, a is b)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "[1] [2] False"
+        },
+        {
+          "id": "b",
+          "text": "[1, 2] [1, 2] True"
+        },
+        {
+          "id": "c",
+          "text": "[1] [1, 2] False"
+        },
+        {
+          "id": "d",
+          "text": "[1, 2] [1, 2] False"
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Giá trị mặc định được tính một lần duy nhất khi `def` chạy, không phải mỗi lần gọi hàm. Vì vậy cả hai lần gọi đều dùng chung một list `bucket`, `a` và `b` là cùng một object chứa `[1, 2]`. Cách sửa chuẩn: khai báo `bucket=None` rồi trong hàm viết `if bucket is None: bucket = []`.",
+        "en": "Default values are evaluated once, when `def` runs, not on every call. So both calls share the same `bucket` list, and `a` and `b` are the same object containing `[1, 2]`. The standard fix: declare `bucket=None` and inside the function write `if bucket is None: bucket = []`."
+      }
+    },
+    {
+      "id": "python.functions.004",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "funcs = [lambda: i for i in range(3)]\nprint([f() for f in funcs])"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "[0, 1, 2]"
+        },
+        {
+          "id": "b",
+          "text": "[2, 2, 2]"
+        },
+        {
+          "id": "c",
+          "text": "[0, 0, 0]"
+        },
+        {
+          "id": "d",
+          "text": "[3, 3, 3]"
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Closure trong Python là late binding: lambda chỉ tra giá trị `i` khi được gọi, không phải lúc được tạo. Khi gọi các lambda, vòng lặp đã chạy xong và `i` là 2, nên cả ba đều trả 2. Cách sửa: `lambda i=i: i` để chụp giá trị hiện tại vào default argument, hoặc dùng `functools.partial`.",
+        "en": "Python closures use late binding: the lambda looks up `i` when it is called, not when it is created. By the time the lambdas run, the loop has finished and `i` is 2, so all three return 2. Fix: `lambda i=i: i` to capture the current value as a default argument, or use `functools.partial`."
+      }
+    },
+    {
+      "id": "python.functions.005",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Sau khi gắn decorator `@timed`, `add(1, 2)` trả về `None` thay vì `3`. Cần sửa ở đâu?",
+        "en": "After applying the `@timed` decorator, `add(1, 2)` returns `None` instead of `3`. What needs fixing?"
+      },
+      "code": {
+        "language": "python",
+        "source": "import time\n\ndef timed(fn):\n    def wrapper(*args, **kwargs):\n        start = time.perf_counter()\n        fn(*args, **kwargs)\n        print(f\"took {time.perf_counter() - start:.3f}s\")\n    return wrapper\n\n@timed\ndef add(a, b):\n    return a + b\n\nprint(add(1, 2))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`return wrapper`: phải là `return wrapper()`",
+            "en": "`return wrapper`: it must be `return wrapper()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`def wrapper(*args, **kwargs):`: phải bỏ `**kwargs`",
+            "en": "`def wrapper(*args, **kwargs):`: `**kwargs` must be removed"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`@timed`: phải viết `@timed()`",
+            "en": "`@timed`: it must be written `@timed()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`fn(*args, **kwargs)`: phải lưu kết quả và `return` nó từ `wrapper`",
+            "en": "`fn(*args, **kwargs)`: store the result and `return` it from `wrapper`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`wrapper` gọi `fn(*args, **kwargs)` nhưng bỏ đi kết quả, và vì `wrapper` không có `return` nên mặc định trả `None`. Cần viết `result = fn(*args, **kwargs)`, in thời gian rồi `return result`. Nên thêm `@functools.wraps(fn)` để giữ tên và docstring của hàm gốc.",
+        "en": "`wrapper` calls `fn(*args, **kwargs)` but discards the result, and since `wrapper` has no `return`, it returns `None`. Write `result = fn(*args, **kwargs)`, print the timing, then `return result`. Also add `@functools.wraps(fn)` to keep the original function's name and docstring."
+      }
+    },
+    {
+      "id": "python.functions.006",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao nên dùng `@functools.wraps(fn)` khi viết decorator?",
+        "en": "Why should you use `@functools.wraps(fn)` when writing a decorator?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Giúp decorator chạy nhanh hơn",
+            "en": "It makes the decorator run faster"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Bắt buộc phải có, thiếu sẽ báo `SyntaxError`",
+            "en": "It is mandatory; without it you get a `SyntaxError`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Giữ lại `__name__`, `__doc__` và metadata của hàm gốc cho `wrapper`",
+            "en": "It keeps the original function's `__name__`, `__doc__` and metadata on `wrapper`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tự động cache kết quả của hàm",
+            "en": "It caches the function's results automatically"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Không có `wraps`, hàm được decorate sẽ mang tên `wrapper` và mất docstring, làm log, traceback và tài liệu khó đọc. `wraps` copy `__name__`, `__doc__`, `__module__`… và gán `__wrapped__` trỏ về hàm gốc. Nhờ `__wrapped__`, `inspect.signature` thấy được chữ ký thật, điều mà các framework như FastAPI hay pytest dựa vào.",
+        "en": "Without `wraps`, the decorated function is named `wrapper` and loses its docstring, making logs, tracebacks and docs confusing. `wraps` copies `__name__`, `__doc__`, `__module__` and so on, and sets `__wrapped__` to the original function. Thanks to `__wrapped__`, `inspect.signature` sees the real signature, which frameworks like FastAPI and pytest rely on."
+      }
+    },
+    {
+      "id": "python.functions.007",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "words = [\"kiwi\", \"fig\", \"banana\", \"apple\"]\nprint(sorted(words, key=len))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "['fig', 'kiwi', 'apple', 'banana']"
+        },
+        {
+          "id": "b",
+          "text": "['apple', 'banana', 'fig', 'kiwi']"
+        },
+        {
+          "id": "c",
+          "text": "['banana', 'apple', 'kiwi', 'fig']"
+        },
+        {
+          "id": "d",
+          "text": "['fig', 'kiwi', 'banana', 'apple']"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`sorted` trả về list mới, sắp theo giá trị của `key`, ở đây là độ dài chuỗi: 3, 4, 5, 6. Sắp xếp trong Python là stable nên các phần tử cùng key giữ thứ tự ban đầu. List gốc `words` không bị thay đổi; muốn sắp tại chỗ thì dùng `words.sort(key=len)`.",
+        "en": "`sorted` returns a new list ordered by the `key` value, here the string length: 3, 4, 5, 6. Python sorting is stable, so items with equal keys keep their original order. The original `words` list is unchanged; to sort in place use `words.sort(key=len)`."
+      }
+    },
+    {
+      "id": "python.functions.008",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "def make_counter():\n    count = 0\n    def inc():\n        nonlocal count\n        count += 1\n        return count\n    return inc\n\nc = make_counter()\nc()\nprint(c(), make_counter()())"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "2 2"
+        },
+        {
+          "id": "b",
+          "text": "1 1"
+        },
+        {
+          "id": "c",
+          "text": "3 1"
+        },
+        {
+          "id": "d",
+          "text": "2 1"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`inc` là closure giữ biến `count` của lần gọi `make_counter` tạo ra nó; `nonlocal` cho phép gán lại biến đó. Lần gọi `c()` đầu tăng lên 1, lần trong `print` tăng lên 2. `make_counter()()` tạo một closure mới với `count` riêng bắt đầu từ 0, nên trả 1.",
+        "en": "`inc` is a closure over the `count` of the `make_counter` call that created it; `nonlocal` allows reassigning that variable. The first `c()` call bumps it to 1, the one inside `print` to 2. `make_counter()()` creates a new closure with its own `count` starting at 0, so it returns 1."
+      }
+    },
+    {
+      "id": "python.functions.009",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với hàm `def connect(host, *, timeout=5): ...`, lời gọi nào hợp lệ?",
+        "en": "Given `def connect(host, *, timeout=5): ...`, which call is valid?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "`connect(\"db\", 10)`"
+        },
+        {
+          "id": "b",
+          "text": "`connect(timeout=10)`"
+        },
+        {
+          "id": "c",
+          "text": "`connect(\"db\", timeout=10)`"
+        },
+        {
+          "id": "d",
+          "text": "`connect(\"db\", 10, 5)`"
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Dấu `*` đứng một mình trong danh sách tham số nghĩa là mọi tham số sau nó là keyword-only. Vì vậy `timeout` phải truyền bằng tên: `connect(\"db\", timeout=10)`. `connect(\"db\", 10)` ném `TypeError` vì thừa positional argument, còn `connect(timeout=10)` thiếu `host`. Keyword-only giúp lời gọi rõ nghĩa và tránh truyền nhầm thứ tự.",
+        "en": "A bare `*` in the parameter list makes every parameter after it keyword-only. So `timeout` must be passed by name: `connect(\"db\", timeout=10)`. `connect(\"db\", 10)` raises `TypeError` for an extra positional argument, and `connect(timeout=10)` is missing `host`. Keyword-only parameters make calls self-documenting and prevent order mistakes."
+      }
+    },
+    {
+      "id": "python.functions.010",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code ném `UnboundLocalError`. Nguyên nhân là gì?",
+        "en": "This code raises `UnboundLocalError`. What is the cause?"
+      },
+      "code": {
+        "language": "python",
+        "source": "count = 0\n\ndef increment():\n    count += 1\n    return count\n\nprint(increment())"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`count = 0` phải khai báo bên trong hàm",
+            "en": "`count = 0` must be declared inside the function"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`return count` không được trả về biến global",
+            "en": "`return count` cannot return a global variable"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`print(increment())` gọi hàm trước khi nó được định nghĩa",
+            "en": "`print(increment())` calls the function before it is defined"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`count += 1` biến `count` thành biến local nhưng đọc trước khi gán; cần `global count`",
+            "en": "`count += 1` makes `count` local but reads it before assignment; `global count` is needed"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Python quyết định phạm vi biến lúc compile: vì trong hàm có phép gán `count += 1`, `count` được coi là biến local của `increment`. Khi chạy, Python đọc `count` local trước khi nó được gán nên ném `UnboundLocalError`. Sửa bằng `global count` (hoặc `nonlocal` trong closure), nhưng tốt hơn là truyền giá trị vào và trả kết quả ra thay vì sửa biến global.",
+        "en": "Python decides variable scope at compile time: because the function assigns with `count += 1`, `count` is treated as local to `increment`. At runtime it reads the local `count` before it has been assigned, raising `UnboundLocalError`. Fix it with `global count` (or `nonlocal` in a closure), but it is better to pass the value in and return the result instead of mutating a global."
+      }
+    },
+    {
+      "id": "python.oop.001",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`print(obj)` dùng dunder method nào để lấy chuỗi hiển thị?",
+        "en": "Which dunder method does `print(obj)` use to get the text to display?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`__str__`, nếu không có thì dùng `__repr__`",
+            "en": "`__str__`, falling back to `__repr__`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Luôn luôn dùng `__repr__`",
+            "en": "Always `__repr__`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`__format__`, nếu không có thì dùng `__name__`",
+            "en": "`__format__`, falling back to `__name__`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`__print__`",
+            "en": "`__print__`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`print` và `str()` gọi `__str__`; nếu class không định nghĩa `__str__` thì dùng `__repr__`. `__repr__` hướng tới developer, xuất hiện trong REPL, debugger và khi object nằm trong list hay dict. Nên luôn viết `__repr__` rõ ràng; `@dataclass` tự sinh sẵn một `__repr__` như vậy.",
+        "en": "`print` and `str()` call `__str__`; if the class does not define it, `__repr__` is used. `__repr__` targets developers and shows up in the REPL, debuggers and when the object sits inside a list or dict. Always write a clear `__repr__`; `@dataclass` generates one for you."
+      }
+    },
+    {
+      "id": "python.oop.002",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đơn `b` chưa thêm món nào nhưng lại in ra `['coffee']`. Lỗi nằm ở đâu?",
+        "en": "Order `b` never added anything, yet it prints `['coffee']`. Where is the bug?"
+      },
+      "code": {
+        "language": "python",
+        "source": "class Order:\n    items = []\n\n    def __init__(self, code):\n        self.code = code\n\n    def add(self, item):\n        self.items.append(item)\n\na = Order(\"A1\")\nb = Order(\"B2\")\na.add(\"coffee\")\nprint(b.items)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`items = []` là class attribute dùng chung; cần gán `self.items = []` trong `__init__`",
+            "en": "`items = []` is a shared class attribute; assign `self.items = []` in `__init__`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`self.items.append(item)` phải đổi thành `items.append(item)`",
+            "en": "`self.items.append(item)` should be `items.append(item)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`self.code = code` ghi đè lên `items`",
+            "en": "`self.code = code` overwrites `items`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`print(b.items)` đọc nhầm sang dữ liệu của `a`",
+            "en": "`print(b.items)` accidentally reads `a`'s data"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`items = []` khai báo ở thân class là class attribute, được tạo một lần và mọi instance dùng chung. `self.items.append(...)` không tạo thuộc tính mới mà sửa chính list của class, nên `b` cũng thấy `coffee`. Cần khởi tạo `self.items = []` trong `__init__` để mỗi instance có list riêng.",
+        "en": "`items = []` in the class body is a class attribute, created once and shared by every instance. `self.items.append(...)` does not create a new attribute; it mutates the class's list, so `b` sees `coffee` too. Initialise `self.items = []` in `__init__` so each instance gets its own list."
+      }
+    },
+    {
+      "id": "python.oop.003",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Dòng cuối `acc.balance = 50` sẽ thế nào?",
+        "en": "What happens on the last line, `acc.balance = 50`?"
+      },
+      "code": {
+        "language": "python",
+        "source": "class Account:\n    def __init__(self, balance):\n        self._balance = balance\n\n    @property\n    def balance(self):\n        return self._balance\n\nacc = Account(100)\nacc.balance = 50"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gán thành công, `acc.balance` bằng 50",
+            "en": "Succeeds; `acc.balance` becomes 50"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tạo thuộc tính instance mới tên `balance` che property",
+            "en": "Creates a new instance attribute `balance` that shadows the property"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Ném `AttributeError` vì property không có setter",
+            "en": "Raises `AttributeError` because the property has no setter"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tự động gán vào `_balance`",
+            "en": "Silently assigns to `_balance`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`@property` biến `balance` thành thuộc tính chỉ đọc khi không khai báo setter. Gán vào nó sẽ ném `AttributeError` (thông báo dạng \"property 'balance' of 'Account' object has no setter\"). Muốn cho phép gán có kiểm tra, thêm `@balance.setter` và validate giá trị trước khi ghi vào `self._balance`.",
+        "en": "`@property` makes `balance` read-only when no setter is defined. Assigning to it raises `AttributeError` (a message like \"property 'balance' of 'Account' object has no setter\"). To allow validated assignment, add `@balance.setter` and check the value before writing to `self._balance`."
+      }
+    },
+    {
+      "id": "python.oop.004",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "class A:\n    def hi(self):\n        return \"A\"\n\nclass B(A):\n    def hi(self):\n        return \"B\" + super().hi()\n\nclass C(A):\n    def hi(self):\n        return \"C\" + super().hi()\n\nclass D(B, C):\n    def hi(self):\n        return \"D\" + super().hi()\n\nprint(D().hi())"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "DBA"
+        },
+        {
+          "id": "b",
+          "text": "DCBA"
+        },
+        {
+          "id": "c",
+          "text": "DBAC"
+        },
+        {
+          "id": "d",
+          "text": "DBCA"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`super()` không gọi \"lớp cha\" cố định mà gọi lớp kế tiếp trong MRO của object thật. `D.__mro__` theo thuật toán C3 là `D, B, C, A, object`. Vì vậy trong `B.hi`, `super()` trỏ tới `C` chứ không phải `A`, kết quả là `DBCA` và `A.hi` chỉ chạy một lần.",
+        "en": "`super()` does not call a fixed \"parent\"; it calls the next class in the MRO of the actual object. By the C3 algorithm, `D.__mro__` is `D, B, C, A, object`. So inside `B.hi`, `super()` points to `C`, not `A`, giving `DBCA` with `A.hi` running only once."
+      }
+    },
+    {
+      "id": "python.oop.005",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "from dataclasses import dataclass\n\n@dataclass\nclass Point:\n    x: int\n    y: int = 0\n\nprint(Point(1) == Point(1), Point(1))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "False Point(x=1, y=0)"
+        },
+        {
+          "id": "b",
+          "text": "True <__main__.Point object at 0x...>"
+        },
+        {
+          "id": "c",
+          "text": "True Point(x=1, y=0)"
+        },
+        {
+          "id": "d",
+          "text": "False <__main__.Point object at 0x...>"
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`@dataclass` tự sinh `__init__`, `__repr__` và `__eq__` từ các field có type hint. `__eq__` so sánh từng field nên hai `Point(1)` bằng nhau dù là hai object khác nhau. `__repr__` sinh ra hiển thị `Point(x=1, y=0)` với `y` lấy giá trị mặc định.",
+        "en": "`@dataclass` generates `__init__`, `__repr__` and `__eq__` from the annotated fields. `__eq__` compares field by field, so two `Point(1)` objects are equal even though they are different objects. The generated `__repr__` shows `Point(x=1, y=0)`, with `y` taking its default."
+      }
+    },
+    {
+      "id": "python.oop.006",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code ném `ValueError` ngay khi định nghĩa class. Dòng nào gây lỗi?",
+        "en": "This code raises `ValueError` as soon as the class is defined. Which line causes it?"
+      },
+      "code": {
+        "language": "python",
+        "source": "from dataclasses import dataclass\n\n@dataclass\nclass Cart:\n    owner: str\n    items: list = []\n\ncart = Cart(\"an\")"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "`owner: str`"
+        },
+        {
+          "id": "b",
+          "text": "`@dataclass`"
+        },
+        {
+          "id": "c",
+          "text": "`items: list = []`"
+        },
+        {
+          "id": "d",
+          "text": "`cart = Cart(\"an\")`"
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`dataclass` chủ động chặn giá trị mặc định mutable (`list`, `dict`, `set`) vì nó sẽ bị mọi instance dùng chung, giống lỗi mutable default argument. Thông báo là \"mutable default <class 'list'> for field items is not allowed: use default_factory\". Sửa bằng `items: list[str] = field(default_factory=list)` để mỗi instance có list riêng.",
+        "en": "`dataclass` deliberately rejects mutable defaults (`list`, `dict`, `set`) because every instance would share them, just like the mutable default argument bug. The message is \"mutable default <class 'list'> for field items is not allowed: use default_factory\". Fix it with `items: list[str] = field(default_factory=list)` so each instance gets its own list."
+      }
+    },
+    {
+      "id": "python.oop.007",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Dòng cuối `users = {User(1)}` chạy ra sao?",
+        "en": "What happens on the last line, `users = {User(1)}`?"
+      },
+      "code": {
+        "language": "python",
+        "source": "class User:\n    def __init__(self, uid):\n        self.uid = uid\n\n    def __eq__(self, other):\n        return isinstance(other, User) and self.uid == other.uid\n\nusers = {User(1)}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ném `TypeError: unhashable type: 'User'`",
+            "en": "Raises `TypeError: unhashable type: 'User'`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tạo set có 1 phần tử",
+            "en": "Creates a set with one element"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tạo set rỗng",
+            "en": "Creates an empty set"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Báo `SyntaxError`",
+            "en": "Reports a `SyntaxError`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Khi class định nghĩa `__eq__` mà không định nghĩa `__hash__`, Python tự đặt `__hash__ = None` để tránh vi phạm quy tắc \"bằng nhau thì hash bằng nhau\". Object vì thế unhashable và không thể bỏ vào `set` hay làm key `dict`. Cần thêm `def __hash__(self): return hash(self.uid)`, hoặc dùng `@dataclass(frozen=True)`.",
+        "en": "When a class defines `__eq__` without `__hash__`, Python sets `__hash__ = None` to avoid breaking the \"equal objects have equal hashes\" rule. Instances become unhashable and cannot go into a `set` or be `dict` keys. Add `def __hash__(self): return hash(self.uid)`, or use `@dataclass(frozen=True)`."
+      }
+    },
+    {
+      "id": "python.oop.008",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "`@property` thực chất hoạt động thế nào? Giải thích descriptor protocol và một ứng dụng thực tế.",
+        "en": "How does `@property` actually work? Explain the descriptor protocol and give a real-world use."
+      },
+      "keyPoints": [
+        {
+          "vi": "Descriptor là object trên class có `__get__`/`__set__`/`__delete__`",
+          "en": "A descriptor is a class-level object with `__get__`/`__set__`/`__delete__`"
+        },
+        {
+          "vi": "Data descriptor được ưu tiên hơn `instance.__dict__`; non-data descriptor thì không",
+          "en": "Data descriptors take precedence over `instance.__dict__`; non-data ones do not"
+        },
+        {
+          "vi": "`property` là data descriptor; function thành bound method qua `__get__`",
+          "en": "`property` is a data descriptor; functions become bound methods via `__get__`"
+        },
+        {
+          "vi": "`__set_name__` cho descriptor biết tên thuộc tính nó được gán",
+          "en": "`__set_name__` tells the descriptor which attribute name it was assigned to"
+        },
+        {
+          "vi": "Ứng dụng: field của Django ORM/SQLAlchemy, `cached_property`, validation",
+          "en": "Uses: Django ORM/SQLAlchemy fields, `cached_property`, validation"
+        }
+      ],
+      "explanation": {
+        "vi": "Descriptor là object đặt trên class và định nghĩa `__get__`, `__set__` hoặc `__delete__`. Khi truy cập `obj.attr`, Python tìm `attr` trên `type(obj)`; nếu đó là data descriptor (có `__set__`/`__delete__`) thì nó được ưu tiên hơn `obj.__dict__`, còn non-data descriptor (chỉ có `__get__`, như function hay `cached_property`) thì nhường cho `__dict__`. `property` là một data descriptor built-in, còn method thành bound method cũng nhờ `function.__get__`. Django model field, related manager hay cột SQLAlchemy đều dựa trên descriptor.",
+        "en": "A descriptor is an object stored on a class that defines `__get__`, `__set__` or `__delete__`. On `obj.attr`, Python looks up `attr` on `type(obj)`; a data descriptor (with `__set__`/`__delete__`) wins over `obj.__dict__`, while a non-data descriptor (only `__get__`, like functions or `cached_property`) yields to `__dict__`. `property` is a built-in data descriptor, and methods become bound methods via `function.__get__`. Django model fields, related managers and SQLAlchemy columns are all built on descriptors."
+      }
+    },
+    {
+      "id": "python.oop.009",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "senior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn muốn mọi subclass của `Plugin` tự đăng ký vào một registry ngay khi được định nghĩa. Cách đơn giản và hiện đại nhất là gì?",
+        "en": "You want every subclass of `Plugin` to register itself in a registry as soon as it is defined. What is the simplest modern approach?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Viết metaclass riêng và override `__call__`",
+            "en": "Write a custom metaclass that overrides `__call__`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cài `__init_subclass__` trong class `Plugin`",
+            "en": "Implement `__init_subclass__` on `Plugin`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đăng ký trong `__init__` của `Plugin`",
+            "en": "Register inside `Plugin.__init__`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gắn `@staticmethod` lên mỗi subclass",
+            "en": "Put `@staticmethod` on each subclass"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`__init_subclass__` (PEP 487) được gọi mỗi khi một subclass được tạo, nên chỉ cần `registry[cls.__name__] = cls` trong đó. Metaclass cũng làm được (qua `__new__`/`__init__` của metaclass), nhưng nặng hơn và dễ xung đột khi kết hợp với metaclass khác như `ABCMeta` hay `ModelBase` của Django. `__init__` chỉ chạy khi tạo instance nên không phù hợp; override `__call__` của metaclass cũng chỉ can thiệp lúc khởi tạo instance.",
+        "en": "`__init_subclass__` (PEP 487) runs every time a subclass is created, so `registry[cls.__name__] = cls` inside it is enough. A metaclass also works (via the metaclass `__new__`/`__init__`), but it is heavier and clashes easily with other metaclasses such as `ABCMeta` or Django's `ModelBase`. `__init__` only runs when an instance is created, so it does not fit; overriding a metaclass `__call__` also only hooks instance creation."
+      }
+    },
+    {
+      "id": "python.iterators.001",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một hàm có chứa `yield`, khi được gọi sẽ trả về gì?",
+        "en": "What does calling a function that contains `yield` return?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Giá trị của lệnh `yield` đầu tiên",
+            "en": "The value of the first `yield`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một generator object; thân hàm chỉ chạy khi lặp hoặc gọi `next()`",
+            "en": "A generator object; the body only runs when iterated or on `next()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Một `list` chứa mọi giá trị được `yield`",
+            "en": "A `list` of all yielded values"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`None` vì hàm không có `return`",
+            "en": "`None`, because there is no `return`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Hàm chứa `yield` là generator function: gọi nó không chạy thân hàm mà trả về một generator object. Thân hàm chỉ chạy tới `yield` tiếp theo mỗi khi `next()` được gọi hoặc khi lặp bằng `for`. Nhờ tính lazy này, generator tạo giá trị theo nhu cầu và tiết kiệm bộ nhớ.",
+        "en": "A function containing `yield` is a generator function: calling it does not run the body but returns a generator object. The body runs up to the next `yield` each time `next()` is called or a `for` loop asks for a value. This laziness produces values on demand and saves memory."
+      }
+    },
+    {
+      "id": "python.iterators.002",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "squares = (x * x for x in range(4))\nprint(sum(squares), sum(squares))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "14 14"
+        },
+        {
+          "id": "b",
+          "text": "0 14"
+        },
+        {
+          "id": "c",
+          "text": "14 None"
+        },
+        {
+          "id": "d",
+          "text": "14 0"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Biểu thức trong ngoặc tròn là generator expression, không phải tuple. Lần `sum` đầu tiêu thụ hết generator và cho 0 + 1 + 4 + 9 = 14. Generator chỉ duyệt được một lần, nên lần `sum` thứ hai nhận iterator rỗng và trả 0. Cần dùng nhiều lần thì tạo list hoặc tạo generator mới.",
+        "en": "The parenthesised expression is a generator expression, not a tuple. The first `sum` consumes it entirely: 0 + 1 + 4 + 9 = 14. A generator can only be iterated once, so the second `sum` gets an empty iterator and returns 0. If you need it twice, build a list or create a new generator."
+      }
+    },
+    {
+      "id": "python.iterators.003",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Lợi ích chính của `with open(\"data.txt\") as f:` so với `f = open(...)` rồi tự gọi `f.close()` là gì?",
+        "en": "What is the main benefit of `with open(\"data.txt\") as f:` over `f = open(...)` followed by a manual `f.close()`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đọc file nhanh hơn",
+            "en": "Reading the file is faster"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "File luôn được đóng khi ra khỏi khối `with`, kể cả khi có exception",
+            "en": "The file is always closed when leaving the `with` block, even on an exception"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tự động tạo file nếu chưa tồn tại",
+            "en": "It creates the file if it does not exist"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tự động đọc toàn bộ file vào bộ nhớ",
+            "en": "It reads the whole file into memory automatically"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`with` dùng context manager: gọi `__enter__` khi vào khối và luôn gọi `__exit__` khi ra, kể cả khi có exception. Nhờ vậy file được đóng chắc chắn, không bị rò rỉ file descriptor. Cùng cơ chế này dùng cho lock, transaction database hay HTTP session.",
+        "en": "`with` uses a context manager: `__enter__` runs on entry and `__exit__` always runs on exit, even when an exception occurs. So the file is guaranteed to be closed and no file descriptor leaks. The same mechanism is used for locks, database transactions and HTTP sessions."
+      }
+    },
+    {
+      "id": "python.iterators.004",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "log = []\n\ndef numbers():\n    log.append(\"start\")\n    yield 1\n    log.append(\"end\")\n\ngen = numbers()\nlog.append(\"created\")\nlog.append(next(gen))\nprint(log)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "['start', 'created', 1]"
+        },
+        {
+          "id": "b",
+          "text": "['start', 'end', 'created', 1]"
+        },
+        {
+          "id": "c",
+          "text": "['created', 'start', 1, 'end']"
+        },
+        {
+          "id": "d",
+          "text": "['created', 'start', 1]"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Gọi `numbers()` chỉ tạo generator, chưa chạy dòng nào trong thân hàm, nên `created` được ghi trước. `next(gen)` chạy thân hàm tới `yield 1`: ghi `start` rồi tạm dừng và trả 1. Dòng `log.append(\"end\")` chưa chạy vì không ai gọi `next` lần nữa.",
+        "en": "Calling `numbers()` only creates the generator without running its body, so `created` is logged first. `next(gen)` runs the body up to `yield 1`: it logs `start`, pauses and returns 1. The `log.append(\"end\")` line never runs because nobody calls `next` again."
+      }
+    },
+    {
+      "id": "python.iterators.005",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "from itertools import chain, islice\n\nstream = chain([1, 2], (n * 10 for n in range(3, 6)))\nprint(list(islice(stream, 1, 4)))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "[1, 2, 30]"
+        },
+        {
+          "id": "b",
+          "text": "[2, 30, 40]"
+        },
+        {
+          "id": "c",
+          "text": "[2, 30, 40, 50]"
+        },
+        {
+          "id": "d",
+          "text": "[2, 3, 4]"
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`chain` nối list `[1, 2]` với generator sinh 30, 40, 50 thành một luồng 1, 2, 30, 40, 50. `islice(stream, 1, 4)` hoạt động như slicing `[1:4]` nhưng trên iterator, lấy phần tử thứ 1 đến 3. Cả hai đều lazy nên phần tử 50 không bao giờ được tính.",
+        "en": "`chain` joins the list `[1, 2]` with a generator yielding 30, 40, 50 into one stream: 1, 2, 30, 40, 50. `islice(stream, 1, 4)` works like `[1:4]` slicing on an iterator, taking items 1 to 3. Both are lazy, so 50 is never even computed."
+      }
+    },
+    {
+      "id": "python.iterators.006",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Khi khối `with` ném exception, dòng `release lock` không bao giờ được in và tài nguyên bị giữ mãi. Sửa thế nào?",
+        "en": "When the `with` block raises, `release lock` is never printed and the resource stays held. How do you fix it?"
+      },
+      "code": {
+        "language": "python",
+        "source": "from contextlib import contextmanager\n\n@contextmanager\ndef acquire(name):\n    print(f\"acquire {name}\")\n    yield name\n    print(f\"release {name}\")\n\ntry:\n    with acquire(\"lock\"):\n        raise ValueError(\"boom\")\nexcept ValueError:\n    pass"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đổi `yield name` thành `return name`",
+            "en": "Change `yield name` to `return name`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Bỏ khối `try/except` bên ngoài",
+            "en": "Remove the outer `try/except`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thêm `@staticmethod` cho `acquire`",
+            "en": "Add `@staticmethod` to `acquire`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bọc `yield name` trong `try/finally` và đặt lệnh release trong `finally`",
+            "en": "Wrap `yield name` in `try/finally` and put the release in `finally`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Với `@contextmanager`, exception trong khối `with` được ném lại ngay tại vị trí `yield` trong generator. Vì không có `try/finally`, code sau `yield` bị bỏ qua. Cần viết `try: yield name` rồi `finally: print(f\"release {name}\")` để phần dọn dẹp luôn chạy.",
+        "en": "With `@contextmanager`, an exception inside the `with` block is re-raised at the `yield` inside the generator. Without `try/finally`, the code after `yield` is skipped. Write `try: yield name` and `finally: print(f\"release {name}\")` so the cleanup always runs."
+      }
+    },
+    {
+      "id": "python.iterators.007",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về iterable và iterator?",
+        "en": "Which statement about iterables and iterators is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Iterator có `__next__` và `__iter__` trả về chính nó; `list` là iterable nhưng không phải iterator",
+            "en": "An iterator has `__next__` and an `__iter__` returning itself; a `list` is iterable but not an iterator"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`list` là iterator vì lặp được bằng `for`",
+            "en": "A `list` is an iterator because `for` can loop over it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Iterator luôn có thể lặp lại từ đầu nhiều lần",
+            "en": "An iterator can always restart from the beginning"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`iter()` trên list trả về chính list đó",
+            "en": "`iter()` on a list returns the list itself"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Iterable là object có `__iter__` trả về iterator; iterator có `__next__` và `__iter__` trả về chính nó. `list` là iterable nhưng không phải iterator: mỗi lần `iter(my_list)` tạo một iterator mới nên lặp lại nhiều lần được. Vòng `for` gọi `iter()` rồi `next()` liên tục cho tới khi gặp `StopIteration`.",
+        "en": "An iterable has `__iter__` returning an iterator; an iterator has `__next__` and an `__iter__` that returns itself. A `list` is iterable but not an iterator: each `iter(my_list)` creates a fresh iterator, so it can be looped many times. A `for` loop calls `iter()` and then `next()` repeatedly until `StopIteration`."
+      }
+    },
+    {
+      "id": "python.iterators.008",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "middle",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "def running_total():\n    total = 0\n    while True:\n        value = yield total\n        total += value\n\ngen = running_total()\nnext(gen)\ngen.send(5)\nprint(gen.send(10))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "15"
+        },
+        {
+          "id": "b",
+          "text": "10"
+        },
+        {
+          "id": "c",
+          "text": "5"
+        },
+        {
+          "id": "d",
+          "text": "TypeError"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`next(gen)` khởi động generator, chạy tới `yield total` đầu tiên (trả 0). `send(5)` gán `value = 5`, cộng vào `total` rồi dừng ở `yield` tiếp theo, trả 5. `send(10)` làm `total` thành 15 và trả 15. Nếu bỏ `next(gen)`, gửi giá trị khác `None` vào generator chưa khởi động sẽ ném `TypeError`.",
+        "en": "`next(gen)` primes the generator, running to the first `yield total` (yielding 0). `send(5)` sets `value = 5`, adds it to `total` and pauses at the next `yield`, returning 5. `send(10)` makes `total` 15 and returns 15. Without `next(gen)`, sending a non-`None` value to a just-started generator raises `TypeError`."
+      }
+    },
+    {
+      "id": "python.iterators.009",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn cần xử lý một file log 10 GB (hoặc export hàng triệu bản ghi từ database) bằng Python với bộ nhớ ổn định. Bạn làm thế nào?",
+        "en": "You need to process a 10 GB log file (or export millions of database rows) in Python with flat memory usage. How do you do it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Duyệt file theo dòng (`for line in f`), không dùng `read()`/`readlines()`",
+          "en": "Iterate the file line by line (`for line in f`), not `read()`/`readlines()`"
+        },
+        {
+          "vi": "Xây pipeline bằng generator để xử lý lazy từng phần tử",
+          "en": "Build a generator pipeline that processes items lazily"
+        },
+        {
+          "vi": "Đọc database theo lô: `QuerySet.iterator()`, `yield_per`, phân trang theo key",
+          "en": "Read the database in batches: `QuerySet.iterator()`, `yield_per`, keyset pagination"
+        },
+        {
+          "vi": "Ghi theo lô với `itertools.batched`, trả về qua streaming response",
+          "en": "Write in batches with `itertools.batched`, return a streaming response"
+        },
+        {
+          "vi": "Kiểm chứng bằng `tracemalloc` hoặc profiler bộ nhớ",
+          "en": "Verify with `tracemalloc` or a memory profiler"
+        }
+      ],
+      "explanation": {
+        "vi": "Nguyên tắc là không bao giờ nạp toàn bộ dữ liệu vào bộ nhớ: duyệt file theo dòng bằng `for line in f`, xây pipeline bằng generator để mỗi bước chỉ giữ một phần tử. Với database, dùng `QuerySet.iterator(chunk_size=...)` trong Django hoặc `yield_per` trong SQLAlchemy để đọc theo lô. Gom theo lô bằng `itertools.batched` (Python 3.12+) khi cần ghi bulk, và trả kết quả qua `StreamingResponse` nếu là API. Đo bằng `tracemalloc` để xác nhận bộ nhớ không tăng theo kích thước dữ liệu.",
+        "en": "The rule is to never load everything into memory: iterate the file line by line with `for line in f` and build a generator pipeline so each stage holds only one item. For databases, use Django's `QuerySet.iterator(chunk_size=...)` or SQLAlchemy's `yield_per` to read in batches. Group with `itertools.batched` (Python 3.12+) for bulk writes, and stream the output with `StreamingResponse` in an API. Measure with `tracemalloc` to confirm memory does not grow with the data size."
+      }
+    },
+    {
+      "id": "python.errors.001",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `try/except/else/finally`, khối `else` chạy khi nào?",
+        "en": "In `try/except/else/finally`, when does the `else` block run?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khi một khối `except` bắt được lỗi",
+            "en": "When an `except` block catches an error"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Luôn luôn chạy, giống `finally`",
+            "en": "Always, just like `finally`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Khi khối `try` chạy xong mà không ném exception",
+            "en": "When the `try` block finishes without raising"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Khi không có khối `except` nào khớp với lỗi",
+            "en": "When no `except` block matches the error"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`else` chỉ chạy khi khối `try` hoàn thành mà không ném exception. Đặt code \"bước tiếp theo khi thành công\" vào `else` giúp `try` chỉ bao đúng phần có thể lỗi, tránh vô tình bắt nhầm exception. `finally` thì luôn chạy, dù có lỗi hay không.",
+        "en": "`else` runs only when the `try` block completes without raising. Putting the \"next step on success\" code in `else` keeps `try` limited to the code that can fail, so you do not catch unexpected exceptions by accident. `finally` always runs, error or not."
+      }
+    },
+    {
+      "id": "python.errors.002",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "def load():\n    try:\n        return \"data\"\n    finally:\n        print(\"cleanup\", end=\" \")\n\nprint(load())"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "data cleanup"
+        },
+        {
+          "id": "b",
+          "text": "data"
+        },
+        {
+          "id": "c",
+          "text": "cleanup data"
+        },
+        {
+          "id": "d",
+          "text": "cleanup"
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Khi `try` gặp `return \"data\"`, Python ghi nhận giá trị trả về nhưng vẫn chạy `finally` trước khi thực sự thoát hàm. Vì thế `cleanup ` được in trước, sau đó `print` bên ngoài mới in `data`. Đây là lý do `finally` phù hợp để giải phóng tài nguyên.",
+        "en": "When `try` hits `return \"data\"`, Python records the return value but still runs `finally` before actually leaving the function. So `cleanup ` is printed first, and then the outer `print` prints `data`. This is why `finally` is the right place to release resources."
+      }
+    },
+    {
+      "id": "python.errors.003",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi tạo custom exception cho ứng dụng, nên kế thừa từ class nào?",
+        "en": "When creating custom exceptions for an application, which class should they inherit from?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`BaseException`",
+            "en": "`BaseException`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Exception` (hoặc một exception gốc của ứng dụng kế thừa `Exception`)",
+            "en": "`Exception` (or an app-level base exception that inherits from `Exception`)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`object`",
+            "en": "`object`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`SystemExit`",
+            "en": "`SystemExit`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Custom exception nên kế thừa `Exception`, thường qua một exception gốc riêng như `class AppError(Exception)` để bắt cả nhóm. `BaseException` là gốc của cả `KeyboardInterrupt` và `SystemExit`; kế thừa nó khiến `except Exception` không bắt được lỗi của bạn. Đặt tên kết thúc bằng `Error` theo quy ước PEP 8.",
+        "en": "Custom exceptions should inherit from `Exception`, usually via an app-level base such as `class AppError(Exception)` so the whole family can be caught. `BaseException` is the root of `KeyboardInterrupt` and `SystemExit` too; inheriting from it means `except Exception` will not catch your errors. Name them with an `Error` suffix per PEP 8."
+      }
+    },
+    {
+      "id": "python.errors.004",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Tác giả muốn trả `0` khi chuỗi không phải số, nhưng hàm luôn trả `-1`. Lỗi nằm ở đâu?",
+        "en": "The author wants `0` when the string is not a number, but the function always returns `-1`. Where is the bug?"
+      },
+      "code": {
+        "language": "python",
+        "source": "def parse_age(raw):\n    try:\n        return int(raw)\n    except Exception:\n        return -1\n    except ValueError:\n        return 0\n\nprint(parse_age(\"abc\"))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`int(raw)` không ném lỗi với chuỗi `\"abc\"`",
+            "en": "`int(raw)` does not raise for the string `\"abc\"`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`return` trong `try` khiến các khối `except` bị bỏ qua",
+            "en": "The `return` inside `try` makes the `except` blocks get skipped"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`except Exception` đứng trước nên bắt mất `ValueError`; phải đặt `except ValueError` lên trước",
+            "en": "`except Exception` comes first and swallows `ValueError`; put `except ValueError` first"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải viết `except ValueError, Exception:`",
+            "en": "It must be written `except ValueError, Exception:`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Các khối `except` được thử theo thứ tự từ trên xuống. `ValueError` là subclass của `Exception`, nên `except Exception` đứng trước bắt mất và nhánh `except ValueError` không bao giờ chạy. Luôn đặt exception cụ thể trước exception tổng quát, và hạn chế bắt `Exception` chung chung.",
+        "en": "`except` clauses are tried top to bottom. `ValueError` is a subclass of `Exception`, so the earlier `except Exception` catches it and the `except ValueError` branch never runs. Always put specific exceptions before general ones, and avoid catching bare `Exception` where possible."
+      }
+    },
+    {
+      "id": "python.errors.005",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "try:\n    try:\n        {}[\"key\"]\n    except KeyError as e:\n        raise ValueError(\"config missing\") from e\nexcept ValueError as err:\n    print(type(err.__cause__).__name__, err)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "ValueError config missing"
+        },
+        {
+          "id": "b",
+          "text": "NoneType config missing"
+        },
+        {
+          "id": "c",
+          "text": "KeyError config missing"
+        },
+        {
+          "id": "d",
+          "text": "KeyError 'key'"
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`raise ... from e` gắn exception gốc vào thuộc tính `__cause__` của exception mới. Vì vậy `err.__cause__` là `KeyError` ban đầu, còn `str(err)` là thông điệp `config missing`. Traceback sẽ hiển thị cả hai lỗi với dòng \"The above exception was the direct cause...\", giúp debug dễ hơn.",
+        "en": "`raise ... from e` attaches the original exception to the new one's `__cause__`. So `err.__cause__` is the original `KeyError`, and `str(err)` is the message `config missing`. The traceback shows both errors with \"The above exception was the direct cause...\", which makes debugging easier."
+      }
+    },
+    {
+      "id": "python.errors.006",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "def double(x: int) -> int:\n    return x * 2\n\nprint(double(\"ab\"))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`TypeError` lúc chạy",
+            "en": "`TypeError` at runtime"
+          }
+        },
+        {
+          "id": "b",
+          "text": "abab"
+        },
+        {
+          "id": "c",
+          "text": "4"
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`SyntaxError`",
+            "en": "`SyntaxError`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Type hint trong Python không được kiểm tra lúc chạy; interpreter chỉ lưu chúng vào `__annotations__`. Vì vậy `\"ab\" * 2` chạy bình thường và ra `abab`. Lỗi kiểu này chỉ được phát hiện bởi công cụ static như `mypy` hoặc `pyright`, hoặc bởi thư viện validate lúc chạy như Pydantic.",
+        "en": "Python type hints are not checked at runtime; the interpreter just stores them in `__annotations__`. So `\"ab\" * 2` runs fine and produces `abab`. This kind of bug is only caught by static tools like `mypy` or `pyright`, or by runtime validation libraries such as Pydantic."
+      }
+    },
+    {
+      "id": "python.errors.007",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`mypy` báo lỗi ở dòng `return`. Vì sao?",
+        "en": "`mypy` reports an error on the `return` line. Why?"
+      },
+      "code": {
+        "language": "python",
+        "source": "def get_port(config: dict[str, int]) -> int:\n    return config.get(\"port\")"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`dict[str, int]` không hợp lệ, phải dùng `typing.Dict`",
+            "en": "`dict[str, int]` is invalid; `typing.Dict` is required"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`dict.get` trả về `int | None`, không khớp kiểu trả về `int`",
+            "en": "`dict.get` returns `int | None`, which does not match the `int` return type"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "mypy không hỗ trợ phương thức `dict.get`",
+            "en": "mypy does not support `dict.get`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hàm thiếu `-> None`",
+            "en": "The function is missing `-> None`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`dict.get(key)` trả về `None` khi không có key, nên kiểu của nó là `int | None` chứ không phải `int`. mypy phát hiện kiểu này không khớp với kiểu trả về đã khai báo. Sửa bằng `config.get(\"port\", 8080)`, `config[\"port\"]`, hoặc kiểm tra `None` rồi xử lý. Cú pháp `dict[str, int]` hợp lệ từ Python 3.9, không cần `typing.Dict`.",
+        "en": "`dict.get(key)` returns `None` when the key is missing, so its type is `int | None`, not `int`. mypy flags that this does not match the declared return type. Fix it with `config.get(\"port\", 8080)`, `config[\"port\"]`, or an explicit `None` check. The `dict[str, int]` syntax has been valid since Python 3.9; `typing.Dict` is not needed."
+      }
+    },
+    {
+      "id": "python.errors.008",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn thiết kế việc xử lý exception trong một API back-end (FastAPI hoặc Django) như thế nào?",
+        "en": "How do you design exception handling in a back-end API (FastAPI or Django)?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Cây custom exception cho lỗi nghiệp vụ, kế thừa một exception gốc",
+          "en": "A custom exception hierarchy for business errors under one base class"
+        },
+        {
+          "vi": "Ánh xạ exception → HTTP status tập trung (exception handler/middleware)",
+          "en": "Central exception → HTTP status mapping (exception handler/middleware)"
+        },
+        {
+          "vi": "Chỉ bắt exception cụ thể; không `except:` trần, không nuốt lỗi",
+          "en": "Catch only specific exceptions; no bare `except:`, no swallowing"
+        },
+        {
+          "vi": "Giữ nguyên nhân bằng `raise ... from e`, log traceback bằng `logger.exception`",
+          "en": "Keep the cause with `raise ... from e`, log tracebacks with `logger.exception`"
+        },
+        {
+          "vi": "Không lộ chi tiết nội bộ (stack trace, SQL) ra response",
+          "en": "Never leak internals (stack traces, SQL) in responses"
+        }
+      ],
+      "explanation": {
+        "vi": "Nên có một cây custom exception cho lỗi nghiệp vụ, ví dụ `AppError` → `NotFoundError`, `PermissionDeniedError`, và chuyển chúng thành HTTP status ở một chỗ duy nhất như `@app.exception_handler` của FastAPI hoặc middleware của Django. Chỉ bắt exception cụ thể ở nơi thực sự xử lý được, không dùng `except:` trần hay nuốt lỗi im lặng. Dùng `raise ... from e` để giữ nguyên nhân gốc, và `logger.exception` để ghi traceback cho lỗi không mong đợi, trong khi client chỉ nhận thông báo an toàn.",
+        "en": "Define a custom exception tree for business errors, e.g. `AppError` → `NotFoundError`, `PermissionDeniedError`, and map them to HTTP status codes in one place such as FastAPI's `@app.exception_handler` or a Django middleware. Catch specific exceptions only where you can actually handle them, never use bare `except:` or swallow errors silently. Use `raise ... from e` to keep the root cause, and `logger.exception` to record tracebacks for unexpected errors while the client only gets a safe message."
+      }
+    },
+    {
+      "id": "python.concurrency.001",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Sau dòng `result = fetch()`, biến `result` là gì?",
+        "en": "After `result = fetch()`, what is `result`?"
+      },
+      "code": {
+        "language": "python",
+        "source": "import asyncio\n\nasync def fetch():\n    return 42\n\nresult = fetch()"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Số `42`",
+            "en": "The number `42`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một `Future` đã hoàn thành",
+            "en": "A completed `Future`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`None`",
+            "en": "`None`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Một coroutine object; phải `await` hoặc `asyncio.run` mới có 42",
+            "en": "A coroutine object; you need `await` or `asyncio.run` to get 42"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Gọi một hàm `async def` không chạy thân hàm mà chỉ tạo coroutine object. Phải `await fetch()` bên trong một coroutine khác, hoặc `asyncio.run(fetch())` ở cấp cao nhất, thì mới nhận được `42`. Nếu coroutine không bao giờ được await, Python cảnh báo `RuntimeWarning: coroutine 'fetch' was never awaited`.",
+        "en": "Calling an `async def` function does not run its body; it only creates a coroutine object. You must `await fetch()` inside another coroutine, or call `asyncio.run(fetch())` at the top level, to get `42`. If the coroutine is never awaited, Python warns `RuntimeWarning: coroutine 'fetch' was never awaited`."
+      }
+    },
+    {
+      "id": "python.concurrency.002",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khi nào nên dùng `threading`, `multiprocessing` và `asyncio` trong Python?",
+        "en": "When should you use `threading`, `multiprocessing` and `asyncio` in Python?"
+      },
+      "keyPoints": [
+        {
+          "vi": "GIL: một thời điểm chỉ một thread chạy bytecode Python (CPython mặc định)",
+          "en": "The GIL: only one thread runs Python bytecode at a time (default CPython)"
+        },
+        {
+          "vi": "`threading` cho I/O-bound với thư viện blocking",
+          "en": "`threading` for I/O-bound work with blocking libraries"
+        },
+        {
+          "vi": "`multiprocessing` cho CPU-bound, đổi lại tốn bộ nhớ và chi phí pickle",
+          "en": "`multiprocessing` for CPU-bound work, at the cost of memory and pickling"
+        },
+        {
+          "vi": "`asyncio` cho rất nhiều I/O đồng thời trên một thread, cần thư viện async",
+          "en": "`asyncio` for massive concurrent I/O on one thread, needs async libraries"
+        }
+      ],
+      "explanation": {
+        "vi": "Trong CPython bản mặc định, GIL chỉ cho một thread chạy bytecode Python tại một thời điểm, nên thread không tăng tốc được tác vụ CPU-bound. `threading` hợp với tác vụ I/O-bound dùng thư viện blocking, vì GIL được nhả khi chờ I/O. `multiprocessing` tạo các process riêng, mỗi process một GIL, phù hợp CPU-bound nhưng tốn bộ nhớ và chi phí pickle dữ liệu. `asyncio` chạy một event loop trên một thread, xử lý hàng nghìn kết nối I/O đồng thời nhưng cần thư viện hỗ trợ async.",
+        "en": "In default CPython, the GIL lets only one thread run Python bytecode at a time, so threads cannot speed up CPU-bound work. `threading` suits I/O-bound work with blocking libraries, because the GIL is released while waiting on I/O. `multiprocessing` starts separate processes, each with its own GIL, which fits CPU-bound work at the cost of memory and pickling overhead. `asyncio` runs one event loop on one thread, handling thousands of concurrent I/O connections, but needs async-aware libraries."
+      }
+    },
+    {
+      "id": "python.concurrency.003",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "import asyncio\n\norder = []\n\nasync def work(n, delay):\n    await asyncio.sleep(delay)\n    order.append(n)\n    return n\n\nasync def main():\n    results = await asyncio.gather(work(1, 0.3), work(2, 0.1), work(3, 0.2))\n    print(order, results)\n\nasyncio.run(main())"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "[1, 2, 3] [1, 2, 3]"
+        },
+        {
+          "id": "b",
+          "text": "[2, 3, 1] [1, 2, 3]"
+        },
+        {
+          "id": "c",
+          "text": "[2, 3, 1] [2, 3, 1]"
+        },
+        {
+          "id": "d",
+          "text": "[1, 2, 3] [2, 3, 1]"
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`asyncio.gather` chạy ba coroutine đồng thời, nên task nào ngủ ngắn hơn sẽ ghi vào `order` trước: 2 (0.1s), 3 (0.2s), rồi 1 (0.3s). Tuy vậy `gather` luôn trả kết quả theo đúng thứ tự các đối số truyền vào, không theo thứ tự hoàn thành. Muốn xử lý theo thứ tự xong trước, dùng `asyncio.as_completed`.",
+        "en": "`asyncio.gather` runs the three coroutines concurrently, so the task with the shortest sleep appends to `order` first: 2 (0.1s), 3 (0.2s), then 1 (0.3s). However, `gather` always returns results in the order of its arguments, not completion order. To handle results as they finish, use `asyncio.as_completed`."
+      }
+    },
+    {
+      "id": "python.concurrency.004",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Tác giả mong 3 request chạy đồng thời trong khoảng 1 giây, nhưng thực tế mất khoảng 3 giây. Dòng nào là thủ phạm?",
+        "en": "The author expects the 3 requests to run concurrently in about 1 second, but it takes about 3 seconds. Which line is the culprit?"
+      },
+      "code": {
+        "language": "python",
+        "source": "import asyncio\nimport time\n\nasync def fetch_user(uid):\n    time.sleep(1)  # simulate an API call\n    return {\"id\": uid}\n\nasync def main():\n    start = time.perf_counter()\n    await asyncio.gather(*(fetch_user(i) for i in range(3)))\n    print(f\"{time.perf_counter() - start:.0f}s\")\n\nasyncio.run(main())"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "`await asyncio.gather(...)`"
+        },
+        {
+          "id": "b",
+          "text": "`return {\"id\": uid}`"
+        },
+        {
+          "id": "c",
+          "text": "`time.sleep(1)`"
+        },
+        {
+          "id": "d",
+          "text": "`asyncio.run(main())`"
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`time.sleep(1)` là lời gọi blocking: nó chặn cả thread đang chạy event loop, nên các coroutine không thể chạy xen kẽ và tổng thời gian là 3 giây. Trong code async phải dùng `await asyncio.sleep(...)` và thư viện async như `httpx.AsyncClient` hoặc `asyncpg`. Nếu bắt buộc dùng thư viện đồng bộ, đẩy nó ra thread bằng `await asyncio.to_thread(...)`. Trong FastAPI, một lời gọi blocking trong `async def` sẽ làm treo mọi request khác của worker đó.",
+        "en": "`time.sleep(1)` is a blocking call: it blocks the thread running the event loop, so the coroutines cannot interleave and the total is 3 seconds. Async code must use `await asyncio.sleep(...)` and async libraries such as `httpx.AsyncClient` or `asyncpg`. If you must use a synchronous library, offload it with `await asyncio.to_thread(...)`. In FastAPI, one blocking call inside `async def` stalls every other request on that worker."
+      }
+    },
+    {
+      "id": "python.concurrency.005",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bốn thread cùng chạy `work()`. Giá trị cuối của `counter` có được đảm bảo luôn là 400000 không?",
+        "en": "Four threads run `work()`. Is the final value of `counter` guaranteed to be 400000?"
+      },
+      "code": {
+        "language": "python",
+        "source": "import threading\n\ncounter = 0\n\ndef work():\n    global counter\n    for _ in range(100_000):\n        counter += 1\n\nthreads = [threading.Thread(target=work) for _ in range(4)]\nfor t in threads:\n    t.start()\nfor t in threads:\n    t.join()\nprint(counter)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Có: GIL đảm bảo kết quả luôn đúng 400000",
+            "en": "Yes: the GIL guarantees exactly 400000"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không: vì `range(100_000)` bị chia nhỏ cho các thread",
+            "en": "No: because `range(100_000)` is split between the threads"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không: `counter += 1` không atomic, thread có thể bị chuyển giữa chừng; cần `threading.Lock`",
+            "en": "No: `counter += 1` is not atomic and a thread can switch mid-way; use a `threading.Lock`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không: vì `global` chỉ có hiệu lực ở thread đầu tiên",
+            "en": "No: because `global` only applies to the first thread"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "GIL chỉ đảm bảo mỗi lần một thread chạy bytecode, không biến `counter += 1` thành thao tác atomic. Câu lệnh này gồm đọc, cộng và ghi; thread có thể bị chuyển giữa các bước và làm mất cập nhật. Trên CPython mới, lỗi có thể hiếm khi lộ ra, nhưng không có gì đảm bảo, nhất là với bản build free-threaded. Hãy bảo vệ bằng `threading.Lock` (`with lock: counter += 1`) hoặc tránh chia sẻ state.",
+        "en": "The GIL only ensures one thread runs bytecode at a time; it does not make `counter += 1` atomic. The statement is a read, an add and a write, and a thread switch between them can lose updates. On recent CPython the race may rarely show up, but nothing guarantees it, especially on free-threaded builds. Protect it with a `threading.Lock` (`with lock: counter += 1`) or avoid sharing state."
+      }
+    },
+    {
+      "id": "python.concurrency.006",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trên CPython bản build mặc định (có GIL), dùng `ThreadPoolExecutor` với 8 thread sẽ tăng tốc rõ rệt cho việc nào?",
+        "en": "On default CPython (with the GIL), which job gets a clear speed-up from a `ThreadPoolExecutor` with 8 threads?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Vòng lặp Python thuần tìm số nguyên tố tới 10 triệu",
+            "en": "A pure-Python loop finding primes up to 10 million"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Resize ảnh bằng vòng lặp từng pixel viết thuần Python",
+            "en": "Resizing images with a pure-Python per-pixel loop"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Duyệt cây và cộng dồn bằng vòng `for` thuần Python",
+            "en": "Walking a tree and summing values in pure-Python `for` loops"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gọi 100 HTTP API bên ngoài bằng `requests`",
+            "en": "Calling 100 external HTTP APIs with `requests`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi một thread chờ mạng, đĩa hoặc database, nó nhả GIL để thread khác chạy, nên công việc I/O-bound như gọi nhiều HTTP API tăng tốc gần tuyến tính. Các vòng lặp Python thuần là CPU-bound và bị GIL tuần tự hóa, nên cần `ProcessPoolExecutor` hoặc đưa phần nặng vào thư viện C có nhả GIL như NumPy. Python 3.13 có bản build free-threaded thử nghiệm (PEP 703) bỏ GIL, nhưng chưa phải mặc định.",
+        "en": "While a thread waits on the network, disk or database it releases the GIL so other threads can run, so I/O-bound work such as calling many HTTP APIs scales almost linearly. Pure-Python loops are CPU-bound and serialised by the GIL, so they need a `ProcessPoolExecutor` or moving the heavy part into a C library that releases the GIL, like NumPy. Python 3.13 ships an experimental free-threaded build (PEP 703) without the GIL, but it is not the default."
+      }
+    },
+    {
+      "id": "python.concurrency.007",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Ứng dụng FastAPI của bạn phải dùng một SDK chỉ có API đồng bộ (blocking) và đôi khi chạy tác vụ CPU nặng như tạo PDF. Bạn tích hợp thế nào để không làm nghẽn server?",
+        "en": "Your FastAPI app must use an SDK that only has a synchronous (blocking) API, and sometimes runs CPU-heavy jobs like PDF generation. How do you integrate them without stalling the server?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Endpoint `def` chạy trong threadpool; `async def` chạy trên event loop",
+          "en": "`def` endpoints run in a threadpool; `async def` ones run on the event loop"
+        },
+        {
+          "vi": "Không gọi code blocking trong `async def`; dùng `asyncio.to_thread`/`run_in_threadpool`",
+          "en": "Never block inside `async def`; use `asyncio.to_thread`/`run_in_threadpool`"
+        },
+        {
+          "vi": "CPU-bound: `ProcessPoolExecutor` hoặc task queue (Celery, RQ, ARQ)",
+          "en": "CPU-bound: `ProcessPoolExecutor` or a task queue (Celery, RQ, ARQ)"
+        },
+        {
+          "vi": "Ưu tiên thư viện async nguyên bản (`httpx`, `asyncpg`)",
+          "en": "Prefer native async libraries (`httpx`, `asyncpg`)"
+        },
+        {
+          "vi": "Giới hạn concurrency để không cạn connection pool, theo dõi latency event loop",
+          "en": "Cap concurrency to protect connection pools; monitor event-loop latency"
+        }
+      ],
+      "explanation": {
+        "vi": "FastAPI chạy endpoint `def` thường trong threadpool, còn endpoint `async def` chạy thẳng trên event loop, nên gọi SDK blocking trong `async def` sẽ chặn mọi request khác. Với code blocking I/O, khai báo endpoint là `def` hoặc gọi qua `await asyncio.to_thread(...)` / `run_in_threadpool`. Với tác vụ CPU nặng, threadpool không giúp vì GIL, nên dùng `ProcessPoolExecutor` hoặc tốt hơn là đẩy sang task queue như Celery, RQ, ARQ và trả về job id. Cuối cùng, ưu tiên thư viện async nguyên bản (`httpx`, `asyncpg`) khi có, và giới hạn số thread để không làm cạn connection pool.",
+        "en": "FastAPI runs plain `def` endpoints in a threadpool, while `async def` endpoints run directly on the event loop, so calling a blocking SDK inside `async def` blocks every other request. For blocking I/O, declare the endpoint as `def` or call it via `await asyncio.to_thread(...)` / `run_in_threadpool`. For CPU-heavy work a threadpool does not help because of the GIL, so use a `ProcessPoolExecutor` or, better, push it to a task queue such as Celery, RQ or ARQ and return a job id. Finally, prefer native async libraries (`httpx`, `asyncpg`) where they exist, and cap thread counts so you do not exhaust the connection pool."
+      }
+    },
+    {
+      "id": "python.concurrency.008",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "import asyncio\n\nlog = []\n\nasync def say(word):\n    log.append(word)\n\nasync def main():\n    task = asyncio.create_task(say(\"A\"))\n    log.append(\"B\")\n    await task\n    log.append(\"C\")\n\nasyncio.run(main())\nprint(log)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "['B', 'A', 'C']"
+        },
+        {
+          "id": "b",
+          "text": "['A', 'B', 'C']"
+        },
+        {
+          "id": "c",
+          "text": "['B', 'C', 'A']"
+        },
+        {
+          "id": "d",
+          "text": "['A', 'C', 'B']"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`asyncio.create_task` chỉ lên lịch cho coroutine, nó chưa chạy ngay. `main` tiếp tục chạy đồng bộ và ghi `B`; chỉ khi `main` nhường quyền ở `await task`, event loop mới chạy `say(\"A\")`. Sau khi task xong, `main` chạy tiếp và ghi `C`.",
+        "en": "`asyncio.create_task` only schedules the coroutine; it does not run it immediately. `main` keeps running synchronously and logs `B`; only when `main` yields control at `await task` does the event loop run `say(\"A\")`. After the task finishes, `main` resumes and logs `C`."
+      }
+    },
+    {
+      "id": "python.web.001",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Client gọi `GET /items/abc`. FastAPI trả về gì?",
+        "en": "A client calls `GET /items/abc`. What does FastAPI return?"
+      },
+      "code": {
+        "language": "python",
+        "source": "from fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get(\"/items/{item_id}\")\ndef read_item(item_id: int, q: str | None = None):\n    return {\"item_id\": item_id, \"q\": q}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Status `200` với `item_id` là `\"abc\"`",
+            "en": "Status `200` with `item_id` set to `\"abc\"`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`404 Not Found`",
+            "en": "`404 Not Found`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Status `422` kèm chi tiết lỗi validation",
+            "en": "Status `422` with validation error details"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`500 Internal Server Error`",
+            "en": "`500 Internal Server Error`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "FastAPI dùng type hint `item_id: int` để parse và validate path parameter qua Pydantic. `\"abc\"` không chuyển được sang `int`, nên FastAPI tự trả `422 Unprocessable Entity` kèm JSON mô tả field lỗi, endpoint không hề được gọi. `q: str | None = None` là query parameter tùy chọn, ví dụ `/items/5?q=x`.",
+        "en": "FastAPI uses the `item_id: int` type hint to parse and validate the path parameter via Pydantic. `\"abc\"` cannot be converted to `int`, so FastAPI returns `422 Unprocessable Entity` with JSON describing the invalid field, and the endpoint is never called. `q: str | None = None` is an optional query parameter, e.g. `/items/5?q=x`."
+      }
+    },
+    {
+      "id": "python.web.002",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong Django, khác biệt giữa `python manage.py makemigrations` và `python manage.py migrate` là gì?",
+        "en": "In Django, what is the difference between `python manage.py makemigrations` and `python manage.py migrate`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`makemigrations` tạo file migration từ thay đổi của model; `migrate` áp dụng chúng vào database",
+            "en": "`makemigrations` creates migration files from model changes; `migrate` applies them to the database"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`makemigrations` sửa database trực tiếp, `migrate` chỉ để backup",
+            "en": "`makemigrations` changes the database directly; `migrate` only makes a backup"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hai lệnh giống nhau, `migrate` chỉ là alias",
+            "en": "They are the same; `migrate` is just an alias"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`migrate` sinh model Python từ các bảng có sẵn",
+            "en": "`migrate` generates Python models from existing tables"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`makemigrations` so sánh model hiện tại với các migration đã có và sinh file migration mới trong thư mục `migrations/`. `migrate` chạy các migration chưa được áp dụng lên database và ghi lại trong bảng `django_migrations`. File migration nên được commit vào git để mọi môi trường có cùng schema.",
+        "en": "`makemigrations` compares the current models with existing migrations and generates new migration files in the `migrations/` folder. `migrate` applies the not-yet-applied migrations to the database and records them in the `django_migrations` table. Migration files should be committed to git so every environment ends up with the same schema."
+      }
+    },
+    {
+      "id": "python.web.003",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với Pydantic v2, dòng `print` in ra gì?",
+        "en": "With Pydantic v2, what does the `print` line output?"
+      },
+      "code": {
+        "language": "python",
+        "source": "from pydantic import BaseModel\n\nclass User(BaseModel):\n    name: str\n    age: int\n\nuser = User(name=\"An\", age=\"42\")\nprint(repr(user.age))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "'42'"
+        },
+        {
+          "id": "b",
+          "text": "ValidationError"
+        },
+        {
+          "id": "c",
+          "text": "None"
+        },
+        {
+          "id": "d",
+          "text": "42"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Mặc định Pydantic chạy ở lax mode: chuỗi số như `\"42\"` được chuyển thành `int` 42, nên `repr` in ra `42` không có dấu nháy. Chuỗi như `\"abc\"` thì không chuyển được và ném `ValidationError`. Muốn từ chối mọi chuyển đổi ngầm, bật strict mode bằng `Field(strict=True)` hoặc `model_config = ConfigDict(strict=True)`.",
+        "en": "By default Pydantic runs in lax mode: a numeric string like `\"42\"` is coerced to the `int` 42, so `repr` prints `42` without quotes. A string like `\"abc\"` cannot be converted and raises `ValidationError`. To reject all implicit conversion, enable strict mode with `Field(strict=True)` or `model_config = ConfigDict(strict=True)`."
+      }
+    },
+    {
+      "id": "python.web.004",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Endpoint trả về cả `password_hash` cho client. Cần sửa ở đâu?",
+        "en": "The endpoint returns `password_hash` to the client. What needs fixing?"
+      },
+      "code": {
+        "language": "python",
+        "source": "from fastapi import FastAPI\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass UserOut(BaseModel):\n    id: int\n    email: str\n\n@app.get(\"/users/{user_id}\")\ndef get_user(user_id: int):\n    user = db.get_user(user_id)  # dict also has \"password_hash\"\n    return user"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khai báo `response_model=UserOut` trong `@app.get(...)` (hoặc `-> UserOut`) để FastAPI lọc field",
+            "en": "Declare `response_model=UserOut` in `@app.get(...)` (or `-> UserOut`) so FastAPI filters fields"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đổi `user_id: int` thành `user_id: str`",
+            "en": "Change `user_id: int` to `user_id: str`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thêm `async` trước `def get_user`",
+            "en": "Add `async` before `def get_user`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cho `UserOut` kế thừa `dict` thay vì `BaseModel`",
+            "en": "Make `UserOut` inherit from `dict` instead of `BaseModel`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Không có `response_model` hay kiểu trả về, FastAPI serialize nguyên `dict` nên mọi field, kể cả `password_hash`, đều lộ ra. Khai báo `@app.get(..., response_model=UserOut)` hoặc `def get_user(...) -> UserOut` thì FastAPI validate dữ liệu trả về và lọc chỉ giữ `id`, `email`. Nên tách rõ model đầu vào, model lưu trữ và model đầu ra.",
+        "en": "Without a `response_model` or return type, FastAPI serialises the raw `dict`, so every field, including `password_hash`, leaks. Declaring `@app.get(..., response_model=UserOut)` or `def get_user(...) -> UserOut` makes FastAPI validate the output and keep only `id` and `email`. Keep input, storage and output models separate."
+      }
+    },
+    {
+      "id": "python.web.005",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ba dòng Django ORM sau chạy bao nhiêu câu SQL?",
+        "en": "How many SQL queries do these three Django ORM lines run?"
+      },
+      "code": {
+        "language": "python",
+        "source": "qs = Book.objects.filter(published=True)\nqs = qs.exclude(price=0).order_by(\"title\")\nfirst_page = qs[:20]"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "1"
+        },
+        {
+          "id": "b",
+          "text": "0"
+        },
+        {
+          "id": "c",
+          "text": "3"
+        },
+        {
+          "id": "d",
+          "text": "20"
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "QuerySet trong Django là lazy: `filter`, `exclude`, `order_by` và slicing không có step chỉ dựng câu truy vấn (slicing thêm `LIMIT`) mà chưa chạm database. Query chỉ chạy khi QuerySet được evaluate: lặp qua, gọi `list()`, `len()`, `bool()`, in `repr` hoặc slicing có step. Nhờ vậy có thể nối điều kiện thoải mái mà không tốn query thừa.",
+        "en": "Django QuerySets are lazy: `filter`, `exclude`, `order_by` and slicing without a step only build the query (slicing adds `LIMIT`) without touching the database. The query runs only when the QuerySet is evaluated: iterating, `list()`, `len()`, `bool()`, `repr` or slicing with a step. This lets you chain conditions freely without extra queries."
+      }
+    },
+    {
+      "id": "python.web.006",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Có ít nhất 10 sách và `author` là `ForeignKey`. Đoạn code chạy bao nhiêu câu SQL?",
+        "en": "There are at least 10 books and `author` is a `ForeignKey`. How many SQL queries does this code run?"
+      },
+      "code": {
+        "language": "python",
+        "source": "books = Book.objects.all()[:10]\nfor book in books:\n    print(book.title, book.author.name)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "11"
+        },
+        {
+          "id": "b",
+          "text": "1"
+        },
+        {
+          "id": "c",
+          "text": "2"
+        },
+        {
+          "id": "d",
+          "text": "10"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Một query lấy 10 sách, sau đó mỗi lần truy cập `book.author` lại chạy một query lấy tác giả, tổng cộng 1 + 10 = 11. Đây là lỗi N+1 kinh điển, rất khó thấy trong code nhưng làm API chậm hẳn khi dữ liệu lớn. Sửa bằng `Book.objects.select_related(\"author\")[:10]` để JOIN và chỉ còn 1 query. Phát hiện bằng django-debug-toolbar hoặc `assertNumQueries` trong test.",
+        "en": "One query fetches the 10 books, then each `book.author` access runs another query for the author, for 1 + 10 = 11 in total. This is the classic N+1 problem: hard to spot in code but it slows APIs down badly as data grows. Fix it with `Book.objects.select_related(\"author\")[:10]`, which JOINs and needs only 1 query. Detect it with django-debug-toolbar or `assertNumQueries` in tests."
+      }
+    },
+    {
+      "id": "python.web.007",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về `select_related` và `prefetch_related` trong Django ORM?",
+        "en": "Which statement about `select_related` and `prefetch_related` in the Django ORM is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`select_related` dùng được cho mọi quan hệ, `prefetch_related` chỉ là alias",
+            "en": "`select_related` works for every relation; `prefetch_related` is just an alias"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`prefetch_related` luôn nhanh hơn nên dùng cho mọi trường hợp",
+            "en": "`prefetch_related` is always faster, so use it everywhere"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả hai chỉ có tác dụng khi gọi `.iterator()`",
+            "en": "Both only take effect when calling `.iterator()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`select_related` dùng JOIN cho ForeignKey/OneToOne; quan hệ nhiều (reverse FK, ManyToMany) cần `prefetch_related` với query riêng",
+            "en": "`select_related` JOINs ForeignKey/OneToOne; many-relations (reverse FK, ManyToMany) need `prefetch_related` with separate queries"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`select_related` thêm JOIN vào cùng câu SQL nên chỉ dùng được cho quan hệ \"một\" theo chiều xuôi: `ForeignKey` và `OneToOneField`. Với quan hệ \"nhiều\" như reverse ForeignKey (`author.book_set`) hay `ManyToManyField`, JOIN sẽ nhân bản hàng, nên `prefetch_related` chạy một query riêng cho mỗi quan hệ rồi ghép kết quả trong Python. Có thể kết hợp cả hai và dùng `Prefetch(...)` để lọc tập được prefetch.",
+        "en": "`select_related` adds a JOIN to the same SQL query, so it only works for forward \"single\" relations: `ForeignKey` and `OneToOneField`. For \"many\" relations such as a reverse ForeignKey (`author.book_set`) or `ManyToManyField`, a JOIN would duplicate rows, so `prefetch_related` runs one extra query per relation and stitches the results in Python. You can combine both and use `Prefetch(...)` to filter the prefetched set."
+      }
+    },
+    {
+      "id": "python.web.008",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn sẽ triển khai và scale một service FastAPI chịu tải cao trên production như thế nào?",
+        "en": "How would you deploy and scale a high-traffic FastAPI service in production?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Nhiều worker process (Uvicorn/Gunicorn `UvicornWorker`), số worker theo số core hoặc scale theo pod",
+          "en": "Multiple worker processes (Uvicorn/Gunicorn `UvicornWorker`), sized by cores or scaled by pods"
+        },
+        {
+          "vi": "Worker không chia sẻ bộ nhớ: state dùng chung để ở Redis/database",
+          "en": "Workers share no memory: keep shared state in Redis/the database"
+        },
+        {
+          "vi": "Tính connection pool theo tổng số worker",
+          "en": "Size connection pools by the total number of workers"
+        },
+        {
+          "vi": "Không blocking trong `async def`; việc nặng đưa sang task queue",
+          "en": "No blocking inside `async def`; offload heavy work to a task queue"
+        },
+        {
+          "vi": "Load balancer, health check, metrics và horizontal scaling",
+          "en": "Load balancer, health checks, metrics and horizontal scaling"
+        }
+      ],
+      "explanation": {
+        "vi": "Mỗi process Uvicorn chỉ có một event loop trên một core, nên chạy nhiều worker bằng `uvicorn --workers N`, `fastapi run --workers N` hoặc Gunicorn với `UvicornWorker`, thường N xấp xỉ số core; trên Kubernetes có thể chạy một worker mỗi pod và scale bằng số pod. Các worker không chia sẻ bộ nhớ, nên cache, session hay rate limit phải đặt ở Redis hoặc database. Kích thước connection pool phải tính theo tổng số worker để không vượt giới hạn kết nối database. Đồng thời giữ endpoint async không bị blocking, đẩy việc nặng sang task queue, đặt sau load balancer và theo dõi latency, health check.",
+        "en": "Each Uvicorn process has one event loop on one core, so run several workers via `uvicorn --workers N`, `fastapi run --workers N` or Gunicorn with `UvicornWorker`, usually N close to the core count; on Kubernetes you may run one worker per pod and scale by pod count. Workers share no memory, so caches, sessions and rate limits must live in Redis or the database. Size the connection pool by the total worker count so you stay under the database connection limit. Also keep async endpoints non-blocking, move heavy work to a task queue, sit behind a load balancer and monitor latency and health checks."
+      }
+    },
+    {
+      "id": "python.web.009",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong Django hoặc FastAPI, middleware thường được dùng để làm gì?",
+        "en": "In Django or FastAPI, what is middleware typically used for?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Định nghĩa schema bảng trong database",
+            "en": "Defining database table schemas"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Xử lý chung cho mọi request/response như logging, CORS, đo thời gian, thêm header",
+            "en": "Cross-cutting request/response handling such as logging, CORS, timing and headers"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thay thế cho việc viết view hoặc endpoint",
+            "en": "Replacing views or endpoints"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tự động chạy migration khi khởi động",
+            "en": "Running migrations automatically on startup"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Middleware là lớp bao quanh mọi request và response, chạy trước và sau khi view hay endpoint xử lý. Nó phù hợp cho các việc dùng chung như logging, đo thời gian xử lý, CORS, xác thực session, thêm header bảo mật. Trong Django khai báo qua `MIDDLEWARE` trong settings; trong FastAPI dùng `app.add_middleware(...)` hoặc `@app.middleware(\"http\")`.",
+        "en": "Middleware wraps every request and response, running before and after the view or endpoint. It suits cross-cutting concerns such as logging, timing, CORS, session authentication and security headers. In Django it is configured via `MIDDLEWARE` in settings; in FastAPI via `app.add_middleware(...)` or `@app.middleware(\"http\")`."
+      }
+    },
+    {
+      "id": "python.tooling.001",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "tooling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao nên tạo virtual environment (`python -m venv .venv`) cho mỗi project?",
+        "en": "Why should each project have its own virtual environment (`python -m venv .venv`)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Giúp code Python chạy nhanh hơn",
+            "en": "It makes Python code run faster"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cô lập package và phiên bản của từng project, tránh xung đột với project khác và Python hệ thống",
+            "en": "It isolates each project's packages and versions from other projects and the system Python"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bắt buộc phải có thì mới chạy được `pip`",
+            "en": "`pip` cannot run without one"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tự động đóng gói app thành file thực thi",
+            "en": "It packages the app into an executable automatically"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Virtual environment có thư mục `site-packages` riêng, nên mỗi project cài phiên bản package riêng mà không ảnh hưởng project khác hay Python của hệ điều hành. Nhờ vậy tránh xung đột kiểu project A cần Django 4 còn project B cần Django 5. Kích hoạt bằng `source .venv/bin/activate` và không commit thư mục `.venv` vào git.",
+        "en": "A virtual environment has its own `site-packages`, so each project installs its own package versions without affecting other projects or the OS Python. This avoids conflicts like project A needing Django 4 while project B needs Django 5. Activate it with `source .venv/bin/activate` and never commit the `.venv` folder to git."
+      }
+    },
+    {
+      "id": "python.tooling.002",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "tooling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Chạy `pytest` với file `test_math.py` dưới đây. Bao nhiêu test được thu thập (collected)?",
+        "en": "Running `pytest` on the `test_math.py` file below, how many tests are collected?"
+      },
+      "code": {
+        "language": "python",
+        "source": "# test_math.py\ndef add(a, b):\n    return a + b\n\ndef test_add():\n    assert add(2, 3) == 5\n\ndef check_negative():\n    assert add(-1, -1) == -2"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "2"
+        },
+        {
+          "id": "b",
+          "text": "0"
+        },
+        {
+          "id": "c",
+          "text": "1"
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi: phải dùng `self.assertEqual`",
+            "en": "Error: `self.assertEqual` is required"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Mặc định pytest tìm file `test_*.py` hoặc `*_test.py`, rồi lấy các hàm có tên bắt đầu bằng `test`. `check_negative` không có tiền tố này nên bị bỏ qua, chỉ `test_add` được thu thập. pytest dùng `assert` thuần và tự viết lại để hiển thị giá trị chi tiết khi fail, không cần `self.assertEqual`.",
+        "en": "By default pytest looks for `test_*.py` or `*_test.py` files and collects functions whose names start with `test`. `check_negative` lacks that prefix and is ignored, so only `test_add` is collected. pytest uses plain `assert` and rewrites it to show detailed values on failure, with no need for `self.assertEqual`."
+      }
+    },
+    {
+      "id": "python.tooling.003",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "tooling",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Dòng `conn.close()` trong fixture chạy khi nào?",
+        "en": "When does `conn.close()` in the fixture run?"
+      },
+      "code": {
+        "language": "python",
+        "source": "import pytest\n\n@pytest.fixture\ndef db():\n    conn = connect_test_db()\n    yield conn\n    conn.close()\n\ndef test_insert(db):\n    db.insert({\"id\": 1})"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trước khi test chạy",
+            "en": "Before the test runs"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không bao giờ chạy vì nằm sau `yield`",
+            "en": "Never, because it comes after `yield`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ khi test pass",
+            "en": "Only when the test passes"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Sau khi `test_insert` kết thúc, kể cả khi test fail",
+            "en": "After `test_insert` finishes, even if it fails"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Với fixture dùng `yield`, phần trước `yield` là setup, giá trị được `yield` truyền vào test, và phần sau `yield` là teardown. pytest chạy teardown sau khi test kết thúc, dù test pass hay fail, miễn là phần setup đã chạy thành công. Có thể chỉnh `scope` như `\"module\"` hay `\"session\"` để dùng chung kết nối cho nhiều test.",
+        "en": "In a `yield` fixture, the code before `yield` is setup, the yielded value is passed to the test, and the code after `yield` is teardown. pytest runs the teardown after the test finishes, whether it passed or failed, as long as setup succeeded. Set `scope` to `\"module\"` or `\"session\"` to share the connection across tests."
+      }
+    },
+    {
+      "id": "python.tooling.004",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "tooling",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Test vẫn gọi API thật thay vì dùng mock. Lỗi nằm ở đâu?",
+        "en": "The test still calls the real API instead of the mock. Where is the bug?"
+      },
+      "code": {
+        "language": "python",
+        "source": "# app/services.py\nfrom app.clients import fetch_rate\n\ndef convert(amount):\n    return amount * fetch_rate(\"USD\")\n\n# tests/test_services.py\nfrom unittest.mock import patch\nfrom app.services import convert\n\n@patch(\"app.clients.fetch_rate\", return_value=2)\ndef test_convert(mock_rate):\n    assert convert(10) == 20"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`return_value=2` phải đổi thành `side_effect=2`",
+            "en": "`return_value=2` must be `side_effect=2`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`def test_convert(mock_rate)` thiếu tham số `self`",
+            "en": "`def test_convert(mock_rate)` is missing `self`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`from app.services import convert` phải đặt bên trong hàm test",
+            "en": "`from app.services import convert` must go inside the test function"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`@patch(\"app.clients.fetch_rate\", ...)`: phải patch nơi tên được dùng, `\"app.services.fetch_rate\"`",
+            "en": "`@patch(\"app.clients.fetch_rate\", ...)`: patch where the name is used, `\"app.services.fetch_rate\"`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`from app.clients import fetch_rate` tạo một tên `fetch_rate` riêng trong module `app.services`. Patch `app.clients.fetch_rate` chỉ thay tên trong `app.clients`, còn `convert` vẫn dùng tham chiếu cũ. Quy tắc của `unittest.mock`: patch nơi tên được tra cứu, tức `@patch(\"app.services.fetch_rate\", return_value=2)`.",
+        "en": "`from app.clients import fetch_rate` creates a separate `fetch_rate` name inside `app.services`. Patching `app.clients.fetch_rate` only replaces the name in `app.clients`, while `convert` still uses the old reference. The `unittest.mock` rule: patch where the name is looked up, i.e. `@patch(\"app.services.fetch_rate\", return_value=2)`."
+      }
+    },
+    {
+      "id": "python.tooling.005",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "tooling",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Vì sao code back-end nên dùng module `logging` thay vì `print`?",
+        "en": "Why should back-end code use the `logging` module instead of `print`?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Có level log, lọc theo môi trường mà không sửa code",
+          "en": "Log levels, filtered per environment without code changes"
+        },
+        {
+          "vi": "Handler/formatter: thời gian, tên module, gửi ra file hoặc hệ thống log tập trung",
+          "en": "Handlers/formatters: timestamps, module names, files or central log systems"
+        },
+        {
+          "vi": "`getLogger(__name__)` theo module; `logger.exception` ghi kèm traceback",
+          "en": "`getLogger(__name__)` per module; `logger.exception` includes the traceback"
+        },
+        {
+          "vi": "Mặc định chỉ hiện WARNING trở lên nếu chưa cấu hình",
+          "en": "Only WARNING and above show by default until configured"
+        }
+      ],
+      "explanation": {
+        "vi": "`logging` có level (DEBUG, INFO, WARNING, ERROR, CRITICAL) để bật tắt theo môi trường mà không sửa code. Handler và formatter cho phép thêm thời gian, tên module và gửi log ra stdout, file hoặc hệ thống tập trung. Dùng `logger = logging.getLogger(__name__)` trong mỗi module, và `logger.exception(...)` trong `except` để ghi kèm traceback. Lưu ý root logger mặc định chỉ hiện WARNING trở lên nếu chưa cấu hình.",
+        "en": "`logging` has levels (DEBUG, INFO, WARNING, ERROR, CRITICAL) you can tune per environment without code changes. Handlers and formatters add timestamps and module names and send logs to stdout, files or a central system. Use `logger = logging.getLogger(__name__)` in each module, and `logger.exception(...)` inside `except` to include the traceback. Note the root logger only shows WARNING and above until configured."
+      }
+    },
+    {
+      "id": "python.tooling.006",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "tooling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "File `poetry.lock` (hoặc `requirements.txt` đã pin phiên bản) dùng để làm gì?",
+        "en": "What is `poetry.lock` (or a version-pinned `requirements.txt`) for?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ghi chính xác phiên bản mọi dependency để cài lại giống hệt trên máy khác, CI và production",
+            "en": "It pins the exact version of every dependency so other machines, CI and production install the same thing"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chứa mã nguồn của các package",
+            "en": "It contains the packages' source code"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Ngăn người khác chỉnh sửa `pyproject.toml`",
+            "en": "It stops others from editing `pyproject.toml`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lưu cache bytecode `.pyc`",
+            "en": "It stores the `.pyc` bytecode cache"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`pyproject.toml` khai báo khoảng phiên bản cho phép, còn lock file ghi lại chính xác phiên bản của mọi dependency, kể cả dependency gián tiếp. Nhờ vậy máy dev, CI và production cài ra cùng một bộ package, tránh lỗi \"máy tôi chạy được\". Với ứng dụng, nên commit lock file và cập nhật có chủ đích bằng `poetry update` hoặc `uv lock --upgrade`.",
+        "en": "`pyproject.toml` declares allowed version ranges, while the lock file records the exact version of every dependency, including transitive ones. This way dev machines, CI and production install the same set of packages, avoiding \"works on my machine\" bugs. For applications, commit the lock file and update it deliberately with `poetry update` or `uv lock --upgrade`."
+      }
+    },
+    {
+      "id": "python.tooling.007",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "tooling",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn tổ chức test cho một service FastAPI hoặc Django như thế nào?",
+        "en": "How do you organise tests for a FastAPI or Django service?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Unit test cho logic nghiệp vụ, tách khỏi framework",
+          "en": "Unit tests for business logic, decoupled from the framework"
+        },
+        {
+          "vi": "Integration test qua `TestClient`/test client với database test",
+          "en": "Integration tests via `TestClient`/the test client with a test database"
+        },
+        {
+          "vi": "Fixture và `parametrize` của pytest để setup và phủ case biên",
+          "en": "pytest fixtures and `parametrize` for setup and edge cases"
+        },
+        {
+          "vi": "Mock dịch vụ ngoài hoặc dùng `dependency_overrides`",
+          "en": "Mock external services or use `dependency_overrides`"
+        },
+        {
+          "vi": "Chạy trên CI mỗi pull request, coverage là tín hiệu",
+          "en": "Run in CI on every pull request; coverage is a signal"
+        }
+      ],
+      "explanation": {
+        "vi": "Phần lớn nên là unit test nhanh cho logic nghiệp vụ tách khỏi framework, cộng một lớp integration test gọi API qua `TestClient` của FastAPI hoặc test client của Django với database test thật. Dùng fixture của pytest để tạo dữ liệu và dọn dẹp, `pytest.mark.parametrize` để phủ nhiều trường hợp biên. Dịch vụ bên ngoài như HTTP API hay email nên được mock hoặc override dependency (`app.dependency_overrides`). Chạy test trên CI cho mỗi pull request và theo dõi coverage như một tín hiệu, không phải mục tiêu.",
+        "en": "Most tests should be fast unit tests for business logic kept separate from the framework, plus a layer of integration tests that call the API through FastAPI's `TestClient` or Django's test client against a real test database. Use pytest fixtures for data setup and teardown and `pytest.mark.parametrize` to cover edge cases. External services such as HTTP APIs or email should be mocked or replaced via dependency overrides (`app.dependency_overrides`). Run tests in CI on every pull request and treat coverage as a signal, not a target."
+      }
+    }
+  ]
+}

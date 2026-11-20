@@ -2,8 +2,8 @@
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
-import 'package:AppName/features/content/domain/entities/localized_text.dart';
+import 'package:interview_practice/features/catalog/domain/entities/explore_dashboard.dart';
+import 'package:interview_practice/features/content/domain/entities/localized_text.dart';
 
 /// How much of a topic the learner has practiced, as ratios of the topic's
 /// questions so it stays consistent with the real question count.

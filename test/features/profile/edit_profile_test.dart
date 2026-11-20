@@ -8,13 +8,13 @@ import 'package:i18n_extension/i18n_extension.dart' show I18n;
 import 'package:sizer/sizer.dart';
 
 // Project imports:
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
-import 'package:AppName/features/profile/data/repositories/profile_repository_impl.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
-import 'package:AppName/features/profile/domain/usecase/profile_usecases.dart';
-import 'package:AppName/features/profile/presentation/cubit/edit_profile_cubit.dart';
-import 'package:AppName/features/profile/presentation/screens/edit_profile_screen.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
+import 'package:interview_practice/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/domain/usecase/profile_usecases.dart';
+import 'package:interview_practice/features/profile/presentation/cubit/edit_profile_cubit.dart';
+import 'package:interview_practice/features/profile/presentation/screens/edit_profile_screen.dart';
 import '../../helpers/in_memory_avatar_datasource.dart';
 import '../../helpers/test_graph.dart';
 

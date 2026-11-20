@@ -7,12 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
-import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
-import 'package:AppName/features/content/domain/entities/content_failure.dart';
-import 'package:AppName/features/content/domain/entities/content_issue.dart';
-import 'package:AppName/features/practice/domain/entities/practice_hub.dart';
-import 'package:AppName/features/practice/domain/usecase/get_practice_hub.dart';
+import 'package:interview_practice/features/catalog/domain/entities/explore_dashboard.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
+import 'package:interview_practice/features/content/domain/entities/content_failure.dart';
+import 'package:interview_practice/features/content/domain/entities/content_issue.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_hub.dart';
+import 'package:interview_practice/features/practice/domain/usecase/get_practice_hub.dart';
 
 part 'practice_hub_state.dart';
 

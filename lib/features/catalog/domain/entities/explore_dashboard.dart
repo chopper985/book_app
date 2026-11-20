@@ -2,7 +2,7 @@
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 
 class LearnerSummary extends Equatable {
   final String displayName;

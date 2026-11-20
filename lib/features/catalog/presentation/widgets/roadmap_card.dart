@@ -2,16 +2,16 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/app_badge.dart';
-import 'package:AppName/core/utils/widgets/app_progress_bar.dart';
-import 'package:AppName/core/utils/widgets/app_svg.dart';
-import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
-import 'package:AppName/features/catalog/presentation/widgets/track_style.dart';
-import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/app_badge.dart';
+import 'package:interview_practice/core/utils/widgets/app_progress_bar.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_overview.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/track_style.dart';
+import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/track_logo.dart';
 
 /// Track card of the Explore list ("Article - 1. Flutter" in Figma).
 class RoadmapCard extends StatelessWidget {
@@ -60,11 +60,7 @@ class RoadmapCard extends StatelessWidget {
                         color: AppPalette.surfaceHigh,
                         borderRadius: BorderRadius.circular(8.dsp),
                       ),
-                      child: AppSvg(
-                        style.icon,
-                        width: style.iconSize.width,
-                        height: style.iconSize.height,
-                      ),
+                      child: TrackLogo(trackId: track.id),
                     ),
                     SizedBox(width: 12.dsp),
                     Expanded(
@@ -123,11 +119,7 @@ class RoadmapCard extends StatelessWidget {
                 SizedBox(height: 12.dsp),
                 Row(
                   children: [
-                    AppSvg(
-                      style.metaIcon,
-                      width: style.metaIconSize.width,
-                      height: style.metaIconSize.height,
-                    ),
+                    TrackLogo(trackId: track.id, meta: true),
                     SizedBox(width: 4.dsp),
                     Expanded(
                       child: Text(

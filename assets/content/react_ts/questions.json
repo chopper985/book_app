@@ -1,0 +1,3308 @@
+{
+  "questions": [
+    {
+      "id": "react_ts.components.001",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "JSX như `<h1 className=\"title\">Xin chào</h1>` được biên dịch thành gì?",
+        "en": "What does JSX such as `<h1 className=\"title\">Hello</h1>` compile to?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lời gọi hàm (`jsx()` / `React.createElement`) trả về một object mô tả element",
+            "en": "A function call (`jsx()` / `React.createElement`) that returns an object describing the element"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một chuỗi HTML được gán vào `innerHTML`",
+            "en": "An HTML string assigned to `innerHTML`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Một DOM node thật được tạo ngay bằng `document.createElement`",
+            "en": "A real DOM node created immediately with `document.createElement`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Một template string mà trình duyệt tự hiểu",
+            "en": "A template string that the browser understands natively"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trình biên dịch (Babel, TypeScript, SWC) chuyển JSX thành lời gọi `jsx()` (JSX transform mới) hoặc `React.createElement`. Kết quả là một object thuần gọi là React element, mô tả `type`, `props` và `children`. React dùng các object này để quyết định cập nhật DOM thật thế nào. JSX không tạo DOM node ngay và cũng không phải chuỗi HTML, nên nội dung text mặc định được escape, giúp tránh XSS.",
+        "en": "The compiler (Babel, TypeScript, SWC) turns JSX into `jsx()` calls (the new JSX transform) or `React.createElement`. The result is a plain object called a React element that describes the `type`, `props` and `children`. React uses these objects to decide how to update the real DOM. JSX does not create DOM nodes immediately and is not an HTML string, so text content is escaped by default, which helps prevent XSS."
+      }
+    },
+    {
+      "id": "react_ts.components.002",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao tên component trong React phải bắt đầu bằng chữ in hoa, ví dụ `<UserCard />`?",
+        "en": "Why must React component names start with a capital letter, e.g. `<UserCard />`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ là quy ước đặt tên, không ảnh hưởng gì",
+            "en": "It is only a naming convention with no effect"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "JSX coi tên viết thường là thẻ HTML có sẵn và truyền nó dưới dạng chuỗi",
+            "en": "JSX treats lowercase names as built-in HTML tags and passes them as strings"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chữ in hoa giúp component render nhanh hơn",
+            "en": "Capital letters make the component render faster"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "TypeScript bắt buộc mọi function phải viết hoa",
+            "en": "TypeScript requires every function name to be capitalized"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`<userCard />` được biên dịch thành `jsx('userCard', ...)` với type là chuỗi, nên React tạo một thẻ DOM `<usercard>` không tồn tại thay vì gọi function của bạn. Khi viết hoa, `<UserCard />` thành `jsx(UserCard, ...)`, tham chiếu đến biến component. Vì vậy đây không chỉ là quy ước đặt tên mà ảnh hưởng trực tiếp đến cách JSX được biên dịch.",
+        "en": "`<userCard />` compiles to `jsx('userCard', ...)` with a string type, so React creates a non-existent `<usercard>` DOM tag instead of calling your function. When capitalized, `<UserCard />` becomes `jsx(UserCard, ...)`, referencing the component variable. So it is not just a naming convention; it directly changes how JSX is compiled."
+      }
+    },
+    {
+      "id": "react_ts.components.003",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Khi render `<Cart count={0} />`, thẻ `div` hiển thị gì?",
+        "en": "When rendering `<Cart count={0} />`, what does the `div` display?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Cart({ count }: { count: number }) {\n  return (\n    <div>\n      {count && <span>{count} items</span>}\n    </div>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không hiển thị gì",
+            "en": "Nothing"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`0 items`",
+            "en": "`0 items`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chữ số `0`",
+            "en": "The digit `0`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi lúc render",
+            "en": "A render error"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`count && ...` trả về chính `count` khi nó falsy, tức số `0`. React không render `false`, `null`, `undefined`, nhưng vẫn render số `0` thành text. Hãy dùng điều kiện boolean thật như `count > 0 && ...` hoặc toán tử ba ngôi `count ? ... : null`.",
+        "en": "`count && ...` returns `count` itself when it is falsy, i.e. the number `0`. React does not render `false`, `null` or `undefined`, but it does render the number `0` as text. Use a real boolean condition such as `count > 0 && ...` or a ternary `count ? ... : null`."
+      }
+    },
+    {
+      "id": "react_ts.components.004",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao React yêu cầu `key` khi render một list bằng `map`?",
+        "en": "Why does React require a `key` when rendering a list with `map`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Để React nhận diện từng phần tử giữa các lần render và giữ đúng state, DOM khi list thay đổi",
+            "en": "So React can identify each item across renders and keep the right state and DOM when the list changes"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Để component con đọc được giá trị qua `props.key`",
+            "en": "So child components can read it via `props.key`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Để trình duyệt sắp xếp các phần tử theo thứ tự key",
+            "en": "So the browser sorts the items by key"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ để tắt cảnh báo, không ảnh hưởng hành vi",
+            "en": "Only to silence a warning; it does not affect behaviour"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Khi list thêm, xóa hoặc đổi thứ tự, React so khớp phần tử cũ và mới theo `key` để biết item nào giữ nguyên và item nào mới. Key cần ổn định và duy nhất giữa các phần tử anh em, thường là id từ dữ liệu. `key` là thông tin riêng của React và không được truyền vào props, nên `props.key` luôn là `undefined`; nếu con cần id thì hãy truyền thêm một prop riêng.",
+        "en": "When a list gains, loses or reorders items, React matches old and new elements by `key` to know which items stayed and which are new. Keys must be stable and unique among siblings, usually an id from the data. `key` is reserved for React and is not passed into props, so `props.key` is always `undefined`; if the child needs the id, pass it as a separate prop."
+      }
+    },
+    {
+      "id": "react_ts.components.005",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Component sau không biên dịch được. Lỗi nằm ở đâu?",
+        "en": "The component below does not compile. What is wrong?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Header({ title }: { title: string }) {\n  return (\n    <h1>{title}</h1>\n    <p>Welcome back!</p>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`title` phải được khai báo bằng `interface`",
+            "en": "`title` must be declared with an `interface`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thẻ `<p>` không được đặt sau `<h1>`",
+            "en": "A `<p>` cannot come after an `<h1>`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "JSX trả về hai phần tử cùng cấp mà không có phần tử cha; cần bọc trong `<>...</>`",
+            "en": "The JSX returns two sibling elements without a parent; wrap them in `<>...</>`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thiếu `import React from 'react'` ở đầu file",
+            "en": "It is missing `import React from 'react'` at the top"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Một biểu thức JSX phải có đúng một phần tử gốc vì nó được biên dịch thành một lời gọi hàm duy nhất. Bọc hai thẻ trong Fragment `<>...</>` (hoặc `<Fragment key={...}>` khi cần key) để không thêm `div` thừa vào DOM. Với JSX transform mới (React 17+), không cần `import React` để dùng JSX.",
+        "en": "A JSX expression must have exactly one root element because it compiles to a single function call. Wrap the two tags in a Fragment `<>...</>` (or `<Fragment key={...}>` when a key is needed) to avoid an extra `div` in the DOM. With the new JSX transform (React 17+), you do not need `import React` to use JSX."
+      }
+    },
+    {
+      "id": "react_ts.components.006",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "components",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Todo mới được chèn vào đầu mảng. Sau khi gõ ghi chú vào ô của todo đầu tiên rồi thêm một todo mới, ghi chú hiện ở sai dòng. Nguyên nhân là gì?",
+        "en": "New todos are inserted at the start of the array. After typing a note in the first todo's input and then adding a new todo, the note shows up on the wrong row. What is the cause?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "type Todo = { id: string; title: string };\n\nfunction TodoList({ todos }: { todos: Todo[] }) {\n  return (\n    <ul>\n      {todos.map((todo, index) => (\n        <li key={index}>\n          {todo.title} <input placeholder=\"Note\" />\n        </li>\n      ))}\n    </ul>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`input` thiếu `value` và `onChange` nên không gõ được",
+            "en": "The `input` lacks `value` and `onChange`, so it cannot be typed into"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Dùng `index` làm key nên khi chèn vào đầu, DOM và state của mỗi dòng bị gán cho todo khác; nên dùng `todo.id`",
+            "en": "Using `index` as the key means that after inserting at the start, each row's DOM and state are matched to a different todo; use `todo.id`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`map` phải được gọi bên ngoài JSX",
+            "en": "`map` must be called outside the JSX"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Key phải là số, không được là chuỗi",
+            "en": "Keys must be numbers, not strings"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Với key là index, todo mới ở đầu nhận key `0`, vốn trước đó thuộc todo cũ, nên React tái sử dụng `li` và `input` cũ (kèm text đã gõ) cho todo mới. Dùng id ổn định như `todo.id` để React di chuyển đúng DOM và state theo từng item. Input uncontrolled vẫn gõ được bình thường; vấn đề nằm ở key.",
+        "en": "With index keys, the new todo at the top gets key `0`, which previously belonged to the old todo, so React reuses the old `li` and `input` (with the typed text) for the new todo. Use a stable id such as `todo.id` so React moves the right DOM and state with each item. Uncontrolled inputs can be typed into just fine; the problem is the key."
+      }
+    },
+    {
+      "id": "react_ts.components.007",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "components",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong đoạn code sau, cứ gõ một ký tự là ô input mất focus. Vì sao?",
+        "en": "In the code below, the input loses focus after every keystroke. Why?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Page() {\n  const [query, setQuery] = useState('');\n\n  function SearchBox() {\n    return (\n      <input value={query} onChange={e => setQuery(e.target.value)} />\n    );\n  }\n\n  return <SearchBox />;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Controlled input luôn mất focus sau khi gọi `setState`",
+            "en": "Controlled inputs always lose focus after `setState` is called"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải bọc `setQuery` trong `useCallback`",
+            "en": "`setQuery` must be wrapped in `useCallback`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Mỗi lần `Page` render tạo ra function `SearchBox` mới; React coi đó là type khác nên unmount rồi mount lại input",
+            "en": "Each render of `Page` creates a new `SearchBox` function; React sees a different type, so it unmounts and remounts the input"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Input thiếu thuộc tính `autoFocus`",
+            "en": "The input is missing the `autoFocus` attribute"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "React so sánh element theo type; `SearchBox` được tạo lại sau mỗi lần `Page` render nên là một tham chiếu function khác. Vì vậy React gỡ cây cũ và mount cây mới, làm mất DOM node, focus và mọi state bên trong. Hãy khai báo component ở cấp module và truyền `query`, `onChange` qua props. Controlled input bình thường không mất focus khi state thay đổi.",
+        "en": "React compares elements by type; `SearchBox` is recreated on every render of `Page`, so it is a different function reference each time. React therefore tears down the old tree and mounts a new one, losing the DOM node, focus and any state inside. Declare components at module level and pass `query` and `onChange` via props. A controlled input normally does not lose focus when state changes."
+      }
+    },
+    {
+      "id": "react_ts.components.008",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "components",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Thẻ `p` sau hiển thị text gì?",
+        "en": "What text does the `p` element display?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Demo() {\n  const items = [1, 2, 3];\n  const flag = true;\n  return (\n    <p>\n      {items}\n      {null}\n      {flag}\n      {undefined}\n      {'a'}\n    </p>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`123a`",
+            "en": "`123a`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`1,2,3a`",
+            "en": "`1,2,3a`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`123truea`",
+            "en": "`123truea`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`1,2,3nulltrueundefineda`",
+            "en": "`1,2,3nulltrueundefineda`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mảng được render thành các phần tử con nối liền nhau, không có dấu phẩy như khi gọi `toString()`. `null`, `undefined` và boolean (`true`/`false`) không render ra gì, còn chuỗi được render nguyên văn. Vì vậy kết quả là `123a`; muốn hiện chữ `true` phải chuyển thành chuỗi, ví dụ `String(flag)`.",
+        "en": "An array renders as adjacent children, without the commas you get from `toString()`. `null`, `undefined` and booleans (`true`/`false`) render nothing, while strings render as-is. So the result is `123a`; to show the word `true` you must convert it to a string, e.g. `String(flag)`."
+      }
+    },
+    {
+      "id": "react_ts.components.009",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "components",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích quá trình reconciliation của React và vai trò của element type cùng `key` trong việc giữ lại hay tạo mới một cây con.",
+        "en": "Explain React's reconciliation process and how the element type and `key` decide whether a subtree is preserved or recreated."
+      },
+      "keyPoints": [
+        {
+          "vi": "Mỗi lần render tạo cây element mới; React so sánh với cây trước (heuristic O(n)) rồi chỉ commit thay đổi cần thiết lên DOM",
+          "en": "Each render produces a new element tree; React diffs it against the previous one (an O(n) heuristic) and commits only the needed DOM changes"
+        },
+        {
+          "vi": "Cùng vị trí và cùng type: giữ instance, DOM và state, chỉ cập nhật props",
+          "en": "Same position and same type: keep the instance, DOM and state; only update props"
+        },
+        {
+          "vi": "Khác type (vd `div` → `section`, hoặc một component khác): unmount cả cây con và mất state",
+          "en": "Different type (e.g. `div` → `section`, or another component): unmount the whole subtree and lose its state"
+        },
+        {
+          "vi": "`key` định danh con trong list để xử lý chèn, xóa, đổi thứ tự; đổi `key` buộc remount, dùng để reset state",
+          "en": "`key` identifies children in a list to handle inserts, removals and reordering; changing `key` forces a remount, useful to reset state"
+        }
+      ],
+      "explanation": {
+        "vi": "React không diff tổng quát hai cây (O(n³)) mà dùng hai giả định: element khác type sinh ra cây khác, và `key` cho biết con nào ổn định giữa các lần render. Khi type và vị trí trùng, React tái sử dụng fiber cùng state và chỉ cập nhật props; khi type khác, cây con cũ bị unmount và mount mới. Trong list, key giúp React di chuyển đúng node thay vì cập nhật theo vị trí. Mẹo thực tế: `<Profile key={userId} />` reset toàn bộ state khi đổi user mà không cần effect.",
+        "en": "React does not run a general tree diff (O(n³)); it relies on two assumptions: elements of different types produce different trees, and `key` tells which children are stable across renders. When the type and position match, React reuses the fiber with its state and only updates props; when the type differs, the old subtree is unmounted and a new one mounted. In lists, keys let React move the right nodes instead of updating by position. Practical tip: `<Profile key={userId} />` resets all state when the user changes, without an effect."
+      }
+    },
+    {
+      "id": "react_ts.state.001",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "state",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao không nên gán trực tiếp `user.name = 'An'` cho object lấy từ `useState`?",
+        "en": "Why should you not directly assign `user.name = 'An'` on an object from `useState`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "React không biết state đã đổi nên không render lại; cần gọi setter với một object mới",
+            "en": "React does not know the state changed, so it won't re-render; call the setter with a new object"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "JavaScript không cho phép sửa thuộc tính của object",
+            "en": "JavaScript does not allow modifying object properties"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "React ném lỗi ngay khi gán",
+            "en": "React throws an error as soon as you assign"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gán trực tiếp làm component render lại hai lần",
+            "en": "Direct assignment makes the component re-render twice"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "React chỉ lên lịch render lại khi bạn gọi hàm setter, và nó so sánh giá trị mới với cũ bằng `Object.is`. Sửa trực tiếp object không gọi setter nên UI không cập nhật; nếu sau đó gọi `setUser(user)` với cùng tham chiếu thì React cũng bỏ qua. Hãy tạo object mới: `setUser({ ...user, name: 'An' })`. React không ném lỗi khi bạn mutate, nên bug này rất dễ bị bỏ sót.",
+        "en": "React only schedules a re-render when you call the setter, and it compares the new value with the old one using `Object.is`. Mutating the object does not call the setter, so the UI does not update; calling `setUser(user)` afterwards with the same reference is skipped too. Create a new object instead: `setUser({ ...user, name: 'An' })`. React does not throw when you mutate, so this bug is easy to miss."
+      }
+    },
+    {
+      "id": "react_ts.state.002",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "state",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Bấm nút một lần. Nút hiển thị số mấy?",
+        "en": "The button is clicked once. What number does it display?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Counter() {\n  const [count, setCount] = useState(0);\n\n  function handleClick() {\n    setCount(count + 1);\n    setCount(count + 1);\n    setCount(count + 1);\n  }\n\n  return <button onClick={handleClick}>{count}</button>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "3",
+            "en": "3"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "0",
+            "en": "0"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "1",
+            "en": "1"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Trong một lần render, `count` là hằng số (snapshot) bằng `0`, nên cả ba lời gọi đều là `setCount(0 + 1)`. React gộp (batch) các cập nhật trong cùng event handler và chỉ render lại một lần với giá trị `1`. Muốn tăng 3 thì dùng updater function: `setCount(c => c + 1)`.",
+        "en": "Within one render, `count` is a constant snapshot equal to `0`, so all three calls are `setCount(0 + 1)`. React batches the updates from the same event handler and re-renders once with the value `1`. To add 3, use an updater function: `setCount(c => c + 1)`."
+      }
+    },
+    {
+      "id": "react_ts.state.003",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "state",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Hai component anh em `SearchInput` và `ResultList` cần dùng chung từ khóa tìm kiếm. Bạn tổ chức state thế nào?",
+        "en": "Two sibling components, `SearchInput` and `ResultList`, need to share the search keyword. How do you organize the state?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Đưa state lên component cha chung gần nhất (lifting state up)",
+          "en": "Move the state up to the closest common parent (lifting state up)"
+        },
+        {
+          "vi": "Cha truyền giá trị xuống cả hai con qua props",
+          "en": "The parent passes the value down to both children via props"
+        },
+        {
+          "vi": "Con thay đổi giá trị bằng callback cha truyền xuống, vd `onQueryChange`",
+          "en": "The child changes the value through a callback from the parent, e.g. `onQueryChange`"
+        },
+        {
+          "vi": "Giữ một nguồn dữ liệu duy nhất, tránh hai state đồng bộ thủ công",
+          "en": "Keep a single source of truth instead of two states synced by hand"
+        }
+      ],
+      "explanation": {
+        "vi": "Dữ liệu trong React chảy một chiều từ cha xuống con, nên hai component anh em không đọc state của nhau được. Đưa state `query` lên component cha chung gần nhất (lifting state up), cha truyền `query` xuống cả hai và truyền thêm `onQueryChange` cho `SearchInput`. Khi người dùng gõ, `SearchInput` gọi callback, cha cập nhật state rồi render lại cả hai con. Cách này giữ một nguồn dữ liệu duy nhất thay vì hai state phải đồng bộ thủ công.",
+        "en": "Data in React flows one way, from parent to child, so siblings cannot read each other's state. Move the `query` state up to the closest common parent (lifting state up); the parent passes `query` down to both and also passes `onQueryChange` to `SearchInput`. When the user types, `SearchInput` calls the callback, the parent updates its state and re-renders both children. This keeps a single source of truth instead of two states synced by hand."
+      }
+    },
+    {
+      "id": "react_ts.state.004",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "state",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Component con có được gán lại props nhận được, ví dụ `props.title = 'Mới'`, không?",
+        "en": "Can a child component reassign the props it receives, e.g. `props.title = 'New'`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không, props là read-only; con báo cho cha qua callback để cha cập nhật state",
+            "en": "No, props are read-only; the child notifies the parent via a callback and the parent updates its state"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Có, và component sẽ tự render lại",
+            "en": "Yes, and the component re-renders automatically"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Có, nếu prop có kiểu `string`",
+            "en": "Yes, if the prop is a `string`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ được nếu component được bọc bằng `React.memo`",
+            "en": "Only if the component is wrapped in `React.memo`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "React theo luồng dữ liệu một chiều: dữ liệu đi từ cha xuống con qua props và con không sở hữu props. Ở môi trường development, React freeze object props nên phép gán sẽ ném `TypeError`, và kể cả khi không lỗi thì nó cũng không gây render lại. Muốn thay đổi, cha truyền một callback như `onRename` để con gọi; cha cập nhật state và render lại con với props mới.",
+        "en": "React uses one-way data flow: data goes from parent to child via props, and the child does not own its props. In development React freezes the props object, so the assignment throws a `TypeError`, and even without an error it would not trigger a re-render. To change it, the parent passes a callback such as `onRename` for the child to call; the parent updates its state and re-renders the child with new props."
+      }
+    },
+    {
+      "id": "react_ts.state.005",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "state",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "`count` bắt đầu bằng `0`. Sau một lần bấm nút, `count` bằng bao nhiêu?",
+        "en": "`count` starts at `0`. After one click, what is `count`?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Counter() {\n  const [count, setCount] = useState(0);\n\n  function handleClick() {\n    setCount(count + 5);\n    setCount(c => c + 1);\n    setCount(c => c * 2);\n  }\n\n  return <button onClick={handleClick}>{count}</button>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "10",
+            "en": "10"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "6",
+            "en": "6"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "12",
+            "en": "12"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "React xếp các cập nhật vào hàng đợi và xử lý theo thứ tự ở lần render kế tiếp. `setCount(count + 5)` thay giá trị bằng `0 + 5 = 5`; updater `c => c + 1` nhận `5` và trả về `6`; updater `c => c * 2` nhận `6` và trả về `12`. Sai lầm thường gặp là nghĩ mọi lời gọi đều dùng `count = 0`, nhưng updater function luôn nhận giá trị mới nhất trong hàng đợi.",
+        "en": "React queues the updates and processes them in order during the next render. `setCount(count + 5)` replaces the value with `0 + 5 = 5`; the updater `c => c + 1` receives `5` and returns `6`; the updater `c => c * 2` receives `6` and returns `12`. A common mistake is assuming every call sees `count = 0`, but updater functions always receive the latest queued value."
+      }
+    },
+    {
+      "id": "react_ts.state.006",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "state",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Khi chọn một user khác trong danh sách, ô input vẫn hiện tên của user cũ. Vì sao?",
+        "en": "When another user is selected in the list, the input still shows the previous user's name. Why?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "type User = { id: string; name: string };\n\nfunction EditUser({ user }: { user: User }) {\n  const [name, setName] = useState(user.name);\n\n  return (\n    <input value={name} onChange={e => setName(e.target.value)} />\n  );\n}\n\n// Parent: <EditUser user={selectedUser} />"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Giá trị truyền vào `useState` chỉ dùng ở lần mount đầu; cha nên đặt `key={user.id}` để reset state",
+            "en": "The value passed to `useState` is only used on the first mount; the parent should set `key={user.id}` to reset the state"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`setName` bất đồng bộ nên chưa kịp cập nhật",
+            "en": "`setName` is asynchronous, so it has not updated yet"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải dùng `e.currentTarget.value` thay cho `e.target.value`",
+            "en": "It must use `e.currentTarget.value` instead of `e.target.value`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Component phải được bọc bằng `React.memo`",
+            "en": "The component must be wrapped in `React.memo`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Đối số của `useState` chỉ là giá trị khởi tạo, được dùng một lần khi component mount; các lần render sau React giữ state hiện có. Vì `EditUser` vẫn ở cùng vị trí với cùng type, state `name` không đổi khi prop `user` đổi. Cách gọn nhất là để cha render `<EditUser key={user.id} user={user} />` để React mount lại với state mới; tránh dùng `useEffect` sao chép prop vào state vì gây thêm một lần render với dữ liệu cũ.",
+        "en": "The argument to `useState` is only the initial value, used once when the component mounts; on later renders React keeps the existing state. Since `EditUser` stays at the same position with the same type, the `name` state does not change when the `user` prop changes. The simplest fix is for the parent to render `<EditUser key={user.id} user={user} />` so React remounts it with fresh state; avoid copying the prop into state with `useEffect`, which causes an extra render with stale data."
+      }
+    },
+    {
+      "id": "react_ts.state.007",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "state",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Component có state `firstName` và `lastName`. Cách tốt nhất để có `fullName` là gì?",
+        "en": "A component has `firstName` and `lastName` state. What is the best way to get `fullName`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm state `fullName` và đồng bộ bằng `useEffect`",
+            "en": "Add a `fullName` state and sync it with `useEffect`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tính trực tiếp khi render: `const fullName = firstName + ' ' + lastName`",
+            "en": "Compute it during render: `const fullName = firstName + ' ' + lastName`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lưu `fullName` vào `useRef` và cập nhật trong `onChange`",
+            "en": "Store `fullName` in a `useRef` and update it in `onChange`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bắt buộc bọc phép nối chuỗi trong `useMemo`",
+            "en": "The concatenation must always be wrapped in `useMemo`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Giá trị suy ra được từ props hoặc state hiện có không nên lưu thành state riêng. Đồng bộ bằng `useEffect` gây thêm một lần render với dữ liệu cũ và dễ làm hai state lệch nhau. Tính ngay trong lúc render luôn đúng và rất rẻ; chỉ dùng `useMemo` khi phép tính thực sự tốn kém.",
+        "en": "Values that can be derived from existing props or state should not be stored as separate state. Syncing with `useEffect` causes an extra render with stale data and lets the two states drift apart. Computing it during render is always correct and very cheap; only reach for `useMemo` when the computation is genuinely expensive."
+      }
+    },
+    {
+      "id": "react_ts.state.008",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "state",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Điều gì xảy ra với `<input value={name} />` khi không có `onChange`?",
+        "en": "What happens with `<input value={name} />` when there is no `onChange`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Input hoạt động như uncontrolled bình thường",
+            "en": "The input behaves like a normal uncontrolled input"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "React tự cập nhật state `name` theo nội dung gõ",
+            "en": "React updates the `name` state automatically as the user types"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "TypeScript báo lỗi biên dịch",
+            "en": "TypeScript reports a compile error"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Input bị khóa ở giá trị `name`, người dùng gõ không đổi được và React cảnh báo trong console",
+            "en": "The input is locked to `name`; typing has no effect and React logs a warning"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi truyền `value`, input trở thành controlled: React luôn ép DOM hiển thị đúng giá trị đó. Không có `onChange` để cập nhật state thì mọi thao tác gõ bị hoàn tác, và React cảnh báo nên thêm `onChange` hoặc `readOnly`, hoặc dùng `defaultValue` nếu muốn uncontrolled. React không bao giờ tự ghi ngược vào state của bạn.",
+        "en": "Passing `value` makes the input controlled: React always forces the DOM to show that value. Without an `onChange` to update the state, every keystroke is reverted, and React warns that you should add `onChange` or `readOnly`, or use `defaultValue` if you want it uncontrolled. React never writes back into your state by itself."
+      }
+    },
+    {
+      "id": "react_ts.state.009",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "state",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Với một ứng dụng React lớn, bạn quyết định state nằm ở đâu (local, lifted, Context, store toàn cục, server cache, URL) như thế nào?",
+        "en": "In a large React app, how do you decide where state lives (local, lifted, Context, a global store, a server cache, the URL)?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Phân loại state: server cache, URL state, client state toàn cục, state cục bộ của UI",
+          "en": "Classify state: server cache, URL state, global client state, local UI state"
+        },
+        {
+          "vi": "Colocate: đặt state gần nơi dùng nhất, chỉ lift khi thật sự cần chia sẻ",
+          "en": "Colocate: keep state as close as possible to its consumers; lift only when it must be shared"
+        },
+        {
+          "vi": "Server state dùng React Query/SWR (cache, dedupe, refetch, invalidate) thay vì store toàn cục",
+          "en": "Use React Query/SWR for server state (caching, dedupe, refetch, invalidation) rather than a global store"
+        },
+        {
+          "vi": "Context cho giá trị ít đổi; dữ liệu đổi thường xuyên dùng store ngoài (Zustand, Redux) với selector, dựa trên `useSyncExternalStore`",
+          "en": "Context for rarely changing values; frequently changing data in an external store (Zustand, Redux) with selectors, built on `useSyncExternalStore`"
+        },
+        {
+          "vi": "Tránh state trùng lặp hoặc suy ra được; giữ một nguồn dữ liệu duy nhất",
+          "en": "Avoid duplicated or derivable state; keep a single source of truth"
+        }
+      ],
+      "explanation": {
+        "vi": "Bắt đầu bằng việc phân loại: dữ liệu từ server là cache cần đồng bộ (stale, refetch, invalidate) nên giao cho React Query hoặc SWR thay vì tự nhét vào store. Trạng thái chia sẻ được qua link như filter, trang, tab nên nằm trên URL. Phần còn lại là client state: để gần nơi dùng nhất, chỉ lift khi nhiều component cần. Context hợp với giá trị ít thay đổi như theme, locale, user; dữ liệu cập nhật thường xuyên và dùng rộng thì nên dùng store ngoài có selector để chỉ component liên quan render lại.",
+        "en": "Start by classifying: server data is a cache that needs syncing (staleness, refetch, invalidation), so hand it to React Query or SWR instead of stuffing it into a store. State that should be shareable via a link, such as filters, page or tab, belongs in the URL. The rest is client state: keep it as close as possible to where it is used and lift it only when several components need it. Context suits rarely changing values such as theme, locale or the current user; frequently updated, widely used data is better in an external store with selectors so only the affected components re-render."
+      }
+    },
+    {
+      "id": "react_ts.hooks.001",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "hooks",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đoạn nào vi phạm quy tắc của hooks (Rules of Hooks)?",
+        "en": "Which of these violates the Rules of Hooks?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gọi `useState` ở đầu custom hook `useCounter`",
+            "en": "Calling `useState` at the top of a custom hook `useCounter`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi `useEffect` ở cấp cao nhất của component, sau `useState`",
+            "en": "Calling `useEffect` at the top level of a component, after `useState`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gọi nhiều `useState` liên tiếp trong cùng một component",
+            "en": "Calling several `useState` hooks in a row in the same component"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gọi `useState` bên trong `if (isLoggedIn) { ... }` trong component",
+            "en": "Calling `useState` inside `if (isLoggedIn) { ... }` in a component"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Hooks chỉ được gọi ở cấp cao nhất của function component hoặc custom hook, không đặt trong điều kiện, vòng lặp hay hàm lồng nhau. Gọi `useState` trong `if` khiến số lượng và thứ tự hook thay đổi giữa các lần render. Gọi nhiều hook liên tiếp hoặc gọi trong custom hook đều hợp lệ; plugin `eslint-plugin-react-hooks` sẽ bắt lỗi kiểu này.",
+        "en": "Hooks may only be called at the top level of a function component or custom hook, never inside conditions, loops or nested functions. Calling `useState` inside an `if` makes the number and order of hooks change between renders. Calling several hooks in a row or calling them in a custom hook is perfectly valid; the `eslint-plugin-react-hooks` plugin catches this kind of mistake."
+      }
+    },
+    {
+      "id": "react_ts.hooks.002",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "hooks",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách đúng để focus một ô input khi bấm nút trong function component là gì?",
+        "en": "What is the correct way to focus an input when a button is clicked in a function component?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gọi `document.getElementById('name').focus()` ngay trong thân component",
+            "en": "Call `document.getElementById('name').focus()` directly in the component body"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tạo `const inputRef = useRef<HTMLInputElement>(null)`, gắn `ref={inputRef}` rồi gọi `inputRef.current?.focus()` trong handler",
+            "en": "Create `const inputRef = useRef<HTMLInputElement>(null)`, attach `ref={inputRef}` and call `inputRef.current?.focus()` in the handler"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lưu input vào state bằng `useState` rồi gọi `focus()` ở lần render sau",
+            "en": "Store the input in `useState` and call `focus()` on the next render"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Truyền `focus={true}` vào input khi bấm nút",
+            "en": "Pass `focus={true}` to the input when the button is clicked"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`useRef` trả về một object ổn định giữa các lần render; khi gắn `ref`, React gán DOM node vào `current` sau khi commit. Trong event handler, node đã sẵn sàng nên gọi `focus()` an toàn. Truy cập DOM ngay trong thân component là sai vì lúc render DOM có thể chưa tồn tại, và input không có prop `focus`.",
+        "en": "`useRef` returns an object that is stable across renders; when you attach `ref`, React puts the DOM node into `current` after commit. Inside an event handler the node is ready, so calling `focus()` is safe. Touching the DOM directly in the component body is wrong because the DOM may not exist yet during render, and inputs have no `focus` prop."
+      }
+    },
+    {
+      "id": "react_ts.hooks.003",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "hooks",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`useContext` chủ yếu giải quyết vấn đề gì?",
+        "en": "What problem does `useContext` mainly solve?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lưu dữ liệu bền vững qua các lần tải lại trang",
+            "en": "Persisting data across page reloads"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thay thế hoàn toàn `useState` trong component",
+            "en": "Completely replacing `useState` in components"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Ngăn component render lại khi dữ liệu thay đổi",
+            "en": "Preventing components from re-rendering when data changes"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Truyền dữ liệu xuống nhiều tầng mà không phải đưa props qua từng component trung gian (prop drilling)",
+            "en": "Passing data down many levels without threading props through every intermediate component (prop drilling)"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Context cho phép component đọc giá trị từ `Provider` gần nhất phía trên mà không cần các component trung gian nhận và chuyển tiếp props (prop drilling). Nó không lưu dữ liệu qua lần tải lại trang và không tự quản lý state; thường được kết hợp với `useState` trong Provider. Context hợp với dữ liệu dùng rộng như theme, ngôn ngữ, user đăng nhập.",
+        "en": "Context lets a component read a value from the nearest `Provider` above it without intermediate components receiving and forwarding props (prop drilling). It does not persist data across page reloads and does not manage state by itself; it is usually combined with `useState` in the Provider. Context suits widely used data such as theme, language or the logged-in user."
+      }
+    },
+    {
+      "id": "react_ts.hooks.004",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "hooks",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Custom hook là gì? Khi nào bạn nên tách logic ra một custom hook?",
+        "en": "What is a custom hook, and when should you extract logic into one?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Function tên bắt đầu bằng `use`, bên trong gọi các hook khác",
+          "en": "A function whose name starts with `use` and calls other hooks"
+        },
+        {
+          "vi": "Dùng để tái sử dụng logic có state giữa nhiều component (vd `useDebounce`, `useFetch`)",
+          "en": "Used to reuse stateful logic across components (e.g. `useDebounce`, `useFetch`)"
+        },
+        {
+          "vi": "Mỗi component gọi hook có state riêng; hook chia sẻ logic, không chia sẻ state",
+          "en": "Each component calling it gets its own state; hooks share logic, not state"
+        },
+        {
+          "vi": "Phải tuân thủ Rules of Hooks; tiền tố `use` giúp linter kiểm tra",
+          "en": "Must follow the Rules of Hooks; the `use` prefix lets the linter check it"
+        }
+      ],
+      "explanation": {
+        "vi": "Custom hook là function có tên bắt đầu bằng `use`, bên trong gọi các hook khác như `useState`, `useEffect`. Nên tách khi cùng một logic có state lặp lại ở nhiều component, ví dụ `useDebounce`, `useFetch`, `useLocalStorage`, hoặc khi muốn component gọn và dễ test. Lưu ý mỗi component gọi hook có bản state riêng: hook chia sẻ logic chứ không chia sẻ state. Custom hook cũng phải tuân thủ Rules of Hooks, và tiền tố `use` giúp linter kiểm tra điều đó.",
+        "en": "A custom hook is a function whose name starts with `use` and that calls other hooks such as `useState` or `useEffect`. Extract one when the same stateful logic repeats across components, e.g. `useDebounce`, `useFetch`, `useLocalStorage`, or to keep a component small and testable. Note that each component calling the hook gets its own state: hooks share logic, not state. Custom hooks must follow the Rules of Hooks too, and the `use` prefix lets the linter check that."
+      }
+    },
+    {
+      "id": "react_ts.hooks.005",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "hooks",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Người dùng bấm nút 3 lần và không có gì khác làm component render lại. Nút hiển thị gì?",
+        "en": "The user clicks the button 3 times and nothing else re-renders the component. What does the button show?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Clicker() {\n  const clicks = useRef(0);\n\n  return (\n    <button onClick={() => { clicks.current += 1; }}>\n      Clicked {clicks.current}\n    </button>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Clicked 3`",
+            "en": "`Clicked 3`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Clicked 1`",
+            "en": "`Clicked 1`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Clicked 0`",
+            "en": "`Clicked 0`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi: không được sửa ref",
+            "en": "Error: refs cannot be mutated"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Thay đổi `clicks.current` không kích hoạt render lại, nên JSX vẫn giữ giá trị đọc ở lần render cuối là `0`. Giá trị trong ref vẫn tăng lên 3 và chỉ hiện ra khi component render lại vì lý do khác. Dữ liệu cần hiển thị nên để trong state; ref dành cho giá trị không ảnh hưởng UI như timer id hay DOM node, và React khuyên không đọc `ref.current` trong lúc render.",
+        "en": "Changing `clicks.current` does not trigger a re-render, so the JSX keeps the value read during the last render, `0`. The ref's value does grow to 3 but only appears when the component re-renders for another reason. Data you display belongs in state; refs are for values that do not affect the UI, such as timer ids or DOM nodes, and React advises against reading `ref.current` during render."
+      }
+    },
+    {
+      "id": "react_ts.hooks.006",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "hooks",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt giữa `useMemo` và `useCallback` là gì?",
+        "en": "What is the difference between `useMemo` and `useCallback`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`useCallback` gọi hàm ngay và lưu lại kết quả",
+            "en": "`useCallback` calls the function immediately and stores the result"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`useMemo` chỉ dùng được với giá trị kiểu số",
+            "en": "`useMemo` only works with numeric values"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả hai giữ giá trị vĩnh viễn, không phụ thuộc deps",
+            "en": "Both keep the value forever, regardless of deps"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`useMemo` cache kết quả của hàm, `useCallback` cache chính hàm; `useCallback(fn, deps)` tương đương `useMemo(() => fn, deps)`",
+            "en": "`useMemo` caches a function's result, `useCallback` caches the function itself; `useCallback(fn, deps)` equals `useMemo(() => fn, deps)`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`useMemo(() => compute(a), [a])` gọi hàm và cache kết quả cho đến khi deps đổi; `useCallback(fn, [a])` không gọi `fn` mà cache chính tham chiếu function. Về bản chất `useCallback(fn, deps)` tương đương `useMemo(() => fn, deps)`. Cả hai đều tính lại khi deps thay đổi, và hữu ích chủ yếu khi giá trị được truyền vào component bọc `memo` hoặc làm deps của hook khác.",
+        "en": "`useMemo(() => compute(a), [a])` calls the function and caches its result until the deps change; `useCallback(fn, [a])` does not call `fn` but caches the function reference itself. In essence `useCallback(fn, deps)` equals `useMemo(() => fn, deps)`. Both recompute when deps change and are mostly useful when the value is passed to a `memo` component or used as another hook's dependency."
+      }
+    },
+    {
+      "id": "react_ts.hooks.007",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "hooks",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Gõ \"react\" rồi bấm Search, nhưng `onSearch` luôn nhận chuỗi rỗng. Lỗi ở đâu?",
+        "en": "You type \"react\" and click Search, but `onSearch` always receives an empty string. What is the bug?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Search({ onSearch }: { onSearch: (q: string) => void }) {\n  const [query, setQuery] = useState('');\n\n  const submit = useCallback(() => {\n    onSearch(query);\n  }, []);\n\n  return (\n    <>\n      <input value={query} onChange={e => setQuery(e.target.value)} />\n      <button onClick={submit}>Search</button>\n    </>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`useCallback` không dùng được cho event handler",
+            "en": "`useCallback` cannot be used for event handlers"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`setQuery` phải được bọc trong `useCallback`",
+            "en": "`setQuery` must be wrapped in `useCallback`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Deps rỗng nên `submit` luôn giữ `query` của lần render đầu; cần thêm `query` và `onSearch` vào deps",
+            "en": "The deps are empty, so `submit` keeps the `query` from the first render; add `query` and `onSearch` to the deps"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Input phải dùng `defaultValue` thay cho `value`",
+            "en": "The input must use `defaultValue` instead of `value`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Với deps rỗng, `useCallback` trả về function tạo ở lần render đầu và giữ mãi, nên closure của nó luôn thấy `query = ''` (stale closure). Thêm đầy đủ dependency: `[query, onSearch]`; rule `react-hooks/exhaustive-deps` sẽ cảnh báo lỗi này. `useCallback` dùng cho event handler là hợp lệ, chỉ cần deps đúng.",
+        "en": "With empty deps, `useCallback` returns the function created on the first render and keeps it forever, so its closure always sees `query = ''` (a stale closure). List all dependencies: `[query, onSearch]`; the `react-hooks/exhaustive-deps` rule warns about this. Using `useCallback` for event handlers is fine as long as the deps are correct."
+      }
+    },
+    {
+      "id": "react_ts.hooks.008",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "hooks",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "`App` hiển thị text gì?",
+        "en": "What text does `App` render?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "const ThemeContext = createContext('light');\n\nfunction Label() {\n  const theme = useContext(ThemeContext);\n  return <span>{theme}</span>;\n}\n\nexport default function App() {\n  return (\n    <>\n      <ThemeContext.Provider value=\"dark\">\n        <Label />\n      </ThemeContext.Provider>\n      <Label />\n    </>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`darkdark`",
+            "en": "`darkdark`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`lightlight`",
+            "en": "`lightlight`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi vì `Label` thứ hai không có Provider",
+            "en": "An error, because the second `Label` has no Provider"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`darklight`",
+            "en": "`darklight`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`useContext` đọc value từ Provider gần nhất phía trên trong cây. `Label` đầu tiên nằm trong Provider nên nhận `dark`; `Label` thứ hai không có Provider nào bên trên nên nhận giá trị mặc định truyền vào `createContext`, là `light`. Không có lỗi xảy ra; vì vậy nhiều team viết custom hook ném lỗi khi thiếu Provider để phát hiện sớm.",
+        "en": "`useContext` reads the value from the nearest Provider above it in the tree. The first `Label` is inside the Provider, so it gets `dark`; the second `Label` has no Provider above, so it gets the default value passed to `createContext`, which is `light`. No error occurs, which is why many teams write a custom hook that throws when the Provider is missing."
+      }
+    },
+    {
+      "id": "react_ts.hooks.009",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "hooks",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "React lưu state của hooks ở đâu và vì sao thứ tự gọi hook lại quan trọng?",
+        "en": "Where does React store hook state, and why does the order of hook calls matter?"
+      },
+      "keyPoints": [
+        {
+          "vi": "State của hooks lưu trên fiber của từng instance component, dạng danh sách liên kết",
+          "en": "Hook state lives on each component instance's fiber as a linked list"
+        },
+        {
+          "vi": "React khớp lời gọi hook với ô nhớ theo thứ tự, không theo tên biến",
+          "en": "React matches hook calls to slots by order, not by variable name"
+        },
+        {
+          "vi": "Gọi hook có điều kiện làm lệch thứ tự: nhận nhầm state hoặc lỗi số hook thay đổi",
+          "en": "Conditional calls shift the order: wrong state or a \"hook count changed\" error"
+        },
+        {
+          "vi": "Vì vậy có Rules of Hooks và `eslint-plugin-react-hooks`; `use` (React 19) là ngoại lệ",
+          "en": "Hence the Rules of Hooks and `eslint-plugin-react-hooks`; `use` (React 19) is the exception"
+        }
+      ],
+      "explanation": {
+        "vi": "Mỗi instance component tương ứng một fiber, và state của các hook được lưu trên fiber đó theo dạng danh sách liên kết, theo đúng thứ tự gọi. Hook không có tên hay id: lần render sau, lời gọi `useState` thứ hai sẽ nhận ô nhớ thứ hai. Nếu một hook bị gọi có điều kiện, các hook phía sau bị lệch và nhận nhầm state, hoặc React báo lỗi số hook thay đổi. Đây là lý do có Rules of Hooks; API `use` của React 19 là ngoại lệ được phép gọi trong điều kiện.",
+        "en": "Each component instance maps to a fiber, and its hook state is stored on that fiber as a linked list in call order. Hooks have no name or id: on the next render, the second `useState` call gets the second slot. If a hook is called conditionally, the hooks after it shift and read the wrong state, or React throws because the number of hooks changed. This is why the Rules of Hooks exist; React 19's `use` API is an exception that may be called conditionally."
+      }
+    },
+    {
+      "id": "react_ts.effects.001",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "effects",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`useEffect(fn, [])` chạy `fn` vào lúc nào?",
+        "en": "When does `useEffect(fn, [])` run `fn`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một lần sau lần render đầu tiên được commit (mount); cleanup chạy khi unmount",
+            "en": "Once after the first render is committed (mount); the cleanup runs on unmount"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Trước lần render đầu tiên",
+            "en": "Before the first render"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Sau mỗi lần render",
+            "en": "After every render"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ khi component unmount",
+            "en": "Only when the component unmounts"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mảng deps rỗng nghĩa là effect không phụ thuộc giá trị nào, nên chỉ chạy một lần sau khi component được render và commit lần đầu; cleanup (nếu có) chạy khi unmount. Không truyền mảng thì effect chạy sau mọi lần render, còn `[a]` thì chạy lại khi `a` đổi. Effect không bao giờ chạy trước render. Riêng development với `StrictMode`, React cố ý chạy thêm một chu kỳ mount → cleanup → mount.",
+        "en": "An empty deps array means the effect depends on nothing, so it runs once after the component's first render and commit; its cleanup (if any) runs on unmount. With no array the effect runs after every render, and with `[a]` it re-runs when `a` changes. Effects never run before rendering. Only in development with `StrictMode` does React deliberately add an extra mount → cleanup → mount cycle."
+      }
+    },
+    {
+      "id": "react_ts.effects.002",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "effects",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một effect gọi `setInterval` hoặc `window.addEventListener`. Vì sao effect đó cần trả về hàm cleanup?",
+        "en": "An effect calls `setInterval` or `window.addEventListener`. Why should it return a cleanup function?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Để báo cho React biết effect đã chạy xong",
+            "en": "To tell React that the effect has finished"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Để effect chạy đồng bộ trước khi trình duyệt vẽ",
+            "en": "To make the effect run synchronously before the browser paints"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Để hủy interval/listener khi unmount hoặc khi effect chạy lại, tránh rò rỉ bộ nhớ và chạy trùng",
+            "en": "To remove the interval/listener on unmount or before the effect re-runs, avoiding leaks and duplicates"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Vì React báo lỗi nếu effect không trả về gì",
+            "en": "Because React throws if an effect returns nothing"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Interval và event listener tồn tại độc lập với component. Nếu không hủy chúng khi component unmount hoặc trước khi effect chạy lại, chúng tiếp tục chạy, gọi `setState` lên component đã bị gỡ, tích tụ listener trùng lặp và gây rò rỉ bộ nhớ. Cleanup không bắt buộc với mọi effect; chỉ cần khi effect tạo ra thứ cần dọn dẹp.",
+        "en": "Intervals and event listeners live independently of the component. If they are not removed on unmount or before the effect re-runs, they keep running, call `setState` on an unmounted component, pile up duplicate listeners and leak memory. Cleanup is not required for every effect; you need it only when the effect sets up something that must be torn down."
+      }
+    },
+    {
+      "id": "react_ts.effects.003",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "effects",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "`App` được mount lần đầu (không bật `StrictMode`). Console in ra theo thứ tự nào?",
+        "en": "`App` mounts for the first time (no `StrictMode`). In what order are the lines logged?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function App() {\n  console.log('render');\n\n  useEffect(() => {\n    console.log('effect');\n  }, []);\n\n  return <div />;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`effect` → `render`",
+            "en": "`effect` → `render`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ `render`",
+            "en": "Only `render`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`render` → `effect`",
+            "en": "`render` → `effect`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`render` → `effect` → `render`",
+            "en": "`render` → `effect` → `render`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "React gọi function component để render (in `render`), commit kết quả lên DOM, rồi mới chạy effect. Vì deps là `[]` và không có state thay đổi, không có lần render thứ hai. Trong development với `<StrictMode>`, bạn sẽ thấy log bị nhân đôi do React cố ý render và chạy effect hai lần.",
+        "en": "React calls the function component to render (logging `render`), commits the result to the DOM, and only then runs the effect. Because the deps are `[]` and no state changes, there is no second render. In development with `<StrictMode>` you would see duplicated logs because React deliberately renders and runs effects twice."
+      }
+    },
+    {
+      "id": "react_ts.effects.004",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "effects",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Ở development, effect có deps `[]` chạy hai lần khi bật `StrictMode`. Vì sao, và bạn xử lý thế nào?",
+        "en": "In development, an effect with `[]` deps runs twice under `StrictMode`. Why, and how do you handle it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Chỉ ở development: mount → cleanup → mount lại",
+          "en": "Development only: mount → cleanup → mount again"
+        },
+        {
+          "vi": "Mục đích: phát hiện effect thiếu cleanup hoặc không chịu được chạy lại",
+          "en": "Purpose: surface effects with missing cleanup or that cannot be re-run safely"
+        },
+        {
+          "vi": "Sửa bằng cleanup đối xứng (unsubscribe, `clearInterval`, abort fetch), không dùng ref chặn",
+          "en": "Fix with a symmetric cleanup (unsubscribe, `clearInterval`, abort fetch), not a ref guard"
+        },
+        {
+          "vi": "Production chỉ chạy một lần; StrictMode cũng render hai lần để phát hiện render không thuần",
+          "en": "Production runs once; StrictMode also double-renders to catch impure rendering"
+        }
+      ],
+      "explanation": {
+        "vi": "Ở development, `StrictMode` mount component, chạy cleanup như thể unmount, rồi mount lại để chạy effect lần nữa. Mục đích là phát hiện effect thiếu cleanup hoặc không chịu được việc chạy lại, vốn sẽ gây bug khi người dùng chuyển trang qua lại hay khi có các tính năng như Activity/Offscreen. Cách đúng là viết cleanup đối xứng: hủy subscription, `clearInterval`, abort fetch, thay vì tắt `StrictMode` hay dùng ref để chặn lần chạy thứ hai. Production chỉ chạy một lần.",
+        "en": "In development, `StrictMode` mounts the component, runs the cleanup as if unmounting, then mounts again so the effect runs a second time. The goal is to surface effects that lack cleanup or cannot handle being re-run, which would cause bugs when users navigate back and forth or with features like Activity/Offscreen. The right fix is a symmetric cleanup: unsubscribe, `clearInterval`, abort the fetch, rather than disabling `StrictMode` or using a ref to block the second run. Production runs it only once."
+      }
+    },
+    {
+      "id": "react_ts.effects.005",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "effects",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Khi người dùng chuyển nhanh giữa các profile, đôi khi trang hiện tên của user trước đó. Lỗi ở đâu?",
+        "en": "When users switch quickly between profiles, the page sometimes shows the previous user's name. What is the bug?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Profile({ userId }: { userId: string }) {\n  const [user, setUser] = useState<User | null>(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(res => res.json())\n      .then((data: User) => setUser(data));\n  }, [userId]);\n\n  return <h1>{user?.name}</h1>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thiếu `async` trước arrow function của effect",
+            "en": "The effect's arrow function is missing `async`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không được đưa `userId` vào deps",
+            "en": "`userId` must not be in the deps"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không có cleanup nên response cũ về muộn có thể ghi đè user mới; dùng cờ `ignore` hoặc `AbortController`",
+            "en": "There is no cleanup, so a late old response can overwrite the new user; use an `ignore` flag or `AbortController`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải gọi `fetch` ngay trong thân component thay vì trong effect",
+            "en": "`fetch` must be called directly in the component body instead of an effect"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Mỗi lần `userId` đổi, một request mới được gửi nhưng request cũ không bị hủy hay bỏ qua. Nếu response cũ về sau response mới, `setUser` ghi đè dữ liệu đúng bằng dữ liệu cũ (race condition). Sửa bằng cleanup: đặt cờ `let ignore = false` và chỉ `setUser` khi `!ignore`, hoặc dùng `AbortController` rồi gọi `abort()` trong cleanup. `userId` nằm trong deps là đúng.",
+        "en": "Each time `userId` changes a new request is sent, but the old one is neither cancelled nor ignored. If the old response arrives after the new one, `setUser` overwrites the correct data with stale data (a race condition). Fix it with a cleanup: set a `let ignore = false` flag and only call `setUser` when `!ignore`, or use an `AbortController` and call `abort()` in the cleanup. Having `userId` in the deps is correct."
+      }
+    },
+    {
+      "id": "react_ts.effects.006",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "effects",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "`Timer` được mount (không bật `StrictMode`). Sau khoảng 5 giây, màn hình hiển thị số mấy?",
+        "en": "`Timer` mounts (no `StrictMode`). After about 5 seconds, what number is displayed?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Timer() {\n  const [seconds, setSeconds] = useState(0);\n\n  useEffect(() => {\n    const id = setInterval(() => {\n      setSeconds(seconds + 1);\n    }, 1000);\n    return () => clearInterval(id);\n  }, []);\n\n  return <p>{seconds}</p>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "1",
+            "en": "1"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "5",
+            "en": "5"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "0",
+            "en": "0"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "4",
+            "en": "4"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Effect chỉ chạy một lần nên callback của interval giữ closure với `seconds = 0` mãi mãi. Mỗi giây nó gọi `setSeconds(0 + 1)`, nên giá trị dừng ở `1`; sau lần đầu React thấy giá trị không đổi và bỏ qua render. Sửa bằng updater `setSeconds(s => s + 1)` để luôn dựa trên giá trị mới nhất mà không cần thêm `seconds` vào deps.",
+        "en": "The effect runs only once, so the interval callback keeps a closure with `seconds = 0` forever. Every second it calls `setSeconds(0 + 1)`, so the value stays at `1`; after the first time React sees no change and skips rendering. Fix it with the updater `setSeconds(s => s + 1)` so it always uses the latest value without adding `seconds` to the deps."
+      }
+    },
+    {
+      "id": "react_ts.effects.007",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "effects",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "`Logger` render với `id={1}`, sau đó cha render lại với `id={2}` (không bật `StrictMode`). Console in gì?",
+        "en": "`Logger` renders with `id={1}`, then the parent re-renders it with `id={2}` (no `StrictMode`). What is logged?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Logger({ id }: { id: number }) {\n  useEffect(() => {\n    console.log('subscribe', id);\n    return () => console.log('unsubscribe', id);\n  }, [id]);\n\n  return null;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`subscribe 1` → `unsubscribe 2` → `subscribe 2`",
+            "en": "`subscribe 1` → `unsubscribe 2` → `subscribe 2`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`subscribe 1` → `unsubscribe 1` → `subscribe 2`",
+            "en": "`subscribe 1` → `unsubscribe 1` → `subscribe 2`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`subscribe 1` → `subscribe 2` → `unsubscribe 1`",
+            "en": "`subscribe 1` → `subscribe 2` → `unsubscribe 1`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`subscribe 1` → `subscribe 2`",
+            "en": "`subscribe 1` → `subscribe 2`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khi deps đổi, React chạy cleanup của effect cũ trước, rồi mới chạy effect mới. Cleanup là closure tạo ở lần render trước nên nó thấy `id = 1`, không phải `2`. Vì vậy thứ tự là `subscribe 1`, `unsubscribe 1`, `subscribe 2`; nhờ đó mỗi lần subscribe luôn được hủy với đúng tham số của nó.",
+        "en": "When the deps change, React runs the previous effect's cleanup first, then the new effect. The cleanup is a closure from the previous render, so it sees `id = 1`, not `2`. The order is therefore `subscribe 1`, `unsubscribe 1`, `subscribe 2`; this way each subscription is always torn down with its own arguments."
+      }
+    },
+    {
+      "id": "react_ts.effects.008",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "effects",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vấn đề của effect sau là gì?",
+        "en": "What is wrong with the following effect?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function ChatRoom({ roomId }: { roomId: string }) {\n  const options = { serverUrl: 'wss://chat.example', roomId };\n\n  useEffect(() => {\n    const conn = createConnection(options);\n    conn.connect();\n    return () => conn.disconnect();\n  }, [options]);\n\n  return <Messages roomId={roomId} />;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Effect chỉ chạy một lần nên đổi `roomId` không kết nối lại",
+            "en": "The effect runs only once, so changing `roomId` never reconnects"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`options` là object mới mỗi lần render nên effect kết nối lại sau mọi lần render; nên tạo object trong effect và phụ thuộc `roomId`",
+            "en": "`options` is a new object every render, so the effect reconnects after every render; create it inside the effect and depend on `roomId`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không được gọi `disconnect` trong cleanup",
+            "en": "`disconnect` must not be called in the cleanup"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`useEffect` không chấp nhận object trong deps và sẽ báo lỗi",
+            "en": "`useEffect` does not accept objects in deps and will throw"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "React so sánh từng dependency bằng `Object.is`. `options` là object mới được tạo ở mỗi lần render nên luôn khác lần trước, khiến effect ngắt kết nối và kết nối lại sau mọi lần render, kể cả khi `roomId` không đổi. Hãy tạo object bên trong effect và chỉ phụ thuộc vào giá trị nguyên thủy `roomId`. Effect vẫn chạy lại đúng khi `roomId` đổi, và React không báo lỗi khi deps chứa object.",
+        "en": "React compares each dependency with `Object.is`. `options` is a new object created on every render, so it always differs from the previous one, making the effect disconnect and reconnect after every render even when `roomId` has not changed. Create the object inside the effect and depend only on the primitive `roomId`. The effect still re-runs correctly when `roomId` changes, and React does not throw when deps contain objects."
+      }
+    },
+    {
+      "id": "react_ts.effects.009",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "effects",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`useLayoutEffect` khác `useEffect` ở điểm nào?",
+        "en": "How does `useLayoutEffect` differ from `useEffect`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chạy trước khi component render lần đầu",
+            "en": "It runs before the component's first render"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chạy đồng bộ sau khi DOM được cập nhật nhưng trước khi trình duyệt vẽ, phù hợp để đo layout tránh nhấp nháy",
+            "en": "It runs synchronously after the DOM is updated but before the browser paints, suited to measuring layout without flicker"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chạy trong web worker để không chặn UI",
+            "en": "It runs in a web worker so it never blocks the UI"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Giống hệt `useEffect`, chỉ khác tên",
+            "en": "It is identical to `useEffect` apart from the name"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`useLayoutEffect` chạy đồng bộ ngay sau khi React cập nhật DOM nhưng trước khi trình duyệt vẽ, nên có thể đo kích thước (vd vị trí tooltip) rồi `setState` mà người dùng không thấy khung hình sai. Đổi lại nó chặn việc vẽ, nên chỉ dùng khi thật cần; mặc định nên dùng `useEffect`, vốn thường chạy sau khi trình duyệt đã vẽ. Cả hai đều chạy sau render, không chạy trước, và `useLayoutEffect` không chạy khi render trên server.",
+        "en": "`useLayoutEffect` runs synchronously right after React updates the DOM but before the browser paints, so you can measure layout (e.g. a tooltip position) and `setState` without the user seeing a wrong frame. The trade-off is that it blocks painting, so use it only when needed; prefer `useEffect`, which usually runs after the browser has painted. Both run after rendering, never before, and `useLayoutEffect` does not run during server rendering."
+      }
+    },
+    {
+      "id": "react_ts.performance.001",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Mặc định, khi nào một component React render lại?",
+        "en": "By default, when does a React component re-render?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ khi giá trị props của nó thay đổi",
+            "en": "Only when the values of its props change"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ khi gọi `forceUpdate`",
+            "en": "Only when `forceUpdate` is called"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Khi state của nó đổi, khi component cha render lại, hoặc khi context nó dùng thay đổi",
+            "en": "When its state changes, when its parent re-renders, or when a context it uses changes"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cứ mỗi 16ms theo tần số làm tươi của màn hình",
+            "en": "Every 16ms, following the screen refresh rate"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Một component render lại khi state của chính nó thay đổi, khi context nó dùng thay đổi, hoặc khi component cha render lại. Điểm hay bị hiểu nhầm: khi cha render lại, mọi con cũng render lại dù props không đổi, trừ khi con được bọc `React.memo`. Render lại không đồng nghĩa với cập nhật DOM; React chỉ commit phần khác biệt.",
+        "en": "A component re-renders when its own state changes, when a context it uses changes, or when its parent re-renders. A common misconception: when the parent re-renders, all children re-render too even if their props are unchanged, unless the child is wrapped in `React.memo`. Re-rendering does not mean updating the DOM; React only commits the differences."
+      }
+    },
+    {
+      "id": "react_ts.performance.002",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Virtual DOM trong React là gì?",
+        "en": "What is the virtual DOM in React?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bản sao DOM do trình duyệt cung cấp, luôn nhanh hơn thao tác DOM trực tiếp",
+            "en": "A copy of the DOM provided by the browser that is always faster than direct DOM operations"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cây object JavaScript mô tả UI; React so sánh cây mới với cây cũ rồi chỉ áp dụng thay đổi cần thiết lên DOM thật",
+            "en": "A tree of JavaScript objects describing the UI; React diffs the new tree against the old one and applies only the needed changes to the real DOM"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Một DOM ẩn được render song song rồi hoán đổi toàn bộ",
+            "en": "A hidden DOM rendered in parallel and then swapped in wholesale"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bộ nhớ đệm HTML nằm trên server",
+            "en": "An HTML cache stored on the server"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Virtual DOM là cây object JavaScript (React element) mô tả UI mong muốn. Mỗi lần render, React tạo cây mới, so sánh với cây trước (reconciliation) và chỉ áp dụng những thay đổi cần thiết lên DOM thật. Nó không phải API của trình duyệt và không tự động nhanh hơn mọi thao tác DOM viết tay; lợi ích chính là cho phép viết UI theo kiểu khai báo mà vẫn cập nhật hiệu quả.",
+        "en": "The virtual DOM is a tree of JavaScript objects (React elements) describing the desired UI. On each render React builds a new tree, diffs it against the previous one (reconciliation) and applies only the necessary changes to the real DOM. It is not a browser API and is not automatically faster than every hand-written DOM operation; its main benefit is letting you write UI declaratively while still updating efficiently."
+      }
+    },
+    {
+      "id": "react_ts.performance.003",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đoạn code sau mang lại lợi ích gì?",
+        "en": "What benefit does the following code provide?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "const Settings = lazy(() => import('./Settings'));\n\nfunction App() {\n  return (\n    <Suspense fallback={<Spinner />}>\n      <Settings />\n    </Suspense>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Settings` được render trên server thay vì trình duyệt",
+            "en": "`Settings` is rendered on the server instead of the browser"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Code của `Settings` được tách thành chunk riêng và chỉ tải khi cần render; trong lúc tải hiển thị `Spinner`",
+            "en": "`Settings` is split into its own chunk loaded only when it is rendered; `Spinner` shows while it loads"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Settings` không bao giờ render lại",
+            "en": "`Settings` never re-renders"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Spinner` hiển thị mỗi lần `Settings` render lại",
+            "en": "`Spinner` shows every time `Settings` re-renders"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`lazy` kết hợp `import()` động khiến bundler tách `Settings` thành một chunk riêng, chỉ tải khi component thực sự được render lần đầu, giúp bundle ban đầu nhỏ hơn. Trong lúc tải, `Suspense` hiển thị `fallback`. Sau khi tải xong, `Settings` render và re-render bình thường, không hiện lại `Spinner` mỗi lần. Module được import phải có default export là component (hoặc map lại trong `.then`).",
+        "en": "`lazy` with a dynamic `import()` makes the bundler split `Settings` into its own chunk that is only loaded the first time the component actually renders, keeping the initial bundle smaller. While it loads, `Suspense` shows the `fallback`. Once loaded, `Settings` renders and re-renders normally without showing `Spinner` again. The imported module must default-export the component (or be remapped in `.then`)."
+      }
+    },
+    {
+      "id": "react_ts.performance.004",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Sau khi mount, người dùng bấm nút 2 lần. Tổng cộng console in `Child render` bao nhiêu lần (không bật `StrictMode`)?",
+        "en": "After mounting, the user clicks the button twice. How many times in total is `Child render` logged (no `StrictMode`)?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "const Child = memo(function Child({ style }: { style: { color: string } }) {\n  console.log('Child render');\n  return <p style={style}>Hi</p>;\n});\n\nfunction Parent() {\n  const [n, setN] = useState(0);\n  return (\n    <>\n      <button onClick={() => setN(n + 1)}>{n}</button>\n      <Child style={{ color: 'red' }} />\n    </>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "3",
+            "en": "3"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "1",
+            "en": "1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "0",
+            "en": "0"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`memo` chỉ bỏ qua render khi mọi prop bằng nhau theo `Object.is`. `style={{ color: 'red' }}` tạo object mới ở mỗi lần `Parent` render, nên `Child` luôn nhận prop khác và vẫn render: 1 lần mount cộng 2 lần bấm là 3. Muốn `memo` có tác dụng, hãy đưa object ra ngoài component hoặc dùng `useMemo` cho nó.",
+        "en": "`memo` only skips rendering when every prop is equal by `Object.is`. `style={{ color: 'red' }}` creates a new object on every `Parent` render, so `Child` always receives a different prop and renders anyway: 1 mount plus 2 clicks is 3. For `memo` to help, hoist the object outside the component or wrap it in `useMemo`."
+      }
+    },
+    {
+      "id": "react_ts.performance.005",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "State `query` nằm ở `Page`. Mỗi lần gõ vào ô tìm kiếm, `ExpensiveChart` (không nhận `query`) cũng render lại và gây giật. Cách khắc phục gọn nhất mà không cần `memo` là gì?",
+        "en": "The `query` state lives in `Page`. Every keystroke in the search box also re-renders `ExpensiveChart` (which does not receive `query`), causing jank. What is the simplest fix without `memo`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chuyển `query` sang `useRef` rồi đọc trong JSX",
+            "en": "Move `query` into a `useRef` and read it in JSX"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi `ExpensiveChart` như function thường: `{ExpensiveChart()}`",
+            "en": "Call `ExpensiveChart` as a plain function: `{ExpensiveChart()}`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tách ô input cùng state `query` vào một component riêng để chỉ nó render lại khi gõ",
+            "en": "Move the input and its `query` state into a separate component so only it re-renders while typing"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bọc `setQuery` trong `setTimeout`",
+            "en": "Wrap `setQuery` in `setTimeout`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Khi state nằm ở `Page`, mọi con của `Page` render lại mỗi lần state đổi. Tách input và state `query` vào component riêng (state colocation) thì chỉ component đó render lại khi gõ, còn `ExpensiveChart` không bị ảnh hưởng. Một kỹ thuật tương tự là truyền phần nặng qua `children` để nó được tạo ở component cha không đổi. Đưa `query` vào `useRef` sẽ làm UI không cập nhật, còn gọi component như function thường phá vỡ cơ chế hooks.",
+        "en": "When the state lives in `Page`, every child of `Page` re-renders whenever it changes. Moving the input and its `query` state into their own component (state colocation) means only that component re-renders while typing, leaving `ExpensiveChart` untouched. A similar technique is passing the heavy part as `children` so it is created by a parent that does not change. Moving `query` into `useRef` would stop the UI from updating, and calling a component as a plain function breaks how hooks work."
+      }
+    },
+    {
+      "id": "react_ts.performance.006",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Dev thêm `useMemo` để tránh lọc lại, nhưng profiler cho thấy phép lọc vẫn chạy mỗi lần `Page` render. Vì sao?",
+        "en": "A developer added `useMemo` to avoid re-filtering, but the profiler shows the filter still runs on every `Page` render. Why?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function ProductList({ products, filter }: ProductListProps) {\n  const visible = useMemo(\n    () => products.filter(p => p.name.includes(filter)),\n    [products, filter],\n  );\n  return <Grid items={visible} />;\n}\n\nfunction Page({ data, q }: PageProps) {\n  return (\n    <ProductList\n      products={data.filter(p => p.active)}\n      filter={q}\n    />\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`useMemo` chỉ cache được giá trị kiểu nguyên thủy",
+            "en": "`useMemo` can only cache primitive values"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thiếu `Grid` trong mảng deps",
+            "en": "`Grid` is missing from the deps array"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`useMemo` chỉ hoạt động khi component được bọc `React.memo`",
+            "en": "`useMemo` only works when the component is wrapped in `React.memo`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Page` truyền mảng mới từ `data.filter(...)` mỗi lần render nên dependency `products` luôn đổi",
+            "en": "`Page` passes a new array from `data.filter(...)` on every render, so the `products` dependency always changes"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`useMemo` chỉ dùng lại kết quả khi mọi dependency bằng nhau theo `Object.is`. `Page` truyền `data.filter(...)`, tạo mảng mới ở mỗi lần render, nên `products` luôn khác và `useMemo` tính lại. Sửa bằng cách memo hóa mảng ở `Page` (`useMemo(() => data.filter(...), [data])`) hoặc chuyển cả điều kiện `active` vào trong `ProductList`. `useMemo` cache được mọi kiểu giá trị và không cần `React.memo`.",
+        "en": "`useMemo` only reuses its result when every dependency is equal by `Object.is`. `Page` passes `data.filter(...)`, which creates a new array on every render, so `products` always differs and `useMemo` recomputes. Fix it by memoizing the array in `Page` (`useMemo(() => data.filter(...), [data])`) or moving the `active` condition into `ProductList`. `useMemo` can cache any kind of value and does not require `React.memo`."
+      }
+    },
+    {
+      "id": "react_ts.performance.007",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "performance",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Danh sách lọc rất lớn làm ô input bị giật khi gõ. Bọc `setFilter` trong `startTransition` có tác dụng gì?",
+        "en": "A very large filtered list makes the input lag while typing. What does wrapping `setFilter` in `startTransition` do?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "const [text, setText] = useState('');\nconst [filter, setFilter] = useState('');\nconst [isPending, startTransition] = useTransition();\n\nfunction handleChange(e: React.ChangeEvent<HTMLInputElement>) {\n  setText(e.target.value);\n  startTransition(() => {\n    setFilter(e.target.value);\n  });\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đánh dấu cập nhật `filter` là không khẩn cấp: React có thể ngắt render danh sách để ưu tiên ô input, `isPending` báo đang chờ",
+            "en": "It marks the `filter` update as non-urgent: React can interrupt the list render to keep the input responsive, and `isPending` reports it is pending"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Trì hoãn `setFilter` cố định 300ms giống debounce",
+            "en": "It delays `setFilter` by a fixed 300ms like a debounce"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chạy việc render danh sách trong web worker",
+            "en": "It renders the list in a web worker"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bỏ hẳn cập nhật `filter` nếu người dùng gõ quá nhanh",
+            "en": "It drops the `filter` update entirely if the user types too fast"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`startTransition` đánh dấu cập nhật là không khẩn cấp. `setText` vẫn được xử lý ngay nên ô input phản hồi tức thì, còn render danh sách theo `filter` có thể bị React ngắt giữa chừng và bắt đầu lại khi có phím gõ mới (concurrent rendering). `isPending` cho biết transition đang chờ để hiện chỉ báo. Khác với debounce, không có độ trễ cố định: nếu máy đủ nhanh, danh sách cập nhật gần như ngay lập tức, và kết quả cuối cùng luôn được render.",
+        "en": "`startTransition` marks the update as non-urgent. `setText` is still processed immediately so the input responds instantly, while React can interrupt the render of the list for `filter` and restart it when a new keystroke arrives (concurrent rendering). `isPending` tells you the transition is pending so you can show an indicator. Unlike debouncing there is no fixed delay: on a fast device the list updates almost instantly, and the final result is always rendered."
+      }
+    },
+    {
+      "id": "react_ts.performance.008",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "performance",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Người dùng phàn nàn một màn hình React bị chậm. Trình bày cách bạn đo đạc và tối ưu.",
+        "en": "Users complain that a React screen is slow. Describe how you would measure and optimize it."
+      },
+      "keyPoints": [
+        {
+          "vi": "Đo bằng React DevTools Profiler và tab Performance, trên production build",
+          "en": "Measure with the React DevTools Profiler and the Performance tab, on a production build"
+        },
+        {
+          "vi": "Phân biệt render thừa với render đắt",
+          "en": "Distinguish unnecessary renders from expensive renders"
+        },
+        {
+          "vi": "Render thừa: colocate state, tách context, `memo`/`useMemo`/`useCallback` với props ổn định",
+          "en": "Unnecessary renders: colocate state, split contexts, `memo`/`useMemo`/`useCallback` with stable props"
+        },
+        {
+          "vi": "Render đắt: virtualization list dài, code splitting, `useDeferredValue`/transition",
+          "en": "Expensive renders: virtualize long lists, code splitting, `useDeferredValue`/transitions"
+        },
+        {
+          "vi": "Cân nhắc React Compiler và luôn đo lại sau khi sửa",
+          "en": "Consider the React Compiler and always re-measure after changes"
+        }
+      ],
+      "explanation": {
+        "vi": "Luôn đo trước khi sửa: dùng React DevTools Profiler (flamegraph, ranked, bật \"highlight updates\" và \"why did this render\") trên production build, kết hợp tab Performance của trình duyệt. Phân biệt render thừa (component render dù dữ liệu không đổi) với render đắt (một lần render tốn nhiều ms). Render thừa xử lý bằng colocate state, tách context, `memo` với props ổn định; render đắt xử lý bằng virtualization cho list dài, code splitting, `useDeferredValue` hoặc transition. React Compiler (React 19) có thể tự động memo hóa, nhưng vẫn cần đo lại sau mỗi thay đổi.",
+        "en": "Always measure before fixing: use the React DevTools Profiler (flamegraph, ranked view, \"highlight updates\" and \"why did this render\") on a production build, together with the browser's Performance tab. Distinguish unnecessary renders (components rendering while their data is unchanged) from expensive renders (a single render taking many ms). Fix unnecessary renders by colocating state, splitting contexts and using `memo` with stable props; fix expensive ones with virtualization for long lists, code splitting, `useDeferredValue` or transitions. The React Compiler (React 19) can memoize automatically, but you should still re-measure after every change."
+      }
+    },
+    {
+      "id": "react_ts.performance.009",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "performance",
+      "level": "senior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một tab đang hiển thị nội dung bên trong `<Suspense fallback={<Spinner />}>`. Người dùng chuyển sang tab mới, và component của tab mới suspend vì đang tải dữ liệu. Nếu việc đổi tab được bọc trong `startTransition`, React làm gì?",
+        "en": "A tab is showing content inside `<Suspense fallback={<Spinner />}>`. The user switches tabs and the new tab's component suspends while loading data. If the tab switch is wrapped in `startTransition`, what does React do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lập tức thay nội dung bằng `Spinner` như một cập nhật thường",
+            "en": "It immediately replaces the content with `Spinner`, like a normal update"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ném lỗi vì không được suspend bên trong transition",
+            "en": "It throws because components must not suspend inside a transition"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hiển thị nội dung cũ và mới chồng lên nhau",
+            "en": "It shows the old and new content on top of each other"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Giữ nội dung cũ trên màn hình (có thể kèm `isPending`) cho đến khi tab mới sẵn sàng, thay vì thay bằng `Spinner`",
+            "en": "It keeps the old content on screen (optionally with `isPending`) until the new tab is ready, instead of showing `Spinner`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Với cập nhật thường, khi một component đã hiển thị suspend, React thay nội dung trong boundary bằng fallback, làm trang \"nháy\" spinner. Khi cập nhật nằm trong transition, React giữ nguyên nội dung đã hiển thị (UI cũ) và render tab mới ở nền; `isPending` có thể dùng để làm mờ UI cũ. Khi dữ liệu sẵn sàng, React mới commit tab mới. Suspend trong transition là hành vi được thiết kế sẵn, không gây lỗi.",
+        "en": "With a normal update, when already-visible content suspends, React replaces the boundary's content with the fallback, flashing a spinner. When the update is inside a transition, React keeps the already-revealed content (the old UI) on screen and renders the new tab in the background; `isPending` can be used to dim the old UI. Only when the data is ready does React commit the new tab. Suspending inside a transition is designed behaviour, not an error."
+      }
+    },
+    {
+      "id": "react_ts.forms.001",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "forms",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Tham số `e` trong `onClick={e => ...}` của React là gì?",
+        "en": "What is the `e` parameter in React's `onClick={e => ...}`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chính `MouseEvent` gốc của trình duyệt, không qua lớp bọc nào",
+            "en": "The browser's raw `MouseEvent`, with no wrapper"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một object được tái sử dụng (pooling), không đọc được sau khi handler kết thúc",
+            "en": "A pooled object that cannot be read after the handler returns"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Một chuỗi chứa tên sự kiện",
+            "en": "A string containing the event name"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Một `SyntheticEvent` bọc native event với API thống nhất giữa các trình duyệt; event gốc ở `e.nativeEvent`",
+            "en": "A `SyntheticEvent` wrapping the native event with a consistent cross-browser API; the original is at `e.nativeEvent`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "React truyền vào một `SyntheticEvent`, lớp bọc quanh native event với API thống nhất giữa các trình duyệt như `preventDefault()`, `stopPropagation()`, `target`. Event gốc vẫn truy cập được qua `e.nativeEvent`. Cơ chế event pooling (tái sử dụng object event) đã bị bỏ từ React 17, nên đọc `e` trong code bất đồng bộ là an toàn.",
+        "en": "React passes a `SyntheticEvent`, a wrapper around the native event with a consistent cross-browser API such as `preventDefault()`, `stopPropagation()` and `target`. The original event is still available via `e.nativeEvent`. Event pooling (reusing the event object) was removed in React 17, so reading `e` in async code is safe."
+      }
+    },
+    {
+      "id": "react_ts.forms.002",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "forms",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Bấm Login thì trang bị tải lại và state mất hết. Lỗi ở đâu?",
+        "en": "Clicking Login reloads the page and all state is lost. What is the bug?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Login() {\n  const [email, setEmail] = useState('');\n\n  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {\n    api.login(email);\n  }\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <input value={email} onChange={e => setEmail(e.target.value)} />\n      <button type=\"submit\">Login</button>\n    </form>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thiếu `e.preventDefault()` trong `handleSubmit` nên trình duyệt gửi form và tải lại trang",
+            "en": "`handleSubmit` is missing `e.preventDefault()`, so the browser submits the form and reloads the page"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nút phải là `type=\"button\"` mới submit được",
+            "en": "The button must be `type=\"button\"` to submit"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`onSubmit` phải đặt trên `button` thay vì `form`",
+            "en": "`onSubmit` must be placed on the `button` instead of the `form`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Controlled input không dùng được trong form",
+            "en": "Controlled inputs cannot be used inside a form"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Hành vi mặc định của trình duyệt khi submit form là gửi request và điều hướng, làm tải lại trang. Trong `onSubmit` cần gọi `e.preventDefault()` trước khi xử lý. Nút `type=\"submit\"` và `onSubmit` đặt trên `form` là đúng; nhờ vậy nhấn Enter trong input cũng submit được.",
+        "en": "The browser's default behaviour on form submit is to send a request and navigate, which reloads the page. Call `e.preventDefault()` in `onSubmit` before handling it. A `type=\"submit\"` button and `onSubmit` on the `form` are correct; that is also what makes pressing Enter in the input submit the form."
+      }
+    },
+    {
+      "id": "react_ts.forms.003",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "forms",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào mô tả đúng một input uncontrolled?",
+        "en": "Which statement correctly describes an uncontrolled input?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Giá trị luôn lấy từ state qua `value` và cập nhật bằng `onChange`",
+            "en": "The value always comes from state via `value` and is updated with `onChange`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Input không thể có giá trị ban đầu",
+            "en": "The input cannot have an initial value"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Input không bao giờ phát sự kiện `onChange`",
+            "en": "The input never fires `onChange`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "DOM tự giữ giá trị; đặt giá trị ban đầu bằng `defaultValue` và đọc qua `ref` hoặc `FormData` khi cần",
+            "en": "The DOM holds the value; set the initial value with `defaultValue` and read it via a `ref` or `FormData` when needed"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Với input uncontrolled, DOM tự giữ giá trị hiện tại; React chỉ đặt giá trị ban đầu qua `defaultValue` (hoặc `defaultChecked`). Khi cần, bạn đọc giá trị qua `ref` hoặc `new FormData(form)` lúc submit. Input uncontrolled vẫn phát `onChange` bình thường; điều khác biệt là React không ép giá trị theo state như controlled input.",
+        "en": "With an uncontrolled input, the DOM keeps the current value; React only sets the initial value via `defaultValue` (or `defaultChecked`). You read the value when needed via a `ref` or `new FormData(form)` on submit. Uncontrolled inputs still fire `onChange` normally; the difference is that React does not force the value from state as it does for controlled inputs."
+      }
+    },
+    {
+      "id": "react_ts.forms.004",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "forms",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Component render một lần (không bật `StrictMode`), sau đó người dùng bấm nút 2 lần. Console in `hi` bao nhiêu lần?",
+        "en": "The component renders once (no `StrictMode`), then the user clicks the button twice. How many times is `hi` logged?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "function App() {\n  function sayHi() {\n    console.log('hi');\n  }\n\n  return <button onClick={sayHi()}>Hi</button>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "3",
+            "en": "3"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "1",
+            "en": "1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "0",
+            "en": "0"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`onClick={sayHi()}` gọi `sayHi` ngay trong lúc render và truyền giá trị trả về (`undefined`) cho `onClick`. Vì vậy `hi` được in một lần khi render, còn bấm nút không làm gì. Cần truyền chính function: `onClick={sayHi}` hoặc `onClick={() => sayHi()}`. Với TypeScript, lỗi này bị bắt ngay vì `void` không gán được cho kiểu event handler.",
+        "en": "`onClick={sayHi()}` calls `sayHi` during render and passes its return value (`undefined`) to `onClick`. So `hi` is logged once while rendering, and clicking does nothing. Pass the function itself: `onClick={sayHi}` or `onClick={() => sayHi()}`. With TypeScript this is caught immediately because `void` is not assignable to an event handler type."
+      }
+    },
+    {
+      "id": "react_ts.forms.005",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "forms",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao React Hook Form thường cho hiệu năng tốt hơn cách dùng `useState` cho từng field?",
+        "en": "Why does React Hook Form usually perform better than using `useState` for every field?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nó chạy validate trong web worker",
+            "en": "It runs validation in a web worker"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nó tự bọc mọi component con bằng `React.memo`",
+            "en": "It wraps every child component in `React.memo` automatically"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Mặc định dùng input uncontrolled đăng ký qua `register` (ref), nên gõ phím không làm cả form render lại",
+            "en": "It uses uncontrolled inputs registered via `register` (refs) by default, so typing does not re-render the whole form"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nó lưu giá trị trong Context và render lại cả form mỗi lần gõ",
+            "en": "It stores values in Context and re-renders the whole form on each keystroke"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Mặc định React Hook Form dùng input uncontrolled: `register` gắn `ref` và lắng nghe sự kiện, giá trị nằm trong DOM và một store nội bộ. Gõ phím không gọi `setState` ở component form nên cả form không render lại; chỉ những nơi subscribe như `watch`, `useWatch` hay `formState` mới render. Với component UI controlled của thư viện ngoài, dùng `Controller` để tích hợp.",
+        "en": "By default React Hook Form uses uncontrolled inputs: `register` attaches a `ref` and listens to events, and values live in the DOM and an internal store. Typing does not call `setState` in the form component, so the whole form does not re-render; only subscribers such as `watch`, `useWatch` or `formState` re-render. For controlled UI components from other libraries, use `Controller` to integrate them."
+      }
+    },
+    {
+      "id": "react_ts.forms.006",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "forms",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "TypeScript báo lỗi ở `setQty(e.target.value)`. Nguyên nhân và cách sửa?",
+        "en": "TypeScript reports an error at `setQty(e.target.value)`. What is the cause and the fix?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function QuantityInput() {\n  const [qty, setQty] = useState(1);\n\n  return (\n    <>\n      <input\n        type=\"number\"\n        value={qty}\n        onChange={e => setQty(e.target.value)}\n      />\n      <p>Total: {qty * 25000}</p>\n    </>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải khai báo `useState<string>(1)`",
+            "en": "It must be declared as `useState<string>(1)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Input số phải dùng `onInput` thay vì `onChange`",
+            "en": "Number inputs must use `onInput` instead of `onChange`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`e.target` có thể là `null` nên phải viết `e.target!`",
+            "en": "`e.target` may be `null`, so it must be written `e.target!`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`e.target.value` luôn là `string` kể cả với `type=\"number\"`; cần đổi sang số, vd `e.target.valueAsNumber`",
+            "en": "`e.target.value` is always a `string`, even with `type=\"number\"`; convert it, e.g. `e.target.valueAsNumber`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`HTMLInputElement.value` luôn là `string`, kể cả khi `type=\"number\"`, trong khi `useState(1)` suy ra state kiểu `number`. Hãy chuyển sang số bằng `e.target.valueAsNumber` hoặc `Number(e.target.value)`, và xử lý trường hợp ô trống cho ra `NaN` hoặc `0`. Nếu ép kiểu bỏ qua lỗi, `qty` sẽ là chuỗi và các phép tính như `qty + 1` sẽ nối chuỗi.",
+        "en": "`HTMLInputElement.value` is always a `string`, even with `type=\"number\"`, while `useState(1)` infers a `number` state. Convert it with `e.target.valueAsNumber` or `Number(e.target.value)`, and handle the empty field that yields `NaN` or `0`. If you cast the error away, `qty` becomes a string and arithmetic like `qty + 1` turns into string concatenation."
+      }
+    },
+    {
+      "id": "react_ts.forms.007",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "forms",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày cách bạn validate form đăng ký gồm email, mật khẩu và nhập lại mật khẩu trong React + TypeScript.",
+        "en": "Explain how you would validate a sign-up form with email, password and confirm password in React + TypeScript."
+      },
+      "keyPoints": [
+        {
+          "vi": "Quản lý form bằng React Hook Form hoặc controlled state",
+          "en": "Manage the form with React Hook Form or controlled state"
+        },
+        {
+          "vi": "Schema (Zod/Yup) qua resolver; `refine` so khớp mật khẩu; `z.infer` sinh kiểu TS",
+          "en": "A schema (Zod/Yup) via a resolver; `refine` to match passwords; `z.infer` for TS types"
+        },
+        {
+          "vi": "Validate khi submit và khi blur/change; lỗi hiện cạnh từng field, có `aria-invalid`",
+          "en": "Validate on submit and on blur/change; show errors per field with `aria-invalid`"
+        },
+        {
+          "vi": "Khóa nút submit khi đang gửi để tránh gửi trùng",
+          "en": "Disable submit while submitting to prevent duplicates"
+        },
+        {
+          "vi": "Server vẫn phải validate; map lỗi từ server vào field",
+          "en": "The server must still validate; map server errors onto fields"
+        }
+      ],
+      "explanation": {
+        "vi": "Dùng React Hook Form (hoặc controlled state) kết hợp schema như Zod với `zodResolver`: schema kiểm tra email đúng định dạng, mật khẩu đủ độ dài, và `refine` để so khớp hai mật khẩu; `z.infer` sinh luôn kiểu TypeScript cho dữ liệu form. Chạy validate khi submit, và khi blur hoặc change để báo lỗi sớm; hiển thị lỗi cạnh từng field, gắn `aria-invalid`. Khóa nút submit khi đang gửi để tránh gửi trùng. Validate phía client chỉ để trải nghiệm tốt; server vẫn phải validate lại và lỗi từ server (vd email đã tồn tại) cần được map vào field.",
+        "en": "Use React Hook Form (or controlled state) with a schema such as Zod via `zodResolver`: the schema checks the email format and password length, and a `refine` compares the two passwords; `z.infer` also produces the TypeScript type for the form data. Validate on submit, and on blur or change for early feedback; show errors next to each field and set `aria-invalid`. Disable the submit button while submitting to avoid duplicates. Client-side validation is only for UX; the server must validate again, and server errors (e.g. email already taken) should be mapped onto fields."
+      }
+    },
+    {
+      "id": "react_ts.forms.008",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "forms",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Người dùng bấm nút Open. Console in gì?",
+        "en": "The user clicks the Open button. What is logged?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function Menu() {\n  return (\n    <div\n      onClickCapture={() => console.log('div capture')}\n      onClick={() => console.log('div')}\n    >\n      <button\n        onClick={e => {\n          e.stopPropagation();\n          console.log('button');\n        }}\n      >\n        Open\n      </button>\n    </div>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ `button`",
+            "en": "Only `button`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`div capture` → `button`",
+            "en": "`div capture` → `button`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`button` → `div`",
+            "en": "`button` → `div`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`div capture` → `button` → `div`",
+            "en": "`div capture` → `button` → `div`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Sự kiện đi qua pha capture từ ngoài vào trong trước, nên `onClickCapture` của `div` chạy đầu tiên. Sau đó handler `onClick` của `button` chạy và gọi `stopPropagation()`, chặn pha bubble nên `onClick` của `div` không chạy. Lưu ý `stopPropagation` không hủy được handler capture đã chạy trước đó.",
+        "en": "The event goes through the capture phase from the outside in first, so the `div`'s `onClickCapture` runs first. Then the `button`'s `onClick` runs and calls `stopPropagation()`, stopping the bubble phase, so the `div`'s `onClick` does not run. Note that `stopPropagation` cannot undo capture handlers that already ran."
+      }
+    },
+    {
+      "id": "react_ts.data.001",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "data",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong app dùng React Router, vì sao nên dùng `<Link to=\"/about\">` thay vì `<a href=\"/about\">`?",
+        "en": "In an app using React Router, why use `<Link to=\"/about\">` instead of `<a href=\"/about\">`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thẻ `<a>` không hoạt động trong React",
+            "en": "`<a>` tags do not work in React"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Link` không render ra thẻ `a` nên tốt cho SEO hơn",
+            "en": "`Link` does not render an `a` tag, which is better for SEO"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Link` đổi URL qua History API và render route mới phía client, không tải lại trang nên giữ được state",
+            "en": "`Link` updates the URL via the History API and renders the new route on the client, without a reload, so state is kept"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Link` mặc định mở trang trong tab mới",
+            "en": "`Link` opens the page in a new tab by default"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Link` vẫn render ra thẻ `a` (tốt cho SEO và accessibility) nhưng chặn hành vi mặc định khi click, đổi URL qua History API và để router render route mới ngay phía client. Nhờ vậy trang không tải lại, bundle JS và state toàn cục được giữ nguyên. Thẻ `<a href>` thường vẫn hoạt động nhưng gây tải lại toàn bộ trang.",
+        "en": "`Link` still renders an `a` tag (good for SEO and accessibility) but intercepts the click, updates the URL via the History API and lets the router render the new route on the client. As a result the page does not reload, and the JS bundle and global state are kept. A plain `<a href>` still works but triggers a full page reload."
+      }
+    },
+    {
+      "id": "react_ts.data.002",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "data",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với route `<Route path=\"/users/:userId\" element={<UserPage />} />`, trong `UserPage` lấy `userId` từ URL `/users/42` bằng cách nào?",
+        "en": "Given `<Route path=\"/users/:userId\" element={<UserPage />} />`, how does `UserPage` read `userId` from the URL `/users/42`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`props.userId`",
+            "en": "`props.userId`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`const { userId } = useParams()`",
+            "en": "`const { userId } = useParams()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`useSearchParams().get('userId')`",
+            "en": "`useSearchParams().get('userId')`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`window.location.params.userId`",
+            "en": "`window.location.params.userId`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`useParams()` trả về object các tham số động của route đang khớp, ở đây là `{ userId: '42' }`. Giá trị luôn là chuỗi (kiểu `string | undefined`), nên cần tự chuyển sang số khi cần. `useSearchParams` dùng cho query string như `?tab=posts`, không phải path params; router cũng không tự truyền params vào props.",
+        "en": "`useParams()` returns an object with the dynamic params of the matched route, here `{ userId: '42' }`. Values are always strings (typed `string | undefined`), so convert them to numbers yourself when needed. `useSearchParams` is for query strings like `?tab=posts`, not path params; the router also does not pass params as props."
+      }
+    },
+    {
+      "id": "react_ts.data.003",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "data",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày cách gọi API trong một component và hiển thị trạng thái loading, lỗi và dữ liệu (không dùng thư viện).",
+        "en": "Explain how to call an API in a component and show loading, error and data states (without a library)."
+      },
+      "keyPoints": [
+        {
+          "vi": "State cho data/loading/error, tốt nhất là một union `status` để tránh trạng thái mâu thuẫn",
+          "en": "State for data/loading/error, ideally a `status` union to avoid contradictory states"
+        },
+        {
+          "vi": "Gọi API trong `useEffect` với deps đúng, có cleanup (`AbortController` hoặc cờ ignore)",
+          "en": "Call the API in `useEffect` with correct deps and a cleanup (`AbortController` or an ignore flag)"
+        },
+        {
+          "vi": "Bắt lỗi và cập nhật state lỗi",
+          "en": "Catch errors and set the error state"
+        },
+        {
+          "vi": "Render theo trạng thái: spinner, lỗi + thử lại, dữ liệu",
+          "en": "Render per state: spinner, error + retry, data"
+        },
+        {
+          "vi": "Dự án thật nên dùng React Query/SWR",
+          "en": "Use React Query/SWR in real projects"
+        }
+      ],
+      "explanation": {
+        "vi": "Giữ state cho dữ liệu, loading và lỗi, hoặc gọn hơn là một union như `{ status: 'loading' } | { status: 'success'; data } | { status: 'error'; error }` để tránh trạng thái mâu thuẫn. Gọi API trong `useEffect` với deps là các tham số (vd `userId`), và trong cleanup hủy request bằng `AbortController` hoặc bỏ qua kết quả cũ. Bắt lỗi bằng `try/catch` (hoặc `.catch`) và cập nhật state lỗi. Phần JSX render theo từng trạng thái: spinner, thông báo lỗi kèm nút thử lại, rồi dữ liệu. Trong dự án thật, React Query hay SWR xử lý sẵn cache, retry và refetch.",
+        "en": "Keep state for data, loading and error, or better a union such as `{ status: 'loading' } | { status: 'success'; data } | { status: 'error'; error }` to avoid contradictory states. Call the API in `useEffect` with the parameters (e.g. `userId`) as deps, and in the cleanup abort the request with `AbortController` or ignore stale results. Catch errors with `try/catch` (or `.catch`) and set the error state. The JSX renders per state: a spinner, an error message with a retry button, then the data. In real projects, React Query or SWR handle caching, retries and refetching for you."
+      }
+    },
+    {
+      "id": "react_ts.data.004",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "data",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Server trả về HTTP 404 cho `/api/missing`. Console in gì?",
+        "en": "The server responds with HTTP 404 for `/api/missing`. What is logged?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "async function load(): Promise<void> {\n  try {\n    const res = await fetch('/api/missing');\n    console.log('status', res.status);\n    console.log('ok', res.ok);\n  } catch {\n    console.log('error');\n  }\n}\n\nload();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`status 404` → `ok false`",
+            "en": "`status 404` → `ok false`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`error`",
+            "en": "`error`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`status 404` → `error`",
+            "en": "`status 404` → `error`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`ok false`",
+            "en": "`ok false`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`fetch` chỉ reject khi có lỗi mạng (mất kết nối, DNS, CORS bị chặn) hoặc bị abort; response 4xx/5xx vẫn resolve bình thường. Vì vậy code in `status 404` và `ok false`, còn nhánh `catch` không chạy. Khi gọi API bằng `fetch`, hãy tự kiểm tra `res.ok` và `throw` để luồng xử lý lỗi (hoặc React Query) nhận được lỗi.",
+        "en": "`fetch` only rejects on network failures (no connection, DNS, blocked CORS) or when aborted; 4xx/5xx responses still resolve normally. So the code logs `status 404` and `ok false`, and the `catch` branch does not run. When calling APIs with `fetch`, check `res.ok` yourself and `throw` so your error handling (or React Query) sees the error."
+      }
+    },
+    {
+      "id": "react_ts.data.005",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "data",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong đoạn React Query sau, `queryKey` đóng vai trò gì?",
+        "en": "In the React Query snippet below, what role does `queryKey` play?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "const { data, isPending, error } = useQuery({\n  queryKey: ['todos', userId],\n  queryFn: () => fetchTodos(userId),\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ là nhãn hiển thị trong DevTools",
+            "en": "It is only a label shown in DevTools"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Được nối lại thành URL để gọi `fetch`",
+            "en": "It is joined into the URL passed to `fetch`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dùng để mã hóa dữ liệu trong cache",
+            "en": "It is used to encrypt the cached data"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Định danh dữ liệu trong cache: cùng key dùng chung cache, đổi `userId` thì fetch query mới, và có thể invalidate theo key",
+            "en": "It identifies the data in the cache: the same key shares the cache, a new `userId` fetches a new query, and you can invalidate by key"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`queryKey` là định danh của dữ liệu trong cache. Các component dùng cùng key chia sẻ một cache và request được gộp lại; khi `userId` đổi, key đổi nên React Query coi là query khác và fetch dữ liệu tương ứng. Key cũng dùng để `invalidateQueries`, ví dụ sau khi thêm todo. Vì vậy mọi biến mà `queryFn` phụ thuộc nên có mặt trong key; key không được truyền làm URL.",
+        "en": "`queryKey` identifies the data in the cache. Components using the same key share one cache entry and their requests are deduplicated; when `userId` changes, the key changes, so React Query treats it as a different query and fetches the matching data. Keys are also used with `invalidateQueries`, e.g. after adding a todo. That is why every variable `queryFn` depends on should be in the key; the key is not used as the URL."
+      }
+    },
+    {
+      "id": "react_ts.data.006",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "data",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong TanStack Query v5, `staleTime` và `gcTime` khác nhau thế nào?",
+        "en": "In TanStack Query v5, how do `staleTime` and `gcTime` differ?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`staleTime` là thời gian giữ cache khi không dùng; `gcTime` là thời gian dữ liệu còn mới",
+            "en": "`staleTime` is how long unused cache is kept; `gcTime` is how long data stays fresh"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`staleTime` là thời gian dữ liệu được coi là mới (không tự refetch); `gcTime` là thời gian giữ cache khi không còn component nào dùng",
+            "en": "`staleTime` is how long data is considered fresh (no auto refetch); `gcTime` is how long the cache is kept once no component uses it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả hai đều là timeout của request",
+            "en": "Both are request timeouts"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`gcTime` là chu kỳ polling tự động",
+            "en": "`gcTime` is the automatic polling interval"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`staleTime` (mặc định 0) quy định bao lâu dữ liệu còn \"fresh\"; khi còn fresh, React Query trả cache mà không tự refetch lúc mount hay focus lại cửa sổ. `gcTime` (mặc định 5 phút, trước v5 tên là `cacheTime`) là thời gian giữ cache sau khi không còn component nào dùng query trước khi bị xóa. Nhầm hai giá trị này thường dẫn tới refetch quá nhiều hoặc dữ liệu bị xóa sớm.",
+        "en": "`staleTime` (default 0) defines how long data stays \"fresh\"; while fresh, React Query serves the cache without refetching on mount or window refocus. `gcTime` (default 5 minutes, called `cacheTime` before v5) is how long an unused query's cache is kept after no component uses it before it is removed. Mixing them up usually leads to too many refetches or data being dropped too early."
+      }
+    },
+    {
+      "id": "react_ts.data.007",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "data",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Mọi component dùng `useContext(AppContext)` đều render lại khi đổi `theme`, kể cả những component chỉ đọc `user`. Nguyên nhân và hướng sửa?",
+        "en": "Every component using `useContext(AppContext)` re-renders when `theme` changes, even those that only read `user`. What is the cause and the fix?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function AppProvider({ children }: { children: React.ReactNode }) {\n  const [user, setUser] = useState<User | null>(null);\n  const [theme, setTheme] = useState<'light' | 'dark'>('light');\n\n  return (\n    <AppContext.Provider value={{ user, setUser, theme, setTheme }}>\n      {children}\n    </AppContext.Provider>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bọc các consumer bằng `React.memo` là đủ",
+            "en": "Wrapping the consumers in `React.memo` is enough"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Context không được chứa function như `setUser`",
+            "en": "Context must not contain functions such as `setUser`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải gọi `useContext` bên trong `useEffect`",
+            "en": "`useContext` must be called inside `useEffect`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Mọi dữ liệu chung một context value nên đổi trường nào thì mọi consumer render lại; nên tách context, memo hóa value hoặc dùng store có selector",
+            "en": "All data shares one context value, so any change re-renders every consumer; split the contexts, memoize the value or use a store with selectors"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi value của Provider đổi (so sánh bằng `Object.is`), mọi consumer của context đó render lại, và `memo` không chặn được việc này. Ở đây mọi dữ liệu nằm chung một object nên đổi `theme` cũng làm component chỉ đọc `user` render lại; object `value` còn được tạo mới ở mỗi lần render. Hãy tách thành `UserContext` và `ThemeContext`, memo hóa `value` bằng `useMemo`, hoặc dùng store có selector (Zustand, Redux) cho state thay đổi thường xuyên.",
+        "en": "When a Provider's value changes (compared with `Object.is`), every consumer of that context re-renders, and `memo` cannot stop it. Here all data lives in one object, so changing `theme` also re-renders components that only read `user`; the `value` object is also recreated on every render. Split it into `UserContext` and `ThemeContext`, memoize `value` with `useMemo`, or use a store with selectors (Zustand, Redux) for frequently changing state."
+      }
+    },
+    {
+      "id": "react_ts.data.008",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "data",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`ProjectPage` fetch project trong `useEffect` và chỉ render `<TaskList />` khi đã có project; `TaskList` lại fetch tasks trong `useEffect` của nó (tasks không cần dữ liệu của project). Vấn đề hiệu năng chính và hướng xử lý là gì?",
+        "en": "`ProjectPage` fetches the project in `useEffect` and only renders `<TaskList />` once the project has loaded; `TaskList` then fetches tasks in its own `useEffect` (tasks do not need the project data). What is the main performance problem and how do you fix it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hai `useEffect` chạy đồng thời nên gửi trùng request",
+            "en": "The two `useEffect`s run at the same time and send duplicate requests"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`TaskList` sẽ bị render vô hạn",
+            "en": "`TaskList` will render in an infinite loop"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Request bị tuần tự (waterfall); nên khởi động các request độc lập song song và sớm hơn, vd route loader hoặc prefetch",
+            "en": "The requests run sequentially (a waterfall); start independent requests in parallel and earlier, e.g. a route loader or prefetching"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải gộp hai component thành một để giảm số lần render",
+            "en": "The two components must be merged into one to reduce renders"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Đây là network waterfall: request tasks chỉ bắt đầu sau khi request project xong và `TaskList` được mount, nên tổng thời gian chờ là tổng hai request thay vì request dài nhất. Fetch-on-render trong effect luôn dễ gây waterfall khi component lồng nhau. Hãy bắt đầu các request độc lập song song và sớm hơn: route loader (React Router), prefetch bằng `queryClient.prefetchQuery`/`useQueries`, hoặc fetch ở server component. Hai effect này không chạy đồng thời và cũng không gây render vô hạn.",
+        "en": "This is a network waterfall: the tasks request only starts after the project request finishes and `TaskList` mounts, so the total wait is the sum of both requests instead of the longest one. Fetch-on-render in effects easily creates waterfalls with nested components. Start independent requests in parallel and earlier: a route loader (React Router), prefetching with `queryClient.prefetchQuery`/`useQueries`, or fetching in a server component. The two effects do not run concurrently and do not cause an infinite render loop."
+      }
+    },
+    {
+      "id": "react_ts.data.009",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "data",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích SSR và hydration trong React. Nguyên nhân gây hydration mismatch và cách xử lý?",
+        "en": "Explain SSR and hydration in React. What causes hydration mismatches and how do you handle them?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Server render HTML để hiển thị sớm và tốt cho SEO; client `hydrateRoot` gắn event vào markup có sẵn",
+          "en": "The server renders HTML for an early paint and SEO; the client's `hydrateRoot` attaches events to the existing markup"
+        },
+        {
+          "vi": "Lần render đầu ở client phải khớp với HTML của server",
+          "en": "The first client render must match the server HTML"
+        },
+        {
+          "vi": "Nguyên nhân mismatch: `Date.now()`, `Math.random()`, `window`/`localStorage`, locale, HTML lồng sai",
+          "en": "Mismatch causes: `Date.now()`, `Math.random()`, `window`/`localStorage`, locale, invalid HTML nesting"
+        },
+        {
+          "vi": "Sửa: giá trị chỉ có ở client đưa vào `useEffect`, dùng `useId`, `suppressHydrationWarning` khi không tránh được",
+          "en": "Fixes: move client-only values into `useEffect`, use `useId`, `suppressHydrationWarning` when unavoidable"
+        },
+        {
+          "vi": "Streaming SSR + Suspense cho selective hydration",
+          "en": "Streaming SSR + Suspense enables selective hydration"
+        }
+      ],
+      "explanation": {
+        "vi": "Với SSR, server render component thành HTML để trình duyệt hiển thị sớm (tốt cho FCP và SEO); sau đó client tải JS và gọi `hydrateRoot` để React gắn event handler và state vào markup sẵn có thay vì tạo lại DOM. Hydration yêu cầu lần render đầu ở client cho ra đúng kết quả như server. Mismatch xảy ra khi render phụ thuộc `Date.now()`, `Math.random()`, `window`/`localStorage`, locale hoặc HTML lồng sai; React sẽ cảnh báo và render lại phía client từ Suspense boundary gần nhất, tốn công và có thể nháy UI. Cách xử lý: đưa giá trị chỉ có ở client vào `useEffect`, dùng `useId` cho id, `suppressHydrationWarning` cho text không tránh được như timestamp; streaming SSR với Suspense cho phép hydrate từng phần (selective hydration).",
+        "en": "With SSR the server renders components to HTML so the browser can show content early (good for FCP and SEO); then the client loads JS and calls `hydrateRoot` so React attaches event handlers and state to the existing markup instead of recreating the DOM. Hydration requires the first client render to produce exactly what the server did. Mismatches happen when rendering depends on `Date.now()`, `Math.random()`, `window`/`localStorage`, the locale, or invalid HTML nesting; React warns and re-renders on the client from the nearest Suspense boundary, which is costly and can flash the UI. Fixes: move client-only values into `useEffect`, use `useId` for ids, `suppressHydrationWarning` for unavoidable text like timestamps; streaming SSR with Suspense allows hydrating parts independently (selective hydration)."
+      }
+    },
+    {
+      "id": "react_ts.typescript.001",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "typescript",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `type ButtonProps = { label: string; disabled?: boolean }`, dấu `?` ở `disabled` nghĩa là gì?",
+        "en": "In `type ButtonProps = { label: string; disabled?: boolean }`, what does the `?` on `disabled` mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`disabled` được phép nhận giá trị `null`",
+            "en": "`disabled` may be `null`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`disabled` tự động có giá trị mặc định `false`",
+            "en": "`disabled` automatically defaults to `false`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`disabled` là prop không bắt buộc; kiểu khi đọc là `boolean | undefined`",
+            "en": "`disabled` is an optional prop; its type when read is `boolean | undefined`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`disabled` chỉ dùng được trong môi trường development",
+            "en": "`disabled` can only be used in development"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Dấu `?` biến `disabled` thành thuộc tính optional: có thể bỏ qua khi dùng `<Button label=\"OK\" />`, và kiểu khi đọc là `boolean | undefined`. Nó không tự đặt giá trị mặc định; muốn mặc định `false` hãy viết `function Button({ label, disabled = false }: ButtonProps)`. Optional cũng không cho phép `null`, vì `null` là kiểu riêng.",
+        "en": "The `?` makes `disabled` an optional property: it can be omitted, as in `<Button label=\"OK\" />`, and its type when read is `boolean | undefined`. It does not set a default value; for a `false` default write `function Button({ label, disabled = false }: ButtonProps)`. Optional does not allow `null` either, since `null` is a separate type."
+      }
+    },
+    {
+      "id": "react_ts.typescript.002",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "typescript",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Kiểu nào phù hợp nhất cho prop `children` có thể là text, element, mảng hoặc `null`?",
+        "en": "Which type is best for a `children` prop that may be text, an element, an array or `null`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`React.ReactNode`",
+            "en": "`React.ReactNode`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`JSX.Element`",
+            "en": "`JSX.Element`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`React.ReactElement`",
+            "en": "`React.ReactElement`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`string`",
+            "en": "`string`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`React.ReactNode` bao gồm mọi thứ React render được: string, number, element, mảng, Fragment, `null`, `undefined`, boolean (và Promise trong React 19). `JSX.Element` và `React.ReactElement` chỉ chấp nhận một element duy nhất, nên `<Card>Xin chào</Card>` hay truyền mảng sẽ báo lỗi kiểu. Dùng `string` thì quá hẹp.",
+        "en": "`React.ReactNode` covers everything React can render: strings, numbers, elements, arrays, fragments, `null`, `undefined`, booleans (and Promises in React 19). `JSX.Element` and `React.ReactElement` only accept a single element, so `<Card>Hello</Card>` or passing an array would be a type error. `string` is far too narrow."
+      }
+    },
+    {
+      "id": "react_ts.typescript.003",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "typescript",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "function format(value: string | number): string {\n  if (typeof value === 'number') {\n    return value.toFixed(1);\n  }\n  return value.toUpperCase();\n}\n\nconsole.log(format(3), format('ok'));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`3.0 OK`",
+            "en": "`3.0 OK`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`3 OK`",
+            "en": "`3 OK`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`3.0 ok`",
+            "en": "`3.0 ok`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch: `toUpperCase` không tồn tại trên `number`",
+            "en": "Compile error: `toUpperCase` does not exist on `number`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`typeof value === 'number'` thu hẹp (narrowing) `value` thành `number` trong nhánh `if`, nên `toFixed(1)` cho `'3.0'`. Sau khi return, TypeScript biết phần còn lại chỉ có thể là `string`, nên gọi `toUpperCase()` hợp lệ và cho `'OK'`. Không có lỗi biên dịch vì mỗi phương thức chỉ được gọi trong nhánh có kiểu phù hợp.",
+        "en": "`typeof value === 'number'` narrows `value` to `number` inside the `if`, so `toFixed(1)` gives `'3.0'`. After that return, TypeScript knows the rest can only be a `string`, so calling `toUpperCase()` is valid and gives `'OK'`. There is no compile error because each method is only called in a branch with the right type."
+      }
+    },
+    {
+      "id": "react_ts.typescript.004",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "typescript",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi khai báo kiểu trong TypeScript, `type` làm được điều gì mà `interface` không làm được?",
+        "en": "When declaring types in TypeScript, what can `type` do that `interface` cannot?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mô tả hình dạng props của component",
+            "en": "Describe the shape of a component's props"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Kế thừa từ một kiểu khác",
+            "en": "Extend another type"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Khai báo thuộc tính optional",
+            "en": "Declare optional properties"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Khai báo union như `type Status = 'idle' | 'loading' | 'error'`",
+            "en": "Declare a union such as `type Status = 'idle' | 'loading' | 'error'`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`type` alias đặt tên được cho bất kỳ kiểu nào, gồm union như `type Status = 'idle' | 'loading' | 'error'`, tuple hay kiểu được ghép từ utility types. `interface` chỉ mô tả hình dạng object, nhưng vẫn mô tả props, kế thừa bằng `extends` và có thuộc tính optional; nó còn hỗ trợ declaration merging mà `type` không có. Với props component, dùng cái nào cũng được, quan trọng là thống nhất trong dự án.",
+        "en": "A `type` alias can name any type, including unions such as `type Status = 'idle' | 'loading' | 'error'`, tuples or types composed from utility types. An `interface` only describes object shapes, but it can still describe props, extend other types with `extends` and have optional properties; it also supports declaration merging, which `type` does not. For component props either works; what matters is consistency within the project."
+      }
+    },
+    {
+      "id": "react_ts.typescript.005",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "typescript",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "type State =\n  | { status: 'loading' }\n  | { status: 'success'; data: string[] }\n  | { status: 'error'; message: string };\n\nfunction describe(s: State): string {\n  switch (s.status) {\n    case 'loading':\n      return '...';\n    case 'success':\n      return `${s.data.length} items`;\n    case 'error':\n      return `Error: ${s.message}`;\n  }\n}\n\nconst states: State[] = [\n  { status: 'success', data: ['a', 'b'] },\n  { status: 'error', message: '404' },\n];\nconsole.log(states.map(describe).join(' | '));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`undefined | Error: 404`",
+            "en": "`undefined | Error: 404`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`2 items | Error: 404`",
+            "en": "`2 items | Error: 404`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`2 items | Error: undefined`",
+            "en": "`2 items | Error: undefined`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch: `data` không tồn tại trên `State`",
+            "en": "Compile error: `data` does not exist on `State`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`status` là thuộc tính phân biệt (discriminant) của union, nên trong mỗi `case` TypeScript thu hẹp `s` về đúng nhánh: `s.data` chỉ truy cập được ở `'success'`, `s.message` chỉ ở `'error'`. Hai phần tử cho ra `2 items` và `Error: 404`, nối bằng `' | '`. Đây là cách mô hình hóa trạng thái loading/success/error an toàn hơn so với nhiều cờ boolean rời rạc.",
+        "en": "`status` is the union's discriminant, so in each `case` TypeScript narrows `s` to the matching member: `s.data` is only accessible under `'success'`, `s.message` only under `'error'`. The two elements produce `2 items` and `Error: 404`, joined with `' | '`. This is a safer way to model loading/success/error states than several separate boolean flags."
+      }
+    },
+    {
+      "id": "react_ts.typescript.006",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "typescript",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cho `type User = { id: string; name: string; email: string; avatar: string }`. Payload cập nhật cần `id` bắt buộc, các trường khác tùy chọn. Định nghĩa nào đúng?",
+        "en": "Given `type User = { id: string; name: string; email: string; avatar: string }`, an update payload needs `id` required and every other field optional. Which definition is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Partial<User>`",
+            "en": "`Partial<User>`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Pick<User, 'id'> & Partial<Omit<User, 'id'>>`",
+            "en": "`Pick<User, 'id'> & Partial<Omit<User, 'id'>>`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Omit<User, 'id'>`",
+            "en": "`Omit<User, 'id'>`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Required<Pick<User, 'name' | 'email'>>`",
+            "en": "`Required<Pick<User, 'name' | 'email'>>`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Pick<User, 'id'>` giữ `id` bắt buộc, `Omit<User, 'id'>` lấy các trường còn lại và `Partial` biến chúng thành optional; giao (`&`) hai phần cho đúng yêu cầu. `Partial<User>` làm cả `id` thành optional nên payload thiếu id vẫn hợp lệ. `Omit<User, 'id'>` bỏ hẳn `id`, còn `Required<Pick<...>>` chỉ giữ `name` và `email` dưới dạng bắt buộc.",
+        "en": "`Pick<User, 'id'>` keeps `id` required, `Omit<User, 'id'>` takes the remaining fields and `Partial` makes them optional; intersecting (`&`) the two gives exactly what is needed. `Partial<User>` makes `id` optional too, so a payload without an id would be valid. `Omit<User, 'id'>` drops `id` entirely, and `Required<Pick<...>>` only keeps `name` and `email` as required."
+      }
+    },
+    {
+      "id": "react_ts.typescript.007",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "typescript",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "TypeScript báo lỗi ở `setUser(data)` và ở `user?.name`. Nguyên nhân là gì?",
+        "en": "TypeScript reports errors at `setUser(data)` and at `user?.name`. What is the cause?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "type User = { id: string; name: string };\n\nfunction Profile() {\n  const [user, setUser] = useState(null);\n\n  useEffect(() => {\n    fetchUser().then((data: User) => {\n      setUser(data);\n    });\n  }, []);\n\n  return <h1>{user?.name}</h1>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không được gọi `setUser` bên trong `.then`",
+            "en": "`setUser` must not be called inside `.then`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`useState(null)` khiến TypeScript suy ra kiểu `null`; cần khai báo `useState<User | null>(null)`",
+            "en": "`useState(null)` makes TypeScript infer the type `null`; declare `useState<User | null>(null)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải dùng `user!.name` thay cho `user?.name`",
+            "en": "It must use `user!.name` instead of `user?.name`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Callback của `useEffect` phải là `async`",
+            "en": "The `useEffect` callback must be `async`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Không có generic, `useState(null)` khiến TypeScript suy ra state có kiểu `null`, nên `setUser` chỉ nhận `null` và `user` sau khi loại `null` thành `never`, dẫn tới lỗi ở `user?.name`. Hãy khai báo rõ `useState<User | null>(null)`; khi đó `user?.name` hợp lệ và kiểu là `string | undefined`. Dùng `user!.name` chỉ che lỗi và gây crash khi `user` còn `null`.",
+        "en": "Without a generic, `useState(null)` makes TypeScript infer the state type as `null`, so `setUser` only accepts `null` and `user` narrows to `never` once `null` is excluded, causing the error at `user?.name`. Declare it explicitly as `useState<User | null>(null)`; then `user?.name` is valid with type `string | undefined`. Using `user!.name` only hides the error and crashes while `user` is still `null`."
+      }
+    },
+    {
+      "id": "react_ts.typescript.008",
+      "contentVersion": 1,
+      "trackId": "react_ts",
+      "topicId": "typescript",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao trong file `.tsx` người ta viết generic arrow function là `<T,>` thay vì `<T>`?",
+        "en": "Why do people write generic arrow functions as `<T,>` instead of `<T>` in `.tsx` files?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "type ListProps<T> = {\n  items: T[];\n  getKey: (item: T) => string;\n  renderItem: (item: T) => React.ReactNode;\n};\n\nconst List = <T,>({ items, getKey, renderItem }: ListProps<T>) => (\n  <ul>\n    {items.map(item => (\n      <li key={getKey(item)}>{renderItem(item)}</li>\n    ))}\n  </ul>\n);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trong `.tsx`, `<T>` bị hiểu là thẻ JSX mở; dấu phẩy (hoặc `<T extends unknown>`) báo cho parser đây là tham số generic",
+            "en": "In `.tsx`, `<T>` is parsed as an opening JSX tag; the comma (or `<T extends unknown>`) tells the parser it is a generic parameter"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Dấu phẩy khiến `T` mặc định là `any`",
+            "en": "The comma makes `T` default to `any`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "TypeScript 5 bắt buộc dấu phẩy cho mọi generic",
+            "en": "TypeScript 5 requires the comma for every generic"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Để React biết component nhận nhiều kiểu cùng lúc",
+            "en": "So React knows the component accepts several types at once"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trong file `.tsx`, `<T>` đứng trước tham số bị parser hiểu là thẻ JSX mở, gây lỗi cú pháp. Dấu phẩy thừa (hoặc `<T extends unknown>`) cho parser biết đây là danh sách tham số generic. Khi dùng `<List items={users} getKey={u => u.id} renderItem={u => u.name} />`, TypeScript suy ra `T` từ `items`, nên `renderItem` được gõ kiểu đúng mà không cần chỉ định. Function declaration như `function List<T>(...)` không gặp vấn đề này.",
+        "en": "In a `.tsx` file, a leading `<T>` before the parameters is parsed as an opening JSX tag, causing a syntax error. The trailing comma (or `<T extends unknown>`) tells the parser this is a generic parameter list. When you write `<List items={users} getKey={u => u.id} renderItem={u => u.name} />`, TypeScript infers `T` from `items`, so `renderItem` is correctly typed without specifying it. Function declarations like `function List<T>(...)` do not have this problem."
+      }
+    }
+  ]
+}

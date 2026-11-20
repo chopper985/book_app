@@ -1,0 +1,3300 @@
+{
+  "questions": [
+    {
+      "id": "java.core.001",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "core",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  public static void main(String[] args) {\n    String a = \"java\";\n    String b = \"java\";\n    String c = new String(\"java\");\n    System.out.println(a == b);\n    System.out.println(a == c);\n    System.out.println(a.equals(c));\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "true, false, true",
+            "en": "true, false, true"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "true, true, true",
+            "en": "true, true, true"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "false, false, true",
+            "en": "false, false, true"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "true, false, false",
+            "en": "true, false, false"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Hai literal `\"java\"` giống nhau dùng chung một object trong String pool nên `a == b` là `true`. `new String(\"java\")` luôn tạo object mới trên heap, nên `a == c` so sánh hai tham chiếu khác nhau và cho `false`. `equals` so sánh nội dung ký tự nên `a.equals(c)` là `true`. Vì vậy hãy luôn so sánh chuỗi bằng `equals`, không dùng `==`.",
+        "en": "Two identical `\"java\"` literals share one object from the String pool, so `a == b` is `true`. `new String(\"java\")` always creates a new heap object, so `a == c` compares two different references and gives `false`. `equals` compares the characters, so `a.equals(c)` is `true`. That is why strings should always be compared with `equals`, not `==`."
+      }
+    },
+    {
+      "id": "java.core.002",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "core",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  public static void main(String[] args) {\n    String s = \"Hello\";\n    s.concat(\" World\");\n    s.toUpperCase();\n    System.out.println(s);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "HELLO WORLD",
+            "en": "HELLO WORLD"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hello",
+            "en": "Hello"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hello World",
+            "en": "Hello World"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "HELLO",
+            "en": "HELLO"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`String` là immutable: `concat` và `toUpperCase` không sửa object hiện tại mà trả về một `String` mới. Code bỏ qua giá trị trả về nên `s` vẫn trỏ tới `\"Hello\"`. Muốn giữ kết quả phải gán lại, ví dụ `s = s.concat(\" World\");`.",
+        "en": "`String` is immutable: `concat` and `toUpperCase` do not modify the current object, they return a new `String`. The code ignores the return values, so `s` still refers to `\"Hello\"`. To keep the result you must reassign, e.g. `s = s.concat(\" World\");`."
+      }
+    },
+    {
+      "id": "java.core.003",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "core",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Điều gì xảy ra khi bạn dùng một biến cục bộ (local variable) chưa được gán giá trị, ví dụ `int x; System.out.println(x);`?",
+        "en": "What happens when you use a local variable that has not been assigned, e.g. `int x; System.out.println(x);`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "In ra `0`",
+            "en": "Prints `0`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ném `NullPointerException` lúc chạy",
+            "en": "Throws a `NullPointerException` at runtime"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "In ra một giá trị rác ngẫu nhiên",
+            "en": "Prints a random garbage value"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Java yêu cầu biến cục bộ phải được gán chắc chắn (definite assignment) trước khi đọc, nên trình biên dịch báo lỗi `variable x might not have been initialized`. Giá trị mặc định (`0`, `false`, `null`) chỉ áp dụng cho field và phần tử mảng, không áp dụng cho biến cục bộ. Vì vậy đáp án \"in ra 0\" là nhầm lẫn giữa field và local variable.",
+        "en": "Java requires a local variable to be definitely assigned before it is read, so the compiler reports `variable x might not have been initialized`. Default values (`0`, `false`, `null`) apply only to fields and array elements, not to local variables. So \"prints 0\" confuses fields with local variables."
+      }
+    },
+    {
+      "id": "java.core.004",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "core",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cho `final List<String> list = new ArrayList<>();`. Câu nào đúng?",
+        "en": "Given `final List<String> list = new ArrayList<>();`, which statement is true?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không thể thêm phần tử vì list là `final`",
+            "en": "No elements can be added because the list is `final`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Có thể gán `list = new ArrayList<>()` nhưng không gọi `add` được",
+            "en": "`list = new ArrayList<>()` is allowed but `add` is not"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`final` biến list thành thread-safe",
+            "en": "`final` makes the list thread-safe"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gọi `list.add(\"a\")` được, nhưng không gán `list` sang object khác được",
+            "en": "`list.add(\"a\")` is allowed, but `list` cannot be reassigned to another object"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`final` trên biến tham chiếu chỉ cấm gán lại biến đó sang object khác; bản thân object vẫn có thể thay đổi. Vì vậy `list.add(\"a\")` hợp lệ, còn `list = new ArrayList<>()` báo lỗi biên dịch. Muốn danh sách không sửa được thì dùng `List.of(...)` hoặc `Collections.unmodifiableList(...)`, không phải `final`.",
+        "en": "`final` on a reference variable only forbids reassigning that variable to another object; the object itself can still change. So `list.add(\"a\")` is allowed while `list = new ArrayList<>()` is a compile error. For a list that cannot be modified, use `List.of(...)` or `Collections.unmodifiableList(...)`, not `final`."
+      }
+    },
+    {
+      "id": "java.core.005",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "core",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong một method `static`, truy cập trực tiếp một instance field (field không `static`) của cùng class thì sao?",
+        "en": "Inside a `static` method, what happens if you directly access an instance (non-`static`) field of the same class?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lỗi biên dịch vì không có `this` trong ngữ cảnh static",
+            "en": "Compile error because there is no `this` in a static context"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Java tự tạo một object mặc định để đọc field",
+            "en": "Java creates a default object to read the field"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Luôn đọc được giá trị mặc định của field",
+            "en": "It always reads the field's default value"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chạy được nhưng ném `NullPointerException`",
+            "en": "It compiles but throws a `NullPointerException`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Method `static` thuộc về class, không gắn với object nào nên không có `this`. Vì vậy truy cập trực tiếp instance field gây lỗi biên dịch `non-static variable cannot be referenced from a static context`. Muốn dùng field đó phải có một object cụ thể, ví dụ `obj.field`. Java không tự tạo object mặc định cho bạn.",
+        "en": "A `static` method belongs to the class, not to any object, so there is no `this`. Directly accessing an instance field is therefore a compile error: `non-static variable cannot be referenced from a static context`. To use the field you need a concrete object, e.g. `obj.field`. Java does not create a default instance for you."
+      }
+    },
+    {
+      "id": "java.core.006",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "core",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Phân biệt kiểu nguyên thuỷ (`int`, `double`…) và wrapper class (`Integer`, `Double`…). Khi nào bắt buộc phải dùng wrapper?",
+        "en": "Explain the difference between primitive types (`int`, `double`…) and wrapper classes (`Integer`, `Double`…). When must you use a wrapper?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Primitive lưu giá trị trực tiếp, không `null`, hiệu năng tốt hơn",
+          "en": "Primitives hold the value directly, cannot be `null`, perform better"
+        },
+        {
+          "vi": "Wrapper là object, có thể `null`, bắt buộc dùng trong generic/collection",
+          "en": "Wrappers are objects, can be `null`, required in generics/collections"
+        },
+        {
+          "vi": "Autoboxing/unboxing tự động; unboxing `null` gây `NullPointerException`",
+          "en": "Autoboxing/unboxing is automatic; unboxing `null` causes a `NullPointerException`"
+        },
+        {
+          "vi": "So sánh wrapper dùng `equals`, không dùng `==`",
+          "en": "Compare wrappers with `equals`, not `==`"
+        }
+      ],
+      "explanation": {
+        "vi": "Primitive lưu trực tiếp giá trị, không thể `null`, nhẹ và nhanh. Wrapper là object bọc primitive: có thể `null`, có method tiện ích và bắt buộc dùng trong generic/collection như `List<Integer>`. Java tự chuyển qua lại bằng autoboxing/unboxing, nhưng unboxing một wrapper `null` sẽ ném `NullPointerException`. Ngoài ra so sánh wrapper bằng `==` là so sánh tham chiếu nên phải dùng `equals`.",
+        "en": "A primitive stores the value directly, cannot be `null`, and is light and fast. A wrapper is an object around a primitive: it can be `null`, has utility methods and is required in generics/collections such as `List<Integer>`. Java converts between them via autoboxing/unboxing, but unboxing a `null` wrapper throws a `NullPointerException`. Also, comparing wrappers with `==` compares references, so use `equals`."
+      }
+    },
+    {
+      "id": "java.core.007",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "core",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  public static void main(String[] args) {\n    Integer a = 127, b = 127;\n    Integer c = 128, d = 128;\n    int e = 128;\n    System.out.println(c == d);\n    System.out.println(a == b);\n    System.out.println(c == e);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "true, true, true",
+            "en": "true, true, true"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "false, true, true",
+            "en": "false, true, true"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "false, true, false",
+            "en": "false, true, false"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "false, false, true",
+            "en": "false, false, true"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Autoboxing dùng `Integer.valueOf`, vốn cache các giá trị từ -128 đến 127. `c` và `d` (128) là hai object khác nhau nên `c == d` là `false`, còn `a` và `b` (127) cùng lấy từ cache nên `a == b` là `true`. Với `c == e`, một vế là `int` nên `c` bị unboxing và phép so sánh là so sánh số, cho `true`. Đây là lý do không bao giờ so sánh wrapper bằng `==`.",
+        "en": "Autoboxing uses `Integer.valueOf`, which caches values from -128 to 127. `c` and `d` (128) are two different objects, so `c == d` is `false`, while `a` and `b` (127) come from the cache, so `a == b` is `true`. In `c == e` one side is an `int`, so `c` is unboxed and the comparison is numeric, giving `true`. This is why wrappers should never be compared with `==`."
+      }
+    },
+    {
+      "id": "java.core.008",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "core",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  public static void main(String[] args) {\n    System.out.println('a' + 'b' + \"c\");\n    System.out.println(\"c\" + 'a' + 'b');\n    System.out.println(1 + 2 + \"3\" + 4 + 5);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "abc, cab, 3345",
+            "en": "abc, cab, 3345"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "195c, c195, 345",
+            "en": "195c, c195, 345"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "195c, cab, 3345",
+            "en": "195c, cab, 3345"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "abc, cab, 12345",
+            "en": "abc, cab, 12345"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Biểu thức `+` được tính từ trái sang phải. `'a' + 'b'` là cộng hai `char` thành `int` (97 + 98 = 195) rồi mới nối với `\"c\"` thành `195c`. Ở dòng hai, vế trái đã là `String` nên mọi phép `+` sau đó là nối chuỗi: `cab`. Dòng ba: `1 + 2` = 3, sau đó gặp `\"3\"` nên thành `\"33\"`, rồi nối tiếp `4` và `5` thành `3345`.",
+        "en": "`+` is evaluated left to right. `'a' + 'b'` adds two `char`s as `int`s (97 + 98 = 195) and only then concatenates `\"c\"`, giving `195c`. On the second line the left operand is already a `String`, so every following `+` is concatenation: `cab`. Third line: `1 + 2` = 3, then `\"3\"` makes it `\"33\"`, then `4` and `5` are appended, giving `3345`."
+      }
+    },
+    {
+      "id": "java.core.009",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "core",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Code cộng 10 lần `0.1` vào số dư nhưng lại in ra `Mismatch: 0.9999999999999999`. Lỗi nằm ở đâu?",
+        "en": "The code adds `0.1` to the balance 10 times but prints `Mismatch: 0.9999999999999999`. What is the bug?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  public static void main(String[] args) {\n    double balance = 0.0;\n    for (int i = 0; i < 10; i++) {\n      balance += 0.1;\n    }\n    if (balance == 1.0) {\n      System.out.println(\"OK\");\n    } else {\n      System.out.println(\"Mismatch: \" + balance);\n    }\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Vòng lặp chạy thiếu một lần, phải dùng `i <= 10`",
+            "en": "The loop runs one time too few; it should be `i <= 10`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Toán tử `+=` không dùng được với `double`",
+            "en": "The `+=` operator cannot be used with `double`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải khai báo `balance` là `final`",
+            "en": "`balance` must be declared `final`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`double` không biểu diễn chính xác `0.1`; tiền tệ nên dùng `BigDecimal` hoặc `long`",
+            "en": "`double` cannot represent `0.1` exactly; use `BigDecimal` or `long` for money"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`double` là số dấu phẩy động nhị phân (IEEE 754) nên không biểu diễn chính xác `0.1`; sai số tích luỹ sau mỗi lần cộng và `balance == 1.0` trả về `false`. Với tiền tệ nên dùng `BigDecimal` (tạo bằng `BigDecimal.valueOf` hoặc chuỗi `\"0.1\"`) hoặc lưu đơn vị nhỏ nhất bằng `long`. Vòng lặp không sai: nó chạy đúng 10 lần.",
+        "en": "`double` is binary floating point (IEEE 754), so it cannot represent `0.1` exactly; the error accumulates with each addition and `balance == 1.0` is `false`. For money use `BigDecimal` (created with `BigDecimal.valueOf` or the string `\"0.1\"`) or store the smallest unit in a `long`. The loop is fine: it runs exactly 10 times."
+      }
+    },
+    {
+      "id": "java.core.010",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "core",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  static void change(StringBuilder sb, int n) {\n    sb.append(\"!\");\n    sb = new StringBuilder(\"new\");\n    n = 99;\n  }\n\n  public static void main(String[] args) {\n    StringBuilder sb = new StringBuilder(\"hi\");\n    int n = 1;\n    change(sb, n);\n    System.out.println(sb + \" \" + n);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "hi! 1",
+            "en": "hi! 1"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "new 99",
+            "en": "new 99"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "hi 1",
+            "en": "hi 1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "new! 99",
+            "en": "new! 99"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Java luôn truyền tham trị (pass-by-value); với object, giá trị được truyền là bản sao của tham chiếu. `sb.append(\"!\")` sửa chính object mà `main` đang trỏ tới nên thành `hi!`. Gán `sb = new StringBuilder(\"new\")` chỉ đổi bản sao tham chiếu bên trong method, và `n = 99` chỉ đổi bản sao của `int`, nên `main` vẫn thấy `n = 1`.",
+        "en": "Java is always pass-by-value; for objects the value passed is a copy of the reference. `sb.append(\"!\")` mutates the very object `main` refers to, so it becomes `hi!`. Assigning `sb = new StringBuilder(\"new\")` only changes the method's copy of the reference, and `n = 99` only changes a copy of the `int`, so `main` still sees `n = 1`."
+      }
+    },
+    {
+      "id": "java.oop.001",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về overloading và overriding?",
+        "en": "Which statement about overloading and overriding is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Overloading được chọn lúc chạy, overriding lúc biên dịch",
+            "en": "Overloading is resolved at runtime, overriding at compile time"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Overloading được chọn lúc biên dịch, overriding được chọn lúc chạy",
+            "en": "Overloading is resolved at compile time, overriding at runtime"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ cần khác kiểu trả về là đã overload được",
+            "en": "Changing only the return type is enough to overload"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Method `static` có thể override như method thường",
+            "en": "`static` methods can be overridden like normal methods"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Overloading là nhiều method cùng tên nhưng khác danh sách tham số trong cùng class, và được chọn lúc biên dịch dựa trên kiểu khai báo của đối số. Overriding là lớp con định nghĩa lại method cùng signature của lớp cha, và được chọn lúc chạy theo kiểu thực của object (dynamic dispatch). Chỉ đổi kiểu trả về thì không tạo overload hợp lệ.",
+        "en": "Overloading means several methods with the same name but different parameter lists in one class, chosen at compile time from the declared types of the arguments. Overriding means a subclass redefines a method with the same signature as the superclass, chosen at runtime from the object's actual type (dynamic dispatch). Changing only the return type does not create a valid overload."
+      }
+    },
+    {
+      "id": "java.oop.002",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Từ Java 8 trở đi, khác biệt nào giữa abstract class và interface vẫn còn đúng?",
+        "en": "Since Java 8, which difference between an abstract class and an interface still holds?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Interface không thể chứa method có thân hàm",
+            "en": "Interfaces cannot contain methods with a body"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Abstract class không thể có constructor",
+            "en": "Abstract classes cannot have constructors"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Class chỉ kế thừa một class nhưng implement nhiều interface; interface không có instance field",
+            "en": "A class extends one class but implements many interfaces; interfaces have no instance fields"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Interface có thể khởi tạo bằng `new` nếu có method `default`",
+            "en": "An interface can be instantiated with `new` if it has `default` methods"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Interface từ Java 8 có thể có method `default` và `static`, từ Java 9 có thêm method `private`, nên \"interface không có code\" không còn đúng. Khác biệt cốt lõi còn lại: một class chỉ `extends` được một class nhưng `implements` được nhiều interface, và interface không có instance field hay constructor (field trong interface luôn là `public static final`). Abstract class phù hợp khi cần chia sẻ trạng thái và constructor.",
+        "en": "Since Java 8 interfaces can have `default` and `static` methods, and since Java 9 `private` methods, so \"interfaces have no code\" is no longer true. The core remaining difference: a class can `extend` only one class but `implement` many interfaces, and interfaces have no instance fields or constructors (interface fields are always `public static final`). Abstract classes fit when you need shared state and constructors."
+      }
+    },
+    {
+      "id": "java.oop.003",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  public static void main(String[] args) {\n    new C();\n  }\n}\n\nclass A { A() { System.out.print(\"A\"); } }\nclass B extends A { B() { System.out.print(\"B\"); } }\nclass C extends B { C() { System.out.print(\"C\"); } }"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "CBA",
+            "en": "CBA"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "C",
+            "en": "C"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "ABC",
+            "en": "ABC"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Constructor của lớp con luôn gọi constructor của lớp cha trước tiên; nếu không viết `super()`, trình biên dịch tự chèn `super()` không tham số. Vì vậy `new C()` chạy `A()` rồi `B()` rồi mới tới thân `C()`, in ra `ABC`. Code không lỗi vì `A` và `B` đều có constructor không tham số.",
+        "en": "A subclass constructor always calls a superclass constructor first; if you do not write `super()`, the compiler inserts a no-arg `super()` call. So `new C()` runs `A()`, then `B()`, then the body of `C()`, printing `ABC`. There is no compile error because `A` and `B` both have no-arg constructors."
+      }
+    },
+    {
+      "id": "java.oop.004",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Câu nào mô tả đúng nhất tính đóng gói (encapsulation)?",
+        "en": "Which best describes encapsulation?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Giấu dữ liệu bằng `private` và chỉ cho truy cập qua method có kiểm soát",
+            "en": "Hiding data with `private` and exposing it only through controlled methods"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lớp con dùng lại code của lớp cha",
+            "en": "A subclass reusing its parent's code"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Một method có nhiều dạng khác nhau tuỳ tham số",
+            "en": "One method having different forms depending on parameters"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gom mọi class vào cùng một package",
+            "en": "Putting all classes into the same package"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Đóng gói là giấu trạng thái bên trong (thường bằng field `private`) và chỉ cho bên ngoài tương tác qua các method công khai có kiểm soát, ví dụ validate trong setter hoặc không cung cấp setter. Nhờ vậy object tự bảo vệ tính hợp lệ của dữ liệu và có thể đổi cách cài đặt bên trong mà không ảnh hưởng code gọi. Việc lớp con dùng lại code của lớp cha là kế thừa, không phải đóng gói.",
+        "en": "Encapsulation means hiding internal state (usually with `private` fields) and letting the outside interact only through controlled public methods, e.g. validating in a setter or not offering a setter at all. The object then protects its own invariants and can change its internals without affecting callers. A subclass reusing the parent's code is inheritance, not encapsulation."
+      }
+    },
+    {
+      "id": "java.oop.005",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày 4 tính chất của OOP trong Java, mỗi tính chất kèm một ví dụ ngắn.",
+        "en": "Describe the four pillars of OOP in Java, each with a short example."
+      },
+      "keyPoints": [
+        {
+          "vi": "Đóng gói: `private` field + method có kiểm soát",
+          "en": "Encapsulation: `private` fields + controlled methods"
+        },
+        {
+          "vi": "Kế thừa: `extends` để dùng lại và mở rộng",
+          "en": "Inheritance: `extends` to reuse and extend"
+        },
+        {
+          "vi": "Đa hình: tham chiếu kiểu cha, hành vi theo kiểu thực lúc chạy",
+          "en": "Polymorphism: parent-type reference, behaviour by runtime type"
+        },
+        {
+          "vi": "Trừu tượng: interface/abstract class tách \"làm gì\" khỏi \"làm thế nào\"",
+          "en": "Abstraction: interface/abstract class separates \"what\" from \"how\""
+        },
+        {
+          "vi": "Mỗi tính chất có ví dụ cụ thể",
+          "en": "Gives a concrete example for each"
+        }
+      ],
+      "explanation": {
+        "vi": "Đóng gói: field `private` và method công khai có kiểm soát, ví dụ `BankAccount` chỉ cho `deposit` số dương. Kế thừa: `class Dog extends Animal` dùng lại và mở rộng hành vi. Đa hình: biến kiểu `Animal` trỏ tới `Dog` và lời gọi `sound()` chạy theo kiểu thực lúc chạy. Trừu tượng: abstract class hoặc interface như `PaymentGateway` chỉ mô tả \"làm gì\", để class cụ thể quyết định \"làm thế nào\".",
+        "en": "Encapsulation: `private` fields and controlled public methods, e.g. a `BankAccount` that only accepts positive `deposit`s. Inheritance: `class Dog extends Animal` reuses and extends behaviour. Polymorphism: an `Animal` variable referring to a `Dog`, where `sound()` runs based on the runtime type. Abstraction: an abstract class or interface such as `PaymentGateway` describes \"what\" and lets concrete classes decide \"how\"."
+      }
+    },
+    {
+      "id": "java.oop.006",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Từ khoá `sealed` (Java 17) dùng để làm gì?",
+        "en": "What is the `sealed` keyword (Java 17) for?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cấm mọi class kế thừa, giống `final`",
+            "en": "Forbids any subclass, same as `final`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giới hạn những class nào được phép kế thừa, khai báo bằng `permits`",
+            "en": "Restricts which classes may extend it, declared with `permits`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Làm mọi field của class thành immutable",
+            "en": "Makes all of the class's fields immutable"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ngăn class bị nạp bởi classloader khác",
+            "en": "Prevents the class from being loaded by another classloader"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`sealed class Shape permits Circle, Square` giới hạn chính xác những class nào được phép kế thừa `Shape`; mỗi lớp con phải khai báo `final`, `sealed` hoặc `non-sealed`. Nhờ biết đủ các lớp con, trình biên dịch kiểm tra được `switch` pattern matching có bao phủ hết trường hợp hay chưa. Khác với `final`, `sealed` vẫn cho kế thừa nhưng chỉ với danh sách cho phép.",
+        "en": "`sealed class Shape permits Circle, Square` restricts exactly which classes may extend `Shape`; each subclass must be declared `final`, `sealed` or `non-sealed`. Because all subclasses are known, the compiler can check that a pattern-matching `switch` is exhaustive. Unlike `final`, `sealed` still allows inheritance, but only for the permitted list."
+      }
+    },
+    {
+      "id": "java.oop.007",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  static void print(Object o) { System.out.println(\"Object\"); }\n  static void print(String s) { System.out.println(\"String\"); }\n\n  public static void main(String[] args) {\n    print(null);\n    Object x = \"hello\";\n    print(x);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "String, String",
+            "en": "String, String"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Object, Object",
+            "en": "Object, Object"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "String, Object",
+            "en": "String, Object"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch (ambiguous)",
+            "en": "Compile error (ambiguous)"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Chọn overload xảy ra lúc biên dịch theo kiểu khai báo của đối số. Với `null`, cả `print(Object)` và `print(String)` đều hợp lệ, Java chọn method cụ thể nhất là `String`. Với `x`, kiểu khai báo là `Object` nên gọi `print(Object)` dù object thực là `String`. Không có lỗi \"ambiguous\" vì `String` là kiểu con của `Object`.",
+        "en": "Overload selection happens at compile time from the declared argument types. For `null`, both `print(Object)` and `print(String)` apply, and Java picks the most specific one, `String`. For `x` the declared type is `Object`, so `print(Object)` is called even though the actual object is a `String`. There is no \"ambiguous\" error because `String` is a subtype of `Object`."
+      }
+    },
+    {
+      "id": "java.oop.008",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Code in ra `false` dù hai `Point` có cùng toạ độ. Lỗi là gì?",
+        "en": "The code prints `false` even though both `Point`s have the same coordinates. What is the bug?"
+      },
+      "code": {
+        "language": "java",
+        "source": "import java.util.*;\n\npublic class Main {\n  public static void main(String[] args) {\n    List<Point> list = List.of(new Point(1, 2));\n    System.out.println(list.contains(new Point(1, 2)));\n  }\n}\n\nclass Point {\n  final int x, y;\n  Point(int x, int y) { this.x = x; this.y = y; }\n\n  public boolean equals(Point other) {\n    return x == other.x && y == other.y;\n  }\n\n  @Override\n  public int hashCode() { return 31 * x + y; }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`hashCode` tính sai nên `contains` không tìm thấy",
+            "en": "`hashCode` is wrong so `contains` cannot find it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`List.of` tạo list rỗng",
+            "en": "`List.of` creates an empty list"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Field `final` không được so sánh trong `equals`",
+            "en": "`final` fields cannot be compared in `equals`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`equals(Point)` là overload, không override `equals(Object)`",
+            "en": "`equals(Point)` is an overload, not an override of `equals(Object)`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`equals(Point other)` là một overload mới, không override `Object.equals(Object)`. `List.contains` gọi `equals(Object)` nên vẫn dùng bản của `Object`, tức so sánh tham chiếu, và trả về `false`. Sửa bằng `@Override public boolean equals(Object o)` có kiểm tra kiểu; thêm `@Override` sẽ giúp trình biên dịch bắt lỗi này ngay. `hashCode` ở đây không phải nguyên nhân vì `List` không dùng hash.",
+        "en": "`equals(Point other)` is a new overload; it does not override `Object.equals(Object)`. `List.contains` calls `equals(Object)`, so `Object`'s version, a reference comparison, is used and returns `false`. Fix it with `@Override public boolean equals(Object o)` plus a type check; adding `@Override` makes the compiler catch this mistake immediately. `hashCode` is not the cause here since `List` does not use hashing."
+      }
+    },
+    {
+      "id": "java.oop.009",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau cho kết quả gì?",
+        "en": "What is the result of the following code?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  public static void main(String[] args) {\n    new Derived();\n  }\n}\n\nclass Base {\n  Base() { init(); }\n  void init() { }\n}\n\nclass Derived extends Base {\n  private String name = \"derived\";\n\n  @Override\n  void init() { System.out.println(name.length()); }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ném `NullPointerException`",
+            "en": "Throws a `NullPointerException`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "In ra `7`",
+            "en": "Prints `7`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "In ra `0`",
+            "en": "Prints `0`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Constructor `Base()` chạy trước khi các field của `Derived` được khởi tạo. Lời gọi `init()` trong đó được dispatch tới bản override của `Derived`, lúc này `name` vẫn là `null`, nên `name.length()` ném `NullPointerException`. Bài học: không gọi method có thể override từ constructor.",
+        "en": "The `Base()` constructor runs before `Derived`'s fields are initialised. Its `init()` call is dispatched to `Derived`'s override, where `name` is still `null`, so `name.length()` throws a `NullPointerException`. Lesson: never call overridable methods from a constructor."
+      }
+    },
+    {
+      "id": "java.collections.001",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về `ArrayList` và `LinkedList`?",
+        "en": "Which statement about `ArrayList` and `LinkedList` is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`LinkedList.get(i)` là O(1) vì mỗi node biết vị trí của nó",
+            "en": "`LinkedList.get(i)` is O(1) because each node knows its index"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`ArrayList.get(i)` là O(1), `LinkedList.get(i)` là O(n)",
+            "en": "`ArrayList.get(i)` is O(1), `LinkedList.get(i)` is O(n)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`ArrayList` không cho phần tử trùng lặp",
+            "en": "`ArrayList` does not allow duplicates"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`LinkedList` tốn ít bộ nhớ hơn `ArrayList` cho mỗi phần tử",
+            "en": "`LinkedList` uses less memory per element than `ArrayList`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`ArrayList` dựa trên mảng nên `get(i)` là O(1), còn `LinkedList` là danh sách liên kết đôi nên `get(i)` phải duyệt từ đầu hoặc cuối, O(n). `LinkedList` chỉ thêm/xoá O(1) khi đã đứng sẵn tại vị trí (qua iterator hoặc ở hai đầu). Trong thực tế `ArrayList` gần như luôn nhanh hơn nhờ dữ liệu liền kề, thân thiện với CPU cache.",
+        "en": "`ArrayList` is backed by an array, so `get(i)` is O(1), while `LinkedList` is a doubly linked list, so `get(i)` must walk from either end, O(n). `LinkedList` only inserts/removes in O(1) when you are already at the position (via an iterator or at the ends). In practice `ArrayList` is almost always faster thanks to contiguous, cache-friendly memory."
+      }
+    },
+    {
+      "id": "java.collections.002",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần lưu danh sách email không trùng lặp và giữ đúng thứ tự thêm vào. Nên dùng collection nào?",
+        "en": "You need to store unique emails and keep them in insertion order. Which collection fits?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`HashSet`",
+            "en": "`HashSet`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`TreeSet`",
+            "en": "`TreeSet`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`LinkedHashSet`",
+            "en": "`LinkedHashSet`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`ArrayList`",
+            "en": "`ArrayList`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`LinkedHashSet` là `Set` (không trùng lặp) và giữ thứ tự thêm vào nhờ danh sách liên kết nội bộ. `HashSet` không đảm bảo thứ tự nào, còn `TreeSet` sắp xếp theo thứ tự tự nhiên hoặc `Comparator` chứ không theo thứ tự thêm. `ArrayList` giữ thứ tự nhưng cho phép trùng lặp.",
+        "en": "`LinkedHashSet` is a `Set` (no duplicates) and keeps insertion order thanks to an internal linked list. `HashSet` guarantees no order at all, and `TreeSet` sorts by natural order or a `Comparator`, not by insertion. `ArrayList` keeps order but allows duplicates."
+      }
+    },
+    {
+      "id": "java.collections.003",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "import java.util.*;\n\npublic class Main {\n  public static void main(String[] args) {\n    Map<String, Integer> m = new HashMap<>();\n    m.put(\"a\", 1);\n    m.put(\"b\", 2);\n    m.put(\"a\", 3);\n    System.out.println(m.size() + \" \" + m.get(\"a\"));\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "3 3",
+            "en": "3 3"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "3 1",
+            "en": "3 1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "2 1",
+            "en": "2 1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "2 3",
+            "en": "2 3"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Map` không cho key trùng: `put(\"a\", 3)` ghi đè giá trị cũ của key `\"a\"` (và trả về giá trị cũ là `1`). Map vẫn chỉ có hai key `\"a\"` và `\"b\"`, nên `size()` là 2 và `get(\"a\")` là 3.",
+        "en": "A `Map` has no duplicate keys: `put(\"a\", 3)` overwrites the previous value for key `\"a\"` (and returns the old value `1`). The map still has only two keys, `\"a\"` and `\"b\"`, so `size()` is 2 and `get(\"a\")` is 3."
+      }
+    },
+    {
+      "id": "java.collections.004",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "collections",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích cách `HashMap` lưu và tìm một cặp key–value.",
+        "en": "Explain how a `HashMap` stores and looks up a key–value pair."
+      },
+      "keyPoints": [
+        {
+          "vi": "Mảng bucket, chỉ số tính từ `hashCode()` của key",
+          "en": "An array of buckets indexed from the key's `hashCode()`"
+        },
+        {
+          "vi": "Collision: nhiều entry cùng bucket, phân biệt bằng `equals`",
+          "en": "Collisions: several entries per bucket, told apart with `equals`"
+        },
+        {
+          "vi": "`get` đi lại đúng đường: hash → bucket → `equals`",
+          "en": "`get` follows the same path: hash → bucket → `equals`"
+        },
+        {
+          "vi": "Key cần `hashCode`/`equals` nhất quán, nên immutable; trung bình O(1)",
+          "en": "Keys need consistent `hashCode`/`equals`, ideally immutable; O(1) on average"
+        }
+      ],
+      "explanation": {
+        "vi": "`HashMap` có một mảng bucket. Khi `put`, nó lấy `key.hashCode()`, trộn bit rồi tính chỉ số bucket. Nếu bucket đã có phần tử (collision), các entry được nối thành danh sách (hoặc cây khi quá dài) và `equals` dùng để xác định key đã tồn tại hay chưa. Khi `get`, quy trình giống hệt: tìm bucket theo hash rồi so `equals`. Vì vậy key phải override `hashCode` và `equals` nhất quán, và lý tưởng là immutable; thao tác trung bình là O(1).",
+        "en": "A `HashMap` holds an array of buckets. On `put` it takes `key.hashCode()`, mixes the bits and computes the bucket index. If the bucket already has entries (a collision), they are chained in a list (or a tree when long) and `equals` decides whether the key already exists. `get` follows the same path: find the bucket by hash, then compare with `equals`. So keys must override `hashCode` and `equals` consistently and should ideally be immutable; operations are O(1) on average."
+      }
+    },
+    {
+      "id": "java.collections.005",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "import java.util.*;\n\npublic class Main {\n  public static void main(String[] args) {\n    List<Integer> list = new ArrayList<>(List.of(10, 20, 30));\n    list.remove(1);\n    list.remove(Integer.valueOf(10));\n    System.out.println(list);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[30]",
+            "en": "[30]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[20, 30]",
+            "en": "[20, 30]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[10, 30]",
+            "en": "[10, 30]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "IndexOutOfBoundsException",
+            "en": "IndexOutOfBoundsException"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`List<Integer>` có hai overload: `remove(int index)` và `remove(Object o)`. `list.remove(1)` truyền `int` nên chọn `remove(int)` và xoá phần tử ở vị trí 1 (`20`), còn lại `[10, 30]`. `list.remove(Integer.valueOf(10))` truyền object nên xoá theo giá trị `10`, còn `[30]`. Nhầm lẫn giữa hai overload này là lỗi rất hay gặp.",
+        "en": "`List<Integer>` has two overloads: `remove(int index)` and `remove(Object o)`. `list.remove(1)` passes an `int`, so `remove(int)` is chosen and removes the element at index 1 (`20`), leaving `[10, 30]`. `list.remove(Integer.valueOf(10))` passes an object, so it removes the value `10`, leaving `[30]`. Mixing up these two overloads is a very common bug."
+      }
+    },
+    {
+      "id": "java.collections.006",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Code muốn xoá các tên bắt đầu bằng `B` nhưng bị lỗi khi chạy. Nguyên nhân và cách sửa?",
+        "en": "The code wants to remove names starting with `B` but fails at runtime. What is the cause and the fix?"
+      },
+      "code": {
+        "language": "java",
+        "source": "import java.util.*;\n\npublic class Main {\n  public static void main(String[] args) {\n    List<String> names = new ArrayList<>(List.of(\"An\", \"Binh\", \"Chi\", \"Dung\"));\n    for (String name : names) {\n      if (name.startsWith(\"B\")) {\n        names.remove(name);\n      }\n    }\n    System.out.println(names);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cần bọc vòng lặp trong `synchronized` vì có nhiều thread",
+            "en": "The loop must be wrapped in `synchronized` because of multiple threads"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Xoá trực tiếp trong for-each gây `ConcurrentModificationException`; dùng `removeIf` hoặc `Iterator.remove()`",
+            "en": "Removing inside for-each throws `ConcurrentModificationException`; use `removeIf` or `Iterator.remove()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`List.of` trả về list bất biến nên `remove` ném `UnsupportedOperationException`",
+            "en": "`List.of` returns an immutable list, so `remove` throws `UnsupportedOperationException`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`startsWith` phân biệt hoa thường nên không tìm thấy `Binh`",
+            "en": "`startsWith` is case-sensitive, so `Binh` is never found"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Vòng for-each dùng `Iterator` ngầm; gọi `names.remove(...)` trực tiếp làm thay đổi `modCount` của list, nên lần `next()` tiếp theo phát hiện và ném `ConcurrentModificationException`. Cách sửa: `names.removeIf(n -> n.startsWith(\"B\"))` hoặc dùng `Iterator` tường minh và gọi `it.remove()`. Lỗi này xảy ra ngay cả khi chỉ có một thread, nên đổi sang `synchronized` không giải quyết được.",
+        "en": "A for-each loop uses an implicit `Iterator`; calling `names.remove(...)` directly changes the list's `modCount`, so the next `next()` detects it and throws a `ConcurrentModificationException`. Fix: `names.removeIf(n -> n.startsWith(\"B\"))` or use an explicit `Iterator` and call `it.remove()`. This happens even with a single thread, so adding `synchronized` does not help."
+      }
+    },
+    {
+      "id": "java.collections.007",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Code in ra `null` và `1`: entry vẫn nằm trong map nhưng không lấy ra được. Lỗi là gì?",
+        "en": "The code prints `null` and `1`: the entry is still in the map but cannot be retrieved. What is the bug?"
+      },
+      "code": {
+        "language": "java",
+        "source": "import java.util.*;\n\npublic class Main {\n  public static void main(String[] args) {\n    List<String> key = new ArrayList<>(List.of(\"vn\"));\n    Map<List<String>, String> map = new HashMap<>();\n    map.put(key, \"Vietnam\");\n    key.add(\"hn\");\n    System.out.println(map.get(key));\n    System.out.println(map.size());\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`HashMap` không hỗ trợ key kiểu `List`",
+            "en": "`HashMap` does not support `List` keys"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`ArrayList` không override `hashCode`",
+            "en": "`ArrayList` does not override `hashCode`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Key bị sửa sau khi `put` nên `hashCode` đổi; key phải immutable",
+            "en": "The key is mutated after `put`, so its `hashCode` changes; keys must be immutable"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải dùng `TreeMap` vì key là collection",
+            "en": "A `TreeMap` must be used because the key is a collection"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Entry được đặt vào bucket theo `hashCode` của key tại thời điểm `put`. Sau `key.add(\"hn\")`, `hashCode` của list thay đổi nên `get` tìm ở bucket khác (hoặc hash không khớp) và trả về `null`, trong khi entry cũ vẫn chiếm chỗ: một dạng rò rỉ bộ nhớ. Key của `HashMap`/`HashSet` phải là immutable, ví dụ `List.copyOf(key)`, `String` hoặc `record`.",
+        "en": "An entry is placed in a bucket according to the key's `hashCode` at `put` time. After `key.add(\"hn\")` the list's `hashCode` changes, so `get` looks in another bucket (or the hash no longer matches) and returns `null`, while the old entry still occupies space: a form of memory leak. `HashMap`/`HashSet` keys must be immutable, e.g. `List.copyOf(key)`, a `String` or a `record`."
+      }
+    },
+    {
+      "id": "java.collections.008",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "collections",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Class `User` override `equals` (so sánh `id`) nhưng không override `hashCode`. Thêm hai `User` có cùng `id` vào `HashSet` thì sao?",
+        "en": "A `User` class overrides `equals` (comparing `id`) but not `hashCode`. What happens when two `User`s with the same `id` are added to a `HashSet`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Set chỉ chứa một vì `equals` đã được override",
+            "en": "The set holds only one because `equals` is overridden"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`HashSet` ném `IllegalStateException`",
+            "en": "`HashSet` throws an `IllegalStateException`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không biên dịch được khi thiếu `hashCode`",
+            "en": "It does not compile without `hashCode`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Set có thể chứa cả hai vì `hashCode` mặc định khác nhau",
+            "en": "The set may contain both because the default `hashCode`s differ"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`HashSet` tìm bucket bằng `hashCode` trước rồi mới so `equals`. `hashCode` mặc định của `Object` gần như luôn khác nhau cho hai object khác nhau, nên hai `User` rơi vào hai bucket khác nhau, `equals` không bao giờ được gọi và set chứa cả hai. Điều này vi phạm hợp đồng: hai object `equals` nhau phải có cùng `hashCode`. Không có exception nào được ném ra, lỗi diễn ra âm thầm.",
+        "en": "`HashSet` finds the bucket by `hashCode` first and only then compares with `equals`. `Object`'s default `hashCode` is almost always different for two distinct objects, so the two `User`s land in different buckets, `equals` is never called and the set keeps both. This breaks the contract: objects that are `equals` must have the same `hashCode`. No exception is thrown; the bug is silent."
+      }
+    },
+    {
+      "id": "java.collections.009",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "collections",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `HashMap` của Java 8+, khi nào một bucket được chuyển từ danh sách liên kết sang cây đỏ-đen (treeify)?",
+        "en": "In Java 8+ `HashMap`, when is a bucket converted from a linked list into a red-black tree (treeify)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bucket có ≥ 8 node và dung lượng bảng ≥ 64; nếu không thì resize",
+            "en": "The bucket has ≥ 8 nodes and table capacity is ≥ 64; otherwise it resizes"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ngay khi số phần tử vượt 75% dung lượng (load factor)",
+            "en": "As soon as the size exceeds 75% of capacity (the load factor)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Khi bucket có collision đầu tiên",
+            "en": "At the first collision in a bucket"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không bao giờ; chỉ `TreeMap` dùng cây đỏ-đen",
+            "en": "Never; only `TreeMap` uses a red-black tree"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Khi một bucket có từ 8 node trở lên (`TREEIFY_THRESHOLD`), `HashMap` chỉ treeify nếu dung lượng bảng đã ≥ 64 (`MIN_TREEIFY_CAPACITY`); nếu bảng còn nhỏ, nó ưu tiên resize gấp đôi để phân tán lại các key. Cây giúp tìm kiếm trong bucket xấu là O(log n) thay vì O(n), chống tấn công hash collision. Khi resize làm bucket còn ≤ 6 node (`UNTREEIFY_THRESHOLD`) thì cây được chuyển lại thành list. Load factor 0.75 quyết định lúc resize chứ không quyết định treeify.",
+        "en": "When a bucket reaches 8 or more nodes (`TREEIFY_THRESHOLD`), `HashMap` only treeifies if the table capacity is already ≥ 64 (`MIN_TREEIFY_CAPACITY`); with a smaller table it prefers to double the table and redistribute keys. The tree makes lookups in a bad bucket O(log n) instead of O(n), mitigating hash-collision attacks. When a resize leaves a bucket with ≤ 6 nodes (`UNTREEIFY_THRESHOLD`), the tree is turned back into a list. The 0.75 load factor triggers resizing, not treeification."
+      }
+    },
+    {
+      "id": "java.collections.010",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "collections",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh `HashMap`, `Collections.synchronizedMap`, `Hashtable` và `ConcurrentHashMap` khi dùng trong môi trường đa luồng.",
+        "en": "Compare `HashMap`, `Collections.synchronizedMap`, `Hashtable` and `ConcurrentHashMap` in a multi-threaded environment."
+      },
+      "keyPoints": [
+        {
+          "vi": "`HashMap` không thread-safe, ghi đồng thời có thể mất dữ liệu",
+          "en": "`HashMap` is not thread-safe; concurrent writes can lose data"
+        },
+        {
+          "vi": "`Hashtable`/`synchronizedMap`: một lock cho cả map, thao tác ghép vẫn phải tự đồng bộ",
+          "en": "`Hashtable`/`synchronizedMap`: one lock for the whole map, compound actions still need manual sync"
+        },
+        {
+          "vi": "`ConcurrentHashMap`: CAS + khoá từng bucket, đọc gần như không khoá",
+          "en": "`ConcurrentHashMap`: CAS + per-bucket locks, mostly lock-free reads"
+        },
+        {
+          "vi": "Dùng `compute`/`merge`/`putIfAbsent` cho thao tác nguyên tử",
+          "en": "Use `compute`/`merge`/`putIfAbsent` for atomic updates"
+        },
+        {
+          "vi": "`ConcurrentHashMap` không nhận `null`; iterator weakly consistent",
+          "en": "`ConcurrentHashMap` rejects `null`; iterators are weakly consistent"
+        }
+      ],
+      "explanation": {
+        "vi": "`HashMap` không thread-safe: ghi đồng thời có thể mất dữ liệu hoặc làm hỏng cấu trúc. `Hashtable` và `synchronizedMap` khoá toàn bộ map bằng một lock nên an toàn nhưng tranh chấp cao, và vẫn phải tự `synchronized` khi duyệt hoặc làm thao tác ghép như \"kiểm tra rồi put\". `ConcurrentHashMap` (Java 8+) dùng CAS và khoá theo từng bucket, đọc gần như không khoá, iterator weakly consistent không ném `ConcurrentModificationException`, và có `compute`/`merge`/`putIfAbsent` nguyên tử. Lưu ý `ConcurrentHashMap` không cho key hoặc value `null`.",
+        "en": "`HashMap` is not thread-safe: concurrent writes can lose updates or corrupt its structure. `Hashtable` and `synchronizedMap` guard the whole map with one lock, so they are safe but highly contended, and you still need manual `synchronized` when iterating or for compound actions like \"check then put\". `ConcurrentHashMap` (Java 8+) uses CAS and per-bucket locking, reads are mostly lock-free, iterators are weakly consistent and never throw `ConcurrentModificationException`, and it offers atomic `compute`/`merge`/`putIfAbsent`. Note that `ConcurrentHashMap` forbids `null` keys and values."
+      }
+    },
+    {
+      "id": "java.exceptions.001",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "exceptions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Exception nào sau đây là checked exception?",
+        "en": "Which of the following is a checked exception?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`NullPointerException`",
+            "en": "`NullPointerException`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`IOException`",
+            "en": "`IOException`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`IllegalArgumentException`",
+            "en": "`IllegalArgumentException`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`ArithmeticException`",
+            "en": "`ArithmeticException`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Checked exception là lớp con của `Exception` nhưng không thuộc nhánh `RuntimeException`; trình biên dịch bắt buộc phải `catch` hoặc khai báo `throws`. `IOException` thuộc loại này. `NullPointerException`, `IllegalArgumentException` và `ArithmeticException` đều kế thừa `RuntimeException` nên là unchecked, không bắt buộc xử lý.",
+        "en": "A checked exception is a subclass of `Exception` outside the `RuntimeException` branch; the compiler forces you to `catch` it or declare it with `throws`. `IOException` is one. `NullPointerException`, `IllegalArgumentException` and `ArithmeticException` all extend `RuntimeException`, so they are unchecked and need no mandatory handling."
+      }
+    },
+    {
+      "id": "java.exceptions.002",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "exceptions",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  static int test() {\n    try {\n      return 1;\n    } finally {\n      System.out.println(\"finally\");\n    }\n  }\n\n  public static void main(String[] args) {\n    System.out.println(test());\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "1, finally",
+            "en": "1, finally"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "1",
+            "en": "1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "finally, 1",
+            "en": "finally, 1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "finally",
+            "en": "finally"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Giá trị trả về `1` được tính và giữ lại trước, sau đó khối `finally` luôn chạy trước khi method thực sự trả về. Vì vậy `finally` được in trước, rồi `main` mới in kết quả `1`. `finally` chỉ không chạy trong trường hợp đặc biệt như `System.exit()` hoặc JVM bị tắt đột ngột.",
+        "en": "The return value `1` is computed and saved first, then the `finally` block always runs before the method actually returns. So `finally` is printed first, and then `main` prints the result `1`. `finally` is skipped only in special cases such as `System.exit()` or the JVM being killed."
+      }
+    },
+    {
+      "id": "java.exceptions.003",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "exceptions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một object muốn dùng được trong `try (...)` (try-with-resources) cần điều kiện gì?",
+        "en": "What must an object satisfy to be used in `try (...)` (try-with-resources)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Implement `Serializable`",
+            "en": "Implement `Serializable`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải là lớp con của `InputStream`",
+            "en": "Be a subclass of `InputStream`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải có `finally` gọi `close()`",
+            "en": "Have a `finally` block that calls `close()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Implement `AutoCloseable`; `close()` được gọi tự động khi thoát khối",
+            "en": "Implement `AutoCloseable`; `close()` is called automatically on exit"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Resource phải implement `AutoCloseable` (hoặc `Closeable`, interface con của nó). Khi thoát khối `try`, dù bình thường hay do exception, `close()` được gọi tự động theo thứ tự ngược với lúc khai báo. Nếu `close()` cũng ném exception thì nó được gắn vào exception chính dưới dạng suppressed. Không cần viết `finally` để đóng resource nữa.",
+        "en": "The resource must implement `AutoCloseable` (or `Closeable`, its sub-interface). When the `try` block exits, normally or by exception, `close()` is called automatically in reverse declaration order. If `close()` also throws, that exception is attached to the primary one as suppressed. You no longer need a `finally` block to close the resource."
+      }
+    },
+    {
+      "id": "java.exceptions.004",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "exceptions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về `Error` (ví dụ `OutOfMemoryError`, `StackOverflowError`)?",
+        "en": "Which statement about `Error` (e.g. `OutOfMemoryError`, `StackOverflowError`) is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Là sự cố nghiêm trọng, unchecked, thường không nên `catch`",
+            "en": "It is a serious problem, unchecked, and usually should not be caught"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Là lớp con của `Exception` nên `catch (Exception e)` bắt được",
+            "en": "It is a subclass of `Exception`, so `catch (Exception e)` catches it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Là checked, phải khai báo `throws`",
+            "en": "It is checked and must be declared with `throws`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ xảy ra lúc biên dịch",
+            "en": "It only happens at compile time"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Error` và `Exception` đều kế thừa `Throwable`. `Error` biểu thị sự cố nghiêm trọng của JVM/môi trường mà ứng dụng thường không thể khôi phục, nên không nên `catch` để \"chạy tiếp\". `Error` là unchecked, không bắt buộc khai báo `throws`. Nó không phải lớp con của `Exception`, nên `catch (Exception e)` không bắt được `OutOfMemoryError`.",
+        "en": "`Error` and `Exception` both extend `Throwable`. An `Error` signals a serious JVM/environment problem that an application usually cannot recover from, so you should not `catch` it to \"keep going\". `Error` is unchecked and never needs a `throws` clause. It is not a subclass of `Exception`, so `catch (Exception e)` does not catch an `OutOfMemoryError`."
+      }
+    },
+    {
+      "id": "java.exceptions.005",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "exceptions",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  static int a() {\n    int x = 1;\n    try {\n      return x;\n    } finally {\n      x = 2;\n    }\n  }\n\n  @SuppressWarnings(\"finally\")\n  static int b() {\n    try {\n      return 1;\n    } finally {\n      return 2;\n    }\n  }\n\n  public static void main(String[] args) {\n    System.out.println(a() + \" \" + b());\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "2 2",
+            "en": "2 2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "1 2",
+            "en": "1 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "1 1",
+            "en": "1 1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "2 1",
+            "en": "2 1"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Trong `a()`, lệnh `return x` đã lưu giá trị `1` trước khi `finally` chạy; gán `x = 2` sau đó không đổi giá trị đã lưu với kiểu `int`. Trong `b()`, `return 2` trong `finally` ghi đè hoàn toàn `return 1` (và còn nuốt mất mọi exception nếu có). Vì thế kết quả là `1 2`; không nên `return` trong `finally`.",
+        "en": "In `a()`, `return x` saves the value `1` before `finally` runs; assigning `x = 2` afterwards does not change the saved `int` value. In `b()`, `return 2` in `finally` completely overrides `return 1` (and would also swallow any exception). So the result is `1 2`; avoid `return` inside `finally`."
+      }
+    },
+    {
+      "id": "java.exceptions.006",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "exceptions",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được. Vì sao?",
+        "en": "The following code does not compile. Why?"
+      },
+      "code": {
+        "language": "java",
+        "source": "import java.io.IOException;\nimport java.nio.file.*;\n\npublic class Main {\n  public static void main(String[] args) {\n    try {\n      String config = Files.readString(Path.of(\"config.txt\"));\n      System.out.println(config);\n    } catch (Exception e) {\n      System.out.println(\"Unexpected error\");\n    } catch (IOException e) {\n      System.out.println(\"Cannot read config\");\n    }\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Files.readString` không tồn tại",
+            "en": "`Files.readString` does not exist"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`main` phải khai báo `throws IOException`",
+            "en": "`main` must declare `throws IOException`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`catch (Exception)` đứng trước làm `catch (IOException)` không thể tới được",
+            "en": "`catch (Exception)` comes first, making `catch (IOException)` unreachable"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không được dùng hai khối `catch` cho một `try`",
+            "en": "A `try` cannot have two `catch` blocks"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Các khối `catch` được xét từ trên xuống. `catch (Exception e)` đã bắt mọi `IOException`, nên `catch (IOException e)` phía sau không bao giờ chạy tới và javac báo lỗi `exception IOException has already been caught`. Phải đặt exception cụ thể trước, tổng quát sau, hoặc dùng multi-catch khi xử lý giống nhau. `Files.readString` tồn tại từ Java 11 nên không phải nguyên nhân.",
+        "en": "`catch` blocks are checked top to bottom. `catch (Exception e)` already catches every `IOException`, so the later `catch (IOException e)` is unreachable and javac reports `exception IOException has already been caught`. Put specific exceptions before general ones, or use multi-catch when the handling is the same. `Files.readString` exists since Java 11, so it is not the cause."
+      }
+    },
+    {
+      "id": "java.exceptions.007",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "exceptions",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Method `firstLine` chạy đúng khi file bình thường. Vấn đề tiềm ẩn là gì?",
+        "en": "`firstLine` works when the file is fine. What is the hidden problem?"
+      },
+      "code": {
+        "language": "java",
+        "source": "import java.io.*;\n\npublic class Main {\n  static String firstLine(String path) throws IOException {\n    BufferedReader reader = new BufferedReader(new FileReader(path));\n    String line = reader.readLine();\n    reader.close();\n    return line;\n  }\n\n  public static void main(String[] args) throws IOException {\n    System.out.println(firstLine(\"Main.java\"));\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không được khai báo `throws IOException` ở method `static`",
+            "en": "`static` methods cannot declare `throws IOException`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`BufferedReader` phải đóng trước khi đọc",
+            "en": "`BufferedReader` must be closed before reading"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`readLine()` luôn trả về `null` với `FileReader`",
+            "en": "`readLine()` always returns `null` with a `FileReader`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Exception trong `readLine()` làm `close()` bị bỏ qua, rò rỉ resource; dùng try-with-resources",
+            "en": "An exception in `readLine()` skips `close()`, leaking the resource; use try-with-resources"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Nếu `readLine()` ném `IOException`, dòng `reader.close()` bị bỏ qua và file handle không được giải phóng; gọi nhiều lần có thể dẫn tới `Too many open files`. Cách sửa là dùng try-with-resources: `try (var reader = new BufferedReader(new FileReader(path))) { return reader.readLine(); }`, `close()` luôn được gọi kể cả khi có exception. Khai báo `throws IOException` là hợp lệ, không phải lỗi.",
+        "en": "If `readLine()` throws an `IOException`, `reader.close()` is skipped and the file handle is never released; repeated calls can end in `Too many open files`. Fix it with try-with-resources: `try (var reader = new BufferedReader(new FileReader(path))) { return reader.readLine(); }`, where `close()` is always called, even on exceptions. Declaring `throws IOException` is valid and not the bug."
+      }
+    },
+    {
+      "id": "java.exceptions.008",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "exceptions",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khi nào bạn tạo custom exception, và nên cho nó kế thừa `Exception` hay `RuntimeException`? Nêu các nguyên tắc khi thiết kế.",
+        "en": "When do you create a custom exception, and should it extend `Exception` or `RuntimeException`? Give design guidelines."
+      },
+      "keyPoints": [
+        {
+          "vi": "Dùng cho lỗi nghiệp vụ rõ nghĩa để xử lý riêng",
+          "en": "Use it for meaningful business errors that need specific handling"
+        },
+        {
+          "vi": "Checked khi người gọi khôi phục được; unchecked cho lỗi nghiệp vụ/lập trình",
+          "en": "Checked when callers can recover; unchecked for business/programming errors"
+        },
+        {
+          "vi": "Giữ `cause` khi bọc exception (exception chaining)",
+          "en": "Keep the `cause` when wrapping (exception chaining)"
+        },
+        {
+          "vi": "Message có ngữ cảnh; không nuốt exception, không log-and-rethrow tràn lan",
+          "en": "Contextual messages; do not swallow or log-and-rethrow everywhere"
+        }
+      ],
+      "explanation": {
+        "vi": "Tạo custom exception khi cần diễn đạt một lỗi nghiệp vụ rõ nghĩa, ví dụ `InsufficientBalanceException`, để tầng trên xử lý riêng (map sang HTTP 4xx). Kế thừa `Exception` (checked) khi người gọi có thể và nên khôi phục; còn lỗi nghiệp vụ hoặc lỗi lập trình thường kế thừa `RuntimeException` để không làm rối API, và Spring mặc định chỉ rollback với unchecked exception. Luôn truyền `cause` khi bọc exception khác để không mất stack trace, đặt message có ngữ cảnh (mã lỗi, id), và không nuốt exception hoặc vừa log vừa throw lại nhiều lần.",
+        "en": "Create a custom exception to express a meaningful business error, e.g. `InsufficientBalanceException`, so upper layers can handle it specifically (map it to HTTP 4xx). Extend `Exception` (checked) when callers can and should recover; business or programming errors usually extend `RuntimeException` to keep APIs clean, and Spring rolls back only on unchecked exceptions by default. Always pass the `cause` when wrapping another exception so the stack trace is kept, write a message with context (error code, id), and never swallow exceptions or log-and-rethrow at every layer."
+      }
+    },
+    {
+      "id": "java.functional.001",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "functional",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Functional interface là gì?",
+        "en": "What is a functional interface?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Interface có đúng một abstract method, có thể gán bằng lambda",
+            "en": "An interface with exactly one abstract method, assignable from a lambda"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Interface bắt buộc phải có `@FunctionalInterface`",
+            "en": "An interface that must carry `@FunctionalInterface`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Interface không được có method `default`",
+            "en": "An interface that cannot have `default` methods"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Class chỉ chứa method `static`",
+            "en": "A class that contains only `static` methods"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Functional interface là interface có đúng một abstract method, nhờ đó có thể gán bằng lambda hoặc method reference, ví dụ `Runnable`, `Comparator`, `Function<T, R>`. Nó vẫn được phép có thêm method `default` và `static`. Annotation `@FunctionalInterface` là tuỳ chọn: nó chỉ giúp trình biên dịch báo lỗi nếu interface có nhiều hơn một abstract method.",
+        "en": "A functional interface has exactly one abstract method, so it can be implemented by a lambda or method reference, e.g. `Runnable`, `Comparator`, `Function<T, R>`. It may still have extra `default` and `static` methods. The `@FunctionalInterface` annotation is optional: it only makes the compiler report an error if the interface has more than one abstract method."
+      }
+    },
+    {
+      "id": "java.functional.002",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "functional",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "import java.util.*;\n\npublic class Main {\n  public static void main(String[] args) {\n    List<Integer> nums = List.of(1, 2, 3, 4, 5, 6);\n    int result = nums.stream()\n      .filter(n -> n % 2 == 0)\n      .mapToInt(n -> n * n)\n      .sum();\n    System.out.println(result);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "91",
+            "en": "91"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "56",
+            "en": "56"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "12",
+            "en": "12"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "35",
+            "en": "35"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`filter` giữ lại các số chẵn 2, 4, 6. `mapToInt` bình phương chúng thành 4, 16, 36, và `sum()` cộng lại được 56. Đáp án 91 là tổng bình phương của tất cả các số, bỏ qua bước `filter`.",
+        "en": "`filter` keeps the even numbers 2, 4, 6. `mapToInt` squares them into 4, 16, 36, and `sum()` adds them up to 56. The answer 91 is the sum of squares of all numbers, ignoring the `filter` step."
+      }
+    },
+    {
+      "id": "java.functional.003",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "functional",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao `List<int> list = new ArrayList<>();` không biên dịch được?",
+        "en": "Why does `List<int> list = new ArrayList<>();` not compile?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`ArrayList` phải khai báo kiểu đầy đủ, không dùng `<>`",
+            "en": "`ArrayList` must spell out the type, `<>` is not allowed"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`List` là interface nên không có tham số kiểu",
+            "en": "`List` is an interface, so it has no type parameter"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Generic chỉ nhận kiểu tham chiếu; phải dùng `List<Integer>`",
+            "en": "Generics accept only reference types; use `List<Integer>`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`int` chỉ dùng được với `LinkedList`",
+            "en": "`int` only works with `LinkedList`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Tham số kiểu của generic chỉ nhận kiểu tham chiếu (reference type), không nhận kiểu nguyên thuỷ như `int`. Phải dùng wrapper: `List<Integer>`, và autoboxing sẽ tự chuyển `int` thành `Integer` khi `add`. Nguyên nhân sâu xa là type erasure: sau khi biên dịch, generic được thay bằng `Object`, mà `int` không phải `Object`.",
+        "en": "Generic type arguments accept only reference types, not primitives such as `int`. You must use the wrapper, `List<Integer>`, and autoboxing converts `int` to `Integer` on `add`. The underlying reason is type erasure: after compilation generics are replaced by `Object`, and `int` is not an `Object`."
+      }
+    },
+    {
+      "id": "java.functional.004",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "functional",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Code `int count = 0; list.forEach(x -> count++);` báo lỗi biên dịch. Vì sao?",
+        "en": "The code `int count = 0; list.forEach(x -> count++);` fails to compile. Why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lambda không được truy cập bất kỳ biến bên ngoài nào",
+            "en": "Lambdas cannot access any outer variable"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`forEach` chỉ nhận method reference",
+            "en": "`forEach` only accepts method references"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`int` phải đổi thành `Integer`",
+            "en": "`int` must be changed to `Integer`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Biến cục bộ dùng trong lambda phải `final` hoặc effectively final",
+            "en": "Local variables used in a lambda must be `final` or effectively final"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Lambda chỉ được dùng biến cục bộ bên ngoài nếu biến đó là `final` hoặc effectively final (không bị gán lại sau khi khởi tạo). `count++` gán lại `count` nên vi phạm quy tắc. Cách làm đúng là dùng `list.size()`, `stream().count()` hoặc `AtomicInteger` nếu thật sự cần đếm. Lambda vẫn đọc được biến cục bộ, chỉ không được thay đổi nó.",
+        "en": "A lambda may use an outer local variable only if it is `final` or effectively final (never reassigned after initialisation). `count++` reassigns `count`, which breaks the rule. The proper way is `list.size()`, `stream().count()` or an `AtomicInteger` if you really need a counter. Lambdas can still read local variables; they just cannot change them."
+      }
+    },
+    {
+      "id": "java.functional.005",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "functional",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "import java.util.*;\n\npublic class Main {\n  public static void main(String[] args) {\n    List<String> list = List.of(\"x\", \"y\", \"z\");\n    Optional<String> first = list.stream()\n      .map(v -> {\n        System.out.print(v);\n        return v.toUpperCase();\n      })\n      .filter(v -> v.equals(\"Y\"))\n      .findFirst();\n    System.out.println(\" \" + first.get());\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "xy Y",
+            "en": "xy Y"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "xyz Y",
+            "en": "xyz Y"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "XYZ Y",
+            "en": "XYZ Y"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": " Y",
+            "en": " Y"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Stream xử lý lười (lazy) và từng phần tử đi qua toàn bộ pipeline trước khi tới phần tử kế tiếp. `x` được map và bị `filter` loại, `y` được map thành `\"Y\"` và qua `filter`, lúc đó `findFirst` (short-circuit) dừng ngay nên `z` không bao giờ được xử lý. Vì vậy chỉ in `xy`, rồi in tiếp ` Y`.",
+        "en": "Streams are lazy and each element passes through the whole pipeline before the next one. `x` is mapped and rejected by `filter`, `y` is mapped to `\"Y\"` and passes, and `findFirst` (short-circuiting) stops right there, so `z` is never processed. Hence only `xy` is printed, followed by ` Y`."
+      }
+    },
+    {
+      "id": "java.functional.006",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "functional",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Mong đợi in `n/a` khi không có email, nhưng chương trình ném exception. Lỗi ở đâu?",
+        "en": "The code is expected to print `n/a` when there is no email, but it throws an exception. Where is the bug?"
+      },
+      "code": {
+        "language": "java",
+        "source": "import java.util.*;\n\npublic class Main {\n  static Optional<String> findEmail(Map<String, String> emails, String user) {\n    return Optional.of(emails.get(user));\n  }\n\n  public static void main(String[] args) {\n    Map<String, String> emails = Map.of(\"an\", \"an@mail.vn\");\n    String email = findEmail(emails, \"binh\").orElse(\"n/a\");\n    System.out.println(email);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Map.of` ném exception khi `get` key không tồn tại",
+            "en": "`Map.of` throws when you `get` a missing key"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Optional.of(null)` ném NPE; phải dùng `Optional.ofNullable`",
+            "en": "`Optional.of(null)` throws an NPE; use `Optional.ofNullable`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`orElse` không dùng được với `String`",
+            "en": "`orElse` cannot be used with `String`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Method trả `Optional` thì không được `static`",
+            "en": "A method returning `Optional` cannot be `static`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`emails.get(\"binh\")` trả về `null` vì key không tồn tại, và `Optional.of(null)` ném `NullPointerException` ngay lập tức, trước khi `orElse` kịp chạy. Khi giá trị có thể `null` phải dùng `Optional.ofNullable(...)`. `Map.of` không cấm gọi `get` với key không tồn tại; nó chỉ cấm key/value `null` khi tạo map.",
+        "en": "`emails.get(\"binh\")` returns `null` because the key is missing, and `Optional.of(null)` throws a `NullPointerException` immediately, before `orElse` can run. When the value may be `null`, use `Optional.ofNullable(...)`. `Map.of` does not forbid `get` with a missing key; it only forbids `null` keys/values at creation time."
+      }
+    },
+    {
+      "id": "java.functional.007",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "functional",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cho `List<? extends Number> nums`. Thao tác nào biên dịch được?",
+        "en": "Given `List<? extends Number> nums`, which operation compiles?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`nums.add(1);`",
+            "en": "`nums.add(1);`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`nums.add(Double.valueOf(1.5));`",
+            "en": "`nums.add(Double.valueOf(1.5));`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Number n = nums.get(0);`",
+            "en": "`Number n = nums.get(0);`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`nums.add(new Object());`",
+            "en": "`nums.add(new Object());`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`? extends Number` nghĩa là list có thể là `List<Integer>`, `List<Double>`… nên trình biên dịch chỉ chắc chắn phần tử đọc ra là `Number`. Vì không biết kiểu thật, nó cấm `add` bất cứ thứ gì (trừ `null`), kể cả `Integer`. Đây là nguyên tắc PECS: Producer `extends` (chỉ đọc), Consumer `super` (ghi vào, ví dụ `List<? super Integer>`).",
+        "en": "`? extends Number` means the list could be a `List<Integer>`, `List<Double>`…, so the compiler only knows that elements read from it are `Number`s. Since the real type is unknown, it forbids adding anything (except `null`), even an `Integer`. This is PECS: Producer `extends` (read only), Consumer `super` (write into, e.g. `List<? super Integer>`)."
+      }
+    },
+    {
+      "id": "java.functional.008",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "functional",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau cho kết quả gì?",
+        "en": "What is the result of the following code?"
+      },
+      "code": {
+        "language": "java",
+        "source": "import java.util.*;\nimport java.util.stream.*;\n\npublic class Main {\n  public static void main(String[] args) {\n    List<String> words = List.of(\"apple\", \"avocado\", \"banana\");\n    Map<Character, String> byLetter = words.stream()\n      .collect(Collectors.toMap(w -> w.charAt(0), w -> w));\n    System.out.println(byLetter);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`{a=avocado, b=banana}`",
+            "en": "`{a=avocado, b=banana}`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`{a=apple, b=banana}`",
+            "en": "`{a=apple, b=banana}`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ném `IllegalStateException` vì trùng key",
+            "en": "Throws `IllegalStateException` because of a duplicate key"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Collectors.toMap` mặc định không cho key trùng: `\"apple\"` và `\"avocado\"` cùng key `'a'` nên nó ném `IllegalStateException: Duplicate key a`. Nó không tự giữ giá trị đầu hay giá trị cuối. Muốn xử lý trùng phải truyền hàm merge, ví dụ `toMap(w -> w.charAt(0), w -> w, (x, y) -> x)`, hoặc dùng `groupingBy`.",
+        "en": "By default `Collectors.toMap` does not allow duplicate keys: `\"apple\"` and `\"avocado\"` share the key `'a'`, so it throws `IllegalStateException: Duplicate key a`. It does not silently keep the first or the last value. To handle duplicates pass a merge function, e.g. `toMap(w -> w.charAt(0), w -> w, (x, y) -> x)`, or use `groupingBy`."
+      }
+    },
+    {
+      "id": "java.functional.009",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "functional",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một class có hai method `void save(List<String> names)` và `void save(List<Integer> ids)`. Điều gì xảy ra?",
+        "en": "A class declares `void save(List<String> names)` and `void save(List<Integer> ids)`. What happens?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lỗi biên dịch vì hai method có cùng erasure",
+            "en": "Compile error because both methods have the same erasure"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Biên dịch được; JVM chọn method theo kiểu phần tử lúc chạy",
+            "en": "It compiles; the JVM picks a method by element type at runtime"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Biên dịch được; luôn gọi method khai báo trước",
+            "en": "It compiles; the first declared method is always called"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Biên dịch được nhưng ném `ClassCastException` khi gọi",
+            "en": "It compiles but throws `ClassCastException` when called"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Do type erasure, thông tin tham số kiểu bị xoá khi biên dịch và cả hai method đều có signature `save(List)` trong bytecode. Trình biên dịch báo lỗi name clash: `both methods have same erasure`. Đây cũng là lý do không thể `new T()`, không thể `instanceof List<String>` và không lấy được kiểu generic của biến lúc chạy. Cách sửa là đặt tên khác như `saveNames`/`saveIds`.",
+        "en": "Because of type erasure, type arguments are removed at compile time and both methods become `save(List)` in bytecode. The compiler reports a name clash: `both methods have same erasure`. This is also why you cannot write `new T()`, cannot test `instanceof List<String>`, and cannot read a variable's generic type at runtime. The fix is distinct names such as `saveNames`/`saveIds`."
+      }
+    },
+    {
+      "id": "java.concurrency.001",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "concurrency",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Gọi `thread.run()` thay vì `thread.start()` thì sao?",
+        "en": "What happens if you call `thread.run()` instead of `thread.start()`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Kết quả giống hệt `start()`",
+            "en": "Exactly the same as `start()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`run()` chạy trên thread hiện tại, không tạo thread mới",
+            "en": "`run()` executes on the current thread; no new thread is created"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Ném `IllegalThreadStateException`",
+            "en": "Throws `IllegalThreadStateException`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch vì `run()` là `protected`",
+            "en": "Compile error because `run()` is `protected`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`start()` yêu cầu JVM tạo một thread mới rồi thread đó gọi `run()`. Gọi `run()` trực tiếp chỉ là một lời gọi method bình thường, chạy đồng bộ trên thread hiện tại, không có song song. Không có exception nào được ném; chương trình vẫn chạy nên lỗi này khó phát hiện. Còn gọi `start()` lần thứ hai trên cùng thread mới ném `IllegalThreadStateException`.",
+        "en": "`start()` asks the JVM to create a new thread, which then calls `run()`. Calling `run()` directly is just a normal method call that executes synchronously on the current thread, with no parallelism. No exception is thrown and the program still works, which makes this bug hard to spot. Calling `start()` twice on the same thread is what throws `IllegalThreadStateException`."
+      }
+    },
+    {
+      "id": "java.concurrency.002",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "concurrency",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Từ khoá `synchronized` trên một method instance đảm bảo điều gì?",
+        "en": "What does the `synchronized` keyword on an instance method guarantee?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mọi object của class bị khoá cùng lúc",
+            "en": "All instances of the class are locked at once"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Method chạy nhanh hơn nhờ được JIT ưu tiên",
+            "en": "The method runs faster because the JIT prioritises it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ một thread chạy method trên cùng object tại một thời điểm, kèm đảm bảo visibility",
+            "en": "Only one thread runs it on the same object at a time, with visibility guarantees"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chương trình không bao giờ bị deadlock",
+            "en": "The program can never deadlock"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Method `synchronized` khoá monitor của `this`: tại một thời điểm chỉ một thread được chạy bất kỳ method `synchronized` nào trên cùng object. Nó cũng đảm bảo visibility: những gì thread trước ghi trong khối đồng bộ được thread sau nhìn thấy khi lấy cùng lock. Nó không khoá các object khác cùng class (trừ method `static synchronized`, khoá trên `Class`), và không tự ngăn deadlock.",
+        "en": "A `synchronized` method locks the monitor of `this`: only one thread at a time can run any `synchronized` method on the same object. It also guarantees visibility: writes made by one thread inside the block are seen by the next thread that acquires the same lock. It does not lock other instances of the class (except `static synchronized`, which locks the `Class`), and it does not prevent deadlocks."
+      }
+    },
+    {
+      "id": "java.concurrency.003",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "concurrency",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Deadlock là gì? Nêu điều kiện xảy ra và cách phòng tránh trong Java.",
+        "en": "What is a deadlock? Describe when it happens and how to avoid it in Java."
+      },
+      "keyPoints": [
+        {
+          "vi": "Các thread chờ lock của nhau mãi mãi",
+          "en": "Threads wait for each other's locks forever"
+        },
+        {
+          "vi": "Ví dụ hai lock lấy theo thứ tự ngược nhau",
+          "en": "Example: two locks acquired in opposite orders"
+        },
+        {
+          "vi": "Phòng tránh: thứ tự lấy lock cố định, giữ lock ngắn",
+          "en": "Prevention: fixed lock ordering, hold locks briefly"
+        },
+        {
+          "vi": "`tryLock` có timeout hoặc dùng công cụ concurrency cấp cao",
+          "en": "`tryLock` with timeout or higher-level concurrency utilities"
+        },
+        {
+          "vi": "Phát hiện bằng thread dump (`jstack`)",
+          "en": "Detect with a thread dump (`jstack`)"
+        }
+      ],
+      "explanation": {
+        "vi": "Deadlock là khi hai hay nhiều thread chờ nhau mãi mãi, ví dụ thread 1 giữ lock A chờ lock B, thread 2 giữ lock B chờ lock A. Nó cần đủ bốn điều kiện: loại trừ lẫn nhau, giữ và chờ, không thể cưỡng đoạt, và chờ vòng tròn. Cách phòng tránh phổ biến: luôn lấy lock theo cùng một thứ tự, giữ lock ngắn nhất có thể, dùng `ReentrantLock.tryLock(timeout)`, hoặc dùng cấu trúc cấp cao như `ConcurrentHashMap`, `ExecutorService`. Có thể phát hiện bằng thread dump (`jstack`).",
+        "en": "A deadlock is when two or more threads wait for each other forever, e.g. thread 1 holds lock A and waits for B while thread 2 holds B and waits for A. It needs all four conditions: mutual exclusion, hold and wait, no preemption and circular wait. Common prevention: always acquire locks in the same order, hold locks as briefly as possible, use `ReentrantLock.tryLock(timeout)`, or use higher-level tools such as `ConcurrentHashMap` and `ExecutorService`. You can detect one with a thread dump (`jstack`)."
+      }
+    },
+    {
+      "id": "java.concurrency.004",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Hai thread mỗi thread tăng `count` 100.000 lần nhưng kết quả thường nhỏ hơn 200.000. Vì sao và sửa thế nào?",
+        "en": "Two threads each increment `count` 100,000 times, but the result is usually below 200,000. Why, and how do you fix it?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  private static int count = 0;\n\n  public static void main(String[] args) throws InterruptedException {\n    Runnable task = () -> {\n      for (int i = 0; i < 100_000; i++) {\n        count++;\n      }\n    };\n    Thread t1 = new Thread(task);\n    Thread t2 = new Thread(task);\n    t1.start();\n    t2.start();\n    t1.join();\n    t2.join();\n    System.out.println(count);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ cần khai báo `count` là `volatile`",
+            "en": "Declaring `count` as `volatile` is enough"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thiếu `join()` nên `main` in quá sớm",
+            "en": "`join()` is missing, so `main` prints too early"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lambda không được sửa field `static`",
+            "en": "A lambda cannot modify a `static` field"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`count++` không nguyên tử; dùng `AtomicInteger` hoặc `synchronized`",
+            "en": "`count++` is not atomic; use `AtomicInteger` or `synchronized`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`count++` không nguyên tử: nó gồm đọc, cộng một và ghi lại, nên hai thread có thể cùng đọc một giá trị và ghi đè lên nhau (race condition), làm mất lượt tăng. Sửa bằng `AtomicInteger.incrementAndGet()`, `LongAdder`, hoặc đặt phép tăng trong khối `synchronized`. Thêm `volatile` không đủ: nó chỉ đảm bảo visibility, không biến read-modify-write thành nguyên tử. `join()` ở đây đã đúng.",
+        "en": "`count++` is not atomic: it reads, adds one and writes back, so two threads can read the same value and overwrite each other (a race condition), losing increments. Fix it with `AtomicInteger.incrementAndGet()`, `LongAdder`, or by putting the increment inside a `synchronized` block. Adding `volatile` is not enough: it only guarantees visibility and does not make read-modify-write atomic. The `join()` calls are already correct."
+      }
+    },
+    {
+      "id": "java.concurrency.005",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trường hợp nào dùng `volatile` là đúng và đủ?",
+        "en": "In which case is `volatile` correct and sufficient?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cờ `running` do một thread ghi, các thread khác đọc để dừng vòng lặp",
+            "en": "A `running` flag written by one thread and read by others to stop a loop"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Bộ đếm `count++` được nhiều thread tăng cùng lúc",
+            "en": "A `count++` counter incremented by many threads"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Làm một `ArrayList` dùng chung trở nên thread-safe",
+            "en": "Making a shared `ArrayList` thread-safe"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thay cho `synchronized` trong thao tác chuyển tiền giữa hai tài khoản",
+            "en": "Replacing `synchronized` in a transfer between two accounts"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`volatile` đảm bảo mọi thread đọc thấy giá trị mới nhất và ngăn reorder quanh biến đó, nên rất hợp với cờ dừng `volatile boolean running` do một thread ghi, các thread khác đọc. Nó không làm thao tác ghép như `count++` hay \"kiểm tra rồi cập nhật\" thành nguyên tử, nên không thay được lock hoặc `AtomicInteger` cho bộ đếm. Nó cũng không làm các phần tử bên trong một collection trở nên thread-safe.",
+        "en": "`volatile` guarantees every thread sees the latest value and prevents reordering around that variable, which is ideal for a stop flag `volatile boolean running` written by one thread and read by others. It does not make compound actions such as `count++` or \"check then update\" atomic, so it cannot replace a lock or `AtomicInteger` for counters. It also does not make the contents of a collection thread-safe."
+      }
+    },
+    {
+      "id": "java.concurrency.006",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`main` tạo `Executors.newFixedThreadPool(4)`, submit vài task rồi kết thúc mà không gọi `shutdown()`. Điều gì xảy ra?",
+        "en": "`main` creates `Executors.newFixedThreadPool(4)`, submits a few tasks and returns without calling `shutdown()`. What happens?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Các task bị huỷ ngay khi `main` kết thúc",
+            "en": "The tasks are cancelled as soon as `main` returns"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "JVM không thoát vì thread của pool là non-daemon",
+            "en": "The JVM does not exit because pool threads are non-daemon"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "JVM tự gọi `shutdown()` khi `main` kết thúc",
+            "en": "The JVM calls `shutdown()` automatically when `main` returns"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ném `RejectedExecutionException`",
+            "en": "Throws a `RejectedExecutionException`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Thread trong pool mặc định là non-daemon và vẫn sống chờ task mới, nên JVM không thoát dù `main` đã kết thúc. Phải gọi `shutdown()` (và `awaitTermination` nếu cần chờ), hoặc từ Java 19 dùng try-with-resources vì `ExecutorService` đã implement `AutoCloseable`. Các task đã submit vẫn chạy bình thường, chúng không bị huỷ.",
+        "en": "Pool threads are non-daemon by default and stay alive waiting for new tasks, so the JVM does not exit even though `main` has returned. Call `shutdown()` (and `awaitTermination` if you need to wait), or since Java 19 use try-with-resources because `ExecutorService` implements `AutoCloseable`. The submitted tasks still run normally; they are not cancelled."
+      }
+    },
+    {
+      "id": "java.concurrency.007",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "import java.util.concurrent.CompletableFuture;\n\npublic class Main {\n  public static void main(String[] args) {\n    CompletableFuture<Integer> f = CompletableFuture\n      .supplyAsync(() -> 10 / 0)\n      .thenApply(x -> {\n        System.out.print(\"apply \");\n        return x * 2;\n      })\n      .exceptionally(ex -> -1);\n    System.out.println(f.join());\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "apply -1",
+            "en": "apply -1"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "20",
+            "en": "20"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "-1",
+            "en": "-1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ném `CompletionException`",
+            "en": "Throws `CompletionException`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`10 / 0` ném `ArithmeticException` bên trong `supplyAsync`, làm future hoàn thành ở trạng thái lỗi. Các stage như `thenApply` bị bỏ qua khi stage trước lỗi, nên `apply ` không được in. `exceptionally` bắt lỗi và thay bằng `-1`, nên `join()` trả về `-1` thay vì ném `CompletionException`.",
+        "en": "`10 / 0` throws an `ArithmeticException` inside `supplyAsync`, completing the future exceptionally. Stages such as `thenApply` are skipped when the previous stage failed, so `apply ` is not printed. `exceptionally` catches the error and replaces it with `-1`, so `join()` returns `-1` instead of throwing a `CompletionException`."
+      }
+    },
+    {
+      "id": "java.concurrency.008",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "concurrency",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong singleton double-checked locking, vì sao field `instance` bắt buộc phải là `volatile`?",
+        "en": "In a double-checked locking singleton, why must the `instance` field be `volatile`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Để `synchronized` chạy nhanh hơn",
+            "en": "To make `synchronized` faster"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Để chỉ một thread được vào khối `synchronized`",
+            "en": "So that only one thread can enter the `synchronized` block"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Để GC không thu hồi singleton",
+            "en": "So that the GC does not collect the singleton"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ngăn thread khác thấy tham chiếu tới object chưa khởi tạo xong do reorder",
+            "en": "It stops other threads from seeing a reference to a partially constructed object due to reordering"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`instance = new Singleton()` gồm cấp phát, chạy constructor và gán tham chiếu; không có `volatile`, JIT/CPU được phép reorder để gán tham chiếu trước khi constructor chạy xong. Thread khác đọc ở lần kiểm tra thứ nhất (ngoài `synchronized`) có thể thấy `instance != null` nhưng object chưa khởi tạo xong. `volatile` tạo quan hệ happens-before giữa lần ghi và lần đọc, cấm reorder đó. Thay thế đơn giản hơn là holder class hoặc `enum` singleton.",
+        "en": "`instance = new Singleton()` involves allocation, running the constructor and assigning the reference; without `volatile` the JIT/CPU may reorder so the reference is published before the constructor finishes. Another thread reading in the first check (outside `synchronized`) can then see `instance != null` but a partially constructed object. `volatile` creates a happens-before edge between the write and the read, forbidding that reordering. Simpler alternatives are the holder-class idiom or an `enum` singleton."
+      }
+    },
+    {
+      "id": "java.concurrency.009",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "concurrency",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Virtual thread (Java 21) giải quyết vấn đề gì? Khi nào không nên dùng và cần lưu ý gì khi chuyển sang?",
+        "en": "What problem do virtual threads (Java 21) solve? When should you not use them, and what should you watch out for when migrating?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Thread nhẹ, nhiều virtual thread chạy trên ít carrier thread",
+          "en": "Lightweight threads, many virtual threads on few carrier threads"
+        },
+        {
+          "vi": "Hợp với tác vụ I/O-bound, không giúp CPU-bound",
+          "en": "Good for I/O-bound work, no gain for CPU-bound"
+        },
+        {
+          "vi": "Không pool; giới hạn tài nguyên bằng `Semaphore`",
+          "en": "Do not pool them; limit resources with a `Semaphore`"
+        },
+        {
+          "vi": "Pinning khi chặn trong `synchronized`/native trên Java 21; cân nhắc `ReentrantLock`",
+          "en": "Pinning when blocking in `synchronized`/native on Java 21; consider `ReentrantLock`"
+        },
+        {
+          "vi": "Cẩn thận `ThreadLocal` lớn",
+          "en": "Beware of large `ThreadLocal`s"
+        }
+      ],
+      "explanation": {
+        "vi": "Virtual thread là thread nhẹ do JVM quản lý, được gắn (mount) lên một số ít carrier thread; khi gặp I/O chặn, nó được tháo ra để carrier phục vụ thread khác. Nhờ vậy có thể viết code blocking kiểu \"một request một thread\" mà vẫn chạy hàng trăm nghìn tác vụ I/O đồng thời. Chúng không giúp tác vụ nặng CPU. Không nên pool virtual thread; muốn giới hạn truy cập tài nguyên (connection pool) thì dùng `Semaphore`. Trên Java 21, chặn bên trong `synchronized` hoặc native code sẽ ghim (pin) carrier thread, nên chuyển sang `ReentrantLock` (JDK 24 đã bỏ hạn chế với `synchronized`); ngoài ra cẩn thận với `ThreadLocal` lớn vì số thread rất nhiều.",
+        "en": "A virtual thread is a lightweight JVM-managed thread mounted on a few carrier threads; when it blocks on I/O it is unmounted so the carrier can serve others. This lets you write plain blocking \"thread-per-request\" code while running hundreds of thousands of concurrent I/O tasks. They do not help CPU-bound work. Do not pool virtual threads; to limit access to a resource (e.g. a connection pool) use a `Semaphore`. On Java 21, blocking inside `synchronized` or native code pins the carrier thread, so prefer `ReentrantLock` (JDK 24 removed this limitation for `synchronized`); also beware of large `ThreadLocal`s given the huge thread count."
+      }
+    },
+    {
+      "id": "java.jvm.001",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "jvm",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong method `void f() { int n = 5; User u = new User(); }`, dữ liệu được lưu ở đâu?",
+        "en": "In the method `void f() { int n = 5; User u = new User(); }`, where is the data stored?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`n` và tham chiếu `u` trên stack; object `User` trên heap",
+            "en": "`n` and the `u` reference on the stack; the `User` object on the heap"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tất cả đều nằm trên heap",
+            "en": "Everything is on the heap"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tất cả đều nằm trên stack",
+            "en": "Everything is on the stack"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`n` trên heap; `User` trên stack",
+            "en": "`n` on the heap; `User` on the stack"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mỗi lời gọi method có một stack frame trên stack của thread, chứa biến cục bộ: giá trị `int n` và tham chiếu `u` nằm ở đó. Object `User` được tạo bằng `new` nằm trên heap, nơi được chia sẻ giữa các thread và do GC quản lý. Khi `f()` kết thúc, frame bị huỷ ngay, còn object chỉ bị thu hồi khi không còn tham chiếu nào. (JIT có thể tối ưu bằng escape analysis, nhưng về mô hình thì đây là câu trả lời đúng.)",
+        "en": "Each method call gets a stack frame on the thread's stack holding local variables: the `int n` value and the `u` reference live there. The `User` object created with `new` lives on the heap, which is shared between threads and managed by the GC. When `f()` returns, the frame is discarded at once, while the object is reclaimed only when nothing references it. (The JIT may optimise with escape analysis, but conceptually this is the right answer.)"
+      }
+    },
+    {
+      "id": "java.jvm.002",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "jvm",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phân biệt JDK, JRE và JVM. Câu nào đúng?",
+        "en": "Distinguish the JDK, JRE and JVM. Which statement is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "JVM chứa `javac` để biên dịch code lúc chạy",
+            "en": "The JVM contains `javac` to compile code at runtime"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "JDK ⊃ JRE ⊃ JVM; `javac` chỉ có trong JDK",
+            "en": "JDK ⊃ JRE ⊃ JVM; `javac` is only in the JDK"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "JRE dùng để phát triển, JDK chỉ để chạy ứng dụng",
+            "en": "The JRE is for development, the JDK only runs applications"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "JVM chỉ chạy được trên Windows",
+            "en": "The JVM only runs on Windows"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "JVM là máy ảo thực thi bytecode `.class`. JRE gồm JVM cùng thư viện chuẩn để chạy ứng dụng. JDK gồm JRE cộng công cụ phát triển như `javac`, `jar`, `jshell`, `jdb`. Từ Java 11, Oracle/OpenJDK không phát hành JRE riêng nữa; muốn runtime gọn có thể tự tạo bằng `jlink`.",
+        "en": "The JVM is the virtual machine that executes `.class` bytecode. The JRE is the JVM plus the standard libraries needed to run applications. The JDK is the JRE plus development tools such as `javac`, `jar`, `jshell` and `jdb`. Since Java 11, Oracle/OpenJDK no longer ship a separate JRE; you can build a slim runtime with `jlink`."
+      }
+    },
+    {
+      "id": "java.jvm.003",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "jvm",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "java",
+        "source": "public class Main {\n  public static void main(String[] args) {\n    System.out.print(\"main \");\n    new Config();\n    new Config();\n  }\n}\n\nclass Config {\n  static { System.out.print(\"static \"); }\n  { System.out.print(\"instance \"); }\n  Config() { System.out.print(\"ctor \"); }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "static main instance ctor instance ctor",
+            "en": "static main instance ctor instance ctor"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "main static instance ctor static instance ctor",
+            "en": "main static instance ctor static instance ctor"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "main static instance ctor instance ctor",
+            "en": "main static instance ctor instance ctor"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "main instance static ctor instance ctor",
+            "en": "main instance static ctor instance ctor"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Class được nạp và khởi tạo lười: `Config` chỉ được khởi tạo khi lần đầu dùng tới, tức sau khi `main ` đã in. Khối `static` chạy đúng một lần lúc khởi tạo class. Mỗi lần `new`, khối instance initializer chạy trước thân constructor, nên mỗi object in `instance ctor`.",
+        "en": "Classes are loaded and initialised lazily: `Config` is initialised only on first use, i.e. after `main ` has been printed. The `static` block runs exactly once, at class initialisation. On every `new`, the instance initializer block runs before the constructor body, so each object prints `instance ctor`."
+      }
+    },
+    {
+      "id": "java.jvm.004",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "jvm",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Java có GC, vậy nguyên nhân phổ biến nhất gây memory leak trong ứng dụng Java là gì?",
+        "en": "Java has a GC, so what is the most common cause of memory leaks in Java applications?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Quên gọi `System.gc()` định kỳ",
+            "en": "Forgetting to call `System.gc()` regularly"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Dùng quá nhiều biến cục bộ trong method",
+            "en": "Using too many local variables in methods"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Quên gán `null` cho mọi biến cục bộ khi method kết thúc",
+            "en": "Not setting every local variable to `null` before returning"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Object không còn dùng nhưng vẫn bị tham chiếu, ví dụ cache `static` không giới hạn",
+            "en": "Objects no longer needed but still referenced, e.g. an unbounded `static` cache"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "GC chỉ thu hồi object không còn reachable. Leak trong Java là object không còn cần nhưng vẫn bị tham chiếu, điển hình là `static Map` dùng làm cache không giới hạn, listener đăng ký mà không huỷ, hoặc `ThreadLocal` không `remove()` trong thread pool. Cách xử lý là dùng cache có giới hạn kích thước và thời gian sống (ví dụ Caffeine), huỷ đăng ký, và phân tích heap dump. Gọi `System.gc()` không giải quyết được vì object vẫn reachable.",
+        "en": "The GC only reclaims objects that are no longer reachable. A Java leak is an object that is no longer needed but still referenced, typically a `static Map` used as an unbounded cache, listeners registered and never removed, or `ThreadLocal`s never `remove()`d in a thread pool. Fix it with size- and time-bounded caches (e.g. Caffeine), deregistration and heap-dump analysis. Calling `System.gc()` does not help because the objects are still reachable."
+      }
+    },
+    {
+      "id": "java.jvm.005",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "jvm",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một service Java 21 với heap 16 GB có độ trễ p99 tăng vọt do GC pause khoảng 300 ms. Thay đổi nào nhắm trực tiếp vào vấn đề nhất?",
+        "en": "A Java 21 service with a 16 GB heap has p99 latency spikes caused by ~300 ms GC pauses. Which change most directly targets the problem?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chuyển sang ZGC (`-XX:+UseZGC`) để pause rất ngắn",
+            "en": "Switch to ZGC (`-XX:+UseZGC`) for very short pauses"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chuyển sang Serial GC (`-XX:+UseSerialGC`)",
+            "en": "Switch to Serial GC (`-XX:+UseSerialGC`)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gọi `System.gc()` mỗi phút",
+            "en": "Call `System.gc()` every minute"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tăng `-Xss` lên 4 MB",
+            "en": "Increase `-Xss` to 4 MB"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "ZGC làm gần như mọi việc (đánh dấu, di chuyển object) đồng thời với ứng dụng nên pause thường dưới 1 ms và gần như không phụ thuộc kích thước heap; trên Java 21 bật bằng `-XX:+UseZGC -XX:+ZGenerational` (từ JDK 23 generational là mặc định). Đổi về Serial GC làm pause dài hơn vì nó dừng toàn bộ và chỉ dùng một thread. `System.gc()` định kỳ chỉ thêm full GC, còn `-Xss` là kích thước stack của thread, không liên quan GC pause. Trước khi đổi vẫn nên đo bằng GC log (`-Xlog:gc*`).",
+        "en": "ZGC does almost all work (marking, relocating objects) concurrently with the application, so pauses are typically below 1 ms and largely independent of heap size; on Java 21 enable it with `-XX:+UseZGC -XX:+ZGenerational` (generational is the default from JDK 23). Switching to Serial GC makes pauses longer because it is stop-the-world and single-threaded. Periodic `System.gc()` only adds full GCs, and `-Xss` is the thread stack size, unrelated to GC pauses. Measure with GC logs (`-Xlog:gc*`) before changing anything."
+      }
+    },
+    {
+      "id": "java.jvm.006",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "jvm",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "JIT compiler trong HotSpot hoạt động thế nào? Điều đó ảnh hưởng gì tới việc benchmark và chạy ứng dụng?",
+        "en": "How does the JIT compiler in HotSpot work? How does it affect benchmarking and running applications?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Thông dịch trước, đếm để tìm code nóng",
+          "en": "Interprets first, profiles to find hot code"
+        },
+        {
+          "vi": "Tiered: C1 biên dịch nhanh, C2 tối ưu sâu theo profile",
+          "en": "Tiered: C1 compiles fast, C2 optimises deeply from profiles"
+        },
+        {
+          "vi": "Tối ưu tiêu biểu: inlining, escape analysis",
+          "en": "Typical optimisations: inlining, escape analysis"
+        },
+        {
+          "vi": "Deoptimization khi giả định sai",
+          "en": "Deoptimisation when assumptions break"
+        },
+        {
+          "vi": "Cần warm-up; benchmark bằng JMH",
+          "en": "Needs warm-up; benchmark with JMH"
+        }
+      ],
+      "explanation": {
+        "vi": "Ban đầu bytecode được thông dịch; JVM đếm số lần gọi và số vòng lặp để tìm code \"nóng\". Với tiered compilation, code nóng được C1 biên dịch nhanh, rồi code rất nóng được C2 tối ưu sâu dựa trên profile: inlining, escape analysis (bỏ cấp phát), loại bỏ kiểm tra thừa. Nếu giả định của tối ưu bị sai (ví dụ xuất hiện class con mới), JVM deoptimize về thông dịch. Hệ quả: ứng dụng cần thời gian warm-up, benchmark bằng `System.nanoTime()` thô thường sai, nên dùng JMH; với khởi động nhanh có thể cân nhắc CDS/AppCDS hoặc GraalVM native image.",
+        "en": "Bytecode is interpreted at first; the JVM counts invocations and loop iterations to find \"hot\" code. With tiered compilation, hot code is quickly compiled by C1, then very hot code is deeply optimised by C2 using profile data: inlining, escape analysis (removing allocations), eliminating redundant checks. If an optimisation's assumption breaks (e.g. a new subclass is loaded), the JVM deoptimises back to the interpreter. Consequences: applications need warm-up, naive `System.nanoTime()` benchmarks are often wrong, so use JMH; for fast start-up consider CDS/AppCDS or a GraalVM native image."
+      }
+    },
+    {
+      "id": "java.jvm.007",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "jvm",
+      "level": "senior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Sau nhiều lần hot redeploy ứng dụng web trên Tomcat, server ném `OutOfMemoryError: Metaspace`. Nguyên nhân khả dĩ nhất là gì?",
+        "en": "After many hot redeploys of a web app on Tomcat, the server throws `OutOfMemoryError: Metaspace`. What is the most likely cause?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Heap quá nhỏ, cần tăng `-Xmx`",
+            "en": "The heap is too small; raise `-Xmx`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Classloader leak: tham chiếu sống lâu giữ classloader cũ nên class không được unload",
+            "en": "Classloader leak: a long-lived reference keeps the old classloader, so classes are never unloaded"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Quá nhiều object `String` trong String pool",
+            "en": "Too many `String` objects in the String pool"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Stack của thread quá lớn",
+            "en": "Thread stacks are too large"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Metadata của class chỉ được giải phóng khi classloader nạp nó bị GC thu hồi. Nếu một thứ sống lâu hơn ứng dụng vẫn giữ tham chiếu tới classloader của webapp cũ, ví dụ thread do app tạo nhưng không dừng, `ThreadLocal` trên thread của container, hoặc JDBC driver đăng ký trong `DriverManager` mà không huỷ, thì toàn bộ class cũ không thể unload. Mỗi lần redeploy lại nạp thêm một bộ class mới nên Metaspace đầy dần. Tăng heap (`-Xmx`) không giúp vì Metaspace nằm ngoài heap; tăng `-XX:MaxMetaspaceSize` chỉ trì hoãn lỗi.",
+        "en": "Class metadata is freed only when the classloader that loaded it is garbage-collected. If something that outlives the application still references the old webapp classloader, e.g. a thread the app started but never stopped, a `ThreadLocal` on a container thread, or a JDBC driver registered in `DriverManager` and never deregistered, none of the old classes can be unloaded. Each redeploy loads another full set of classes, so Metaspace fills up. Raising the heap (`-Xmx`) does not help because Metaspace is off-heap; raising `-XX:MaxMetaspaceSize` only postpones the error."
+      }
+    },
+    {
+      "id": "java.spring.001",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "spring",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong Spring, kiểu dependency injection nào được khuyến nghị cho dependency bắt buộc?",
+        "en": "In Spring, which kind of dependency injection is recommended for mandatory dependencies?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Field injection với `@Autowired` trên field `private`",
+            "en": "Field injection with `@Autowired` on a `private` field"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tự gọi `new` cho dependency trong class",
+            "en": "Calling `new` for dependencies inside the class"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Constructor injection",
+            "en": "Constructor injection"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lấy bean bằng `ApplicationContext.getBean()` ở mọi nơi",
+            "en": "Fetching beans with `ApplicationContext.getBean()` everywhere"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Constructor injection cho phép khai báo field `final`, object luôn ở trạng thái hợp lệ ngay sau khi tạo, dễ viết unit test bằng `new Service(mockRepo)` mà không cần Spring, và làm lộ rõ khi class có quá nhiều dependency. Với một constructor duy nhất, Spring tự inject mà không cần `@Autowired`. Field injection gọn nhưng giấu dependency và khó test; setter injection hợp với dependency tuỳ chọn.",
+        "en": "Constructor injection lets fields be `final`, keeps the object valid right after construction, makes unit tests easy with `new Service(mockRepo)` without Spring, and makes too many dependencies obvious. With a single constructor, Spring injects it without `@Autowired`. Field injection is concise but hides dependencies and is hard to test; setter injection suits optional dependencies."
+      }
+    },
+    {
+      "id": "java.spring.002",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "spring",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`@RestController` khác `@Controller` ở điểm nào?",
+        "en": "How does `@RestController` differ from `@Controller`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ hỗ trợ method `GET`",
+            "en": "It only supports `GET` methods"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không phải là Spring bean",
+            "en": "It is not a Spring bean"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bắt buộc dùng cùng Spring WebFlux",
+            "en": "It requires Spring WebFlux"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Là `@Controller` + `@ResponseBody`, trả dữ liệu (JSON) thay vì tên view",
+            "en": "It is `@Controller` + `@ResponseBody`, returning data (JSON) instead of a view name"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`@RestController` là `@Controller` cộng `@ResponseBody`: giá trị trả về của mọi handler method được ghi thẳng vào HTTP response body, thường được Jackson chuyển thành JSON. `@Controller` thông thường trả về tên view để render template (Thymeleaf…), trừ khi method có `@ResponseBody`. Cả hai đều là bean được component scan phát hiện và dùng cùng `@GetMapping`, `@PostMapping`.",
+        "en": "`@RestController` is `@Controller` plus `@ResponseBody`: every handler method's return value is written straight to the HTTP response body, usually serialised to JSON by Jackson. A plain `@Controller` returns a view name to render a template (Thymeleaf…), unless the method has `@ResponseBody`. Both are beans found by component scanning and use the same `@GetMapping`, `@PostMapping`."
+      }
+    },
+    {
+      "id": "java.spring.003",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "spring",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một bean scope `prototype` được inject qua constructor vào một service `singleton`. Service dùng bao nhiêu instance prototype?",
+        "en": "A `prototype`-scoped bean is constructor-injected into a `singleton` service. How many prototype instances does the service use?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một instance, tạo lúc inject; cần `ObjectProvider` để lấy instance mới",
+            "en": "One instance, created at injection; use `ObjectProvider` for fresh ones"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một instance mới cho mỗi lần gọi method",
+            "en": "A new instance for each method call"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Một instance cho mỗi HTTP request",
+            "en": "One instance per HTTP request"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Spring báo lỗi khi khởi động",
+            "en": "Spring fails at start-up"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Dependency chỉ được inject một lần khi singleton được tạo, nên service giữ đúng một instance prototype suốt vòng đời, mọi lời gọi đều dùng instance đó. Scope `prototype` chỉ có nghĩa là mỗi lần container được hỏi thì tạo bean mới. Muốn lấy instance mới mỗi lần, inject `ObjectProvider<T>` và gọi `getObject()`, hoặc dùng `@Lookup` hay scoped proxy.",
+        "en": "Dependencies are injected only once, when the singleton is created, so the service keeps exactly one prototype instance for its whole lifetime and every call uses it. `prototype` scope only means a new bean is created each time the container is asked. To get a fresh instance each time, inject `ObjectProvider<T>` and call `getObject()`, or use `@Lookup` or a scoped proxy."
+      }
+    },
+    {
+      "id": "java.spring.004",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "spring",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "`importOrders` được gọi từ controller. Khi lưu item bị lỗi giữa chừng, order vẫn còn trong DB dù `saveOrder` có `@Transactional`. Vì sao?",
+        "en": "`importOrders` is called from a controller. When saving an item fails midway, the order stays in the DB even though `saveOrder` has `@Transactional`. Why?"
+      },
+      "code": {
+        "language": "java",
+        "source": "@Service\npublic class OrderService {\n  private final OrderRepository orderRepository;\n  private final ItemRepository itemRepository;\n\n  public OrderService(OrderRepository orders, ItemRepository items) {\n    this.orderRepository = orders;\n    this.itemRepository = items;\n  }\n\n  public void importOrders(List<Order> orders) {\n    for (Order order : orders) {\n      saveOrder(order);\n    }\n  }\n\n  @Transactional\n  public void saveOrder(Order order) {\n    orderRepository.save(order);\n    itemRepository.saveAll(order.getItems());\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`@Transactional` chỉ dùng được trên method `private`",
+            "en": "`@Transactional` only works on `private` methods"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi nội bộ qua `this` bỏ qua proxy nên `@Transactional` không có tác dụng",
+            "en": "The internal call via `this` bypasses the proxy, so `@Transactional` has no effect"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải thêm `@Repository` cho `OrderService`",
+            "en": "`OrderService` needs `@Repository`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thiếu `flush()` sau mỗi lần `save`",
+            "en": "A `flush()` is missing after each `save`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`@Transactional` hoạt động qua proxy do Spring tạo bao quanh bean. `importOrders` gọi `saveOrder` qua `this` (self-invocation), đi thẳng vào object gốc và bỏ qua proxy, nên không có transaction nào được mở; mỗi lần `save` của repository tự commit riêng. Cách sửa: đặt `@Transactional` lên `importOrders`, hoặc tách `saveOrder` sang một bean khác. Method `public` là đúng yêu cầu, nên phạm vi truy cập không phải nguyên nhân.",
+        "en": "`@Transactional` works through a Spring-generated proxy around the bean. `importOrders` calls `saveOrder` via `this` (self-invocation), going straight to the target object and bypassing the proxy, so no transaction is started; each repository `save` commits on its own. Fix: put `@Transactional` on `importOrders`, or move `saveOrder` into another bean. The method being `public` is correct, so visibility is not the cause."
+      }
+    },
+    {
+      "id": "java.spring.005",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "spring",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Method `@Transactional` ném một checked exception (ví dụ `IOException`) ra ngoài. Mặc định Spring làm gì với transaction?",
+        "en": "A `@Transactional` method throws a checked exception (e.g. `IOException`). What does Spring do with the transaction by default?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Luôn rollback với mọi exception",
+            "en": "It always rolls back on any exception"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Treo transaction cho tới khi timeout",
+            "en": "It leaves the transaction hanging until timeout"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Vẫn commit; chỉ rollback mặc định với `RuntimeException` và `Error`",
+            "en": "It still commits; by default it rolls back only on `RuntimeException` and `Error`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tự retry method ba lần",
+            "en": "It retries the method three times"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Mặc định Spring chỉ rollback khi gặp `RuntimeException` hoặc `Error`; với checked exception, transaction vẫn được commit. Điều này dễ gây dữ liệu nửa vời nếu không biết. Muốn rollback với checked exception phải khai báo `@Transactional(rollbackFor = Exception.class)` hoặc bọc nó thành unchecked exception.",
+        "en": "By default Spring rolls back only on a `RuntimeException` or `Error`; for checked exceptions the transaction is still committed. This easily leaves half-written data if you are unaware of it. To roll back on checked exceptions declare `@Transactional(rollbackFor = Exception.class)` or wrap it in an unchecked exception."
+      }
+    },
+    {
+      "id": "java.spring.006",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "spring",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn xử lý lỗi tập trung (global error handling) cho một REST API Spring Boot như thế nào?",
+        "en": "How do you implement global error handling for a Spring Boot REST API?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`@RestControllerAdvice` + `@ExceptionHandler`",
+          "en": "`@RestControllerAdvice` + `@ExceptionHandler`"
+        },
+        {
+          "vi": "Map exception sang HTTP status phù hợp (404, 400, 409…)",
+          "en": "Map exceptions to proper HTTP statuses (404, 400, 409…)"
+        },
+        {
+          "vi": "Xử lý lỗi validation `MethodArgumentNotValidException`",
+          "en": "Handle validation errors (`MethodArgumentNotValidException`)"
+        },
+        {
+          "vi": "Body lỗi thống nhất, ví dụ `ProblemDetail`",
+          "en": "Consistent error body, e.g. `ProblemDetail`"
+        },
+        {
+          "vi": "Handler dự phòng 500, không lộ stack trace",
+          "en": "Fallback 500 handler without leaking stack traces"
+        }
+      ],
+      "explanation": {
+        "vi": "Tạo một class `@RestControllerAdvice` chứa các method `@ExceptionHandler` cho từng loại exception, ví dụ `EntityNotFoundException` → 404, lỗi nghiệp vụ → 409/422, `MethodArgumentNotValidException` từ `@Valid` → 400 kèm danh sách field lỗi. Trả về body thống nhất; Spring 6/Boot 3 hỗ trợ sẵn `ProblemDetail` theo chuẩn RFC 9457. Có một handler dự phòng cho `Exception` trả 500, log đầy đủ ở server nhưng không lộ stack trace hay thông tin nội bộ cho client.",
+        "en": "Create a `@RestControllerAdvice` class with `@ExceptionHandler` methods per exception type, e.g. `EntityNotFoundException` → 404, business errors → 409/422, `MethodArgumentNotValidException` from `@Valid` → 400 with the list of invalid fields. Return a consistent body; Spring 6/Boot 3 supports `ProblemDetail` (RFC 9457) out of the box. Add a fallback handler for `Exception` that returns 500, logs the details server-side but never leaks stack traces or internals to the client."
+      }
+    },
+    {
+      "id": "java.spring.007",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "spring",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Với 100 tác giả, báo cáo này chạy 101 câu SQL. Vấn đề là gì và sửa thế nào?",
+        "en": "With 100 authors this report runs 101 SQL queries. What is the problem and how do you fix it?"
+      },
+      "code": {
+        "language": "java",
+        "source": "@Entity\npublic class Author {\n  @Id\n  private Long id;\n  private String name;\n\n  @OneToMany(mappedBy = \"author\")\n  private List<Book> books;\n  // getters omitted\n}\n\n@Service\npublic class ReportService {\n  private final AuthorRepository authorRepository;\n\n  public ReportService(AuthorRepository repo) { this.authorRepository = repo; }\n\n  @Transactional(readOnly = true)\n  public void printReport() {\n    for (Author a : authorRepository.findAll()) {\n      System.out.println(a.getName() + \": \" + a.getBooks().size());\n    }\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đổi `books` sang `FetchType.EAGER` là đủ",
+            "en": "Switching `books` to `FetchType.EAGER` is enough"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`readOnly = true` làm Hibernate chạy thêm query",
+            "en": "`readOnly = true` makes Hibernate run extra queries"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải dùng `Set<Book>` thay vì `List<Book>`",
+            "en": "`Set<Book>` must be used instead of `List<Book>`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "N+1 query do lazy load `books` trong vòng lặp; dùng `join fetch`/`@EntityGraph`/batch fetching",
+            "en": "N+1 queries from lazy-loading `books` in the loop; use `join fetch`/`@EntityGraph`/batch fetching"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Đây là vấn đề N+1: `findAll()` chạy 1 câu lấy tác giả, rồi mỗi `getBooks().size()` khởi tạo collection `@OneToMany` (mặc định `LAZY`) bằng một câu riêng. Cách sửa: viết query `select distinct a from Author a left join fetch a.books`, dùng `@EntityGraph(attributePaths = \"books\")`, hoặc bật batch fetching (`@BatchSize`, `hibernate.default_batch_fetch_size`) để gom thành vài câu `IN`. Đổi sang `FetchType.EAGER` không phải cách sửa: nó vẫn có thể sinh N+1 và tải thừa dữ liệu ở mọi nơi khác.",
+        "en": "This is the N+1 problem: `findAll()` runs 1 query for the authors, then each `getBooks().size()` initialises the `@OneToMany` collection (`LAZY` by default) with its own query. Fix: write `select distinct a from Author a left join fetch a.books`, use `@EntityGraph(attributePaths = \"books\")`, or enable batch fetching (`@BatchSize`, `hibernate.default_batch_fetch_size`) to group them into a few `IN` queries. Switching to `FetchType.EAGER` is not a fix: it can still cause N+1 and over-fetches data everywhere else."
+      }
+    },
+    {
+      "id": "java.spring.008",
+      "contentVersion": 1,
+      "trackId": "java",
+      "topicId": "spring",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Một thao tác đặt hàng cần cập nhật Order Service, Payment Service và Inventory Service, mỗi service một database riêng. Bạn đảm bảo tính nhất quán dữ liệu thế nào?",
+        "en": "Placing an order must update the Order, Payment and Inventory services, each with its own database. How do you keep the data consistent?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`@Transactional` chỉ trong một DB; 2PC có nhưng nhiều nhược điểm",
+          "en": "`@Transactional` is single-DB; 2PC exists but has major drawbacks"
+        },
+        {
+          "vi": "Saga: transaction cục bộ + hành động bù",
+          "en": "Saga: local transactions + compensating actions"
+        },
+        {
+          "vi": "Choreography vs orchestration",
+          "en": "Choreography vs orchestration"
+        },
+        {
+          "vi": "Transactional Outbox để ghi DB và phát sự kiện nguyên tử",
+          "en": "Transactional Outbox to write DB and publish events atomically"
+        },
+        {
+          "vi": "Consumer idempotent, chấp nhận eventual consistency",
+          "en": "Idempotent consumers, accept eventual consistency"
+        }
+      ],
+      "explanation": {
+        "vi": "`@Transactional` chỉ bao một database, nên không dùng được xuyên service. 2PC/XA cho tính nhất quán mạnh nhưng chậm, khoá tài nguyên lâu, coordinator là điểm lỗi và ít được hỗ trợ bởi message broker hiện đại. Thông dụng hơn là Saga: chuỗi transaction cục bộ, mỗi bước có hành động bù (compensating action) như hoàn tiền hay trả hàng về kho, điều phối theo choreography (sự kiện) hoặc orchestration (một orchestrator trung tâm). Để vừa ghi DB vừa phát sự kiện một cách nguyên tử, dùng Transactional Outbox (ghi sự kiện vào bảng outbox cùng transaction, rồi relay/CDC đẩy đi). Consumer phải idempotent vì message có thể tới nhiều lần, và hệ thống chấp nhận eventual consistency.",
+        "en": "`@Transactional` covers a single database, so it cannot span services. 2PC/XA gives strong consistency but is slow, holds locks long, makes the coordinator a point of failure and is poorly supported by modern brokers. More common is a Saga: a chain of local transactions where each step has a compensating action such as refunding or restocking, coordinated by choreography (events) or orchestration (a central orchestrator). To write to the DB and publish an event atomically, use the Transactional Outbox (store the event in an outbox table in the same transaction, then a relay/CDC publishes it). Consumers must be idempotent because messages can arrive more than once, and the system accepts eventual consistency."
+      }
+    }
+  ]
+}

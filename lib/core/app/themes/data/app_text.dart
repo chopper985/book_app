@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
 
 /// Text styles of the design. Sizes and line heights are Figma px.
 class AppText {

@@ -1,8 +1,8 @@
 // Project imports:
-import 'package:AppName/features/practice/data/datasources/practice_local_datasource.dart';
-import 'package:AppName/features/practice/data/models/practice_json.dart';
-import 'package:AppName/features/practice/domain/entities/practice_session.dart';
-import 'package:AppName/features/practice/domain/entities/session_result.dart';
+import 'package:interview_practice/features/practice/data/datasources/practice_local_datasource.dart';
+import 'package:interview_practice/features/practice/data/models/practice_json.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_session.dart';
+import 'package:interview_practice/features/practice/domain/entities/session_result.dart';
 
 /// Keeps entries as JSON maps, so tests also exercise the storage mapping.
 class InMemoryPracticeLocalDataSource implements PracticeLocalDataSource {

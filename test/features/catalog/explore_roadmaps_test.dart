@@ -8,24 +8,24 @@ import 'package:i18n_extension/i18n_extension.dart' show I18n;
 import 'package:sizer/sizer.dart';
 
 // Project imports:
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/features/catalog/data/datasources/user_roadmaps_local_datasource.dart';
-import 'package:AppName/features/catalog/domain/entities/user_roadmap.dart';
-import 'package:AppName/features/catalog/domain/usecase/filter_tracks.dart';
-import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
-import 'package:AppName/features/catalog/domain/usecase/saved_tracks.dart';
-import 'package:AppName/features/catalog/domain/usecase/user_roadmaps.dart';
-import 'package:AppName/features/catalog/presentation/cubit/explore_cubit.dart';
-import 'package:AppName/features/catalog/presentation/cubit/roadmap_picker_cubit.dart';
-import 'package:AppName/features/catalog/presentation/cubit/roadmaps_cubit.dart';
-import 'package:AppName/features/catalog/presentation/widgets/roadmap_picker_view.dart';
-import 'package:AppName/features/catalog/presentation/widgets/roadmap_switcher.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
-import 'package:AppName/features/practice/domain/usecase/find_completed_result.dart';
-import 'package:AppName/features/practice/domain/usecase/practice_usecases.dart';
-import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
-import 'package:AppName/features/profile/domain/usecase/profile_usecases.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/features/catalog/data/datasources/user_roadmaps_local_datasource.dart';
+import 'package:interview_practice/features/catalog/domain/entities/user_roadmap.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/filter_tracks.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/saved_tracks.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/user_roadmaps.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/explore_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/roadmap_picker_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/roadmaps_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/roadmap_picker_view.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/roadmap_switcher.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/practice/domain/usecase/find_completed_result.dart';
+import 'package:interview_practice/features/practice/domain/usecase/practice_usecases.dart';
+import 'package:interview_practice/features/practice/presentation/cubit/practice_cubit.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/domain/usecase/profile_usecases.dart';
 import '../../helpers/test_graph.dart';
 import '../content/content_test_data.dart';
 
@@ -66,6 +66,7 @@ void main() {
         RemoveUserRoadmap(graph.roadmaps),
         GetTracks(graph.catalog),
         GetExploreDashboard(graph.catalog),
+        GetPositions(graph.catalog),
         WatchProgress(graph.catalog),
       );
 
@@ -76,6 +77,8 @@ void main() {
         SuggestRoadmapLevel(graph.profiles),
         GetProfile(graph.profiles),
         AddUserRoadmap(graph.roadmaps),
+        GetPositions(graph.catalog),
+        AddPositionRoadmap(graph.roadmaps, graph.catalog),
       );
 
   group('Explore shows only the learner roadmaps', () {
@@ -357,8 +360,28 @@ void main() {
       ),
     );
     expect(tester.takeException(), isNull);
-    expect(find.text('Title'), findsOneWidget);
     expect(find.text(Strings.pickerConfirm.i18n), findsOneWidget);
+
+    // Expanded header: large title and subtitle visible, toolbar title hidden.
+    double opacityOf(Finder text) => tester
+        .widget<Opacity>(
+          find.ancestor(of: text, matching: find.byType(Opacity)).first,
+        )
+        .opacity;
+    final titles = find.text('Title');
+    expect(titles, findsNWidgets(2));
+    expect(opacityOf(titles.first), 0, reason: 'collapsed title hidden');
+    expect(opacityOf(find.text('Subtitle')), 1);
+
+    // Scrolling the data collapses the header into the pinned app bar. The
+    // fixture has only two tracks, so shorten the screen to make it scroll.
+    await tester.binding.setSurfaceSize(const Size(320, 420));
+    await tester.pump();
+    await tester.drag(find.byType(CustomScrollView), const Offset(0, -300));
+    await tester.pump();
+    expect(opacityOf(titles.first), 1, reason: 'title pinned in the app bar');
+    expect(opacityOf(find.text('Subtitle')), 0);
+    expect(titles, findsNWidgets(2), reason: 'header stays pinned');
 
     final senior = find.text('Senior · ${Strings.pickerPremium.i18n}');
     await tester.scrollUntilVisible(
@@ -366,7 +389,7 @@ void main() {
       200,
       scrollable: find
           .descendant(
-            of: find.byType(ListView),
+            of: find.byType(CustomScrollView),
             matching: find.byType(Scrollable),
           )
           .first,

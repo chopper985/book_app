@@ -2,13 +2,13 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/features/catalog/presentation/widgets/track_icon_box.dart';
-import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
-import 'package:AppName/features/practice/domain/entities/practice_hub.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/track_icon_box.dart';
+import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_hub.dart';
 
 class HubSectionTitle extends StatelessWidget {
   final String title;

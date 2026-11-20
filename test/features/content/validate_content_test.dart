@@ -2,9 +2,9 @@
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
-import 'package:AppName/features/content/data/parsers/content_parser.dart';
-import 'package:AppName/features/content/domain/entities/content_issue.dart';
-import 'package:AppName/features/content/domain/usecase/validate_content.dart';
+import 'package:interview_practice/features/content/data/parsers/content_parser.dart';
+import 'package:interview_practice/features/content/domain/entities/content_issue.dart';
+import 'package:interview_practice/features/content/domain/usecase/validate_content.dart';
 import 'content_test_data.dart';
 
 Future<List<ContentIssue>> validate(Map<String, String> data) async {
@@ -28,7 +28,11 @@ void main() {
 
   test('set references a missing question', () async {
     final issues = await validate(
-      files(sets: [set(questionIds: ['dart.q1', 'dart.missing'])]),
+      files(
+        sets: [
+          set(questionIds: ['dart.q1', 'dart.missing']),
+        ],
+      ),
     );
     expect(issues.single.code, ContentIssueCode.missingReference);
     expect(issues.single.detail, 'dart.missing');

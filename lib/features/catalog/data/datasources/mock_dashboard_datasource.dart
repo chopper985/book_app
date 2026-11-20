@@ -2,9 +2,9 @@
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
-import 'package:AppName/features/catalog/domain/entities/track_learning.dart';
-import 'package:AppName/features/content/domain/entities/localized_text.dart';
+import 'package:interview_practice/features/catalog/domain/entities/explore_dashboard.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_learning.dart';
+import 'package:interview_practice/features/content/domain/entities/localized_text.dart';
 
 /// MOCK: editorial content with no real source yet. Learner data comes from
 /// the profile and practice history.

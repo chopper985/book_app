@@ -2,21 +2,21 @@
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
-import 'package:AppName/core/helpers/app_clock.dart';
-import 'package:AppName/core/utils/dio_api/result.dart';
-import 'package:AppName/features/catalog/data/datasources/mock_dashboard_datasource.dart';
-import 'package:AppName/features/catalog/data/repositories/catalog_repository_impl.dart';
-import 'package:AppName/features/catalog/data/repositories/saved_tracks_repository_impl.dart';
-import 'package:AppName/features/catalog/data/repositories/user_roadmaps_repository_impl.dart';
-import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
-import 'package:AppName/features/content/data/parsers/content_parser.dart';
-import 'package:AppName/features/content/domain/entities/content_catalog.dart';
-import 'package:AppName/features/content/domain/repositories/content_repository.dart';
-import 'package:AppName/features/practice/data/repositories/practice_repository_impl.dart';
-import 'package:AppName/features/profile/data/repositories/profile_repository_impl.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
-import 'package:AppName/features/profile/domain/usecase/profile_usecases.dart';
-import 'package:AppName/features/profile/presentation/cubit/onboarding_cubit.dart';
+import 'package:interview_practice/core/helpers/app_clock.dart';
+import 'package:interview_practice/core/utils/dio_api/result.dart';
+import 'package:interview_practice/features/catalog/data/datasources/mock_dashboard_datasource.dart';
+import 'package:interview_practice/features/catalog/data/repositories/catalog_repository_impl.dart';
+import 'package:interview_practice/features/catalog/data/repositories/saved_tracks_repository_impl.dart';
+import 'package:interview_practice/features/catalog/data/repositories/user_roadmaps_repository_impl.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
+import 'package:interview_practice/features/content/data/parsers/content_parser.dart';
+import 'package:interview_practice/features/content/domain/entities/content_catalog.dart';
+import 'package:interview_practice/features/content/domain/repositories/content_repository.dart';
+import 'package:interview_practice/features/practice/data/repositories/practice_repository_impl.dart';
+import 'package:interview_practice/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/domain/usecase/profile_usecases.dart';
+import 'package:interview_practice/features/profile/presentation/cubit/onboarding_cubit.dart';
 import '../../helpers/in_memory_avatar_datasource.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
 import '../../helpers/in_memory_saved_tracks_datasource.dart';
@@ -62,7 +62,10 @@ void main() {
       PracticeRepositoryImpl(content, InMemoryPracticeLocalDataSource(), clock),
       profiles,
       SavedTracksRepositoryImpl(InMemorySavedTracksLocalDataSource()),
-      UserRoadmapsRepositoryImpl(        InMemoryUserRoadmapsLocalDataSource(),        AppClock(),      ),
+      UserRoadmapsRepositoryImpl(
+        InMemoryUserRoadmapsLocalDataSource(),
+        AppClock(),
+      ),
       MockDashboardDataSource(),
       clock,
     );

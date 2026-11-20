@@ -2,18 +2,18 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/app_progress_bar.dart';
-import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
-import 'package:AppName/features/catalog/domain/entities/learner_progress.dart';
-import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
-import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
-import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
-import 'package:AppName/features/profile/presentation/widgets/profile_form_fields.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/app_progress_bar.dart';
+import 'package:interview_practice/features/catalog/domain/entities/explore_dashboard.dart';
+import 'package:interview_practice/features/catalog/domain/entities/learner_progress.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_overview.dart';
+import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/presentation/extensions/profile_labels.dart';
+import 'package:interview_practice/features/profile/presentation/widgets/profile_form_fields.dart';
 
 class ProfileSectionTitle extends StatelessWidget {
   final String title;
@@ -123,7 +123,11 @@ class ProfileCard extends StatelessWidget {
                 padding: EdgeInsets.only(top: 4.dsp),
                 child: Row(
                   children: [
-                    Icon(icon, size: 16.dsp, color: AppPalette.onSurfaceVariant),
+                    Icon(
+                      icon,
+                      size: 16.dsp,
+                      color: AppPalette.onSurfaceVariant,
+                    ),
                     SizedBox(width: 8.dsp),
                     Expanded(
                       child: Text(

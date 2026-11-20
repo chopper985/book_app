@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
-import 'package:AppName/features/content/data/parsers/content_parser.dart';
-import 'package:AppName/features/content/domain/usecase/validate_content.dart';
+import 'package:interview_practice/features/content/data/parsers/content_parser.dart';
+import 'package:interview_practice/features/content/domain/usecase/validate_content.dart';
 
 void main() {
   test('bundled assets/content is valid', () async {
@@ -21,8 +21,32 @@ void main() {
 
     expect(issues, isEmpty);
     expect(
+      parsed.catalog.positions.map((position) => position.id),
+      ['mobile', 'frontend', 'backend', 'tester'],
+    );
+    expect(
       parsed.catalog.availableTracks.map((track) => track.id),
-      ['flutter', 'dart'],
+      [
+        'flutter',
+        'dart',
+        'kotlin',
+        'swift',
+        'react_native',
+        'javascript',
+        'typescript',
+        'react_ts',
+        'java',
+        'dotnet',
+        'python',
+        'nodejs',
+        'php',
+        'go',
+        'rust',
+        'sql',
+        'http_api',
+        'git',
+        'testing',
+      ],
     );
   });
 }

@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/navigator/app_router.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/dev_header.dart';
-import 'package:AppName/features/content/presentation/widgets/content_issue_view.dart';
-import 'package:AppName/features/practice/presentation/cubit/practice_hub_cubit.dart';
-import 'package:AppName/features/practice/presentation/widgets/hub_sections.dart';
-import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/navigator/app_router.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/dev_header.dart';
+import 'package:interview_practice/features/content/presentation/widgets/content_issue_view.dart';
+import 'package:interview_practice/features/practice/presentation/cubit/practice_hub_cubit.dart';
+import 'package:interview_practice/features/practice/presentation/widgets/hub_sections.dart';
+import 'package:interview_practice/features/profile/presentation/extensions/profile_labels.dart';
 
 /// Practice tab: mistakes to review, quick practice and history.
 class PracticeHubScreen extends StatelessWidget {

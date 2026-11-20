@@ -5,20 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/navigator/app_router.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/app_progress_bar.dart';
-import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
-import 'package:AppName/features/catalog/presentation/widgets/track_icon_box.dart';
-import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
-import 'package:AppName/features/profile/presentation/cubit/onboarding_cubit.dart';
-import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
-import 'package:AppName/features/profile/presentation/widgets/choice_tile.dart';
-import 'package:AppName/features/profile/presentation/widgets/profile_form_fields.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/navigator/app_router.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/app_progress_bar.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_overview.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/track_icon_box.dart';
+import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/presentation/cubit/onboarding_cubit.dart';
+import 'package:interview_practice/features/profile/presentation/extensions/profile_labels.dart';
+import 'package:interview_practice/features/profile/presentation/widgets/choice_tile.dart';
+import 'package:interview_practice/features/profile/presentation/widgets/profile_form_fields.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});

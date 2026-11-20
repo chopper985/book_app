@@ -8,10 +8,10 @@ import 'package:i18n_extension/i18n_extension.dart';
 import 'package:sizer/sizer.dart';
 
 // Project imports:
-import 'package:AppName/core/app/languages/service/service.dart';
-import 'package:AppName/core/app/themes/data/app_themes.dart';
-import 'package:AppName/core/navigator/app_router.dart';
-import 'package:AppName/features/app/cubit/cubit.dart';
+import 'package:interview_practice/core/app/languages/service/service.dart';
+import 'package:interview_practice/core/app/themes/data/app_themes.dart';
+import 'package:interview_practice/core/navigator/app_router.dart';
+import 'package:interview_practice/features/app/cubit/cubit.dart';
 
 class App extends StatefulWidget {
   const App({super.key});

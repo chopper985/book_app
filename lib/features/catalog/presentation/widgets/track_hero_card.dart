@@ -2,20 +2,20 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/app_badge.dart';
-import 'package:AppName/core/utils/widgets/app_svg.dart';
-import 'package:AppName/features/catalog/domain/entities/track_detail.dart';
-import 'package:AppName/features/catalog/domain/entities/track_progress.dart';
-import 'package:AppName/features/catalog/presentation/widgets/segmented_progress_bar.dart';
-import 'package:AppName/features/catalog/presentation/widgets/track_style.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
-import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
-import 'package:AppName/features/content/presentation/extensions/question_level_label.dart';
-import 'package:AppName/gen/assets.gen.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/app_badge.dart';
+import 'package:interview_practice/core/utils/widgets/app_svg.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_detail.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_progress.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/segmented_progress_bar.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:interview_practice/features/content/presentation/extensions/question_level_label.dart';
+import 'package:interview_practice/gen/assets.gen.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/track_logo.dart';
 
 /// "Technology Route Hero Card": title, badges and overall progress.
 class TrackHeroCard extends StatelessWidget {
@@ -33,7 +33,6 @@ class TrackHeroCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final track = detail.track;
-    final style = TrackStyle.of(track.id);
     final badge = track.badge?.text;
     final version = detail.learning.versionLabel;
     final maxLevel = detail.maxLevel;
@@ -95,11 +94,7 @@ class TrackHeroCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          child: AppSvg(
-                            style.icon,
-                            width: style.iconSize.width * 1.25,
-                            height: style.iconSize.height * 1.25,
-                          ),
+                          child: TrackLogo(trackId: track.id, scale: 1.25),
                         ),
                       ),
                       SizedBox(width: 8.dsp),
@@ -201,25 +196,25 @@ class _SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-        button: true,
-        label: isSaved ? Strings.trackUnsave.i18n : Strings.trackSave.i18n,
-        child: Material(
-          color: AppPalette.surfaceHigh,
+      button: true,
+      label: isSaved ? Strings.trackUnsave.i18n : Strings.trackSave.i18n,
+      child: Material(
+        color: AppPalette.surfaceHigh,
+        borderRadius: BorderRadius.circular(6.dsp),
+        child: InkWell(
           borderRadius: BorderRadius.circular(6.dsp),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(6.dsp),
-            onTap: onTap,
-            child: SizedBox(
-              width: 34.dsp,
-              height: 36.dsp,
-              child: Icon(
-                isSaved ? Icons.bookmark : Icons.bookmark_border,
-                size: 16.dsp,
-                color: isSaved ? AppPalette.primary : AppPalette.onSurface,
-              ),
+          onTap: onTap,
+          child: SizedBox(
+            width: 34.dsp,
+            height: 36.dsp,
+            child: Icon(
+              isSaved ? Icons.bookmark : Icons.bookmark_border,
+              size: 16.dsp,
+              color: isSaved ? AppPalette.primary : AppPalette.onSurface,
             ),
           ),
         ),
+      ),
     );
   }
 }

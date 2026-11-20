@@ -9,9 +9,9 @@ import 'package:hive_ce/hive.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/constants/storage_key.dart';
-import 'package:AppName/features/catalog/domain/entities/user_roadmap.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
+import 'package:interview_practice/core/constants/storage_key.dart';
+import 'package:interview_practice/features/catalog/domain/entities/user_roadmap.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
 
 typedef UserRoadmapsData = ({List<UserRoadmap> roadmaps, String? activeId});
 
@@ -56,6 +56,8 @@ class UserRoadmapsJson {
               'trackId': roadmap.trackId,
               'level': roadmap.level.name,
               'addedAt': roadmap.addedAt.toUtc().millisecondsSinceEpoch,
+              if (roadmap.positionId != null) 'positionId': roadmap.positionId,
+              if (roadmap.optionId != null) 'optionId': roadmap.optionId,
             },
         ],
       };
@@ -76,6 +78,8 @@ class UserRoadmapsJson {
             item['addedAt'] as int,
             isUtc: true,
           ).toLocal(),
+          positionId: item['positionId'] as String?,
+          optionId: item['optionId'] as String?,
         ),
       );
     }

@@ -21,6 +21,9 @@ final class RoadmapsLoaded extends RoadmapsState {
   /// Track per id, for names and icons in the switcher.
   final Map<String, TrackOverview> tracks;
 
+  /// Position per id, for position roadmap names.
+  final Map<String, Position> positions;
+
   /// Header data (role label, streak).
   final LearnerSummary learner;
 
@@ -29,8 +32,9 @@ final class RoadmapsLoaded extends RoadmapsState {
     required this.active,
     required this.tracks,
     required this.learner,
+    this.positions = const {},
   });
 
   @override
-  List<Object?> get props => [roadmaps, active, tracks, learner];
+  List<Object?> get props => [roadmaps, active, tracks, positions, learner];
 }

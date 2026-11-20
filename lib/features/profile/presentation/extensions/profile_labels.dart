@@ -1,6 +1,6 @@
 // Project imports:
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 
 extension TargetRoleLabel on TargetRole {
   String get label => switch (this) {

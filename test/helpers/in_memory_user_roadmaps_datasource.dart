@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:AppName/features/catalog/data/datasources/user_roadmaps_local_datasource.dart';
+import 'package:interview_practice/features/catalog/data/datasources/user_roadmaps_local_datasource.dart';
 
 /// Keeps the JSON document, so tests also exercise the mapping.
 class InMemoryUserRoadmapsLocalDataSource

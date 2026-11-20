@@ -5,18 +5,18 @@ import 'dart:async';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/helpers/app_clock.dart';
-import 'package:AppName/core/utils/dio_api/result.dart';
-import 'package:AppName/features/content/domain/entities/content_catalog.dart';
-import 'package:AppName/features/content/domain/entities/quiz_set.dart';
-import 'package:AppName/features/content/domain/repositories/content_repository.dart';
-import 'package:AppName/features/practice/data/datasources/practice_local_datasource.dart';
-import 'package:AppName/features/practice/domain/entities/practice_bundle.dart';
-import 'package:AppName/features/practice/domain/entities/practice_failures.dart';
-import 'package:AppName/features/practice/domain/entities/practice_session.dart';
-import 'package:AppName/features/practice/domain/entities/session_result.dart';
-import 'package:AppName/features/practice/domain/repositories/practice_repository.dart';
-import 'package:AppName/features/practice/domain/usecase/score_session.dart';
+import 'package:interview_practice/core/helpers/app_clock.dart';
+import 'package:interview_practice/core/utils/dio_api/result.dart';
+import 'package:interview_practice/features/content/domain/entities/content_catalog.dart';
+import 'package:interview_practice/features/content/domain/entities/quiz_set.dart';
+import 'package:interview_practice/features/content/domain/repositories/content_repository.dart';
+import 'package:interview_practice/features/practice/data/datasources/practice_local_datasource.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_bundle.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_failures.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_session.dart';
+import 'package:interview_practice/features/practice/domain/entities/session_result.dart';
+import 'package:interview_practice/features/practice/domain/repositories/practice_repository.dart';
+import 'package:interview_practice/features/practice/domain/usecase/score_session.dart';
 
 /// Sessions and results persisted through [PracticeLocalDataSource]. A
 /// session is removed once graded: its result keeps everything needed.

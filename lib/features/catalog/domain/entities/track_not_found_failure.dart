@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:AppName/core/error/failure.dart';
+import 'package:interview_practice/core/error/failure.dart';
 
 class TrackNotFoundFailure extends Failure {
   final String trackId;

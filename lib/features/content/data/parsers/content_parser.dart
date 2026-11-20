@@ -2,14 +2,16 @@
 import 'dart:convert';
 
 // Project imports:
-import 'package:AppName/features/content/data/models/question_model.dart';
-import 'package:AppName/features/content/data/models/quiz_set_model.dart';
-import 'package:AppName/features/content/data/models/track_model.dart';
-import 'package:AppName/features/content/domain/entities/content_catalog.dart';
-import 'package:AppName/features/content/domain/entities/content_issue.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
-import 'package:AppName/features/content/domain/entities/quiz_set.dart';
-import 'package:AppName/features/content/domain/entities/track.dart';
+import 'package:interview_practice/features/content/data/models/question_model.dart';
+import 'package:interview_practice/features/content/data/models/quiz_set_model.dart';
+import 'package:interview_practice/features/content/data/models/position_model.dart';
+import 'package:interview_practice/features/content/data/models/track_model.dart';
+import 'package:interview_practice/features/content/domain/entities/content_catalog.dart';
+import 'package:interview_practice/features/content/domain/entities/content_issue.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/content/domain/entities/quiz_set.dart';
+import 'package:interview_practice/features/content/domain/entities/position.dart';
+import 'package:interview_practice/features/content/domain/entities/track.dart';
 
 /// Reads a content file relative to the content root, `null` when missing.
 typedef ContentFileReader = Future<String?> Function(String relativePath);
@@ -35,6 +37,9 @@ class ContentParser {
   static String questionsFile(String trackId) => '$trackId/questions.json';
 
   static String setsFile(String trackId) => '$trackId/sets.json';
+
+  /// Optional: content without positions only offers language roadmaps.
+  static const String positionsFile = 'positions.json';
 
   Future<ParsedContent> parse(ContentFileReader read) async {
     final issues = <ContentIssue>[];
@@ -70,8 +75,23 @@ class ContentParser {
       );
     }
 
+    final positions = await read(positionsFile) == null
+        ? const <Position>[]
+        : await _readItems(
+            read,
+            positionsFile,
+            'positions',
+            PositionModel.fromJson,
+            issues,
+          );
+
     return ParsedContent(
-      catalog: ContentCatalog(tracks: tracks, questions: questions, sets: sets),
+      catalog: ContentCatalog(
+        tracks: tracks,
+        questions: questions,
+        sets: sets,
+        positions: positions,
+      ),
       issues: issues,
     );
   }

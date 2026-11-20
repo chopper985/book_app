@@ -7,30 +7,33 @@ import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 
 // Project imports:
-import 'package:AppName/core/analytics/app_analytics.dart';
-import 'package:AppName/core/app/colors/app_colors.dart';
-import 'package:AppName/core/injection/injection_container.dart';
-import 'package:AppName/core/navigator/app_routes.dart';
-import 'package:AppName/core/navigator/main_shell.dart';
-import 'package:AppName/features/catalog/presentation/cubit/explore_cubit.dart';
-import 'package:AppName/features/catalog/presentation/cubit/roadmap_picker_cubit.dart';
-import 'package:AppName/features/catalog/presentation/cubit/roadmaps_cubit.dart';
-import 'package:AppName/features/catalog/presentation/screens/explore_screen.dart';
-import 'package:AppName/features/catalog/presentation/screens/roadmap_picker_screen.dart';
-import 'package:AppName/features/catalog/presentation/screens/roadmaps_screen.dart';
-import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart';
-import 'package:AppName/features/practice/presentation/cubit/practice_hub_cubit.dart';
-import 'package:AppName/features/practice/presentation/cubit/result_cubit.dart';
-import 'package:AppName/features/practice/presentation/screens/practice_hub_screen.dart';
-import 'package:AppName/features/practice/presentation/screens/practice_screen.dart';
-import 'package:AppName/features/practice/presentation/screens/result_screen.dart';
-import 'package:AppName/features/profile/domain/repositories/profile_repository.dart';
-import 'package:AppName/features/profile/presentation/cubit/edit_profile_cubit.dart';
-import 'package:AppName/features/profile/presentation/cubit/onboarding_cubit.dart';
-import 'package:AppName/features/profile/presentation/cubit/profile_cubit.dart';
-import 'package:AppName/features/profile/presentation/screens/edit_profile_screen.dart';
-import 'package:AppName/features/profile/presentation/screens/onboarding_screen.dart';
-import 'package:AppName/features/profile/presentation/screens/profile_screen.dart';
+import 'package:interview_practice/core/analytics/app_analytics.dart';
+import 'package:interview_practice/core/app/colors/app_colors.dart';
+import 'package:interview_practice/core/injection/injection_container.dart';
+import 'package:interview_practice/core/navigator/app_routes.dart';
+import 'package:interview_practice/core/navigator/main_shell.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/explore_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/roadmap_picker_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/track_detail_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/roadmaps_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/screens/explore_screen.dart';
+import 'package:interview_practice/features/catalog/presentation/screens/roadmap_picker_screen.dart';
+import 'package:interview_practice/features/catalog/presentation/screens/track_roadmap_screen.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/catalog/presentation/screens/roadmaps_screen.dart';
+import 'package:interview_practice/features/practice/presentation/cubit/practice_cubit.dart';
+import 'package:interview_practice/features/practice/presentation/cubit/practice_hub_cubit.dart';
+import 'package:interview_practice/features/practice/presentation/cubit/result_cubit.dart';
+import 'package:interview_practice/features/practice/presentation/screens/practice_hub_screen.dart';
+import 'package:interview_practice/features/practice/presentation/screens/practice_screen.dart';
+import 'package:interview_practice/features/practice/presentation/screens/result_screen.dart';
+import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
+import 'package:interview_practice/features/profile/presentation/cubit/edit_profile_cubit.dart';
+import 'package:interview_practice/features/profile/presentation/cubit/onboarding_cubit.dart';
+import 'package:interview_practice/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:interview_practice/features/profile/presentation/screens/edit_profile_screen.dart';
+import 'package:interview_practice/features/profile/presentation/screens/onboarding_screen.dart';
+import 'package:interview_practice/features/profile/presentation/screens/profile_screen.dart';
 
 part 'app_router.g.dart';
 
@@ -152,6 +155,31 @@ class EditProfileRoute extends GoRouteData with $EditProfileRoute {
     return BlocProvider(
       create: (_) => getIt<EditProfileCubit>()..load(),
       child: const EditProfileScreen(),
+    );
+  }
+}
+
+/// One track opened from a position roadmap, up to [level].
+@TypedGoRoute<TrackRoadmapRoute>(
+  path: Routes.trackRoadmapRoute,
+  name: Routes.trackRoadmapRoute,
+)
+class TrackRoadmapRoute extends GoRouteData with $TrackRoadmapRoute {
+  final String trackId;
+
+  /// `QuestionLevel.name`; every level when missing or unknown.
+  final String? level;
+
+  const TrackRoadmapRoute({required this.trackId, this.level});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    final maxLevel =
+        QuestionLevel.values.where((value) => value.name == level).firstOrNull;
+    return BlocProvider(
+      create: (_) =>
+          getIt<TrackDetailCubit>()..load(trackId, maxLevel: maxLevel),
+      child: const TrackRoadmapScreen(),
     );
   }
 }

@@ -17,14 +17,68 @@ class $AssetsContentGen {
   /// Directory path: assets/content/dart
   $AssetsContentDartGen get dart => const $AssetsContentDartGen();
 
+  /// Directory path: assets/content/dotnet
+  $AssetsContentDotnetGen get dotnet => const $AssetsContentDotnetGen();
+
   /// Directory path: assets/content/flutter
   $AssetsContentFlutterGen get flutter => const $AssetsContentFlutterGen();
+
+  /// Directory path: assets/content/git
+  $AssetsContentGitGen get git => const $AssetsContentGitGen();
+
+  /// Directory path: assets/content/go
+  $AssetsContentGoGen get go => const $AssetsContentGoGen();
+
+  /// Directory path: assets/content/http_api
+  $AssetsContentHttpApiGen get httpApi => const $AssetsContentHttpApiGen();
+
+  /// Directory path: assets/content/java
+  $AssetsContentJavaGen get java => const $AssetsContentJavaGen();
+
+  /// Directory path: assets/content/javascript
+  $AssetsContentJavascriptGen get javascript =>
+      const $AssetsContentJavascriptGen();
+
+  /// Directory path: assets/content/kotlin
+  $AssetsContentKotlinGen get kotlin => const $AssetsContentKotlinGen();
+
+  /// Directory path: assets/content/nodejs
+  $AssetsContentNodejsGen get nodejs => const $AssetsContentNodejsGen();
+
+  /// File path: assets/content/positions.json
+  String get positions => 'assets/content/positions.json';
+
+  /// Directory path: assets/content/python
+  $AssetsContentPythonGen get python => const $AssetsContentPythonGen();
+
+  /// Directory path: assets/content/react_native
+  $AssetsContentReactNativeGen get reactNative =>
+      const $AssetsContentReactNativeGen();
+
+  /// Directory path: assets/content/react_ts
+  $AssetsContentReactTsGen get reactTs => const $AssetsContentReactTsGen();
+
+  /// Directory path: assets/content/rust
+  $AssetsContentRustGen get rust => const $AssetsContentRustGen();
+
+  /// Directory path: assets/content/sql
+  $AssetsContentSqlGen get sql => const $AssetsContentSqlGen();
+
+  /// Directory path: assets/content/swift
+  $AssetsContentSwiftGen get swift => const $AssetsContentSwiftGen();
+
+  /// Directory path: assets/content/testing
+  $AssetsContentTestingGen get testing => const $AssetsContentTestingGen();
 
   /// File path: assets/content/tracks.json
   String get tracks => 'assets/content/tracks.json';
 
+  /// Directory path: assets/content/typescript
+  $AssetsContentTypescriptGen get typescript =>
+      const $AssetsContentTypescriptGen();
+
   /// List of all assets
-  List<String> get values => [tracks];
+  List<String> get values => [positions, tracks];
 }
 
 class $AssetsFigmaGen {
@@ -96,6 +150,19 @@ class $AssetsContentDartGen {
   List<String> get values => [questions, sets];
 }
 
+class $AssetsContentDotnetGen {
+  const $AssetsContentDotnetGen();
+
+  /// File path: assets/content/dotnet/questions.json
+  String get questions => 'assets/content/dotnet/questions.json';
+
+  /// File path: assets/content/dotnet/sets.json
+  String get sets => 'assets/content/dotnet/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
 class $AssetsContentFlutterGen {
   const $AssetsContentFlutterGen();
 
@@ -104,6 +171,201 @@ class $AssetsContentFlutterGen {
 
   /// File path: assets/content/flutter/sets.json
   String get sets => 'assets/content/flutter/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentGitGen {
+  const $AssetsContentGitGen();
+
+  /// File path: assets/content/git/questions.json
+  String get questions => 'assets/content/git/questions.json';
+
+  /// File path: assets/content/git/sets.json
+  String get sets => 'assets/content/git/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentGoGen {
+  const $AssetsContentGoGen();
+
+  /// File path: assets/content/go/questions.json
+  String get questions => 'assets/content/go/questions.json';
+
+  /// File path: assets/content/go/sets.json
+  String get sets => 'assets/content/go/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentHttpApiGen {
+  const $AssetsContentHttpApiGen();
+
+  /// File path: assets/content/http_api/questions.json
+  String get questions => 'assets/content/http_api/questions.json';
+
+  /// File path: assets/content/http_api/sets.json
+  String get sets => 'assets/content/http_api/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentJavaGen {
+  const $AssetsContentJavaGen();
+
+  /// File path: assets/content/java/questions.json
+  String get questions => 'assets/content/java/questions.json';
+
+  /// File path: assets/content/java/sets.json
+  String get sets => 'assets/content/java/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentJavascriptGen {
+  const $AssetsContentJavascriptGen();
+
+  /// File path: assets/content/javascript/questions.json
+  String get questions => 'assets/content/javascript/questions.json';
+
+  /// File path: assets/content/javascript/sets.json
+  String get sets => 'assets/content/javascript/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentKotlinGen {
+  const $AssetsContentKotlinGen();
+
+  /// File path: assets/content/kotlin/questions.json
+  String get questions => 'assets/content/kotlin/questions.json';
+
+  /// File path: assets/content/kotlin/sets.json
+  String get sets => 'assets/content/kotlin/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentNodejsGen {
+  const $AssetsContentNodejsGen();
+
+  /// File path: assets/content/nodejs/questions.json
+  String get questions => 'assets/content/nodejs/questions.json';
+
+  /// File path: assets/content/nodejs/sets.json
+  String get sets => 'assets/content/nodejs/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentPythonGen {
+  const $AssetsContentPythonGen();
+
+  /// File path: assets/content/python/questions.json
+  String get questions => 'assets/content/python/questions.json';
+
+  /// File path: assets/content/python/sets.json
+  String get sets => 'assets/content/python/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentReactNativeGen {
+  const $AssetsContentReactNativeGen();
+
+  /// File path: assets/content/react_native/questions.json
+  String get questions => 'assets/content/react_native/questions.json';
+
+  /// File path: assets/content/react_native/sets.json
+  String get sets => 'assets/content/react_native/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentReactTsGen {
+  const $AssetsContentReactTsGen();
+
+  /// File path: assets/content/react_ts/questions.json
+  String get questions => 'assets/content/react_ts/questions.json';
+
+  /// File path: assets/content/react_ts/sets.json
+  String get sets => 'assets/content/react_ts/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentRustGen {
+  const $AssetsContentRustGen();
+
+  /// File path: assets/content/rust/questions.json
+  String get questions => 'assets/content/rust/questions.json';
+
+  /// File path: assets/content/rust/sets.json
+  String get sets => 'assets/content/rust/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentSqlGen {
+  const $AssetsContentSqlGen();
+
+  /// File path: assets/content/sql/questions.json
+  String get questions => 'assets/content/sql/questions.json';
+
+  /// File path: assets/content/sql/sets.json
+  String get sets => 'assets/content/sql/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentSwiftGen {
+  const $AssetsContentSwiftGen();
+
+  /// File path: assets/content/swift/questions.json
+  String get questions => 'assets/content/swift/questions.json';
+
+  /// File path: assets/content/swift/sets.json
+  String get sets => 'assets/content/swift/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentTestingGen {
+  const $AssetsContentTestingGen();
+
+  /// File path: assets/content/testing/questions.json
+  String get questions => 'assets/content/testing/questions.json';
+
+  /// File path: assets/content/testing/sets.json
+  String get sets => 'assets/content/testing/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentTypescriptGen {
+  const $AssetsContentTypescriptGen();
+
+  /// File path: assets/content/typescript/questions.json
+  String get questions => 'assets/content/typescript/questions.json';
+
+  /// File path: assets/content/typescript/sets.json
+  String get sets => 'assets/content/typescript/sets.json';
 
   /// List of all assets
   List<String> get values => [questions, sets];

@@ -1,6 +1,6 @@
 // Project imports:
-import 'package:AppName/features/content/data/models/json_reader.dart';
-import 'package:AppName/features/content/domain/entities/quiz_set.dart';
+import 'package:interview_practice/features/content/data/models/json_reader.dart';
+import 'package:interview_practice/features/content/domain/entities/quiz_set.dart';
 
 class QuizSetModel {
   const QuizSetModel._();

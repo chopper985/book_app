@@ -1,0 +1,3339 @@
+{
+  "questions": [
+    {
+      "id": "dotnet.csharp_basics.001",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "csharp_basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về value type (ví dụ `struct`, `int`) và reference type (ví dụ `class`) trong C#?",
+        "en": "Which statement about value types (e.g. `struct`, `int`) and reference types (e.g. `class`) in C# is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gán value type sẽ copy giá trị; gán reference type chỉ copy tham chiếu tới cùng một object",
+            "en": "Assigning a value type copies the value; assigning a reference type copies only the reference to the same object"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Value type luôn nằm trên heap, reference type luôn nằm trên stack",
+            "en": "Value types always live on the heap, reference types always on the stack"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gán một biến kiểu `class` cho biến khác sẽ copy toàn bộ dữ liệu của object",
+            "en": "Assigning a `class` variable to another copies all of the object's data"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`struct` có thể kế thừa từ một `class` khác",
+            "en": "A `struct` can inherit from another `class`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Biến value type chứa trực tiếp dữ liệu nên phép gán tạo ra một bản copy độc lập; biến reference type chứa tham chiếu nên sau phép gán hai biến cùng trỏ tới một object. Câu \"value type luôn ở stack\" là hiểu lầm phổ biến: value type nằm ở nơi nó được khai báo, ví dụ field `int` của một class nằm trên heap cùng object đó. `struct` không kế thừa được class, chỉ implement được interface.",
+        "en": "A value-type variable holds the data itself, so assignment creates an independent copy; a reference-type variable holds a reference, so after assignment both variables point to the same object. \"Value types always live on the stack\" is a common myth: a value type lives where it is declared, e.g. an `int` field of a class lives on the heap inside that object. A `struct` cannot inherit from a class; it can only implement interfaces."
+      }
+    },
+    {
+      "id": "dotnet.csharp_basics.002",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "csharp_basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var p1 = new Point { X = 1 };\nvar p2 = p1;\np2.X = 5;\nConsole.WriteLine($\"{p1.X} {p2.X}\");\n\nstruct Point\n{\n  public int X;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "5 5",
+            "en": "5 5"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "1 1",
+            "en": "1 1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch",
+            "en": "Compile error"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "1 5",
+            "en": "1 5"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Point` là `struct` nên `var p2 = p1;` copy toàn bộ giá trị sang một biến mới. Sửa `p2.X` không ảnh hưởng tới `p1`, vì vậy kết quả là `1 5`. Đáp án `5 5` chỉ đúng nếu `Point` là `class`, khi đó `p1` và `p2` cùng tham chiếu tới một object.",
+        "en": "`Point` is a `struct`, so `var p2 = p1;` copies the whole value into a new variable. Changing `p2.X` does not affect `p1`, so the output is `1 5`. `5 5` would only be right if `Point` were a `class`, where `p1` and `p2` reference the same object."
+      }
+    },
+    {
+      "id": "dotnet.csharp_basics.003",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "csharp_basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "string s = \"hello\";\ns.ToUpper();\nConsole.WriteLine(s);\n\nstring t = s;\nt += \" world\";\nConsole.WriteLine(s);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "HELLO / hello",
+            "en": "HELLO / hello"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "hello / hello",
+            "en": "hello / hello"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "HELLO / hello world",
+            "en": "HELLO / hello world"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "hello / hello world",
+            "en": "hello / hello world"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`string` trong C# là immutable: `ToUpper()` không sửa chuỗi gốc mà trả về một chuỗi mới, và ở đây kết quả bị bỏ đi nên `s` vẫn là `hello`. `t += \" world\"` tạo một chuỗi mới rồi gán cho `t`, còn `s` vẫn trỏ tới chuỗi cũ. Đáp án có `HELLO` sai vì phải viết `s = s.ToUpper();` thì `s` mới thay đổi.",
+        "en": "`string` in C# is immutable: `ToUpper()` does not modify the original, it returns a new string, and here the result is discarded so `s` is still `hello`. `t += \" world\"` creates a new string and assigns it to `t`, while `s` still points to the old one. The `HELLO` options are wrong because you would need `s = s.ToUpper();` for `s` to change."
+      }
+    },
+    {
+      "id": "dotnet.csharp_basics.004",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "csharp_basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt chính giữa tham số `ref` và `out` là gì?",
+        "en": "What is the main difference between `ref` and `out` parameters?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`ref` chỉ dùng cho value type, `out` chỉ dùng cho reference type",
+            "en": "`ref` only works with value types, `out` only with reference types"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Biến truyền vào `ref` phải được gán trước khi gọi; method nhận `out` bắt buộc phải gán giá trị trước khi return",
+            "en": "A variable passed as `ref` must be assigned before the call; a method taking `out` must assign it before returning"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`out` truyền bản copy, còn `ref` truyền tham chiếu",
+            "en": "`out` passes a copy while `ref` passes a reference"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không có khác biệt, chỉ là hai cách viết",
+            "en": "There is no difference, they are just two spellings"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Cả `ref` và `out` đều truyền tham chiếu tới biến của caller, nên method sửa được chính biến đó. Khác biệt nằm ở quy tắc definite assignment: `ref` yêu cầu biến đã được gán trước khi truyền, còn `out` thì không cần nhưng method phải gán trước khi return (ví dụ `int.TryParse(s, out var n)`). Cả hai dùng được cho value type lẫn reference type, và `out` cũng không phải truyền bản copy.",
+        "en": "Both `ref` and `out` pass a reference to the caller's variable, so the method can modify that variable. The difference is the definite-assignment rule: `ref` requires the variable to be assigned before the call, while `out` does not, but the method must assign it before returning (e.g. `int.TryParse(s, out var n)`). Both work with value and reference types, and `out` does not pass a copy either."
+      }
+    },
+    {
+      "id": "dotnet.csharp_basics.005",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "csharp_basics",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Dòng nào dưới đây gây boxing?",
+        "en": "Which line causes boxing?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`var list = new ArrayList(); list.Add(42);`",
+            "en": "`var list = new ArrayList(); list.Add(42);`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`var list = new List<int>(); list.Add(42);`",
+            "en": "`var list = new List<int>(); list.Add(42);`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`int n = int.Parse(\"42\");`",
+            "en": "`int n = int.Parse(\"42\");`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`long big = 42;`",
+            "en": "`long big = 42;`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Boxing xảy ra khi một value type được chuyển thành `object` (hoặc interface), runtime phải cấp phát một object trên heap để chứa giá trị. `ArrayList.Add` nhận `object` nên mỗi `int` bị box; `List<int>` là generic nên lưu `int` trực tiếp mà không box. `long big = 42;` chỉ là implicit numeric conversion giữa hai value type, không cấp phát gì trên heap.",
+        "en": "Boxing happens when a value type is converted to `object` (or an interface), so the runtime must allocate a heap object to hold the value. `ArrayList.Add` takes `object`, so every `int` gets boxed; `List<int>` is generic and stores `int` directly without boxing. `long big = 42;` is just an implicit numeric conversion between two value types, with no heap allocation."
+      }
+    },
+    {
+      "id": "dotnet.csharp_basics.006",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "csharp_basics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "string? name = null;\nint? len = name?.Length;\n\nConsole.WriteLine(len ?? -1);\nConsole.WriteLine(len.HasValue);\n\nint total = (len ?? 0) + 1;\nConsole.WriteLine(total);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "0 / False / 1",
+            "en": "0 / False / 1"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "-1 / True / 0",
+            "en": "-1 / True / 0"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "NullReferenceException",
+            "en": "NullReferenceException"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "-1 / False / 1",
+            "en": "-1 / False / 1"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`name?.Length` trả về `null` thay vì ném `NullReferenceException` khi `name` là null, nên `len` là một `int?` không có giá trị. `len ?? -1` cho `-1`, `len.HasValue` là `False`, và `(len ?? 0) + 1` bằng `1`. Đáp án NullReferenceException sai vì toán tử `?.` đã chặn việc truy cập member trên null.",
+        "en": "`name?.Length` returns `null` instead of throwing `NullReferenceException` when `name` is null, so `len` is an `int?` with no value. `len ?? -1` gives `-1`, `len.HasValue` is `False`, and `(len ?? 0) + 1` is `1`. NullReferenceException is wrong because the `?.` operator short-circuits member access on null."
+      }
+    },
+    {
+      "id": "dotnet.csharp_basics.007",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "csharp_basics",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Phân biệt `==` và `Equals()` trong C#. Giải thích vì sao đoạn code dưới in `True`, `False`, `True`.",
+        "en": "Explain the difference between `==` and `Equals()` in C#. Why does the code below print `True`, `False`, `True`?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "string s1 = new string('x', 3);\nstring s2 = new string('x', 3);\nobject a = s1;\nobject b = s2;\n\nConsole.WriteLine(s1 == s2);     // True\nConsole.WriteLine(a == b);       // False\nConsole.WriteLine(a.Equals(b));  // True"
+      },
+      "keyPoints": [
+        {
+          "vi": "`==` là operator, được chọn lúc biên dịch theo kiểu tĩnh (static type) của biến; `Equals` là virtual method, được dispatch lúc chạy theo kiểu thật của object",
+          "en": "`==` is an operator chosen at compile time from the variables' static type; `Equals` is a virtual method dispatched at runtime on the object's actual type"
+        },
+        {
+          "vi": "Với biến kiểu `object` (và class không overload), `==` so sánh tham chiếu (reference equality)",
+          "en": "For `object` variables (and classes without an overload), `==` compares references"
+        },
+        {
+          "vi": "`string` overload `==` và override `Equals` để so sánh nội dung, nên `s1 == s2` và `a.Equals(b)` đều `True`",
+          "en": "`string` overloads `==` and overrides `Equals` to compare contents, so `s1 == s2` and `a.Equals(b)` are both `True`"
+        },
+        {
+          "vi": "`record` và `struct` có value equality; class thường muốn so sánh theo giá trị phải override `Equals` và `GetHashCode`",
+          "en": "`record` types and structs have value equality; a regular class must override `Equals` and `GetHashCode` to compare by value"
+        }
+      ],
+      "explanation": {
+        "vi": "`s1` và `s2` là hai object string khác nhau nhưng cùng nội dung. Khi biến có kiểu tĩnh `string`, compiler chọn `string.operator ==` nên so sánh nội dung và in `True`. Khi cùng hai object đó được giữ trong biến `object`, compiler chọn `==` của `object` là so sánh tham chiếu nên in `False`. `a.Equals(b)` là lời gọi virtual nên chạy `string.Equals` và lại so sánh nội dung, in `True`.",
+        "en": "`s1` and `s2` are two different string objects with the same contents. With static type `string`, the compiler picks `string.operator ==`, which compares contents and prints `True`. When the same objects are held in `object` variables, the compiler picks `object`'s `==`, a reference comparison, so it prints `False`. `a.Equals(b)` is a virtual call, so it runs `string.Equals` and compares contents again, printing `True`."
+      }
+    },
+    {
+      "id": "dotnet.csharp_basics.008",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "csharp_basics",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về `Span<T>` trong C# 12 / .NET 8?",
+        "en": "Which statement about `Span<T>` in C# 12 / .NET 8 is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mỗi lần gọi `Slice()` sẽ cấp phát một mảng mới trên heap",
+            "en": "Every `Slice()` call allocates a new array on the heap"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Là `ref struct` trỏ vào vùng nhớ liên tục (mảng, `stackalloc`, native memory) mà không copy; không thể làm field của class hay dùng trong method `async`",
+            "en": "It is a `ref struct` viewing contiguous memory (arrays, `stackalloc`, native memory) without copying; it cannot be a class field or be used in an `async` method"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Có thể lưu vào `List<Span<int>>` để dùng lại sau",
+            "en": "It can be stored in a `List<Span<int>>` for later use"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Là wrapper thread-safe bao quanh `List<T>`",
+            "en": "It is a thread-safe wrapper around `List<T>`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Span<T>` là một view an toàn kiểu trên vùng nhớ liên tục; `Slice()` chỉ tạo view mới với offset/length khác nên không cấp phát. Vì là `ref struct`, nó chỉ được sống trên stack: không box được, không làm field của class, không làm generic argument như `List<Span<int>>` và (trong C# 12) không dùng được trong method `async` hay iterator. Khi cần lưu lâu dài hoặc dùng qua `await`, hãy dùng `Memory<T>`.",
+        "en": "`Span<T>` is a type-safe view over contiguous memory; `Slice()` just creates a new view with a different offset/length, so it does not allocate. Because it is a `ref struct` it can only live on the stack: it cannot be boxed, be a class field, or be a generic argument like `List<Span<int>>`, and (in C# 12) it cannot be used in `async` methods or iterators. When you need to store it or use it across `await`, use `Memory<T>`."
+      }
+    },
+    {
+      "id": "dotnet.csharp_basics.009",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "csharp_basics",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích cách Garbage Collector của .NET hoạt động: generation, Large Object Heap và những điều cần lưu ý về hiệu năng khi viết code.",
+        "en": "Explain how the .NET garbage collector works: generations, the Large Object Heap, and what to keep in mind for performance when writing code."
+      },
+      "keyPoints": [
+        {
+          "vi": "Heap được chia thành Gen0, Gen1, Gen2 dựa trên giả thuyết đa số object chết trẻ; Gen0 được thu gom thường xuyên và rất nhanh",
+          "en": "The heap is split into Gen0, Gen1 and Gen2 based on the hypothesis that most objects die young; Gen0 is collected often and cheaply"
+        },
+        {
+          "vi": "Object sống sót qua một lần GC được promote lên generation cao hơn; thu gom Gen2 (full GC) là tốn kém nhất",
+          "en": "Objects that survive a collection are promoted to an older generation; a Gen2 (full) collection is the most expensive"
+        },
+        {
+          "vi": "Object từ 85.000 byte trở lên vào Large Object Heap, chỉ được thu gom cùng Gen2 và mặc định không bị compact",
+          "en": "Objects of 85,000 bytes or more go to the Large Object Heap, which is only collected with Gen2 and is not compacted by default"
+        },
+        {
+          "vi": "Finalizer làm object sống thêm ít nhất một chu kỳ GC; tài nguyên unmanaged nên giải phóng bằng `IDisposable`/`using`",
+          "en": "Finalizers keep objects alive for at least one more GC cycle; release unmanaged resources with `IDisposable`/`using`"
+        },
+        {
+          "vi": "Giảm cấp phát trên hot path (`ArrayPool<T>`, `Span<T>`, tránh boxing và closure) thay vì gọi `GC.Collect()`",
+          "en": "Reduce allocations on hot paths (`ArrayPool<T>`, `Span<T>`, avoiding boxing and closures) instead of calling `GC.Collect()`"
+        }
+      ],
+      "explanation": {
+        "vi": ".NET dùng generational, mark-and-compact GC: object mới cấp phát ở Gen0, GC đánh dấu các object còn được tham chiếu từ root (stack, static, GC handle), compact chúng và promote lên generation cao hơn. Vì đa số object chết trẻ nên thu gom Gen0/Gen1 rẻ, còn full GC Gen2 và LOH tốn kém và có thể gây pause dài. Server GC (mặc định cho ASP.NET Core) dùng heap và thread GC riêng cho mỗi core, còn workstation GC tối ưu cho ứng dụng desktop. Trong thực tế, cách tốt nhất là đo bằng `dotnet-counters`/`dotnet-trace` và giảm cấp phát thay vì can thiệp thủ công vào GC.",
+        "en": ".NET uses a generational mark-and-compact GC: new objects are allocated in Gen0, the GC marks objects still reachable from roots (stack, statics, GC handles), compacts them and promotes them to an older generation. Since most objects die young, Gen0/Gen1 collections are cheap, while full Gen2 and LOH collections are expensive and can cause long pauses. Server GC (the default for ASP.NET Core) uses a heap and GC thread per core, while workstation GC is tuned for desktop apps. In practice, measure with `dotnet-counters`/`dotnet-trace` and reduce allocations rather than manually poking the GC."
+      }
+    },
+    {
+      "id": "dotnet.oop.001",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt nào giữa `interface` và `abstract class` là đúng trong C# hiện đại?",
+        "en": "Which difference between an `interface` and an `abstract class` is correct in modern C#?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một class implement được nhiều interface nhưng chỉ kế thừa được một abstract class; abstract class có constructor và field lưu state",
+            "en": "A class can implement many interfaces but inherit only one abstract class; an abstract class can have constructors and state fields"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Interface không thể chứa bất kỳ phần implementation nào",
+            "en": "An interface can never contain any implementation"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Abstract class không thể có method đã được implement",
+            "en": "An abstract class cannot have implemented methods"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Có thể tạo instance trực tiếp từ abstract class bằng `new`",
+            "en": "You can instantiate an abstract class directly with `new`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "C# chỉ cho đơn kế thừa class nhưng cho implement nhiều interface; abstract class còn có thể có constructor, field instance và method đã implement để chia sẻ code. Câu \"interface không chứa implementation\" đã lỗi thời từ C# 8, vì interface có thể có default interface method (nhưng vẫn không có field instance). Abstract class không thể `new` trực tiếp, chỉ dùng qua class con.",
+        "en": "C# allows single class inheritance but multiple interface implementation; an abstract class can also have constructors, instance fields and implemented methods to share code. \"Interfaces contain no implementation\" has been outdated since C# 8, which added default interface methods (interfaces still cannot have instance fields). An abstract class cannot be instantiated with `new`; it is only used through derived classes."
+      }
+    },
+    {
+      "id": "dotnet.oop.002",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "Animal a = new Dog();\na.Speak();\na.Move();\n\nclass Animal\n{\n  public virtual void Speak() => Console.WriteLine(\"Animal speaks\");\n  public void Move() => Console.WriteLine(\"Animal moves\");\n}\n\nclass Dog : Animal\n{\n  public override void Speak() => Console.WriteLine(\"Dog barks\");\n  public new void Move() => Console.WriteLine(\"Dog runs\");\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Dog barks / Dog runs",
+            "en": "Dog barks / Dog runs"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Animal speaks / Animal moves",
+            "en": "Animal speaks / Animal moves"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dog barks / Animal moves",
+            "en": "Dog barks / Animal moves"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Animal speaks / Dog runs",
+            "en": "Animal speaks / Dog runs"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Speak` là `virtual` và được `override`, nên lời gọi được dispatch theo kiểu thật lúc chạy (`Dog`) và in `Dog barks`. `Move` của `Dog` dùng `new` (method hiding): nó chỉ che method của lớp cha khi gọi qua biến kiểu `Dog`, còn qua biến kiểu `Animal` vẫn gọi `Animal.Move`. Đáp án `Dog runs` sai vì nhầm `new` với `override`.",
+        "en": "`Speak` is `virtual` and overridden, so the call is dispatched on the runtime type (`Dog`) and prints `Dog barks`. `Dog.Move` uses `new` (method hiding): it only hides the base method when called through a `Dog`-typed variable; through an `Animal` variable, `Animal.Move` is still called. `Dog runs` is wrong because it confuses `new` with `override`."
+      }
+    },
+    {
+      "id": "dotnet.oop.003",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khai báo `public sealed class PaymentService` có ý nghĩa gì?",
+        "en": "What does the declaration `public sealed class PaymentService` mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không class nào được kế thừa từ `PaymentService`",
+            "en": "No class can inherit from `PaymentService`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không thể tạo instance của `PaymentService`",
+            "en": "`PaymentService` cannot be instantiated"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Mọi method trong class tự động là `static`",
+            "en": "All methods in the class are automatically `static`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Class chỉ được dùng trong cùng một file",
+            "en": "The class can only be used within the same file"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`sealed` chặn kế thừa: viết `class X : PaymentService` sẽ lỗi biên dịch. `sealed` cũng dùng trên method `override` để chặn lớp con override tiếp, và giúp JIT có thể devirtualize lời gọi. Không tạo được instance là đặc điểm của `abstract`/`static class`, không phải `sealed`; còn giới hạn trong một file là `file` modifier (C# 11).",
+        "en": "`sealed` prevents inheritance: `class X : PaymentService` is a compile error. `sealed` can also be applied to an `override` method to stop further overriding, and it lets the JIT devirtualize calls. Not being instantiable describes `abstract`/`static` classes, not `sealed`; limiting a type to one file is the `file` modifier (C# 11)."
+      }
+    },
+    {
+      "id": "dotnet.oop.004",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Access modifier `internal` cho phép truy cập member từ đâu?",
+        "en": "Where can an `internal` member be accessed from?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ trong class khai báo nó",
+            "en": "Only inside the declaring class"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ trong class khai báo và các class con",
+            "en": "Only in the declaring class and its subclasses"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Mọi code trong cùng một assembly (project)",
+            "en": "Any code in the same assembly (project)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Mọi nơi, kể cả assembly khác",
+            "en": "Anywhere, including other assemblies"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`internal` giới hạn truy cập trong cùng assembly, và đây cũng là mức mặc định của type top-level khi không ghi modifier. `private` chỉ trong class, `protected` là class và lớp con, `public` là mọi nơi. Muốn cho project test truy cập member `internal`, có thể dùng `InternalsVisibleTo`.",
+        "en": "`internal` restricts access to the same assembly, and it is also the default for top-level types without a modifier. `private` means only the class, `protected` means the class and subclasses, `public` means everywhere. To let a test project access `internal` members, use `InternalsVisibleTo`."
+      }
+    },
+    {
+      "id": "dotnet.oop.005",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var a = new Person(\"An\", 20);\nvar b = new Person(\"An\", 20);\nvar c = a with { Age = 21 };\n\nConsole.WriteLine(a == b);\nConsole.WriteLine(ReferenceEquals(a, b));\nConsole.WriteLine(c.Age);\n\nrecord Person(string Name, int Age);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "False / False / 21",
+            "en": "False / False / 21"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "True / True / 21",
+            "en": "True / True / 21"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "True / False / 20",
+            "en": "True / False / 20"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "True / False / 21",
+            "en": "True / False / 21"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`record` (record class) được compiler sinh value equality: `==` và `Equals` so sánh từng property, nên `a == b` là `True`. Tuy vậy `a` và `b` vẫn là hai object khác nhau trên heap nên `ReferenceEquals` là `False`. Biểu thức `with` tạo một bản copy của `a` với `Age = 21`. Đáp án `False / False` sai vì đó là hành vi của class thường.",
+        "en": "For a `record` (record class) the compiler generates value equality: `==` and `Equals` compare each property, so `a == b` is `True`. However `a` and `b` are still two distinct heap objects, so `ReferenceEquals` is `False`. The `with` expression creates a copy of `a` with `Age = 21`. `False / False` is wrong because that is how a regular class behaves."
+      }
+    },
+    {
+      "id": "dotnet.oop.006",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau ném exception khi chạy. Nguyên nhân là gì?",
+        "en": "This code throws an exception at runtime. What is the cause?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var repo = new Repo(\"db\");\n\nclass Base\n{\n  public Base() => Init();\n  protected virtual void Init() { }\n}\n\nclass Repo : Base\n{\n  private readonly string _prefix;\n\n  public Repo(string prefix)\n  {\n    _prefix = prefix;\n  }\n\n  protected override void Init()\n    => Console.WriteLine(_prefix.Length);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gọi method `virtual` trong constructor là lỗi biên dịch",
+            "en": "Calling a `virtual` method in a constructor is a compile error"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Field `readonly` không được gán trong constructor",
+            "en": "A `readonly` field cannot be assigned in a constructor"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Constructor của `Base` chạy trước thân constructor của `Repo`, nên `Init()` override đọc `_prefix` khi nó còn `null` → `NullReferenceException`",
+            "en": "`Base`'s constructor runs before `Repo`'s constructor body, so the overridden `Init()` reads `_prefix` while it is still `null` → `NullReferenceException`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Console.WriteLine` không nhận tham số kiểu `int`",
+            "en": "`Console.WriteLine` does not accept an `int` argument"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Khi tạo `Repo`, constructor `Base()` chạy trước thân constructor `Repo`. Vì `Init()` là virtual, lời gọi trong `Base()` được dispatch sang `Repo.Init()` dù `Repo` chưa khởi tạo xong, lúc đó `_prefix` vẫn là `null`. Gọi virtual method trong constructor là hợp lệ về cú pháp nhưng là anti-pattern; nên tránh, hoặc truyền dữ liệu cần thiết qua tham số constructor của base. Lưu ý field initializer của lớp con chạy trước constructor base, còn phép gán trong thân constructor thì không.",
+        "en": "When creating a `Repo`, the `Base()` constructor runs before the body of the `Repo` constructor. Because `Init()` is virtual, the call inside `Base()` dispatches to `Repo.Init()` even though `Repo` is not initialized yet, so `_prefix` is still `null`. Calling virtual methods from a constructor compiles but is an anti-pattern; avoid it or pass the needed data through the base constructor. Note that a derived class's field initializers do run before the base constructor, but assignments in the constructor body do not."
+      }
+    },
+    {
+      "id": "dotnet.oop.007",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "`set.Contains(...)` dưới đây in `False` dù hai object bằng nhau theo `Equals`. Lỗi nằm ở đâu?",
+        "en": "`set.Contains(...)` below prints `False` even though the two objects are equal according to `Equals`. What is the bug?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var set = new HashSet<Money> { new Money(10, \"VND\") };\nConsole.WriteLine(set.Contains(new Money(10, \"VND\")));\n\nclass Money\n{\n  public decimal Amount { get; }\n  public string Currency { get; }\n\n  public Money(decimal amount, string currency)\n  {\n    Amount = amount;\n    Currency = currency;\n  }\n\n  public override bool Equals(object? obj) =>\n    obj is Money m && m.Amount == Amount && m.Currency == Currency;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`HashSet` chỉ dùng `==`, không bao giờ gọi `Equals`",
+            "en": "`HashSet` only uses `==` and never calls `Equals`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`decimal` không so sánh được bằng `==`",
+            "en": "`decimal` values cannot be compared with `==`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`HashSet` không hỗ trợ class tự định nghĩa, phải dùng `List<Money>`",
+            "en": "`HashSet` does not support custom classes; you must use `List<Money>`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Override `Equals` nhưng không override `GetHashCode`; `HashSet` tra theo hash code trước nên hai object \"bằng nhau\" rơi vào bucket khác nhau",
+            "en": "`Equals` is overridden but `GetHashCode` is not; `HashSet` looks up by hash code first, so the two \"equal\" objects land in different buckets"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`HashSet<T>` và `Dictionary<TKey,TValue>` tính `GetHashCode()` để tìm bucket rồi mới gọi `Equals`. `Money` dùng `GetHashCode` mặc định dựa trên identity nên hai instance có hash khác nhau và `Contains` trả `False` (compiler cũng cảnh báo CS0659). Sửa bằng `public override int GetHashCode() => HashCode.Combine(Amount, Currency);` hoặc khai báo `record Money(decimal Amount, string Currency)`. `HashSet` có gọi `Equals` thông qua `EqualityComparer<T>.Default`, nên đáp án \"chỉ dùng `==`\" sai.",
+        "en": "`HashSet<T>` and `Dictionary<TKey,TValue>` call `GetHashCode()` to find the bucket and only then call `Equals`. `Money` uses the default identity-based `GetHashCode`, so the two instances hash differently and `Contains` returns `False` (the compiler also warns with CS0659). Fix it with `public override int GetHashCode() => HashCode.Combine(Amount, Currency);` or declare `record Money(decimal Amount, string Currency)`. `HashSet` does call `Equals` via `EqualityComparer<T>.Default`, so \"it only uses `==`\" is wrong."
+      }
+    },
+    {
+      "id": "dotnet.oop.008",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `public class User { public string Name { get; init; } = \"\"; }`, dòng nào biên dịch được?",
+        "en": "Given `public class User { public string Name { get; init; } = \"\"; }`, which line compiles?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`var u = new User(); u.Name = \"An\";`",
+            "en": "`var u = new User(); u.Name = \"An\";`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`var u = new User { Name = \"An\" }; u.Name = \"Binh\";`",
+            "en": "`var u = new User { Name = \"An\" }; u.Name = \"Binh\";`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không dòng nào, `init` chỉ dùng được trong `record`",
+            "en": "None of them; `init` only works in a `record`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`var u = new User { Name = \"An\" };`",
+            "en": "`var u = new User { Name = \"An\" };`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`init` accessor chỉ cho phép gán trong lúc khởi tạo: object initializer, constructor, hoặc biểu thức `with`. Sau đó property trở thành read-only, nên mọi phép gán `u.Name = ...` sau khi object đã tạo xong đều lỗi biên dịch. `init` dùng được cho cả class, struct lẫn record, nên đáp án \"chỉ dùng trong record\" sai.",
+        "en": "An `init` accessor only allows assignment during initialization: in an object initializer, a constructor, or a `with` expression. After that the property is read-only, so any `u.Name = ...` after construction is a compile error. `init` works for classes, structs and records alike, so \"only in a record\" is wrong."
+      }
+    },
+    {
+      "id": "dotnet.oop.009",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày 5 nguyên tắc SOLID và cho ví dụ áp dụng trong một ứng dụng ASP.NET Core.",
+        "en": "Describe the five SOLID principles and give examples of applying them in an ASP.NET Core application."
+      },
+      "keyPoints": [
+        {
+          "vi": "S - Single Responsibility: mỗi class chỉ có một lý do để thay đổi, ví dụ tách `OrderService` khỏi việc gửi email",
+          "en": "S - Single Responsibility: a class has one reason to change, e.g. separate `OrderService` from sending emails"
+        },
+        {
+          "vi": "O - Open/Closed: mở rộng hành vi bằng cách thêm implementation mới (ví dụ thêm `IPaymentProvider`) thay vì sửa code cũ",
+          "en": "O - Open/Closed: extend behaviour by adding new implementations (e.g. a new `IPaymentProvider`) rather than editing existing code"
+        },
+        {
+          "vi": "L - Liskov Substitution: lớp con phải thay thế được lớp cha mà không phá vỡ hành vi mong đợi",
+          "en": "L - Liskov Substitution: a subclass must be usable in place of its base without breaking expected behaviour"
+        },
+        {
+          "vi": "I - Interface Segregation: chia interface nhỏ theo nhu cầu client, tránh interface \"béo\" buộc implement method không dùng",
+          "en": "I - Interface Segregation: split interfaces by client needs, avoiding fat interfaces that force unused methods"
+        },
+        {
+          "vi": "D - Dependency Inversion: phụ thuộc vào abstraction và nhận dependency qua constructor injection của DI container",
+          "en": "D - Dependency Inversion: depend on abstractions and receive dependencies via the DI container's constructor injection"
+        }
+      ],
+      "explanation": {
+        "vi": "SOLID là năm nguyên tắc thiết kế hướng đối tượng giúp code dễ bảo trì và dễ test. Trong ASP.NET Core, DI container có sẵn khuyến khích Dependency Inversion: controller nhận `IOrderService` thay vì tự `new`. Khi trả lời phỏng vấn, nên nêu ví dụ cụ thể cho từng nguyên tắc và nói thêm về đánh đổi: áp dụng máy móc có thể sinh quá nhiều interface và lớp trừu tượng không cần thiết.",
+        "en": "SOLID is five object-oriented design principles that make code easier to maintain and test. In ASP.NET Core the built-in DI container encourages Dependency Inversion: a controller receives `IOrderService` instead of creating one with `new`. In an interview, give a concrete example for each principle and mention the trade-off: applying them mechanically can create too many unnecessary interfaces and abstractions."
+      }
+    },
+    {
+      "id": "dotnet.linq.001",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "linq",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt chính giữa mảng `int[]` và `List<int>` là gì?",
+        "en": "What is the main difference between an `int[]` array and a `List<int>`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mảng có kích thước cố định sau khi tạo; `List<int>` tự tăng kích thước khi `Add` vì bên trong dùng mảng và cấp lại mảng lớn hơn khi đầy",
+            "en": "An array has a fixed size once created; `List<int>` grows on `Add` because it wraps an array and reallocates a larger one when full"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`List<int>` lưu dữ liệu dạng linked list nên truy cập theo index chậm",
+            "en": "`List<int>` stores data as a linked list, so indexed access is slow"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Mảng không thể duyệt bằng `foreach`",
+            "en": "Arrays cannot be iterated with `foreach`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`List<int>` box mỗi phần tử thành `object`",
+            "en": "`List<int>` boxes every element into an `object`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mảng có `Length` cố định; muốn thêm phần tử phải tạo mảng mới. `List<T>` bọc một mảng bên trong với `Capacity`, khi đầy nó cấp phát mảng lớn gấp đôi và copy dữ liệu sang, nên `Add` có chi phí amortized O(1). Truy cập theo index của cả hai đều O(1) vì đều dựa trên mảng; linked list là `LinkedList<T>`. `List<int>` là generic nên không box phần tử.",
+        "en": "An array has a fixed `Length`; adding an element means creating a new array. `List<T>` wraps an internal array with a `Capacity`; when full it allocates an array twice as large and copies the data, so `Add` is amortized O(1). Indexed access is O(1) for both because both are array-based; the linked list is `LinkedList<T>`. `List<int>` is generic, so it does not box its elements."
+      }
+    },
+    {
+      "id": "dotnet.linq.002",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "linq",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `var prices = new Dictionary<string, int>();`, truy cập `prices[\"coffee\"]` khi key chưa tồn tại sẽ thế nào?",
+        "en": "With `var prices = new Dictionary<string, int>();`, what happens when you read `prices[\"coffee\"]` and the key does not exist?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trả về `0`",
+            "en": "Returns `0`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ném `KeyNotFoundException`",
+            "en": "Throws `KeyNotFoundException`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Trả về `null`",
+            "en": "Returns `null`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tự thêm key với giá trị mặc định",
+            "en": "Adds the key automatically with a default value"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Indexer `get` của `Dictionary` ném `KeyNotFoundException` khi không có key. Muốn đọc an toàn, dùng `TryGetValue(key, out var price)` hoặc `GetValueOrDefault(key)`. Trả về giá trị mặc định là hành vi của `GetValueOrDefault`, không phải indexer; còn gán `prices[\"coffee\"] = 5` thì thêm mới hoặc ghi đè, khác với `Add` sẽ ném lỗi khi key đã tồn tại.",
+        "en": "The `Dictionary` indexer getter throws `KeyNotFoundException` when the key is missing. For a safe read use `TryGetValue(key, out var price)` or `GetValueOrDefault(key)`. Returning a default value is what `GetValueOrDefault` does, not the indexer; assigning `prices[\"coffee\"] = 5` adds or overwrites, unlike `Add`, which throws if the key already exists."
+      }
+    },
+    {
+      "id": "dotnet.linq.003",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "linq",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var nums = new List<int> { 5, 2, 8, 1, 9 };\n\nvar result = nums\n  .Where(n => n > 2)\n  .OrderBy(n => n)\n  .Select(n => n * 10);\n\nConsole.WriteLine(string.Join(\",\", result));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "50,80,90",
+            "en": "50,80,90"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "80,50,90",
+            "en": "80,50,90"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "20,50,80,90",
+            "en": "20,50,80,90"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "5,8,9",
+            "en": "5,8,9"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Where(n => n > 2)` giữ lại `5, 8, 9`, `OrderBy` sắp xếp tăng dần thành `5, 8, 9`, rồi `Select` nhân 10 cho `50,80,90`. Đáp án có `20` sai vì `2 > 2` là false. `string.Join` duyệt `IEnumerable` nên query deferred được thực thi tại đó.",
+        "en": "`Where(n => n > 2)` keeps `5, 8, 9`, `OrderBy` sorts them ascending into `5, 8, 9`, then `Select` multiplies by 10 giving `50,80,90`. The option with `20` is wrong because `2 > 2` is false. `string.Join` enumerates the `IEnumerable`, so the deferred query executes there."
+      }
+    },
+    {
+      "id": "dotnet.linq.004",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "linq",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`new[] { 1, 2, 3, 4 }.Single(x => x > 2)` cho kết quả gì?",
+        "en": "What does `new[] { 1, 2, 3, 4 }.Single(x => x > 2)` return?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`3`",
+            "en": "`3`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ném `InvalidOperationException` vì có hơn một phần tử thỏa điều kiện",
+            "en": "Throws `InvalidOperationException` because more than one element matches"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`4`",
+            "en": "`4`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`0`",
+            "en": "`0`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Single` yêu cầu đúng một phần tử thỏa điều kiện: không có hoặc có nhiều hơn một đều ném `InvalidOperationException`. Ở đây cả `3` và `4` đều lớn hơn 2 nên ném lỗi. `3` là kết quả của `First(x => x > 2)`. `SingleOrDefault` chỉ trả `default` khi không có phần tử nào, còn có nhiều phần tử vẫn ném lỗi.",
+        "en": "`Single` requires exactly one matching element: zero or more than one both throw `InvalidOperationException`. Here both `3` and `4` are greater than 2, so it throws. `3` is what `First(x => x > 2)` would return. `SingleOrDefault` only returns `default` when nothing matches; multiple matches still throw."
+      }
+    },
+    {
+      "id": "dotnet.linq.005",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "linq",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var list = new List<int> { 1, 2, 3 };\nvar query = list.Where(x => x > 1);\n\nlist.Add(4);\nConsole.WriteLine(query.Count());\n\nvar snapshot = query.ToList();\nlist.Add(5);\nConsole.WriteLine(snapshot.Count);\nConsole.WriteLine(query.Count());"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "2 / 2 / 2",
+            "en": "2 / 2 / 2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "3 / 3 / 4",
+            "en": "3 / 3 / 4"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "3 / 3 / 3",
+            "en": "3 / 3 / 3"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "2 / 3 / 4",
+            "en": "2 / 3 / 4"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "LINQ to Objects dùng deferred execution: `query` chỉ là mô tả, mỗi lần `Count()` nó duyệt lại `list` hiện tại. Sau khi thêm `4`, `query` có `2, 3, 4` nên in `3`. `ToList()` chụp kết quả tại thời điểm gọi nên `snapshot` vẫn có 3 phần tử, còn `query.Count()` lần cuối thấy thêm `5` nên in `4`. Đáp án `2 / ...` sai vì coi `query` được tính ngay khi khai báo.",
+        "en": "LINQ to Objects uses deferred execution: `query` is just a description, and every `Count()` re-enumerates the current `list`. After adding `4`, `query` yields `2, 3, 4`, so it prints `3`. `ToList()` captures the result at that moment, so `snapshot` still has 3 items, while the last `query.Count()` also sees `5` and prints `4`. Options starting with `2` are wrong because they assume `query` was evaluated when declared."
+      }
+    },
+    {
+      "id": "dotnet.linq.006",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "linq",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code cho kết quả đúng nhưng `Querying DB...` bị in nhiều lần. Vấn đề là gì?",
+        "en": "The code produces the right result, but `Querying DB...` is printed several times. What is the problem?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var big = LoadTotals().Where(t => t > 100);\n\nif (big.Any())\n{\n  Console.WriteLine($\"Count: {big.Count()}\");\n  foreach (var t in big)\n    Console.WriteLine(t);\n}\n\nIEnumerable<int> LoadTotals()\n{\n  Console.WriteLine(\"Querying DB...\");\n  yield return 120;\n  yield return 80;\n  yield return 300;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`yield return` chỉ dùng được trong method `async`",
+            "en": "`yield return` can only be used in an `async` method"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Where` đã cache kết quả nên chỉ `Any()` gây in thêm",
+            "en": "`Where` caches its results, so only `Any()` causes the extra print"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`big` là query deferred; `Any()`, `Count()` và `foreach` mỗi lần đều chạy lại `LoadTotals()` từ đầu (multiple enumeration), nên gọi `.ToList()` một lần",
+            "en": "`big` is a deferred query; `Any()`, `Count()` and `foreach` each re-run `LoadTotals()` from scratch (multiple enumeration), so call `.ToList()` once"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Count()` làm rỗng `big` nên `foreach` không chạy",
+            "en": "`Count()` empties `big`, so the `foreach` does not run"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Iterator `LoadTotals()` và `Where` đều lazy, không cache gì cả. Mỗi lần enumerate `big` (`Any()`, `Count()`, `foreach`) là một lần chạy lại iterator từ đầu, nên `Querying DB...` in 3 lần; với query thật thì đó là 3 lần gọi database. Sửa bằng `var big = LoadTotals().Where(t => t > 100).ToList();` rồi dùng `big.Count` và duyệt list. `Count()` không làm thay đổi nguồn dữ liệu.",
+        "en": "The `LoadTotals()` iterator and `Where` are both lazy and cache nothing. Every enumeration of `big` (`Any()`, `Count()`, `foreach`) restarts the iterator, so `Querying DB...` prints 3 times; with a real query that is 3 database calls. Fix it with `var big = LoadTotals().Where(t => t > 100).ToList();` and then use `big.Count` and iterate the list. `Count()` does not change the source."
+      }
+    },
+    {
+      "id": "dotnet.linq.007",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "linq",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với EF Core, đoạn code dưới thực thi như thế nào?",
+        "en": "With EF Core, how does the code below execute?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "IEnumerable<User> users = db.Users;\n\nvar adults = users\n  .Where(u => u.Age >= 18)\n  .Take(10)\n  .ToList();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "SQL có `WHERE Age >= 18` và giới hạn 10 dòng như mong muốn",
+            "en": "The SQL contains `WHERE Age >= 18` and a 10-row limit as intended"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lỗi biên dịch vì `DbSet` không gán được cho `IEnumerable`",
+            "en": "Compile error because a `DbSet` cannot be assigned to `IEnumerable`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "SQL lấy toàn bộ bảng `Users`, sau đó `Where`/`Take` chạy trong bộ nhớ vì biến có kiểu `IEnumerable<User>`",
+            "en": "SQL fetches the whole `Users` table, then `Where`/`Take` run in memory because the variable is typed `IEnumerable<User>`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "EF Core ném exception vì không dịch được `Take`",
+            "en": "EF Core throws because it cannot translate `Take`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Extension method được chọn theo kiểu tĩnh của biến: với `IEnumerable<User>`, compiler gọi `Enumerable.Where` (nhận `Func`) thay vì `Queryable.Where` (nhận `Expression`). Vì vậy EF Core chỉ thấy `SELECT * FROM Users`, kéo toàn bộ bảng về rồi lọc trong bộ nhớ. Giữ kiểu `IQueryable<User>` (hoặc dùng `var`/`db.Users` trực tiếp) thì `Where` và `Take` được dịch thành SQL. `DbSet<T>` implement `IEnumerable<T>` nên không lỗi biên dịch.",
+        "en": "Extension methods are chosen by the variable's static type: with `IEnumerable<User>`, the compiler calls `Enumerable.Where` (taking a `Func`) instead of `Queryable.Where` (taking an `Expression`). So EF Core only sees `SELECT * FROM Users`, loads the whole table and filters in memory. Keep the type `IQueryable<User>` (or use `var`/`db.Users` directly) and `Where` and `Take` are translated to SQL. `DbSet<T>` implements `IEnumerable<T>`, so there is no compile error."
+      }
+    },
+    {
+      "id": "dotnet.linq.008",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "linq",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var names = new List<string> { \"An\", \"\", \"Binh\", \"\" };\n\nforeach (var n in names)\n{\n  if (n == \"\") names.Remove(n);\n}\n\nConsole.WriteLine(names.Count);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "2",
+            "en": "2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "3",
+            "en": "3"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "4",
+            "en": "4"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ném `InvalidOperationException` (Collection was modified)",
+            "en": "Throws `InvalidOperationException` (Collection was modified)"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Enumerator của `List<T>` lưu version của list lúc bắt đầu duyệt. `Remove` ở phần tử thứ hai làm version thay đổi, nên lần `MoveNext()` kế tiếp ném `InvalidOperationException: Collection was modified`. Không có dòng nào in ra số, nên đáp án `2` sai dù đó là kết quả mong muốn. Cách đúng là `names.RemoveAll(n => n == \"\");` hoặc duyệt ngược bằng vòng `for`.",
+        "en": "The `List<T>` enumerator records the list's version when iteration starts. `Remove` on the second element changes the version, so the next `MoveNext()` throws `InvalidOperationException: Collection was modified`. Nothing is printed, so `2` is wrong even though it is the intended result. The correct approach is `names.RemoveAll(n => n == \"\");` or iterating backwards with a `for` loop."
+      }
+    },
+    {
+      "id": "dotnet.linq.009",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "linq",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với EF Core 8, đoạn code sau xảy ra điều gì?",
+        "en": "With EF Core 8, what happens with the following code?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "static bool IsAdult(DateTime birth) =>\n  birth.AddYears(18) <= DateTime.Today;\n\nvar adults = await db.Users\n  .Where(u => IsAdult(u.BirthDate))\n  .ToListAsync();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ném `InvalidOperationException` lúc chạy vì EF Core không dịch được method C# `IsAdult` trong expression tree sang SQL",
+            "en": "Throws `InvalidOperationException` at runtime because EF Core cannot translate the C# method `IsAdult` in the expression tree to SQL"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tự động tải cả bảng rồi lọc trong bộ nhớ mà không báo lỗi",
+            "en": "Silently loads the whole table and filters in memory"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch vì `Where` không nhận lời gọi method",
+            "en": "Compile error because `Where` cannot contain a method call"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "EF Core dịch `IsAdult` thành một stored procedure",
+            "en": "EF Core translates `IsAdult` into a stored procedure"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Queryable.Where` nhận `Expression<Func<User, bool>>`, nên lambda được biên dịch thành expression tree để provider phân tích và dịch sang SQL. Lời gọi `IsAdult(...)` chỉ là một `MethodCallExpression` tới code C# mà EF Core không biết cách dịch, nên lúc thực thi ném lỗi \"could not be translated\". Hành vi \"âm thầm lọc trong bộ nhớ\" là của EF Core 2.x; từ 3.0 client evaluation chỉ còn được phép ở projection cuối (`Select`). Cách sửa: tính `var cutoff = DateTime.Today.AddYears(-18);` rồi viết `Where(u => u.BirthDate <= cutoff)`.",
+        "en": "`Queryable.Where` takes an `Expression<Func<User, bool>>`, so the lambda is compiled into an expression tree for the provider to analyse and translate to SQL. The `IsAdult(...)` call is just a `MethodCallExpression` to C# code that EF Core cannot translate, so execution throws \"could not be translated\". \"Silently filters in memory\" was EF Core 2.x behaviour; since 3.0 client evaluation is only allowed in the final projection (`Select`). Fix: compute `var cutoff = DateTime.Today.AddYears(-18);` and write `Where(u => u.BirthDate <= cutoff)`."
+      }
+    },
+    {
+      "id": "dotnet.async.001",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "async",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi gặp `await` trên một `Task` chưa hoàn thành, method `async` sẽ làm gì?",
+        "en": "When an `async` method hits `await` on a `Task` that has not completed, what does it do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Block thread hiện tại cho tới khi `Task` xong",
+            "en": "Blocks the current thread until the `Task` finishes"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tạo một thread mới để chạy phần còn lại ngay lập tức",
+            "en": "Creates a new thread to run the rest of the method immediately"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hủy `Task` nếu nó chạy quá lâu",
+            "en": "Cancels the `Task` if it runs too long"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Trả quyền điều khiển cho caller và giải phóng thread hiện tại; phần còn lại của method chạy tiếp khi `Task` hoàn thành",
+            "en": "Returns control to the caller and frees the current thread; the rest of the method resumes when the `Task` completes"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Compiler biến method `async` thành một state machine. Tại `await` một task chưa xong, method đăng ký phần còn lại làm continuation rồi return ngay (trả về một `Task` cho caller), nên thread không bị block và có thể phục vụ việc khác. Block thread là hành vi của `.Wait()`/`.Result`, chính là thứ `await` giúp tránh. `await` không tự tạo thread mới và cũng không có timeout; hủy phải dùng `CancellationToken`.",
+        "en": "The compiler turns an `async` method into a state machine. On `await` of an incomplete task, the method registers the rest as a continuation and returns immediately (handing a `Task` to the caller), so the thread is not blocked and can do other work. Blocking is what `.Wait()`/`.Result` do, which is exactly what `await` avoids. `await` does not create a new thread and has no timeout; cancellation uses a `CancellationToken`."
+      }
+    },
+    {
+      "id": "dotnet.async.002",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "async",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về `Task` so với `Thread`?",
+        "en": "Which statement about `Task` versus `Thread` is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mỗi `Task` luôn tạo một `Thread` riêng",
+            "en": "Every `Task` always creates its own `Thread`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Thread` hỗ trợ `await` còn `Task` thì không",
+            "en": "`Thread` supports `await` while `Task` does not"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Task` đại diện cho một công việc sẽ hoàn thành trong tương lai, thường chạy trên thread pool; một tác vụ I/O async có thể không chiếm thread nào trong lúc chờ",
+            "en": "A `Task` represents work that completes in the future, usually scheduled on the thread pool; async I/O may occupy no thread at all while waiting"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Task` chỉ chạy được trên UI thread",
+            "en": "A `Task` can only run on the UI thread"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Thread` là một luồng hệ điều hành thật, tốn bộ nhớ stack và chi phí tạo. `Task` là abstraction mức cao hơn: `Task.Run` đưa công việc vào thread pool dùng chung, còn task từ I/O (ví dụ `HttpClient.GetAsync`) chỉ là lời hứa sẽ hoàn thành khi OS báo I/O xong, không giữ thread nào trong lúc chờ. Vì vậy \"mỗi Task một Thread\" là sai và là lý do async giúp server scale tốt hơn.",
+        "en": "A `Thread` is a real OS thread with its own stack memory and creation cost. A `Task` is a higher-level abstraction: `Task.Run` queues work to the shared thread pool, while an I/O task (e.g. `HttpClient.GetAsync`) is just a promise completed when the OS signals the I/O is done, holding no thread while waiting. So \"one Thread per Task\" is wrong, and this is why async helps servers scale."
+      }
+    },
+    {
+      "id": "dotnet.async.003",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "async",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "Console.WriteLine(\"A\");\nvar task = DoWorkAsync();\nConsole.WriteLine(\"C\");\nawait task;\nConsole.WriteLine(\"E\");\n\nasync Task DoWorkAsync()\n{\n  Console.WriteLine(\"B\");\n  await Task.Delay(100);\n  Console.WriteLine(\"D\");\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "A C B D E",
+            "en": "A C B D E"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "A B C D E",
+            "en": "A B C D E"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "A B D C E",
+            "en": "A B D C E"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "A C E B D",
+            "en": "A C E B D"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Method `async` chạy đồng bộ trên thread của caller cho tới `await` đầu tiên trên task chưa hoàn thành. Vì vậy `DoWorkAsync()` in `B` ngay, gặp `Task.Delay` thì return, main in `C`, sau đó `await task` chờ tới khi `D` được in rồi mới in `E`. Đáp án `A C B ...` sai vì gọi method `async` không tự chạy nó trên thread khác.",
+        "en": "An `async` method runs synchronously on the caller's thread until the first `await` on an incomplete task. So `DoWorkAsync()` prints `B` right away, returns at `Task.Delay`, the main code prints `C`, then `await task` waits until `D` is printed before printing `E`. `A C B ...` is wrong because calling an `async` method does not run it on another thread."
+      }
+    },
+    {
+      "id": "dotnet.async.004",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "async",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "`Checkout` in `Saved` ngay cả khi lưu thất bại, và đôi khi ứng dụng crash. Lỗi ở đâu?",
+        "en": "`Checkout` prints `Saved` even when saving fails, and sometimes the app crashes. What is the bug?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "public class OrderService(IOrderRepository repo, ILogger<OrderService> logger)\n{\n  public async void SaveAsync(Order order)\n  {\n    await repo.InsertAsync(order);\n  }\n\n  public void Checkout(Order order)\n  {\n    try\n    {\n      SaveAsync(order);\n      Console.WriteLine(\"Saved\");\n    }\n    catch (Exception ex)\n    {\n      logger.LogError(ex, \"Save failed\");\n    }\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`await` không dùng được trong method trả về `void`, đây là lỗi biên dịch",
+            "en": "`await` cannot be used in a `void` method; this is a compile error"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thiếu `ConfigureAwait(false)` nên bị deadlock",
+            "en": "Missing `ConfigureAwait(false)` causes a deadlock"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`async void` không trả về `Task` nên caller không `await` được: `Saved` in ra trước khi lưu xong và exception từ `InsertAsync` không lọt vào `catch`, có thể làm crash process",
+            "en": "`async void` returns no `Task`, so the caller cannot `await` it: `Saved` prints before saving finishes and exceptions from `InsertAsync` escape the `catch`, possibly crashing the process"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Primary constructor không inject được `ILogger`",
+            "en": "A primary constructor cannot receive an `ILogger`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`async void` biên dịch được nhưng caller không có `Task` để chờ, nên `SaveAsync(order)` return ngay ở `await` đầu tiên và `Saved` được in trước khi insert xong. Exception sau `await` được ném lên `SynchronizationContext` hoặc thread pool chứ không về `try/catch` của caller, và exception không được xử lý trên thread pool sẽ làm crash process. Sửa: `public async Task SaveAsync(...)` và `public async Task Checkout(...)` với `await SaveAsync(order);`. `async void` chỉ nên dùng cho event handler.",
+        "en": "`async void` compiles, but the caller has no `Task` to wait on, so `SaveAsync(order)` returns at the first `await` and `Saved` prints before the insert completes. Exceptions after the `await` are raised on the `SynchronizationContext` or thread pool instead of the caller's `try/catch`, and an unhandled exception on the thread pool crashes the process. Fix: `public async Task SaveAsync(...)` and `public async Task Checkout(...)` with `await SaveAsync(order);`. `async void` should only be used for event handlers."
+      }
+    },
+    {
+      "id": "dotnet.async.005",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "async",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Vì sao gọi `.Result` trên method async trong event handler WPF/WinForms (hoặc ASP.NET cổ điển) gây deadlock? Cách khắc phục là gì?",
+        "en": "Why does calling `.Result` on an async method in a WPF/WinForms event handler (or classic ASP.NET) deadlock? How do you fix it?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "private void LoadButton_Click(object sender, RoutedEventArgs e)\n{\n  var data = GetDataAsync().Result;   // UI freezes forever\n  ResultText.Text = data;\n}\n\nprivate async Task<string> GetDataAsync()\n{\n  var json = await _http.GetStringAsync(\"https://api.example.com/data\");\n  return json.Trim();\n}"
+      },
+      "keyPoints": [
+        {
+          "vi": "`.Result`/`.Wait()` block UI thread cho tới khi `Task` hoàn thành (sync-over-async)",
+          "en": "`.Result`/`.Wait()` blocks the UI thread until the `Task` completes (sync-over-async)"
+        },
+        {
+          "vi": "`await` trong `GetDataAsync` capture `SynchronizationContext` của UI, nên continuation phải chạy lại trên chính UI thread",
+          "en": "The `await` in `GetDataAsync` captures the UI `SynchronizationContext`, so its continuation must run on the UI thread"
+        },
+        {
+          "vi": "UI thread đang bị block chờ `Task`, còn `Task` chờ UI thread rảnh để chạy tiếp → hai bên chờ nhau mãi",
+          "en": "The UI thread is blocked waiting for the `Task`, and the `Task` waits for the UI thread to continue → they wait on each other forever"
+        },
+        {
+          "vi": "Sửa: async all the way (event handler `async void` + `await`); trong code thư viện dùng `ConfigureAwait(false)`",
+          "en": "Fix: go async all the way (an `async void` event handler + `await`); use `ConfigureAwait(false)` in library code"
+        },
+        {
+          "vi": "ASP.NET Core không có `SynchronizationContext` nên không deadlock kiểu này, nhưng block vẫn gây thread pool starvation",
+          "en": "ASP.NET Core has no `SynchronizationContext`, so it does not deadlock this way, but blocking still causes thread pool starvation"
+        }
+      ],
+      "explanation": {
+        "vi": "Đây là deadlock kinh điển của sync-over-async. UI thread gọi `.Result` và đứng chờ; khi `GetStringAsync` xong, phần `return json.Trim()` cần được post về UI thread vì `await` đã capture context, nhưng UI thread đang bận chờ nên không bao giờ chạy được. Cách đúng là `private async void LoadButton_Click(...)` và `var data = await GetDataAsync();`; event handler là trường hợp hiếm hoi `async void` được chấp nhận.",
+        "en": "This is the classic sync-over-async deadlock. The UI thread calls `.Result` and waits; when `GetStringAsync` completes, the `return json.Trim()` part must be posted back to the UI thread because `await` captured the context, but the UI thread is busy waiting, so it never runs. The right fix is `private async void LoadButton_Click(...)` with `var data = await GetDataAsync();`; event handlers are the rare case where `async void` is acceptable."
+      }
+    },
+    {
+      "id": "dotnet.async.006",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "async",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`await SomeAsync().ConfigureAwait(false)` có tác dụng gì?",
+        "en": "What does `await SomeAsync().ConfigureAwait(false)` do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chạy `SomeAsync` đồng bộ trên thread hiện tại",
+            "en": "Runs `SomeAsync` synchronously on the current thread"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Bỏ qua exception mà `SomeAsync` ném ra",
+            "en": "Ignores exceptions thrown by `SomeAsync`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hủy `Task` nếu nó chưa xong sau một timeout mặc định",
+            "en": "Cancels the `Task` if it has not finished after a default timeout"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Continuation sau `await` không cần quay lại `SynchronizationContext`/`TaskScheduler` đã capture, có thể chạy trên một thread pool thread bất kỳ",
+            "en": "The continuation after `await` does not need to resume on the captured `SynchronizationContext`/`TaskScheduler` and may run on any thread pool thread"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Mặc định `await` capture context hiện tại (ví dụ UI thread) để chạy phần còn lại ở đó. `ConfigureAwait(false)` bỏ yêu cầu này, giúp code thư viện tránh deadlock khi caller block và giảm chi phí chuyển context. Hệ quả là sau dòng đó không được chạm vào UI control. Nó không ảnh hưởng exception hay timeout; trong ASP.NET Core vốn không có `SynchronizationContext` nên tác dụng rất nhỏ.",
+        "en": "By default `await` captures the current context (e.g. the UI thread) and resumes there. `ConfigureAwait(false)` drops that requirement, helping library code avoid deadlocks when callers block and reducing context-switch overhead. The consequence is that you must not touch UI controls after that line. It does not affect exceptions or timeouts; ASP.NET Core has no `SynchronizationContext`, so the effect there is minimal."
+      }
+    },
+    {
+      "id": "dotnet.async.007",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "async",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "try\n{\n  await Task.WhenAll(OkAsync(), FailAsync());\n}\ncatch (Exception ex)\n{\n  Console.WriteLine(ex.GetType().Name);\n}\n\nasync Task OkAsync() => await Task.Delay(50);\n\nasync Task FailAsync()\n{\n  await Task.Delay(10);\n  throw new InvalidOperationException(\"boom\");\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "InvalidOperationException",
+            "en": "InvalidOperationException"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "AggregateException",
+            "en": "AggregateException"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "TaskCanceledException",
+            "en": "TaskCanceledException"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không in gì vì exception bị nuốt",
+            "en": "Nothing, the exception is swallowed"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Task trả về từ `Task.WhenAll` bị faulted với một `AggregateException` bên trong, nhưng `await` unwrap và ném lại exception đầu tiên, nên `catch` nhận `InvalidOperationException`. `AggregateException` là thứ bạn nhận được khi dùng `.Wait()` hoặc `.Result`. Muốn xem tất cả lỗi khi nhiều task cùng fail, hãy giữ biến task của `WhenAll` và đọc `task.Exception.InnerExceptions`.",
+        "en": "The task returned by `Task.WhenAll` faults with an `AggregateException` inside, but `await` unwraps it and rethrows the first exception, so the `catch` receives `InvalidOperationException`. `AggregateException` is what you get with `.Wait()` or `.Result`. To see every error when several tasks fail, keep the `WhenAll` task in a variable and read `task.Exception.InnerExceptions`."
+      }
+    },
+    {
+      "id": "dotnet.async.008",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "async",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khi nào nên dùng `ValueTask<T>` thay vì `Task<T>`? Nêu các hạn chế khi sử dụng.",
+        "en": "When should you use `ValueTask<T>` instead of `Task<T>`? What are its restrictions?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "public ValueTask<Product?> GetAsync(int id)\n{\n  if (_cache.TryGetValue(id, out var product))\n    return ValueTask.FromResult<Product?>(product);\n\n  return new ValueTask<Product?>(LoadFromDbAsync(id));\n}"
+      },
+      "keyPoints": [
+        {
+          "vi": "`ValueTask<T>` là struct, tránh cấp phát `Task` trên heap khi method thường hoàn thành đồng bộ (ví dụ cache hit, buffer có sẵn dữ liệu)",
+          "en": "`ValueTask<T>` is a struct that avoids a heap-allocated `Task` when the method usually completes synchronously (e.g. a cache hit or buffered data)"
+        },
+        {
+          "vi": "Chỉ đáng dùng cho hot path tần suất cao đã đo đạc; mặc định vẫn nên dùng `Task<T>`",
+          "en": "It only pays off on measured, high-frequency hot paths; `Task<T>` remains the default"
+        },
+        {
+          "vi": "Chỉ được `await` đúng một lần: không `await` nhiều lần, không `await` đồng thời, không gọi `.Result` khi chưa hoàn thành",
+          "en": "Await it exactly once: no awaiting twice, no concurrent awaits, no `.Result` before it completes"
+        },
+        {
+          "vi": "Cần dùng nhiều lần hoặc truyền vào `Task.WhenAll` thì gọi `.AsTask()`",
+          "en": "Call `.AsTask()` if you need to consume it multiple times or pass it to `Task.WhenAll`"
+        },
+        {
+          "vi": "Có thể được backed bởi `IValueTaskSource` tái sử dụng (ví dụ socket), nên dùng sai gây lỗi khó debug",
+          "en": "It may be backed by a pooled `IValueTaskSource` (e.g. sockets), so misuse causes hard-to-debug bugs"
+        }
+      ],
+      "explanation": {
+        "vi": "`Task<T>` là class nên mỗi lần trả về kết quả mới đều cấp phát (trừ một số giá trị được cache sẵn). `ValueTask<T>` gói hoặc trực tiếp kết quả, hoặc một `Task<T>`, hoặc một `IValueTaskSource<T>`, nên nhánh đồng bộ như cache hit trong ví dụ không cấp phát gì. Đổi lại, nó có ràng buộc sử dụng chặt chẽ vì nguồn bên dưới có thể bị tái sử dụng sau khi đã được `await`. Các API như `Stream.ReadAsync(Memory<byte>)` hay `IAsyncEnumerator<T>.MoveNextAsync` dùng `ValueTask` vì lý do này.",
+        "en": "`Task<T>` is a class, so returning a new result usually allocates (apart from a few cached values). `ValueTask<T>` wraps either the result itself, a `Task<T>`, or an `IValueTaskSource<T>`, so a synchronous path like the cache hit in the example allocates nothing. In exchange it has strict usage rules because the underlying source may be reused once awaited. APIs such as `Stream.ReadAsync(Memory<byte>)` and `IAsyncEnumerator<T>.MoveNextAsync` use `ValueTask` for this reason."
+      }
+    },
+    {
+      "id": "dotnet.async.009",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "async",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Một API ASP.NET Core chạy tốt khi ít request nhưng latency tăng vọt khi tải cao, trong khi CPU vẫn thấp. Code có đoạn như dưới. Giải thích thread pool starvation và cách xử lý.",
+        "en": "An ASP.NET Core API works fine under light load but latency spikes under heavy load while CPU stays low. The code contains the snippet below. Explain thread pool starvation and how to fix it."
+      },
+      "code": {
+        "language": "csharp",
+        "source": "[HttpGet(\"{id}\")]\npublic IActionResult Get(int id)\n{\n  var product = _client.GetProductAsync(id).Result;\n  return Ok(product);\n}"
+      },
+      "keyPoints": [
+        {
+          "vi": "`.Result`/`.Wait()`/`Thread.Sleep` giữ thread pool thread trong suốt thời gian chờ I/O (sync-over-async)",
+          "en": "`.Result`/`.Wait()`/`Thread.Sleep` hold a thread pool thread for the whole I/O wait (sync-over-async)"
+        },
+        {
+          "vi": "Khi mọi thread đều bị block, request mới và cả continuation của các `Task` đang chờ phải xếp hàng đợi thread",
+          "en": "When all threads are blocked, new requests and even the continuations of pending `Task`s queue up waiting for a thread"
+        },
+        {
+          "vi": "Thread pool chỉ thêm thread từ từ (hill climbing) nên latency tăng mạnh trong khi CPU vẫn thấp",
+          "en": "The thread pool injects threads slowly (hill climbing), so latency soars while CPU stays low"
+        },
+        {
+          "vi": "Sửa: async all the way (`async Task<IActionResult>` + `await`), không block trên `Task`",
+          "en": "Fix: go async all the way (`async Task<IActionResult>` + `await`) and never block on a `Task`"
+        },
+        {
+          "vi": "Chẩn đoán bằng `dotnet-counters` (ThreadPool Queue Length, Thread Count) hoặc `dotnet-dump`; tăng `MinThreads` chỉ là giải pháp tạm",
+          "en": "Diagnose with `dotnet-counters` (ThreadPool Queue Length, Thread Count) or `dotnet-dump`; raising `MinThreads` is only a stopgap"
+        }
+      ],
+      "explanation": {
+        "vi": "ASP.NET Core không có `SynchronizationContext` nên `.Result` không deadlock ngay như ở WPF, nhưng mỗi request vẫn chiếm một thread pool thread chỉ để đứng chờ mạng. Khi số request đồng thời vượt số thread, công việc xếp hàng trong queue, kể cả continuation cần để hoàn thành chính các task đang được chờ, nên hệ thống càng tắc. Thread pool chỉ thêm thread dần dần chứ không tạo ngay hàng trăm thread, vì vậy triệu chứng là latency cao mà CPU thấp. Giải pháp gốc là chuyển toàn bộ call chain sang async: `public async Task<IActionResult> Get(int id) { var product = await _client.GetProductAsync(id); ... }`.",
+        "en": "ASP.NET Core has no `SynchronizationContext`, so `.Result` does not deadlock immediately as in WPF, but each request still occupies a thread pool thread just to wait on the network. Once concurrent requests exceed the thread count, work queues up, including the continuations needed to complete the very tasks being waited on, so things get worse. The thread pool only adds threads gradually rather than spawning hundreds at once, hence high latency with low CPU. The root fix is making the whole call chain async: `public async Task<IActionResult> Get(int id) { var product = await _client.GetProductAsync(id); ... }`."
+      }
+    },
+    {
+      "id": "dotnet.delegates.001",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "delegates",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`Func<int, int, string>` biểu diễn method có signature nào?",
+        "en": "Which method signature does `Func<int, int, string>` represent?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nhận hai `int`, trả về `string`",
+            "en": "Takes two `int`s and returns a `string`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nhận `int`, `int`, `string` và trả về `void`",
+            "en": "Takes `int`, `int`, `string` and returns `void`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Nhận một `string`, trả về hai `int`",
+            "en": "Takes a `string` and returns two `int`s"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nhận hai `int` và trả về `int`",
+            "en": "Takes two `int`s and returns an `int`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Với `Func<...>`, type parameter cuối cùng luôn là kiểu trả về, các type parameter trước đó là tham số. Vì vậy `Func<int, int, string>` tương ứng `string F(int a, int b)`. Delegate trả về `void` là `Action<...>`, ví dụ `Action<int, int, string>`; còn `Predicate<T>` tương đương `Func<T, bool>`.",
+        "en": "For `Func<...>`, the last type parameter is always the return type and the preceding ones are parameters. So `Func<int, int, string>` matches `string F(int a, int b)`. A delegate returning `void` is an `Action<...>`, e.g. `Action<int, int, string>`; `Predicate<T>` is equivalent to `Func<T, bool>`."
+      }
+    },
+    {
+      "id": "dotnet.delegates.002",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "delegates",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "Action log = () => Console.Write(\"1\");\nlog += () => Console.Write(\"2\");\nlog += () => Console.Write(\"3\");\nlog();\nConsole.WriteLine();\n\nFunc<int> next = () => 1;\nnext += () => 2;\nnext += () => 3;\nConsole.WriteLine(next());"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "123 / 6",
+            "en": "123 / 6"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "123 / 3",
+            "en": "123 / 3"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "123 / 1",
+            "en": "123 / 1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "3 / 3",
+            "en": "3 / 3"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Delegate trong C# là multicast: `+=` nối thêm method vào invocation list và khi gọi, chúng chạy lần lượt theo thứ tự đăng ký, nên dòng đầu in `123`. Với delegate có giá trị trả về như `Func<int>`, mọi method đều chạy nhưng chỉ giá trị của method cuối được trả về, nên in `3`. Không có phép cộng kết quả, nên `6` sai; muốn lấy mọi kết quả phải duyệt `GetInvocationList()`.",
+        "en": "C# delegates are multicast: `+=` appends a method to the invocation list, and invoking runs them in subscription order, so the first line prints `123`. For a delegate with a return value like `Func<int>`, all methods run but only the last one's return value is returned, so it prints `3`. Results are not summed, so `6` is wrong; to get every result you must iterate `GetInvocationList()`."
+      }
+    },
+    {
+      "id": "dotnet.delegates.003",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "delegates",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khai báo `public event EventHandler? Clicked;` khác gì `public EventHandler? Clicked;` (field delegate public)?",
+        "en": "How does `public event EventHandler? Clicked;` differ from `public EventHandler? Clicked;` (a public delegate field)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`event` chạy các handler song song trên nhiều thread",
+            "en": "`event` runs handlers in parallel on multiple threads"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Code bên ngoài class chỉ được `+=`/`-=`; chỉ class khai báo mới được raise hoặc gán đè `Clicked`",
+            "en": "Code outside the class can only `+=`/`-=`; only the declaring class can raise or overwrite `Clicked`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`event` không cho phép nhiều subscriber",
+            "en": "`event` does not allow multiple subscribers"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không khác gì, `event` chỉ là quy ước đặt tên",
+            "en": "No difference, `event` is just a naming convention"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Từ khóa `event` đóng gói delegate: bên ngoài chỉ thấy accessor `add`/`remove`, nên không thể viết `button.Clicked = null;` để xóa handler của người khác hay tự gọi `button.Clicked(...)`. Với field delegate public, bất kỳ ai cũng làm được những việc đó. Event vẫn là multicast và các handler chạy tuần tự trên thread raise event, không song song.",
+        "en": "The `event` keyword encapsulates the delegate: outside code only sees the `add`/`remove` accessors, so it cannot write `button.Clicked = null;` to wipe other subscribers or invoke `button.Clicked(...)` itself. With a public delegate field, anyone can do both. An event is still multicast and its handlers run sequentially on the raising thread, not in parallel."
+      }
+    },
+    {
+      "id": "dotnet.delegates.004",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "delegates",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Điều kiện nào là bắt buộc để khai báo extension method `IsBlank()` cho `string`?",
+        "en": "What is required to declare an extension method `IsBlank()` for `string`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Method phải nằm trong `partial class String`",
+            "en": "The method must live in a `partial class String`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Method `static` nằm trong một `static class` không generic, tham số đầu tiên có dạng `this string value`",
+            "en": "A `static` method in a non-generic `static class` whose first parameter is `this string value`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Method instance có attribute `[Extension]`",
+            "en": "An instance method marked with an `[Extension]` attribute"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Class chứa method phải kế thừa từ `string`",
+            "en": "The containing class must inherit from `string`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Extension method là method `static` trong `static class` (top-level, không generic) với tham số đầu tiên có modifier `this`, ví dụ `public static bool IsBlank(this string value) => string.IsNullOrWhiteSpace(value);`. Đó chỉ là syntactic sugar: `s.IsBlank()` được biên dịch thành `StringExtensions.IsBlank(s)`. `string` là `sealed` và không phải `partial` nên không thể kế thừa hay mở rộng bằng partial class. Nếu type đã có instance method cùng signature, instance method được ưu tiên.",
+        "en": "An extension method is a `static` method in a top-level, non-generic `static class` whose first parameter has the `this` modifier, e.g. `public static bool IsBlank(this string value) => string.IsNullOrWhiteSpace(value);`. It is only syntactic sugar: `s.IsBlank()` compiles to `StringExtensions.IsBlank(s)`. `string` is `sealed` and not `partial`, so it cannot be inherited or extended with a partial class. If the type already has an instance method with the same signature, the instance method wins."
+      }
+    },
+    {
+      "id": "dotnet.delegates.005",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "delegates",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var actions = new List<Action>();\nfor (int i = 0; i < 3; i++)\n  actions.Add(() => Console.Write(i));\nforeach (var a in actions) a();\nConsole.WriteLine();\n\nvar actions2 = new List<Action>();\nforeach (var j in new[] { 0, 1, 2 })\n  actions2.Add(() => Console.Write(j));\nforeach (var a in actions2) a();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "012 / 012",
+            "en": "012 / 012"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "333 / 333",
+            "en": "333 / 333"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "333 / 012",
+            "en": "333 / 012"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "012 / 333",
+            "en": "012 / 333"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Lambda capture biến, không capture giá trị. Trong vòng `for`, chỉ có một biến `i` dùng chung cho mọi vòng lặp; khi các lambda chạy, `i` đã bằng `3`, nên in `333`. Từ C# 5, biến của `foreach` được tạo mới ở mỗi vòng lặp, nên mỗi lambda giữ một `j` riêng và in `012`. Để sửa vòng `for`, copy ra biến cục bộ trong thân vòng lặp: `int copy = i;`.",
+        "en": "Lambdas capture variables, not values. In the `for` loop there is a single `i` shared by every iteration; by the time the lambdas run, `i` is `3`, so it prints `333`. Since C# 5 the `foreach` variable is fresh on every iteration, so each lambda holds its own `j` and prints `012`. To fix the `for` loop, copy into a local inside the body: `int copy = i;`."
+      }
+    },
+    {
+      "id": "dotnet.delegates.006",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "delegates",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau ném exception ở dòng `s.Price = 10m;`. Lỗi là gì?",
+        "en": "The code below throws at `s.Price = 10m;`. What is the bug?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var s = new Stock();\ns.Price = 10m;\n\npublic class Stock\n{\n  public event EventHandler<decimal>? PriceChanged;\n  private decimal _price;\n\n  public decimal Price\n  {\n    get => _price;\n    set\n    {\n      _price = value;\n      PriceChanged(this, value);\n    }\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`EventHandler<decimal>` không hợp lệ vì `decimal` không kế thừa `EventArgs`",
+            "en": "`EventHandler<decimal>` is invalid because `decimal` does not derive from `EventArgs`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không được raise event bên trong setter của property",
+            "en": "Events cannot be raised inside a property setter"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Event phải được khai báo `static`",
+            "en": "The event must be declared `static`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chưa có subscriber nên `PriceChanged` là `null`; `PriceChanged(this, value)` ném `NullReferenceException`, nên dùng `PriceChanged?.Invoke(this, value)`",
+            "en": "There are no subscribers, so `PriceChanged` is `null`; `PriceChanged(this, value)` throws `NullReferenceException`; use `PriceChanged?.Invoke(this, value)`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Một event chưa có ai đăng ký có giá trị `null`, nên gọi trực tiếp như method sẽ ném `NullReferenceException` (compiler cũng cảnh báo nullable). `PriceChanged?.Invoke(this, value)` vừa kiểm tra null, vừa đọc delegate một lần nên an toàn khi có thread khác `-=` cùng lúc. Từ .NET Framework 4.5, `EventHandler<TEventArgs>` không còn ràng buộc `TEventArgs : EventArgs`, nên `EventHandler<decimal>` vẫn hợp lệ.",
+        "en": "An event with no subscribers is `null`, so invoking it like a method throws `NullReferenceException` (the compiler also gives a nullable warning). `PriceChanged?.Invoke(this, value)` both checks for null and reads the delegate once, so it is safe even if another thread unsubscribes at the same time. Since .NET Framework 4.5, `EventHandler<TEventArgs>` no longer constrains `TEventArgs : EventArgs`, so `EventHandler<decimal>` is valid."
+      }
+    },
+    {
+      "id": "dotnet.delegates.007",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "delegates",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Sau khi `Dispose()`, `Dashboard` vẫn nhận sự kiện và không được giải phóng bộ nhớ. Lỗi ở đâu?",
+        "en": "After `Dispose()`, the `Dashboard` still receives events and is never garbage-collected. What is the bug?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "// Stock exposes: public event EventHandler<decimal>? PriceChanged;\npublic class Dashboard : IDisposable\n{\n  private readonly Stock _stock;\n\n  public Dashboard(Stock stock)\n  {\n    _stock = stock;\n    _stock.PriceChanged += (s, p) => Render(p);\n  }\n\n  public void Dispose()\n  {\n    _stock.PriceChanged -= (s, p) => Render(p);\n  }\n\n  private void Render(decimal price) { /* update UI */ }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không được dùng lambda cho event, phải dùng từ khóa `delegate`",
+            "en": "Lambdas cannot be used for events; you must use the `delegate` keyword"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`-=` với một lambda mới tạo ra delegate khác nên không gỡ được handler cũ; `Stock` vẫn giữ tham chiếu tới `Dashboard` → memory leak",
+            "en": "`-=` with a new lambda creates a different delegate, so the original handler is not removed; `Stock` still references `Dashboard` → memory leak"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Dispose` không bao giờ được gọi cho class implement `IDisposable`",
+            "en": "`Dispose` is never called for classes implementing `IDisposable`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`-=` gỡ toàn bộ handler của event, không chỉ handler của `Dashboard`",
+            "en": "`-=` removes every handler of the event, not just the `Dashboard` one"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Hai lambda giống hệt nhau về mặt chữ nhưng compiler sinh ra hai method khác nhau, nên delegate tạo trong `Dispose` không bằng delegate đã đăng ký và `-=` không làm gì. Publisher (`Stock`) giữ tham chiếu tới handler, handler giữ `this`, nên `Dashboard` sống mãi cùng `Stock`. Sửa bằng cách dùng method có tên: `_stock.PriceChanged += OnPriceChanged;` và `_stock.PriceChanged -= OnPriceChanged;` (hoặc lưu delegate vào field). `-=` chỉ gỡ một handler khớp, không gỡ toàn bộ.",
+        "en": "The two lambdas look identical but the compiler generates two different methods, so the delegate created in `Dispose` is not equal to the subscribed one and `-=` does nothing. The publisher (`Stock`) references the handler, the handler references `this`, so `Dashboard` lives as long as `Stock`. Fix it with a named method: `_stock.PriceChanged += OnPriceChanged;` and `_stock.PriceChanged -= OnPriceChanged;` (or store the delegate in a field). `-=` removes only one matching handler, not all of them."
+      }
+    },
+    {
+      "id": "dotnet.delegates.008",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "delegates",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Compiler xử lý lambda capture biến `threshold` dưới đây như thế nào, và dòng cuối in gì?",
+        "en": "How does the compiler handle the lambda capturing `threshold` below, and what does the last line print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "int threshold = 10;\nFunc<int, bool> isBig = x => x > threshold;\n\nthreshold = 20;\nConsole.WriteLine(isBig(15));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Copy giá trị `10` vào lambda lúc tạo, nên in `True`",
+            "en": "It copies the value `10` into the lambda at creation, so it prints `True`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giữ `threshold` trên stack và lambda đọc qua con trỏ, nên in `True`",
+            "en": "It keeps `threshold` on the stack and the lambda reads it through a pointer, so it prints `True`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tạo một closure class (display class) trên heap chứa `threshold` làm field; cả biến cục bộ và lambda cùng dùng field đó, nên in `False`",
+            "en": "It creates a closure (display) class on the heap holding `threshold` as a field; the local and the lambda share that field, so it prints `False`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch vì lambda không được capture biến bị sửa sau đó",
+            "en": "Compile error because a lambda cannot capture a variable that is modified later"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Khi lambda capture biến cục bộ, compiler \"hoist\" biến đó thành field của một class sinh tự động; mọi chỗ đọc/ghi `threshold` trong method đều chuyển thành truy cập field này. Vì vậy phép gán `threshold = 20` được lambda nhìn thấy và `15 > 20` là `False`. Đánh đổi là mỗi lần vào scope có capture sẽ cấp phát closure object và delegate trên heap; ở hot path có thể dùng `static` lambda (C# 9) để compiler cấm capture và tránh cấp phát. Đáp án \"copy giá trị\" là cách hiểu sai phổ biến.",
+        "en": "When a lambda captures a local, the compiler hoists it into a field of a generated class; every read/write of `threshold` in the method becomes an access to that field. So the assignment `threshold = 20` is visible to the lambda and `15 > 20` is `False`. The trade-off is that entering a capturing scope allocates a closure object and a delegate on the heap; on hot paths a `static` lambda (C# 9) makes the compiler forbid captures and avoid the allocation. \"Copies the value\" is a common misconception."
+      }
+    },
+    {
+      "id": "dotnet.aspnet.001",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "aspnet",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Middleware trong ASP.NET Core là gì?",
+        "en": "What is middleware in ASP.NET Core?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một lớp trung gian giữa controller và database",
+            "en": "A layer between controllers and the database"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một loại controller đặc biệt chỉ dùng để xử lý lỗi",
+            "en": "A special kind of controller used only for error handling"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thành phần trong pipeline xử lý request: có thể chạy logic trước/sau, gọi middleware kế tiếp bằng `next()` hoặc short-circuit trả response luôn",
+            "en": "A component in the request pipeline: it can run logic before/after, call the next middleware via `next()`, or short-circuit and return a response"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thư viện front-end chạy trên trình duyệt",
+            "en": "A front-end library running in the browser"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Mỗi request đi qua một chuỗi middleware theo đúng thứ tự đăng ký trong `Program.cs` (`UseRouting`, `UseAuthentication`, `UseAuthorization`...), rồi response đi ngược lại qua chúng. Một middleware có thể xử lý rồi gọi `next()`, hoặc không gọi `next()` để short-circuit (ví dụ static files, CORS preflight). Lớp nằm giữa controller và database là service/repository, không phải middleware.",
+        "en": "Each request flows through a chain of middleware in the order registered in `Program.cs` (`UseRouting`, `UseAuthentication`, `UseAuthorization`...), and the response flows back through them in reverse. A middleware can do its work and call `next()`, or skip `next()` to short-circuit (e.g. static files, CORS preflight). The layer between controllers and the database is a service/repository, not middleware."
+      }
+    },
+    {
+      "id": "dotnet.aspnet.002",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "aspnet",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh controller-based API và minimal API trong ASP.NET Core. Khi nào nên chọn cái nào?",
+        "en": "Compare controller-based APIs and minimal APIs in ASP.NET Core. When would you choose each?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "// Minimal API\napp.MapGet(\"/products/{id:int}\", async (int id, AppDbContext db) =>\n  await db.Products.FindAsync(id) is { } p\n    ? Results.Ok(p)\n    : Results.NotFound());\n\n// Controller\n[ApiController]\n[Route(\"products\")]\npublic class ProductsController(AppDbContext db) : ControllerBase\n{\n  [HttpGet(\"{id:int}\")]\n  public async Task<IActionResult> Get(int id)\n  {\n    var p = await db.Products.FindAsync(id);\n    if (p is null) return NotFound();\n    return Ok(p);\n  }\n}"
+      },
+      "keyPoints": [
+        {
+          "vi": "Minimal API khai báo endpoint bằng `app.MapGet`/`MapPost` + lambda, ít boilerplate, khởi động nhanh và hỗ trợ Native AOT tốt hơn",
+          "en": "Minimal APIs declare endpoints with `app.MapGet`/`MapPost` + lambdas: less boilerplate, faster startup and better Native AOT support"
+        },
+        {
+          "vi": "Controller nhóm action theo class, có sẵn MVC filter, convention và model validation tự động với `[ApiController]`",
+          "en": "Controllers group actions in classes and come with MVC filters, conventions and automatic model validation via `[ApiController]`"
+        },
+        {
+          "vi": "Cả hai dùng chung DI, routing, middleware, authentication/authorization và đều dùng được cho production",
+          "en": "Both share DI, routing, middleware and authentication/authorization, and both are production-ready"
+        },
+        {
+          "vi": "Minimal API tổ chức bằng `MapGroup`, endpoint filter và extension method để không dồn hết vào `Program.cs`",
+          "en": "Minimal APIs are organized with `MapGroup`, endpoint filters and extension methods so `Program.cs` does not become a dump"
+        },
+        {
+          "vi": "Chọn theo quy mô và thói quen team: service nhỏ/microservice hợp minimal API; API lớn dựa nhiều vào filter/convention hợp controller",
+          "en": "Choose by size and team habits: small services/microservices suit minimal APIs; large APIs relying on filters/conventions suit controllers"
+        }
+      ],
+      "explanation": {
+        "vi": "Hai cách viết đều chạy trên cùng nền tảng ASP.NET Core nên hiệu năng và khả năng mở rộng tương đương cho đa số ứng dụng. Minimal API (từ .NET 6, hoàn thiện dần ở .NET 7/8 với `MapGroup`, endpoint filter, `TypedResults`) gọn hơn và phù hợp microservice. Controller vẫn là lựa chọn quen thuộc cho codebase lớn nhờ cấu trúc rõ ràng và hệ sinh thái MVC filter. Hiểu lầm cần tránh là coi minimal API \"chỉ để làm demo\".",
+        "en": "Both styles run on the same ASP.NET Core foundation, so performance and scalability are comparable for most apps. Minimal APIs (since .NET 6, maturing in .NET 7/8 with `MapGroup`, endpoint filters, `TypedResults`) are more concise and fit microservices. Controllers remain the familiar choice for large codebases thanks to their clear structure and the MVC filter ecosystem. A misconception to avoid is that minimal APIs are \"only for demos\"."
+      }
+    },
+    {
+      "id": "dotnet.aspnet.003",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "aspnet",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với controller có `[ApiController]`, tham số `dto` trong `public IActionResult Create(CreateUserDto dto)` được bind từ đâu theo mặc định?",
+        "en": "In a controller marked `[ApiController]`, where is `dto` in `public IActionResult Create(CreateUserDto dto)` bound from by default?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Từ query string",
+            "en": "From the query string"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Từ request body (JSON)",
+            "en": "From the request body (JSON)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Từ route value",
+            "en": "From route values"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Từ HTTP header",
+            "en": "From HTTP headers"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`[ApiController]` áp dụng binding source inference: tham số kiểu phức tạp (class) mặc định là `[FromBody]`, còn kiểu đơn giản như `int id` được lấy từ route hoặc query string. `IFormFile` được suy ra là `[FromForm]`. Muốn lấy từ query hay header, phải ghi rõ `[FromQuery]`/`[FromHeader]`. Ngoài ra `[ApiController]` tự trả `400` kèm `ValidationProblemDetails` khi model không hợp lệ.",
+        "en": "`[ApiController]` applies binding source inference: complex (class) parameters default to `[FromBody]`, while simple types such as `int id` come from the route or query string. `IFormFile` is inferred as `[FromForm]`. To read from the query or headers you must use `[FromQuery]`/`[FromHeader]` explicitly. `[ApiController]` also returns `400` with `ValidationProblemDetails` automatically when the model is invalid."
+      }
+    },
+    {
+      "id": "dotnet.aspnet.004",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "aspnet",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Request `GET /api/products/abc` gửi tới controller dưới đây sẽ nhận được gì?",
+        "en": "What does a `GET /api/products/abc` request to the controller below receive?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "[ApiController]\n[Route(\"api/products\")]\npublic class ProductsController : ControllerBase\n{\n  [HttpGet(\"{id:int}\")]\n  public IActionResult Get(int id) => Ok(id);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`400 Bad Request` vì model binding thất bại",
+            "en": "`400 Bad Request` because model binding fails"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`200 OK` với `id = 0`",
+            "en": "`200 OK` with `id = 0`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`404 Not Found` vì `abc` không thỏa constraint `:int` nên không có route nào khớp",
+            "en": "`404 Not Found` because `abc` fails the `:int` constraint, so no route matches"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`500 Internal Server Error` vì `int.Parse` ném exception",
+            "en": "`500 Internal Server Error` because `int.Parse` throws"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Route constraint như `:int` được kiểm tra trong lúc routing: `abc` không phải số nguyên nên template không khớp và endpoint không được chọn, kết quả là `404`. Nếu template chỉ là `{id}` không có constraint, route sẽ khớp và model binding mới thất bại; khi đó `[ApiController]` trả `400`. Constraint dùng để phân biệt route, còn validation dữ liệu đầu vào nên làm bằng model validation.",
+        "en": "Route constraints like `:int` are checked during routing: `abc` is not an integer, so the template does not match and the endpoint is not selected, giving `404`. If the template were just `{id}` with no constraint, the route would match and model binding would fail instead; then `[ApiController]` returns `400`. Constraints are for disambiguating routes; input validation belongs in model validation."
+      }
+    },
+    {
+      "id": "dotnet.aspnet.005",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "aspnet",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Với một request tới ứng dụng sau, console in ra gì?",
+        "en": "For a single request to this app, what does the console print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var app = WebApplication.Create(args);\n\napp.Use(async (ctx, next) =>\n{\n  Console.Write(\"1\");\n  await next();\n  Console.Write(\"2\");\n});\n\napp.Use(async (ctx, next) =>\n{\n  Console.Write(\"3\");\n  await next();\n  Console.Write(\"4\");\n});\n\napp.Run(async ctx =>\n{\n  Console.Write(\"H\");\n  await ctx.Response.WriteAsync(\"ok\");\n});\n\napp.Run();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "13H42",
+            "en": "13H42"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "1234H",
+            "en": "1234H"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "13H24",
+            "en": "13H24"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "H1324",
+            "en": "H1324"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Middleware tạo thành chuỗi lồng nhau: request đi vào theo thứ tự đăng ký (`1`, rồi `3`), tới terminal middleware `app.Run(...)` in `H`, sau đó response quay ngược ra, chạy phần sau `await next()` của middleware trong cùng trước (`4`) rồi mới đến middleware ngoài (`2`). Kết quả là `13H42`. Đáp án `13H24` sai vì quên rằng phần \"sau `next()`\" chạy theo thứ tự ngược, giống như stack.",
+        "en": "Middleware forms a nested chain: the request goes in by registration order (`1`, then `3`), reaches the terminal `app.Run(...)` which prints `H`, then the response unwinds, running the code after `await next()` of the innermost middleware first (`4`) and then the outer one (`2`). The result is `13H42`. `13H24` is wrong because it forgets that the \"after `next()`\" parts run in reverse order, like a stack."
+      }
+    },
+    {
+      "id": "dotnet.aspnet.006",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "aspnet",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Middleware đo thời gian dưới đây làm request ném exception. Vì sao?",
+        "en": "The timing middleware below makes requests throw an exception. Why?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "app.Use(async (context, next) =>\n{\n  var sw = Stopwatch.StartNew();\n  await next();\n  context.Response.Headers[\"X-Elapsed-Ms\"] =\n    sw.ElapsedMilliseconds.ToString();\n});\n\napp.MapGet(\"/\", () => \"Hello\");"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Stopwatch` không dùng được bên trong middleware",
+            "en": "`Stopwatch` cannot be used inside middleware"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`app.Use` phải được gọi sau `MapGet`",
+            "en": "`app.Use` must be called after `MapGet`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Header tự định nghĩa phải bắt đầu bằng `X-AspNet-`",
+            "en": "Custom headers must start with `X-AspNet-`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Sau `await next()` endpoint đã ghi body nên response đã bắt đầu gửi (headers đã flush); sửa header lúc này ném `InvalidOperationException`, cần dùng `context.Response.OnStarting(...)`",
+            "en": "After `await next()` the endpoint has written the body, so the response has started (headers flushed); modifying headers now throws `InvalidOperationException`; use `context.Response.OnStarting(...)`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "HTTP gửi status code và headers trước body. Khi endpoint ghi `Hello`, ASP.NET Core flush headers và `Response.HasStarted` thành `true`, nên mọi thay đổi header sau đó ném `InvalidOperationException: Headers are read-only, response has already started`. Cách đúng là đăng ký callback `context.Response.OnStarting(() => { ...; return Task.CompletedTask; })` trước khi gọi `next()`, callback chạy ngay trước khi headers được gửi. Thứ tự `app.Use` trước `MapGet` là đúng.",
+        "en": "HTTP sends the status code and headers before the body. When the endpoint writes `Hello`, ASP.NET Core flushes the headers and `Response.HasStarted` becomes `true`, so any header change afterwards throws `InvalidOperationException: Headers are read-only, response has already started`. The fix is to register `context.Response.OnStarting(() => { ...; return Task.CompletedTask; })` before calling `next()`; the callback runs right before headers are sent. Registering `app.Use` before `MapGet` is correct."
+      }
+    },
+    {
+      "id": "dotnet.aspnet.007",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "aspnet",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong MVC filter pipeline, loại filter nào chạy đầu tiên khi request tới một action?",
+        "en": "In the MVC filter pipeline, which filter type runs first when a request reaches an action?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Authorization filter",
+            "en": "Authorization filter"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Action filter",
+            "en": "Action filter"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Exception filter",
+            "en": "Exception filter"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Result filter",
+            "en": "Result filter"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Thứ tự filter trong MVC là: Authorization → Resource → (model binding) → Action → (action chạy) → Result, còn Exception filter chỉ chạy khi có exception chưa được xử lý. Authorization filter chạy đầu tiên để chặn sớm request không có quyền. Action filter chạy sau model binding nên đọc được argument đã bind, vì vậy không phải là filter đầu tiên. Toàn bộ filter pipeline nằm sau middleware và routing.",
+        "en": "The MVC filter order is: Authorization → Resource → (model binding) → Action → (action runs) → Result, while Exception filters only run when an unhandled exception occurs. Authorization filters run first to reject unauthorized requests early. Action filters run after model binding, so they can read the bound arguments, which is why they are not first. The whole filter pipeline runs after middleware and routing."
+      }
+    },
+    {
+      "id": "dotnet.aspnet.008",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "aspnet",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Client gửi JWT hợp lệ nhưng mọi endpoint `[Authorize]` vẫn trả `401`. Lỗi ở đâu?",
+        "en": "The client sends a valid JWT, yet every `[Authorize]` endpoint returns `401`. Where is the bug?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var builder = WebApplication.CreateBuilder(args);\nbuilder.Services.AddControllers();\nbuilder.Services\n  .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)\n  .AddJwtBearer();\nbuilder.Services.AddAuthorization();\n\nvar app = builder.Build();\n\napp.UseRouting();\napp.UseAuthorization();\napp.UseAuthentication();\napp.MapControllers();\n\napp.Run();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thiếu `app.UseHttpsRedirection()` nên JWT bị bỏ qua",
+            "en": "`app.UseHttpsRedirection()` is missing, so the JWT is ignored"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`UseAuthorization()` chạy trước `UseAuthentication()`, nên lúc kiểm tra quyền `HttpContext.User` chưa được tạo từ token và bị coi là anonymous",
+            "en": "`UseAuthorization()` runs before `UseAuthentication()`, so when authorization is evaluated `HttpContext.User` has not been built from the token and is anonymous"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`UseRouting()` phải được gọi sau `MapControllers()`",
+            "en": "`UseRouting()` must be called after `MapControllers()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`AddAuthorization()` phải được đăng ký trước `AddControllers()`",
+            "en": "`AddAuthorization()` must be registered before `AddControllers()`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Thứ tự middleware chính là thứ tự xử lý request. Authentication middleware đọc token và gán `HttpContext.User`; authorization middleware dựa vào `User` đó để đánh giá policy của endpoint. Ở đây authorization chạy trước nên thấy user anonymous và trả challenge `401`, request không bao giờ tới authentication. Thứ tự đúng là `UseRouting` → `UseCors` → `UseAuthentication` → `UseAuthorization` → map endpoint. Thứ tự đăng ký service trong `builder.Services` thì không quan trọng.",
+        "en": "Middleware order is request-processing order. The authentication middleware reads the token and sets `HttpContext.User`; the authorization middleware uses that `User` to evaluate the endpoint's policy. Here authorization runs first, sees an anonymous user and returns a `401` challenge, so the request never reaches authentication. The correct order is `UseRouting` → `UseCors` → `UseAuthentication` → `UseAuthorization` → endpoint mapping. The order of service registrations in `builder.Services` does not matter."
+      }
+    },
+    {
+      "id": "dotnet.aspnet.009",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "aspnet",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Làm thế nào để xử lý exception tập trung trong ASP.NET Core 8 và trả về lỗi thống nhất cho client?",
+        "en": "How do you handle exceptions centrally in ASP.NET Core 8 and return consistent errors to clients?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Dùng `app.UseExceptionHandler()` đặt sớm trong pipeline thay vì `try/catch` lặp lại ở mọi action",
+          "en": "Use `app.UseExceptionHandler()` early in the pipeline instead of repeating `try/catch` in every action"
+        },
+        {
+          "vi": "Từ .NET 8 có thể implement `IExceptionHandler` và đăng ký `AddExceptionHandler<T>()` để map từng loại exception sang status code",
+          "en": "Since .NET 8 you can implement `IExceptionHandler` and register `AddExceptionHandler<T>()` to map exception types to status codes"
+        },
+        {
+          "vi": "Trả lỗi theo chuẩn `ProblemDetails` (RFC 7807/9457) với `AddProblemDetails()`",
+          "en": "Return errors in the `ProblemDetails` format (RFC 7807/9457) with `AddProblemDetails()`"
+        },
+        {
+          "vi": "Log đầy đủ exception phía server nhưng không lộ stack trace cho client ở Production; developer exception page chỉ dùng ở Development",
+          "en": "Log the full exception on the server but never expose stack traces to clients in Production; the developer exception page is for Development only"
+        }
+      ],
+      "explanation": {
+        "vi": "Xử lý tập trung giúp mọi lỗi có cùng định dạng và mọi exception đều được log, thay vì mỗi controller tự bắt theo một kiểu. Ở .NET 8, cách gọn nhất là `builder.Services.AddExceptionHandler<GlobalExceptionHandler>(); builder.Services.AddProblemDetails();` và `app.UseExceptionHandler();`. Với lỗi nghiệp vụ dự đoán được (ví dụ không tìm thấy), nên trả `Results.NotFound()`/`NotFound()` trực tiếp thay vì dùng exception để điều khiển luồng.",
+        "en": "Central handling gives every error the same shape and guarantees every exception is logged, instead of each controller catching in its own way. In .NET 8 the neatest setup is `builder.Services.AddExceptionHandler<GlobalExceptionHandler>(); builder.Services.AddProblemDetails();` plus `app.UseExceptionHandler();`. For expected business errors (e.g. not found), return `Results.NotFound()`/`NotFound()` directly rather than using exceptions for control flow."
+      }
+    },
+    {
+      "id": "dotnet.di.001",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "di",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong ASP.NET Core, service đăng ký bằng `AddScoped` có vòng đời như thế nào?",
+        "en": "In ASP.NET Core, what is the lifetime of a service registered with `AddScoped`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một instance duy nhất cho toàn bộ ứng dụng",
+            "en": "A single instance for the whole application"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một instance mới mỗi lần được inject/resolve",
+            "en": "A new instance every time it is injected/resolved"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Một instance cho mỗi thread",
+            "en": "One instance per thread"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Một instance cho mỗi scope, thường là mỗi HTTP request",
+            "en": "One instance per scope, typically per HTTP request"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "ASP.NET Core tạo một DI scope cho mỗi request, nên service scoped được dùng chung trong suốt request đó và bị dispose khi request kết thúc. `AddSingleton` là một instance cho cả ứng dụng, `AddTransient` là instance mới mỗi lần resolve. Scope không gắn với thread: một request async có thể chạy qua nhiều thread nhưng vẫn cùng một scope.",
+        "en": "ASP.NET Core creates a DI scope per request, so a scoped service is shared throughout that request and disposed when it ends. `AddSingleton` means one instance for the app, `AddTransient` a new instance on every resolve. Scopes are not tied to threads: an async request can hop across threads while staying in the same scope."
+      }
+    },
+    {
+      "id": "dotnet.di.002",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "di",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Lợi ích chính của việc inject `IEmailSender` qua constructor thay vì `new SmtpEmailSender()` bên trong class là gì?",
+        "en": "What is the main benefit of injecting `IEmailSender` through the constructor instead of calling `new SmtpEmailSender()` inside the class?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Code chạy nhanh hơn vì DI container tối ưu cấp phát bộ nhớ",
+            "en": "The code runs faster because the DI container optimizes allocations"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Class phụ thuộc vào abstraction, dễ thay implementation và dễ mock khi viết unit test",
+            "en": "The class depends on an abstraction, making it easy to swap implementations and to mock in unit tests"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không cần đăng ký service nào trong `Program.cs`",
+            "en": "No service registration in `Program.cs` is needed"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đảm bảo `SmtpEmailSender` luôn là singleton",
+            "en": "It guarantees `SmtpEmailSender` is always a singleton"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Dependency injection tách việc tạo dependency ra khỏi class sử dụng nó (Dependency Inversion): class chỉ biết `IEmailSender`, còn implementation cụ thể được chọn ở composition root. Nhờ đó có thể đổi sang SendGrid hay dùng fake/mock trong test mà không sửa class. DI không làm code nhanh hơn, vẫn cần đăng ký service, và lifetime do lúc đăng ký quyết định chứ không mặc định singleton.",
+        "en": "Dependency injection moves dependency creation out of the consuming class (Dependency Inversion): the class only knows `IEmailSender`, and the concrete implementation is chosen at the composition root. You can then switch to SendGrid or use a fake/mock in tests without touching the class. DI does not make code faster, you still register services, and the lifetime is decided at registration, not singleton by default."
+      }
+    },
+    {
+      "id": "dotnet.di.003",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "di",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Key `ConnectionStrings:Default` có trong `appsettings.json`, `appsettings.Development.json` và biến môi trường `ConnectionStrings__Default`. Với cấu hình mặc định của `WebApplication.CreateBuilder` ở môi trường Development, giá trị nào được dùng?",
+        "en": "The key `ConnectionStrings:Default` exists in `appsettings.json`, `appsettings.Development.json` and the environment variable `ConnectionStrings__Default`. With the default `WebApplication.CreateBuilder` setup in the Development environment, which value is used?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Giá trị từ biến môi trường",
+            "en": "The environment variable value"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giá trị trong `appsettings.json`",
+            "en": "The value in `appsettings.json`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Giá trị trong `appsettings.Development.json`",
+            "en": "The value in `appsettings.Development.json`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ném exception vì key bị trùng",
+            "en": "An exception is thrown because the key is duplicated"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Configuration provider được thêm theo thứ tự và provider thêm sau ghi đè provider trước: `appsettings.json` → `appsettings.{Environment}.json` → user secrets (chỉ ở Development) → biến môi trường → command-line arguments. Vì vậy biến môi trường thắng cả hai file JSON. `appsettings.Development.json` chỉ ghi đè `appsettings.json`. Dấu `__` trong tên biến môi trường được map thành `:`.",
+        "en": "Configuration providers are added in order and later ones override earlier ones: `appsettings.json` → `appsettings.{Environment}.json` → user secrets (Development only) → environment variables → command-line arguments. So the environment variable beats both JSON files. `appsettings.Development.json` only overrides `appsettings.json`. The `__` in environment variable names maps to `:`."
+      }
+    },
+    {
+      "id": "dotnet.di.004",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "di",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn đăng ký service sau có vấn đề gì?",
+        "en": "What is wrong with the service registration below?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "builder.Services.AddDbContext<AppDbContext>(o =>\n  o.UseSqlServer(connectionString));\nbuilder.Services.AddSingleton<ReportCache>();\n\npublic class ReportCache(AppDbContext db)\n{\n  private List<Report>? _cache;\n\n  public async Task<List<Report>> GetAsync() =>\n    _cache ??= await db.Reports.ToListAsync();\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`AddDbContext` phải được gọi sau `AddSingleton`",
+            "en": "`AddDbContext` must be called after `AddSingleton`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Primary constructor không dùng được cho class được DI inject",
+            "en": "Primary constructors cannot be used for DI-injected classes"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Singleton `ReportCache` giữ một `AppDbContext` scoped suốt đời ứng dụng (captive dependency): ở Development DI báo lỗi khi resolve, ở Production context bị dùng chung giữa các request dù không thread-safe",
+            "en": "The singleton `ReportCache` holds a scoped `AppDbContext` for the app's lifetime (captive dependency): in Development DI throws on resolve, in Production the context is shared across requests although it is not thread-safe"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`ToListAsync` không được gọi trong service singleton",
+            "en": "`ToListAsync` cannot be called in a singleton service"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Một service không nên phụ thuộc vào service có lifetime ngắn hơn. Singleton được tạo một lần nên `AppDbContext` scoped bị \"bắt giữ\" mãi mãi: nó không được dispose, change tracker phình to và nhiều request cùng dùng một context gây lỗi concurrency. Ở Development, `ValidateScopes` bật mặc định nên container ném lỗi \"Cannot consume scoped service from singleton\". Sửa: inject `IServiceScopeFactory` hoặc `IDbContextFactory<AppDbContext>` để tạo context ngắn hạn mỗi lần dùng, hoặc đổi `ReportCache` thành scoped và cache bằng `IMemoryCache`.",
+        "en": "A service should not depend on a service with a shorter lifetime. A singleton is created once, so the scoped `AppDbContext` is captured forever: it is never disposed, its change tracker keeps growing, and concurrent requests sharing one context cause concurrency errors. In Development `ValidateScopes` is on by default, so the container throws \"Cannot consume scoped service from singleton\". Fix: inject `IServiceScopeFactory` or `IDbContextFactory<AppDbContext>` to create a short-lived context per use, or make `ReportCache` scoped and cache with `IMemoryCache`."
+      }
+    },
+    {
+      "id": "dotnet.di.005",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "di",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần đọc `SmtpOptions` trong một service singleton và tự nhận giá trị mới khi `appsettings.json` thay đổi lúc runtime. Nên inject gì?",
+        "en": "You need to read `SmtpOptions` in a singleton service and pick up new values when `appsettings.json` changes at runtime. What should you inject?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`IOptions<SmtpOptions>`",
+            "en": "`IOptions<SmtpOptions>`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`IOptionsSnapshot<SmtpOptions>`",
+            "en": "`IOptionsSnapshot<SmtpOptions>`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`SmtpOptions` trực tiếp",
+            "en": "`SmtpOptions` directly"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`IOptionsMonitor<SmtpOptions>`",
+            "en": "`IOptionsMonitor<SmtpOptions>`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`IOptionsMonitor<T>` là singleton, `CurrentValue` luôn trả giá trị mới nhất và có `OnChange` để nhận thông báo khi config reload. `IOptions<T>` đọc một lần lúc khởi động và không bao giờ cập nhật. `IOptionsSnapshot<T>` có cập nhật nhưng là scoped (tính lại mỗi request), nên không thể inject vào singleton. Inject `SmtpOptions` trực tiếp chỉ được khi tự đăng ký instance và cũng không reload.",
+        "en": "`IOptionsMonitor<T>` is a singleton whose `CurrentValue` always returns the latest value, with `OnChange` to get notified on reload. `IOptions<T>` is read once at startup and never updates. `IOptionsSnapshot<T>` does update but is scoped (recomputed per request), so it cannot be injected into a singleton. Injecting `SmtpOptions` directly only works if you register the instance yourself, and it does not reload either."
+      }
+    },
+    {
+      "id": "dotnet.di.006",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "di",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "using Microsoft.Extensions.DependencyInjection;\n\nvar services = new ServiceCollection();\nservices.AddSingleton<A>();\nservices.AddScoped<B>();\nservices.AddTransient<C>();\nvar root = services.BuildServiceProvider();\n\nusing var s1 = root.CreateScope();\nusing var s2 = root.CreateScope();\nvar p1 = s1.ServiceProvider;\nvar p2 = s2.ServiceProvider;\n\nConsole.WriteLine(ReferenceEquals(p1.GetService<A>(), p2.GetService<A>()));\nConsole.WriteLine(ReferenceEquals(p1.GetService<B>(), p1.GetService<B>()));\nConsole.WriteLine(ReferenceEquals(p1.GetService<B>(), p2.GetService<B>()));\nConsole.WriteLine(ReferenceEquals(p1.GetService<C>(), p1.GetService<C>()));\n\nclass A { }\nclass B { }\nclass C { }"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "True / True / True / False",
+            "en": "True / True / True / False"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "False / True / False / False",
+            "en": "False / True / False / False"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "True / False / False / True",
+            "en": "True / False / False / True"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "True / True / False / False",
+            "en": "True / True / False / False"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Singleton `A` chỉ có một instance cho cả root provider, nên hai scope nhận cùng object: `True`. Scoped `B` là một instance trong mỗi scope: cùng `p1` thì `True`, khác scope `p1`/`p2` thì `False`. Transient `C` tạo mới mỗi lần resolve nên `False`. Đáp án có `True` ở dòng ba sai vì nhầm scoped với singleton.",
+        "en": "Singleton `A` has one instance for the whole root provider, so both scopes get the same object: `True`. Scoped `B` has one instance per scope: within `p1` it is `True`, across `p1`/`p2` it is `False`. Transient `C` is created on every resolve, so `False`. The option with `True` on line three is wrong because it confuses scoped with singleton."
+      }
+    },
+    {
+      "id": "dotnet.di.007",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "di",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Vì sao nên viết `logger.LogInformation(\"Order {OrderId} created\", order.Id)` thay vì `logger.LogInformation($\"Order {order.Id} created\")`? Trình bày thêm về log level và cấu hình logging trong ASP.NET Core.",
+        "en": "Why write `logger.LogInformation(\"Order {OrderId} created\", order.Id)` instead of `logger.LogInformation($\"Order {order.Id} created\")`? Also explain log levels and logging configuration in ASP.NET Core."
+      },
+      "keyPoints": [
+        {
+          "vi": "Message template giữ `OrderId` thành property có cấu trúc, các công cụ như Seq, Elasticsearch, Application Insights có thể lọc và truy vấn theo nó",
+          "en": "A message template keeps `OrderId` as a structured property that tools like Seq, Elasticsearch or Application Insights can filter and query"
+        },
+        {
+          "vi": "String interpolation tạo chuỗi ngay cả khi level đó bị tắt và làm mất cấu trúc (mỗi log thành một chuỗi khác nhau)",
+          "en": "String interpolation builds the string even when the level is disabled and loses structure (each log becomes a different string)"
+        },
+        {
+          "vi": "Các level: Trace, Debug, Information, Warning, Error, Critical; mức tối thiểu cấu hình theo category trong `Logging:LogLevel` của appsettings",
+          "en": "Levels are Trace, Debug, Information, Warning, Error, Critical; minimum levels are configured per category under `Logging:LogLevel` in appsettings"
+        },
+        {
+          "vi": "Inject `ILogger<T>` để category là tên class; ở hot path có thể dùng source generator `[LoggerMessage]`",
+          "en": "Inject `ILogger<T>` so the category is the class name; on hot paths use the `[LoggerMessage]` source generator"
+        },
+        {
+          "vi": "Không log dữ liệu nhạy cảm như mật khẩu, token, thông tin cá nhân",
+          "en": "Never log sensitive data such as passwords, tokens or personal information"
+        }
+      ],
+      "explanation": {
+        "vi": "Structured logging coi mỗi log là một sự kiện có các field, không chỉ là một dòng text; nhờ đó có thể truy vấn kiểu \"mọi log có OrderId = 42\". Với interpolation, tên property bị mất và chuỗi luôn được format kể cả khi level bị lọc bỏ, gây cấp phát thừa. ASP.NET Core dùng `Microsoft.Extensions.Logging` với các provider (Console, Debug, OpenTelemetry, Serilog...) và đọc mức log từ configuration, nên có thể đổi mức log theo môi trường mà không sửa code.",
+        "en": "Structured logging treats each log as an event with fields, not just a line of text, so you can query things like \"every log where OrderId = 42\". With interpolation the property name is lost and the string is always formatted even when the level is filtered out, wasting allocations. ASP.NET Core uses `Microsoft.Extensions.Logging` with providers (Console, Debug, OpenTelemetry, Serilog...) and reads levels from configuration, so you can change log levels per environment without code changes."
+      }
+    },
+    {
+      "id": "dotnet.di.008",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "di",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn sẽ tổ chức một solution ASP.NET Core theo Clean Architecture như thế nào? DI đóng vai trò gì trong việc giữ đúng hướng phụ thuộc?",
+        "en": "How would you structure an ASP.NET Core solution following Clean Architecture? What role does DI play in keeping dependencies pointing the right way?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Các layer: Domain (entity, business rule), Application (use case, interface như `IOrderRepository`), Infrastructure (EF Core, email, HTTP client), Presentation/API",
+          "en": "Layers: Domain (entities, business rules), Application (use cases, interfaces such as `IOrderRepository`), Infrastructure (EF Core, email, HTTP clients), Presentation/API"
+        },
+        {
+          "vi": "Dependency rule: phụ thuộc chỉ hướng vào trong; Domain và Application không reference EF Core hay ASP.NET Core",
+          "en": "Dependency rule: dependencies point inwards only; Domain and Application do not reference EF Core or ASP.NET Core"
+        },
+        {
+          "vi": "Infrastructure implement interface do Application định nghĩa; DI tại composition root (`Program.cs`) nối interface với implementation",
+          "en": "Infrastructure implements interfaces defined by Application; DI at the composition root (`Program.cs`) wires interfaces to implementations"
+        },
+        {
+          "vi": "Mỗi layer cung cấp extension `AddApplication()`/`AddInfrastructure()` để đăng ký service, giữ `Program.cs` gọn",
+          "en": "Each layer exposes `AddApplication()`/`AddInfrastructure()` extensions to register its services, keeping `Program.cs` small"
+        },
+        {
+          "vi": "Cân nhắc chi phí: dự án nhỏ có thể dùng vertical slice hoặc gộp layer; tránh repository bọc `DbContext` khi không mang lại giá trị",
+          "en": "Weigh the cost: small projects can use vertical slices or fewer layers; avoid wrapping `DbContext` in repositories when it adds no value"
+        }
+      ],
+      "explanation": {
+        "vi": "Mục tiêu của Clean Architecture là business logic không phụ thuộc framework, database hay UI, nên có thể test độc lập và thay hạ tầng mà ít ảnh hưởng. Application định nghĩa \"cổng\" (interface), Infrastructure cung cấp \"adapter\", và chỉ project API (composition root) biết tất cả để đăng ký vào DI container. Có thể ép dependency rule bằng project reference hoặc test kiến trúc (ví dụ NetArchTest). Ở mức senior, cần nói được đánh đổi: nhiều layer làm tăng boilerplate, nên chọn mức độ phù hợp với độ phức tạp của domain.",
+        "en": "The goal of Clean Architecture is business logic that does not depend on frameworks, databases or UI, so it can be tested in isolation and infrastructure can change with little impact. Application defines the ports (interfaces), Infrastructure provides the adapters, and only the API project (the composition root) knows everything and registers it in the DI container. The dependency rule can be enforced with project references or architecture tests (e.g. NetArchTest). At senior level you should discuss the trade-off: more layers mean more boilerplate, so match the structure to the domain's complexity."
+      }
+    },
+    {
+      "id": "dotnet.ef_core.001",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "ef_core",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`builder.Services.AddDbContext<AppDbContext>(...)` đăng ký `AppDbContext` với lifetime mặc định nào?",
+        "en": "With which default lifetime does `builder.Services.AddDbContext<AppDbContext>(...)` register `AppDbContext`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Singleton",
+            "en": "Singleton"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Transient",
+            "en": "Transient"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Scoped",
+            "en": "Scoped"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không có lifetime, phải tự `new`",
+            "en": "No lifetime; you must create it with `new`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`AddDbContext` mặc định đăng ký context là scoped, tức một instance cho mỗi request. `DbContext` là một unit of work có change tracker và không thread-safe, nên không nên là singleton dùng chung giữa các request. Khi cần context ngoài request (background service, xử lý song song), dùng `IDbContextFactory<T>`; khi cần giảm chi phí tạo context, dùng `AddDbContextPool`.",
+        "en": "`AddDbContext` registers the context as scoped by default, i.e. one instance per request. A `DbContext` is a unit of work with a change tracker and is not thread-safe, so it should not be a singleton shared between requests. For contexts outside a request (background services, parallel work) use `IDbContextFactory<T>`; to reduce context creation cost use `AddDbContextPool`."
+      }
+    },
+    {
+      "id": "dotnet.ef_core.002",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "ef_core",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Lệnh nào áp dụng các migration đang chờ vào database?",
+        "en": "Which command applies pending migrations to the database?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`dotnet ef migrations add`",
+            "en": "`dotnet ef migrations add`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`dotnet ef dbcontext scaffold`",
+            "en": "`dotnet ef dbcontext scaffold`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`dotnet ef database update`",
+            "en": "`dotnet ef database update`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`dotnet build --migrate`",
+            "en": "`dotnet build --migrate`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`dotnet ef migrations add <Name>` chỉ sinh file migration (code C# mô tả thay đổi schema) dựa trên khác biệt giữa model và snapshot, chưa đụng tới database. `dotnet ef database update` mới chạy các migration chưa được áp dụng và ghi lại vào bảng `__EFMigrationsHistory`. `dbcontext scaffold` là reverse engineering từ database có sẵn. Ở production nên tạo SQL script (`dotnet ef migrations script --idempotent`) hoặc migration bundle thay vì chạy lệnh trực tiếp.",
+        "en": "`dotnet ef migrations add <Name>` only generates a migration file (C# describing the schema change) from the difference between the model and the snapshot, without touching the database. `dotnet ef database update` actually runs unapplied migrations and records them in the `__EFMigrationsHistory` table. `dbcontext scaffold` reverse-engineers an existing database. In production, prefer a SQL script (`dotnet ef migrations script --idempotent`) or a migration bundle over running the command directly."
+      }
+    },
+    {
+      "id": "dotnet.ef_core.003",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "ef_core",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Sau đoạn code dưới (chưa gọi `SaveChanges`), điều gì đã xảy ra?",
+        "en": "After the code below (with no `SaveChanges` call yet), what has happened?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "var user = new User { Name = \"An\" };\ndb.Users.Add(user);\n// SaveChanges() has not been called yet"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một câu `INSERT` đã được gửi ngay khi gọi `Add`",
+            "en": "An `INSERT` was sent as soon as `Add` was called"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`user.Id` đã có giá trị identity do database sinh ra",
+            "en": "`user.Id` already holds the identity value generated by the database"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chưa có gì được ghi xuống database; `user` chỉ được change tracker đánh dấu trạng thái `Added`",
+            "en": "Nothing has been written to the database; the change tracker has only marked `user` as `Added`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "EF Core ném exception vì thiếu `SaveChanges`",
+            "en": "EF Core throws because `SaveChanges` is missing"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Add` chỉ đưa entity vào change tracker với trạng thái `Added`. Chỉ khi gọi `SaveChanges()`/`SaveChangesAsync()`, EF Core mới sinh các câu `INSERT`/`UPDATE`/`DELETE` cho mọi thay đổi và chạy chúng trong một transaction, sau đó mới gán giá trị identity vào `user.Id`. Nếu context bị dispose mà chưa `SaveChanges`, thay đổi bị bỏ đi và không có exception nào.",
+        "en": "`Add` only puts the entity into the change tracker in the `Added` state. Only when `SaveChanges()`/`SaveChangesAsync()` is called does EF Core generate `INSERT`/`UPDATE`/`DELETE` statements for all changes and run them in a transaction, and only then is the identity value assigned to `user.Id`. If the context is disposed without `SaveChanges`, the changes are simply discarded with no exception."
+      }
+    },
+    {
+      "id": "dotnet.ef_core.004",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "ef_core",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Endpoint dưới chạy rất chậm khi có nhiều đơn hàng. Vấn đề là gì?",
+        "en": "The endpoint below gets very slow when there are many orders. What is the problem?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "// UseLazyLoadingProxies() is enabled\nvar orders = await db.Orders\n  .Where(o => o.CreatedAt >= DateTime.Today)\n  .ToListAsync();\n\nforeach (var order in orders)\n{\n  Console.WriteLine($\"{order.Id}: {order.Customer.Name}\");\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`ToListAsync` không dùng được cùng với `Where`",
+            "en": "`ToListAsync` cannot be combined with `Where`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "N+1 query: 1 query lấy orders, rồi mỗi lần truy cập `order.Customer` lazy loading bắn thêm một query; nên dùng `.Include(o => o.Customer)` hoặc projection `Select`",
+            "en": "N+1 queries: one query loads the orders, then each `order.Customer` access triggers another lazy-loading query; use `.Include(o => o.Customer)` or a `Select` projection"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`DateTime.Today` không dịch được sang SQL",
+            "en": "`DateTime.Today` cannot be translated to SQL"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Customer` luôn là `null` nên ném `NullReferenceException`",
+            "en": "`Customer` is always `null`, so it throws `NullReferenceException`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Với lazy loading proxies, mỗi lần đọc navigation `order.Customer` chưa được load, EF Core chạy một query riêng tới database. 1.000 đơn hàng nghĩa là 1 + 1.000 round-trip, đó là lỗi N+1 kinh điển. Sửa bằng eager loading `.Include(o => o.Customer)` hoặc tốt hơn là projection `Select(o => new { o.Id, CustomerName = o.Customer.Name })` để chỉ lấy cột cần. `Customer` chỉ là `null` khi không bật lazy loading và không `Include`; ở đây proxy đã bật nên nó được load, chỉ là rất chậm.",
+        "en": "With lazy-loading proxies, every read of an unloaded `order.Customer` navigation makes EF Core run a separate database query. 1,000 orders means 1 + 1,000 round-trips, the classic N+1 problem. Fix it with eager loading `.Include(o => o.Customer)` or, better, a projection `Select(o => new { o.Id, CustomerName = o.Customer.Name })` that fetches only the needed columns. `Customer` would only be `null` without lazy loading and without `Include`; here proxies are on, so it loads, just very slowly."
+      }
+    },
+    {
+      "id": "dotnet.ef_core.005",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "ef_core",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi nào nên dùng `AsNoTracking()` trong EF Core?",
+        "en": "When should you use `AsNoTracking()` in EF Core?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Với query chỉ đọc (ví dụ API GET trả danh sách) để EF Core không theo dõi thay đổi, giảm bộ nhớ và tăng tốc",
+            "en": "For read-only queries (e.g. a GET API returning a list) so EF Core does not track changes, saving memory and time"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Khi muốn sửa entity rồi gọi `SaveChanges()` để lưu",
+            "en": "When you want to modify entities and save them with `SaveChanges()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Để EF Core cache kết quả query giữa các request",
+            "en": "To make EF Core cache query results across requests"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Để bật lazy loading cho navigation property",
+            "en": "To enable lazy loading for navigation properties"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mặc định query trả entity được track: EF Core lưu snapshot giá trị gốc và đăng ký entity vào change tracker để `SaveChanges` phát hiện thay đổi. Với dữ liệu chỉ để đọc và trả về, chi phí này là thừa, `AsNoTracking()` bỏ qua nó. Ngược lại, entity no-tracking bị sửa sẽ không được `SaveChanges` lưu (trừ khi `Attach`/`Update`), nên không dùng khi cần cập nhật. `AsNoTracking` không phải cơ chế cache.",
+        "en": "By default, queries returning entities track them: EF Core stores an original-value snapshot and registers each entity in the change tracker so `SaveChanges` can detect changes. For data that is only read and returned, that cost is wasted, and `AsNoTracking()` skips it. Conversely, a no-tracking entity you modify is not saved by `SaveChanges` (unless you `Attach`/`Update` it), so do not use it when you need updates. `AsNoTracking` is not a caching mechanism."
+      }
+    },
+    {
+      "id": "dotnet.ef_core.006",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "ef_core",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "// db: AppDbContext; user with Id = 1 exists and Name != \"Changed\"\nvar a = db.Users.First(u => u.Id == 1);\nvar b = db.Users.First(u => u.Id == 1);\nConsole.WriteLine(ReferenceEquals(a, b));\n\nvar c = db.Users.AsNoTracking().First(u => u.Id == 1);\nConsole.WriteLine(ReferenceEquals(a, c));\n\na.Name = \"Changed\";\nConsole.WriteLine(db.ChangeTracker.HasChanges());"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "True / False / True",
+            "en": "True / False / True"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "False / False / True",
+            "en": "False / False / True"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "True / True / True",
+            "en": "True / True / True"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "False / False / False",
+            "en": "False / False / False"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trong cùng một `DbContext`, query có tracking dùng identity resolution: dòng có cùng primary key luôn trả về đúng instance đã được track, nên `a` và `b` là một object (`True`), dù query thứ hai vẫn chạy SQL. Query `AsNoTracking()` tạo object mới không qua change tracker, nên `ReferenceEquals(a, c)` là `False`. Sửa `a.Name` rồi gọi `HasChanges()` sẽ chạy `DetectChanges`, so với snapshot và trả `True`. Đáp án `False / False` ở hai dòng đầu sai vì bỏ qua identity resolution.",
+        "en": "Within one `DbContext`, tracking queries use identity resolution: a row with the same primary key always returns the already-tracked instance, so `a` and `b` are the same object (`True`), even though the second query still runs SQL. An `AsNoTracking()` query materializes a new object outside the change tracker, so `ReferenceEquals(a, c)` is `False`. Changing `a.Name` and calling `HasChanges()` runs `DetectChanges` against the snapshot and returns `True`. `False / False` on the first two lines is wrong because it ignores identity resolution."
+      }
+    },
+    {
+      "id": "dotnet.ef_core.007",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "ef_core",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Service dưới thỉnh thoảng ném `InvalidOperationException`. Vì sao?",
+        "en": "The service below sometimes throws `InvalidOperationException`. Why?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "public class DashboardService(AppDbContext db)\n{\n  public async Task<DashboardDto> GetAsync()\n  {\n    var usersTask = db.Users.CountAsync();\n    var ordersTask = db.Orders.CountAsync();\n\n    await Task.WhenAll(usersTask, ordersTask);\n\n    return new DashboardDto(usersTask.Result, ordersTask.Result);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hai query chạy đồng thời trên cùng một `DbContext`; `DbContext` không thread-safe nên EF Core ném lỗi \"A second operation was started on this context instance\"",
+            "en": "Two queries run concurrently on the same `DbContext`; `DbContext` is not thread-safe, so EF Core throws \"A second operation was started on this context instance\""
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi `.Result` sau `Task.WhenAll` gây deadlock",
+            "en": "Calling `.Result` after `Task.WhenAll` deadlocks"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`CountAsync` không tồn tại, phải dùng `Count()`",
+            "en": "`CountAsync` does not exist; you must use `Count()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Task.WhenAll` không nhận `Task<int>`",
+            "en": "`Task.WhenAll` does not accept `Task<int>`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mỗi `DbContext` chỉ cho phép một thao tác bất đồng bộ tại một thời điểm, vì nó dùng chung một connection và change tracker. Khởi động hai `CountAsync` rồi mới `await` khiến chúng chạy chồng lên nhau và EF Core phát hiện, ném `InvalidOperationException`. Sửa: `await` lần lượt từng query, hoặc nếu thật sự cần song song thì tạo hai context riêng qua `IDbContextFactory<AppDbContext>`. Gọi `.Result` sau khi `WhenAll` đã hoàn thành là an toàn vì task đã xong.",
+        "en": "A `DbContext` allows only one asynchronous operation at a time because it shares a single connection and change tracker. Starting two `CountAsync` calls before awaiting makes them overlap, which EF Core detects and reports with `InvalidOperationException`. Fix: `await` each query in turn, or if you really need parallelism, create two separate contexts via `IDbContextFactory<AppDbContext>`. Calling `.Result` after `WhenAll` has completed is safe because the tasks are already done."
+      }
+    },
+    {
+      "id": "dotnet.ef_core.008",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "ef_core",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Hai request cùng đọc một `Product` rồi lần lượt sửa `Stock` và gọi `SaveChanges()`. Với SQL Server, request lưu sau sẽ thế nào?",
+        "en": "Two requests read the same `Product`, then each changes `Stock` and calls `SaveChanges()`. With SQL Server, what happens to the request that saves second?"
+      },
+      "code": {
+        "language": "csharp",
+        "source": "public class Product\n{\n  public int Id { get; set; }\n  public int Stock { get; set; }\n\n  [Timestamp]\n  public byte[] RowVersion { get; set; } = [];\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ghi đè giá trị của request trước (last write wins) mà không báo lỗi",
+            "en": "It silently overwrites the first request's value (last write wins)"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Database khóa dòng đó cho tới khi request đầu commit",
+            "en": "The database locks the row until the first request commits"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "EF Core tự merge hai giá trị `Stock`",
+            "en": "EF Core automatically merges the two `Stock` values"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "EF Core thêm điều kiện `RowVersion = @original` vào câu `UPDATE`; không dòng nào bị ảnh hưởng nên ném `DbUpdateConcurrencyException`",
+            "en": "EF Core adds a `RowVersion = @original` condition to the `UPDATE`; no row is affected, so it throws `DbUpdateConcurrencyException`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`[Timestamp]` biến `RowVersion` thành concurrency token kiểu `rowversion`, giá trị do SQL Server tự tăng mỗi lần dòng thay đổi. Khi `UPDATE`, EF Core thêm `WHERE Id = @id AND RowVersion = @originalRowVersion`; request thứ hai mang version cũ nên cập nhật 0 dòng và EF Core ném `DbUpdateConcurrencyException`. Đây là optimistic concurrency: không khóa dòng, xử lý xung đột bằng cách reload (`entry.GetDatabaseValues()`), retry hoặc trả `409 Conflict`. Nếu không có concurrency token, kết quả mới là last write wins.",
+        "en": "`[Timestamp]` makes `RowVersion` a `rowversion` concurrency token that SQL Server bumps on every row change. On `UPDATE`, EF Core adds `WHERE Id = @id AND RowVersion = @originalRowVersion`; the second request carries the old version, so it updates 0 rows and EF Core throws `DbUpdateConcurrencyException`. This is optimistic concurrency: no row locks, and conflicts are handled by reloading (`entry.GetDatabaseValues()`), retrying or returning `409 Conflict`. Without a concurrency token, the outcome would be last write wins."
+      }
+    },
+    {
+      "id": "dotnet.ef_core.009",
+      "contentVersion": 1,
+      "trackId": "dotnet",
+      "topicId": "ef_core",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Một endpoint đọc dữ liệu bằng EF Core được gọi hàng nghìn lần mỗi giây. Bạn tối ưu như thế nào? Nêu vai trò của compiled query và DbContext pooling.",
+        "en": "An EF Core read endpoint is called thousands of times per second. How would you optimize it? Explain the role of compiled queries and DbContext pooling."
+      },
+      "code": {
+        "language": "csharp",
+        "source": "private static readonly Func<AppDbContext, int, Task<ProductDto?>> GetById =\n  EF.CompileAsyncQuery((AppDbContext db, int id) =>\n    db.Products\n      .AsNoTracking()\n      .Where(p => p.Id == id)\n      .Select(p => new ProductDto(p.Id, p.Name, p.Price))\n      .FirstOrDefault());\n\nbuilder.Services.AddDbContextPool<AppDbContext>(o =>\n  o.UseSqlServer(connectionString));"
+      },
+      "keyPoints": [
+        {
+          "vi": "EF Core đã cache query theo hình dạng expression, nhưng mỗi lần vẫn phải duyệt và so khớp expression tree; `EF.CompileQuery`/`CompileAsyncQuery` bỏ qua bước này cho hot path",
+          "en": "EF Core already caches queries by expression shape, but still has to walk and match the expression tree on every call; `EF.CompileQuery`/`CompileAsyncQuery` skips that on hot paths"
+        },
+        {
+          "vi": "`AddDbContextPool` tái sử dụng instance `DbContext` thay vì tạo mới mỗi request; context không được giữ state riêng giữa các lần dùng",
+          "en": "`AddDbContextPool` reuses `DbContext` instances instead of creating one per request; the context must not keep per-use state"
+        },
+        {
+          "vi": "Dùng `AsNoTracking`, projection `Select` chỉ lấy cột cần, tránh N+1 và cân nhắc `AsSplitQuery` khi `Include` nhiều collection",
+          "en": "Use `AsNoTracking`, `Select` projections of only the needed columns, avoid N+1, and consider `AsSplitQuery` with multiple collection `Include`s"
+        },
+        {
+          "vi": "Thao tác hàng loạt dùng `ExecuteUpdateAsync`/`ExecuteDeleteAsync` (EF Core 7+) thay vì load entity rồi `SaveChanges`",
+          "en": "For bulk operations use `ExecuteUpdateAsync`/`ExecuteDeleteAsync` (EF Core 7+) instead of loading entities and calling `SaveChanges`"
+        },
+        {
+          "vi": "Đo trước khi tối ưu: log SQL, xem execution plan, thêm index, và cân nhắc cache (`IMemoryCache`, distributed cache)",
+          "en": "Measure first: log SQL, inspect execution plans, add indexes, and consider caching (`IMemoryCache`, distributed cache)"
+        }
+      ],
+      "explanation": {
+        "vi": "Với tải rất cao, chi phí phía .NET (tạo context, xử lý expression tree, materialize và tracking entity) trở nên đáng kể so với thời gian query. Compiled query loại bỏ phần xử lý LINQ mỗi lần gọi; pooling giảm cấp phát và khởi tạo các service nội bộ của context. Tuy vậy, phần lớn lợi ích thường đến từ query đúng: projection, no-tracking, index phù hợp, và cache khi dữ liệu ít thay đổi. Câu trả lời tốt cần nhấn mạnh việc đo đạc bằng benchmark/profiler trước khi chọn kỹ thuật.",
+        "en": "Under very high load, the .NET-side cost (creating contexts, processing expression trees, materializing and tracking entities) becomes significant relative to query time. Compiled queries remove the per-call LINQ processing; pooling reduces allocations and the setup of the context's internal services. Still, most gains usually come from writing the right query: projections, no-tracking, proper indexes, and caching for rarely changing data. A strong answer stresses measuring with benchmarks/profilers before picking a technique."
+      }
+    }
+  ]
+}

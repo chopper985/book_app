@@ -1,6 +1,6 @@
 // Project imports:
-import 'package:AppName/features/content/data/models/json_reader.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/content/data/models/json_reader.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
 
 class QuestionModel {
   const QuestionModel._();

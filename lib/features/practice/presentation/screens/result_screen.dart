@@ -6,19 +6,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/navigator/app_router.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
-import 'package:AppName/features/content/presentation/extensions/question_level_label.dart';
-import 'package:AppName/features/practice/domain/entities/practice_bundle.dart';
-import 'package:AppName/features/practice/presentation/cubit/result_cubit.dart';
-import 'package:AppName/features/practice/presentation/widgets/result_actions.dart';
-import 'package:AppName/features/practice/presentation/widgets/result_header.dart';
-import 'package:AppName/features/practice/presentation/widgets/result_overview_card.dart';
-import 'package:AppName/features/practice/presentation/widgets/result_review_section.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/navigator/app_router.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/content/presentation/extensions/question_level_label.dart';
+import 'package:interview_practice/features/practice/domain/entities/practice_bundle.dart';
+import 'package:interview_practice/features/practice/presentation/cubit/result_cubit.dart';
+import 'package:interview_practice/features/practice/presentation/widgets/result_actions.dart';
+import 'package:interview_practice/features/practice/presentation/widgets/result_header.dart';
+import 'package:interview_practice/features/practice/presentation/widgets/result_overview_card.dart';
+import 'package:interview_practice/features/practice/presentation/widgets/result_review_section.dart';
 
 /// "Kết quả bài luyện - Chi tiết câu sai".
 class ResultScreen extends StatelessWidget {

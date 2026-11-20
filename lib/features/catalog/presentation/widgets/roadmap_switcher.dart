@@ -2,28 +2,46 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
-import 'package:AppName/features/catalog/domain/entities/user_roadmap.dart';
-import 'package:AppName/features/catalog/presentation/widgets/track_icon_box.dart';
-import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
-import 'package:AppName/features/content/presentation/extensions/question_level_label.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_overview.dart';
+import 'package:interview_practice/features/catalog/domain/entities/user_roadmap.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/position_icon_box.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/track_icon_box.dart';
+import 'package:interview_practice/features/content/domain/entities/position.dart';
+import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:interview_practice/features/content/presentation/extensions/question_level_label.dart';
 
-/// "Flutter · Fresher / Junior": the roadmap name and its level range.
-String roadmapLabel(UserRoadmap roadmap, TrackOverview? overview) {
-  final name = overview?.track.name.text ?? roadmap.trackId;
+/// "Flutter · Fresher / Junior" or "Back-end Developer · Java · Fresher /
+/// Junior": the roadmap name and its level range.
+String roadmapLabel(
+  UserRoadmap roadmap,
+  TrackOverview? overview, [
+  Position? position,
+]) {
   final levels = roadmap.levels.map((level) => level.label).join(' / ');
+  final option = position?.optionById(roadmap.optionId ?? '');
+  if (roadmap.isPosition && position != null && option != null) {
+    return '${position.name.text} · ${option.name.text} · $levels';
+  }
+  final name = overview?.track.name.text ?? roadmap.trackId;
   return '$name · $levels';
 }
+
+/// Icon of a roadmap: the role for positions, the track logo otherwise.
+Widget roadmapIcon(UserRoadmap roadmap, {double size = 32}) =>
+    roadmap.isPosition
+        ? PositionIconBox(positionId: roadmap.positionId!, size: size)
+        : TrackIconBox(trackId: roadmap.trackId, size: size);
 
 /// Current roadmap button above the hero card; opens the roadmap list.
 class RoadmapSwitcher extends StatelessWidget {
   final UserRoadmap active;
   final List<UserRoadmap> roadmaps;
   final Map<String, TrackOverview> tracks;
+  final Map<String, Position> positions;
   final ValueChanged<String> onSelect;
   final ValueChanged<String> onRemove;
   final VoidCallback onAdd;
@@ -36,6 +54,7 @@ class RoadmapSwitcher extends StatelessWidget {
     required this.onSelect,
     required this.onRemove,
     required this.onAdd,
+    this.positions = const {},
   });
 
   Future<void> _open(BuildContext context) async {
@@ -50,6 +69,7 @@ class RoadmapSwitcher extends StatelessWidget {
         active: active,
         roadmaps: roadmaps,
         tracks: tracks,
+        positions: positions,
       ),
     );
     if (!context.mounted || action == null) return;
@@ -121,7 +141,7 @@ class RoadmapSwitcher extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 12.dsp, vertical: 10.dsp),
           child: Row(
             children: [
-              TrackIconBox(trackId: active.trackId, size: 32),
+              roadmapIcon(active),
               SizedBox(width: 10.dsp),
               Expanded(
                 child: Column(
@@ -132,7 +152,11 @@ class RoadmapSwitcher extends StatelessWidget {
                       style: AppText.mono(10, height: 14),
                     ),
                     Text(
-                      roadmapLabel(active, tracks[active.trackId]),
+                      roadmapLabel(
+                        active,
+                        tracks[active.trackId],
+                        positions[active.positionId],
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: AppText.sans(
@@ -181,11 +205,13 @@ class _RoadmapSheet extends StatelessWidget {
   final UserRoadmap active;
   final List<UserRoadmap> roadmaps;
   final Map<String, TrackOverview> tracks;
+  final Map<String, Position> positions;
 
   const _RoadmapSheet({
     required this.active,
     required this.roadmaps,
     required this.tracks,
+    required this.positions,
   });
 
   @override
@@ -208,9 +234,13 @@ class _RoadmapSheet extends StatelessWidget {
             ),
             for (final roadmap in roadmaps)
               ListTile(
-                leading: TrackIconBox(trackId: roadmap.trackId, size: 32),
+                leading: roadmapIcon(roadmap),
                 title: Text(
-                  roadmapLabel(roadmap, tracks[roadmap.trackId]),
+                  roadmapLabel(
+                    roadmap,
+                    tracks[roadmap.trackId],
+                    positions[roadmap.positionId],
+                  ),
                   style: AppText.sans(
                     14,
                     height: 20,

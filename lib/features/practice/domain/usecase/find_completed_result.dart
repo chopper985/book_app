@@ -2,9 +2,9 @@
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/features/content/domain/repositories/content_repository.dart';
-import 'package:AppName/features/practice/domain/entities/session_result.dart';
-import 'package:AppName/features/practice/domain/repositories/practice_repository.dart';
+import 'package:interview_practice/features/content/domain/repositories/content_repository.dart';
+import 'package:interview_practice/features/practice/domain/entities/session_result.dart';
+import 'package:interview_practice/features/practice/domain/repositories/practice_repository.dart';
 
 /// The latest result of [setId] that already covered every question about
 /// to be practiced, i.e. the learner has completed this practice before.

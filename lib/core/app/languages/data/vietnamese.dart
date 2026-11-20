@@ -1,5 +1,5 @@
 // Project imports:
-import 'package:AppName/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
 
 Map<String, String> vietnamese = {
   Strings.home: "Trang chủ",
@@ -42,7 +42,8 @@ Map<String, String> vietnamese = {
   Strings.issueMissingTranslation: "Thiếu nội dung ngôn ngữ: %s",
   Strings.issueEmptySet: "Bộ đề không có câu nào",
   Strings.issueInvalidVersion: "Phiên bản nội dung không hợp lệ: %s",
-  Strings.issuePremiumLevelInFreeSet: "Bộ đề miễn phí chứa câu Middle/Senior: %s",
+  Strings.issuePremiumLevelInFreeSet:
+      "Bộ đề miễn phí chứa câu Middle/Senior: %s",
   Strings.navExplore: "Khám phá",
   Strings.navRoadmaps: "Lộ trình",
   Strings.navPractice: "Luyện tập",
@@ -69,7 +70,8 @@ Map<String, String> vietnamese = {
   Strings.categoryMobile: "Mobile Dev",
   Strings.categoryFrontend: "Frontend",
   Strings.categoryBackend: "Backend Core",
-  Strings.categorySystems: "Hệ thống",
+  Strings.categoryGeneral: "Kiến thức chung",
+  Strings.categoryTesting: "Kiểm thử",
   Strings.trackQuestionsTagline: "%d câu hỏi • %s",
   Strings.completedOfTotal: "%d / %d hoàn thành",
   Strings.dailyChallenge: "Thử thách hôm nay",
@@ -180,7 +182,8 @@ Map<String, String> vietnamese = {
   Strings.onboardingExperienceTitle: "Kinh nghiệm của bạn đến đâu rồi?",
   Strings.onboardingExperienceSubtitle: "Dùng để chọn độ khó câu hỏi phù hợp.",
   Strings.onboardingStackTitle: "Bạn làm việc với công nghệ nào?",
-  Strings.onboardingStackSubtitle: "Chọn ít nhất 1. Lộ trình phù hợp sẽ được ưu tiên.",
+  Strings.onboardingStackSubtitle:
+      "Chọn ít nhất 1. Lộ trình phù hợp sẽ được ưu tiên.",
   Strings.onboardingInterviewDate: "Ngày phỏng vấn (không bắt buộc)",
   Strings.onboardingPickDate: "Chọn ngày",
   Strings.onboardingClearDate: "Xoá ngày",
@@ -213,7 +216,8 @@ Map<String, String> vietnamese = {
   Strings.hubStatAverage: "Điểm TB",
   Strings.hubStatMistakes: "Cần ôn",
   Strings.hubMistakesTitle: "Ôn lại câu sai",
-  Strings.hubMistakesEmpty: "Chưa có câu sai nào cần ôn. Làm vài bài để bắt đầu nhé!",
+  Strings.hubMistakesEmpty:
+      "Chưa có câu sai nào cần ôn. Làm vài bài để bắt đầu nhé!",
   Strings.hubMistakeCount: "%d câu cần ôn",
   Strings.hubReviewNow: "Ôn ngay",
   Strings.hubQuickTitle: "Luyện nhanh",
@@ -240,7 +244,8 @@ Map<String, String> vietnamese = {
   Strings.profileReset: "Xoá tiến độ luyện tập",
   Strings.profileResetHint: "Xoá lịch sử, XP, streak. Hồ sơ được giữ lại.",
   Strings.profileResetTitle: "Xoá toàn bộ tiến độ?",
-  Strings.profileResetMessage: "Lịch sử luyện tập, XP và streak sẽ bị xoá vĩnh viễn và không thể khôi phục.",
+  Strings.profileResetMessage:
+      "Lịch sử luyện tập, XP và streak sẽ bị xoá vĩnh viễn và không thể khôi phục.",
   Strings.profileResetConfirm: "Xoá",
   Strings.profileResetCancel: "Huỷ",
   Strings.profileResetDone: "Đã xoá tiến độ luyện tập",
@@ -271,7 +276,8 @@ Map<String, String> vietnamese = {
   Strings.editProfileSaved: "Đã lưu hồ sơ",
   Strings.retryTitle: "Bạn đã hoàn thành bộ câu hỏi này",
   Strings.retryMessage: "Bạn có muốn làm lại không?",
-  Strings.retryMessageScore: "Điểm lần gần nhất: %d%%. Bạn có muốn làm lại không?",
+  Strings.retryMessageScore:
+      "Điểm lần gần nhất: %d%%. Bạn có muốn làm lại không?",
   Strings.retryConfirm: "Làm lại",
   Strings.retryViewResult: "Xem kết quả",
   Strings.retryCancel: "Huỷ",
@@ -295,7 +301,21 @@ Map<String, String> vietnamese = {
   Strings.switcherAdd: "Thêm lộ trình",
   Strings.switcherRemove: "Xoá lộ trình",
   Strings.switcherRemoveTitle: "Xoá lộ trình này?",
-  Strings.switcherRemoveMessage: "Tiến độ luyện tập vẫn được giữ lại, bạn có thể thêm lại sau.",
+  Strings.switcherRemoveMessage:
+      "Tiến độ luyện tập vẫn được giữ lại, bạn có thể thêm lại sau.",
   Strings.switcherRemoveConfirm: "Xoá",
   Strings.switcherRemoveCancel: "Huỷ",
+  Strings.pickerModeLanguage: "Theo ngôn ngữ",
+  Strings.pickerModePosition: "Theo vị trí",
+  Strings.pickerPosition: "Vị trí",
+  Strings.pickerOption: "Nền tảng / ngôn ngữ chính",
+  Strings.pickerIncludes: "Gồm: %s",
+  Strings.positionMain: "Chính",
+  Strings.positionCore: "Kiến thức chung",
+  Strings.positionProgress: "Tiến độ tổng quan",
+  Strings.positionAnswered: "%d/%d câu",
+  Strings.positionMockTitle: "Thi thử %s",
+  Strings.positionMockSubtitle: "%d câu ngẫu nhiên từ mọi phần · %d phút",
+  Strings.positionTracks: "Các phần cần học",
+  Strings.trackBackToPosition: "Quay lại lộ trình",
 };

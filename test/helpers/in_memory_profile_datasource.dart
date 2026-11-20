@@ -1,7 +1,7 @@
 // Project imports:
-import 'package:AppName/features/profile/data/datasources/profile_local_datasource.dart';
-import 'package:AppName/features/profile/data/models/profile_json.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/features/profile/data/datasources/profile_local_datasource.dart';
+import 'package:interview_practice/features/profile/data/models/profile_json.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 
 /// Keeps the profile as a JSON map, so tests also exercise the mapping.
 class InMemoryProfileLocalDataSource implements ProfileLocalDataSource {

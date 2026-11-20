@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 // Project imports:
-import 'package:AppName/core/analytics/app_analytics.dart';
-import 'package:AppName/core/app/languages/service/service.dart';
-import 'package:AppName/core/injection/injection_container.dart';
-import 'package:AppName/core/utils/datasources/base_local_data.dart';
-import 'package:AppName/features/profile/domain/repositories/profile_repository.dart';
+import 'package:interview_practice/core/analytics/app_analytics.dart';
+import 'package:interview_practice/core/app/languages/service/service.dart';
+import 'package:interview_practice/core/injection/injection_container.dart';
+import 'package:interview_practice/core/utils/datasources/base_local_data.dart';
+import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
 
 class Application {
   /// [Production - Dev]

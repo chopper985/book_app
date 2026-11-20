@@ -14,6 +14,9 @@ class Routes {
   // Catalog: add a roadmap (full screen)
   static const String roadmapPickerRoute = '/roadmap-picker';
 
+  // One track of a position roadmap (full screen)
+  static const String trackRoadmapRoute = '/track/:trackId';
+
   // Practice (full screen, outside the tabs)
   static const String practiceRoute = '/practice/:setId';
   static const String resultRoute = '/result/:sessionId';

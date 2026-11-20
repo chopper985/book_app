@@ -5,9 +5,9 @@ import 'dart:math' as math;
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:AppName/features/content/domain/entities/quiz_set.dart';
-import 'package:AppName/features/content/domain/entities/track.dart';
-import 'package:AppName/features/practice/domain/entities/session_result.dart';
+import 'package:interview_practice/features/content/domain/entities/quiz_set.dart';
+import 'package:interview_practice/features/content/domain/entities/track.dart';
+import 'package:interview_practice/features/practice/domain/entities/session_result.dart';
 
 /// Questions of one set whose latest attempt was wrong or skipped.
 class MistakeGroup extends Equatable {

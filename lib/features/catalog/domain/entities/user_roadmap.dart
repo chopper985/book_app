@@ -2,26 +2,43 @@
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:AppName/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
 
-/// A roadmap the learner follows: one track up to one level. Picking Junior
-/// covers Fresher and Junior questions.
+/// A roadmap the learner follows up to one level (Junior covers Fresher and
+/// Junior questions). Either a language roadmap (one track) or a position
+/// roadmap (an option of a job position plus its core tracks).
 class UserRoadmap extends Equatable {
+  /// The track, or the main track of a position roadmap (for its icon).
   final String trackId;
   final QuestionLevel level;
   final DateTime addedAt;
+  final String? positionId;
+  final String? optionId;
 
   const UserRoadmap({
     required this.trackId,
     required this.level,
     required this.addedAt,
+    this.positionId,
+    this.optionId,
   });
 
-  /// One roadmap per track and level.
-  String get id => idOf(trackId, level);
+  bool get isPosition => positionId != null;
+
+  /// One roadmap per track (or position option) and level.
+  String get id => isPosition
+      ? positionIdOf(positionId!, optionId!, level)
+      : idOf(trackId, level);
 
   static String idOf(String trackId, QuestionLevel level) =>
       '$trackId:${level.name}';
+
+  static String positionIdOf(
+    String positionId,
+    String optionId,
+    QuestionLevel level,
+  ) =>
+      'position:$positionId:$optionId:${level.name}';
 
   /// Levels included, easiest first.
   List<QuestionLevel> get levels =>
@@ -31,5 +48,5 @@ class UserRoadmap extends Equatable {
       questionLevel.index <= level.index;
 
   @override
-  List<Object?> get props => [trackId, level, addedAt];
+  List<Object?> get props => [trackId, level, addedAt, positionId, optionId];
 }

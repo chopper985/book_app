@@ -5,18 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/injection/injection_container.dart';
-import 'package:AppName/core/navigator/app_router.dart';
-import 'package:AppName/core/utils/widgets/dev_header.dart';
-import 'package:AppName/features/catalog/presentation/cubit/roadmap_picker_cubit.dart';
-import 'package:AppName/features/catalog/presentation/cubit/roadmaps_cubit.dart';
-import 'package:AppName/features/catalog/presentation/cubit/track_detail_cubit.dart';
-import 'package:AppName/features/catalog/presentation/widgets/roadmap_picker_view.dart';
-import 'package:AppName/features/catalog/presentation/widgets/roadmap_switcher.dart';
-import 'package:AppName/features/catalog/presentation/widgets/track_detail_view.dart';
-import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/injection/injection_container.dart';
+import 'package:interview_practice/core/navigator/app_router.dart';
+import 'package:interview_practice/core/utils/widgets/dev_header.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/position_detail_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/roadmap_picker_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/roadmaps_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/track_detail_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/position_detail_view.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/roadmap_picker_view.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/roadmap_switcher.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/track_detail_view.dart';
+import 'package:interview_practice/features/profile/presentation/extensions/profile_labels.dart';
 
 /// "Lộ trình" tab: asks for a language and a level the first time, then shows
 /// the active roadmap (Figma 310:866) with a switcher to change or add one.
@@ -67,21 +69,28 @@ class _Content extends StatelessWidget {
     }
 
     final cubit = context.read<RoadmapsCubit>();
+    final switcher = RoadmapSwitcher(
+      active: active,
+      roadmaps: state.roadmaps,
+      tracks: state.tracks,
+      positions: state.positions,
+      onSelect: cubit.select,
+      onRemove: cubit.remove,
+      onAdd: () => const RoadmapPickerRoute().push<void>(context),
+    );
     // A new cubit per roadmap, so switching reloads the detail.
+    if (active.isPosition) {
+      return BlocProvider(
+        key: ValueKey(active.id),
+        create: (_) => getIt<PositionDetailCubit>()..load(active),
+        child: PositionDetailView(top: switcher),
+      );
+    }
     return BlocProvider(
       key: ValueKey(active.id),
       create: (_) => getIt<TrackDetailCubit>()
         ..load(active.trackId, maxLevel: active.level),
-      child: TrackDetailView(
-        top: RoadmapSwitcher(
-          active: active,
-          roadmaps: state.roadmaps,
-          tracks: state.tracks,
-          onSelect: cubit.select,
-          onRemove: cubit.remove,
-          onAdd: () => const RoadmapPickerRoute().push<void>(context),
-        ),
-      ),
+      child: TrackDetailView(top: switcher),
     );
   }
 }

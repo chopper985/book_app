@@ -1,6 +1,6 @@
 // Project imports:
-import 'package:AppName/features/catalog/domain/entities/user_roadmap.dart';
-import 'package:AppName/features/content/domain/entities/question.dart';
+import 'package:interview_practice/features/catalog/domain/entities/user_roadmap.dart';
+import 'package:interview_practice/features/content/domain/entities/question.dart';
 
 abstract class UserRoadmapsRepository {
   /// Most recently added first.
@@ -11,6 +11,14 @@ abstract class UserRoadmapsRepository {
 
   /// Adds the roadmap (or reuses the same track + level) and makes it active.
   Future<UserRoadmap> add(String trackId, QuestionLevel level);
+
+  /// Same for a position option; [mainTrackId] is shown as its icon.
+  Future<UserRoadmap> addPosition({
+    required String positionId,
+    required String optionId,
+    required String mainTrackId,
+    required QuestionLevel level,
+  });
 
   Future<void> select(String roadmapId);
 

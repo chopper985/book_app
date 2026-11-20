@@ -6,18 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i18n_extension/i18n_extension.dart' show I18n;
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/languages/service/model.dart';
-import 'package:AppName/core/app/languages/service/service.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/navigator/app_router.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/dev_header.dart';
-import 'package:AppName/features/profile/presentation/cubit/profile_cubit.dart';
-import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
-import 'package:AppName/features/profile/presentation/widgets/choice_tile.dart';
-import 'package:AppName/features/profile/presentation/widgets/profile_sections.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/languages/service/model.dart';
+import 'package:interview_practice/core/app/languages/service/service.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/navigator/app_router.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/dev_header.dart';
+import 'package:interview_practice/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:interview_practice/features/profile/presentation/extensions/profile_labels.dart';
+import 'package:interview_practice/features/profile/presentation/widgets/choice_tile.dart';
+import 'package:interview_practice/features/profile/presentation/widgets/profile_sections.dart';
 
 /// Profile tab: profile card, statistics, roadmaps and settings.
 class ProfileScreen extends StatelessWidget {

@@ -2,16 +2,16 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:AppName/core/app/colors/app_palette.dart';
-import 'package:AppName/core/app/languages/data/localization.dart';
-import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/utils/sizer/design_size.dart';
-import 'package:AppName/core/utils/widgets/app_badge.dart';
-import 'package:AppName/core/utils/widgets/app_progress_bar.dart';
-import 'package:AppName/core/utils/widgets/app_svg.dart';
-import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
-import 'package:AppName/features/catalog/presentation/widgets/track_style.dart';
-import 'package:AppName/gen/assets.gen.dart';
+import 'package:interview_practice/core/app/colors/app_palette.dart';
+import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/core/app/themes/data/app_text.dart';
+import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/app_badge.dart';
+import 'package:interview_practice/core/utils/widgets/app_progress_bar.dart';
+import 'package:interview_practice/core/utils/widgets/app_svg.dart';
+import 'package:interview_practice/features/catalog/domain/entities/explore_dashboard.dart';
+import 'package:interview_practice/gen/assets.gen.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/track_logo.dart';
 
 /// Hero panel "Continue practice" (Technical Slate Panel).
 class ContinuePracticeCard extends StatelessWidget {
@@ -33,7 +33,6 @@ class ContinuePracticeCard extends StatelessWidget {
     final totalQuestions = session.totalQuestions;
     final ratio =
         totalQuestions == 0 ? 0.0 : session.answeredCount / totalQuestions;
-    final style = TrackStyle.of(session.trackId);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8.dsp),
@@ -149,11 +148,7 @@ class ContinuePracticeCard extends StatelessWidget {
                           color: AppPalette.surfaceHighest,
                           borderRadius: BorderRadius.circular(8.dsp),
                         ),
-                        child: AppSvg(
-                          style.icon,
-                          width: style.iconSize.width,
-                          height: style.iconSize.height,
-                        ),
+                        child: TrackLogo(trackId: session.trackId),
                       ),
                     ],
                   ),

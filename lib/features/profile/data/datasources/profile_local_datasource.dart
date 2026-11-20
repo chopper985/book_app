@@ -9,9 +9,9 @@ import 'package:hive_ce/hive.dart';
 import 'package:injectable/injectable.dart';
 
 // Project imports:
-import 'package:AppName/core/constants/storage_key.dart';
-import 'package:AppName/features/profile/data/models/profile_json.dart';
-import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
+import 'package:interview_practice/core/constants/storage_key.dart';
+import 'package:interview_practice/features/profile/data/models/profile_json.dart';
+import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 
 abstract class ProfileLocalDataSource {
   LearnerProfile? read();

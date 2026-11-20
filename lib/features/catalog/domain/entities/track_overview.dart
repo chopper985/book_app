@@ -2,7 +2,7 @@
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:AppName/features/content/domain/entities/track.dart';
+import 'package:interview_practice/features/content/domain/entities/track.dart';
 
 class TrackOverview extends Equatable {
   final Track track;

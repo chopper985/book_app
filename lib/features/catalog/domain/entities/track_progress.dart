@@ -2,8 +2,8 @@
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:AppName/features/catalog/domain/entities/track_learning.dart';
-import 'package:AppName/features/content/domain/entities/track.dart';
+import 'package:interview_practice/features/catalog/domain/entities/track_learning.dart';
+import 'package:interview_practice/features/content/domain/entities/track.dart';
 
 enum TopicStatus { almostDone, learning, needsReview, lowPractice }
 
