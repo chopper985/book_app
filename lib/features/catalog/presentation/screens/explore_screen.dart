@@ -74,9 +74,8 @@ class _ExploreBody extends StatelessWidget {
                   title: continueTrack.track.name.text,
                   subtitle: continueTrack.track.tagline?.text ?? '',
                   totalQuestions: continueTrack.questionCount,
-                  onContinue: () =>
-                      PracticeRoute(setId: continueSession.setId)
-                          .push<void>(context),
+                  onContinue: () => PracticeRoute(setId: continueSession.setId)
+                      .push<void>(context),
                 ),
               ],
               SizedBox(height: 24.dsp),
@@ -87,8 +86,8 @@ class _ExploreBody extends StatelessWidget {
                   title: challenge.title,
                   rewardXp: challenge.rewardXp,
                   streakDays: learner.streakDays,
-                  onSolve: () => PracticeRoute(setId: challenge.setId)
-                      .push<void>(context),
+                  onSolve: () =>
+                      PracticeRoute(setId: challenge.setId).push<void>(context),
                 ),
               ],
             ],

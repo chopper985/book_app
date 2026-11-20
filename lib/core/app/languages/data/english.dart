@@ -26,7 +26,8 @@ Map<String, String> english = {
   Strings.trackNotFound: "Track not found",
   Strings.retry: "Retry",
   Strings.contentInvalidTitle: "Content data is invalid",
-  Strings.contentInvalidMessage: "Found %d problems. Fix the data and run again.",
+  Strings.contentInvalidMessage:
+      "Found %d problems. Fix the data and run again.",
   Strings.issueMissingFile: "Missing file",
   Strings.issueInvalidFormat: "Invalid format: %s",
   Strings.issueDuplicateId: "Duplicate id: %s",
@@ -83,15 +84,21 @@ Map<String, String> english = {
   Strings.practiceSelected: "[SELECTED]",
   Strings.practiceFlag: "Flag for review",
   Strings.practiceTipLabel: "Tip: ",
-  Strings.practiceTipMultipleChoice: "Rule out the clearly wrong answers first, then compare the rest carefully.",
-  Strings.practiceTipOutputPrediction: "Trace the code line by line and note the order in which each statement runs.",
-  Strings.practiceTipFindBug: "Watch the edge cases: null, empty lists, async gaps and object lifecycles.",
-  Strings.practiceTipSelfExplain: "Answer as if talking to an interviewer: definition, example, then trade-offs.",
-  Strings.practiceSelfExplainHint: "This question has no options. Answer out loud or in your head; after submitting you will compare with the key points.",
+  Strings.practiceTipMultipleChoice:
+      "Rule out the clearly wrong answers first, then compare the rest carefully.",
+  Strings.practiceTipOutputPrediction:
+      "Trace the code line by line and note the order in which each statement runs.",
+  Strings.practiceTipFindBug:
+      "Watch the edge cases: null, empty lists, async gaps and object lifecycles.",
+  Strings.practiceTipSelfExplain:
+      "Answer as if talking to an interviewer: definition, example, then trade-offs.",
+  Strings.practiceSelfExplainHint:
+      "This question has no options. Answer out loud or in your head; after submitting you will compare with the key points.",
   Strings.practiceNext: "Next question",
   Strings.practiceSubmit: "Submit",
   Strings.practiceLeaveTitle: "Leave this session?",
-  Strings.practiceLeaveMessage: "Your answers are kept, you can come back and continue later.",
+  Strings.practiceLeaveMessage:
+      "Your answers are kept, you can come back and continue later.",
   Strings.practiceLeaveConfirm: "Leave",
   Strings.practiceLeaveCancel: "Stay",
   Strings.practiceNotFound: "This quiz set was not found",
@@ -124,7 +131,8 @@ Map<String, String> english = {
   Strings.resultCodeLabel: "Snippet",
   Strings.resultInsightTitle: "INTERVIEWER'S VIEW",
   Strings.resultNoMistakesTitle: "No mistakes!",
-  Strings.resultNoMistakesBody: "You got every graded question right. Try a harder set.",
+  Strings.resultNoMistakesBody:
+      "You got every graded question right. Try a harder set.",
   Strings.resultSelfCheckTitle: "Self-check",
   Strings.resultSelfCheckNote: "Not scored",
   Strings.resultKeyPointsProgress: "Covered %d/%d key points",

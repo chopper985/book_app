@@ -33,7 +33,7 @@ class ResultOverviewCard extends StatelessWidget {
           color: AppPalette.surfaceContainer,
           boxShadow: [
             BoxShadow(
-                color: Color(0x0D000000),
+              color: Color(0x0D000000),
               blurRadius: 2,
               offset: Offset(0, 1),
             ),

@@ -31,8 +31,9 @@ class CatalogRepositoryImpl implements CatalogRepository {
     if (catalog == null) return Result.failure(result.error!);
 
     return Result.success([
-      for (final track in [...catalog.tracks]
-        ..sort((a, b) => a.order.compareTo(b.order)))
+      for (final track in [
+        ...catalog.tracks
+      ]..sort((a, b) => a.order.compareTo(b.order)))
         TrackOverview(
           track: track,
           setCount: catalog.setsOfTrack(track.id).length,

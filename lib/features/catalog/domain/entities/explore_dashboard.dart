@@ -21,8 +21,7 @@ class LearnerSummary extends Equatable {
   });
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         displayName,
         roleLabel,
         levelLabel,

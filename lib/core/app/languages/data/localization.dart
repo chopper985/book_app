@@ -80,7 +80,8 @@ class Strings {
   static const String practiceSessionTitle = "practiceSessionTitle";
   static const String practiceQuestionCounter = "practiceQuestionCounter";
   static const String practiceTypeMultipleChoice = "practiceTypeMultipleChoice";
-  static const String practiceTypeOutputPrediction = "practiceTypeOutputPrediction";
+  static const String practiceTypeOutputPrediction =
+      "practiceTypeOutputPrediction";
   static const String practiceTypeFindBug = "practiceTypeFindBug";
   static const String practiceTypeSelfExplain = "practiceTypeSelfExplain";
   static const String practiceDifficulty = "practiceDifficulty";
@@ -88,7 +89,8 @@ class Strings {
   static const String practiceFlag = "practiceFlag";
   static const String practiceTipLabel = "practiceTipLabel";
   static const String practiceTipMultipleChoice = "practiceTipMultipleChoice";
-  static const String practiceTipOutputPrediction = "practiceTipOutputPrediction";
+  static const String practiceTipOutputPrediction =
+      "practiceTipOutputPrediction";
   static const String practiceTipFindBug = "practiceTipFindBug";
   static const String practiceTipSelfExplain = "practiceTipSelfExplain";
   static const String practiceSelfExplainHint = "practiceSelfExplainHint";

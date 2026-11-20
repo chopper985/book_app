@@ -26,7 +26,8 @@ class DevHeader extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppPalette.surfaceLowest.withValues(alpha: 0.8),
         boxShadow: const [
-          BoxShadow(color: Color(0x40000000), blurRadius: 8, offset: Offset(0, 1)),
+          BoxShadow(
+              color: Color(0x40000000), blurRadius: 8, offset: Offset(0, 1)),
         ],
       ),
       child: SafeArea(

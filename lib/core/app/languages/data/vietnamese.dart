@@ -61,7 +61,8 @@ Map<String, String> vietnamese = {
   Strings.answeredOfTotal: "%d / %d câu hỏi",
   Strings.continuePractice: "Tiếp tục luyện tập",
   Strings.roadmapsTitle: "Lộ trình phỏng vấn trọng điểm",
-  Strings.roadmapsSubtitle: "Bộ đề tuyển dụng thực chiến được cập nhật hàng tuần",
+  Strings.roadmapsSubtitle:
+      "Bộ đề tuyển dụng thực chiến được cập nhật hàng tuần",
   Strings.seeAll: "Tất cả",
   Strings.allCount: "Toàn bộ (%d)",
   Strings.categoryMobile: "Mobile Dev",
@@ -83,15 +84,21 @@ Map<String, String> vietnamese = {
   Strings.practiceSelected: "[ĐÃ CHỌN]",
   Strings.practiceFlag: "Đánh dấu xem lại",
   Strings.practiceTipLabel: "Gợi ý: ",
-  Strings.practiceTipMultipleChoice: "Loại trừ các đáp án chắc chắn sai trước, rồi so sánh kỹ những đáp án còn lại.",
-  Strings.practiceTipOutputPrediction: "Chạy từng dòng code trong đầu và ghi lại thứ tự từng lệnh được thực thi.",
-  Strings.practiceTipFindBug: "Chú ý các trường hợp biên: null, danh sách rỗng, bất đồng bộ và vòng đời đối tượng.",
-  Strings.practiceTipSelfExplain: "Trả lời như đang nói với người phỏng vấn: định nghĩa, ví dụ, rồi đánh đổi.",
-  Strings.practiceSelfExplainHint: "Câu này không có đáp án để chọn. Hãy trả lời thành tiếng hoặc trong đầu, sau khi nộp bài bạn sẽ so sánh với các ý chính.",
+  Strings.practiceTipMultipleChoice:
+      "Loại trừ các đáp án chắc chắn sai trước, rồi so sánh kỹ những đáp án còn lại.",
+  Strings.practiceTipOutputPrediction:
+      "Chạy từng dòng code trong đầu và ghi lại thứ tự từng lệnh được thực thi.",
+  Strings.practiceTipFindBug:
+      "Chú ý các trường hợp biên: null, danh sách rỗng, bất đồng bộ và vòng đời đối tượng.",
+  Strings.practiceTipSelfExplain:
+      "Trả lời như đang nói với người phỏng vấn: định nghĩa, ví dụ, rồi đánh đổi.",
+  Strings.practiceSelfExplainHint:
+      "Câu này không có đáp án để chọn. Hãy trả lời thành tiếng hoặc trong đầu, sau khi nộp bài bạn sẽ so sánh với các ý chính.",
   Strings.practiceNext: "Câu tiếp theo",
   Strings.practiceSubmit: "Nộp bài",
   Strings.practiceLeaveTitle: "Rời khỏi bài làm?",
-  Strings.practiceLeaveMessage: "Câu trả lời của bạn vẫn được giữ lại, bạn có thể quay lại làm tiếp sau.",
+  Strings.practiceLeaveMessage:
+      "Câu trả lời của bạn vẫn được giữ lại, bạn có thể quay lại làm tiếp sau.",
   Strings.practiceLeaveConfirm: "Rời đi",
   Strings.practiceLeaveCancel: "Ở lại",
   Strings.practiceNotFound: "Không tìm thấy bộ đề này",
@@ -124,7 +131,8 @@ Map<String, String> vietnamese = {
   Strings.resultCodeLabel: "Đoạn code",
   Strings.resultInsightTitle: "GÓC NHÌN NHÀ TUYỂN DỤNG",
   Strings.resultNoMistakesTitle: "Không có câu sai nào!",
-  Strings.resultNoMistakesBody: "Bạn trả lời đúng mọi câu được chấm điểm. Thử một bộ đề khó hơn nhé.",
+  Strings.resultNoMistakesBody:
+      "Bạn trả lời đúng mọi câu được chấm điểm. Thử một bộ đề khó hơn nhé.",
   Strings.resultSelfCheckTitle: "Tự đánh giá",
   Strings.resultSelfCheckNote: "Không tính điểm",
   Strings.resultKeyPointsProgress: "Đã nắm %d/%d ý chính",

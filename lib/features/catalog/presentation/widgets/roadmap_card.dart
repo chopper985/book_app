@@ -111,9 +111,7 @@ class RoadmapCard extends StatelessWidget {
                     ),
                     SizedBox(width: 8.dsp),
                     Text(
-                      track.isAvailable
-                          ? '${(completion * 100).round()}%'
-                          : '',
+                      track.isAvailable ? '${(completion * 100).round()}%' : '',
                       style: AppText.mono(
                         11,
                         height: 16,

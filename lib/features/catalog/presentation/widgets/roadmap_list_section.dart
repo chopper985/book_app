@@ -94,8 +94,7 @@ class RoadmapListSection extends StatelessWidget {
         for (final overview in state.visibleTracks) ...[
           RoadmapCard(
             overview: overview,
-            completion:
-                state.dashboard.trackCompletion[overview.track.id] ?? 0,
+            completion: state.dashboard.trackCompletion[overview.track.id] ?? 0,
             onTap: () {
               if (overview.track.isAvailable) {
                 TrackDetailRoute(trackId: overview.track.id).go(context);
@@ -178,9 +177,8 @@ class _CategoryPill extends StatelessWidget {
               10,
               height: 14,
               weight: selected ? FontWeight.w500 : FontWeight.w600,
-              color: selected
-                  ? AppPalette.onSurface
-                  : AppPalette.onSurfaceVariant,
+              color:
+                  selected ? AppPalette.onSurface : AppPalette.onSurfaceVariant,
             ),
           ),
         ),

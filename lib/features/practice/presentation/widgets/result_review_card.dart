@@ -225,7 +225,8 @@ class _ReviewCardFrame extends StatelessWidget {
         color: AppPalette.surfaceContainer,
         borderRadius: BorderRadius.circular(8.dsp),
         boxShadow: const [
-          BoxShadow(color: Color(0x0D000000), blurRadius: 1, offset: Offset(0, 1)),
+          BoxShadow(
+              color: Color(0x0D000000), blurRadius: 1, offset: Offset(0, 1)),
         ],
       ),
       child: Column(
@@ -446,9 +447,8 @@ class _KeyPointRow extends StatelessWidget {
                   color: checked ? AppPalette.teal : Colors.transparent,
                   borderRadius: BorderRadius.circular(4.dsp),
                   border: Border.all(
-                    color: checked
-                        ? AppPalette.teal
-                        : AppPalette.onSurfaceVariant,
+                    color:
+                        checked ? AppPalette.teal : AppPalette.onSurfaceVariant,
                     width: 1.5,
                   ),
                 ),

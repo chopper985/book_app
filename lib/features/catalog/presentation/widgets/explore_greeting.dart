@@ -44,7 +44,8 @@ class ExploreGreeting extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.dsp, vertical: 4.dsp),
+              padding:
+                  EdgeInsets.symmetric(horizontal: 10.dsp, vertical: 4.dsp),
               decoration: BoxDecoration(
                 color: AppPalette.surfaceHigh,
                 borderRadius: BorderRadius.circular(8.dsp),
