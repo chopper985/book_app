@@ -27,6 +27,24 @@ class Strings {
   static const String levelJunior = "levelJunior";
   static const String levelNumber = "levelNumber";
 
+  // Explore & roadmaps tabs
+  static const String exploreMyTracks = "exploreMyTracks";
+  static const String exploreMyTracksSubtitle = "exploreMyTracksSubtitle";
+  static const String roadmapsLibraryTitle = "roadmapsLibraryTitle";
+  static const String roadmapsLibrarySubtitle = "roadmapsLibrarySubtitle";
+  static const String roadmapsSearchHint = "roadmapsSearchHint";
+  static const String roadmapsSaved = "roadmapsSaved";
+  static const String roadmapsNoResult = "roadmapsNoResult";
+  static const String roadmapsClearSearch = "roadmapsClearSearch";
+
+  // Retry a completed set
+  static const String retryTitle = "retryTitle";
+  static const String retryMessage = "retryMessage";
+  static const String retryMessageScore = "retryMessageScore";
+  static const String retryConfirm = "retryConfirm";
+  static const String retryViewResult = "retryViewResult";
+  static const String retryCancel = "retryCancel";
+
   // Practice tab
   static const String hubTitle = "hubTitle";
   static const String hubSubtitle = "hubSubtitle";
@@ -83,9 +101,6 @@ class Strings {
   static const String profilePracticed = "profilePracticed";
   static const String profilePracticedValue = "profilePracticedValue";
   static const String profileAccuracy = "profileAccuracy";
-  static const String profileTracksTitle = "profileTracksTitle";
-  static const String profileSavedTitle = "profileSavedTitle";
-  static const String profileSavedEmpty = "profileSavedEmpty";
   static const String profileSettingsTitle = "profileSettingsTitle";
   static const String profileLanguage = "profileLanguage";
   static const String profileReset = "profileReset";

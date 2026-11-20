@@ -11,7 +11,6 @@ import 'package:AppName/core/analytics/app_analytics.dart';
 import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
 import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
-import 'package:AppName/features/catalog/domain/usecase/saved_tracks.dart';
 import 'package:AppName/features/practice/domain/usecase/practice_usecases.dart';
 import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
 import 'package:AppName/features/profile/domain/usecase/profile_usecases.dart';
@@ -24,7 +23,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   final GetAvatarPath _getAvatarPath;
   final GetExploreDashboard _getDashboard;
   final GetTracks _getTracks;
-  final GetSavedTrackIds _getSavedTrackIds;
   final ClearPracticeHistory _clearPracticeHistory;
   final AppAnalytics _analytics;
   late final StreamSubscription<void> _subscription;
@@ -34,7 +32,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     this._getAvatarPath,
     this._getDashboard,
     this._getTracks,
-    this._getSavedTrackIds,
     this._clearPracticeHistory,
     WatchProgress watchProgress, {
     AppAnalytics analytics = const NoopAppAnalytics(),
@@ -58,18 +55,6 @@ class ProfileCubit extends Cubit<ProfileState> {
         learner: dashboard.learner,
         stack: [
           for (final id in profile?.techStack ?? const <String>[])
-            if (byId[id] case final overview?) overview,
-        ],
-        tracks: [
-          for (final overview in tracks)
-            if (overview.track.isAvailable)
-              TrackCompletion(
-                overview,
-                dashboard.trackCompletion[overview.track.id] ?? 0,
-              ),
-        ],
-        savedTracks: [
-          for (final id in _getSavedTrackIds())
             if (byId[id] case final overview?) overview,
         ],
       ),

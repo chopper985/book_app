@@ -13,15 +13,16 @@ final class ExploreLoading extends ExploreState {
 
 final class ExploreLoaded extends ExploreState {
   final List<TrackOverview> tracks;
-  final List<TrackOverview> visibleTracks;
+
+  /// Tracks of the learner's tech stack in pick order; the available tracks
+  /// when the stack matches none.
+  final List<TrackOverview> myTracks;
   final ExploreDashboard dashboard;
-  final String? category;
 
   const ExploreLoaded({
     required this.tracks,
-    required this.visibleTracks,
+    required this.myTracks,
     required this.dashboard,
-    this.category,
   });
 
   TrackOverview? trackById(String id) {
@@ -32,7 +33,7 @@ final class ExploreLoaded extends ExploreState {
   }
 
   @override
-  List<Object?> get props => [tracks, visibleTracks, dashboard, category];
+  List<Object?> get props => [tracks, myTracks, dashboard];
 }
 
 final class ExploreInvalidContent extends ExploreState {

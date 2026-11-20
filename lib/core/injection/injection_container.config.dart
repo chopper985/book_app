@@ -29,6 +29,7 @@ import '../../features/catalog/domain/usecase/get_explore_data.dart' as _i4;
 import '../../features/catalog/domain/usecase/get_track_detail.dart' as _i875;
 import '../../features/catalog/domain/usecase/saved_tracks.dart' as _i385;
 import '../../features/catalog/presentation/cubit/explore_cubit.dart' as _i978;
+import '../../features/catalog/presentation/cubit/roadmaps_cubit.dart' as _i152;
 import '../../features/catalog/presentation/cubit/track_detail_cubit.dart'
     as _i805;
 import '../../features/content/data/datasources/content_asset_datasource.dart'
@@ -44,6 +45,8 @@ import '../../features/practice/data/repositories/practice_repository_impl.dart'
     as _i862;
 import '../../features/practice/domain/repositories/practice_repository.dart'
     as _i980;
+import '../../features/practice/domain/usecase/find_completed_result.dart'
+    as _i414;
 import '../../features/practice/domain/usecase/get_practice_hub.dart' as _i1036;
 import '../../features/practice/domain/usecase/practice_usecases.dart' as _i673;
 import '../../features/practice/presentation/cubit/practice_cubit.dart'
@@ -148,6 +151,10 @@ _i174.GetIt $initGetIt(
         gh<_i673.SubmitPractice>(),
         analytics: gh<_i1033.AppAnalytics>(),
       ));
+  gh.factory<_i414.FindCompletedResult>(() => _i414.FindCompletedResult(
+        gh<_i1027.ContentRepository>(),
+        gh<_i980.PracticeRepository>(),
+      ));
   gh.factory<_i36.ResultCubit>(
       () => _i36.ResultCubit(gh<_i673.GetPracticeResult>()));
   gh.factory<_i852.GetProfile>(
@@ -185,6 +192,7 @@ _i174.GetIt $initGetIt(
   gh.factory<_i978.ExploreCubit>(() => _i978.ExploreCubit(
         gh<_i4.GetTracks>(),
         gh<_i4.GetExploreDashboard>(),
+        gh<_i852.GetProfile>(),
         gh<_i4.WatchProgress>(),
       ));
   gh.factory<_i934.OnboardingCubit>(() => _i934.OnboardingCubit(
@@ -192,12 +200,17 @@ _i174.GetIt $initGetIt(
         gh<_i852.SaveProfile>(),
         analytics: gh<_i1033.AppAnalytics>(),
       ));
+  gh.factory<_i152.RoadmapsCubit>(() => _i152.RoadmapsCubit(
+        gh<_i4.GetTracks>(),
+        gh<_i4.GetExploreDashboard>(),
+        gh<_i385.GetSavedTrackIds>(),
+        gh<_i4.WatchProgress>(),
+      ));
   gh.factory<_i37.ProfileCubit>(() => _i37.ProfileCubit(
         gh<_i852.GetProfile>(),
         gh<_i852.GetAvatarPath>(),
         gh<_i4.GetExploreDashboard>(),
         gh<_i4.GetTracks>(),
-        gh<_i385.GetSavedTrackIds>(),
         gh<_i673.ClearPracticeHistory>(),
         gh<_i4.WatchProgress>(),
         analytics: gh<_i1033.AppAnalytics>(),

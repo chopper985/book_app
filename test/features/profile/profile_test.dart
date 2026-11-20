@@ -10,9 +10,6 @@ import 'package:sizer/sizer.dart';
 // Project imports:
 import 'package:AppName/core/app/languages/data/localization.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
-import 'package:AppName/features/catalog/domain/usecase/get_track_detail.dart';
-import 'package:AppName/features/catalog/domain/usecase/saved_tracks.dart';
-import 'package:AppName/features/catalog/presentation/cubit/track_detail_cubit.dart';
 import 'package:AppName/features/practice/domain/usecase/practice_usecases.dart';
 import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart';
 import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
@@ -42,7 +39,6 @@ void main() {
         GetAvatarPath(graph.profiles),
         GetExploreDashboard(graph.catalog),
         GetTracks(graph.catalog),
-        GetSavedTrackIds(graph.saved),
         ClearPracticeHistory(graph.practice),
         WatchProgress(graph.catalog),
       );
@@ -60,7 +56,7 @@ void main() {
     await cubit.close();
   }
 
-  test('loads stack in pick order, available tracks and completion', () async {
+  test('loads the stack in pick order and learner stats', () async {
     await playOneSession();
     final cubit = newProfileCubit();
     await cubit.load();
@@ -68,43 +64,9 @@ void main() {
     final state = cubit.state as ProfileLoaded;
     expect(state.profile?.displayName, 'Lan');
     expect(state.stack.map((t) => t.track.id), ['go', 'dart']);
-    expect(
-      state.tracks.map((t) => t.overview.track.id),
-      ['dart'],
-      reason: 'go is not available',
-    );
-    // dart.q1 correct + dart.q2 self-check: both questions answered.
-    expect(state.tracks.single.completion, 1);
+    // dart.q1 correct (10) + dart.q2 self-check (5).
     expect(state.learner.xp, 15);
     await cubit.close();
-  });
-
-  test('bookmarks persist and show on profile and track detail', () async {
-    final detail = TrackDetailCubit(
-      GetTrackDetail(graph.catalog),
-      ToggleSavedTrack(graph.saved),
-      WatchProgress(graph.catalog),
-    );
-    await detail.load('dart');
-    expect((detail.state as TrackDetailLoaded).detail.learning.isSaved, false);
-
-    await detail.toggleSaved();
-    await Future<void>.delayed(Duration.zero);
-    expect((detail.state as TrackDetailLoaded).detail.learning.isSaved, true);
-    expect(graph.savedLocal.ids, ['dart']);
-
-    final profile = newProfileCubit();
-    await profile.load();
-    expect(
-      (profile.state as ProfileLoaded).savedTracks.map((t) => t.track.id),
-      ['dart'],
-    );
-
-    await detail.toggleSaved();
-    await Future<void>.delayed(Duration.zero);
-    expect((profile.state as ProfileLoaded).savedTracks, isEmpty);
-    await detail.close();
-    await profile.close();
   });
 
   test('reset clears history but keeps the profile', () async {

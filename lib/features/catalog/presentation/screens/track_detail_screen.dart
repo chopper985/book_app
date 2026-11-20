@@ -22,6 +22,7 @@ import 'package:AppName/features/catalog/presentation/widgets/track_hero_card.da
 import 'package:AppName/features/catalog/presentation/widgets/track_quick_actions.dart';
 import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:AppName/features/content/presentation/widgets/content_issue_view.dart';
+import 'package:AppName/features/practice/presentation/helpers/practice_launcher.dart';
 import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
 import 'package:AppName/gen/assets.gen.dart';
 
@@ -63,11 +64,21 @@ void _back(BuildContext context) {
   }
 }
 
+/// Random quick practice: always a fresh session.
 void _start(BuildContext context, PracticeTarget target) {
   PracticeRoute(
     setId: target.setId,
     only: target.onlyQuestionIds?.join(','),
   ).push<void>(context);
+}
+
+/// Timed mock and topic practice: asks before redoing a completed one.
+void _startOrConfirm(BuildContext context, PracticeTarget target) {
+  openPractice(
+    context,
+    setId: target.setId,
+    onlyQuestionIds: target.onlyQuestionIds,
+  );
 }
 
 class _Fallback extends StatelessWidget {
@@ -145,7 +156,7 @@ class _TrackDetailBody extends StatelessWidget {
                 TimedMockCard(
                   durationMinutes: timed.set.durationMinutes!,
                   questionCount: timed.questionCount,
-                  onStart: () => _start(
+                  onStart: () => _startOrConfirm(
                     context,
                     PracticeTarget(setId: timed.set.id),
                   ),
@@ -161,8 +172,9 @@ class _TrackDetailBody extends StatelessWidget {
                     return TopicModuleCard(
                       index: index + 1,
                       progress: topic,
-                      onPractice:
-                          target == null ? null : () => _start(context, target),
+                      onPractice: target == null
+                          ? null
+                          : () => _startOrConfirm(context, target),
                     );
                   },
                 ),

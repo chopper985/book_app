@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
+import 'package:AppName/core/app/languages/data/localization.dart';
 import 'package:AppName/core/navigator/app_router.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/dev_header.dart';
@@ -15,6 +16,7 @@ import 'package:AppName/features/catalog/presentation/widgets/explore_greeting.d
 import 'package:AppName/features/catalog/presentation/widgets/roadmap_list_section.dart';
 import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:AppName/features/content/presentation/widgets/content_issue_view.dart';
+import 'package:AppName/features/practice/presentation/helpers/practice_launcher.dart';
 import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
 
 class ExploreScreen extends StatelessWidget {
@@ -81,7 +83,16 @@ class _ExploreBody extends StatelessWidget {
                 ),
               ],
               SizedBox(height: 24.dsp),
-              RoadmapListSection(state: state),
+              RoadmapSectionHeader(
+                title: Strings.exploreMyTracks.i18n,
+                subtitle: Strings.exploreMyTracksSubtitle.i18n,
+                onSeeAll: () => const RoadmapsRoute().go(context),
+              ),
+              SizedBox(height: 12.dsp),
+              RoadmapCardList(
+                tracks: state.myTracks,
+                completion: dashboard.trackCompletion,
+              ),
               if (challenge != null) ...[
                 SizedBox(height: 16.dsp),
                 DailyChallengeCard(
@@ -89,7 +100,7 @@ class _ExploreBody extends StatelessWidget {
                   rewardXp: challenge.rewardXp,
                   streakDays: learner.streakDays,
                   onSolve: () =>
-                      PracticeRoute(setId: challenge.setId).push<void>(context),
+                      openPractice(context, setId: challenge.setId),
                 ),
               ],
             ],

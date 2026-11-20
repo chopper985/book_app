@@ -1,9 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 // Project imports:
 import 'package:AppName/core/app/colors/app_palette.dart';
 import 'package:AppName/core/app/languages/data/localization.dart';
@@ -11,19 +8,72 @@ import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/navigator/app_router.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
-import 'package:AppName/features/catalog/presentation/cubit/explore_cubit.dart';
+import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
 import 'package:AppName/features/catalog/presentation/widgets/roadmap_card.dart';
 import 'package:AppName/gen/assets.gen.dart';
 
-/// "Lộ trình phỏng vấn trọng điểm": header, category pills and track cards.
-class RoadmapListSection extends StatelessWidget {
-  final ExploreLoaded state;
-  final bool showSeeAll;
+/// Section title with an optional subtitle and "See all" button.
+class RoadmapSectionHeader extends StatelessWidget {
+  final String title;
+  final String? subtitle;
+  final VoidCallback? onSeeAll;
 
-  const RoadmapListSection({
+  const RoadmapSectionHeader({
     super.key,
-    required this.state,
-    this.showSeeAll = true,
+    required this.title,
+    this.subtitle,
+    this.onSeeAll,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: AppText.sans(
+                  16,
+                  height: 24,
+                  weight: FontWeight.w600,
+                  letterSpacing: -0.4,
+                ),
+              ),
+              if (subtitle != null)
+                Text(
+                  subtitle!,
+                  style: AppText.sans(
+                    12,
+                    height: 18,
+                    color: AppPalette.onSurfaceVariant,
+                  ),
+                ),
+            ],
+          ),
+        ),
+        if (onSeeAll != null) ...[
+          SizedBox(width: 8.dsp),
+          _SeeAllButton(onTap: onSeeAll!),
+        ],
+      ],
+    );
+  }
+}
+
+/// Horizontal category filter; `null` is "All".
+class RoadmapCategoryPills extends StatelessWidget {
+  final int totalCount;
+  final String? selected;
+  final ValueChanged<String?> onSelect;
+
+  const RoadmapCategoryPills({
+    super.key,
+    required this.totalCount,
+    required this.selected,
+    required this.onSelect,
   });
 
   static const List<(String?, String)> _categories = [
@@ -36,65 +86,47 @@ class RoadmapListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<ExploreCubit>();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    Strings.roadmapsTitle.i18n,
-                    style: AppText.sans(
-                      16,
-                      height: 24,
-                      weight: FontWeight.w600,
-                      letterSpacing: -0.4,
-                    ),
-                  ),
-                  Text(
-                    Strings.roadmapsSubtitle.i18n,
-                    style: AppText.sans(
-                      12,
-                      height: 18,
-                      color: AppPalette.onSurfaceVariant,
-                    ),
-                  ),
-                ],
-              ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          for (final (category, label) in _categories) ...[
+            _CategoryPill(
+              label: category == null
+                  ? label.i18n.fill([totalCount])
+                  : label.i18n,
+              selected: selected == category,
+              onTap: () => onSelect(category),
             ),
-            if (showSeeAll) ...[
-              SizedBox(width: 8.dsp),
-              _SeeAllButton(onTap: () => const RoadmapsRoute().go(context)),
-            ],
+            SizedBox(width: 4.dsp),
           ],
-        ),
-        SizedBox(height: 16.dsp),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              for (final (category, label) in _categories) ...[
-                _CategoryPill(
-                  label: category == null
-                      ? label.i18n.fill([state.tracks.length])
-                      : label.i18n,
-                  selected: state.category == category,
-                  onTap: () => cubit.selectCategory(category),
-                ),
-                SizedBox(width: 4.dsp),
-              ],
-            ],
-          ),
-        ),
-        SizedBox(height: 16.dsp),
-        for (final overview in state.visibleTracks) ...[
+        ],
+      ),
+    );
+  }
+}
+
+/// Track cards; opens the track, or says "coming soon" when unavailable.
+class RoadmapCardList extends StatelessWidget {
+  final List<TrackOverview> tracks;
+
+  /// Completed ratio (0..1) per track id.
+  final Map<String, double> completion;
+
+  const RoadmapCardList({
+    super.key,
+    required this.tracks,
+    required this.completion,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        for (final overview in tracks) ...[
           RoadmapCard(
             overview: overview,
-            completion: state.dashboard.trackCompletion[overview.track.id] ?? 0,
+            completion: completion[overview.track.id] ?? 0,
             onTap: () {
               if (overview.track.isAvailable) {
                 TrackDetailRoute(trackId: overview.track.id).go(context);

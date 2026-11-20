@@ -10,11 +10,8 @@ import 'package:AppName/core/utils/widgets/app_progress_bar.dart';
 import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
 import 'package:AppName/features/catalog/domain/entities/learner_progress.dart';
 import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
-import 'package:AppName/features/catalog/presentation/widgets/track_icon_box.dart';
-import 'package:AppName/features/catalog/presentation/widgets/track_style.dart';
 import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
-import 'package:AppName/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
 import 'package:AppName/features/profile/presentation/widgets/profile_form_fields.dart';
 
@@ -344,81 +341,6 @@ class _StatTile extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// Track icon, name, completion bar; tappable.
-class TrackProgressRow extends StatelessWidget {
-  final TrackCompletion item;
-  final VoidCallback onTap;
-
-  const TrackProgressRow({super.key, required this.item, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final track = item.overview.track;
-    final style = TrackStyle.of(track.id);
-    final percent = (item.completion * 100).round();
-    final radius = BorderRadius.circular(8.dsp);
-    return Padding(
-      padding: EdgeInsets.only(bottom: 8.dsp),
-      child: Material(
-        color: AppPalette.surfaceContainer,
-        shape: RoundedRectangleBorder(
-          borderRadius: radius,
-          side: const BorderSide(color: AppPalette.surfaceHigh),
-        ),
-        child: InkWell(
-          borderRadius: radius,
-          onTap: onTap,
-          child: Padding(
-            padding: EdgeInsets.all(12.dsp),
-            child: Row(
-              children: [
-                TrackIconBox(trackId: track.id),
-                SizedBox(width: 12.dsp),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              track.name.text,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppText.sans(
-                                14,
-                                height: 20,
-                                weight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '$percent%',
-                            style: AppText.mono(
-                              12,
-                              height: 16,
-                              color: style.percentColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8.dsp),
-                      AppProgressBar(
-                        value: item.completion,
-                        color: style.barColor,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

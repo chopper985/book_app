@@ -14,8 +14,6 @@ import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/navigator/app_router.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/dev_header.dart';
-import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
-import 'package:AppName/features/practice/presentation/widgets/hub_sections.dart';
 import 'package:AppName/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
 import 'package:AppName/features/profile/presentation/widgets/choice_tile.dart';
@@ -79,37 +77,6 @@ class _Body extends StatelessWidget {
               ],
               ProfileSectionTitle(Strings.profileStatsTitle.i18n),
               ProfileStats(learner: state.learner),
-              if (state.tracks.isNotEmpty) ...[
-                SizedBox(height: 24.dsp),
-                ProfileSectionTitle(Strings.profileTracksTitle.i18n),
-                for (final item in state.tracks)
-                  TrackProgressRow(
-                    item: item,
-                    onTap: () =>
-                        TrackDetailRoute(trackId: item.overview.track.id)
-                            .go(context),
-                  ),
-              ],
-              SizedBox(height: 24.dsp),
-              ProfileSectionTitle(Strings.profileSavedTitle.i18n),
-              if (state.savedTracks.isEmpty)
-                HubEmpty(Strings.profileSavedEmpty.i18n)
-              else
-                for (final overview in state.savedTracks)
-                  HubRow(
-                    trackId: overview.track.id,
-                    title: overview.track.name.text,
-                    subtitle: overview.track.tagline?.text ??
-                        Strings.questionCount.i18n
-                            .fill([overview.questionCount]),
-                    onTap: () => TrackDetailRoute(trackId: overview.track.id)
-                        .go(context),
-                    trailing: Icon(
-                      Icons.chevron_right,
-                      size: 20.dsp,
-                      color: AppPalette.onSurfaceVariant,
-                    ),
-                  ),
               SizedBox(height: 24.dsp),
               ProfileSectionTitle(Strings.profileSettingsTitle.i18n),
               const _LanguageSetting(),

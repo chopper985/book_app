@@ -119,12 +119,10 @@ void main() {
     await start(tester);
     await pumpScreen(tester);
 
-    expect(find.text(Strings.practiceSelected.i18n), findsNothing);
     await tester.ensureVisible(find.byType(PracticeOptionTile).last);
     await tester.tap(find.byType(PracticeOptionTile).last);
     await tester.pump();
 
-    expect(find.text(Strings.practiceSelected.i18n), findsOneWidget);
     final tiles = tester
         .widgetList<PracticeOptionTile>(find.byType(PracticeOptionTile))
         .toList();

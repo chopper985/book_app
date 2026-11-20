@@ -13,6 +13,7 @@ import 'package:AppName/core/injection/injection_container.dart';
 import 'package:AppName/core/navigator/app_routes.dart';
 import 'package:AppName/core/navigator/main_shell.dart';
 import 'package:AppName/features/catalog/presentation/cubit/explore_cubit.dart';
+import 'package:AppName/features/catalog/presentation/cubit/roadmaps_cubit.dart';
 import 'package:AppName/features/catalog/presentation/cubit/track_detail_cubit.dart';
 import 'package:AppName/features/catalog/presentation/screens/explore_screen.dart';
 import 'package:AppName/features/catalog/presentation/screens/roadmaps_screen.dart';
@@ -241,7 +242,7 @@ class RoadmapsRoute extends GoRouteData with $RoadmapsRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider(
-      create: (_) => getIt<ExploreCubit>()..load(),
+      create: (_) => getIt<RoadmapsCubit>()..load(),
       child: const RoadmapsScreen(),
     );
   }
