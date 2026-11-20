@@ -25,6 +25,7 @@ class Strings {
   static const String all = "all";
   static const String levelFresher = "levelFresher";
   static const String levelJunior = "levelJunior";
+  static const String levelNumber = "levelNumber";
   static const String quizSets = "quizSets";
   static const String noMatchingSets = "noMatchingSets";
   static const String trackNotFound = "trackNotFound";

@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:async';
+
 // Package imports:
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,9 +21,34 @@ class ExploreCubit extends Cubit<ExploreState> {
   final GetTracks _getTracks;
   final GetExploreDashboard _getDashboard;
   final FilterTracks _filterTracks = const FilterTracks();
+  late final StreamSubscription<void> _progressSubscription;
 
-  ExploreCubit(this._getTracks, this._getDashboard)
-      : super(const ExploreLoading());
+  ExploreCubit(this._getTracks, this._getDashboard, WatchProgress watchProgress)
+      : super(const ExploreLoading()) {
+    _progressSubscription = watchProgress().listen((_) => refresh());
+  }
+
+  /// Reloads learner data without showing the loading state again.
+  Future<void> refresh() async {
+    if (state is! ExploreLoaded) return;
+    final dashboard = await _getDashboard();
+    final current = state;
+    if (isClosed || current is! ExploreLoaded) return;
+    emit(
+      ExploreLoaded(
+        tracks: current.tracks,
+        dashboard: dashboard,
+        category: current.category,
+        visibleTracks: current.visibleTracks,
+      ),
+    );
+  }
+
+  @override
+  Future<void> close() async {
+    await _progressSubscription.cancel();
+    return super.close();
+  }
 
   Future<void> load() async {
     emit(const ExploreLoading());

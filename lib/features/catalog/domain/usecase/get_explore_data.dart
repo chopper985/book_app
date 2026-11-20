@@ -24,3 +24,12 @@ class GetExploreDashboard {
 
   Future<ExploreDashboard> call() => _repository.getDashboard();
 }
+
+@injectable
+class WatchProgress {
+  final CatalogRepository _repository;
+
+  WatchProgress(this._repository);
+
+  Stream<void> call() => _repository.progressChanges;
+}

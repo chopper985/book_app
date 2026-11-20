@@ -17,6 +17,9 @@ class PracticeSession extends Equatable {
   final int currentIndex;
   final DateTime startedAt;
 
+  /// Last change, used to show "x min ago" on the continue card.
+  final DateTime updatedAt;
+
   /// Deadline of a timed set, `null` when untimed.
   final DateTime? endsAt;
 
@@ -26,20 +29,25 @@ class PracticeSession extends Equatable {
     required this.trackId,
     required this.questionIds,
     required this.startedAt,
+    DateTime? updatedAt,
     this.answers = const {},
     this.flagged = const {},
     this.currentIndex = 0,
     this.endsAt,
-  });
+  }) : updatedAt = updatedAt ?? startedAt;
 
   String get currentQuestionId => questionIds[currentIndex];
 
   bool get isLastQuestion => currentIndex == questionIds.length - 1;
 
+  /// A timed session past its deadline can no longer be resumed.
+  bool isExpiredAt(DateTime now) => endsAt != null && !now.isBefore(endsAt!);
+
   PracticeSession copyWith({
     Map<String, String>? answers,
     Set<String>? flagged,
     int? currentIndex,
+    DateTime? updatedAt,
   }) {
     return PracticeSession(
       id: id,
@@ -48,6 +56,7 @@ class PracticeSession extends Equatable {
       questionIds: questionIds,
       startedAt: startedAt,
       endsAt: endsAt,
+      updatedAt: updatedAt ?? this.updatedAt,
       answers: answers ?? this.answers,
       flagged: flagged ?? this.flagged,
       currentIndex: currentIndex ?? this.currentIndex,
@@ -64,6 +73,7 @@ class PracticeSession extends Equatable {
         flagged,
         currentIndex,
         startedAt,
+        updatedAt,
         endsAt,
       ];
 }

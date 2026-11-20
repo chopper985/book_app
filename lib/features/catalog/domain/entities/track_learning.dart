@@ -40,7 +40,7 @@ class DailySnippet extends Equatable {
   List<Object?> get props => [code, question, rewardXp];
 }
 
-/// Learner data of one track. Mocked until progress is persisted (PR 3–4).
+/// Learner data of one track.
 class TrackLearning extends Equatable {
   final LearnerSummary? learner;
   final bool isSaved;

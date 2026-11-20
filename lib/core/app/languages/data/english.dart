@@ -21,6 +21,7 @@ Map<String, String> english = {
   Strings.all: "All",
   Strings.levelFresher: "Fresher",
   Strings.levelJunior: "Junior",
+  Strings.levelNumber: "Lv.%d",
   Strings.quizSets: "Sets",
   Strings.noMatchingSets: "No sets match the filters",
   Strings.trackNotFound: "Track not found",

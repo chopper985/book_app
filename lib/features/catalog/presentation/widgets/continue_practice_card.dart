@@ -18,7 +18,6 @@ class ContinuePracticeCard extends StatelessWidget {
   final ContinueSession session;
   final String title;
   final String subtitle;
-  final int totalQuestions;
   final VoidCallback onContinue;
 
   const ContinuePracticeCard({
@@ -26,12 +25,12 @@ class ContinuePracticeCard extends StatelessWidget {
     required this.session,
     required this.title,
     required this.subtitle,
-    required this.totalQuestions,
     required this.onContinue,
   });
 
   @override
   Widget build(BuildContext context) {
+    final totalQuestions = session.totalQuestions;
     final ratio =
         totalQuestions == 0 ? 0.0 : session.answeredCount / totalQuestions;
     final style = TrackStyle.of(session.trackId);

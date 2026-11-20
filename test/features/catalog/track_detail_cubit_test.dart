@@ -2,9 +2,11 @@
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
+import 'package:AppName/core/helpers/app_clock.dart';
 import 'package:AppName/core/utils/dio_api/result.dart';
 import 'package:AppName/features/catalog/data/datasources/mock_dashboard_datasource.dart';
 import 'package:AppName/features/catalog/data/repositories/catalog_repository_impl.dart';
+import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_track_detail.dart';
 import 'package:AppName/features/catalog/presentation/cubit/track_detail_cubit.dart';
 import 'package:AppName/features/content/data/parsers/content_parser.dart';
@@ -13,6 +15,8 @@ import 'package:AppName/features/content/domain/entities/content_failure.dart';
 import 'package:AppName/features/content/domain/entities/content_issue.dart';
 import 'package:AppName/features/content/domain/entities/question.dart';
 import 'package:AppName/features/content/domain/repositories/content_repository.dart';
+import 'package:AppName/features/practice/data/repositories/practice_repository_impl.dart';
+import '../../helpers/in_memory_practice_datasource.dart';
 import '../content/content_test_data.dart';
 
 class _FakeContentRepository implements ContentRepository {
@@ -25,11 +29,18 @@ class _FakeContentRepository implements ContentRepository {
 }
 
 Future<TrackDetailCubit> cubitWith(Result<ContentCatalog> result) async {
+  final content = _FakeContentRepository(result);
+  final clock = AppClock();
   final repository = CatalogRepositoryImpl(
-    _FakeContentRepository(result),
+    content,
+    PracticeRepositoryImpl(content, InMemoryPracticeLocalDataSource(), clock),
     MockDashboardDataSource(),
+    clock,
   );
-  return TrackDetailCubit(GetTrackDetail(repository));
+  return TrackDetailCubit(
+    GetTrackDetail(repository),
+    WatchProgress(repository),
+  );
 }
 
 void main() {

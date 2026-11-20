@@ -197,6 +197,7 @@ mixin $PracticeRoute on GoRouteData {
   static PracticeRoute _fromState(GoRouterState state) => PracticeRoute(
         setId: state.pathParameters['setId']!,
         only: state.uri.queryParameters['only'],
+        sessionId: state.uri.queryParameters['session-id'],
       );
 
   PracticeRoute get _self => this as PracticeRoute;
@@ -206,6 +207,7 @@ mixin $PracticeRoute on GoRouteData {
         '/practice/${Uri.encodeComponent(_self.setId)}',
         queryParams: {
           if (_self.only != null) 'only': _self.only,
+          if (_self.sessionId != null) 'session-id': _self.sessionId,
         },
       );
 

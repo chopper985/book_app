@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:async';
+
 // Package imports:
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +10,7 @@ import 'package:injectable/injectable.dart';
 import 'package:AppName/features/catalog/domain/entities/quiz_set_summary.dart';
 import 'package:AppName/features/catalog/domain/entities/track_detail.dart';
 import 'package:AppName/features/catalog/domain/usecase/filter_quiz_sets.dart';
+import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_track_detail.dart';
 import 'package:AppName/features/content/domain/entities/content_failure.dart';
 import 'package:AppName/features/content/domain/entities/content_issue.dart';
@@ -18,8 +22,28 @@ part 'track_detail_state.dart';
 class TrackDetailCubit extends Cubit<TrackDetailState> {
   final GetTrackDetail _getTrackDetail;
   final FilterQuizSets _filterQuizSets = const FilterQuizSets();
+  late final StreamSubscription<void> _progressSubscription;
 
-  TrackDetailCubit(this._getTrackDetail) : super(const TrackDetailLoading());
+  TrackDetailCubit(this._getTrackDetail, WatchProgress watchProgress)
+      : super(const TrackDetailLoading()) {
+    _progressSubscription = watchProgress().listen((_) => refresh());
+  }
+
+  /// Reloads topic progress after practice, keeping the selected filters.
+  Future<void> refresh() async {
+    final current = state;
+    if (current is! TrackDetailLoaded) return;
+    final detail = (await _getTrackDetail(current.detail.track.id)).value;
+    final latest = state;
+    if (isClosed || detail == null || latest is! TrackDetailLoaded) return;
+    emit(_loaded(detail, topicId: latest.topicId, level: latest.level));
+  }
+
+  @override
+  Future<void> close() async {
+    await _progressSubscription.cancel();
+    return super.close();
+  }
 
   Future<void> load(String trackId) async {
     emit(const TrackDetailLoading());

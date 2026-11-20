@@ -17,5 +17,7 @@ class BaseLocalData {
     await Hive.openBox(StorageKeys.authBox);
     await Hive.openBox(StorageKeys.userBox);
     await Hive.openBox(StorageKeys.language);
+    await Hive.openBox<String>(StorageKeys.practiceSessionsBox);
+    await Hive.openBox<String>(StorageKeys.practiceResultsBox);
   }
 }

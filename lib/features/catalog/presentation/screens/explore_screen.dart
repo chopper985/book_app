@@ -73,9 +73,10 @@ class _ExploreBody extends StatelessWidget {
                   session: continueSession,
                   title: continueTrack.track.name.text,
                   subtitle: continueTrack.track.tagline?.text ?? '',
-                  totalQuestions: continueTrack.questionCount,
-                  onContinue: () => PracticeRoute(setId: continueSession.setId)
-                      .push<void>(context),
+                  onContinue: () => PracticeRoute(
+                    setId: continueSession.setId,
+                    sessionId: continueSession.sessionId,
+                  ).push<void>(context),
                 ),
               ],
               SizedBox(height: 24.dsp),

@@ -4,7 +4,9 @@ import 'package:equatable/equatable.dart';
 class LearnerSummary extends Equatable {
   final String displayName;
   final String roleLabel;
-  final String levelLabel;
+
+  /// 1-based level derived from [xp].
+  final int level;
   final int xp;
   final int streakDays;
   final int practicedCount;
@@ -13,7 +15,7 @@ class LearnerSummary extends Equatable {
   const LearnerSummary({
     required this.displayName,
     required this.roleLabel,
-    required this.levelLabel,
+    required this.level,
     required this.xp,
     required this.streakDays,
     required this.practicedCount,
@@ -24,7 +26,7 @@ class LearnerSummary extends Equatable {
   List<Object?> get props => [
         displayName,
         roleLabel,
-        levelLabel,
+        level,
         xp,
         streakDays,
         practicedCount,
@@ -34,20 +36,27 @@ class LearnerSummary extends Equatable {
 
 /// The unfinished session shown in the "Continue practice" hero.
 class ContinueSession extends Equatable {
+  final String sessionId;
   final String setId;
   final String trackId;
   final int minutesAgo;
   final int answeredCount;
 
+  /// Questions in the session (may be a subset of the set).
+  final int totalQuestions;
+
   const ContinueSession({
+    required this.sessionId,
     required this.setId,
     required this.trackId,
     required this.minutesAgo,
     required this.answeredCount,
+    required this.totalQuestions,
   });
 
   @override
-  List<Object?> get props => [setId, trackId, minutesAgo, answeredCount];
+  List<Object?> get props =>
+      [sessionId, setId, trackId, minutesAgo, answeredCount, totalQuestions];
 }
 
 class DailyChallenge extends Equatable {
@@ -65,7 +74,7 @@ class DailyChallenge extends Equatable {
   List<Object?> get props => [setId, title, rewardXp];
 }
 
-/// Learner data shown on Explore. Mocked until progress is persisted (PR 3–4).
+/// Learner data shown on Explore.
 class ExploreDashboard extends Equatable {
   final LearnerSummary learner;
   final ContinueSession? continueSession;

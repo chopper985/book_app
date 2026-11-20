@@ -226,7 +226,10 @@ class _ReviewCardFrame extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.dsp),
         boxShadow: const [
           BoxShadow(
-              color: Color(0x0D000000), blurRadius: 1, offset: Offset(0, 1)),
+            color: Color(0x0D000000),
+            blurRadius: 1,
+            offset: Offset(0, 1),
+          ),
         ],
       ),
       child: Column(

@@ -19,6 +19,7 @@ import 'package:AppName/features/practice/domain/usecase/practice_usecases.dart'
 import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart';
 import 'package:AppName/features/practice/presentation/screens/practice_screen.dart';
 import 'package:AppName/features/practice/presentation/widgets/practice_option_tile.dart';
+import '../../helpers/in_memory_practice_datasource.dart';
 import '../content/content_test_data.dart';
 
 class _FakeContentRepository implements ContentRepository {
@@ -53,9 +54,14 @@ void main() {
       final catalog =
           (await const ContentParser().parse(readerOf(data))).catalog;
       final repository =
-          PracticeRepositoryImpl(_FakeContentRepository(catalog), AppClock());
+          PracticeRepositoryImpl(
+        _FakeContentRepository(catalog),
+        InMemoryPracticeLocalDataSource(),
+        AppClock(),
+      );
       cubit = PracticeCubit(
         StartPractice(repository),
+        ResumePractice(repository),
         SavePractice(repository),
         SubmitPractice(repository),
       );

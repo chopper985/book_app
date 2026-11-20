@@ -9,4 +9,8 @@ class StorageKeys {
 
   // In Box - User
   static const String userBox = 'user-box';
+
+  // Practice: JSON per session / result id.
+  static const String practiceSessionsBox = 'practice-sessions';
+  static const String practiceResultsBox = 'practice-results';
 }

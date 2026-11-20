@@ -21,6 +21,7 @@ Map<String, String> vietnamese = {
   Strings.all: "Tất cả",
   Strings.levelFresher: "Fresher",
   Strings.levelJunior: "Junior",
+  Strings.levelNumber: "Lv.%d",
   Strings.quizSets: "Bộ đề",
   Strings.noMatchingSets: "Không có bộ đề phù hợp với bộ lọc",
   Strings.trackNotFound: "Không tìm thấy lộ trình",

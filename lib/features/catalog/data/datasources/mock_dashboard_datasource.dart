@@ -6,88 +6,28 @@ import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart'
 import 'package:AppName/features/catalog/domain/entities/track_learning.dart';
 import 'package:AppName/features/content/domain/entities/localized_text.dart';
 
-/// MOCK: fixed learner data matching the Figma design. Replace with real
-/// progress once sessions and results are persisted (PR 3–4).
+/// MOCK: learner identity and editorial content that have no real source
+/// yet. Statistics come from practice history (see `LearnerProgress`); the
+/// name and role move to the onboarding profile.
 @lazySingleton
 class MockDashboardDataSource {
-  static const LearnerSummary _learner = LearnerSummary(
-    displayName: 'Minh',
-    roleLabel: 'Junior Dev',
-    levelLabel: 'Junior Lv.2',
-    xp: 1420,
-    streakDays: 5,
-    practicedCount: 142,
-    accuracyPercent: 78,
-  );
+  String get displayName => 'Minh';
 
-  ExploreDashboard load() {
-    return const ExploreDashboard(
-      learner: _learner,
-      continueSession: ContinueSession(
-        setId: 'flutter.set.basic',
-        trackId: 'flutter',
-        minutesAgo: 12,
-        answeredCount: 3,
-      ),
-      dailyChallenge: DailyChallenge(
+  String get roleLabel => 'Junior Dev';
+
+  DailyChallenge get dailyChallenge => const DailyChallenge(
         setId: 'flutter.set.junior',
         title: 'Flutter: Lifecycle, State & Form',
         rewardXp: 50,
-      ),
-      trackCompletion: {
-        'flutter': 0.58,
-        'dart': 0.82,
-        'react_ts': 0.24,
-        'dotnet': 0.12,
-        'go': 0.40,
-        'rust': 0.05,
-      },
-    );
-  }
+      );
 
-  /// MOCK: track detail learner data (progress ratios match the Figma
-  /// "Lộ trình Flutter - Chi tiết chủ đề" screen).
-  TrackLearning loadTrackLearning(String trackId) {
-    return TrackLearning(
-      learner: _learner,
-      versionLabel: _versionLabels[trackId],
-      topicPractice: _topicPractice[trackId] ?? const {},
-      dailySnippet: _dailySnippets[trackId],
-    );
-  }
+  String? versionLabel(String trackId) => _versionLabels[trackId];
+
+  DailySnippet? dailySnippet(String trackId) => _dailySnippets[trackId];
 
   static const Map<String, String> _versionLabels = {
     'flutter': 'Dart 3.x',
     'dart': 'Dart 3.x',
-  };
-
-  static const Map<String, Map<String, TopicPractice>> _topicPractice = {
-    'flutter': {
-      'widget': TopicPractice(
-        correctRatio: 0.72,
-        wrongRatio: 0.08,
-        estimatedMinutes: 8,
-      ),
-      'state': TopicPractice(
-        correctRatio: 0.37,
-        wrongRatio: 0.1,
-        estimatedMinutes: 25,
-      ),
-      'lifecycle': TopicPractice(correctRatio: 0.28, wrongRatio: 0.2),
-      'layout': TopicPractice(correctRatio: 0.28, wrongRatio: 0.02),
-    },
-    'dart': {
-      'null_safety': TopicPractice(
-        correctRatio: 0.5,
-        wrongRatio: 0.5,
-        estimatedMinutes: 6,
-      ),
-      'collections': TopicPractice(
-        correctRatio: 1,
-        wrongRatio: 0,
-        estimatedMinutes: 4,
-      ),
-    },
   };
 
   static const Map<String, DailySnippet> _dailySnippets = {

@@ -102,7 +102,7 @@ class ExploreGreeting extends StatelessWidget {
                   iconSize: const Size(8.33, 16.67),
                   label: Strings.currentLevel.i18n,
                   value: Strings.levelValue.i18n.fill([
-                    learner.levelLabel,
+                    Strings.levelNumber.i18n.fill([learner.level]),
                     _formatXp(learner.xp),
                   ]),
                 ),

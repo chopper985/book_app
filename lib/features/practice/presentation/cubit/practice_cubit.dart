@@ -13,19 +13,31 @@ part 'practice_state.dart';
 @injectable
 class PracticeCubit extends Cubit<PracticeState> {
   final StartPractice _startPractice;
+  final ResumePractice _resumePractice;
   final SavePractice _savePractice;
   final SubmitPractice _submitPractice;
 
   bool _submitting = false;
 
-  PracticeCubit(this._startPractice, this._savePractice, this._submitPractice)
-      : super(const PracticeLoading());
+  PracticeCubit(
+    this._startPractice,
+    this._resumePractice,
+    this._savePractice,
+    this._submitPractice,
+  ) : super(const PracticeLoading());
 
-  Future<void> start(String setId, {List<String>? onlyQuestionIds}) async {
+  /// Resumes [sessionId] when given and still open, otherwise starts a new
+  /// session of [setId].
+  Future<void> start(
+    String setId, {
+    List<String>? onlyQuestionIds,
+    String? sessionId,
+  }) async {
     emit(const PracticeLoading());
-    final result =
-        await _startPractice(setId, onlyQuestionIds: onlyQuestionIds);
-    final bundle = result.value;
+    final resumed =
+        sessionId == null ? null : (await _resumePractice(sessionId)).value;
+    final bundle = resumed ??
+        (await _startPractice(setId, onlyQuestionIds: onlyQuestionIds)).value;
     emit(
       bundle == null ? const PracticeNotFound() : PracticeInProgress(bundle),
     );

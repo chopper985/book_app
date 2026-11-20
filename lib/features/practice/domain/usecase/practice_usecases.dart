@@ -21,6 +21,16 @@ class StartPractice {
 }
 
 @injectable
+class ResumePractice {
+  final PracticeRepository _repository;
+
+  ResumePractice(this._repository);
+
+  Future<Result<PracticeBundle>> call(String sessionId) =>
+      _repository.resumeSession(sessionId);
+}
+
+@injectable
 class SavePractice {
   final PracticeRepository _repository;
 

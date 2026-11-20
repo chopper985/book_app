@@ -220,7 +220,7 @@ class ProfileRoute extends GoRouteData with $ProfileRoute {
 }
 
 /// Full-screen practice of one set. [only] restricts it to comma-separated
-/// question ids (retry mistakes).
+/// question ids (retry mistakes). [sessionId] resumes an unfinished session.
 @TypedGoRoute<PracticeRoute>(
   path: Routes.practiceRoute,
   name: Routes.practiceRoute,
@@ -228,14 +228,19 @@ class ProfileRoute extends GoRouteData with $ProfileRoute {
 class PracticeRoute extends GoRouteData with $PracticeRoute {
   final String setId;
   final String? only;
+  final String? sessionId;
 
-  const PracticeRoute({required this.setId, this.only});
+  const PracticeRoute({required this.setId, this.only, this.sessionId});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider(
       create: (_) => getIt<PracticeCubit>()
-        ..start(setId, onlyQuestionIds: only?.split(',')),
+        ..start(
+          setId,
+          onlyQuestionIds: only?.split(','),
+          sessionId: sessionId,
+        ),
       child: const PracticeScreen(),
     );
   }

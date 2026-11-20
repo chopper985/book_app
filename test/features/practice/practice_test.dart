@@ -11,6 +11,7 @@ import 'package:AppName/features/practice/data/repositories/practice_repository_
 import 'package:AppName/features/practice/domain/entities/session_result.dart';
 import 'package:AppName/features/practice/domain/usecase/practice_usecases.dart';
 import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart';
+import '../../helpers/in_memory_practice_datasource.dart';
 import '../content/content_test_data.dart';
 
 class _FakeContentRepository implements ContentRepository {
@@ -31,6 +32,8 @@ class _FixedClock extends AppClock {
 
 void main() {
   late PracticeRepositoryImpl repository;
+  late InMemoryPracticeLocalDataSource local;
+  late ContentCatalog catalog;
   late _FixedClock clock;
 
   setUp(() async {
@@ -47,13 +50,16 @@ void main() {
           ..['durationMinutes'] = 10,
       ],
     );
-    final catalog = (await const ContentParser().parse(readerOf(data))).catalog;
+    catalog = (await const ContentParser().parse(readerOf(data))).catalog;
     clock = _FixedClock();
-    repository = PracticeRepositoryImpl(_FakeContentRepository(catalog), clock);
+    local = InMemoryPracticeLocalDataSource();
+    repository =
+        PracticeRepositoryImpl(_FakeContentRepository(catalog), local, clock);
   });
 
   PracticeCubit newCubit() => PracticeCubit(
         StartPractice(repository),
+        ResumePractice(repository),
         SavePractice(repository),
         SubmitPractice(repository),
       );
@@ -135,5 +141,73 @@ void main() {
     expect(session.currentIndex, 3);
     expect(session.isLastQuestion, isTrue);
     expect(AnswerStatus.selfCheck.isGraded, isFalse);
+  });
+
+  group('persistence', () {
+    test('results survive a restart (new repository, same storage)',
+        () async {
+      final cubit = newCubit();
+      await cubit.start('dart.set1');
+      final id = (cubit.state as PracticeInProgress).bundle.session.id;
+      cubit.selectOption('a');
+      await cubit.submit();
+
+      final restarted =
+          PracticeRepositoryImpl(_FakeContentRepository(catalog), local, clock);
+      final result = (await restarted.getResult(id)).value!.result;
+      expect(result.correctCount, 1);
+      expect(await restarted.getResults(), hasLength(1));
+      // A graded session is no longer listed as unfinished.
+      expect(await restarted.getLatestUnfinished(), isNull);
+    });
+
+    test('an unfinished session resumes with its answers and position',
+        () async {
+      final first = newCubit();
+      await first.start('dart.set1');
+      final id = (first.state as PracticeInProgress).bundle.session.id;
+      first.selectOption('a');
+      first.goTo(2);
+      clock.value = clock.value.add(const Duration(minutes: 2));
+      first.selectOption('b');
+      await Future<void>.delayed(Duration.zero);
+
+      final latest = await repository.getLatestUnfinished();
+      expect(latest?.id, id);
+      expect(latest?.updatedAt, clock.value);
+
+      final second = newCubit();
+      await second.start('dart.set1', sessionId: id);
+      final session = (second.state as PracticeInProgress).bundle.session;
+      expect(session.id, id);
+      expect(session.currentIndex, 2);
+      expect(session.answers, {'dart.q1': 'a', 'dart.q3': 'b'});
+    });
+
+    test('an expired timed session is not resumed', () async {
+      final first = newCubit();
+      await first.start('dart.set1');
+      final id = (first.state as PracticeInProgress).bundle.session.id;
+
+      clock.value = clock.value.add(const Duration(minutes: 11));
+      expect(await repository.getLatestUnfinished(), isNull);
+
+      final second = newCubit();
+      await second.start('dart.set1', sessionId: id);
+      final session = (second.state as PracticeInProgress).bundle.session;
+      expect(session.id, isNot(id), reason: 'falls back to a new session');
+    });
+
+    test('changes fire on start, save and submit', () async {
+      var count = 0;
+      final subscription = repository.changes.listen((_) => count++);
+      final cubit = newCubit();
+      await cubit.start('dart.set1');
+      cubit.selectOption('a');
+      await cubit.submit();
+      await Future<void>.delayed(Duration.zero);
+      await subscription.cancel();
+      expect(count, greaterThanOrEqualTo(3));
+    });
   });
 }
