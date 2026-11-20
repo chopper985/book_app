@@ -25,13 +25,30 @@ class Strings {
   static const String all = "all";
   static const String levelFresher = "levelFresher";
   static const String levelJunior = "levelJunior";
+  static const String levelMiddle = "levelMiddle";
+  static const String levelSenior = "levelSenior";
   static const String levelNumber = "levelNumber";
 
   // Explore & roadmaps tabs
+  static const String pickerTitle = "pickerTitle";
+  static const String pickerSubtitle = "pickerSubtitle";
+  static const String pickerAddTitle = "pickerAddTitle";
+  static const String pickerLanguage = "pickerLanguage";
+  static const String pickerLevel = "pickerLevel";
+  static const String pickerLevelHint = "pickerLevelHint";
+  static const String pickerPremium = "pickerPremium";
+  static const String pickerConfirm = "pickerConfirm";
+  static const String pickerExisting = "pickerExisting";
+  static const String switcherLabel = "switcherLabel";
+  static const String switcherTitle = "switcherTitle";
+  static const String switcherAdd = "switcherAdd";
+  static const String switcherRemove = "switcherRemove";
+  static const String switcherRemoveTitle = "switcherRemoveTitle";
+  static const String switcherRemoveMessage = "switcherRemoveMessage";
+  static const String switcherRemoveConfirm = "switcherRemoveConfirm";
+  static const String switcherRemoveCancel = "switcherRemoveCancel";
   static const String exploreMyTracks = "exploreMyTracks";
   static const String exploreMyTracksSubtitle = "exploreMyTracksSubtitle";
-  static const String roadmapsLibraryTitle = "roadmapsLibraryTitle";
-  static const String roadmapsLibrarySubtitle = "roadmapsLibrarySubtitle";
   static const String roadmapsSearchHint = "roadmapsSearchHint";
   static const String roadmapsSaved = "roadmapsSaved";
   static const String roadmapsNoResult = "roadmapsNoResult";
@@ -163,6 +180,8 @@ class Strings {
   static const String issueMissingTranslation = "issueMissingTranslation";
   static const String issueEmptySet = "issueEmptySet";
   static const String issueInvalidVersion = "issueInvalidVersion";
+  static const String issuePremiumLevelInFreeSet =
+      "issuePremiumLevelInFreeSet";
   static const String navExplore = "navExplore";
   static const String navRoadmaps = "navRoadmaps";
   static const String navPractice = "navPractice";
@@ -184,8 +203,6 @@ class Strings {
   static const String sessionProgress = "sessionProgress";
   static const String answeredOfTotal = "answeredOfTotal";
   static const String continuePractice = "continuePractice";
-  static const String roadmapsTitle = "roadmapsTitle";
-  static const String roadmapsSubtitle = "roadmapsSubtitle";
   static const String seeAll = "seeAll";
   static const String allCount = "allCount";
   static const String categoryMobile = "categoryMobile";
@@ -255,7 +272,6 @@ class Strings {
   static const String resultSelfCheckNote = "resultSelfCheckNote";
   static const String resultKeyPointsProgress = "resultKeyPointsProgress";
   static const String resultNotFound = "resultNotFound";
-  static const String trackBack = "trackBack";
   static const String trackHeroTitle = "trackHeroTitle";
   static const String trackTotalQuestions = "trackTotalQuestions";
   static const String trackAudienceLevel = "trackAudienceLevel";

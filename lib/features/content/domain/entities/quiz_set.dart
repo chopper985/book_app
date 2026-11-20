@@ -16,6 +16,10 @@ class QuizSet extends Equatable {
   /// `null` means the set is free; otherwise the id of the plan that unlocks it.
   final String? accessPlanId;
 
+  /// Generated per topic and level (see `ContentCatalog.withTopicSets`),
+  /// not authored in `sets.json`. Hidden from set lists.
+  final bool isTopicSet;
+
   const QuizSet({
     required this.id,
     required this.trackId,
@@ -23,6 +27,7 @@ class QuizSet extends Equatable {
     required this.questionIds,
     this.durationMinutes,
     this.accessPlanId,
+    this.isTopicSet = false,
   });
 
   bool get isFree => accessPlanId == null;
@@ -30,6 +35,13 @@ class QuizSet extends Equatable {
   bool get isTimed => durationMinutes != null;
 
   @override
-  List<Object?> get props =>
-      [id, trackId, title, questionIds, durationMinutes, accessPlanId];
+  List<Object?> get props => [
+        id,
+        trackId,
+        title,
+        questionIds,
+        durationMinutes,
+        accessPlanId,
+        isTopicSet,
+      ];
 }

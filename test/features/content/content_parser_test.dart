@@ -41,7 +41,7 @@ void main() {
   });
 
   test('reports a bad item with its id and keeps the others', () async {
-    final broken = choiceQuestion(id: 'dart.bad')..['level'] = 'senior';
+    final broken = choiceQuestion(id: 'dart.bad')..['level'] = 'expert';
     final parsed = await parser.parse(
       readerOf(files(questions: [broken, explainQuestion()])),
     );

@@ -21,5 +21,6 @@ class BaseLocalData {
     await Hive.openBox<String>(StorageKeys.practiceResultsBox);
     await Hive.openBox<String>(StorageKeys.profileBox);
     await Hive.openBox<String>(StorageKeys.savedTracksBox);
+    await Hive.openBox<String>(StorageKeys.userRoadmapsBox);
   }
 }

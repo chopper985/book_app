@@ -86,12 +86,24 @@ class _ExploreBody extends StatelessWidget {
               RoadmapSectionHeader(
                 title: Strings.exploreMyTracks.i18n,
                 subtitle: Strings.exploreMyTracksSubtitle.i18n,
-                onSeeAll: () => const RoadmapsRoute().go(context),
+                onSeeAll: () async {
+                  final added = await const RoadmapPickerRoute()
+                      .push<bool>(context);
+                  if ((added ?? false) && context.mounted) {
+                    const RoadmapsRoute().go(context);
+                  }
+                },
               ),
               SizedBox(height: 12.dsp),
               RoadmapCardList(
                 tracks: state.myTracks,
                 completion: dashboard.trackCompletion,
+                onOpen: (overview) async {
+                  await context
+                      .read<ExploreCubit>()
+                      .openTrack(overview.track.id);
+                  if (context.mounted) const RoadmapsRoute().go(context);
+                },
               ),
               if (challenge != null) ...[
                 SizedBox(height: 16.dsp),

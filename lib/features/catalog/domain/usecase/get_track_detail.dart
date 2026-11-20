@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:AppName/core/utils/dio_api/result.dart';
 import 'package:AppName/features/catalog/domain/entities/track_detail.dart';
 import 'package:AppName/features/catalog/domain/repositories/catalog_repository.dart';
+import 'package:AppName/features/content/domain/entities/question.dart';
 
 @injectable
 class GetTrackDetail {
@@ -12,6 +13,9 @@ class GetTrackDetail {
 
   GetTrackDetail(this._repository);
 
-  Future<Result<TrackDetail>> call(String trackId) =>
-      _repository.getTrackDetail(trackId);
+  Future<Result<TrackDetail>> call(
+    String trackId, {
+    QuestionLevel? maxLevel,
+  }) =>
+      _repository.getTrackDetail(trackId, maxLevel: maxLevel);
 }

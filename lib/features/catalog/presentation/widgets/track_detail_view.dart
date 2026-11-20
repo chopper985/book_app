@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 // Project imports:
 import 'package:AppName/core/app/colors/app_palette.dart';
@@ -12,8 +11,6 @@ import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/navigator/app_router.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_progress_bar.dart';
-import 'package:AppName/core/utils/widgets/app_svg.dart';
-import 'package:AppName/core/utils/widgets/dev_header.dart';
 import 'package:AppName/features/catalog/domain/entities/track_detail.dart';
 import 'package:AppName/features/catalog/presentation/cubit/track_detail_cubit.dart';
 import 'package:AppName/features/catalog/presentation/widgets/daily_snippet_card.dart';
@@ -23,44 +20,38 @@ import 'package:AppName/features/catalog/presentation/widgets/track_quick_action
 import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:AppName/features/content/presentation/widgets/content_issue_view.dart';
 import 'package:AppName/features/practice/presentation/helpers/practice_launcher.dart';
-import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
-import 'package:AppName/gen/assets.gen.dart';
 
-/// "Lộ trình Flutter - Chi tiết chủ đề".
-class TrackDetailScreen extends StatelessWidget {
-  const TrackDetailScreen({super.key});
+/// "Lộ trình Flutter - Chi tiết chủ đề" (Figma 310:866), driven by a
+/// [TrackDetailCubit]. [top] sits above the hero card: the roadmap switcher
+/// in the Roadmaps tab.
+class TrackDetailView extends StatelessWidget {
+  final Widget top;
+
+  const TrackDetailView({super.key, required this.top});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppPalette.surface,
-      body: BlocBuilder<TrackDetailCubit, TrackDetailState>(
-        builder: (context, state) => switch (state) {
-          TrackDetailLoading() =>
-            const Center(child: CircularProgressIndicator()),
-          TrackDetailNotFound() => _Fallback(
-              child: Center(
-                child: Text(
-                  Strings.trackNotFound.i18n,
-                  textAlign: TextAlign.center,
-                  style: AppText.sans(15, height: 22),
-                ),
+    return BlocBuilder<TrackDetailCubit, TrackDetailState>(
+      builder: (context, state) => switch (state) {
+        TrackDetailLoading() => const Center(
+            child: CircularProgressIndicator(color: AppPalette.primary),
+          ),
+        TrackDetailNotFound() => _Fallback(
+            top: top,
+            child: Center(
+              child: Text(
+                Strings.trackNotFound.i18n,
+                textAlign: TextAlign.center,
+                style: AppText.sans(15, height: 22),
               ),
             ),
-          TrackDetailInvalidContent(:final issues) =>
-            _Fallback(child: ContentIssueView(issues: issues)),
-          TrackDetailLoaded(:final detail) => _TrackDetailBody(detail: detail),
-        },
-      ),
+          ),
+        TrackDetailInvalidContent(:final issues) =>
+          _Fallback(top: top, child: ContentIssueView(issues: issues)),
+        TrackDetailLoaded(:final detail) =>
+          _TrackDetailBody(detail: detail, top: top),
+      },
     );
-  }
-}
-
-void _back(BuildContext context) {
-  if (context.canPop()) {
-    context.pop();
-  } else {
-    const RoadmapsRoute().go(context);
   }
 }
 
@@ -82,20 +73,19 @@ void _startOrConfirm(BuildContext context, PracticeTarget target) {
 }
 
 class _Fallback extends StatelessWidget {
+  final Widget top;
   final Widget child;
 
-  const _Fallback({required this.child});
+  const _Fallback({required this.top, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Padding(
+      padding: EdgeInsets.all(16.dsp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.all(16.dsp),
-            child: const _BackLink(),
-          ),
+          top,
           Expanded(child: child),
         ],
       ),
@@ -105,12 +95,12 @@ class _Fallback extends StatelessWidget {
 
 class _TrackDetailBody extends StatelessWidget {
   final TrackDetail detail;
+  final Widget top;
 
-  const _TrackDetailBody({required this.detail});
+  const _TrackDetailBody({required this.detail, required this.top});
 
   @override
   Widget build(BuildContext context) {
-    final learner = detail.learning.learner;
     final progress = detail.progress;
     final quick = detail.quickPractice();
     final timed = detail.firstTimedSet;
@@ -118,13 +108,6 @@ class _TrackDetailBody extends StatelessWidget {
 
     return Column(
       children: [
-        if (learner != null)
-          DevHeader(
-            roleLabel: learner.experience.headerLabel,
-            streakDays: learner.streakDays,
-          )
-        else
-          SizedBox(height: MediaQuery.paddingOf(context).top),
         AppProgressBar(
           value: progress.ratio,
           trackColor: Colors.transparent,
@@ -134,7 +117,7 @@ class _TrackDetailBody extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.fromLTRB(16.dsp, 12.dsp, 16.dsp, 32.dsp),
             children: [
-              const _BackLink(),
+              top,
               SizedBox(height: 12.dsp),
               TrackHeroCard(
                 detail: detail,
@@ -190,46 +173,6 @@ class _TrackDetailBody extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _BackLink extends StatelessWidget {
-  const _BackLink();
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: InkWell(
-        onTap: () => _back(context),
-        borderRadius: BorderRadius.circular(6.dsp),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 6.dsp, horizontal: 4.dsp),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppSvg(
-                Assets.figma.result.back,
-                width: 13.33,
-                height: 13.33,
-                color: AppPalette.onSurfaceVariant,
-              ),
-              SizedBox(width: 8.dsp),
-              Flexible(
-                child: Text(
-                  Strings.trackBack.i18n,
-                  style: AppText.mono(
-                    12,
-                    height: 16,
-                    weight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

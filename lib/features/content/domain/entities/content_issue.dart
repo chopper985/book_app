@@ -14,6 +14,9 @@ enum ContentIssueCode {
   missingTranslation,
   emptySet,
   invalidVersion,
+
+  /// A free set contains a Middle/Senior question.
+  premiumLevelInFreeSet,
 }
 
 /// A problem found while reading or validating bundled content.

@@ -17,18 +17,27 @@ import '../../features/catalog/data/datasources/mock_dashboard_datasource.dart'
     as _i641;
 import '../../features/catalog/data/datasources/saved_tracks_local_datasource.dart'
     as _i913;
+import '../../features/catalog/data/datasources/user_roadmaps_local_datasource.dart'
+    as _i1071;
 import '../../features/catalog/data/repositories/catalog_repository_impl.dart'
     as _i428;
 import '../../features/catalog/data/repositories/saved_tracks_repository_impl.dart'
     as _i534;
+import '../../features/catalog/data/repositories/user_roadmaps_repository_impl.dart'
+    as _i633;
 import '../../features/catalog/domain/repositories/catalog_repository.dart'
     as _i1018;
 import '../../features/catalog/domain/repositories/saved_tracks_repository.dart'
     as _i452;
+import '../../features/catalog/domain/repositories/user_roadmaps_repository.dart'
+    as _i409;
 import '../../features/catalog/domain/usecase/get_explore_data.dart' as _i4;
 import '../../features/catalog/domain/usecase/get_track_detail.dart' as _i875;
 import '../../features/catalog/domain/usecase/saved_tracks.dart' as _i385;
+import '../../features/catalog/domain/usecase/user_roadmaps.dart' as _i301;
 import '../../features/catalog/presentation/cubit/explore_cubit.dart' as _i978;
+import '../../features/catalog/presentation/cubit/roadmap_picker_cubit.dart'
+    as _i966;
 import '../../features/catalog/presentation/cubit/roadmaps_cubit.dart' as _i152;
 import '../../features/catalog/presentation/cubit/track_detail_cubit.dart'
     as _i805;
@@ -99,6 +108,8 @@ _i174.GetIt $initGetIt(
       () => _i463.ContentRepositoryImpl(gh<_i915.ContentAssetDataSource>()));
   gh.lazySingleton<_i264.PracticeLocalDataSource>(
       () => _i264.HivePracticeLocalDataSource());
+  gh.lazySingleton<_i1071.UserRoadmapsLocalDataSource>(
+      () => _i1071.HiveUserRoadmapsLocalDataSource());
   gh.lazySingleton<_i913.SavedTracksLocalDataSource>(
       () => _i913.HiveSavedTracksLocalDataSource());
   gh.lazySingleton<_i1033.AppAnalytics>(() => _i1033.FirebaseAppAnalytics());
@@ -106,17 +117,36 @@ _i174.GetIt $initGetIt(
       () => _i1046.HiveProfileLocalDataSource());
   gh.lazySingleton<_i961.BaseRepository>(
       () => _i961.BaseRepository(gh<_i721.DioConfiguration>()));
+  gh.lazySingleton<_i409.UserRoadmapsRepository>(
+      () => _i633.UserRoadmapsRepositoryImpl(
+            gh<_i1071.UserRoadmapsLocalDataSource>(),
+            gh<_i472.AppClock>(),
+          ));
+  gh.factory<_i301.GetUserRoadmaps>(
+      () => _i301.GetUserRoadmaps(gh<_i409.UserRoadmapsRepository>()));
+  gh.factory<_i301.AddUserRoadmap>(
+      () => _i301.AddUserRoadmap(gh<_i409.UserRoadmapsRepository>()));
+  gh.factory<_i301.SelectUserRoadmap>(
+      () => _i301.SelectUserRoadmap(gh<_i409.UserRoadmapsRepository>()));
+  gh.factory<_i301.RemoveUserRoadmap>(
+      () => _i301.RemoveUserRoadmap(gh<_i409.UserRoadmapsRepository>()));
   gh.lazySingleton<_i894.ProfileRepository>(() => _i334.ProfileRepositoryImpl(
         gh<_i1046.ProfileLocalDataSource>(),
         gh<_i544.AvatarLocalDataSource>(),
         gh<_i472.AppClock>(),
       ));
+  gh.factory<_i301.SuggestRoadmapLevel>(
+      () => _i301.SuggestRoadmapLevel(gh<_i894.ProfileRepository>()));
   gh.lazySingleton<_i452.SavedTracksRepository>(() =>
       _i534.SavedTracksRepositoryImpl(gh<_i913.SavedTracksLocalDataSource>()));
   gh.lazySingleton<_i980.PracticeRepository>(() => _i862.PracticeRepositoryImpl(
         gh<_i1027.ContentRepository>(),
         gh<_i264.PracticeLocalDataSource>(),
         gh<_i472.AppClock>(),
+      ));
+  gh.factory<_i301.OpenTrackRoadmap>(() => _i301.OpenTrackRoadmap(
+        gh<_i409.UserRoadmapsRepository>(),
+        gh<_i301.SuggestRoadmapLevel>(),
       ));
   gh.factory<_i750.LoadCatalog>(
       () => _i750.LoadCatalog(gh<_i1027.ContentRepository>()));
@@ -132,14 +162,6 @@ _i174.GetIt $initGetIt(
       () => _i673.SubmitPractice(gh<_i980.PracticeRepository>()));
   gh.factory<_i673.GetPracticeResult>(
       () => _i673.GetPracticeResult(gh<_i980.PracticeRepository>()));
-  gh.lazySingleton<_i1018.CatalogRepository>(() => _i428.CatalogRepositoryImpl(
-        gh<_i1027.ContentRepository>(),
-        gh<_i980.PracticeRepository>(),
-        gh<_i894.ProfileRepository>(),
-        gh<_i452.SavedTracksRepository>(),
-        gh<_i641.MockDashboardDataSource>(),
-        gh<_i472.AppClock>(),
-      ));
   gh.factory<_i385.GetSavedTrackIds>(
       () => _i385.GetSavedTrackIds(gh<_i452.SavedTracksRepository>()));
   gh.factory<_i385.ToggleSavedTrack>(
@@ -154,6 +176,15 @@ _i174.GetIt $initGetIt(
   gh.factory<_i414.FindCompletedResult>(() => _i414.FindCompletedResult(
         gh<_i1027.ContentRepository>(),
         gh<_i980.PracticeRepository>(),
+      ));
+  gh.lazySingleton<_i1018.CatalogRepository>(() => _i428.CatalogRepositoryImpl(
+        gh<_i1027.ContentRepository>(),
+        gh<_i980.PracticeRepository>(),
+        gh<_i894.ProfileRepository>(),
+        gh<_i452.SavedTracksRepository>(),
+        gh<_i409.UserRoadmapsRepository>(),
+        gh<_i641.MockDashboardDataSource>(),
+        gh<_i472.AppClock>(),
       ));
   gh.factory<_i36.ResultCubit>(
       () => _i36.ResultCubit(gh<_i673.GetPracticeResult>()));
@@ -189,22 +220,10 @@ _i174.GetIt $initGetIt(
         gh<_i4.WatchProgress>(),
         analytics: gh<_i1033.AppAnalytics>(),
       ));
-  gh.factory<_i978.ExploreCubit>(() => _i978.ExploreCubit(
-        gh<_i4.GetTracks>(),
-        gh<_i4.GetExploreDashboard>(),
-        gh<_i852.GetProfile>(),
-        gh<_i4.WatchProgress>(),
-      ));
   gh.factory<_i934.OnboardingCubit>(() => _i934.OnboardingCubit(
         gh<_i4.GetTracks>(),
         gh<_i852.SaveProfile>(),
         analytics: gh<_i1033.AppAnalytics>(),
-      ));
-  gh.factory<_i152.RoadmapsCubit>(() => _i152.RoadmapsCubit(
-        gh<_i4.GetTracks>(),
-        gh<_i4.GetExploreDashboard>(),
-        gh<_i385.GetSavedTrackIds>(),
-        gh<_i4.WatchProgress>(),
       ));
   gh.factory<_i37.ProfileCubit>(() => _i37.ProfileCubit(
         gh<_i852.GetProfile>(),
@@ -215,6 +234,21 @@ _i174.GetIt $initGetIt(
         gh<_i4.WatchProgress>(),
         analytics: gh<_i1033.AppAnalytics>(),
       ));
+  gh.factory<_i978.ExploreCubit>(() => _i978.ExploreCubit(
+        gh<_i4.GetTracks>(),
+        gh<_i4.GetExploreDashboard>(),
+        gh<_i852.GetProfile>(),
+        gh<_i301.OpenTrackRoadmap>(),
+        gh<_i4.WatchProgress>(),
+      ));
+  gh.factory<_i966.RoadmapPickerCubit>(() => _i966.RoadmapPickerCubit(
+        gh<_i4.GetTracks>(),
+        gh<_i385.GetSavedTrackIds>(),
+        gh<_i301.GetUserRoadmaps>(),
+        gh<_i301.SuggestRoadmapLevel>(),
+        gh<_i852.GetProfile>(),
+        gh<_i301.AddUserRoadmap>(),
+      ));
   gh.factory<_i990.EditProfileCubit>(() => _i990.EditProfileCubit(
         gh<_i852.GetProfile>(),
         gh<_i852.GetAvatarPath>(),
@@ -222,6 +256,14 @@ _i174.GetIt $initGetIt(
         gh<_i852.SaveProfile>(),
         gh<_i4.GetTracks>(),
         analytics: gh<_i1033.AppAnalytics>(),
+      ));
+  gh.factory<_i152.RoadmapsCubit>(() => _i152.RoadmapsCubit(
+        gh<_i301.GetUserRoadmaps>(),
+        gh<_i301.SelectUserRoadmap>(),
+        gh<_i301.RemoveUserRoadmap>(),
+        gh<_i4.GetTracks>(),
+        gh<_i4.GetExploreDashboard>(),
+        gh<_i4.WatchProgress>(),
       ));
   return getIt;
 }

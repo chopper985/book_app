@@ -7,6 +7,7 @@ import 'package:AppName/core/utils/dio_api/result.dart';
 import 'package:AppName/features/catalog/data/datasources/mock_dashboard_datasource.dart';
 import 'package:AppName/features/catalog/data/repositories/catalog_repository_impl.dart';
 import 'package:AppName/features/catalog/data/repositories/saved_tracks_repository_impl.dart';
+import 'package:AppName/features/catalog/data/repositories/user_roadmaps_repository_impl.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
 import 'package:AppName/features/content/data/parsers/content_parser.dart';
 import 'package:AppName/features/content/domain/entities/content_catalog.dart';
@@ -19,6 +20,7 @@ import 'package:AppName/features/profile/presentation/cubit/onboarding_cubit.dar
 import '../../helpers/in_memory_avatar_datasource.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
 import '../../helpers/in_memory_saved_tracks_datasource.dart';
+import '../../helpers/in_memory_user_roadmaps_datasource.dart';
 import '../../helpers/in_memory_profile_datasource.dart';
 import '../content/content_test_data.dart';
 
@@ -60,6 +62,7 @@ void main() {
       PracticeRepositoryImpl(content, InMemoryPracticeLocalDataSource(), clock),
       profiles,
       SavedTracksRepositoryImpl(InMemorySavedTracksLocalDataSource()),
+      UserRoadmapsRepositoryImpl(        InMemoryUserRoadmapsLocalDataSource(),        AppClock(),      ),
       MockDashboardDataSource(),
       clock,
     );

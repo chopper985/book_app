@@ -11,39 +11,26 @@ final class RoadmapsLoading extends RoadmapsState {
   const RoadmapsLoading();
 }
 
-final class RoadmapsInvalidContent extends RoadmapsState {
-  final List<ContentIssue> issues;
-
-  const RoadmapsInvalidContent(this.issues);
-
-  @override
-  List<Object?> get props => [issues];
-}
-
 final class RoadmapsLoaded extends RoadmapsState {
-  final List<TrackOverview> tracks;
+  /// Most recently added first.
+  final List<UserRoadmap> roadmaps;
 
-  /// [tracks] after the category and search filters.
-  final List<TrackOverview> visibleTracks;
+  /// `null` until the learner picks a language and a level.
+  final UserRoadmap? active;
 
-  /// Bookmarked tracks, most recently saved first. Hidden while searching.
-  final List<TrackOverview> savedTracks;
-  final ExploreDashboard dashboard;
-  final String? category;
-  final String query;
+  /// Track per id, for names and icons in the switcher.
+  final Map<String, TrackOverview> tracks;
+
+  /// Header data (role label, streak).
+  final LearnerSummary learner;
 
   const RoadmapsLoaded({
+    required this.roadmaps,
+    required this.active,
     required this.tracks,
-    required this.visibleTracks,
-    required this.savedTracks,
-    required this.dashboard,
-    this.category,
-    this.query = '',
+    required this.learner,
   });
 
-  bool get isFiltering => category != null || query.trim().isNotEmpty;
-
   @override
-  List<Object?> get props =>
-      [tracks, visibleTracks, savedTracks, dashboard, category, query];
+  List<Object?> get props => [roadmaps, active, tracks, learner];
 }

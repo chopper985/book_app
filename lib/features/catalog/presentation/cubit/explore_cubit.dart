@@ -10,6 +10,7 @@ import 'package:injectable/injectable.dart';
 import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
 import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
+import 'package:AppName/features/catalog/domain/usecase/user_roadmaps.dart';
 import 'package:AppName/features/content/domain/entities/content_failure.dart';
 import 'package:AppName/features/content/domain/entities/content_issue.dart';
 import 'package:AppName/features/profile/domain/usecase/profile_usecases.dart';
@@ -22,12 +23,14 @@ class ExploreCubit extends Cubit<ExploreState> {
   final GetTracks _getTracks;
   final GetExploreDashboard _getDashboard;
   final GetProfile _getProfile;
+  final OpenTrackRoadmap _openTrackRoadmap;
   late final StreamSubscription<void> _progressSubscription;
 
   ExploreCubit(
     this._getTracks,
     this._getDashboard,
     this._getProfile,
+    this._openTrackRoadmap,
     WatchProgress watchProgress,
   ) : super(const ExploreLoading()) {
     _progressSubscription = watchProgress().listen((_) => refresh());
@@ -78,6 +81,10 @@ class ExploreCubit extends Cubit<ExploreState> {
         ? mine
         : tracks.where((overview) => overview.track.isAvailable).toList();
   }
+
+  /// Makes [trackId] the active roadmap (adding it at the suggested level when
+  /// the learner has none for it) before switching to the Roadmaps tab.
+  Future<void> openTrack(String trackId) => _openTrackRoadmap(trackId);
 
   @override
   Future<void> close() async {

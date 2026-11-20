@@ -4,7 +4,17 @@ import 'package:equatable/equatable.dart';
 // Project imports:
 import 'package:AppName/features/content/domain/entities/localized_text.dart';
 
-enum QuestionLevel { fresher, junior }
+/// Ordered from easiest to hardest.
+enum QuestionLevel {
+  fresher,
+  junior,
+  middle,
+  senior;
+
+  /// Middle and above need a paid plan, so they only live in sets with an
+  /// `accessPlanId`.
+  bool get isPremium => index >= QuestionLevel.middle.index;
+}
 
 enum QuestionType {
   multipleChoice,

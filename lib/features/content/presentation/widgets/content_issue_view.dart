@@ -98,6 +98,8 @@ class ContentIssueView extends StatelessWidget {
       ContentIssueCode.missingTranslation => Strings.issueMissingTranslation,
       ContentIssueCode.emptySet => Strings.issueEmptySet,
       ContentIssueCode.invalidVersion => Strings.issueInvalidVersion,
+      ContentIssueCode.premiumLevelInFreeSet =>
+        Strings.issuePremiumLevelInFreeSet,
     };
     final text = key.i18n;
     return text.contains('%s') ? text.fill([issue.detail]) : text;

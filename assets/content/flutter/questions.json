@@ -8,37 +8,43 @@
       "level": "fresher",
       "type": "multipleChoice",
       "prompt": {
-        "vi": "Khác biệt chính giữa `StatelessWidget` và `StatefulWidget` là gì?"
+        "vi": "Khác biệt chính giữa `StatelessWidget` và `StatefulWidget` là gì?",
+        "en": "What is the main difference between `StatelessWidget` and `StatefulWidget`?"
       },
       "options": [
         {
           "id": "a",
           "text": {
-            "vi": "StatefulWidget có object State tồn tại qua các lần rebuild"
+            "vi": "StatefulWidget có object State tồn tại qua các lần rebuild",
+            "en": "A StatefulWidget has a State object that persists across rebuilds"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "StatelessWidget không bao giờ được build lại"
+            "vi": "StatelessWidget không bao giờ được build lại",
+            "en": "A StatelessWidget is never rebuilt"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "StatefulWidget luôn render nhanh hơn"
+            "vi": "StatefulWidget luôn render nhanh hơn",
+            "en": "A StatefulWidget always renders faster"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "StatelessWidget không nhận tham số qua constructor"
+            "vi": "StatelessWidget không nhận tham số qua constructor",
+            "en": "A StatelessWidget cannot receive constructor parameters"
           }
         }
       ],
       "answerId": "a",
       "explanation": {
-        "vi": "`StatefulWidget` tạo một object `State` được giữ lại qua các lần rebuild, nên dữ liệu thay đổi được lưu trong đó và cập nhật UI qua `setState` hoặc công cụ quản lý state. `StatelessWidget` vẫn được build lại khi widget cha rebuild hoặc khi dependency thay đổi; nó chỉ không có `State` riêng tồn tại lâu dài."
+        "vi": "`StatefulWidget` tạo một object `State` được giữ lại qua các lần rebuild, nên dữ liệu thay đổi được lưu trong đó và cập nhật UI qua `setState` hoặc công cụ quản lý state. `StatelessWidget` vẫn được build lại khi widget cha rebuild hoặc khi dependency thay đổi; nó chỉ không có `State` riêng tồn tại lâu dài.",
+        "en": "A `StatefulWidget` creates a `State` object that is kept across rebuilds, so mutable data lives there and the UI is updated via `setState` or a state-management tool. A `StatelessWidget` is still rebuilt when its parent rebuilds or when a dependency changes; it just has no long-lived `State` of its own."
       }
     },
     {
@@ -49,7 +55,8 @@
       "level": "junior",
       "type": "outputPrediction",
       "prompt": {
-        "vi": "Khi `Demo` được chèn vào cây widget lần đầu, thứ tự in ra là gì?"
+        "vi": "Khi `Demo` được chèn vào cây widget lần đầu, thứ tự in ra là gì?",
+        "en": "When `Demo` is inserted into the widget tree for the first time, in what order are the lines printed?"
       },
       "code": {
         "language": "dart",
@@ -58,24 +65,37 @@
       "options": [
         {
           "id": "a",
-          "text": "initState → didChangeDependencies → build"
+          "text": {
+            "vi": "initState → didChangeDependencies → build",
+            "en": "initState → didChangeDependencies → build"
+          }
         },
         {
           "id": "b",
-          "text": "build → initState → didChangeDependencies"
+          "text": {
+            "vi": "build → initState → didChangeDependencies",
+            "en": "build → initState → didChangeDependencies"
+          }
         },
         {
           "id": "c",
-          "text": "didChangeDependencies → initState → build"
+          "text": {
+            "vi": "didChangeDependencies → initState → build",
+            "en": "didChangeDependencies → initState → build"
+          }
         },
         {
           "id": "d",
-          "text": "initState → build"
+          "text": {
+            "vi": "initState → build",
+            "en": "initState → build"
+          }
         }
       ],
       "answerId": "a",
       "explanation": {
-        "vi": "Lần đầu `State` được gắn vào cây, Flutter gọi `initState`, sau đó gọi ngay `didChangeDependencies`, rồi mới gọi `build`. Về sau `didChangeDependencies` chỉ được gọi lại khi một `InheritedWidget` mà widget phụ thuộc thay đổi."
+        "vi": "Lần đầu `State` được gắn vào cây, Flutter gọi `initState`, sau đó gọi ngay `didChangeDependencies`, rồi mới gọi `build`. Về sau `didChangeDependencies` chỉ được gọi lại khi một `InheritedWidget` mà widget phụ thuộc thay đổi.",
+        "en": "When the `State` is first mounted, Flutter calls `initState`, then immediately `didChangeDependencies`, and only then `build`. Afterwards, `didChangeDependencies` is only called again when an `InheritedWidget` the widget depends on changes."
       }
     },
     {
@@ -86,7 +106,8 @@
       "level": "fresher",
       "type": "findBug",
       "prompt": {
-        "vi": "Đoạn layout sau gây lỗi lúc chạy. Nguyên nhân là gì?"
+        "vi": "Đoạn layout sau gây lỗi lúc chạy. Nguyên nhân là gì?",
+        "en": "The following layout throws an error at runtime. What is the cause?"
       },
       "code": {
         "language": "dart",
@@ -96,31 +117,36 @@
         {
           "id": "a",
           "text": {
-            "vi": "ListView nằm trực tiếp trong Column nên nhận chiều cao không giới hạn"
+            "vi": "ListView nằm trực tiếp trong Column nên nhận chiều cao không giới hạn",
+            "en": "The ListView sits directly in a Column, so it receives unbounded height"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Text phải được bọc trong Expanded"
+            "vi": "Text phải được bọc trong Expanded",
+            "en": "The Text must be wrapped in Expanded"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "ListTile không dùng được trong ListView"
+            "vi": "ListTile không dùng được trong ListView",
+            "en": "ListTile cannot be used inside a ListView"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Column thiếu thuộc tính mainAxisSize"
+            "vi": "Column thiếu thuộc tính mainAxisSize",
+            "en": "The Column is missing the mainAxisSize property"
           }
         }
       ],
       "answerId": "a",
       "explanation": {
-        "vi": "`Column` cho các con chiều cao không giới hạn theo trục dọc. `ListView` cuộn dọc nên cần chiều cao xác định, vì vậy Flutter báo lỗi \"Vertical viewport was given unbounded height\". Cách sửa: bọc `ListView` trong `Expanded` để nó lấy phần chiều cao còn lại. Với danh sách rất ngắn có thể dùng `shrinkWrap: true`."
+        "vi": "`Column` cho các con chiều cao không giới hạn theo trục dọc. `ListView` cuộn dọc nên cần chiều cao xác định, vì vậy Flutter báo lỗi \"Vertical viewport was given unbounded height\". Cách sửa: bọc `ListView` trong `Expanded` để nó lấy phần chiều cao còn lại. Với danh sách rất ngắn có thể dùng `shrinkWrap: true`.",
+        "en": "A `Column` gives its children unbounded height along the vertical axis. A vertically scrolling `ListView` needs a bounded height, so Flutter reports \"Vertical viewport was given unbounded height\". Fix: wrap the `ListView` in `Expanded` so it takes the remaining height. For a very short list you can use `shrinkWrap: true`."
       }
     },
     {
@@ -131,37 +157,43 @@
       "level": "junior",
       "type": "multipleChoice",
       "prompt": {
-        "vi": "Vì sao cần kiểm tra `mounted` (hoặc `context.mounted`) sau một `await` trước khi dùng `context`?"
+        "vi": "Vì sao cần kiểm tra `mounted` (hoặc `context.mounted`) sau một `await` trước khi dùng `context`?",
+        "en": "Why should you check `mounted` (or `context.mounted`) after an `await` before using `context`?"
       },
       "options": [
         {
           "id": "a",
           "text": {
-            "vi": "Widget có thể đã bị gỡ khỏi cây trong lúc chờ"
+            "vi": "Widget có thể đã bị gỡ khỏi cây trong lúc chờ",
+            "en": "The widget may have been removed from the tree while waiting"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Để hàm build chạy nhanh hơn"
+            "vi": "Để hàm build chạy nhanh hơn",
+            "en": "To make the build method run faster"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Vì await làm mất giá trị của biến cục bộ"
+            "vi": "Vì await làm mất giá trị của biến cục bộ",
+            "en": "Because await wipes the values of local variables"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Vì trình biên dịch bắt buộc sau mỗi await"
+            "vi": "Vì trình biên dịch bắt buộc sau mỗi await",
+            "en": "Because the compiler requires it after every await"
           }
         }
       ],
       "answerId": "a",
       "explanation": {
-        "vi": "Trong lúc chờ `await`, người dùng có thể rời màn hình và widget bị gỡ khỏi cây. Khi đó `context` không còn hợp lệ: gọi `setState`, `Navigator.of(context)` hay `ScaffoldMessenger.of(context)` có thể gây lỗi. Kiểm tra `if (!context.mounted) return;` giúp tránh trường hợp này; lint `use_build_context_synchronously` cũng cảnh báo lỗi này."
+        "vi": "Trong lúc chờ `await`, người dùng có thể rời màn hình và widget bị gỡ khỏi cây. Khi đó `context` không còn hợp lệ: gọi `setState`, `Navigator.of(context)` hay `ScaffoldMessenger.of(context)` có thể gây lỗi. Kiểm tra `if (!context.mounted) return;` giúp tránh trường hợp này; lint `use_build_context_synchronously` cũng cảnh báo lỗi này.",
+        "en": "While an `await` is pending, the user may leave the screen and the widget is removed from the tree. The `context` is then no longer valid: calling `setState`, `Navigator.of(context)` or `ScaffoldMessenger.of(context)` can throw. Checking `if (!context.mounted) return;` avoids this; the `use_build_context_synchronously` lint also warns about it."
       }
     },
     {
@@ -172,24 +204,1210 @@
       "level": "junior",
       "type": "selfExplain",
       "prompt": {
-        "vi": "Trình bày cách validate một form đăng nhập gồm email và mật khẩu trong Flutter."
+        "vi": "Trình bày cách validate một form đăng nhập gồm email và mật khẩu trong Flutter.",
+        "en": "Explain how to validate a login form with email and password fields in Flutter."
       },
       "keyPoints": [
         {
-          "vi": "Bọc các trường trong `Form` với `GlobalKey<FormState>`"
+          "vi": "Bọc các trường trong `Form` với `GlobalKey<FormState>`",
+          "en": "Wrap the fields in a `Form` with a `GlobalKey<FormState>`"
         },
         {
-          "vi": "Dùng `TextFormField.validator`: trả về chuỗi lỗi hoặc `null`"
+          "vi": "Dùng `TextFormField.validator`: trả về chuỗi lỗi hoặc `null`",
+          "en": "Use `TextFormField.validator`: return an error string or `null`"
         },
         {
-          "vi": "Gọi `validate()` khi gửi và chỉ xử lý khi trả về `true`"
+          "vi": "Gọi `validate()` khi gửi và chỉ xử lý khi trả về `true`",
+          "en": "Call `validate()` on submit and proceed only when it returns `true`"
         },
         {
-          "vi": "Lấy giá trị qua `TextEditingController` (có `dispose`) hoặc `onSaved`"
+          "vi": "Lấy giá trị qua `TextEditingController` (có `dispose`) hoặc `onSaved`",
+          "en": "Read values via a `TextEditingController` (with `dispose`) or `onSaved`"
         }
       ],
       "explanation": {
-        "vi": "Bọc các trường trong `Form` và giữ một `GlobalKey<FormState>`. Mỗi `TextFormField` có `validator` trả về chuỗi lỗi khi dữ liệu sai và `null` khi hợp lệ, ví dụ kiểm tra email đúng định dạng và mật khẩu đủ độ dài. Khi bấm Đăng nhập, gọi `formKey.currentState!.validate()` và chỉ gửi dữ liệu khi kết quả là `true`. Lấy giá trị qua `TextEditingController` (nhớ `dispose`) hoặc `onSaved`. Có thể đặt `autovalidateMode` để báo lỗi ngay khi người dùng sửa."
+        "vi": "Bọc các trường trong `Form` và giữ một `GlobalKey<FormState>`. Mỗi `TextFormField` có `validator` trả về chuỗi lỗi khi dữ liệu sai và `null` khi hợp lệ, ví dụ kiểm tra email đúng định dạng và mật khẩu đủ độ dài. Khi bấm Đăng nhập, gọi `formKey.currentState!.validate()` và chỉ gửi dữ liệu khi kết quả là `true`. Lấy giá trị qua `TextEditingController` (nhớ `dispose`) hoặc `onSaved`. Có thể đặt `autovalidateMode` để báo lỗi ngay khi người dùng sửa.",
+        "en": "Wrap the fields in a `Form` and keep a `GlobalKey<FormState>`. Each `TextFormField` has a `validator` that returns an error string when the input is invalid and `null` when it is valid, e.g. checking the email format and the password length. When Login is tapped, call `formKey.currentState!.validate()` and only submit when it returns `true`. Read values via a `TextEditingController` (remember to `dispose` it) or `onSaved`. You can set `autovalidateMode` to show errors as the user edits."
+      }
+    },
+    {
+      "id": "flutter.widget.002",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "widget",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`BuildContext` trong hàm `build(BuildContext context)` thực chất là gì?",
+        "en": "What is the `BuildContext` passed to `build(BuildContext context)` really?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một bản sao của widget dùng để so sánh khi rebuild",
+            "en": "A copy of the widget used for diffing on rebuild"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một object toàn cục dùng chung cho cả ứng dụng",
+            "en": "A global object shared by the whole app"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tham chiếu tới vị trí của widget trong cây (chính là `Element`)",
+            "en": "A handle to the widget's location in the tree (it is the `Element`)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Object chứa state của `StatefulWidget`",
+            "en": "The object holding a `StatefulWidget`'s state"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`BuildContext` chính là `Element` tương ứng với widget, tức là vị trí của widget trong cây. Nhờ vậy `Theme.of(context)` hay `Navigator.of(context)` có thể đi ngược lên các tổ tiên để tìm dữ liệu. Nó không phải bản sao của widget, cũng không phải object chung cho cả app: mỗi widget có context riêng, nên dùng context của widget cha hay con sẽ cho kết quả tra cứu khác nhau.",
+        "en": "`BuildContext` is the `Element` for that widget, i.e. the widget's location in the tree. That is why `Theme.of(context)` or `Navigator.of(context)` can walk up the ancestors to find data. It is not a copy of the widget nor a single app-wide object: each widget has its own context, so looking things up from a parent's or a child's context can give different results."
+      }
+    },
+    {
+      "id": "flutter.widget.003",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "widget",
+      "level": "middle",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Ban đầu `swapped = false`. Widget cha gọi `setState(() => swapped = true)`. Sau khi rebuild, hai `Tile` hiển thị gì (theo thứ tự từ trên xuống)?",
+        "en": "Initially `swapped = false`. The parent calls `setState(() => swapped = true)`. After the rebuild, what do the two `Tile`s display (top to bottom)?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class Tile extends StatefulWidget {\n  const Tile({super.key, required this.label});\n  final String label;\n\n  @override\n  State<Tile> createState() => _TileState();\n}\n\nclass _TileState extends State<Tile> {\n  late final String initial = widget.label;\n\n  @override\n  Widget build(BuildContext context) =>\n      Text('$initial/${widget.label}');\n}\n\n// In the parent's build:\nColumn(\n  children: swapped\n      ? const [Tile(label: 'B'), Tile(label: 'A')]\n      : const [Tile(label: 'A'), Tile(label: 'B')],\n)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "B/B và A/A",
+            "en": "B/B and A/A"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "A/B và B/A",
+            "en": "A/B and B/A"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "B/A và A/B",
+            "en": "B/A and A/B"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "A/A và B/B",
+            "en": "A/A and B/B"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Không có key, Flutter so khớp widget mới với `Element` cũ theo vị trí và `runtimeType`. Cả hai đều là `Tile` nên `Element` và `State` được giữ nguyên tại chỗ, chỉ `widget` được cập nhật. `initial` được gán một lần nên vẫn là A rồi B, còn `widget.label` là giá trị mới B rồi A, kết quả `A/B` và `B/A`. Muốn state đi theo dữ liệu khi đổi chỗ (để ra `B/B` và `A/A`), hãy đặt `ValueKey(label)` cho mỗi `Tile`.",
+        "en": "Without keys, Flutter matches new widgets to the old `Element`s by position and `runtimeType`. Both are `Tile`, so each `Element` and its `State` stay in place and only `widget` is updated. `initial` was assigned once, so it is still A then B, while `widget.label` is the new B then A, giving `A/B` and `B/A`. To make the state move with the data when reordering (yielding `B/B` and `A/A`), give each `Tile` a `ValueKey(label)`."
+      }
+    },
+    {
+      "id": "flutter.widget.004",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "widget",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích mối quan hệ giữa Widget tree, Element tree và RenderObject tree. Khi rebuild, Flutter quyết định tái sử dụng hay tạo mới `Element` như thế nào?",
+        "en": "Explain how the Widget tree, Element tree and RenderObject tree relate. On rebuild, how does Flutter decide whether to reuse or recreate an `Element`?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Widget là cấu hình bất biến, rẻ, được tạo lại mỗi lần `build`",
+          "en": "Widgets are immutable, cheap configuration recreated on every `build`"
+        },
+        {
+          "vi": "`Element` sống lâu, giữ vị trí trong cây và `State`; `BuildContext` chính là `Element`",
+          "en": "`Element`s are long-lived, hold the tree position and `State`; `BuildContext` is the `Element`"
+        },
+        {
+          "vi": "`RenderObject` lo layout, paint và hit-test; chỉ được cập nhật thuộc tính khi có thể",
+          "en": "`RenderObject`s do layout, paint and hit-testing; they are updated in place when possible"
+        },
+        {
+          "vi": "`Widget.canUpdate`: cùng `runtimeType` và `key` thì tái sử dụng `Element`, khác thì unmount và tạo mới",
+          "en": "`Widget.canUpdate`: same `runtimeType` and `key` reuses the `Element`, otherwise it is unmounted and recreated"
+        },
+        {
+          "vi": "Key (đặc biệt `ValueKey`, `GlobalKey`) điều khiển việc giữ hay mất state khi đổi thứ tự/di chuyển",
+          "en": "Keys (especially `ValueKey`, `GlobalKey`) control whether state survives reordering or moving"
+        }
+      ],
+      "explanation": {
+        "vi": "Widget chỉ là cấu hình bất biến, rẻ để tạo lại mỗi lần `build`. `Element` là object sống lâu, giữ vị trí trong cây, giữ `State` và liên kết tới `RenderObject` lo layout/paint/hit-test. Khi rebuild, với mỗi vị trí Flutter gọi `Widget.canUpdate(old, new)`: nếu cùng `runtimeType` và cùng `key` thì `Element` được giữ lại và chỉ cập nhật cấu hình (`update` → `didUpdateWidget`, `updateRenderObject`); nếu khác thì `Element` cũ bị unmount (State bị `dispose`) và tạo mới. Vì vậy đổi kiểu widget hoặc key sẽ làm mất state, còn `GlobalKey` cho phép di chuyển subtree sang vị trí khác mà vẫn giữ state.",
+        "en": "Widgets are just immutable configuration, cheap to recreate on every `build`. An `Element` is the long-lived object that holds the tree position, the `State`, and a link to the `RenderObject` that does layout/paint/hit-testing. On rebuild, for each slot Flutter calls `Widget.canUpdate(old, new)`: if the `runtimeType` and `key` match, the `Element` is kept and only its configuration is updated (`update` → `didUpdateWidget`, `updateRenderObject`); otherwise the old `Element` is unmounted (its State is `dispose`d) and a new one is created. That is why changing a widget's type or key loses state, while a `GlobalKey` lets a subtree move elsewhere and keep its state."
+      }
+    },
+    {
+      "id": "flutter.state.002",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "state",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Widget đã hiển thị lần đầu và in ra `build: 0`. Người dùng bấm nút một lần. Những dòng nào được in tiếp theo?",
+        "en": "The widget has been shown and printed `build: 0`. The user taps the button once. Which lines are printed next?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class _CounterState extends State<Counter> {\n  int count = 0;\n\n  void onTap() {\n    setState(() => count++);\n    setState(() => count++);\n    print('tapped: $count');\n  }\n\n  @override\n  Widget build(BuildContext context) {\n    print('build: $count');\n    return TextButton(\n      onPressed: onTap,\n      child: Text('$count'),\n    );\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "build: 1 → build: 2 → tapped: 2",
+            "en": "build: 1 → build: 2 → tapped: 2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "tapped: 2 → build: 1 → build: 2",
+            "en": "tapped: 2 → build: 1 → build: 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "build: 1 → tapped: 1 → build: 2",
+            "en": "build: 1 → tapped: 1 → build: 2"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "tapped: 2 → build: 2",
+            "en": "tapped: 2 → build: 2"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`setState` không build lại ngay lập tức: nó chạy callback (tăng `count`) rồi đánh dấu widget cần rebuild ở frame tiếp theo. Hai lần `setState` liên tiếp chỉ đánh dấu cùng một widget là \"dirty\", nên `count` đã là 2 khi `print` chạy, và frame sau chỉ gọi `build` một lần với giá trị 2. Các đáp án có `build: 1` sai vì cho rằng mỗi `setState` gây một lần build đồng bộ.",
+        "en": "`setState` does not rebuild immediately: it runs the callback (incrementing `count`) and marks the widget as needing a rebuild on the next frame. Two consecutive `setState` calls just mark the same widget dirty, so `count` is already 2 when `print` runs, and the next frame calls `build` once with the value 2. Options containing `build: 1` are wrong because they assume each `setState` triggers a synchronous build."
+      }
+    },
+    {
+      "id": "flutter.state.003",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "state",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Bấm thêm todo nhưng `BlocBuilder<TodoCubit, List<String>>` không cập nhật UI. Lỗi nằm ở đâu?",
+        "en": "Adding a todo does not update `BlocBuilder<TodoCubit, List<String>>`. Where is the bug?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class TodoCubit extends Cubit<List<String>> {\n  TodoCubit() : super([]);\n\n  void add(String title) {\n    state.add(title);\n    emit(state);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Cubit` không hỗ trợ state kiểu `List`",
+            "en": "`Cubit` does not support `List` states"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải gọi `setState` sau khi `emit`",
+            "en": "You must call `setState` after `emit`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Mutate list hiện tại rồi `emit` cùng instance, nên `emit` coi là state không đổi",
+            "en": "It mutates the current list and emits the same instance, so `emit` treats it as unchanged"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`super([])` phải là `super(const [])`",
+            "en": "`super([])` must be `super(const [])`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`emit` bỏ qua state mới nếu nó bằng (`==`) state hiện tại. Ở đây `state.add` sửa trực tiếp list hiện tại rồi `emit` lại chính instance đó, nên `newState == state` là `true` và không có rebuild nào. Cách sửa: luôn tạo state mới bất biến, ví dụ `emit([...state, title])`. `BlocBuilder` hoàn toàn rebuild được với `List`; vấn đề không nằm ở kiểu dữ liệu mà ở việc mutate state.",
+        "en": "`emit` ignores a new state that is equal (`==`) to the current one. Here `state.add` mutates the current list and then emits the very same instance, so `newState == state` is `true` and nothing rebuilds. Fix: always create a new immutable state, e.g. `emit([...state, title])`. `BlocBuilder` can rebuild with a `List` just fine; the problem is not the type but mutating the state."
+      }
+    },
+    {
+      "id": "flutter.state.004",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "state",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với package `provider`, phát biểu nào đúng về `context.watch<T>()` và `context.read<T>()`?",
+        "en": "With the `provider` package, which statement about `context.watch<T>()` and `context.read<T>()` is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hai hàm như nhau, `read` chỉ là tên ngắn gọn hơn",
+            "en": "They are the same; `read` is just a shorter name"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`watch` dùng trong `build` để rebuild khi giá trị đổi; `read` dùng trong callback, không lắng nghe",
+            "en": "`watch` is used in `build` to rebuild on changes; `read` is used in callbacks and does not listen"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`read` dùng trong `build`, còn `watch` chỉ dùng được trong `initState`",
+            "en": "`read` is for `build`, while `watch` only works in `initState`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`watch` nhanh hơn `read` nên luôn ưu tiên `watch`",
+            "en": "`watch` is faster than `read`, so always prefer `watch`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`watch` đăng ký phụ thuộc vào provider nên widget rebuild mỗi khi giá trị thay đổi; nó dùng trong `build`. `read` chỉ lấy giá trị một lần, không lắng nghe, nên phù hợp trong callback như `onPressed` để gọi method. Dùng `read` trong `build` khiến UI không cập nhật, còn dùng `watch` trong callback sẽ bị báo lỗi. Hai hàm khác nhau ở việc có lắng nghe hay không, không phải ở tốc độ.",
+        "en": "`watch` registers a dependency on the provider so the widget rebuilds whenever the value changes; it belongs in `build`. `read` fetches the value once without listening, so it fits in callbacks such as `onPressed` to call methods. Using `read` in `build` means the UI won't update, and using `watch` in a callback throws an error. The difference is whether they listen, not speed."
+      }
+    },
+    {
+      "id": "flutter.lifecycle.002",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "lifecycle",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `State`, bạn nên giải phóng `AnimationController`, `StreamSubscription`, `TextEditingController` ở method nào?",
+        "en": "In a `State`, where should you release an `AnimationController`, a `StreamSubscription` or a `TextEditingController`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`deactivate`",
+            "en": "`deactivate`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`didUpdateWidget`",
+            "en": "`didUpdateWidget`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cuối hàm `build`",
+            "en": "At the end of `build`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`dispose`",
+            "en": "`dispose`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`dispose` được gọi đúng một lần khi `State` bị gỡ vĩnh viễn khỏi cây, nên đây là nơi gọi `controller.dispose()` hay `subscription.cancel()` (trước `super.dispose()`). `deactivate` có thể được gọi khi widget chỉ tạm rời cây rồi được gắn lại (ví dụ di chuyển bằng `GlobalKey`), nên giải phóng ở đó dễ gây lỗi. `build` chạy nhiều lần và `didUpdateWidget` chỉ chạy khi cấu hình đổi, đều không phải nơi dọn dẹp.",
+        "en": "`dispose` is called exactly once when the `State` is permanently removed from the tree, so that is where to call `controller.dispose()` or `subscription.cancel()` (before `super.dispose()`). `deactivate` may run when the widget only leaves the tree temporarily and is reinserted (e.g. moved with a `GlobalKey`), so releasing there is error-prone. `build` runs many times and `didUpdateWidget` only runs when the configuration changes; neither is the place for cleanup."
+      }
+    },
+    {
+      "id": "flutter.lifecycle.003",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "lifecycle",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "`Child(value: 1)` đang hiển thị. Widget cha gọi `setState` và build lại `Child(value: 2)` ở cùng vị trí, không đổi key. `_ChildState` in ra gì?",
+        "en": "`Child(value: 1)` is on screen. The parent calls `setState` and rebuilds `Child(value: 2)` in the same position with no key change. What does `_ChildState` print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class _ChildState extends State<Child> {\n  @override\n  void initState() {\n    super.initState();\n    print('initState');\n  }\n\n  @override\n  void didUpdateWidget(covariant Child oldWidget) {\n    super.didUpdateWidget(oldWidget);\n    print('didUpdateWidget ${oldWidget.value} -> ${widget.value}');\n  }\n\n  @override\n  Widget build(BuildContext context) {\n    print('build ${widget.value}');\n    return Text('${widget.value}');\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "initState → build 2",
+            "en": "initState → build 2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "build 2",
+            "en": "build 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "didUpdateWidget 1 -> 2 → build 2",
+            "en": "didUpdateWidget 1 -> 2 → build 2"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "didUpdateWidget 1 -> 2",
+            "en": "didUpdateWidget 1 -> 2"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Cùng kiểu widget và cùng key nên Flutter giữ nguyên `Element` và `State`, không gọi lại `initState`. Nó gán widget mới vào `State`, gọi `didUpdateWidget(oldWidget)` (lúc này `widget.value` đã là 2), rồi gọi `build`. Đáp án chỉ có `didUpdateWidget` sai vì sau `didUpdateWidget` framework luôn build lại `State` đó.",
+        "en": "Same widget type and same key, so Flutter keeps the `Element` and `State` and does not call `initState` again. It assigns the new widget to the `State`, calls `didUpdateWidget(oldWidget)` (where `widget.value` is already 2), then calls `build`. The option with only `didUpdateWidget` is wrong because the framework always rebuilds that `State` after `didUpdateWidget`."
+      }
+    },
+    {
+      "id": "flutter.lifecycle.004",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "lifecycle",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần tạm dừng video khi người dùng chuyển app xuống background và phát tiếp khi quay lại. Cách nào phù hợp?",
+        "en": "You need to pause a video when the user sends the app to the background and resume when they return. Which approach fits?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tạm dừng trong `deactivate`, phát lại trong `initState`",
+            "en": "Pause in `deactivate`, resume in `initState`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lắng nghe `didChangeAppLifecycleState` (qua `WidgetsBindingObserver` hoặc `AppLifecycleListener`) và xử lý `paused`/`resumed`",
+            "en": "Listen to `didChangeAppLifecycleState` (via `WidgetsBindingObserver` or `AppLifecycleListener`) and handle `paused`/`resumed`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tạm dừng trong `dispose` vì nó được gọi khi app xuống background",
+            "en": "Pause in `dispose`, since it runs when the app goes to the background"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Kiểm tra trạng thái app trong `didChangeDependencies`",
+            "en": "Check the app state in `didChangeDependencies`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Sự kiện vòng đời của cả ứng dụng được báo qua `WidgetsBindingObserver.didChangeAppLifecycleState` (hoặc `AppLifecycleListener` từ Flutter 3.13): tạm dừng ở `paused`/`inactive`, phát tiếp ở `resumed`, nhớ đăng ký trong `initState` và gỡ trong `dispose`. `deactivate`/`dispose` chỉ liên quan đến việc widget rời cây, không được gọi khi app xuống background. `didChangeDependencies` chỉ chạy khi `InheritedWidget` phụ thuộc thay đổi.",
+        "en": "App-wide lifecycle events are delivered through `WidgetsBindingObserver.didChangeAppLifecycleState` (or `AppLifecycleListener` since Flutter 3.13): pause on `paused`/`inactive`, resume on `resumed`, registering in `initState` and removing in `dispose`. `deactivate`/`dispose` are about the widget leaving the tree and are not called when the app goes to the background. `didChangeDependencies` only runs when an `InheritedWidget` dependency changes."
+      }
+    },
+    {
+      "id": "flutter.layout.002",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "layout",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `Row`/`Column`, khác biệt giữa `Expanded` và `Flexible` là gì?",
+        "en": "Inside a `Row`/`Column`, what is the difference between `Expanded` and `Flexible`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Expanded` chỉ dùng được trong `Column`, `Flexible` chỉ dùng trong `Row`",
+            "en": "`Expanded` only works in a `Column`, `Flexible` only in a `Row`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Flexible` không có thuộc tính `flex`",
+            "en": "`Flexible` has no `flex` property"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Expanded` cho phép con nhỏ hơn phần được chia, `Flexible` thì buộc lấp đầy",
+            "en": "`Expanded` lets the child be smaller than its share, `Flexible` forces it to fill"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Expanded` buộc con lấp đầy phần được chia (`FlexFit.tight`), `Flexible` mặc định cho phép con nhỏ hơn (`FlexFit.loose`)",
+            "en": "`Expanded` forces the child to fill its share (`FlexFit.tight`); `Flexible` lets it be smaller by default (`FlexFit.loose`)"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Expanded` chính là `Flexible` với `fit: FlexFit.tight`: con bị buộc lấp đầy toàn bộ phần không gian được chia. `Flexible` mặc định dùng `FlexFit.loose`, cho phép con nhỏ hơn phần được chia nếu nó không cần nhiều. Cả hai đều nhận `flex` và đều dùng được trong `Row` lẫn `Column`.",
+        "en": "`Expanded` is just `Flexible` with `fit: FlexFit.tight`: the child is forced to fill its whole share of the space. `Flexible` defaults to `FlexFit.loose`, letting the child be smaller than its share if it needs less. Both accept `flex` and both work in `Row` and `Column`."
+      }
+    },
+    {
+      "id": "flutter.layout.003",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "layout",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn layout sau in ra giá trị gì?",
+        "en": "What does this layout print?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "Center(\n  child: SizedBox(\n    width: 300,\n    height: 300,\n    child: SizedBox(\n      width: 100,\n      height: 100,\n      child: LayoutBuilder(\n        builder: (context, constraints) {\n          print(constraints.maxWidth);\n          return const Placeholder();\n        },\n      ),\n    ),\n  ),\n)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "100.0",
+            "en": "100.0"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "300.0",
+            "en": "300.0"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chiều rộng màn hình",
+            "en": "The screen width"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Infinity",
+            "en": "Infinity"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Quy tắc layout: \"constraints go down, sizes go up, parent sets position\". `Center` truyền constraint lỏng xuống, `SizedBox` ngoài biến nó thành constraint chặt 300×300. `SizedBox` trong muốn 100×100 nhưng không được vượt constraint chặt của cha, nên bị ép thành 300×300 và `LayoutBuilder` nhận `maxWidth` là 300.0. Muốn ô 100×100 thật sự, cần chèn một widget nới lỏng constraint như `Center` hoặc `Align` giữa hai `SizedBox`.",
+        "en": "The layout rule: \"constraints go down, sizes go up, parent sets position\". `Center` passes loose constraints down and the outer `SizedBox` turns them into tight 300×300 constraints. The inner `SizedBox` wants 100×100 but cannot violate its parent's tight constraints, so it is forced to 300×300 and `LayoutBuilder` sees a `maxWidth` of 300.0. To really get a 100×100 box, insert a widget that loosens constraints, such as `Center` or `Align`, between the two `SizedBox`es."
+      }
+    },
+    {
+      "id": "flutter.layout.004",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "layout",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một `Row` gồm `Icon` và `Text` rất dài hiện vạch vàng-đen \"RenderFlex overflowed\". Cách sửa đúng nhất là gì?",
+        "en": "A `Row` with an `Icon` and a very long `Text` shows the yellow-black \"RenderFlex overflowed\" stripe. What is the best fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bọc `Row` trong `SingleChildScrollView` cuộn ngang",
+            "en": "Wrap the `Row` in a horizontally scrolling `SingleChildScrollView`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giảm `fontSize` của `Text`",
+            "en": "Reduce the `Text`'s `fontSize`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bọc `Text` trong `Expanded`/`Flexible` (kèm `overflow` nếu cần)",
+            "en": "Wrap the `Text` in `Expanded`/`Flexible` (with `overflow` if needed)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đặt `mainAxisSize: MainAxisSize.min` cho `Row`",
+            "en": "Set `mainAxisSize: MainAxisSize.min` on the `Row`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Row` cho con không phải flex chiều rộng không giới hạn, nên `Text` dài đo theo toàn bộ nội dung và tràn ra ngoài. Bọc `Text` trong `Expanded` hoặc `Flexible` để nó nhận chiều rộng còn lại, khi đó text sẽ xuống dòng hoặc cắt bằng `overflow: TextOverflow.ellipsis`. Bọc cả `Row` trong `SingleChildScrollView` ngang chỉ che lỗi bằng cách bắt người dùng cuộn, còn giảm cỡ chữ không đảm bảo hết tràn với mọi độ dài.",
+        "en": "A `Row` gives non-flex children unbounded width, so a long `Text` measures its full content and overflows. Wrap the `Text` in `Expanded` or `Flexible` so it receives the remaining width; it will then wrap or truncate with `overflow: TextOverflow.ellipsis`. Wrapping the whole `Row` in a horizontal `SingleChildScrollView` only hides the problem by forcing the user to scroll, and shrinking the font does not prevent overflow for every length."
+      }
+    },
+    {
+      "id": "flutter.form.002",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "form",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt chính giữa `TextField` và `TextFormField` là gì?",
+        "en": "What is the main difference between `TextField` and `TextFormField`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`TextField` không dùng được `TextEditingController`",
+            "en": "`TextField` cannot use a `TextEditingController`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`TextFormField` tích hợp với `Form`: có `validator`, `onSaved` và phản hồi `validate()`/`reset()`",
+            "en": "`TextFormField` integrates with `Form`: it has `validator`, `onSaved` and responds to `validate()`/`reset()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`TextFormField` chỉ hiển thị được một dòng",
+            "en": "`TextFormField` can only show a single line"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`TextField` không hỗ trợ `InputDecoration`",
+            "en": "`TextField` does not support `InputDecoration`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`TextFormField` là `FormField` bọc quanh `TextField`, nên nó đăng ký với `Form` cha và hỗ trợ `validator`, `onSaved`, `autovalidateMode`, được gọi khi `Form.validate()`/`save()`/`reset()`. `TextField` vẫn nhận `controller`, `decoration` và hiển thị bàn phím bình thường, chỉ không tích hợp với `Form`. Cả hai dùng được bên ngoài `Form`, nhưng khi đó `validator` của `TextFormField` chỉ chạy nếu bật `autovalidateMode`.",
+        "en": "`TextFormField` is a `FormField` wrapping a `TextField`, so it registers with the parent `Form` and supports `validator`, `onSaved` and `autovalidateMode`, which run on `Form.validate()`/`save()`/`reset()`. `TextField` still accepts a `controller` and `decoration` and shows the keyboard normally; it just does not integrate with `Form`. Both work outside a `Form`, but then a `TextFormField`'s `validator` only runs if `autovalidateMode` is enabled."
+      }
+    },
+    {
+      "id": "flutter.form.003",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "form",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Người dùng gõ vào ô, nhưng mỗi khi widget rebuild thì nội dung bị mất và con trỏ nhảy về đầu. Lỗi là gì?",
+        "en": "The user types into the field, but every time the widget rebuilds the text is lost and the cursor jumps to the start. What is the bug?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class _NameFieldState extends State<NameField> {\n  @override\n  Widget build(BuildContext context) {\n    final controller = TextEditingController();\n    return TextFormField(\n      controller: controller,\n      decoration: const InputDecoration(labelText: 'Tên'),\n      validator: (value) =>\n          (value == null || value.isEmpty) ? 'Bắt buộc' : null,\n    );\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`validator` phải trả về chuỗi rỗng thay vì `null`",
+            "en": "`validator` must return an empty string instead of `null`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`InputDecoration` không được là `const`",
+            "en": "`InputDecoration` must not be `const`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`TextFormField` bắt buộc phải nằm trong `Form`",
+            "en": "`TextFormField` must be inside a `Form`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Controller được tạo mới trong `build` mỗi lần rebuild và không được `dispose`",
+            "en": "The controller is recreated in `build` on every rebuild and never `dispose`d"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`TextEditingController` được tạo trong `build`, nên mỗi lần rebuild (ví dụ khi bàn phím mở làm đổi `MediaQuery`) lại có controller mới rỗng, nội dung cũ mất và controller cũ không bao giờ được `dispose`. Cách sửa: khai báo controller là field của `State` (hoặc tạo trong `initState`) và gọi `dispose()` trong `dispose`. `validator` trả về `null` là đúng khi giá trị hợp lệ, không gây lỗi này.",
+        "en": "The `TextEditingController` is created in `build`, so every rebuild (e.g. the keyboard opening changes `MediaQuery`) creates a new empty controller, the old text is lost, and the old controller is never `dispose`d. Fix: make the controller a field of the `State` (or create it in `initState`) and call `dispose()` in `dispose`. A `validator` returning `null` is correct for valid input and does not cause this."
+      }
+    },
+    {
+      "id": "flutter.navigation.001",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "navigation",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Màn A mở màn B bằng `Navigator.push`, màn B đóng bằng `Navigator.pop(context, 'ok')`. Làm sao màn A nhận được `'ok'`?",
+        "en": "Screen A opens screen B with `Navigator.push`, and B closes with `Navigator.pop(context, 'ok')`. How does A receive `'ok'`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đọc `Navigator.of(context).result` trong `build` của A",
+            "en": "Read `Navigator.of(context).result` in A's `build`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lưu vào biến toàn cục rồi đọc trong `initState` của A",
+            "en": "Store it in a global variable and read it in A's `initState`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`await` kết quả của `Navigator.push`, nó trả về `Future` hoàn thành với giá trị của `pop`",
+            "en": "`await` the result of `Navigator.push`; it returns a `Future` completing with the `pop` value"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không thể trả dữ liệu ngược lại bằng `Navigator`",
+            "en": "Data cannot be returned with `Navigator`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Navigator.push` trả về một `Future<T?>`, hoàn thành với giá trị truyền vào `pop` khi route đó đóng. Vì vậy A chỉ cần `final result = await Navigator.push<String>(...)`; `result` là `null` nếu người dùng bấm back mà không có giá trị. Không cần biến toàn cục hay `Navigator.of(context).result`, và `initState` của A không chạy lại khi quay về.",
+        "en": "`Navigator.push` returns a `Future<T?>` that completes with the value passed to `pop` when that route closes. So A just writes `final result = await Navigator.push<String>(...)`; `result` is `null` if the user goes back without a value. No global variable or `Navigator.of(context).result` is needed, and A's `initState` does not run again on return."
+      }
+    },
+    {
+      "id": "flutter.navigation.002",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "navigation",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Thiết kế điều hướng bằng `go_router` cho app có bottom navigation 3 tab (mỗi tab giữ stack và state riêng), deep link tới chi tiết sản phẩm và chặn các màn cần đăng nhập. Trình bày cách làm và các điểm cần lưu ý.",
+        "en": "Design `go_router` navigation for an app with a 3-tab bottom navigation (each tab keeps its own stack and state), deep links to product details, and guarded screens that require login. Describe the approach and pitfalls."
+      },
+      "keyPoints": [
+        {
+          "vi": "`StatefulShellRoute.indexedStack` + `StatefulShellBranch` để mỗi tab giữ stack/state riêng",
+          "en": "`StatefulShellRoute.indexedStack` + `StatefulShellBranch` so each tab keeps its own stack/state"
+        },
+        {
+          "vi": "Route lồng như `/products/:id` để deep link dựng lại đúng stack, đọc `pathParameters`",
+          "en": "Nested routes like `/products/:id` so deep links rebuild the right stack; read `pathParameters`"
+        },
+        {
+          "vi": "Guard trong `redirect`: trả về đường dẫn login hoặc `null`, tránh vòng lặp redirect",
+          "en": "Guard in `redirect`: return the login path or `null`, avoiding redirect loops"
+        },
+        {
+          "vi": "`refreshListenable` gắn với trạng thái auth để redirect chạy lại khi đăng nhập/đăng xuất",
+          "en": "`refreshListenable` tied to auth state so redirects re-run on sign-in/sign-out"
+        },
+        {
+          "vi": "Phân biệt `context.go` và `context.push`; giữ lại đích ban đầu (`from`) sau khi login",
+          "en": "Know `context.go` vs `context.push`; keep the original target (`from`) after login"
+        }
+      ],
+      "explanation": {
+        "vi": "Dùng `StatefulShellRoute.indexedStack` với mỗi tab là một `StatefulShellBranch` có navigator riêng, nên chuyển tab giữ nguyên stack và state; chuyển tab bằng `navigationShell.goBranch(index)`. Route chi tiết đặt dạng `/products/:id` lồng trong branch phù hợp để deep link tự dựng lại đúng stack cha và đọc `state.pathParameters['id']`. Guard đăng nhập đặt trong `redirect` (toàn cục hoặc theo route): trả về `'/login?from=${state.uri}'` khi chưa đăng nhập, trả về `null` để giữ nguyên, kiểm tra vị trí hiện tại để tránh vòng lặp redirect, và truyền `refreshListenable` (ví dụ stream trạng thái auth) để redirect chạy lại khi đăng nhập/đăng xuất. Phân biệt `context.go` (thay stack theo cấu trúc URL) với `context.push` (đẩy thêm lên trên), và viết test cho logic redirect.",
+        "en": "Use `StatefulShellRoute.indexedStack`, with each tab as a `StatefulShellBranch` owning its own navigator, so switching tabs keeps each stack and state; switch with `navigationShell.goBranch(index)`. Put the detail route as `/products/:id` nested in the right branch so a deep link rebuilds the correct parent stack, reading `state.pathParameters['id']`. Put the login guard in `redirect` (global or per route): return `'/login?from=${state.uri}'` when signed out, return `null` to stay, check the current location to avoid redirect loops, and pass a `refreshListenable` (e.g. an auth-state stream) so redirects re-run on sign-in/sign-out. Distinguish `context.go` (replaces the stack per the URL hierarchy) from `context.push` (pushes on top), and test the redirect logic."
+      }
+    },
+    {
+      "id": "flutter.navigation.003",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "navigation",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Khi chưa đăng nhập, màn hình này phải chuyển sang `LoginScreen`, nhưng app báo lỗi `setState() or markNeedsBuild() called during build`. Nguyên nhân là gì?",
+        "en": "When signed out this screen should go to `LoginScreen`, but the app throws `setState() or markNeedsBuild() called during build`. What is the cause?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class HomeScreen extends StatelessWidget {\n  const HomeScreen({super.key, required this.isLoggedIn});\n  final bool isLoggedIn;\n\n  @override\n  Widget build(BuildContext context) {\n    if (!isLoggedIn) {\n      Navigator.of(context).push(\n        MaterialPageRoute(builder: (_) => const LoginScreen()),\n      );\n    }\n    return const Scaffold(body: Text('Home'));\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gọi `Navigator.push` trực tiếp trong `build`, khi framework đang build",
+            "en": "Calling `Navigator.push` directly inside `build`, while the framework is building"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`MaterialPageRoute` thiếu kiểu generic `<void>`",
+            "en": "`MaterialPageRoute` is missing the generic type `<void>`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`HomeScreen` phải là `StatefulWidget` mới dùng được `Navigator`",
+            "en": "`HomeScreen` must be a `StatefulWidget` to use `Navigator`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`LoginScreen` không được khởi tạo với `const`",
+            "en": "`LoginScreen` must not be created with `const`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Navigator.push` làm thay đổi cây widget (thêm route, đánh dấu `Navigator` cần rebuild) ngay trong lúc framework đang chạy `build`, điều mà Flutter không cho phép; hơn nữa `build` có thể chạy nhiều lần nên sẽ push nhiều route. Hãy điều hướng trong callback hoặc listener (ví dụ `BlocListener`), dùng `WidgetsBinding.instance.addPostFrameCallback`, hoặc tốt hơn là chặn bằng `redirect` của router. Việc thiếu `MaterialPageRoute` có kiểu generic hay `const` không phải nguyên nhân.",
+        "en": "`Navigator.push` mutates the tree (adds a route, marks the `Navigator` for rebuild) while the framework is in the middle of `build`, which Flutter forbids; also `build` may run many times and push many routes. Navigate from a callback or listener (e.g. `BlocListener`), use `WidgetsBinding.instance.addPostFrameCallback`, or better, guard it with the router's `redirect`. A missing generic type on `MaterialPageRoute` or `const` is not the cause."
+      }
+    },
+    {
+      "id": "flutter.navigation.004",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "navigation",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `go_router`, đang ở `/products`, khác biệt giữa `context.go('/products/42')` và `context.push('/products/42')` là gì?",
+        "en": "With `go_router`, while on `/products`, what is the difference between `context.go('/products/42')` and `context.push('/products/42')`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hai lệnh giống hệt nhau, `push` chỉ là alias của `go`",
+            "en": "They are identical; `push` is just an alias for `go`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`go` chỉ dùng cho web, `push` chỉ dùng cho mobile",
+            "en": "`go` is web-only and `push` is mobile-only"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`push` không hỗ trợ path parameter như `:id`",
+            "en": "`push` does not support path parameters like `:id`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`go` dựng lại stack theo cấu trúc route của URL đích; `push` đẩy thêm trang lên stack hiện tại và có thể nhận kết quả",
+            "en": "`go` rebuilds the stack from the target URL's route hierarchy; `push` adds a page on top of the current stack and can return a result"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`go` điều hướng tới một vị trí: router dựng lại stack trang dựa trên cấu trúc route lồng nhau của URL đích (ví dụ `/products` rồi `/products/42`), bỏ các trang không thuộc cấu trúc đó, và URL trên web cập nhật theo. `push` chỉ đẩy thêm trang lên trên stack hiện tại và trả về `Future` nhận kết quả khi trang đó `pop`. Cả hai đều hỗ trợ path parameter, và `go` không làm mất state của các tab nếu dùng `StatefulShellRoute`.",
+        "en": "`go` navigates to a location: the router rebuilds the page stack from the nested route structure of the target URL (e.g. `/products` then `/products/42`), dropping pages outside that structure, and the browser URL follows. `push` just adds a page on top of the current stack and returns a `Future` that completes with a result when that page pops. Both support path parameters, and `go` does not lose tab state when using `StatefulShellRoute`."
+      }
+    },
+    {
+      "id": "flutter.performance.001",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao nên dùng `const` cho widget khi có thể, ví dụ `const Text('Hello')`?",
+        "en": "Why should you use `const` widgets when possible, e.g. `const Text('Hello')`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Để widget không bao giờ thay đổi, kể cả khi `Theme` đổi",
+            "en": "So the widget never changes, even when the `Theme` changes"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Instance được dùng lại, Flutter bỏ qua việc rebuild subtree đó khi cha rebuild",
+            "en": "The instance is reused, so Flutter skips rebuilding that subtree when the parent rebuilds"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bắt buộc để hot reload hoạt động",
+            "en": "It is required for hot reload to work"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Để widget được vẽ trên GPU thay vì CPU",
+            "en": "So the widget is drawn on the GPU instead of the CPU"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Widget `const` được tạo một lần lúc compile và dùng lại cùng một instance. Khi cha rebuild, Flutter thấy widget con là cùng instance (`identical`) nên bỏ qua việc build lại subtree đó, giúp giảm công việc mỗi frame. `const` không làm widget bất biến về giao diện mãi mãi (nó vẫn phản ứng với `Theme` hay `InheritedWidget` nó phụ thuộc), và không liên quan tới hot reload hay kích thước APK.",
+        "en": "A `const` widget is created once at compile time and the same instance is reused. When the parent rebuilds, Flutter sees the child is the same instance (`identical`) and skips rebuilding that subtree, reducing per-frame work. `const` does not freeze the widget's appearance forever (it still reacts to a `Theme` or `InheritedWidget` it depends on), and it has nothing to do with hot reload or APK size."
+      }
+    },
+    {
+      "id": "flutter.performance.002",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "performance",
+      "level": "middle",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Lần đầu hiển thị in ra `Parent 0`, `Label A`, `Label B`. Người dùng bấm nút `+` một lần. Những dòng nào được in tiếp theo?",
+        "en": "The first render prints `Parent 0`, `Label A`, `Label B`. The user taps `+` once. Which lines are printed next?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "class _ParentState extends State<Parent> {\n  int n = 0;\n\n  @override\n  Widget build(BuildContext context) {\n    print('Parent $n');\n    return Column(\n      children: [\n        TextButton(\n          onPressed: () => setState(() => n++),\n          child: const Text('+'),\n        ),\n        const Label(tag: 'A'),\n        Label(tag: 'B'),\n      ],\n    );\n  }\n}\n\n// Label is a StatelessWidget whose build\n// calls print('Label $tag')."
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Parent 1",
+            "en": "Parent 1"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Parent 1 → Label A → Label B",
+            "en": "Parent 1 → Label A → Label B"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Parent 1 → Label B",
+            "en": "Parent 1 → Label B"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Label B",
+            "en": "Label B"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`setState` làm `_ParentState` build lại và in `Parent 1`. `const Label(tag: 'A')` là cùng một instance như lần trước, nên khi cập nhật con Flutter thấy widget không đổi và bỏ qua `build` của nó. `Label(tag: 'B')` không `const` nên mỗi lần là instance mới; `StatelessWidget` không so sánh tham số, vì vậy nó vẫn build lại dù `tag` giống hệt. Đây là lý do lint `prefer_const_constructors` hữu ích cho hiệu năng.",
+        "en": "`setState` rebuilds `_ParentState`, printing `Parent 1`. `const Label(tag: 'A')` is the same instance as before, so when updating children Flutter sees the widget unchanged and skips its `build`. `Label(tag: 'B')` is not `const`, so it is a new instance each time; `StatelessWidget` does not compare fields, so it rebuilds even though `tag` is identical. This is why the `prefer_const_constructors` lint helps performance."
+      }
+    },
+    {
+      "id": "flutter.performance.003",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "performance",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Khi bấm nút tải file JSON 5 MB, spinner bị đứng hình khoảng một giây (jank). Vấn đề là gì và sửa thế nào?",
+        "en": "When tapping the button to load a 5 MB JSON file, the spinner freezes for about a second (jank). What is the problem and how do you fix it?"
+      },
+      "code": {
+        "language": "dart",
+        "source": "Future<void> load() async {\n  setState(() => loading = true);\n  final body = await rootBundle.loadString('assets/big.json');\n  final list = (jsonDecode(body) as List)\n      .map((e) => Product.fromJson(e as Map<String, dynamic>))\n      .toList();\n  setState(() {\n    products = list;\n    loading = false;\n  });\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`jsonDecode` và việc map dữ liệu lớn chạy đồng bộ trên main isolate; chuyển sang `Isolate.run`/`compute`",
+            "en": "`jsonDecode` and mapping large data run synchronously on the main isolate; move them to `Isolate.run`/`compute`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`rootBundle.loadString` chặn UI; phải dùng `File.readAsStringSync`",
+            "en": "`rootBundle.loadString` blocks the UI; use `File.readAsStringSync` instead"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gọi `setState` hai lần trong một hàm gây jank",
+            "en": "Calling `setState` twice in one function causes jank"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải bọc phần parse trong `Future.microtask` để chạy nền",
+            "en": "Wrap the parsing in `Future.microtask` so it runs in the background"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`await` chỉ nhường luồng khi chờ I/O; `jsonDecode` và vòng `map` là tính toán đồng bộ nặng chạy trên main isolate, nơi cũng xử lý build/layout của UI, nên frame bị chặn. Cách sửa: chuyển phần parse sang isolate khác bằng `Isolate.run(() => parse(body))` hoặc `compute(parse, body)`, chỉ trả về dữ liệu đã parse. Đổi sang `FutureBuilder` hay bọc `Future.microtask` vẫn chạy trên cùng isolate nên không hết jank.",
+        "en": "`await` only yields while waiting for I/O; `jsonDecode` and the `map` loop are heavy synchronous computations on the main isolate, which also runs UI build/layout, so frames are blocked. Fix: move the parsing to another isolate with `Isolate.run(() => parse(body))` or `compute(parse, body)`, returning only the parsed data. Switching to `FutureBuilder` or wrapping it in `Future.microtask` still runs on the same isolate, so the jank remains."
+      }
+    },
+    {
+      "id": "flutter.performance.004",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "performance",
+      "level": "senior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong DevTools (profile mode), các frame bị jank có thời gian UI thread thấp nhưng Raster thread rất cao khi danh sách đang cuộn. Nguyên nhân hợp lý nhất là gì?",
+        "en": "In DevTools (profile mode), janky frames show low UI-thread time but very high Raster-thread time while a list scrolls. What is the most likely cause?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Có quá nhiều lần gọi `setState` khiến widget rebuild thừa",
+            "en": "Too many `setState` calls causing excess rebuilds"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Parse JSON đồng bộ trên main isolate",
+            "en": "Parsing JSON synchronously on the main isolate"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dùng `ListView.builder` thay vì `ListView`",
+            "en": "Using `ListView.builder` instead of `ListView`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hiệu ứng vẽ đắt như `Opacity`/`saveLayer`, `BackdropFilter`, clip hoặc ảnh decode quá lớn",
+            "en": "Expensive painting such as `Opacity`/`saveLayer`, `BackdropFilter`, clips or oversized decoded images"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "UI thread chạy code Dart (build, layout, tạo layer tree), còn Raster thread biến layer tree thành lệnh GPU. Raster cao trong khi UI thấp nghĩa là phần vẽ quá đắt, thường do các hiệu ứng cần `saveLayer` hoặc offscreen như `Opacity` trên subtree lớn, `ShaderMask`, `BackdropFilter`, clip với anti-alias, bóng đổ nặng, hay ảnh decode quá lớn. Cách xử lý: thay `Opacity` bằng màu có alpha hoặc `FadeTransition`, giảm clip/blur, đặt `cacheWidth` cho ảnh, cân nhắc `RepaintBoundary`. Rebuild thừa hoặc parse JSON nặng sẽ làm UI thread cao chứ không phải Raster thread.",
+        "en": "The UI thread runs Dart code (build, layout, building the layer tree), while the Raster thread turns the layer tree into GPU commands. High raster time with low UI time means painting is too expensive, typically from `saveLayer`/offscreen effects such as `Opacity` over large subtrees, `ShaderMask`, `BackdropFilter`, anti-aliased clips, heavy shadows, or oversized decoded images. Fixes: replace `Opacity` with an alpha color or `FadeTransition`, reduce clips/blur, set `cacheWidth` on images, consider `RepaintBoundary`. Excess rebuilds or heavy JSON parsing would raise UI-thread time, not raster time."
+      }
+    },
+    {
+      "id": "flutter.architecture.001",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "architecture",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong Clean Architecture cho một feature (data / domain / presentation), phát biểu nào về chiều phụ thuộc là đúng?",
+        "en": "In Clean Architecture for a feature (data / domain / presentation), which statement about dependency direction is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Domain gọi trực tiếp `Dio` để lấy dữ liệu, data chỉ chứa model",
+            "en": "Domain calls `Dio` directly for data; data only holds models"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Presentation phụ thuộc trực tiếp vào data source để nhanh hơn",
+            "en": "Presentation depends directly on data sources for speed"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Domain không phụ thuộc tầng nào; data implement interface repository khai báo ở domain",
+            "en": "Domain depends on no other layer; data implements repository interfaces declared in domain"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Domain phụ thuộc presentation để biết cần hiển thị gì",
+            "en": "Domain depends on presentation to know what to show"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Tầng domain là lõi: chứa entity, use case và interface repository, không import Flutter, Dio hay package lưu trữ. Tầng data implement các interface đó (gọi API, DB) nên phụ thuộc vào domain, và presentation (widget, Cubit) gọi use case của domain. Nhờ phụ thuộc hướng vào trong, có thể thay nguồn dữ liệu hoặc mock repository khi test mà không sửa domain. Đáp án để domain gọi trực tiếp `Dio` sai vì làm lõi nghiệp vụ dính vào chi tiết hạ tầng.",
+        "en": "The domain layer is the core: entities, use cases and repository interfaces, with no imports of Flutter, Dio or storage packages. The data layer implements those interfaces (API, DB) and therefore depends on domain, while presentation (widgets, Cubits) calls domain use cases. Because dependencies point inward, you can swap data sources or mock repositories in tests without touching domain. Letting domain call `Dio` directly is wrong because it couples business logic to infrastructure details."
+      }
+    },
+    {
+      "id": "flutter.architecture.002",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "architecture",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn có một màn hình danh sách dùng `ProductCubit` gọi `ProductRepository`. Trình bày chiến lược test (unit, widget, integration) cho feature này.",
+        "en": "You have a list screen using a `ProductCubit` that calls a `ProductRepository`. Describe a testing strategy (unit, widget, integration) for this feature."
+      },
+      "keyPoints": [
+        {
+          "vi": "Unit test use case/repository và `ProductCubit` (`bloc_test`), mock bằng `mocktail`",
+          "en": "Unit-test use cases/repository and `ProductCubit` (`bloc_test`), mocking with `mocktail`"
+        },
+        {
+          "vi": "Widget test: bơm Cubit/repository giả, `pumpWidget`, kiểm tra UI cho loading/loaded/empty/error",
+          "en": "Widget tests: inject a fake Cubit/repository, `pumpWidget`, verify UI for loading/loaded/empty/error"
+        },
+        {
+          "vi": "Integration test cho vài luồng end-to-end quan trọng vì chậm và dễ flaky",
+          "en": "Integration tests for a few critical end-to-end flows since they are slow and flaky"
+        },
+        {
+          "vi": "DI (constructor injection hoặc `get_it`) để thay phụ thuộc khi test",
+          "en": "DI (constructor injection or `get_it`) to swap dependencies in tests"
+        }
+      ],
+      "explanation": {
+        "vi": "Unit test chiếm số lượng lớn nhất: test use case và repository (mock data source/HTTP client), test `ProductCubit` bằng `bloc_test` với repository giả lập qua `mocktail` để kiểm tra chuỗi state loading → loaded/error. Widget test bơm `ProductCubit` giả qua `BlocProvider`, dùng `pumpWidget` và `pump`/`pumpAndSettle`, kiểm tra UI theo từng state bằng `find` và `expect`, bao gồm empty/error. Integration test (`integration_test`) chạy trên thiết bị thật cho vài luồng quan trọng nhất từ đầu đến cuối vì chúng chậm và dễ flaky. Thiết kế DI (inject repository qua constructor hoặc `get_it`) là điều kiện để thay thế phụ thuộc khi test; golden test có thể thêm cho UI quan trọng.",
+        "en": "Unit tests are the largest group: test use cases and the repository (mocking the data source/HTTP client), and test `ProductCubit` with `bloc_test` and a `mocktail` fake repository to assert loading → loaded/error state sequences. Widget tests inject a fake `ProductCubit` via `BlocProvider`, use `pumpWidget` and `pump`/`pumpAndSettle`, and verify the UI per state with `find` and `expect`, including empty/error. Integration tests (`integration_test`) run on a real device for only the most critical end-to-end flows, since they are slow and flaky. DI (injecting the repository via constructor or `get_it`) is what makes replacing dependencies in tests possible; golden tests can be added for key UI."
+      }
+    },
+    {
+      "id": "flutter.architecture.003",
+      "contentVersion": 1,
+      "trackId": "flutter",
+      "topicId": "architecture",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn dùng `MethodChannel` để gọi code native lấy mức pin. Phát biểu nào đúng?",
+        "en": "You use a `MethodChannel` to call native code for the battery level. Which statement is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`invokeMethod` chạy đồng bộ và trả về giá trị ngay lập tức",
+            "en": "`invokeMethod` runs synchronously and returns the value immediately"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi bất đồng bộ qua `Future`, dữ liệu được mã hóa bằng codec nên chỉ truyền được kiểu cơ bản; lỗi native thành `PlatformException`",
+            "en": "Calls are asynchronous via `Future`, data is codec-encoded so only basic types pass; native errors become `PlatformException`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Có thể truyền trực tiếp bất kỳ object Dart nào sang native",
+            "en": "Any Dart object can be passed directly to native code"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Handler native luôn tự chạy trên thread nền nên không lo chặn UI",
+            "en": "Native handlers always run on a background thread, so blocking the UI is impossible"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Platform channel truyền message bất đồng bộ: `invokeMethod` trả về `Future`, tham số và kết quả được mã hóa bằng `StandardMessageCodec` nên chỉ hỗ trợ kiểu cơ bản như số, chuỗi, `List`, `Map`, `Uint8List`. Phía native, handler mặc định chạy trên main (platform) thread, nên việc nặng phải tự đẩy sang thread nền; lỗi native trả về thành `PlatformException`, còn chưa implement thì là `MissingPluginException`. Không thể gọi đồng bộ hay truyền object Dart tùy ý qua channel.",
+        "en": "Platform channels pass messages asynchronously: `invokeMethod` returns a `Future`, and arguments/results are encoded with `StandardMessageCodec`, so only basic types like numbers, strings, `List`, `Map` and `Uint8List` are supported. On the native side the handler runs on the main (platform) thread by default, so heavy work must be moved to a background thread; native errors surface as `PlatformException`, and an unimplemented method gives `MissingPluginException`. You cannot call synchronously or pass arbitrary Dart objects over a channel."
       }
     }
   ]

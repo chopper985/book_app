@@ -13,11 +13,11 @@ import 'package:AppName/core/injection/injection_container.dart';
 import 'package:AppName/core/navigator/app_routes.dart';
 import 'package:AppName/core/navigator/main_shell.dart';
 import 'package:AppName/features/catalog/presentation/cubit/explore_cubit.dart';
+import 'package:AppName/features/catalog/presentation/cubit/roadmap_picker_cubit.dart';
 import 'package:AppName/features/catalog/presentation/cubit/roadmaps_cubit.dart';
-import 'package:AppName/features/catalog/presentation/cubit/track_detail_cubit.dart';
 import 'package:AppName/features/catalog/presentation/screens/explore_screen.dart';
+import 'package:AppName/features/catalog/presentation/screens/roadmap_picker_screen.dart';
 import 'package:AppName/features/catalog/presentation/screens/roadmaps_screen.dart';
-import 'package:AppName/features/catalog/presentation/screens/track_detail_screen.dart';
 import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart';
 import 'package:AppName/features/practice/presentation/cubit/practice_hub_cubit.dart';
 import 'package:AppName/features/practice/presentation/cubit/result_cubit.dart';
@@ -156,6 +156,23 @@ class EditProfileRoute extends GoRouteData with $EditProfileRoute {
   }
 }
 
+/// Full-screen "Add a roadmap"; pops `true` once one is added.
+@TypedGoRoute<RoadmapPickerRoute>(
+  path: Routes.roadmapPickerRoute,
+  name: Routes.roadmapPickerRoute,
+)
+class RoadmapPickerRoute extends GoRouteData with $RoadmapPickerRoute {
+  const RoadmapPickerRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider(
+      create: (_) => getIt<RoadmapPickerCubit>()..load(),
+      child: const RoadmapPickerScreen(),
+    );
+  }
+}
+
 @TypedStatefulShellRoute<MainShellRoute>(
   branches: [
     TypedStatefulShellBranch<ExploreBranch>(
@@ -168,12 +185,6 @@ class EditProfileRoute extends GoRouteData with $EditProfileRoute {
         TypedGoRoute<RoadmapsRoute>(
           path: Routes.roadmapsRoute,
           name: Routes.roadmapsRoute,
-          routes: [
-            TypedGoRoute<TrackDetailRoute>(
-              path: Routes.trackDetailRoute,
-              name: Routes.trackDetailRoute,
-            ),
-          ],
         ),
       ],
     ),
@@ -244,20 +255,6 @@ class RoadmapsRoute extends GoRouteData with $RoadmapsRoute {
     return BlocProvider(
       create: (_) => getIt<RoadmapsCubit>()..load(),
       child: const RoadmapsScreen(),
-    );
-  }
-}
-
-class TrackDetailRoute extends GoRouteData with $TrackDetailRoute {
-  final String trackId;
-
-  const TrackDetailRoute({required this.trackId});
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return BlocProvider(
-      create: (_) => getIt<TrackDetailCubit>()..load(trackId),
-      child: const TrackDetailScreen(),
     );
   }
 }

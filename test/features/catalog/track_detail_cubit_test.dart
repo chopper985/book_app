@@ -7,6 +7,7 @@ import 'package:AppName/core/utils/dio_api/result.dart';
 import 'package:AppName/features/catalog/data/datasources/mock_dashboard_datasource.dart';
 import 'package:AppName/features/catalog/data/repositories/catalog_repository_impl.dart';
 import 'package:AppName/features/catalog/data/repositories/saved_tracks_repository_impl.dart';
+import 'package:AppName/features/catalog/data/repositories/user_roadmaps_repository_impl.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_track_detail.dart';
 import 'package:AppName/features/catalog/domain/usecase/saved_tracks.dart';
@@ -22,6 +23,7 @@ import 'package:AppName/features/profile/data/repositories/profile_repository_im
 import '../../helpers/in_memory_avatar_datasource.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
 import '../../helpers/in_memory_saved_tracks_datasource.dart';
+import '../../helpers/in_memory_user_roadmaps_datasource.dart';
 import '../../helpers/in_memory_profile_datasource.dart';
 import '../content/content_test_data.dart';
 
@@ -47,6 +49,7 @@ Future<TrackDetailCubit> cubitWith(Result<ContentCatalog> result) async {
       clock,
     ),
     saved,
+    UserRoadmapsRepositoryImpl(      InMemoryUserRoadmapsLocalDataSource(),      AppClock(),    ),
     MockDashboardDataSource(),
     clock,
   );

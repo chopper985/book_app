@@ -9,6 +9,7 @@ part of 'app_router.dart';
 List<RouteBase> get $appRoutes => [
       $onboardingRoute,
       $editProfileRoute,
+      $roadmapPickerRoute,
       $mainShellRoute,
       $practiceRoute,
       $resultRoute,
@@ -74,6 +75,36 @@ mixin $EditProfileRoute on GoRouteData {
   void replace(BuildContext context) => context.replace(location);
 }
 
+RouteBase get $roadmapPickerRoute => GoRouteData.$route(
+      path: '/roadmap-picker',
+      name: '/roadmap-picker',
+      hasOverriddenOnExit: false,
+      factory: $RoadmapPickerRoute._fromState,
+    );
+
+mixin $RoadmapPickerRoute on GoRouteData {
+  static RoadmapPickerRoute _fromState(GoRouterState state) =>
+      const RoadmapPickerRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/roadmap-picker',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
 RouteBase get $mainShellRoute => StatefulShellRouteData.$route(
       factory: $MainShellRouteExtension._fromState,
       branches: [
@@ -94,14 +125,6 @@ RouteBase get $mainShellRoute => StatefulShellRouteData.$route(
               name: '/roadmaps',
               hasOverriddenOnExit: false,
               factory: $RoadmapsRoute._fromState,
-              routes: [
-                GoRouteData.$route(
-                  path: ':trackId',
-                  name: ':trackId',
-                  hasOverriddenOnExit: false,
-                  factory: $TrackDetailRoute._fromState,
-                ),
-              ],
             ),
           ],
         ),
@@ -161,32 +184,6 @@ mixin $RoadmapsRoute on GoRouteData {
   @override
   String get location => GoRouteData.$location(
         '/roadmaps',
-      );
-
-  @override
-  void go(BuildContext context) => context.go(location);
-
-  @override
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  @override
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  @override
-  void replace(BuildContext context) => context.replace(location);
-}
-
-mixin $TrackDetailRoute on GoRouteData {
-  static TrackDetailRoute _fromState(GoRouterState state) => TrackDetailRoute(
-        trackId: state.pathParameters['trackId']!,
-      );
-
-  TrackDetailRoute get _self => this as TrackDetailRoute;
-
-  @override
-  String get location => GoRouteData.$location(
-        '/roadmaps/${Uri.encodeComponent(_self.trackId)}',
       );
 
   @override

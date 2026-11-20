@@ -14,6 +14,7 @@ import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_badge.dart';
 import 'package:AppName/features/content/domain/entities/question.dart';
 import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:AppName/features/content/presentation/extensions/question_level_label.dart';
 import 'package:AppName/features/practice/domain/entities/practice_bundle.dart';
 import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart';
 import 'package:AppName/features/practice/presentation/widgets/code_block.dart';
@@ -238,10 +239,7 @@ class _InProgress extends StatelessWidget {
         QuestionType.selfExplain => Strings.practiceTipSelfExplain.i18n,
       };
 
-  static String _levelLabel(QuestionLevel level) => switch (level) {
-        QuestionLevel.fresher => Strings.levelFresher.i18n,
-        QuestionLevel.junior => Strings.levelJunior.i18n,
-      };
+  static String _levelLabel(QuestionLevel level) => level.label;
 }
 
 class _Footer extends StatelessWidget {

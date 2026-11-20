@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:AppName/core/app/colors/app_palette.dart';
 import 'package:AppName/core/app/languages/data/localization.dart';
 import 'package:AppName/core/app/themes/data/app_text.dart';
-import 'package:AppName/core/navigator/app_router.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/core/utils/widgets/app_svg.dart';
 import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
@@ -106,17 +105,19 @@ class RoadmapCategoryPills extends StatelessWidget {
   }
 }
 
-/// Track cards; opens the track, or says "coming soon" when unavailable.
+/// Track cards; [onOpen] for available tracks, "coming soon" otherwise.
 class RoadmapCardList extends StatelessWidget {
   final List<TrackOverview> tracks;
 
   /// Completed ratio (0..1) per track id.
   final Map<String, double> completion;
+  final ValueChanged<TrackOverview> onOpen;
 
   const RoadmapCardList({
     super.key,
     required this.tracks,
     required this.completion,
+    required this.onOpen,
   });
 
   @override
@@ -129,7 +130,7 @@ class RoadmapCardList extends StatelessWidget {
             completion: completion[overview.track.id] ?? 0,
             onTap: () {
               if (overview.track.isAvailable) {
-                TrackDetailRoute(trackId: overview.track.id).go(context);
+                onOpen(overview);
               } else {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()

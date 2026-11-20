@@ -12,7 +12,9 @@ import 'package:AppName/features/catalog/domain/entities/track_detail.dart';
 import 'package:AppName/features/catalog/domain/entities/track_progress.dart';
 import 'package:AppName/features/catalog/presentation/widgets/segmented_progress_bar.dart';
 import 'package:AppName/features/catalog/presentation/widgets/track_style.dart';
+import 'package:AppName/features/content/domain/entities/question.dart';
 import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
+import 'package:AppName/features/content/presentation/extensions/question_level_label.dart';
 import 'package:AppName/gen/assets.gen.dart';
 
 /// "Technology Route Hero Card": title, badges and overall progress.
@@ -34,7 +36,15 @@ class TrackHeroCard extends StatelessWidget {
     final style = TrackStyle.of(track.id);
     final badge = track.badge?.text;
     final version = detail.learning.versionLabel;
-    final audience = track.audience?.text;
+    final maxLevel = detail.maxLevel;
+    // The roadmap's level range ("Fresher / Junior"), else the track's own
+    // audience label.
+    final audience = maxLevel == null
+        ? track.audience?.text
+        : [
+            for (final level in QuestionLevel.values)
+              if (level.index <= maxLevel.index) level.label,
+          ].join(' / ');
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(12.dsp),

@@ -135,6 +135,10 @@ class ValidateContent {
           issues.add(
             _issue(ContentIssueCode.trackMismatch, path, questionId),
           );
+        } else if (set.isFree && question.level.isPremium) {
+          issues.add(
+            _issue(ContentIssueCode.premiumLevelInFreeSet, path, questionId),
+          );
         }
       }
     }

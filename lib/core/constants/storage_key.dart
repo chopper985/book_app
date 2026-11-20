@@ -19,4 +19,7 @@ class StorageKeys {
 
   // Bookmarked track ids: one JSON list.
   static const String savedTracksBox = 'saved-tracks';
+
+  // Roadmaps the learner follows (track + level) and the active one.
+  static const String userRoadmapsBox = 'user-roadmaps';
 }

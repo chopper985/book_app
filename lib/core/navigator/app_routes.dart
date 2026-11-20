@@ -11,8 +11,8 @@ class Routes {
   static const String practiceHubRoute = '/practice-hub';
   static const String profileRoute = '/profile';
 
-  // Catalog (child of roadmaps)
-  static const String trackDetailRoute = ':trackId';
+  // Catalog: add a roadmap (full screen)
+  static const String roadmapPickerRoute = '/roadmap-picker';
 
   // Practice (full screen, outside the tabs)
   static const String practiceRoute = '/practice/:setId';

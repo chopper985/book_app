@@ -9,100 +9,59 @@ import 'package:injectable/injectable.dart';
 // Project imports:
 import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart';
 import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
-import 'package:AppName/features/catalog/domain/usecase/filter_tracks.dart';
+import 'package:AppName/features/catalog/domain/entities/user_roadmap.dart';
 import 'package:AppName/features/catalog/domain/usecase/get_explore_data.dart';
-import 'package:AppName/features/catalog/domain/usecase/saved_tracks.dart';
-import 'package:AppName/features/content/domain/entities/content_failure.dart';
-import 'package:AppName/features/content/domain/entities/content_issue.dart';
+import 'package:AppName/features/catalog/domain/usecase/user_roadmaps.dart';
 
 part 'roadmaps_state.dart';
 
-/// Roadmaps tab: the full library with search, category filter and saved
-/// tracks.
+/// Roadmaps tab: the learner's roadmaps (track + level) and the active one.
 @injectable
 class RoadmapsCubit extends Cubit<RoadmapsState> {
+  final GetUserRoadmaps _getUserRoadmaps;
+  final SelectUserRoadmap _selectUserRoadmap;
+  final RemoveUserRoadmap _removeUserRoadmap;
   final GetTracks _getTracks;
   final GetExploreDashboard _getDashboard;
-  final GetSavedTrackIds _getSavedTrackIds;
-  final FilterTracks _filterTracks = const FilterTracks();
   late final StreamSubscription<void> _subscription;
 
   RoadmapsCubit(
+    this._getUserRoadmaps,
+    this._selectUserRoadmap,
+    this._removeUserRoadmap,
     this._getTracks,
     this._getDashboard,
-    this._getSavedTrackIds,
     WatchProgress watchProgress,
   ) : super(const RoadmapsLoading()) {
-    _subscription = watchProgress().listen((_) => _reload());
+    _subscription = watchProgress().listen((_) => load());
   }
 
   Future<void> load() async {
-    emit(const RoadmapsLoading());
-    await _reload();
-  }
-
-  void selectCategory(String? category) {
-    final current = state;
-    if (current is RoadmapsLoaded) {
-      emit(_filtered(current, category: category, query: current.query));
-    }
-  }
-
-  void search(String query) {
-    final current = state;
-    if (current is RoadmapsLoaded) {
-      emit(_filtered(current, category: current.category, query: query));
-    }
-  }
-
-  /// Keeps the filters while progress, bookmarks or the profile change.
-  Future<void> _reload() async {
-    final result = await _getTracks();
-    final tracks = result.value;
-    if (isClosed) return;
-    if (tracks == null) {
-      final error = result.error;
-      emit(
-        RoadmapsInvalidContent(
-          error is ContentFailure ? error.issues : const [],
-        ),
-      );
-      return;
-    }
+    final tracks = (await _getTracks()).value ?? const <TrackOverview>[];
     final dashboard = await _getDashboard();
     if (isClosed) return;
-    final previous = state;
     final byId = {for (final overview in tracks) overview.track.id: overview};
-    final base = RoadmapsLoaded(
-      tracks: tracks,
-      visibleTracks: tracks,
-      savedTracks: [
-        for (final id in _getSavedTrackIds())
-          if (byId[id] case final overview?) overview,
-      ],
-      dashboard: dashboard,
-    );
+    final data = _getUserRoadmaps();
+    // Roadmaps of tracks that no longer exist are ignored.
+    final roadmaps =
+        data.roadmaps.where((r) => byId.containsKey(r.trackId)).toList();
+    final active = data.active != null && byId.containsKey(data.active!.trackId)
+        ? data.active
+        : roadmaps.firstOrNull;
     emit(
-      previous is RoadmapsLoaded
-          ? _filtered(base, category: previous.category, query: previous.query)
-          : base,
+      RoadmapsLoaded(
+        roadmaps: roadmaps,
+        active: active,
+        tracks: byId,
+        learner: dashboard.learner,
+      ),
     );
   }
 
-  RoadmapsLoaded _filtered(
-    RoadmapsLoaded state, {
-    required String? category,
-    required String query,
-  }) {
-    return RoadmapsLoaded(
-      tracks: state.tracks,
-      visibleTracks: _filterTracks(state.tracks, category, query: query),
-      savedTracks: state.savedTracks,
-      dashboard: state.dashboard,
-      category: category,
-      query: query,
-    );
-  }
+  /// The change stream reloads the state.
+  Future<void> select(String roadmapId) => _selectUserRoadmap(roadmapId);
+
+  Future<void> remove(String roadmapId) => _removeUserRoadmap(roadmapId);
 
   @override
   Future<void> close() async {

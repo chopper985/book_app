@@ -17,7 +17,9 @@ import 'package:AppName/features/catalog/domain/entities/track_not_found_failure
 import 'package:AppName/features/catalog/domain/entities/track_overview.dart';
 import 'package:AppName/features/catalog/domain/repositories/catalog_repository.dart';
 import 'package:AppName/features/catalog/domain/repositories/saved_tracks_repository.dart';
+import 'package:AppName/features/catalog/domain/repositories/user_roadmaps_repository.dart';
 import 'package:AppName/features/content/domain/entities/content_catalog.dart';
+import 'package:AppName/features/content/domain/entities/question.dart';
 import 'package:AppName/features/content/domain/entities/quiz_set.dart';
 import 'package:AppName/features/content/domain/repositories/content_repository.dart';
 import 'package:AppName/features/practice/domain/repositories/practice_repository.dart';
@@ -29,6 +31,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
   final PracticeRepository _practiceRepository;
   final ProfileRepository _profileRepository;
   final SavedTracksRepository _savedTracksRepository;
+  final UserRoadmapsRepository _userRoadmapsRepository;
   final MockDashboardDataSource _dashboardDataSource;
   final AppClock _clock;
 
@@ -37,11 +40,12 @@ class CatalogRepositoryImpl implements CatalogRepository {
     this._practiceRepository,
     this._profileRepository,
     this._savedTracksRepository,
+    this._userRoadmapsRepository,
     this._dashboardDataSource,
     this._clock,
   );
 
-  /// Practice history, profile and saved track changes, merged.
+  /// Practice history, profile, saved track and roadmap changes, merged.
   @override
   Stream<void> get progressChanges {
     final subscriptions = <StreamSubscription<void>>[];
@@ -51,6 +55,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
         _practiceRepository.changes.listen(controller.add),
         _profileRepository.changes.listen(controller.add),
         _savedTracksRepository.changes.listen(controller.add),
+        _userRoadmapsRepository.changes.listen(controller.add),
       ]),
       onCancel: () async {
         await Future.wait(subscriptions.map((s) => s.cancel()));
@@ -120,7 +125,10 @@ class CatalogRepositoryImpl implements CatalogRepository {
   }
 
   @override
-  Future<Result<TrackDetail>> getTrackDetail(String trackId) async {
+  Future<Result<TrackDetail>> getTrackDetail(
+    String trackId, {
+    QuestionLevel? maxLevel,
+  }) async {
     final result = await _contentRepository.loadCatalog();
     final catalog = result.value;
     if (catalog == null) return Result.failure(result.error!);
@@ -130,16 +138,30 @@ class CatalogRepositoryImpl implements CatalogRepository {
       return Result.failure(TrackNotFoundFailure(trackId));
     }
 
-    final questionIdsByTopic = _questionIdsByTopic(trackId, catalog);
+    bool included(QuestionLevel level) =>
+        maxLevel == null || level.index <= maxLevel.index;
+    final questionIdsByTopic =
+        _questionIdsByTopic(trackId, catalog, included: included);
     final progress = await _progress();
     return Result.success(
       TrackDetail(
         track: track,
+        maxLevel: maxLevel,
         sets: [
           for (final set in catalog.setsOfTrack(trackId))
-            _summarize(set, catalog),
+            if (_summarize(set, catalog) case final summary
+                when summary.levels.every(included))
+              summary,
         ],
         questionIdsByTopic: questionIdsByTopic,
+        topicSetIds: {
+          for (final topicId in questionIdsByTopic.keys)
+            topicId: ContentCatalog.topicSetId(
+              trackId,
+              topicId,
+              maxLevel ?? QuestionLevel.values.last,
+            ),
+        },
         learning: TrackLearning(
           learner: _learner(progress),
           isSaved: _savedTracksRepository.isSaved(trackId),
@@ -176,11 +198,12 @@ class CatalogRepositoryImpl implements CatalogRepository {
 
   Map<String, List<String>> _questionIdsByTopic(
     String trackId,
-    ContentCatalog catalog,
-  ) {
+    ContentCatalog catalog, {
+    required bool Function(QuestionLevel level) included,
+  }) {
     final result = <String, List<String>>{};
     for (final question in catalog.questions) {
-      if (question.trackId != trackId) continue;
+      if (question.trackId != trackId || !included(question.level)) continue;
       result.putIfAbsent(question.topicId, () => []).add(question.id);
     }
     return result;

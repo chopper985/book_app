@@ -31,7 +31,9 @@ class ContentRepositoryImpl implements ContentRepository {
     ];
     if (issues.isNotEmpty) return Result.failure(ContentFailure(issues));
 
-    _catalog = parsed.catalog;
-    return Result.success(parsed.catalog);
+    // Topic sets are generated after validation: they are not authored.
+    final catalog = parsed.catalog.withTopicSets();
+    _catalog = catalog;
+    return Result.success(catalog);
   }
 }

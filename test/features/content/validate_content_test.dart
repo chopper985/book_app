@@ -84,4 +84,37 @@ void main() {
     expect(issues.single.code, ContentIssueCode.missingTranslation);
     expect(issues.single.path, endsWith('dart.q1.prompt'));
   });
+
+  group('premium levels', () {
+    test('a free set must not contain Middle/Senior questions', () async {
+      final issues = await validate(
+        files(
+          questions: [
+            choiceQuestion()..['level'] = 'middle',
+            explainQuestion()..['level'] = 'senior',
+          ],
+        ),
+      );
+      expect(
+        issues.map((issue) => (issue.code, issue.detail)),
+        [
+          (ContentIssueCode.premiumLevelInFreeSet, 'dart.q1'),
+          (ContentIssueCode.premiumLevelInFreeSet, 'dart.q2'),
+        ],
+      );
+    });
+
+    test('a paid set may contain them', () async {
+      final issues = await validate(
+        files(
+          questions: [
+            choiceQuestion()..['level'] = 'middle',
+            explainQuestion(),
+          ],
+          sets: [set()..['accessPlanId'] = 'premium'],
+        ),
+      );
+      expect(issues, isEmpty);
+    });
+  });
 }

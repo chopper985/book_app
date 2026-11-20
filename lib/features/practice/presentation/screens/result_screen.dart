@@ -12,6 +12,7 @@ import 'package:AppName/core/app/themes/data/app_text.dart';
 import 'package:AppName/core/navigator/app_router.dart';
 import 'package:AppName/core/utils/sizer/design_size.dart';
 import 'package:AppName/features/content/domain/entities/question.dart';
+import 'package:AppName/features/content/presentation/extensions/question_level_label.dart';
 import 'package:AppName/features/practice/domain/entities/practice_bundle.dart';
 import 'package:AppName/features/practice/presentation/cubit/result_cubit.dart';
 import 'package:AppName/features/practice/presentation/widgets/result_actions.dart';
@@ -73,10 +74,13 @@ class ResultScreen extends StatelessWidget {
     }
   }
 
+  /// The hardest level of the set.
   static String _levelLabel(ResultBundle bundle) {
-    final junior = bundle.questions.values
-        .any((question) => question.level == QuestionLevel.junior);
-    return (junior ? Strings.levelJunior : Strings.levelFresher).i18n;
+    var level = QuestionLevel.fresher;
+    for (final question in bundle.questions.values) {
+      if (question.level.index > level.index) level = question.level;
+    }
+    return level.label;
   }
 }
 

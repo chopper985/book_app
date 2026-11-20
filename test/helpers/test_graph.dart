@@ -4,6 +4,7 @@ import 'package:AppName/core/utils/dio_api/result.dart';
 import 'package:AppName/features/catalog/data/datasources/mock_dashboard_datasource.dart';
 import 'package:AppName/features/catalog/data/repositories/catalog_repository_impl.dart';
 import 'package:AppName/features/catalog/data/repositories/saved_tracks_repository_impl.dart';
+import 'package:AppName/features/catalog/data/repositories/user_roadmaps_repository_impl.dart';
 import 'package:AppName/features/content/data/parsers/content_parser.dart';
 import 'package:AppName/features/content/domain/entities/content_catalog.dart';
 import 'package:AppName/features/content/domain/repositories/content_repository.dart';
@@ -14,6 +15,7 @@ import 'in_memory_avatar_datasource.dart';
 import 'in_memory_practice_datasource.dart';
 import 'in_memory_profile_datasource.dart';
 import 'in_memory_saved_tracks_datasource.dart';
+import 'in_memory_user_roadmaps_datasource.dart';
 
 class FakeContentRepository implements ContentRepository {
   final ContentCatalog catalog;
@@ -43,6 +45,8 @@ class TestGraph {
       InMemoryProfileLocalDataSource();
   final InMemorySavedTracksLocalDataSource savedLocal =
       InMemorySavedTracksLocalDataSource();
+  final InMemoryUserRoadmapsLocalDataSource roadmapsLocal =
+      InMemoryUserRoadmapsLocalDataSource();
 
   late final PracticeRepositoryImpl practice =
       PracticeRepositoryImpl(content, practiceLocal, clock);
@@ -53,11 +57,14 @@ class TestGraph {
   );
   late final SavedTracksRepositoryImpl saved =
       SavedTracksRepositoryImpl(savedLocal);
+  late final UserRoadmapsRepositoryImpl roadmaps =
+      UserRoadmapsRepositoryImpl(roadmapsLocal, clock);
   late final CatalogRepositoryImpl catalog = CatalogRepositoryImpl(
     content,
     practice,
     profiles,
     saved,
+    roadmaps,
     MockDashboardDataSource(),
     clock,
   );
@@ -67,6 +74,10 @@ class TestGraph {
   /// [data] defaults to the minimal valid content of `content_test_data`.
   static Future<TestGraph> create({Map<String, String>? data}) async {
     final parsed = await const ContentParser().parse(readerOf(data ?? files()));
-    return TestGraph._(FakeContentRepository(parsed.catalog), FixedClock());
+    // Same as ContentRepositoryImpl: topic sets generated after parsing.
+    return TestGraph._(
+      FakeContentRepository(parsed.catalog.withTopicSets()),
+      FixedClock(),
+    );
   }
 }
