@@ -13,4 +13,7 @@ class StorageKeys {
   // Practice: JSON per session / result id.
   static const String practiceSessionsBox = 'practice-sessions';
   static const String practiceResultsBox = 'practice-results';
+
+  // Learner profile from onboarding: one JSON entry.
+  static const String profileBox = 'profile';
 }

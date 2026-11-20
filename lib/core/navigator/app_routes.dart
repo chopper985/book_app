@@ -3,6 +3,7 @@ class Routes {
   static const String rootRoute = '/';
   static const String authenticationRoute = '/authentication';
   static const String loginRoute = '/login';
+  static const String onboardingRoute = '/onboarding';
 
   // Bottom navigation tabs
   static const String roadmapsRoute = '/roadmaps';

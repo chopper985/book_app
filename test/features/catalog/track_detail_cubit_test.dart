@@ -16,7 +16,9 @@ import 'package:AppName/features/content/domain/entities/content_issue.dart';
 import 'package:AppName/features/content/domain/entities/question.dart';
 import 'package:AppName/features/content/domain/repositories/content_repository.dart';
 import 'package:AppName/features/practice/data/repositories/practice_repository_impl.dart';
+import 'package:AppName/features/profile/data/repositories/profile_repository_impl.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
+import '../../helpers/in_memory_profile_datasource.dart';
 import '../content/content_test_data.dart';
 
 class _FakeContentRepository implements ContentRepository {
@@ -34,6 +36,7 @@ Future<TrackDetailCubit> cubitWith(Result<ContentCatalog> result) async {
   final repository = CatalogRepositoryImpl(
     content,
     PracticeRepositoryImpl(content, InMemoryPracticeLocalDataSource(), clock),
+    ProfileRepositoryImpl(InMemoryProfileLocalDataSource(), clock),
     MockDashboardDataSource(),
     clock,
   );

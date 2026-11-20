@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:async';
+
 // Package imports:
 import 'package:injectable/injectable.dart';
 
@@ -17,23 +20,41 @@ import 'package:AppName/features/content/domain/entities/content_catalog.dart';
 import 'package:AppName/features/content/domain/entities/quiz_set.dart';
 import 'package:AppName/features/content/domain/repositories/content_repository.dart';
 import 'package:AppName/features/practice/domain/repositories/practice_repository.dart';
+import 'package:AppName/features/profile/domain/repositories/profile_repository.dart';
 
 @LazySingleton(as: CatalogRepository)
 class CatalogRepositoryImpl implements CatalogRepository {
   final ContentRepository _contentRepository;
   final PracticeRepository _practiceRepository;
+  final ProfileRepository _profileRepository;
   final MockDashboardDataSource _dashboardDataSource;
   final AppClock _clock;
 
   CatalogRepositoryImpl(
     this._contentRepository,
     this._practiceRepository,
+    this._profileRepository,
     this._dashboardDataSource,
     this._clock,
   );
 
+  /// Practice history and profile changes, merged.
   @override
-  Stream<void> get progressChanges => _practiceRepository.changes;
+  Stream<void> get progressChanges {
+    final subscriptions = <StreamSubscription<void>>[];
+    late final StreamController<void> controller;
+    controller = StreamController<void>(
+      onListen: () => subscriptions.addAll([
+        _practiceRepository.changes.listen(controller.add),
+        _profileRepository.changes.listen(controller.add),
+      ]),
+      onCancel: () async {
+        await Future.wait(subscriptions.map((s) => s.cancel()));
+        await controller.close();
+      },
+    );
+    return controller.stream;
+  }
 
   @override
   Future<ExploreDashboard> getDashboard() async {
@@ -74,10 +95,16 @@ class CatalogRepositoryImpl implements CatalogRepository {
     final catalog = result.value;
     if (catalog == null) return Result.failure(result.error!);
 
+    // Tracks of the learner's stack first, content order within each group.
+    final stack = _profileRepository.profile?.techStack ?? const <String>[];
+    int rank(String trackId) => stack.contains(trackId) ? 0 : 1;
+    final tracks = [...catalog.tracks]..sort((a, b) {
+        final byStack = rank(a.id).compareTo(rank(b.id));
+        return byStack != 0 ? byStack : a.order.compareTo(b.order);
+      });
+
     return Result.success([
-      for (final track in [
-        ...catalog.tracks,
-      ]..sort((a, b) => a.order.compareTo(b.order)))
+      for (final track in tracks)
         TrackOverview(
           track: track,
           setCount: catalog.setsOfTrack(track.id).length,
@@ -128,15 +155,19 @@ class CatalogRepositoryImpl implements CatalogRepository {
         now: _clock.now(),
       );
 
-  LearnerSummary _learner(LearnerProgress progress) => LearnerSummary(
-        displayName: _dashboardDataSource.displayName,
-        roleLabel: _dashboardDataSource.roleLabel,
-        level: progress.level,
-        xp: progress.xp,
-        streakDays: progress.streakDays,
-        practicedCount: progress.practicedCount,
-        accuracyPercent: progress.accuracyPercent,
-      );
+  LearnerSummary _learner(LearnerProgress progress) {
+    final profile = _profileRepository.profile;
+    return LearnerSummary(
+      displayName: profile?.displayName ?? '',
+      experience: profile?.experience,
+      daysToInterview: profile?.daysToInterview(_clock.now()),
+      level: progress.level,
+      xp: progress.xp,
+      streakDays: progress.streakDays,
+      practicedCount: progress.practicedCount,
+      accuracyPercent: progress.accuracyPercent,
+    );
+  }
 
   Map<String, List<String>> _questionIdsByTopic(
     String trackId,

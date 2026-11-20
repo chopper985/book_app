@@ -22,6 +22,7 @@ import 'package:AppName/features/catalog/presentation/widgets/track_hero_card.da
 import 'package:AppName/features/catalog/presentation/widgets/track_quick_actions.dart';
 import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:AppName/features/content/presentation/widgets/content_issue_view.dart';
+import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
 import 'package:AppName/gen/assets.gen.dart';
 
 /// "Lộ trình Flutter - Chi tiết chủ đề".
@@ -108,7 +109,7 @@ class _TrackDetailBody extends StatelessWidget {
       children: [
         if (learner != null)
           DevHeader(
-            roleLabel: learner.roleLabel,
+            roleLabel: learner.experience.headerLabel,
             streakDays: learner.streakDays,
           )
         else

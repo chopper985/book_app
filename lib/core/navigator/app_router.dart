@@ -22,6 +22,9 @@ import 'package:AppName/features/practice/presentation/cubit/practice_cubit.dart
 import 'package:AppName/features/practice/presentation/cubit/result_cubit.dart';
 import 'package:AppName/features/practice/presentation/screens/practice_screen.dart';
 import 'package:AppName/features/practice/presentation/screens/result_screen.dart';
+import 'package:AppName/features/profile/domain/repositories/profile_repository.dart';
+import 'package:AppName/features/profile/presentation/cubit/onboarding_cubit.dart';
+import 'package:AppName/features/profile/presentation/screens/onboarding_screen.dart';
 
 part 'app_router.g.dart';
 
@@ -39,7 +42,18 @@ class AppRouter {
       routes: $appRoutes,
       navigatorKey: _rootNavigatorKey,
       initialLocation: Routes.rootRoute,
+      redirect: _requireProfile,
     );
+  }
+
+  /// Sends a learner without a profile to onboarding, and away from it once
+  /// the profile exists.
+  static String? _requireProfile(BuildContext context, GoRouterState state) {
+    final hasProfile = getIt<ProfileRepository>().hasProfile;
+    final onOnboarding = state.matchedLocation == Routes.onboardingRoute;
+    if (!hasProfile && !onOnboarding) return Routes.onboardingRoute;
+    if (hasProfile && onOnboarding) return Routes.rootRoute;
+    return null;
   }
 
   void pop() {
@@ -92,6 +106,22 @@ class AppRouter {
     } catch (e) {
       isLoadingShown = false;
     }
+  }
+}
+
+@TypedGoRoute<OnboardingRoute>(
+  path: Routes.onboardingRoute,
+  name: Routes.onboardingRoute,
+)
+class OnboardingRoute extends GoRouteData with $OnboardingRoute {
+  const OnboardingRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider(
+      create: (_) => getIt<OnboardingCubit>()..load(),
+      child: const OnboardingScreen(),
+    );
   }
 }
 

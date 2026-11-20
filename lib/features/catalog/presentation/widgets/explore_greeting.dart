@@ -91,6 +91,10 @@ class ExploreGreeting extends StatelessWidget {
             color: AppPalette.onSurfaceVariant,
           ),
         ),
+        if (learner.daysToInterview case final days?) ...[
+          SizedBox(height: 8.dsp),
+          _InterviewCountdown(days: days),
+        ],
         SizedBox(height: 12.dsp),
         IntrinsicHeight(
           child: Row(
@@ -191,6 +195,38 @@ class _StatTile extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InterviewCountdown extends StatelessWidget {
+  final int days;
+
+  const _InterviewCountdown({required this.days});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.dsp, vertical: 6.dsp),
+      decoration: BoxDecoration(
+        color: AppPalette.purpleContainer,
+        borderRadius: BorderRadius.circular(8.dsp),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.event, size: 14.dsp, color: AppPalette.purple),
+          SizedBox(width: 6.dsp),
+          Flexible(
+            child: Text(
+              days == 0
+                  ? Strings.interviewToday.i18n
+                  : Strings.interviewInDays.i18n.fill([days]),
+              style: AppText.mono(11, height: 16, color: AppPalette.purple),
             ),
           ),
         ],

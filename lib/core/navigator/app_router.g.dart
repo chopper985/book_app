@@ -7,10 +7,41 @@ part of 'app_router.dart';
 // **************************************************************************
 
 List<RouteBase> get $appRoutes => [
+      $onboardingRoute,
       $mainShellRoute,
       $practiceRoute,
       $resultRoute,
     ];
+
+RouteBase get $onboardingRoute => GoRouteData.$route(
+      path: '/onboarding',
+      name: '/onboarding',
+      hasOverriddenOnExit: false,
+      factory: $OnboardingRoute._fromState,
+    );
+
+mixin $OnboardingRoute on GoRouteData {
+  static OnboardingRoute _fromState(GoRouterState state) =>
+      const OnboardingRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/onboarding',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
 
 RouteBase get $mainShellRoute => StatefulShellRouteData.$route(
       factory: $MainShellRouteExtension._fromState,

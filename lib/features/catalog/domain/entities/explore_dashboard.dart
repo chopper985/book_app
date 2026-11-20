@@ -1,9 +1,17 @@
 // Package imports:
 import 'package:equatable/equatable.dart';
 
+// Project imports:
+import 'package:AppName/features/profile/domain/entities/learner_profile.dart';
+
 class LearnerSummary extends Equatable {
   final String displayName;
-  final String roleLabel;
+
+  /// Drives the role label in the header; `null` without a profile.
+  final ExperienceLevel? experience;
+
+  /// Days until the interview, `null` when not set or already past.
+  final int? daysToInterview;
 
   /// 1-based level derived from [xp].
   final int level;
@@ -14,18 +22,20 @@ class LearnerSummary extends Equatable {
 
   const LearnerSummary({
     required this.displayName,
-    required this.roleLabel,
+    required this.experience,
     required this.level,
     required this.xp,
     required this.streakDays,
     required this.practicedCount,
     required this.accuracyPercent,
+    this.daysToInterview,
   });
 
   @override
   List<Object?> get props => [
         displayName,
-        roleLabel,
+        experience,
+        daysToInterview,
         level,
         xp,
         streakDays,

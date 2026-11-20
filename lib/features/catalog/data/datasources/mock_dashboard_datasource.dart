@@ -6,15 +6,10 @@ import 'package:AppName/features/catalog/domain/entities/explore_dashboard.dart'
 import 'package:AppName/features/catalog/domain/entities/track_learning.dart';
 import 'package:AppName/features/content/domain/entities/localized_text.dart';
 
-/// MOCK: learner identity and editorial content that have no real source
-/// yet. Statistics come from practice history (see `LearnerProgress`); the
-/// name and role move to the onboarding profile.
+/// MOCK: editorial content with no real source yet. Learner data comes from
+/// the profile and practice history.
 @lazySingleton
 class MockDashboardDataSource {
-  String get displayName => 'Minh';
-
-  String get roleLabel => 'Junior Dev';
-
   DailyChallenge get dailyChallenge => const DailyChallenge(
         setId: 'flutter.set.junior',
         title: 'Flutter: Lifecycle, State & Form',

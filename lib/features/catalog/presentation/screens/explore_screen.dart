@@ -15,6 +15,7 @@ import 'package:AppName/features/catalog/presentation/widgets/explore_greeting.d
 import 'package:AppName/features/catalog/presentation/widgets/roadmap_list_section.dart';
 import 'package:AppName/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:AppName/features/content/presentation/widgets/content_issue_view.dart';
+import 'package:AppName/features/profile/presentation/extensions/profile_labels.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
@@ -59,7 +60,7 @@ class _ExploreBody extends StatelessWidget {
     return Column(
       children: [
         DevHeader(
-          roleLabel: learner.roleLabel,
+          roleLabel: learner.experience.headerLabel,
           streakDays: learner.streakDays,
         ),
         Expanded(
