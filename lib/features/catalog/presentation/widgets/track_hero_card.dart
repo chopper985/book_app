@@ -11,11 +11,11 @@ import 'package:interview_practice/core/utils/widgets/app_svg.dart';
 import 'package:interview_practice/features/catalog/domain/entities/track_detail.dart';
 import 'package:interview_practice/features/catalog/domain/entities/track_progress.dart';
 import 'package:interview_practice/features/catalog/presentation/widgets/segmented_progress_bar.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/track_logo.dart';
 import 'package:interview_practice/features/content/domain/entities/question.dart';
 import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:interview_practice/features/content/presentation/extensions/question_level_label.dart';
 import 'package:interview_practice/gen/assets.gen.dart';
-import 'package:interview_practice/features/catalog/presentation/widgets/track_logo.dart';
 
 /// "Technology Route Hero Card": title, badges and overall progress.
 class TrackHeroCard extends StatelessWidget {

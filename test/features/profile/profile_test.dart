@@ -14,10 +14,14 @@ import 'package:interview_practice/features/auth/presentation/cubit/auth_cubit.d
 import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
 import 'package:interview_practice/features/practice/domain/usecase/practice_usecases.dart';
 import 'package:interview_practice/features/practice/presentation/cubit/practice_cubit.dart';
+import 'package:interview_practice/features/premium/domain/usecase/practice_access.dart';
+import 'package:interview_practice/features/premium/presentation/cubit/quota_cubit.dart';
 import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 import 'package:interview_practice/features/profile/domain/usecase/profile_usecases.dart';
 import 'package:interview_practice/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:interview_practice/features/profile/presentation/screens/profile_screen.dart';
+import '../../helpers/fake_purchase_repository.dart';
+import '../../helpers/open_practice_gate.dart';
 import '../../helpers/test_graph.dart';
 
 void main() {
@@ -51,6 +55,7 @@ void main() {
       graph.profiles,
       graph.saved,
       graph.roadmaps,
+      graph.usage,
     );
     return AuthCubit(
       WatchAuthUser(graph.auth),
@@ -61,7 +66,7 @@ void main() {
 
   Future<void> playOneSession() async {
     final cubit = PracticeCubit(
-      StartPractice(graph.practice),
+      StartPractice(graph.practice, const OpenPracticeGate()),
       ResumePractice(graph.practice),
       SavePractice(graph.practice),
       SubmitPractice(graph.practice),
@@ -127,6 +132,16 @@ void main() {
               providers: [
                 BlocProvider.value(value: cubit),
                 BlocProvider(create: (_) => newAuthCubit()),
+                BlocProvider(
+                  create: (_) => QuotaCubit(
+                    PracticeAccess(
+                      FakePurchaseRepository(),
+                      graph.usage,
+                      graph.content,
+                      graph.clock,
+                    ),
+                  ),
+                ),
               ],
               child: const ProfileScreen(),
             ),

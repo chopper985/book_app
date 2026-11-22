@@ -34,6 +34,7 @@ class InMemoryCloudSyncRepository implements CloudSyncRepository {
       roadmaps: snapshot.roadmaps,
       activeRoadmapId: snapshot.activeRoadmapId,
       savedTrackIds: snapshot.savedTrackIds,
+      extraSessionsUsed: snapshot.extraSessionsUsed,
     );
   }
 

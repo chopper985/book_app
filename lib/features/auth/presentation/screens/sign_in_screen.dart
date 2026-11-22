@@ -266,7 +266,8 @@ class _ProviderButton extends StatelessWidget {
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: 54.dsp),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.dsp, vertical: 8.dsp),
+              padding:
+                  EdgeInsets.symmetric(horizontal: 16.dsp, vertical: 8.dsp),
               child: Center(
                 child: loading
                     ? SizedBox.square(

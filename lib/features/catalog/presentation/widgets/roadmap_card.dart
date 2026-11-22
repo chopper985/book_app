@@ -9,9 +9,9 @@ import 'package:interview_practice/core/utils/sizer/design_size.dart';
 import 'package:interview_practice/core/utils/widgets/app_badge.dart';
 import 'package:interview_practice/core/utils/widgets/app_progress_bar.dart';
 import 'package:interview_practice/features/catalog/domain/entities/track_overview.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/track_logo.dart';
 import 'package:interview_practice/features/catalog/presentation/widgets/track_style.dart';
 import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
-import 'package:interview_practice/features/catalog/presentation/widgets/track_logo.dart';
 
 /// Track card of the Explore list ("Article - 1. Flutter" in Figma).
 class RoadmapCard extends StatelessWidget {

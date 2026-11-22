@@ -110,6 +110,7 @@ void main() {
         graph.profiles,
         graph.saved,
         graph.roadmaps,
+        graph.usage,
       );
       return AuthCubit(
         WatchAuthUser(graph.auth),

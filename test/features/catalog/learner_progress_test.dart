@@ -80,7 +80,9 @@ void main() {
 
   group('streak', () {
     int streakOf(List<DateTime> days) => LearnerProgress.fromResults(
-          [for (final day in days) result(day, {'q1': AnswerStatus.correct})],
+          [
+            for (final day in days) result(day, {'q1': AnswerStatus.correct}),
+          ],
           now: now,
         ).streakDays;
 

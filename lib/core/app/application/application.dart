@@ -13,6 +13,7 @@ import 'package:interview_practice/core/app/languages/service/service.dart';
 import 'package:interview_practice/core/injection/injection_container.dart';
 import 'package:interview_practice/core/utils/datasources/base_local_data.dart';
 import 'package:interview_practice/features/auth/domain/repositories/auth_repository.dart';
+import 'package:interview_practice/features/premium/domain/usecase/premium_usecases.dart';
 import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
 import 'package:interview_practice/features/sync/domain/usecase/learner_sync.dart';
 
@@ -47,6 +48,7 @@ class Application {
   /// link Google/phone later), and linked accounts start syncing.
   static void _startAccount() {
     getIt<LearnerSync>().start();
+    getIt<PurchaseIdentity>().start();
     unawaited(getIt<AuthRepository>().ensureSignedIn());
   }
 

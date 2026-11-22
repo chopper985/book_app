@@ -23,6 +23,7 @@ import 'package:interview_practice/features/practice/domain/usecase/practice_use
 import 'package:interview_practice/features/practice/presentation/cubit/practice_cubit.dart';
 import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 import 'package:interview_practice/features/profile/domain/usecase/profile_usecases.dart';
+import '../../helpers/open_practice_gate.dart';
 import '../../helpers/test_graph.dart';
 import '../content/content_test_data.dart';
 
@@ -177,7 +178,7 @@ void main() {
 
     test('detail tracks progress per track and overall', () async {
       final practice = PracticeCubit(
-        StartPractice(graph.practice),
+        StartPractice(graph.practice, const OpenPracticeGate()),
         ResumePractice(graph.practice),
         SavePractice(graph.practice),
         SubmitPractice(graph.practice),

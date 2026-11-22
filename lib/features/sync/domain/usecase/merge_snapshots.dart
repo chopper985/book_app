@@ -7,7 +7,8 @@ import 'package:interview_practice/features/sync/domain/entities/learner_snapsho
 /// - profile: the most recently updated one wins, the avatar file name of
 ///   the device is kept because images are not synced;
 /// - roadmaps and saved tracks: device order first, then the cloud extras;
-///   the device's active roadmap wins when it exists.
+///   the device's active roadmap wins when it exists;
+/// - extra sessions used: the higher count (usage only grows).
 class MergeSnapshots {
   const MergeSnapshots();
 
@@ -38,6 +39,9 @@ class MergeSnapshots {
       roadmaps: roadmaps,
       activeRoadmapId: activeId,
       savedTrackIds: {...local.savedTrackIds, ...remote.savedTrackIds}.toList(),
+      extraSessionsUsed: local.extraSessionsUsed > remote.extraSessionsUsed
+          ? local.extraSessionsUsed
+          : remote.extraSessionsUsed,
     );
   }
 
@@ -47,7 +51,8 @@ class MergeSnapshots {
       return local;
     }
     return LearnerProfile(
-      fields: remote.fields.copyWith(avatarFileName: () => local.avatarFileName),
+      fields:
+          remote.fields.copyWith(avatarFileName: () => local.avatarFileName),
       createdAt: local.createdAt.isBefore(remote.createdAt)
           ? local.createdAt
           : remote.createdAt,

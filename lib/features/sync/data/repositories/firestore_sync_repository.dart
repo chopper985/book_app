@@ -54,6 +54,7 @@ class FirestoreSyncRepository implements CloudSyncRepository {
       savedTrackIds: List<String>.from(
         data['savedTrackIds'] as List? ?? const [],
       ),
+      extraSessionsUsed: (data['extraSessionsUsed'] as num?)?.toInt() ?? 0,
     );
   }
 
@@ -76,6 +77,7 @@ class FirestoreSyncRepository implements CloudSyncRepository {
         (roadmaps: snapshot.roadmaps, activeId: snapshot.activeRoadmapId),
       ),
       'savedTrackIds': snapshot.savedTrackIds,
+      'extraSessionsUsed': snapshot.extraSessionsUsed,
       'updatedAt': FieldValue.serverTimestamp(),
     });
 

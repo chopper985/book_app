@@ -2,15 +2,15 @@
 import 'dart:convert';
 
 // Project imports:
+import 'package:interview_practice/features/content/data/models/position_model.dart';
 import 'package:interview_practice/features/content/data/models/question_model.dart';
 import 'package:interview_practice/features/content/data/models/quiz_set_model.dart';
-import 'package:interview_practice/features/content/data/models/position_model.dart';
 import 'package:interview_practice/features/content/data/models/track_model.dart';
 import 'package:interview_practice/features/content/domain/entities/content_catalog.dart';
 import 'package:interview_practice/features/content/domain/entities/content_issue.dart';
+import 'package:interview_practice/features/content/domain/entities/position.dart';
 import 'package:interview_practice/features/content/domain/entities/question.dart';
 import 'package:interview_practice/features/content/domain/entities/quiz_set.dart';
-import 'package:interview_practice/features/content/domain/entities/position.dart';
 import 'package:interview_practice/features/content/domain/entities/track.dart';
 
 /// Reads a content file relative to the content root, `null` when missing.

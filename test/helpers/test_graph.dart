@@ -9,6 +9,7 @@ import 'package:interview_practice/features/content/data/parsers/content_parser.
 import 'package:interview_practice/features/content/domain/entities/content_catalog.dart';
 import 'package:interview_practice/features/content/domain/repositories/content_repository.dart';
 import 'package:interview_practice/features/practice/data/repositories/practice_repository_impl.dart';
+import 'package:interview_practice/features/premium/data/repositories/usage_repository_impl.dart';
 import 'package:interview_practice/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:interview_practice/features/sync/domain/usecase/learner_sync.dart';
 import '../features/content/content_test_data.dart';
@@ -18,6 +19,7 @@ import 'in_memory_cloud_sync_repository.dart';
 import 'in_memory_practice_datasource.dart';
 import 'in_memory_profile_datasource.dart';
 import 'in_memory_saved_tracks_datasource.dart';
+import 'in_memory_usage_datasource.dart';
 import 'in_memory_user_roadmaps_datasource.dart';
 
 class FakeContentRepository implements ContentRepository {
@@ -74,8 +76,10 @@ class TestGraph {
 
   final FakeAuthRepository auth = FakeAuthRepository();
   final InMemoryCloudSyncRepository cloud = InMemoryCloudSyncRepository();
+  final UsageRepositoryImpl usage =
+      UsageRepositoryImpl(InMemoryUsageLocalDataSource());
   late final LearnerSync sync =
-      LearnerSync(auth, cloud, practice, profiles, saved, roadmaps);
+      LearnerSync(auth, cloud, practice, profiles, saved, roadmaps, usage);
 
   TestGraph._(this.content, this.clock);
 

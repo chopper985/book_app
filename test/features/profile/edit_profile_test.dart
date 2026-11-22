@@ -68,8 +68,7 @@ void main() {
     });
   });
 
-  test('loads saved values and is not dirty until something changes',
-      () async {
+  test('loads saved values and is not dirty until something changes', () async {
     final cubit = newCubit();
     await cubit.load();
     expect(cubit.state.fields?.displayName, 'Lan');

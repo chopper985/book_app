@@ -20,19 +20,21 @@ import 'package:interview_practice/features/auth/presentation/screens/phone_sign
 import 'package:interview_practice/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/explore_cubit.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/roadmap_picker_cubit.dart';
-import 'package:interview_practice/features/catalog/presentation/cubit/track_detail_cubit.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/roadmaps_cubit.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/track_detail_cubit.dart';
 import 'package:interview_practice/features/catalog/presentation/screens/explore_screen.dart';
 import 'package:interview_practice/features/catalog/presentation/screens/roadmap_picker_screen.dart';
+import 'package:interview_practice/features/catalog/presentation/screens/roadmaps_screen.dart';
 import 'package:interview_practice/features/catalog/presentation/screens/track_roadmap_screen.dart';
 import 'package:interview_practice/features/content/domain/entities/question.dart';
-import 'package:interview_practice/features/catalog/presentation/screens/roadmaps_screen.dart';
 import 'package:interview_practice/features/practice/presentation/cubit/practice_cubit.dart';
 import 'package:interview_practice/features/practice/presentation/cubit/practice_hub_cubit.dart';
 import 'package:interview_practice/features/practice/presentation/cubit/result_cubit.dart';
 import 'package:interview_practice/features/practice/presentation/screens/practice_hub_screen.dart';
 import 'package:interview_practice/features/practice/presentation/screens/practice_screen.dart';
 import 'package:interview_practice/features/practice/presentation/screens/result_screen.dart';
+import 'package:interview_practice/features/premium/presentation/cubit/paywall_cubit.dart';
+import 'package:interview_practice/features/premium/presentation/screens/paywall_screen.dart';
 import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
 import 'package:interview_practice/features/profile/presentation/cubit/edit_profile_cubit.dart';
 import 'package:interview_practice/features/profile/presentation/cubit/onboarding_cubit.dart';
@@ -75,8 +77,7 @@ class AppRouter {
       redirect: _requireProfile,
       // Re-run the redirect when the profile appears (restored from the
       // cloud after signing in) or disappears (signed out).
-      refreshListenable:
-          _StreamListenable(getIt<ProfileRepository>().changes),
+      refreshListenable: _StreamListenable(getIt<ProfileRepository>().changes),
     );
     router.routerDelegate.addListener(_logScreen);
   }
@@ -206,6 +207,23 @@ class PhoneSignInRoute extends GoRouteData with $PhoneSignInRoute {
     return BlocProvider(
       create: (_) => getIt<SignInCubit>(),
       child: const PhoneSignInScreen(),
+    );
+  }
+}
+
+/// Premium plans and extra-session packs; pops `true` after a purchase.
+@TypedGoRoute<PaywallRoute>(
+  path: Routes.paywallRoute,
+  name: Routes.paywallRoute,
+)
+class PaywallRoute extends GoRouteData with $PaywallRoute {
+  const PaywallRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider(
+      create: (_) => getIt<PaywallCubit>()..load(),
+      child: const PaywallScreen(),
     );
   }
 }

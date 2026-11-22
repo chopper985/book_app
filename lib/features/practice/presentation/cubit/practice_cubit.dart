@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:interview_practice/core/analytics/app_analytics.dart';
 import 'package:interview_practice/features/practice/domain/entities/practice_bundle.dart';
 import 'package:interview_practice/features/practice/domain/entities/practice_session.dart';
+import 'package:interview_practice/features/practice/domain/repositories/practice_gate.dart';
 import 'package:interview_practice/features/practice/domain/usecase/practice_usecases.dart';
 
 part 'practice_state.dart';
@@ -40,8 +41,16 @@ class PracticeCubit extends Cubit<PracticeState> {
     emit(const PracticeLoading());
     final resumed =
         sessionId == null ? null : (await _resumePractice(sessionId)).value;
-    final bundle = resumed ??
-        (await _startPractice(setId, onlyQuestionIds: onlyQuestionIds)).value;
+    var bundle = resumed;
+    if (bundle == null) {
+      final started =
+          await _startPractice(setId, onlyQuestionIds: onlyQuestionIds);
+      if (started.error case PracticeLockedFailure(:final reason)) {
+        emit(PracticeLocked(reason));
+        return;
+      }
+      bundle = started.value;
+    }
     if (bundle != null) {
       _analytics.practiceStarted(
         trackId: bundle.track.id,

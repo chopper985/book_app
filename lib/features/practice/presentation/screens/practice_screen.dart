@@ -16,12 +16,14 @@ import 'package:interview_practice/features/content/domain/entities/question.dar
 import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:interview_practice/features/content/presentation/extensions/question_level_label.dart';
 import 'package:interview_practice/features/practice/domain/entities/practice_bundle.dart';
+import 'package:interview_practice/features/practice/domain/repositories/practice_gate.dart';
 import 'package:interview_practice/features/practice/presentation/cubit/practice_cubit.dart';
 import 'package:interview_practice/features/practice/presentation/widgets/code_block.dart';
 import 'package:interview_practice/features/practice/presentation/widgets/practice_header.dart';
 import 'package:interview_practice/features/practice/presentation/widgets/practice_note_box.dart';
 import 'package:interview_practice/features/practice/presentation/widgets/practice_option_tile.dart';
 import 'package:interview_practice/features/practice/presentation/widgets/practice_step_tracker.dart';
+import 'package:interview_practice/features/premium/presentation/cubit/quota_cubit.dart';
 
 /// "Làm bài - Câu hỏi phỏng vấn": one question at a time.
 class PracticeScreen extends StatefulWidget {
@@ -115,6 +117,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
               ),
             ),
           PracticeNotFound() => const _NotFound(),
+          PracticeLocked(:final reason) => _Locked(reason: reason),
           PracticeLoading() || PracticeSubmitted() => const Center(
               child: CircularProgressIndicator(color: AppPalette.primary),
             ),
@@ -346,6 +349,91 @@ class _NotFound extends StatelessWidget {
                     14,
                     weight: FontWeight.w600,
                     color: AppPalette.primary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The plan does not allow this session: explains why and opens the plans.
+class _Locked extends StatelessWidget {
+  final PracticeDenial reason;
+
+  const _Locked({required this.reason});
+
+  @override
+  Widget build(BuildContext context) {
+    final premiumLevel = reason == PracticeDenial.premiumLevel;
+    final quota = context.watch<QuotaCubit>().state;
+    return SafeArea(
+      child: Center(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(24.dsp),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                premiumLevel
+                    ? Icons.workspace_premium_rounded
+                    : Icons.hourglass_bottom_rounded,
+                size: 48.dsp,
+                color:
+                    premiumLevel ? AppPalette.purpleDeep : AppPalette.primary,
+              ),
+              SizedBox(height: 16.dsp),
+              Text(
+                premiumLevel
+                    ? Strings.lockedPremiumTitle.i18n
+                    : Strings.lockedQuotaTitle.i18n,
+                textAlign: TextAlign.center,
+                style: AppText.sans(20, height: 28, weight: FontWeight.w700),
+              ),
+              SizedBox(height: 8.dsp),
+              Text(
+                premiumLevel
+                    ? Strings.lockedPremiumMessage.i18n
+                    : Strings.lockedQuotaMessage.i18n.fill([quota.dailyLimit]),
+                textAlign: TextAlign.center,
+                style: AppText.sans(
+                  14,
+                  height: 20,
+                  color: AppPalette.onSurfaceVariant,
+                ),
+              ),
+              SizedBox(height: 24.dsp),
+              FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppPalette.primaryStrong,
+                  foregroundColor: AppPalette.onPrimaryStrong,
+                  minimumSize: Size(200.dsp, 48.dsp),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.dsp),
+                  ),
+                ),
+                onPressed: () => const PaywallRoute().pushReplacement(context),
+                child: Text(
+                  Strings.lockedSeePlans.i18n,
+                  style: AppText.sans(
+                    15,
+                    weight: FontWeight.w600,
+                    color: AppPalette.onPrimaryStrong,
+                  ),
+                ),
+              ),
+              SizedBox(height: 8.dsp),
+              TextButton(
+                onPressed: () => context.pop(),
+                child: Text(
+                  Strings.practiceBack.i18n,
+                  style: AppText.sans(
+                    14,
+                    weight: FontWeight.w600,
+                    color: AppPalette.onSurfaceVariant,
                   ),
                 ),
               ),

@@ -10,6 +10,7 @@ import 'package:interview_practice/features/auth/domain/usecase/normalize_phone_
 import 'package:interview_practice/features/catalog/domain/repositories/saved_tracks_repository.dart';
 import 'package:interview_practice/features/catalog/domain/repositories/user_roadmaps_repository.dart';
 import 'package:interview_practice/features/practice/domain/repositories/practice_repository.dart';
+import 'package:interview_practice/features/premium/domain/repositories/usage_repository.dart';
 import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
 import 'package:interview_practice/features/sync/domain/usecase/learner_sync.dart';
 
@@ -84,12 +85,14 @@ class ClearLocalLearnerData {
   final ProfileRepository _profile;
   final SavedTracksRepository _saved;
   final UserRoadmapsRepository _roadmaps;
+  final UsageRepository _usage;
 
   ClearLocalLearnerData(
     this._practice,
     this._profile,
     this._saved,
     this._roadmaps,
+    this._usage,
   );
 
   Future<void> call() async {
@@ -97,6 +100,9 @@ class ClearLocalLearnerData {
     await _saved.replaceAll(const []);
     await _roadmaps.replaceAll(const [], null);
     await _profile.restore(null);
+    // Bought sessions belong to the account; today's count stays on the
+    // device so signing out does not reset the daily limit.
+    await _usage.restoreExtraSessionsUsed(0);
   }
 }
 

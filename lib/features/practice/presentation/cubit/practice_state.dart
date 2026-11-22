@@ -15,6 +15,16 @@ final class PracticeNotFound extends PracticeState {
   const PracticeNotFound();
 }
 
+/// The plan does not allow a new session (Premium set or no sessions left).
+final class PracticeLocked extends PracticeState {
+  final PracticeDenial reason;
+
+  const PracticeLocked(this.reason);
+
+  @override
+  List<Object?> get props => [reason];
+}
+
 final class PracticeInProgress extends PracticeState {
   final PracticeBundle bundle;
 

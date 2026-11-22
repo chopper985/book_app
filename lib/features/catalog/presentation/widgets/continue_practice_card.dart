@@ -10,8 +10,8 @@ import 'package:interview_practice/core/utils/widgets/app_badge.dart';
 import 'package:interview_practice/core/utils/widgets/app_progress_bar.dart';
 import 'package:interview_practice/core/utils/widgets/app_svg.dart';
 import 'package:interview_practice/features/catalog/domain/entities/explore_dashboard.dart';
-import 'package:interview_practice/gen/assets.gen.dart';
 import 'package:interview_practice/features/catalog/presentation/widgets/track_logo.dart';
+import 'package:interview_practice/gen/assets.gen.dart';
 
 /// Hero panel "Continue practice" (Technical Slate Panel).
 class ContinuePracticeCard extends StatelessWidget {

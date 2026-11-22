@@ -19,6 +19,7 @@ import 'package:interview_practice/features/sync/domain/entities/learner_snapsho
 import 'package:interview_practice/features/sync/domain/usecase/learner_sync.dart';
 import 'package:interview_practice/features/sync/domain/usecase/merge_snapshots.dart';
 import '../../helpers/fake_auth_repository.dart';
+import '../../helpers/open_practice_gate.dart';
 import '../../helpers/test_graph.dart';
 
 SessionResult result(String id, DateTime at) => SessionResult(
@@ -140,7 +141,7 @@ void main() {
 
     Future<void> practiceOnce() async {
       final cubit = PracticeCubit(
-        StartPractice(graph.practice),
+        StartPractice(graph.practice, const OpenPracticeGate()),
         ResumePractice(graph.practice),
         SavePractice(graph.practice),
         SubmitPractice(graph.practice),
@@ -205,6 +206,7 @@ void main() {
           graph.profiles,
           graph.saved,
           graph.roadmaps,
+          graph.usage,
         )..start();
         graph.auth.emitUser(googleUser);
         // Finish the initial merge (it waits one timer tick) before counting.
@@ -254,6 +256,7 @@ void main() {
           graph.profiles,
           graph.saved,
           graph.roadmaps,
+          graph.usage,
         ),
       )();
 
@@ -275,6 +278,7 @@ void main() {
               graph.profiles,
               graph.saved,
               graph.roadmaps,
+              graph.usage,
             ),
           );
 

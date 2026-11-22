@@ -30,8 +30,7 @@ class LearnerTabHeader extends StatelessWidget {
       streakDays: learner.streakDays,
       displayName: learner.displayName,
       avatarPath: learner.avatarPath,
-      onAvatarTap:
-          isProfileTab ? null : () => const ProfileRoute().go(context),
+      onAvatarTap: isProfileTab ? null : () => const ProfileRoute().go(context),
     );
   }
 }

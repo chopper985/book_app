@@ -1,7 +1,8 @@
 rules_version = '2';
 
 // Learner data written by the app (see FirestoreSyncRepository):
-//   users/{uid}                      profile, roadmaps, saved tracks
+//   users/{uid}                      profile, roadmaps, saved tracks,
+//                                    extra sessions used
 //   users/{uid}/results/{sessionId}  one graded practice session
 // Only the signed-in owner can read or write them; everything else is denied.
 service cloud.firestore {
@@ -14,7 +15,11 @@ service cloud.firestore {
       allow read, delete: if isOwner(uid);
       allow create, update: if isOwner(uid)
         && request.resource.data.keys().hasOnly(
-          ['profile', 'roadmaps', 'savedTrackIds', 'updatedAt']);
+          ['profile', 'roadmaps', 'savedTrackIds', 'extraSessionsUsed',
+           'updatedAt'])
+        && (!('extraSessionsUsed' in request.resource.data)
+          || (request.resource.data.extraSessionsUsed is int
+            && request.resource.data.extraSessionsUsed >= 0));
 
       match /results/{sessionId} {
         allow read, delete: if isOwner(uid);

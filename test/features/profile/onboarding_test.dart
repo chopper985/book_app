@@ -19,9 +19,9 @@ import 'package:interview_practice/features/profile/domain/usecase/profile_useca
 import 'package:interview_practice/features/profile/presentation/cubit/onboarding_cubit.dart';
 import '../../helpers/in_memory_avatar_datasource.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
+import '../../helpers/in_memory_profile_datasource.dart';
 import '../../helpers/in_memory_saved_tracks_datasource.dart';
 import '../../helpers/in_memory_user_roadmaps_datasource.dart';
-import '../../helpers/in_memory_profile_datasource.dart';
 import '../content/content_test_data.dart';
 
 class _FakeContentRepository implements ContentRepository {

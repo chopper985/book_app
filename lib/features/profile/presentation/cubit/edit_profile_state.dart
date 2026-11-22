@@ -51,12 +51,10 @@ class EditProfileState extends Equatable {
     return EditProfileState(
       original: original ?? this.original,
       fields: fields ?? this.fields,
-      storedAvatarPath: storedAvatarPath == null
-          ? this.storedAvatarPath
-          : storedAvatarPath(),
-      pickedAvatarPath: pickedAvatarPath == null
-          ? this.pickedAvatarPath
-          : pickedAvatarPath(),
+      storedAvatarPath:
+          storedAvatarPath == null ? this.storedAvatarPath : storedAvatarPath(),
+      pickedAvatarPath:
+          pickedAvatarPath == null ? this.pickedAvatarPath : pickedAvatarPath(),
       tracks: tracks ?? this.tracks,
       saving: saving ?? this.saving,
       saved: saved ?? this.saved,

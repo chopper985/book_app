@@ -17,12 +17,16 @@ class LearnerSnapshot extends Equatable {
   final String? activeRoadmapId;
   final List<String> savedTrackIds;
 
+  /// Extra (bought) sessions already used, so they are not refilled.
+  final int extraSessionsUsed;
+
   const LearnerSnapshot({
     this.profile,
     this.results = const [],
     this.roadmaps = const [],
     this.activeRoadmapId,
     this.savedTrackIds = const [],
+    this.extraSessionsUsed = 0,
   });
 
   static const LearnerSnapshot empty = LearnerSnapshot();
@@ -30,6 +34,12 @@ class LearnerSnapshot extends Equatable {
   Set<String> get resultIds => {for (final r in results) r.sessionId};
 
   @override
-  List<Object?> get props =>
-      [profile, results, roadmaps, activeRoadmapId, savedTrackIds];
+  List<Object?> get props => [
+        profile,
+        results,
+        roadmaps,
+        activeRoadmapId,
+        savedTrackIds,
+        extraSessionsUsed,
+      ];
 }

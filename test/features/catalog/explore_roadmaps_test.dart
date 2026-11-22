@@ -27,6 +27,7 @@ import 'package:interview_practice/features/practice/domain/usecase/practice_use
 import 'package:interview_practice/features/practice/presentation/cubit/practice_cubit.dart';
 import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 import 'package:interview_practice/features/profile/domain/usecase/profile_usecases.dart';
+import '../../helpers/open_practice_gate.dart';
 import '../../helpers/test_graph.dart';
 import '../content/content_test_data.dart';
 
@@ -137,7 +138,10 @@ void main() {
       expect(repo.active?.id, 'flutter:fresher');
 
       await repo.add('dart', QuestionLevel.junior);
-      expect(repo.roadmaps.map((r) => r.id), ['dart:junior', 'flutter:fresher']);
+      expect(
+        repo.roadmaps.map((r) => r.id),
+        ['dart:junior', 'flutter:fresher'],
+      );
       expect(repo.active?.id, 'dart:junior');
     });
 
@@ -199,8 +203,7 @@ void main() {
   });
 
   group('RoadmapPickerCubit', () {
-    test('prefills from the profile and adds the roadmap on confirm',
-        () async {
+    test('prefills from the profile and adds the roadmap on confirm', () async {
       await saveProfile(['go', 'dart'], experience: ExperienceLevel.middle);
       final cubit = newPicker();
       await cubit.load();
@@ -314,7 +317,7 @@ void main() {
 
     Future<void> play({List<String>? only}) async {
       final cubit = PracticeCubit(
-        StartPractice(graph.practice),
+        StartPractice(graph.practice, const OpenPracticeGate()),
         ResumePractice(graph.practice),
         SavePractice(graph.practice),
         SubmitPractice(graph.practice),
@@ -507,8 +510,8 @@ void main() {
 
       final target = detail.topicPractice('null_safety')!;
       expect(target.setId, 'dart.topic.null_safety.junior');
-      final bundle = (await topicGraph.practice.startSession(target.setId))
-          .value!;
+      final bundle =
+          (await topicGraph.practice.startSession(target.setId)).value!;
       expect(
         bundle.questions.map((q) => q.id),
         ['dart.q1', 'dart.q2'],

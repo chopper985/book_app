@@ -35,9 +35,10 @@ import 'package:interview_practice/features/practice/presentation/screens/practi
 import 'package:interview_practice/features/profile/data/repositories/profile_repository_impl.dart';
 import '../../helpers/in_memory_avatar_datasource.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
+import '../../helpers/in_memory_profile_datasource.dart';
 import '../../helpers/in_memory_saved_tracks_datasource.dart';
 import '../../helpers/in_memory_user_roadmaps_datasource.dart';
-import '../../helpers/in_memory_profile_datasource.dart';
+import '../../helpers/open_practice_gate.dart';
 import '../content/content_test_data.dart';
 
 class _FakeContentRepository implements ContentRepository {
@@ -128,7 +129,7 @@ void main() {
     List<String>? only,
   }) async {
     final cubit = PracticeCubit(
-      StartPractice(practice),
+      StartPractice(practice, const OpenPracticeGate()),
       ResumePractice(practice),
       SavePractice(practice),
       SubmitPractice(practice),

@@ -12,6 +12,7 @@ import 'package:interview_practice/features/practice/presentation/cubit/practice
 import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 import 'package:interview_practice/features/profile/domain/usecase/profile_usecases.dart';
 import 'package:interview_practice/features/profile/presentation/cubit/onboarding_cubit.dart';
+import '../helpers/open_practice_gate.dart';
 import '../helpers/test_graph.dart';
 
 /// Records every call as `name {params}`.
@@ -72,7 +73,7 @@ void main() {
   });
 
   PracticeCubit newPractice() => PracticeCubit(
-        StartPractice(graph.practice),
+        StartPractice(graph.practice, const OpenPracticeGate()),
         ResumePractice(graph.practice),
         SavePractice(graph.practice),
         SubmitPractice(graph.practice),

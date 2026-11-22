@@ -29,6 +29,5 @@ final class ProfileLoaded extends ProfileState {
   });
 
   @override
-  List<Object?> get props =>
-      [profile, avatarPath, learner, stack];
+  List<Object?> get props => [profile, avatarPath, learner, stack];
 }

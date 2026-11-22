@@ -13,6 +13,7 @@ import 'package:interview_practice/features/auth/domain/repositories/auth_reposi
 import 'package:interview_practice/features/catalog/domain/repositories/saved_tracks_repository.dart';
 import 'package:interview_practice/features/catalog/domain/repositories/user_roadmaps_repository.dart';
 import 'package:interview_practice/features/practice/domain/repositories/practice_repository.dart';
+import 'package:interview_practice/features/premium/domain/repositories/usage_repository.dart';
 import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
 import 'package:interview_practice/features/sync/domain/entities/learner_snapshot.dart';
 import 'package:interview_practice/features/sync/domain/repositories/cloud_sync_repository.dart';
@@ -31,6 +32,7 @@ class LearnerSync {
   final ProfileRepository _profile;
   final SavedTracksRepository _saved;
   final UserRoadmapsRepository _roadmaps;
+  final UsageRepository _usage;
   final MergeSnapshots _merge = const MergeSnapshots();
 
   StreamSubscription<AuthUser?>? _authSubscription;
@@ -49,6 +51,7 @@ class LearnerSync {
     this._profile,
     this._saved,
     this._roadmaps,
+    this._usage,
   );
 
   /// The uid being synced, `null` while anonymous or signed out.
@@ -72,6 +75,7 @@ class LearnerSync {
         _profile.changes,
         _saved.changes,
         _roadmaps.changes,
+        _usage.changes,
       ])
         stream.listen((_) => _schedulePush()),
     ]);
@@ -169,6 +173,7 @@ class LearnerSync {
         roadmaps: _roadmaps.roadmaps,
         activeRoadmapId: _roadmaps.active?.id,
         savedTrackIds: _saved.savedTrackIds,
+        extraSessionsUsed: _usage.extraSessionsUsed,
       );
 
   /// Writes only what changed, without triggering pushes of its own.
@@ -193,6 +198,9 @@ class LearnerSync {
       if (!listEquals(merged.roadmaps, local.roadmaps) ||
           merged.activeRoadmapId != local.activeRoadmapId) {
         await _roadmaps.replaceAll(merged.roadmaps, merged.activeRoadmapId);
+      }
+      if (merged.extraSessionsUsed != local.extraSessionsUsed) {
+        await _usage.restoreExtraSessionsUsed(merged.extraSessionsUsed);
       }
     } finally {
       // Change events of the writes above are delivered asynchronously.

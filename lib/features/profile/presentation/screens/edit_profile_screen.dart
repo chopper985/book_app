@@ -8,11 +8,11 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 // Project imports:
-import 'package:interview_practice/core/utils/widgets/app_avatar.dart';
 import 'package:interview_practice/core/app/colors/app_palette.dart';
 import 'package:interview_practice/core/app/languages/data/localization.dart';
 import 'package:interview_practice/core/app/themes/data/app_text.dart';
 import 'package:interview_practice/core/utils/sizer/design_size.dart';
+import 'package:interview_practice/core/utils/widgets/app_avatar.dart';
 import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 import 'package:interview_practice/features/profile/presentation/cubit/edit_profile_cubit.dart';

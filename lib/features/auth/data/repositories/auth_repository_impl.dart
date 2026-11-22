@@ -265,11 +265,13 @@ class AuthRepositoryImpl implements AuthRepository {
 
   static AuthFailure _failureOf(FirebaseAuthException error) {
     final code = switch (error.code) {
-      'invalid-phone-number' || 'missing-phone-number' =>
+      'invalid-phone-number' ||
+      'missing-phone-number' =>
         AuthFailureCode.invalidPhoneNumber,
       'invalid-verification-code' => AuthFailureCode.invalidCode,
       'session-expired' || 'code-expired' => AuthFailureCode.codeExpired,
-      'too-many-requests' || 'quota-exceeded' =>
+      'too-many-requests' ||
+      'quota-exceeded' =>
         AuthFailureCode.tooManyRequests,
       'network-request-failed' => AuthFailureCode.network,
       'requires-recent-login' => AuthFailureCode.requiresRecentLogin,

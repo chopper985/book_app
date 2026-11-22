@@ -19,6 +19,7 @@ import 'package:interview_practice/features/practice/presentation/cubit/result_c
 import 'package:interview_practice/features/practice/presentation/screens/result_screen.dart';
 import 'package:interview_practice/features/practice/presentation/widgets/result_review_card.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
+import '../../helpers/open_practice_gate.dart';
 import '../content/content_test_data.dart';
 
 class _FakeContentRepository implements ContentRepository {
@@ -66,7 +67,7 @@ void main() {
         clock,
       );
       final practice = PracticeCubit(
-        StartPractice(repository),
+        StartPractice(repository, const OpenPracticeGate()),
         ResumePractice(repository),
         SavePractice(repository),
         SubmitPractice(repository),

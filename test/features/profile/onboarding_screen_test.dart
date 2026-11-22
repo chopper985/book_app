@@ -28,9 +28,9 @@ import 'package:interview_practice/features/profile/presentation/extensions/prof
 import 'package:interview_practice/features/profile/presentation/screens/onboarding_screen.dart';
 import '../../helpers/in_memory_avatar_datasource.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
+import '../../helpers/in_memory_profile_datasource.dart';
 import '../../helpers/in_memory_saved_tracks_datasource.dart';
 import '../../helpers/in_memory_user_roadmaps_datasource.dart';
-import '../../helpers/in_memory_profile_datasource.dart';
 import '../content/content_test_data.dart';
 
 class _FakeContentRepository implements ContentRepository {
@@ -65,7 +65,10 @@ void main() {
         ),
         profiles,
         SavedTracksRepositoryImpl(InMemorySavedTracksLocalDataSource()),
-        UserRoadmapsRepositoryImpl(          InMemoryUserRoadmapsLocalDataSource(),          AppClock(),        ),
+        UserRoadmapsRepositoryImpl(
+          InMemoryUserRoadmapsLocalDataSource(),
+          AppClock(),
+        ),
         MockDashboardDataSource(),
         clock,
       );

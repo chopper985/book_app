@@ -22,4 +22,7 @@ class StorageKeys {
 
   // Roadmaps the learner follows (track + level) and the active one.
   static const String userRoadmapsBox = 'user-roadmaps';
+
+  // Practice sessions used per day and extra sessions used (plan quota).
+  static const String practiceUsageBox = 'practice-usage';
 }

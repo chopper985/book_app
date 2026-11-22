@@ -12,6 +12,7 @@ import 'package:interview_practice/features/practice/domain/entities/session_res
 import 'package:interview_practice/features/practice/domain/usecase/practice_usecases.dart';
 import 'package:interview_practice/features/practice/presentation/cubit/practice_cubit.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
+import '../../helpers/open_practice_gate.dart';
 import '../content/content_test_data.dart';
 
 class _FakeContentRepository implements ContentRepository {
@@ -58,7 +59,7 @@ void main() {
   });
 
   PracticeCubit newCubit() => PracticeCubit(
-        StartPractice(repository),
+        StartPractice(repository, const OpenPracticeGate()),
         ResumePractice(repository),
         SavePractice(repository),
         SubmitPractice(repository),
@@ -144,8 +145,7 @@ void main() {
   });
 
   group('persistence', () {
-    test('results survive a restart (new repository, same storage)',
-        () async {
+    test('results survive a restart (new repository, same storage)', () async {
       final cubit = newCubit();
       await cubit.start('dart.set1');
       final id = (cubit.state as PracticeInProgress).bundle.session.id;

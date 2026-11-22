@@ -10,6 +10,7 @@ List<RouteBase> get $appRoutes => [
       $onboardingRoute,
       $signInRoute,
       $phoneSignInRoute,
+      $paywallRoute,
       $editProfileRoute,
       $trackRoadmapRoute,
       $roadmapPickerRoute,
@@ -91,6 +92,35 @@ mixin $PhoneSignInRoute on GoRouteData {
   @override
   String get location => GoRouteData.$location(
         '/sign-in/phone',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $paywallRoute => GoRouteData.$route(
+      path: '/premium',
+      name: '/premium',
+      hasOverriddenOnExit: false,
+      factory: $PaywallRoute._fromState,
+    );
+
+mixin $PaywallRoute on GoRouteData {
+  static PaywallRoute _fromState(GoRouterState state) => const PaywallRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/premium',
       );
 
   @override

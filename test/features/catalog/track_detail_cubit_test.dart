@@ -22,9 +22,9 @@ import 'package:interview_practice/features/practice/data/repositories/practice_
 import 'package:interview_practice/features/profile/data/repositories/profile_repository_impl.dart';
 import '../../helpers/in_memory_avatar_datasource.dart';
 import '../../helpers/in_memory_practice_datasource.dart';
+import '../../helpers/in_memory_profile_datasource.dart';
 import '../../helpers/in_memory_saved_tracks_datasource.dart';
 import '../../helpers/in_memory_user_roadmaps_datasource.dart';
-import '../../helpers/in_memory_profile_datasource.dart';
 import '../content/content_test_data.dart';
 
 class _FakeContentRepository implements ContentRepository {
@@ -49,7 +49,10 @@ Future<TrackDetailCubit> cubitWith(Result<ContentCatalog> result) async {
       clock,
     ),
     saved,
-    UserRoadmapsRepositoryImpl(      InMemoryUserRoadmapsLocalDataSource(),      AppClock(),    ),
+    UserRoadmapsRepositoryImpl(
+      InMemoryUserRoadmapsLocalDataSource(),
+      AppClock(),
+    ),
     MockDashboardDataSource(),
     clock,
   );

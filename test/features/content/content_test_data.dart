@@ -81,7 +81,9 @@ Map<String, String> files({
       'dart/questions.json': jsonEncode({
         'questions': questions ?? [choiceQuestion(), explainQuestion()],
       }),
-      'dart/sets.json': jsonEncode({'sets': sets ?? [set()]}),
+      'dart/sets.json': jsonEncode({
+        'sets': sets ?? [set()],
+      }),
     };
 
 Future<String?> Function(String) readerOf(Map<String, String> files) =>
