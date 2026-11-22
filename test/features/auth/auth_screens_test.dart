@@ -9,6 +9,7 @@ import 'package:sizer/sizer.dart';
 
 // Project imports:
 import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/features/auth/domain/entities/auth_results.dart';
 import 'package:interview_practice/features/auth/domain/usecase/account_usecases.dart';
 import 'package:interview_practice/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:interview_practice/features/auth/presentation/cubit/sign_in_cubit.dart';
@@ -43,11 +44,13 @@ void main() {
 
   SignInCubit signInCubit(FakeAuthRepository auth) => SignInCubit(
         SignInWithGoogle(auth),
+        SignInWithFacebook(auth),
         RequestPhoneCode(auth),
         ConfirmPhoneCode(auth),
       );
 
-  testWidgets('sign-in screen offers Google and phone', (tester) async {
+  testWidgets('sign-in screen offers Google, Facebook, phone and guest',
+      (tester) async {
     final auth = FakeAuthRepository();
     await pumpSmall(
       tester,
@@ -58,8 +61,15 @@ void main() {
     );
     expect(tester.takeException(), isNull);
     expect(find.text(Strings.authGoogle.i18n), findsOneWidget);
+    expect(find.text(Strings.authFacebook.i18n), findsOneWidget);
     expect(find.text(Strings.authPhone.i18n), findsOneWidget);
-    expect(find.text(Strings.authKeepData.i18n), findsOneWidget);
+    expect(find.text(Strings.authGuest.i18n), findsOneWidget);
+
+    // Cancelled, so the screen stays (no router to pop in this test).
+    auth.facebookResult = const SignInCancelled();
+    await tester.tap(find.text(Strings.authFacebook.i18n));
+    await tester.pump();
+    expect(auth.calls, contains('facebook'));
   });
 
   testWidgets('phone screen moves from number to code', (tester) async {

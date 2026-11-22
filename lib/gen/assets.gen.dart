@@ -87,6 +87,9 @@ class $AssetsContentGen {
 class $AssetsFigmaGen {
   const $AssetsFigmaGen();
 
+  /// Directory path: assets/figma/auth
+  $AssetsFigmaAuthGen get auth => const $AssetsFigmaAuthGen();
+
   /// Directory path: assets/figma/explore
   $AssetsFigmaExploreGen get explore => const $AssetsFigmaExploreGen();
 
@@ -385,6 +388,19 @@ class $AssetsContentTypescriptGen {
 
   /// List of all assets
   List<String> get values => [questions, sets];
+}
+
+class $AssetsFigmaAuthGen {
+  const $AssetsFigmaAuthGen();
+
+  /// File path: assets/figma/auth/ic_facebook.svg
+  String get icFacebook => 'assets/figma/auth/ic_facebook.svg';
+
+  /// File path: assets/figma/auth/ic_google.svg
+  String get icGoogle => 'assets/figma/auth/ic_google.svg';
+
+  /// List of all assets
+  List<String> get values => [icFacebook, icGoogle];
 }
 
 class $AssetsFigmaExploreGen {

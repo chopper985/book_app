@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 // Project imports:
 import 'package:interview_practice/features/auth/domain/entities/auth_failure.dart';
 import 'package:interview_practice/features/auth/domain/entities/auth_results.dart';
+import 'package:interview_practice/features/auth/domain/entities/auth_user.dart';
 import 'package:interview_practice/features/auth/domain/usecase/account_usecases.dart';
 import 'package:interview_practice/features/auth/domain/usecase/normalize_phone_number.dart';
 import 'package:interview_practice/features/auth/presentation/cubit/sign_in_cubit.dart';
@@ -313,6 +314,7 @@ void main() {
 
     SignInCubit newCubit() => SignInCubit(
           SignInWithGoogle(auth),
+          SignInWithFacebook(auth),
           RequestPhoneCode(auth),
           ConfirmPhoneCode(auth),
         );
@@ -332,6 +334,31 @@ void main() {
           SignInFailed(AuthFailure(AuthFailureCode.notConfigured));
       await cubit.signInWithGoogle();
       expect(cubit.state.failure?.code, AuthFailureCode.notConfigured);
+    });
+
+    test('facebook success links the account; cancel keeps the screen',
+        () async {
+      var cubit = newCubit();
+      await cubit.signInWithFacebook();
+      expect(cubit.state.done, isTrue);
+      expect(auth.currentUser?.isLinked, isTrue);
+      expect(auth.currentUser?.providers, {AuthProviderKind.facebook});
+
+      auth.facebookResult = const SignInCancelled();
+      cubit = newCubit();
+      await cubit.signInWithFacebook();
+      expect(cubit.state.done, isFalse);
+      expect(cubit.state.busy, isFalse);
+      expect(cubit.state.failure, isNull);
+
+      auth.facebookResult = SignInFailed(
+        AuthFailure(AuthFailureCode.accountExistsWithOtherProvider),
+      );
+      await cubit.signInWithFacebook();
+      expect(
+        cubit.state.failure?.code,
+        AuthFailureCode.accountExistsWithOtherProvider,
+      );
     });
 
     test('phone flow: normalized number, countdown, code, done', () {

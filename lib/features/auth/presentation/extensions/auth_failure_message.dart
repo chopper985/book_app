@@ -10,6 +10,8 @@ extension AuthFailureMessage on AuthFailure {
         AuthFailureCode.tooManyRequests => Strings.authErrorTooMany,
         AuthFailureCode.network => Strings.authErrorNetwork,
         AuthFailureCode.requiresRecentLogin => Strings.authErrorRecentLogin,
+        AuthFailureCode.accountExistsWithOtherProvider =>
+          Strings.authErrorOtherProvider,
         AuthFailureCode.notConfigured => Strings.authErrorNotConfigured,
         AuthFailureCode.unknown => Strings.authErrorUnknown,
       }

@@ -17,6 +17,17 @@ debug key, so every teammate adds theirs.
 | SHA-1 | `C5:01:59:7D:3D:02:E5:67:43:87:C9:09:A6:F5:8C:38:C9:C8:06:AF` |
 | SHA-256 | `D7:3D:5E:B2:3B:5F:0D:29:21:52:9D:E7:E2:00:B8:33:58:2E:73:82:61:7B:99:41:36:E0:88:B0:52:38:0D:56` |
 
+## Facebook key hash (debug)
+
+Meta for Developers > App settings > Basic > Android > **Key hashes**:
+
+```
+xQFZfT0C5WdDh8kJpvWMOMnIBq8=
+```
+
+It is the base64 of the binary SHA-1 above. For another key:
+`echo <SHA-1> | tr -d : | xxd -r -p | base64`.
+
 ## Release / Google Play (to add later)
 
 - **Upload key**: the keystore you create for release builds

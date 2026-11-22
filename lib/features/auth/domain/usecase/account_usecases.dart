@@ -34,6 +34,15 @@ class SignInWithGoogle {
 }
 
 @injectable
+class SignInWithFacebook {
+  final AuthRepository _repository;
+
+  SignInWithFacebook(this._repository);
+
+  Future<SignInResult> call() => _repository.signInWithFacebook();
+}
+
+@injectable
 class RequestPhoneCode {
   final AuthRepository _repository;
   final NormalizePhoneNumber _normalize = const NormalizePhoneNumber();

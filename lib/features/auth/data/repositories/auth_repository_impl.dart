@@ -1,11 +1,15 @@
 // Dart imports:
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
 
 // Package imports:
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide PhoneCodeSent;
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
@@ -16,12 +20,13 @@ import 'package:interview_practice/features/auth/domain/entities/auth_results.da
 import 'package:interview_practice/features/auth/domain/entities/auth_user.dart';
 import 'package:interview_practice/features/auth/domain/repositories/auth_repository.dart';
 
-/// Firebase Auth with Google and phone (SMS) sign-in. New credentials are
+/// Firebase Auth with Google, Facebook and phone (SMS) sign-in. New credentials are
 /// linked to the current anonymous account so its local data keeps its uid;
 /// a credential that already belongs to another account signs in to it.
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
   bool _googleReady = false;
+  bool _facebookUsed = false;
 
   FirebaseAuth? get _auth => AppFirebase.isReady ? FirebaseAuth.instance : null;
 
@@ -79,6 +84,51 @@ class AuthRepositoryImpl implements AuthRepository {
         ),
       );
     }
+  }
+
+  @override
+  Future<SignInResult> signInWithFacebook() async {
+    if (_auth == null) {
+      return SignInFailed(AuthFailure(AuthFailureCode.notConfigured));
+    }
+    // iOS with limited tracking returns an OpenID token bound to this nonce.
+    final rawNonce = _nonce();
+    final LoginResult result;
+    try {
+      result = await FacebookAuth.instance.login(
+        nonce: sha256.convert(utf8.encode(rawNonce)).toString(),
+      );
+    } catch (error) {
+      // Missing App ID / client token in the native config.
+      return SignInFailed(
+        AuthFailure(AuthFailureCode.notConfigured, '$error'),
+      );
+    }
+    switch (result.status) {
+      case LoginStatus.cancelled:
+      case LoginStatus.operationInProgress:
+        return const SignInCancelled();
+      case LoginStatus.failed:
+        return SignInFailed(
+          AuthFailure(AuthFailureCode.unknown, result.message),
+        );
+      case LoginStatus.success:
+        break;
+    }
+    _facebookUsed = true;
+    final credential = switch (result.accessToken) {
+      final LimitedToken token => OAuthProvider('facebook.com').credential(
+          idToken: token.tokenString,
+          rawNonce: rawNonce,
+        ),
+      final ClassicToken token =>
+        FacebookAuthProvider.credential(token.tokenString),
+      _ => null,
+    };
+    if (credential == null) {
+      return SignInFailed(AuthFailure(AuthFailureCode.unknown));
+    }
+    return _linkOrSignIn(credential);
   }
 
   @override
@@ -144,6 +194,7 @@ class AuthRepositoryImpl implements AuthRepository {
         debugPrint('Google sign-out failed: $error');
       }
     }
+    await _facebookLogOut();
     await auth.signOut();
     await ensureSignedIn();
   }
@@ -155,11 +206,29 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await user.delete();
       if (_googleReady) await GoogleSignIn.instance.disconnect();
+      await _facebookLogOut();
       await ensureSignedIn();
       return null;
     } on FirebaseAuthException catch (error) {
       return _failureOf(error);
     }
+  }
+
+  Future<void> _facebookLogOut() async {
+    if (!_facebookUsed) return;
+    try {
+      await FacebookAuth.instance.logOut();
+    } catch (error) {
+      debugPrint('Facebook sign-out failed: $error');
+    }
+  }
+
+  static String _nonce([int length = 32]) {
+    const chars =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => chars[random.nextInt(chars.length)])
+        .join();
   }
 
   /// Links [credential] to the current user, or signs in when there is no
@@ -204,6 +273,8 @@ class AuthRepositoryImpl implements AuthRepository {
         AuthFailureCode.tooManyRequests,
       'network-request-failed' => AuthFailureCode.network,
       'requires-recent-login' => AuthFailureCode.requiresRecentLogin,
+      'account-exists-with-different-credential' =>
+        AuthFailureCode.accountExistsWithOtherProvider,
       'operation-not-allowed' ||
       'app-not-authorized' ||
       'invalid-app-credential' ||
@@ -227,6 +298,8 @@ class AuthRepositoryImpl implements AuthRepository {
         for (final info in user.providerData)
           if (info.providerId == GoogleAuthProvider.PROVIDER_ID)
             AuthProviderKind.google
+          else if (info.providerId == FacebookAuthProvider.PROVIDER_ID)
+            AuthProviderKind.facebook
           else if (info.providerId == PhoneAuthProvider.PROVIDER_ID)
             AuthProviderKind.phone,
       },

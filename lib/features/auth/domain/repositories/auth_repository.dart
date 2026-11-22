@@ -16,6 +16,9 @@ abstract class AuthRepository {
   /// existing account that already uses it.
   Future<SignInResult> signInWithGoogle();
 
+  /// Same as [signInWithGoogle], with a Facebook account.
+  Future<SignInResult> signInWithFacebook();
+
   /// Sends an SMS code to [phoneNumber] in E.164 form (`+84912345678`).
   Future<PhoneCodeRequest> requestPhoneCode(
     String phoneNumber, {

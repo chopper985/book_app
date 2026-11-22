@@ -30,12 +30,9 @@ class Strings {
   static const String levelNumber = "levelNumber";
 
   // Authentication & account
-  static const String authTitle = "authTitle";
   static const String authSubtitle = "authSubtitle";
-  static const String authKeepData = "authKeepData";
   static const String authGoogle = "authGoogle";
   static const String authPhone = "authPhone";
-  static const String authSkip = "authSkip";
   static const String authHaveAccount = "authHaveAccount";
   static const String authPhoneTitle = "authPhoneTitle";
   static const String authPhoneSubtitle = "authPhoneSubtitle";
@@ -56,6 +53,16 @@ class Strings {
   static const String authErrorNotConfigured = "authErrorNotConfigured";
   static const String authErrorRecentLogin = "authErrorRecentLogin";
   static const String authErrorUnknown = "authErrorUnknown";
+  static const String authBadge = "authBadge";
+  static const String authBrandFirst = "authBrandFirst";
+  static const String authBrandSecond = "authBrandSecond";
+  static const String authFacebook = "authFacebook";
+  static const String authGuest = "authGuest";
+  static const String authTermsPrefix = "authTermsPrefix";
+  static const String authTerms = "authTerms";
+  static const String authTermsJoin = "authTermsJoin";
+  static const String authPrivacy = "authPrivacy";
+  static const String authErrorOtherProvider = "authErrorOtherProvider";
   static const String accountTitle = "accountTitle";
   static const String accountGuest = "accountGuest";
   static const String accountGuestHint = "accountGuestHint";

@@ -154,6 +154,8 @@ _i174.GetIt $initGetIt(
       () => _i509.WatchAuthUser(gh<_i787.AuthRepository>()));
   gh.factory<_i509.SignInWithGoogle>(
       () => _i509.SignInWithGoogle(gh<_i787.AuthRepository>()));
+  gh.factory<_i509.SignInWithFacebook>(
+      () => _i509.SignInWithFacebook(gh<_i787.AuthRepository>()));
   gh.factory<_i509.RequestPhoneCode>(
       () => _i509.RequestPhoneCode(gh<_i787.AuthRepository>()));
   gh.factory<_i509.ConfirmPhoneCode>(
@@ -172,6 +174,7 @@ _i174.GetIt $initGetIt(
       ));
   gh.factory<_i329.SignInCubit>(() => _i329.SignInCubit(
         gh<_i509.SignInWithGoogle>(),
+        gh<_i509.SignInWithFacebook>(),
         gh<_i509.RequestPhoneCode>(),
         gh<_i509.ConfirmPhoneCode>(),
       ));

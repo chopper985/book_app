@@ -11,7 +11,10 @@ enum AuthFailureCode {
   /// Deleting needs a fresh sign-in (Firebase `requires-recent-login`).
   requiresRecentLogin,
 
-  /// Google is not configured for this build (missing OAuth client / SHA).
+  /// The email already belongs to an account with another provider.
+  accountExistsWithOtherProvider,
+
+  /// The provider is not configured for this build (missing OAuth client / SHA).
   notConfigured,
   unknown,
 }

@@ -195,9 +195,10 @@ class _LinkedAccount extends StatelessWidget {
           Row(
             children: [
               Icon(
-                user.providers.contains(AuthProviderKind.google)
-                    ? Icons.account_circle_outlined
-                    : Icons.phone_iphone,
+                user.providers.contains(AuthProviderKind.phone) &&
+                        user.providers.length == 1
+                    ? Icons.phone_iphone
+                    : Icons.account_circle_outlined,
                 size: 20.dsp,
                 color: AppPalette.teal,
               ),

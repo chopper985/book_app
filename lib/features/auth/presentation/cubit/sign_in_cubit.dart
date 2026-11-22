@@ -13,18 +13,20 @@ import 'package:interview_practice/features/auth/domain/usecase/account_usecases
 
 part 'sign_in_state.dart';
 
-/// Google sign-in and the two-step phone flow (number, then SMS code).
+/// Google and Facebook sign-in, and the two-step phone flow (number, then SMS code).
 @injectable
 class SignInCubit extends Cubit<SignInState> {
   static const int resendDelaySeconds = 60;
 
   final SignInWithGoogle _signInWithGoogle;
+  final SignInWithFacebook _signInWithFacebook;
   final RequestPhoneCode _requestPhoneCode;
   final ConfirmPhoneCode _confirmPhoneCode;
   Timer? _countdown;
 
   SignInCubit(
     this._signInWithGoogle,
+    this._signInWithFacebook,
     this._requestPhoneCode,
     this._confirmPhoneCode,
   ) : super(const SignInState());
@@ -33,6 +35,12 @@ class SignInCubit extends Cubit<SignInState> {
     if (state.busy) return;
     emit(state.copyWith(busy: true, failure: () => null));
     _handle(await _signInWithGoogle());
+  }
+
+  Future<void> signInWithFacebook() async {
+    if (state.busy) return;
+    emit(state.copyWith(busy: true, failure: () => null));
+    _handle(await _signInWithFacebook());
   }
 
   void setPhone(String phone) =>

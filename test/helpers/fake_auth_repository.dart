@@ -16,6 +16,14 @@ const AuthUser googleUser = AuthUser(
   providers: {AuthProviderKind.google},
 );
 
+const AuthUser facebookUser = AuthUser(
+  uid: 'user-3',
+  isAnonymous: false,
+  displayName: 'Lan Nguyen',
+  email: 'lan.fb@example.com',
+  providers: {AuthProviderKind.facebook},
+);
+
 /// Scriptable [AuthRepository]: tests set the next results and push users.
 class FakeAuthRepository implements AuthRepository {
   final StreamController<AuthUser?> _users =
@@ -23,6 +31,7 @@ class FakeAuthRepository implements AuthRepository {
   AuthUser? _user;
 
   SignInResult googleResult = const SignInSuccess(googleUser);
+  SignInResult facebookResult = const SignInSuccess(facebookUser);
   PhoneCodeRequest codeRequest = const PhoneCodeSent('verification-1');
   SignInResult confirmResult = const SignInSuccess(
     AuthUser(
@@ -59,6 +68,13 @@ class FakeAuthRepository implements AuthRepository {
     calls.add('google');
     if (googleResult case SignInSuccess(:final user)) emitUser(user);
     return googleResult;
+  }
+
+  @override
+  Future<SignInResult> signInWithFacebook() async {
+    calls.add('facebook');
+    if (facebookResult case SignInSuccess(:final user)) emitUser(user);
+    return facebookResult;
   }
 
   @override
