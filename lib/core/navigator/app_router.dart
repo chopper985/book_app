@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:async';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -12,6 +15,9 @@ import 'package:interview_practice/core/app/colors/app_colors.dart';
 import 'package:interview_practice/core/injection/injection_container.dart';
 import 'package:interview_practice/core/navigator/app_routes.dart';
 import 'package:interview_practice/core/navigator/main_shell.dart';
+import 'package:interview_practice/features/auth/presentation/cubit/sign_in_cubit.dart';
+import 'package:interview_practice/features/auth/presentation/screens/phone_sign_in_screen.dart';
+import 'package:interview_practice/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/explore_cubit.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/roadmap_picker_cubit.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/track_detail_cubit.dart';
@@ -37,6 +43,21 @@ import 'package:interview_practice/features/profile/presentation/screens/profile
 
 part 'app_router.g.dart';
 
+/// Notifies GoRouter whenever [stream] emits.
+class _StreamListenable extends ChangeNotifier {
+  late final StreamSubscription<void> _subscription;
+
+  _StreamListenable(Stream<void> stream) {
+    _subscription = stream.listen((_) => notifyListeners());
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+}
+
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: "_rootNavigatorKey");
@@ -52,6 +73,10 @@ class AppRouter {
       navigatorKey: _rootNavigatorKey,
       initialLocation: Routes.rootRoute,
       redirect: _requireProfile,
+      // Re-run the redirect when the profile appears (restored from the
+      // cloud after signing in) or disappears (signed out).
+      refreshListenable:
+          _StreamListenable(getIt<ProfileRepository>().changes),
     );
     router.routerDelegate.addListener(_logScreen);
   }
@@ -63,13 +88,25 @@ class AppRouter {
     if (path.isNotEmpty) getIt<AppAnalytics>().screenView(path);
   }
 
+  /// Screens a learner without a profile may open: onboarding, and signing
+  /// in to an existing account whose profile is then restored.
+  static const Set<String> _openWithoutProfile = {
+    Routes.onboardingRoute,
+    Routes.signInRoute,
+    Routes.phoneSignInRoute,
+  };
+
   /// Sends a learner without a profile to onboarding, and away from it once
   /// the profile exists.
   static String? _requireProfile(BuildContext context, GoRouterState state) {
     final hasProfile = getIt<ProfileRepository>().hasProfile;
-    final onOnboarding = state.matchedLocation == Routes.onboardingRoute;
-    if (!hasProfile && !onOnboarding) return Routes.onboardingRoute;
-    if (hasProfile && onOnboarding) return Routes.rootRoute;
+    final location = state.matchedLocation;
+    if (!hasProfile && !_openWithoutProfile.contains(location)) {
+      return Routes.onboardingRoute;
+    }
+    if (hasProfile && location == Routes.onboardingRoute) {
+      return Routes.rootRoute;
+    }
     return null;
   }
 
@@ -138,6 +175,37 @@ class OnboardingRoute extends GoRouteData with $OnboardingRoute {
     return BlocProvider(
       create: (_) => getIt<OnboardingCubit>()..load(),
       child: const OnboardingScreen(),
+    );
+  }
+}
+
+/// Choose Google or phone; pops `true` once signed in.
+@TypedGoRoute<SignInRoute>(path: Routes.signInRoute, name: Routes.signInRoute)
+class SignInRoute extends GoRouteData with $SignInRoute {
+  const SignInRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider(
+      create: (_) => getIt<SignInCubit>(),
+      child: const SignInScreen(),
+    );
+  }
+}
+
+/// Phone number and SMS code; pops `true` once signed in.
+@TypedGoRoute<PhoneSignInRoute>(
+  path: Routes.phoneSignInRoute,
+  name: Routes.phoneSignInRoute,
+)
+class PhoneSignInRoute extends GoRouteData with $PhoneSignInRoute {
+  const PhoneSignInRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider(
+      create: (_) => getIt<SignInCubit>(),
+      child: const PhoneSignInScreen(),
     );
   }
 }

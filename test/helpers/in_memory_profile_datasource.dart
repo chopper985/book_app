@@ -11,6 +11,9 @@ class InMemoryProfileLocalDataSource implements ProfileLocalDataSource {
   LearnerProfile? read() => json == null ? null : ProfileJson.fromJson(json!);
 
   @override
+  Future<void> clear() async => json = null;
+
+  @override
   Future<void> write(LearnerProfile profile) async =>
       json = ProfileJson.toJson(profile);
 }

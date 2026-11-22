@@ -17,6 +17,10 @@ abstract class ProfileRepository {
   /// Absolute path of a stored avatar, `null` when the file is missing.
   Future<String?> avatarPath(String fileName);
 
+  /// Replaces the stored profile as is, keeping its timestamps (cloud sync);
+  /// `null` removes it so onboarding runs again (sign-out).
+  Future<void> restore(LearnerProfile? profile);
+
   /// Fires after the profile is saved.
   Stream<void> get changes;
 }

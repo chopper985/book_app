@@ -89,6 +89,10 @@ class UserRoadmapsRepositoryImpl implements UserRoadmapsRepository {
     await _save(remaining, activeId);
   }
 
+  @override
+  Future<void> replaceAll(List<UserRoadmap> roadmaps, String? activeId) =>
+      _save(roadmaps, activeId);
+
   Future<void> _save(List<UserRoadmap> roadmaps, String? activeId) async {
     await _local.write((roadmaps: roadmaps, activeId: activeId));
     _changes.add(null);

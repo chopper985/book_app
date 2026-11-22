@@ -45,6 +45,9 @@ class $AssetsContentGen {
   /// Directory path: assets/content/nodejs
   $AssetsContentNodejsGen get nodejs => const $AssetsContentNodejsGen();
 
+  /// Directory path: assets/content/php
+  $AssetsContentPhpGen get php => const $AssetsContentPhpGen();
+
   /// File path: assets/content/positions.json
   String get positions => 'assets/content/positions.json';
 
@@ -262,6 +265,19 @@ class $AssetsContentNodejsGen {
 
   /// File path: assets/content/nodejs/sets.json
   String get sets => 'assets/content/nodejs/sets.json';
+
+  /// List of all assets
+  List<String> get values => [questions, sets];
+}
+
+class $AssetsContentPhpGen {
+  const $AssetsContentPhpGen();
+
+  /// File path: assets/content/php/questions.json
+  String get questions => 'assets/content/php/questions.json';
+
+  /// File path: assets/content/php/sets.json
+  String get sets => 'assets/content/php/sets.json';
 
   /// List of all assets
   List<String> get values => [questions, sets];

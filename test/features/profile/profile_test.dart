@@ -9,6 +9,8 @@ import 'package:sizer/sizer.dart';
 
 // Project imports:
 import 'package:interview_practice/core/app/languages/data/localization.dart';
+import 'package:interview_practice/features/auth/domain/usecase/account_usecases.dart';
+import 'package:interview_practice/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
 import 'package:interview_practice/features/practice/domain/usecase/practice_usecases.dart';
 import 'package:interview_practice/features/practice/presentation/cubit/practice_cubit.dart';
@@ -39,9 +41,23 @@ void main() {
         GetAvatarPath(graph.profiles),
         GetExploreDashboard(graph.catalog),
         GetTracks(graph.catalog),
-        ClearPracticeHistory(graph.practice),
+        ResetProgressEverywhere(graph.practice, graph.sync),
         WatchProgress(graph.catalog),
       );
+
+  AuthCubit newAuthCubit() {
+    final clear = ClearLocalLearnerData(
+      graph.practice,
+      graph.profiles,
+      graph.saved,
+      graph.roadmaps,
+    );
+    return AuthCubit(
+      WatchAuthUser(graph.auth),
+      SignOut(graph.auth, graph.sync, clear),
+      DeleteAccount(graph.auth, graph.sync, clear),
+    );
+  }
 
   Future<void> playOneSession() async {
     final cubit = PracticeCubit(
@@ -107,8 +123,11 @@ void main() {
               ),
               child: child!,
             ),
-            home: BlocProvider.value(
-              value: cubit,
+            home: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: cubit),
+                BlocProvider(create: (_) => newAuthCubit()),
+              ],
               child: const ProfileScreen(),
             ),
           ),

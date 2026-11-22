@@ -1,0 +1,30 @@
+rules_version = '2';
+
+// Learner data written by the app (see FirestoreSyncRepository):
+//   users/{uid}                      profile, roadmaps, saved tracks
+//   users/{uid}/results/{sessionId}  one graded practice session
+// Only the signed-in owner can read or write them; everything else is denied.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    match /users/{uid} {
+      allow read, delete: if isOwner(uid);
+      allow create, update: if isOwner(uid)
+        && request.resource.data.keys().hasOnly(
+          ['profile', 'roadmaps', 'savedTrackIds', 'updatedAt']);
+
+      match /results/{sessionId} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid)
+          && request.resource.data.sessionId == sessionId;
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

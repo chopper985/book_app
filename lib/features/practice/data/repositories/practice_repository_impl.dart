@@ -162,6 +162,17 @@ class PracticeRepositoryImpl implements PracticeRepository {
   }
 
   @override
+  Future<void> importResults(List<SessionResult> results) async {
+    var added = false;
+    for (final result in results) {
+      if (_local.result(result.sessionId) != null) continue;
+      await _local.putResult(result);
+      added = true;
+    }
+    if (added) _changes.add(null);
+  }
+
+  @override
   Future<void> clearHistory() async {
     await _local.clear();
     _changes.add(null);

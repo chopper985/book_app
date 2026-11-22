@@ -17,6 +17,8 @@ abstract class ProfileLocalDataSource {
   LearnerProfile? read();
 
   Future<void> write(LearnerProfile profile);
+
+  Future<void> clear();
 }
 
 @LazySingleton(as: ProfileLocalDataSource)
@@ -37,6 +39,9 @@ class HiveProfileLocalDataSource implements ProfileLocalDataSource {
       return null;
     }
   }
+
+  @override
+  Future<void> clear() => _box.delete(_key);
 
   @override
   Future<void> write(LearnerProfile profile) =>

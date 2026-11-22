@@ -30,6 +30,9 @@ abstract class PracticeRepository {
   /// The most recently touched session that is not submitted nor expired.
   Future<PracticeSession?> getLatestUnfinished();
 
+  /// Stores results from another device (cloud sync); existing ids are kept.
+  Future<void> importResults(List<SessionResult> results);
+
   /// Deletes every session and result on the device.
   Future<void> clearHistory();
 

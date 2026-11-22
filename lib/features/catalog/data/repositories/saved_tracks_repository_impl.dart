@@ -22,6 +22,12 @@ class SavedTracksRepositoryImpl extends SavedTracksRepository {
   Stream<void> get changes => _changes.stream;
 
   @override
+  Future<void> replaceAll(List<String> trackIds) async {
+    await _local.write(trackIds.toSet().toList());
+    _changes.add(null);
+  }
+
+  @override
   Future<void> toggle(String trackId) async {
     final ids = [..._local.read()];
     if (!ids.remove(trackId)) ids.insert(0, trackId);

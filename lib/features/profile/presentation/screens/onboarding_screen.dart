@@ -132,6 +132,22 @@ class _StepBody extends StatelessWidget {
               onChanged: cubit.setName,
               onSubmitted: cubit.next,
             ),
+            // New device: signing in restores the profile, and the router
+            // then leaves onboarding by itself.
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () => const SignInRoute().push<bool>(context),
+                child: Text(
+                  Strings.authHaveAccount.i18n,
+                  style: AppText.sans(
+                    14,
+                    weight: FontWeight.w600,
+                    color: AppPalette.primary,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       OnboardingStep.role => _StepLayout(

@@ -8,10 +8,10 @@ import 'package:injectable/injectable.dart';
 
 // Project imports:
 import 'package:interview_practice/core/analytics/app_analytics.dart';
+import 'package:interview_practice/features/auth/domain/usecase/account_usecases.dart';
 import 'package:interview_practice/features/catalog/domain/entities/explore_dashboard.dart';
 import 'package:interview_practice/features/catalog/domain/entities/track_overview.dart';
 import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
-import 'package:interview_practice/features/practice/domain/usecase/practice_usecases.dart';
 import 'package:interview_practice/features/profile/domain/entities/learner_profile.dart';
 import 'package:interview_practice/features/profile/domain/usecase/profile_usecases.dart';
 
@@ -23,7 +23,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final GetAvatarPath _getAvatarPath;
   final GetExploreDashboard _getDashboard;
   final GetTracks _getTracks;
-  final ClearPracticeHistory _clearPracticeHistory;
+  final ResetProgressEverywhere _resetProgress;
   final AppAnalytics _analytics;
   late final StreamSubscription<void> _subscription;
 
@@ -32,7 +32,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     this._getAvatarPath,
     this._getDashboard,
     this._getTracks,
-    this._clearPracticeHistory,
+    this._resetProgress,
     WatchProgress watchProgress, {
     AppAnalytics analytics = const NoopAppAnalytics(),
   })  : _analytics = analytics,
@@ -63,7 +63,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   /// Deletes practice history; the change stream reloads the state.
   Future<void> resetProgress() async {
-    await _clearPracticeHistory();
+    await _resetProgress();
     _analytics.progressReset();
   }
 

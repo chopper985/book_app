@@ -26,5 +26,8 @@ abstract class UserRoadmapsRepository {
   /// Removes it; the most recently selected remaining one becomes active.
   Future<void> remove(String roadmapId);
 
+  /// Replaces every roadmap and the active one (cloud sync, sign-out).
+  Future<void> replaceAll(List<UserRoadmap> roadmaps, String? activeId);
+
   Stream<void> get changes;
 }

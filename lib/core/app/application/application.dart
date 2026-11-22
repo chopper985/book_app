@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:async';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -9,7 +12,9 @@ import 'package:interview_practice/core/analytics/app_analytics.dart';
 import 'package:interview_practice/core/app/languages/service/service.dart';
 import 'package:interview_practice/core/injection/injection_container.dart';
 import 'package:interview_practice/core/utils/datasources/base_local_data.dart';
+import 'package:interview_practice/features/auth/domain/repositories/auth_repository.dart';
 import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
+import 'package:interview_practice/features/sync/domain/usecase/learner_sync.dart';
 
 class Application {
   /// [Production - Dev]
@@ -20,6 +25,7 @@ class Application {
 
       configureDependencies();
       _setAnalyticsUserProperties();
+      _startAccount();
 
       FlutterNativeSplash.remove();
     } catch (error) {
@@ -35,6 +41,13 @@ class Application {
       ..setUserProperty('language', LanguageService().getLocale().langCode)
       ..setUserProperty('role', profile?.role.name)
       ..setUserProperty('experience', profile?.experience.name);
+  }
+
+  /// Every install gets an anonymous Firebase account in the background (to
+  /// link Google/phone later), and linked accounts start syncing.
+  static void _startAccount() {
+    getIt<LearnerSync>().start();
+    unawaited(getIt<AuthRepository>().ensureSignedIn());
   }
 
   ///Singleton factory

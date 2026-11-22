@@ -46,6 +46,16 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }
 
   @override
+  Future<void> restore(LearnerProfile? profile) async {
+    if (profile == null) {
+      await _local.clear();
+    } else {
+      await _local.write(profile);
+    }
+    _changes.add(null);
+  }
+
+  @override
   Future<String> storeAvatar(String sourcePath) => _avatars.store(sourcePath);
 
   @override

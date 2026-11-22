@@ -29,6 +29,48 @@ class Strings {
   static const String levelSenior = "levelSenior";
   static const String levelNumber = "levelNumber";
 
+  // Authentication & account
+  static const String authTitle = "authTitle";
+  static const String authSubtitle = "authSubtitle";
+  static const String authKeepData = "authKeepData";
+  static const String authGoogle = "authGoogle";
+  static const String authPhone = "authPhone";
+  static const String authSkip = "authSkip";
+  static const String authHaveAccount = "authHaveAccount";
+  static const String authPhoneTitle = "authPhoneTitle";
+  static const String authPhoneSubtitle = "authPhoneSubtitle";
+  static const String authPhoneHint = "authPhoneHint";
+  static const String authSendCode = "authSendCode";
+  static const String authCodeTitle = "authCodeTitle";
+  static const String authCodeSubtitle = "authCodeSubtitle";
+  static const String authConfirm = "authConfirm";
+  static const String authResend = "authResend";
+  static const String authResendIn = "authResendIn";
+  static const String authChangePhone = "authChangePhone";
+  static const String authSuccess = "authSuccess";
+  static const String authErrorInvalidPhone = "authErrorInvalidPhone";
+  static const String authErrorInvalidCode = "authErrorInvalidCode";
+  static const String authErrorCodeExpired = "authErrorCodeExpired";
+  static const String authErrorTooMany = "authErrorTooMany";
+  static const String authErrorNetwork = "authErrorNetwork";
+  static const String authErrorNotConfigured = "authErrorNotConfigured";
+  static const String authErrorRecentLogin = "authErrorRecentLogin";
+  static const String authErrorUnknown = "authErrorUnknown";
+  static const String accountTitle = "accountTitle";
+  static const String accountGuest = "accountGuest";
+  static const String accountGuestHint = "accountGuestHint";
+  static const String accountSignedInWith = "accountSignedInWith";
+  static const String accountSynced = "accountSynced";
+  static const String accountSignIn = "accountSignIn";
+  static const String accountSignOut = "accountSignOut";
+  static const String accountSignOutTitle = "accountSignOutTitle";
+  static const String accountSignOutMessage = "accountSignOutMessage";
+  static const String accountDelete = "accountDelete";
+  static const String accountDeleteTitle = "accountDeleteTitle";
+  static const String accountDeleteMessage = "accountDeleteMessage";
+  static const String accountDeleted = "accountDeleted";
+  static const String accountCancel = "accountCancel";
+
   // Explore & roadmaps tabs
   static const String pickerModeLanguage = "pickerModeLanguage";
   static const String pickerModePosition = "pickerModePosition";

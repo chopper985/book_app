@@ -10,8 +10,11 @@ import 'package:interview_practice/features/content/domain/entities/content_cata
 import 'package:interview_practice/features/content/domain/repositories/content_repository.dart';
 import 'package:interview_practice/features/practice/data/repositories/practice_repository_impl.dart';
 import 'package:interview_practice/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:interview_practice/features/sync/domain/usecase/learner_sync.dart';
 import '../features/content/content_test_data.dart';
+import 'fake_auth_repository.dart';
 import 'in_memory_avatar_datasource.dart';
+import 'in_memory_cloud_sync_repository.dart';
 import 'in_memory_practice_datasource.dart';
 import 'in_memory_profile_datasource.dart';
 import 'in_memory_saved_tracks_datasource.dart';
@@ -68,6 +71,11 @@ class TestGraph {
     MockDashboardDataSource(),
     clock,
   );
+
+  final FakeAuthRepository auth = FakeAuthRepository();
+  final InMemoryCloudSyncRepository cloud = InMemoryCloudSyncRepository();
+  late final LearnerSync sync =
+      LearnerSync(auth, cloud, practice, profiles, saved, roadmaps);
 
   TestGraph._(this.content, this.clock);
 

@@ -15,6 +15,7 @@ import 'package:interview_practice/core/navigator/app_router.dart';
 import 'package:interview_practice/core/utils/sizer/design_size.dart';
 import 'package:interview_practice/features/catalog/presentation/widgets/learner_tab_header.dart';
 import 'package:interview_practice/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:interview_practice/features/profile/presentation/widgets/account_section.dart';
 import 'package:interview_practice/features/profile/presentation/widgets/choice_tile.dart';
 import 'package:interview_practice/features/profile/presentation/widgets/profile_sections.dart';
 
@@ -69,6 +70,8 @@ class _Body extends StatelessWidget {
               ],
               ProfileSectionTitle(Strings.profileStatsTitle.i18n),
               ProfileStats(learner: state.learner),
+              SizedBox(height: 24.dsp),
+              const AccountSection(),
               SizedBox(height: 24.dsp),
               ProfileSectionTitle(Strings.profileSettingsTitle.i18n),
               const _LanguageSetting(),
