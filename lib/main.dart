@@ -2,12 +2,12 @@
 import 'dart:async';
 
 // Flutter imports:
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:i18n_extension/i18n_extension.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Project imports:
 import 'package:interview_practice/core/analytics/app_firebase.dart';

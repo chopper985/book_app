@@ -1,11 +1,11 @@
 // Flutter imports:
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Project imports:
 import 'package:interview_practice/core/app/colors/app_palette.dart';

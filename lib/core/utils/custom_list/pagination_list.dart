@@ -2,11 +2,11 @@
 import 'dart:ui';
 
 // Flutter imports:
-import 'package:cupertino_ui/cupertino_ui.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sizer/sizer.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';

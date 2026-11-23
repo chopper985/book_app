@@ -1,13 +1,11 @@
 // Dart imports:
 import 'dart:math' as math;
 
-// Flutter imports:
-import 'package:material_ui/material_ui.dart';
-
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:i18n_extension/i18n_extension.dart' show I18n;
+import 'package:material_ui/material_ui.dart';
 import 'package:sizer/sizer.dart';
 
 // Project imports:

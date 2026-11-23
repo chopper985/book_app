@@ -1,9 +1,7 @@
-// Flutter imports:
-import 'package:material_ui/material_ui.dart';
-
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i18n_extension/i18n_extension.dart' show I18n;
+import 'package:material_ui/material_ui.dart';
 
 // Project imports:
 import 'package:interview_practice/core/app/colors/app_palette.dart';

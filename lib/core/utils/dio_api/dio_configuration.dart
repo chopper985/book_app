@@ -1,13 +1,11 @@
 // Dart imports:
 import 'dart:async';
 
-// Flutter imports:
-import 'package:material_ui/material_ui.dart';
-
 // Package imports:
 import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart' as retry;
 import 'package:injectable/injectable.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Project imports:
 import 'package:interview_practice/core/constants/api_endpoints.dart';

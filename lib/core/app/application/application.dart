@@ -1,11 +1,9 @@
 // Dart imports:
 import 'dart:async';
 
-// Flutter imports:
-import 'package:material_ui/material_ui.dart';
-
 // Package imports:
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Project imports:
 import 'package:interview_practice/core/analytics/app_analytics.dart';

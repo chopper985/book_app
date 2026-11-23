@@ -1,10 +1,8 @@
 // Dart imports:
 import 'dart:ui';
 
-// Flutter imports:
-import 'package:material_ui/material_ui.dart';
-
 // Package imports:
+import 'package:material_ui/material_ui.dart';
 import 'package:sizer/sizer.dart';
 
 // Project imports:

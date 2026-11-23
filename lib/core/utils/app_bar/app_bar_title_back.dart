@@ -2,10 +2,10 @@
 import 'dart:io';
 
 // Flutter imports:
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
+import 'package:material_ui/material_ui.dart';
 import 'package:sizer/sizer.dart';
 
 // Project imports:
