@@ -1,5 +1,5 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 enum ColorSeed {
   baseColor('M3 Baseline', Color(0xff6750a4)),

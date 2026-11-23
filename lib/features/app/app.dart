@@ -1,10 +1,9 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:i18n_extension/i18n_extension.dart';
 import 'package:sizer/sizer.dart';
 
@@ -42,9 +41,11 @@ class _AppState extends State<App> {
               themeMode: ThemeMode.dark,
               supportedLocales: LanguageService.supportLanguages,
               localizationsDelegates: const [
+                ...GlobalMaterialLocalizations.delegates,
+                // Third-party packages still on flutter/material look up
+                // its MaterialLocalizations type, not material_ui's.
+                // ignore: deprecated_member_use
                 GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
               ],
             ),
           );

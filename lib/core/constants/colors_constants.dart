@@ -1,5 +1,5 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ColorsConstants {
   static const colorDefault = Color(0xFF717171);

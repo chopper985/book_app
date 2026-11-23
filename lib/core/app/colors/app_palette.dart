@@ -1,5 +1,5 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Dark "IDE slate" palette from the Figma design (DevInterview).
 class AppPalette {

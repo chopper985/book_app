@@ -130,3 +130,17 @@ index-widgets:
 	done
 
 index-all: index-entities index-screens index-widgets index-usecases
+
+clean-build:
+	flutter clean
+	rm -rf android/.gradle android/.kotlin android/app/build android/app/.cxx
+	rm -rf ios/Pods ios/.symlinks ios/build ios/Flutter/ephemeral
+	@for dir in $$HOME/Library/Developer/Xcode/DerivedData/*/; do \
+		plist="$$dir/info.plist"; \
+		[ -f "$$plist" ] || continue; \
+		if /usr/libexec/PlistBuddy -c "Print :WorkspacePath" "$$plist" 2>/dev/null | grep -q "^$(CURDIR)/"; then \
+			echo "Removing $$dir"; \
+			rm -rf "$$dir"; \
+		fi; \
+	done
+	@echo "Đã dọn build trung gian của $(notdir $(CURDIR))."

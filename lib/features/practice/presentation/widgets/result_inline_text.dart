@@ -1,5 +1,5 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Splits [text] on backticks: `code` parts use [code], the rest [base].
 List<InlineSpan> resultInlineSpans(
