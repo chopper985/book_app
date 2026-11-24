@@ -34,10 +34,18 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   /// Fills the form synchronously so text fields start with saved values,
   /// then loads tracks and the avatar file.
   Future<void> load() async {
-    final fields = _getProfile()?.fields;
-    emit(EditProfileState(original: fields, fields: fields));
+    final original = _getProfile()?.fields;
+    // Signed out (no profile): start from a blank one so it can be created.
+    final fields = original ??
+        const ProfileFields(
+          displayName: '',
+          role: TargetRole.mobile,
+          experience: ExperienceLevel.fresher,
+          techStack: [],
+        );
+    emit(EditProfileState(original: original, fields: fields));
     final tracks = (await _getTracks()).value ?? const <TrackOverview>[];
-    final avatar = await _getAvatarPath(fields?.avatarFileName);
+    final avatar = await _getAvatarPath(fields.avatarFileName);
     if (isClosed) return;
     emit(state.copyWith(tracks: tracks, storedAvatarPath: () => avatar));
   }

@@ -19,11 +19,17 @@ abstract class ProfileLocalDataSource {
   Future<void> write(LearnerProfile profile);
 
   Future<void> clear();
+
+  /// Onboarding was finished once on this device (kept across sign-outs).
+  bool readOnboarded();
+
+  Future<void> writeOnboarded();
 }
 
 @LazySingleton(as: ProfileLocalDataSource)
 class HiveProfileLocalDataSource implements ProfileLocalDataSource {
   static const String _key = 'current';
+  static const String _onboardedKey = 'onboarded';
 
   Box<String> get _box => Hive.box<String>(StorageKeys.profileBox);
 
@@ -42,6 +48,12 @@ class HiveProfileLocalDataSource implements ProfileLocalDataSource {
 
   @override
   Future<void> clear() => _box.delete(_key);
+
+  @override
+  bool readOnboarded() => _box.get(_onboardedKey) == 'true';
+
+  @override
+  Future<void> writeOnboarded() => _box.put(_onboardedKey, 'true');
 
   @override
   Future<void> write(LearnerProfile profile) =>

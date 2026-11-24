@@ -24,6 +24,9 @@ class ProfileRepositoryImpl extends ProfileRepository {
   LearnerProfile? get profile => _local.read();
 
   @override
+  bool get onboardingCompleted => _local.readOnboarded() || profile != null;
+
+  @override
   Stream<void> get changes => _changes.stream;
 
   @override
@@ -36,6 +39,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
       updatedAt: now,
     );
     await _local.write(profile);
+    await _local.writeOnboarded();
     // Replaced or removed avatars are deleted only once the profile no
     // longer points to them.
     if (previous?.avatarFileName != profile.avatarFileName) {
@@ -48,9 +52,13 @@ class ProfileRepositoryImpl extends ProfileRepository {
   @override
   Future<void> restore(LearnerProfile? profile) async {
     if (profile == null) {
+      // Profiles saved before the onboarding flag existed: keep onboarding
+      // completed when the profile is cleared (sign-out).
+      if (_local.read() != null) await _local.writeOnboarded();
       await _local.clear();
     } else {
       await _local.write(profile);
+      await _local.writeOnboarded();
     }
     _changes.add(null);
   }

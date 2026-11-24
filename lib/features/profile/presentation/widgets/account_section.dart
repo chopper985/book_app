@@ -162,7 +162,10 @@ class _LinkedAccount extends StatelessWidget {
       message: Strings.accountSignOutMessage.i18n,
       confirm: Strings.accountSignOut.i18n,
     );
-    if (ok) await cubit.signOut();
+    if (!ok) return;
+    await cubit.signOut();
+    // Back to the home tab with a clean guest state (no onboarding again).
+    if (context.mounted) const RootRoute().go(context);
   }
 
   Future<void> _delete(BuildContext context) async {
@@ -181,6 +184,7 @@ class _LinkedAccount extends StatelessWidget {
         content: Text(failure?.message ?? Strings.accountDeleted.i18n),
       ),
     );
+    if (failure == null && context.mounted) const RootRoute().go(context);
   }
 
   @override

@@ -95,15 +95,16 @@ class AppRouter {
     Routes.phoneSignInRoute,
   };
 
-  /// Sends a learner without a profile to onboarding, and away from it once
-  /// the profile exists.
+  /// Shows onboarding only until it is completed once on this device (a
+  /// signed-out learner without a profile stays in the app), and leaves it
+  /// once completed.
   static String? _requireProfile(BuildContext context, GoRouterState state) {
-    final hasProfile = getIt<ProfileRepository>().hasProfile;
+    final onboarded = getIt<ProfileRepository>().onboardingCompleted;
     final location = state.matchedLocation;
-    if (!hasProfile && !_openWithoutProfile.contains(location)) {
+    if (!onboarded && !_openWithoutProfile.contains(location)) {
       return Routes.onboardingRoute;
     }
-    if (hasProfile && location == Routes.onboardingRoute) {
+    if (onboarded && location == Routes.onboardingRoute) {
       return Routes.rootRoute;
     }
     return null;

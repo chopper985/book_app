@@ -67,6 +67,10 @@ class _Body extends StatelessWidget {
                 ),
                 SizedBox(height: 24.dsp),
               ],
+              if (profile == null) ...[
+                const _CreateProfileCard(),
+                SizedBox(height: 24.dsp),
+              ],
               ProfileSectionTitle(Strings.profileStatsTitle.i18n),
               ProfileStats(learner: state.learner),
               SizedBox(height: 24.dsp),
@@ -219,6 +223,60 @@ class _ResetProgressTile extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Signed out: the profile was cleared; invite to create a new one instead
+/// of running onboarding again.
+class _CreateProfileCard extends StatelessWidget {
+  const _CreateProfileCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return ProfilePanel(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            Strings.profileCreateTitle.i18n,
+            style: AppText.sans(15, height: 22, weight: FontWeight.w600),
+          ),
+          SizedBox(height: 4.dsp),
+          Text(
+            Strings.profileCreateHint.i18n,
+            style: AppText.sans(
+              13,
+              height: 18,
+              color: AppPalette.onSurfaceVariant,
+            ),
+          ),
+          SizedBox(height: 12.dsp),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: AppPalette.primary,
+                side: const BorderSide(color: AppPalette.primaryStrong),
+                minimumSize: Size.fromHeight(44.dsp),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.dsp),
+                ),
+              ),
+              onPressed: () => const EditProfileRoute().push<void>(context),
+              icon: Icon(Icons.person_add_alt_1, size: 18.dsp),
+              label: Text(
+                Strings.profileCreate.i18n,
+                style: AppText.sans(
+                  14,
+                  weight: FontWeight.w600,
+                  color: AppPalette.primary,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

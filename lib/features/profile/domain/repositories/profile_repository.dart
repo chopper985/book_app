@@ -7,6 +7,10 @@ abstract class ProfileRepository {
 
   bool get hasProfile => profile != null;
 
+  /// Onboarding runs only on the very first launch: once a profile has been
+  /// saved or restored, signing out clears the profile but not this flag.
+  bool get onboardingCompleted;
+
   /// Creates or replaces the profile, keeping the original `createdAt`.
   /// [fields] are normalized (trimmed, blank optional text removed).
   Future<LearnerProfile> save(ProfileFields fields);
@@ -18,7 +22,7 @@ abstract class ProfileRepository {
   Future<String?> avatarPath(String fileName);
 
   /// Replaces the stored profile as is, keeping its timestamps (cloud sync);
-  /// `null` removes it so onboarding runs again (sign-out).
+  /// `null` removes it (sign-out) without showing onboarding again.
   Future<void> restore(LearnerProfile? profile);
 
   /// Fires after the profile is saved.
