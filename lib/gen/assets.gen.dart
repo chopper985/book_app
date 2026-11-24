@@ -9,7 +9,6 @@
 // ignore_for_file: type=lint
 // ignore_for_file: deprecated_member_use,directives_ordering,implicit_dynamic_list_literal,unnecessary_import
 
-// Flutter imports:
 import 'package:flutter/widgets.dart';
 
 class $AssetsContentGen {
@@ -631,9 +630,7 @@ class $AssetsImagesFigmaGen {
   List<AssetGenImage> get values => [avatar, logo];
 }
 
-class Assets {
-  const Assets._();
-
+abstract final class Assets {
   static const $AssetsContentGen content = $AssetsContentGen();
   static const $AssetsFigmaGen figma = $AssetsFigmaGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
