@@ -354,6 +354,13 @@ Map<String, String> english = {
   Strings.authPrivacy: "Privacy Policy",
   Strings.authErrorOtherProvider:
       "This email already uses another sign-in method, please use that one",
+  Strings.profileCreateTitle: "No profile yet",
+  Strings.profileCreateHint: "Create a profile to get roadmaps for your tech stack and experience, or sign in to restore your previous one.",
+  Strings.profileCreate: "Create profile",
+  Strings.guestDataTitle: "Progress on this device",
+  Strings.guestDataMessage: "This device has %d practice sessions from guest mode. Merge them into this account, or keep only the account's data (drop the guest progress)?",
+  Strings.guestDataMerge: "Merge into account",
+  Strings.guestDataDiscard: "Use account data",
   Strings.premiumTitle: "Upgrade to Premium",
   Strings.premiumSubtitle:
       "Practise more every day and unlock Middle and Senior questions.",

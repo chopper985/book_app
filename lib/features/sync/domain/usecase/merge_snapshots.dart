@@ -45,6 +45,47 @@ class MergeSnapshots {
     );
   }
 
+  /// Signing in to an existing account from guest mode: the account's
+  /// profile wins (the guest one only comes from a fresh onboarding) and
+  /// keeps the device avatar. Guest results, roadmaps and saved tracks are
+  /// added after the account's when [keepGuestProgress], otherwise only the
+  /// account's progress remains.
+  LearnerSnapshot adoptAccount(
+    LearnerSnapshot local,
+    LearnerSnapshot? remote, {
+    required bool keepGuestProgress,
+  }) {
+    if (remote == null) return local;
+    final guest = keepGuestProgress
+        ? local
+        : LearnerSnapshot(
+            roadmaps: remote.roadmaps.isEmpty ? local.roadmaps : const [],
+            activeRoadmapId:
+                remote.roadmaps.isEmpty ? local.activeRoadmapId : null,
+            savedTrackIds:
+                remote.savedTrackIds.isEmpty ? local.savedTrackIds : const [],
+          );
+    // Account first, then what the guest adds.
+    final combined = call(remote, guest);
+    final remoteProfile = remote.profile;
+    return LearnerSnapshot(
+      profile: remoteProfile == null
+          ? local.profile
+          : LearnerProfile(
+              fields: remoteProfile.fields.copyWith(
+                avatarFileName: () => local.profile?.avatarFileName,
+              ),
+              createdAt: remoteProfile.createdAt,
+              updatedAt: remoteProfile.updatedAt,
+            ),
+      results: combined.results,
+      roadmaps: combined.roadmaps,
+      activeRoadmapId: combined.activeRoadmapId,
+      savedTrackIds: combined.savedTrackIds,
+      extraSessionsUsed: combined.extraSessionsUsed,
+    );
+  }
+
   LearnerProfile? _profile(LearnerProfile? local, LearnerProfile? remote) {
     if (local == null) return remote;
     if (remote == null || !remote.updatedAt.isAfter(local.updatedAt)) {

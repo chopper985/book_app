@@ -13,6 +13,7 @@ import 'package:interview_practice/core/utils/widgets/app_svg.dart';
 import 'package:interview_practice/features/auth/presentation/cubit/sign_in_cubit.dart';
 import 'package:interview_practice/features/auth/presentation/extensions/auth_failure_message.dart';
 import 'package:interview_practice/gen/assets.gen.dart';
+import 'package:interview_practice/features/auth/presentation/widgets/guest_data_dialog.dart';
 
 /// Welcome / sign-in screen (Figma 343:1356), opened from "Sign in".
 /// Pops `true` once signed in, `false` when the learner stays a guest.
@@ -22,7 +23,8 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SignInCubit>();
-    return BlocConsumer<SignInCubit, SignInState>(
+    return GuestDataListener(
+      child: BlocConsumer<SignInCubit, SignInState>(
       listenWhen: (previous, current) =>
           (!previous.done && current.done) ||
           (current.failure != null && previous.failure != current.failure),
@@ -135,6 +137,7 @@ class SignInScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }

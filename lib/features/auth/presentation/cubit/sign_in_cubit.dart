@@ -10,6 +10,8 @@ import 'package:injectable/injectable.dart';
 import 'package:interview_practice/features/auth/domain/entities/auth_failure.dart';
 import 'package:interview_practice/features/auth/domain/entities/auth_results.dart';
 import 'package:interview_practice/features/auth/domain/usecase/account_usecases.dart';
+import 'package:interview_practice/features/sync/domain/entities/guest_data_prompt.dart';
+import 'package:interview_practice/features/sync/domain/usecase/learner_sync.dart';
 
 part 'sign_in_state.dart';
 
@@ -18,29 +20,35 @@ part 'sign_in_state.dart';
 class SignInCubit extends Cubit<SignInState> {
   static const int resendDelaySeconds = 60;
 
+  /// How long to wait for the sync to inspect a switched account.
+  static const Duration promptTimeout = Duration(seconds: 10);
+
   final SignInWithGoogle _signInWithGoogle;
   final SignInWithFacebook _signInWithFacebook;
   final RequestPhoneCode _requestPhoneCode;
   final ConfirmPhoneCode _confirmPhoneCode;
+  final LearnerSync _sync;
   Timer? _countdown;
+  GuestDataPrompt? _prompt;
 
   SignInCubit(
     this._signInWithGoogle,
     this._signInWithFacebook,
     this._requestPhoneCode,
     this._confirmPhoneCode,
+    this._sync,
   ) : super(const SignInState());
 
   Future<void> signInWithGoogle() async {
     if (state.busy) return;
     emit(state.copyWith(busy: true, failure: () => null));
-    _handle(await _signInWithGoogle());
+    await _handle(await _signInWithGoogle());
   }
 
   Future<void> signInWithFacebook() async {
     if (state.busy) return;
     emit(state.copyWith(busy: true, failure: () => null));
-    _handle(await _signInWithFacebook());
+    await _handle(await _signInWithFacebook());
   }
 
   void setPhone(String phone) =>
@@ -66,7 +74,7 @@ class SignInCubit extends Cubit<SignInState> {
     final verificationId = state.verificationId;
     if (verificationId == null || !state.canConfirm) return;
     emit(state.copyWith(busy: true, failure: () => null));
-    _handle(await _confirmPhoneCode(verificationId, state.code));
+    await _handle(await _confirmPhoneCode(verificationId, state.code));
   }
 
   /// Back to the phone number step.
@@ -99,18 +107,46 @@ class SignInCubit extends Cubit<SignInState> {
           ),
         );
         _startCountdown();
-      case PhoneAutoVerified():
-        emit(state.copyWith(busy: false, done: true));
+      case PhoneAutoVerified(:final result):
+        await _handle(result);
       case PhoneCodeFailed(:final failure):
         emit(state.copyWith(busy: false, failure: () => failure));
     }
   }
 
-  void _handle(SignInResult result) {
+  /// Answer to "merge the guest progress into this account?".
+  Future<void> resolveGuestData({required bool keepGuestProgress}) async {
+    final prompt = _prompt;
+    if (prompt == null) return;
+    _prompt = null;
+    prompt.resolve(keepGuestProgress: keepGuestProgress);
+    emit(state.copyWith(guestSessions: () => null, done: true));
+  }
+
+  Future<void> _handle(SignInResult result) async {
     if (isClosed) return;
     switch (result) {
-      case SignInSuccess():
+      case SignInSuccess(:final user, :final switchedAccount):
         _countdown?.cancel();
+        final prompt = switchedAccount
+            ? await _sync
+                .guestDataPrompt(user.uid)
+                .timeout(promptTimeout, onTimeout: () => null)
+            : null;
+        if (isClosed) {
+          prompt?.resolve(keepGuestProgress: true);
+          return;
+        }
+        if (prompt != null && !prompt.isResolved) {
+          _prompt = prompt;
+          emit(
+            state.copyWith(
+              busy: false,
+              guestSessions: () => prompt.sessions,
+            ),
+          );
+          return;
+        }
         emit(state.copyWith(busy: false, done: true));
       case SignInCancelled():
         emit(state.copyWith(busy: false));
@@ -132,6 +168,8 @@ class SignInCubit extends Cubit<SignInState> {
   @override
   Future<void> close() {
     _countdown?.cancel();
+    // Never leave the sync waiting: unanswered means nothing is dropped.
+    _prompt?.resolve(keepGuestProgress: true);
     return super.close();
   }
 }

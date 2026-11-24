@@ -15,6 +15,7 @@ import 'package:interview_practice/features/catalog/domain/repositories/user_roa
 import 'package:interview_practice/features/practice/domain/repositories/practice_repository.dart';
 import 'package:interview_practice/features/premium/domain/repositories/usage_repository.dart';
 import 'package:interview_practice/features/profile/domain/repositories/profile_repository.dart';
+import 'package:interview_practice/features/sync/domain/entities/guest_data_prompt.dart';
 import 'package:interview_practice/features/sync/domain/entities/learner_snapshot.dart';
 import 'package:interview_practice/features/sync/domain/repositories/cloud_sync_repository.dart';
 import 'package:interview_practice/features/sync/domain/usecase/merge_snapshots.dart';
@@ -22,6 +23,10 @@ import 'package:interview_practice/features/sync/domain/usecase/merge_snapshots.
 /// Keeps the device and the cloud copy of a linked account in step: merges
 /// both when the account is linked or signed in, then pushes local changes
 /// (debounced). Anonymous accounts are not synced.
+///
+/// Signing in to an existing account from guest mode adopts the account:
+/// its profile wins, and when the device holds guest results the learner is
+/// asked (see [guestDataPrompt]) whether to merge them or drop them.
 @lazySingleton
 class LearnerSync {
   static const Duration debounce = Duration(seconds: 2);
@@ -36,6 +41,10 @@ class LearnerSync {
   final MergeSnapshots _merge = const MergeSnapshots();
 
   StreamSubscription<AuthUser?>? _authSubscription;
+  AuthUser? _lastUser;
+
+  /// Per signed-in uid: the guest-data question, or `null` when none.
+  final Map<String, Completer<GuestDataPrompt?>> _prompts = {};
   final List<StreamSubscription<void>> _localSubscriptions = [];
   Timer? _pushTimer;
   String? _uid;
@@ -61,13 +70,33 @@ class LearnerSync {
     _authSubscription ??= _auth.userChanges.listen(_onUser);
   }
 
+  /// Completes once the sign-in to [uid] has been inspected: with a prompt
+  /// the UI must answer, or `null` when the data was handled without asking.
+  Future<GuestDataPrompt?> guestDataPrompt(String uid) =>
+      _prompts.putIfAbsent(uid, Completer<GuestDataPrompt?>.new).future;
+
+  void _settlePrompt(String uid, GuestDataPrompt? prompt) {
+    final completer =
+        _prompts.putIfAbsent(uid, Completer<GuestDataPrompt?>.new);
+    if (!completer.isCompleted) completer.complete(prompt);
+  }
+
   Future<void> _onUser(AuthUser? user) async {
+    final previous = _lastUser;
+    _lastUser = user;
     final uid = user != null && user.isLinked ? user.uid : null;
     if (uid == _uid) return;
     detach();
     if (uid == null) return;
     _uid = uid;
-    await syncNow();
+    final fromGuest =
+        previous != null && previous.isAnonymous && previous.uid != uid;
+    if (fromGuest) {
+      await _adoptAccount(uid);
+    } else {
+      _settlePrompt(uid, null);
+      await syncNow();
+    }
     if (_uid != uid) return;
     _localSubscriptions.addAll([
       for (final stream in [
@@ -99,6 +128,33 @@ class LearnerSync {
     } catch (error) {
       // Offline or rules not deployed: local data stays the source of truth.
       debugPrint('Sync failed: $error');
+    }
+  }
+
+  /// Guest → existing account: the account's profile wins; guest results
+  /// join the account only if the learner agrees.
+  Future<void> _adoptAccount(String uid) async {
+    try {
+      final remote = await _cloud.fetch(uid);
+      final local = await _localSnapshot();
+      final prompt = remote != null && local.results.isNotEmpty
+          ? GuestDataPrompt(local.results.length)
+          : null;
+      _settlePrompt(uid, prompt);
+      final keep = prompt == null || await prompt.keepGuestProgress;
+      if (_uid != uid) return;
+      final merged =
+          _merge.adoptAccount(local, remote, keepGuestProgress: keep);
+      await _applyLocally(local, merged, replaceResults: !keep);
+      await _cloud.push(
+        uid,
+        merged,
+        knownResultIds: remote?.resultIds ?? const {},
+      );
+      _cloudResultIds = merged.resultIds;
+    } catch (error) {
+      _settlePrompt(uid, null);
+      debugPrint('Adopting the account failed: $error');
     }
   }
 
@@ -179,19 +235,28 @@ class LearnerSync {
   /// Writes only what changed, without triggering pushes of its own.
   Future<void> _applyLocally(
     LearnerSnapshot local,
-    LearnerSnapshot merged,
-  ) async {
+    LearnerSnapshot merged, {
+    bool replaceResults = false,
+  }) async {
     _applying = true;
     try {
       if (merged.profile != local.profile) {
         await _profile.restore(merged.profile);
       }
-      final localIds = local.resultIds;
-      final incoming = [
-        for (final result in merged.results)
-          if (!localIds.contains(result.sessionId)) result,
-      ];
-      if (incoming.isNotEmpty) await _practice.importResults(incoming);
+      if (replaceResults) {
+        // Guest progress dropped: the device keeps only the account's.
+        await _practice.clearHistory();
+        if (merged.results.isNotEmpty) {
+          await _practice.importResults(merged.results);
+        }
+      } else {
+        final localIds = local.resultIds;
+        final incoming = [
+          for (final result in merged.results)
+            if (!localIds.contains(result.sessionId)) result,
+        ];
+        if (incoming.isNotEmpty) await _practice.importResults(incoming);
+      }
       if (!listEquals(merged.savedTrackIds, local.savedTrackIds)) {
         await _saved.replaceAll(merged.savedTrackIds);
       }

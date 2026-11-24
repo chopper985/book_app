@@ -15,6 +15,7 @@ import 'package:interview_practice/features/auth/presentation/cubit/sign_in_cubi
 import 'package:interview_practice/features/auth/presentation/extensions/auth_failure_message.dart';
 import 'package:interview_practice/features/auth/presentation/widgets/auth_button.dart';
 import 'package:interview_practice/features/profile/presentation/widgets/profile_form_fields.dart';
+import 'package:interview_practice/features/auth/presentation/widgets/guest_data_dialog.dart';
 
 /// Phone number, then the 6-digit SMS code. Pops `true` once signed in.
 class PhoneSignInScreen extends StatelessWidget {
@@ -23,7 +24,8 @@ class PhoneSignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SignInCubit>();
-    return BlocConsumer<SignInCubit, SignInState>(
+    return GuestDataListener(
+      child: BlocConsumer<SignInCubit, SignInState>(
       listenWhen: (previous, current) => !previous.done && current.done,
       listener: (context, _) => context.pop(true),
       builder: (context, state) => PopScope(
@@ -61,6 +63,7 @@ class PhoneSignInScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
       ),
     );
   }

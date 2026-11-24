@@ -222,12 +222,6 @@ _i174.GetIt $initGetIt(
         gh<_i264.PracticeLocalDataSource>(),
         gh<_i472.AppClock>(),
       ));
-  gh.factory<_i329.SignInCubit>(() => _i329.SignInCubit(
-        gh<_i509.SignInWithGoogle>(),
-        gh<_i509.SignInWithFacebook>(),
-        gh<_i509.RequestPhoneCode>(),
-        gh<_i509.ConfirmPhoneCode>(),
-      ));
   gh.factory<_i301.SuggestRoadmapLevel>(
       () => _i301.SuggestRoadmapLevel(gh<_i894.ProfileRepository>()));
   gh.lazySingleton<_i1018.CatalogRepository>(() => _i428.CatalogRepositoryImpl(
@@ -266,6 +260,13 @@ _i174.GetIt $initGetIt(
   gh.factory<_i301.AddPositionRoadmap>(() => _i301.AddPositionRoadmap(
         gh<_i409.UserRoadmapsRepository>(),
         gh<_i1018.CatalogRepository>(),
+      ));
+  gh.factory<_i329.SignInCubit>(() => _i329.SignInCubit(
+        gh<_i509.SignInWithGoogle>(),
+        gh<_i509.SignInWithFacebook>(),
+        gh<_i509.RequestPhoneCode>(),
+        gh<_i509.ConfirmPhoneCode>(),
+        gh<_i1036.LearnerSync>(),
       ));
   gh.factory<_i673.StartPractice>(() => _i673.StartPractice(
         gh<_i980.PracticeRepository>(),

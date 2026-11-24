@@ -17,6 +17,10 @@ class SignInState extends Equatable {
   /// Signed in; the screen closes.
   final bool done;
 
+  /// Signed in to an existing account while the device holds this many
+  /// guest practice sessions: ask whether to merge them.
+  final int? guestSessions;
+
   const SignInState({
     this.step = SignInStep.phone,
     this.phone = '',
@@ -27,6 +31,7 @@ class SignInState extends Equatable {
     this.busy = false,
     this.failure,
     this.done = false,
+    this.guestSessions,
   });
 
   bool get canSendCode => !busy && phone.trim().isNotEmpty;
@@ -45,6 +50,7 @@ class SignInState extends Equatable {
     bool? busy,
     AuthFailure? Function()? failure,
     bool? done,
+    int? Function()? guestSessions,
   }) {
     return SignInState(
       step: step ?? this.step,
@@ -57,6 +63,8 @@ class SignInState extends Equatable {
       busy: busy ?? this.busy,
       failure: failure == null ? this.failure : failure(),
       done: done ?? this.done,
+      guestSessions:
+          guestSessions == null ? this.guestSessions : guestSessions(),
     );
   }
 
@@ -71,5 +79,6 @@ class SignInState extends Equatable {
         busy,
         failure,
         done,
+        guestSessions,
       ];
 }

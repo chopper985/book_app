@@ -63,6 +63,13 @@ class Strings {
   static const String authTermsJoin = "authTermsJoin";
   static const String authPrivacy = "authPrivacy";
   static const String authErrorOtherProvider = "authErrorOtherProvider";
+  static const String profileCreateTitle = "profileCreateTitle";
+  static const String profileCreateHint = "profileCreateHint";
+  static const String profileCreate = "profileCreate";
+  static const String guestDataTitle = "guestDataTitle";
+  static const String guestDataMessage = "guestDataMessage";
+  static const String guestDataMerge = "guestDataMerge";
+  static const String guestDataDiscard = "guestDataDiscard";
   static const String premiumTitle = "premiumTitle";
   static const String premiumSubtitle = "premiumSubtitle";
   static const String premiumBenefitDaily = "premiumBenefitDaily";

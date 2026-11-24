@@ -14,6 +14,7 @@ import 'package:interview_practice/features/auth/presentation/cubit/sign_in_cubi
 import 'package:interview_practice/features/auth/presentation/screens/phone_sign_in_screen.dart';
 import 'package:interview_practice/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:interview_practice/features/profile/presentation/widgets/account_section.dart';
+import 'package:interview_practice/features/sync/domain/usecase/learner_sync.dart';
 import '../../helpers/fake_auth_repository.dart';
 import '../../helpers/test_graph.dart';
 
@@ -40,11 +41,16 @@ void main() {
     await tester.pump();
   }
 
+  late LearnerSync sync;
+
+  setUp(() async => sync = (await TestGraph.create()).sync);
+
   SignInCubit signInCubit(FakeAuthRepository auth) => SignInCubit(
         SignInWithGoogle(auth),
         SignInWithFacebook(auth),
         RequestPhoneCode(auth),
         ConfirmPhoneCode(auth),
+        sync,
       );
 
   testWidgets('sign-in screen offers Google, Facebook, phone and guest',

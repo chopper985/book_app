@@ -351,6 +351,13 @@ Map<String, String> vietnamese = {
   Strings.authPrivacy: "Chính sách quyền riêng tư",
   Strings.authErrorOtherProvider:
       "Email này đã đăng nhập bằng cách khác, hãy dùng lại cách đó",
+  Strings.profileCreateTitle: "Chưa có hồ sơ",
+  Strings.profileCreateHint: "Tạo hồ sơ để nhận lộ trình theo công nghệ và kinh nghiệm của bạn, hoặc đăng nhập để lấy lại hồ sơ cũ.",
+  Strings.profileCreate: "Tạo hồ sơ",
+  Strings.guestDataTitle: "Dữ liệu trên máy",
+  Strings.guestDataMessage: "Trên máy có %d lần luyện tập ở chế độ khách. Gộp vào tài khoản này, hay chỉ dùng dữ liệu của tài khoản (bỏ tiến độ khách)?",
+  Strings.guestDataMerge: "Gộp vào tài khoản",
+  Strings.guestDataDiscard: "Dùng dữ liệu tài khoản",
   Strings.premiumTitle: "Nâng cấp Premium",
   Strings.premiumSubtitle:
       "Luyện nhiều hơn mỗi ngày và mở khoá câu hỏi Middle, Senior.",

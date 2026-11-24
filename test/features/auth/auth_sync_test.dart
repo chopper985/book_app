@@ -313,14 +313,19 @@ void main() {
 
   group('SignInCubit', () {
     late FakeAuthRepository auth;
+    late TestGraph graph;
 
-    setUp(() => auth = FakeAuthRepository());
+    setUp(() async {
+      graph = await TestGraph.create();
+      auth = graph.auth;
+    });
 
     SignInCubit newCubit() => SignInCubit(
           SignInWithGoogle(auth),
           SignInWithFacebook(auth),
           RequestPhoneCode(auth),
           ConfirmPhoneCode(auth),
+          graph.sync,
         );
 
     test('google success, cancel and failure', () async {
