@@ -1,15 +1,20 @@
 flutter_native_splash:
   web: false
-  background_image: assets/images/img_splash_screen.png
   fullscreen: true
-  android_gravity: center
+
+  # iOS: full-screen artwork (logo + "Interview Practice" + tagline, edge
+  # color #10141A). Do not add color_ios: it would replace this image.
+  # `make generate-splash` then switches it to aspect-fill so the artwork is
+  # never stretched on other screen ratios.
+  background_image_ios: assets/icons/ic_splash.png
   ios_content_mode: center
 
+  # Android < 12: the logo centered on the app background.
+  color_android: "#10141A"
+  image_android: assets/icons/ic_splash_android_12.png
+  android_gravity: center
+
+  # Android 12+: SplashScreen API (icon cropped to a circle, solid color).
   android_12:
     image: assets/icons/ic_splash_android_12.png
-    android_gravity: center
-    # Splash screen background color.
-    color: "#F5F5F5"
-
-    # App icon background color.
-    icon_background_color: "#F5F5F5"
+    color: "#10141A"

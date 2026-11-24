@@ -20,6 +20,8 @@ build-runner:
 	dart fix --apply
 generate-splash:
 	dart run flutter_native_splash:create --path=native_splash_generator.yaml
+	# iOS: aspect-fill the full-screen splash artwork instead of stretching it.
+	sed -i '' 's/contentMode="scaleToFill" image="LaunchBackground"/contentMode="scaleAspectFill" image="LaunchBackground"/' ios/Runner/Base.lproj/LaunchScreen.storyboard
 generate-icon:
 	dart run flutter_launcher_icons -f flutter_launcher_icons.yaml
 rename-app:
