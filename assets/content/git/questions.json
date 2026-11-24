@@ -15,8 +15,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Tạo commit mới chỉ chứa file đó",
-            "en": "Creates a new commit containing only that file"
+            "vi": "Tạo ngay một commit mới chỉ chứa file đó, bỏ qua staging area",
+            "en": "Creates a new commit containing only that file, skipping the staging area"
           }
         },
         {
@@ -127,15 +127,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Phải viết `/build.log*` mới đúng cú pháp",
-            "en": "You must write `/build.log*` for the syntax to work"
+            "vi": "Phải viết `/build.log*` trong `.gitignore` thì pattern mới khớp với file",
+            "en": "You must write `/build.log*` in `.gitignore` for the pattern syntax to match the file"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`.gitignore` phải nằm trong thư mục `.git/`",
-            "en": "`.gitignore` must live inside the `.git/` directory"
+            "vi": "`.gitignore` phải nằm trong thư mục `.git/` mới áp dụng được cho file đã commit",
+            "en": "`.gitignore` must live inside the `.git/` directory to apply to files already committed"
           }
         }
       ],
@@ -171,15 +171,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "Không có vấn đề, commit \"ignore .env\" đã xóa file khỏi remote",
-            "en": "Nothing is wrong, the \"ignore .env\" commit removed the file from the remote"
+            "vi": "Không có vấn đề, commit \"ignore .env\" đã xóa cả `.env` lẫn key khỏi lịch sử trên remote",
+            "en": "Nothing is wrong, the \"ignore .env\" commit also removed `.env` and its key from the remote history"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Sai thứ tự: phải push `.gitignore` trước khi push `.env` thì mới có tác dụng",
-            "en": "Wrong order: `.gitignore` must be pushed before `.env` for it to work"
+            "vi": "Sai thứ tự: phải commit và push `.gitignore` trước `.env`, nếu không Git sẽ track file đó mãi mãi",
+            "en": "Wrong order: `.gitignore` must be committed and pushed before `.env`, otherwise Git keeps tracking the file forever"
           }
         },
         {
@@ -211,29 +211,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Working tree với index (phần chưa stage)",
-            "en": "The working tree against the index (unstaged changes)"
+            "vi": "Working tree so với index (phần chưa stage)",
+            "en": "Working tree vs. index (unstaged changes)"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Index với commit gần nhất (phần đã stage)",
-            "en": "The index against the last commit (staged changes)"
+            "vi": "Index với commit gần nhất, tức phần đã stage",
+            "en": "The index against the last commit, i.e. staged changes"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Nhánh hiện tại với `origin/main`",
-            "en": "The current branch against `origin/main`"
+            "vi": "Nhánh hiện tại với upstream `origin/main` của nó",
+            "en": "The current branch against its upstream `origin/main`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Hai commit gần nhất",
-            "en": "The two most recent commits"
+            "vi": "Hai commit gần nhất trên nhánh hiện tại",
+            "en": "The two most recent commits in the current branch"
           }
         }
       ],
@@ -452,15 +452,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "`-am` phải viết tách thành `-a -m` mới chạy",
-            "en": "`-am` must be written as `-a -m` to work"
+            "vi": "`-am` phải viết tách thành hai cờ `-a -m`, nếu không commit sẽ lỗi",
+            "en": "`-am` must be written as separate `-a -m` flags or the commit fails"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`git push` không có tham số sẽ không đẩy gì lên",
-            "en": "`git push` without arguments pushes nothing"
+            "vi": "`git push` không có tham số sẽ không đẩy gì khi không chỉ định remote",
+            "en": "`git push` without arguments pushes nothing when no remote is given"
           }
         },
         {
@@ -597,15 +597,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "Tên khác của nhánh `main` trên remote",
-            "en": "Another name for `main` on the remote"
+            "vi": "Tên khác của nhánh `main` trên remote `origin`",
+            "en": "Another name for the `main` branch on the remote `origin`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Commit mới nhất trên toàn repository",
-            "en": "The newest commit across the whole repository"
+            "vi": "Commit mới nhất trên toàn repository, ở bất kỳ nhánh nào",
+            "en": "The newest commit across the whole repository, on any branch"
           }
         },
         {
@@ -692,15 +692,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Không thể commit khi đang checkout một tag, lệnh commit sẽ báo lỗi",
-            "en": "You cannot commit while a tag is checked out; the commit command fails"
+            "vi": "Không thể commit khi đang checkout một tag, nên `git commit -am` sẽ báo lỗi",
+            "en": "You cannot commit while a tag is checked out, so `git commit -am` fails with an error"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Commit hotfix bị gắn vào tag `v1.2.0` và làm tag di chuyển",
-            "en": "The hotfix commit is attached to tag `v1.2.0` and moves the tag"
+            "vi": "Commit hotfix bị gắn vào tag `v1.2.0` và làm tag di chuyển sang commit mới",
+            "en": "The hotfix commit is attached to tag `v1.2.0` and moves the tag to the new commit"
           }
         },
         {
@@ -753,15 +753,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Lightweight tag di chuyển theo nhánh khi có commit mới",
-            "en": "A lightweight tag moves with the branch when new commits arrive"
+            "vi": "Lightweight tag di chuyển theo nhánh mỗi khi nhánh có thêm commit mới",
+            "en": "A lightweight tag moves with the branch whenever new commits are added to it"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Không khác gì, `-m` chỉ là ghi chú hiển thị trong IDE",
-            "en": "No difference, `-m` is only a note shown in the IDE"
+            "vi": "Không khác gì; `-m` chỉ thêm ghi chú mà IDE hiển thị cạnh tên tag",
+            "en": "No difference; `-m` only adds a note that IDEs show next to the tag name"
           }
         }
       ],
@@ -790,15 +790,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Annotated tag không thể push, phải dùng lightweight tag",
-            "en": "Annotated tags cannot be pushed; use a lightweight tag"
+            "vi": "Annotated tag không push được; phải tạo lại thành lightweight tag trước",
+            "en": "Annotated tags cannot be pushed; recreate it as a lightweight tag first"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Phải tạo tag sau khi push thì CI mới nhận",
-            "en": "The tag must be created after the push for CI to see it"
+            "vi": "Phải tạo tag sau khi chạy `git push origin main` thì CI mới nhận ra",
+            "en": "The tag must be created after `git push origin main` for CI to detect it"
           }
         },
         {
@@ -858,8 +858,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Nhánh bị xóa và commit mất vĩnh viễn ngay lập tức",
-            "en": "The branch is deleted and its commits are gone forever immediately"
+            "vi": "Nhánh bị xóa và các commit chưa merge mất vĩnh viễn ngay lập tức",
+            "en": "The branch is deleted and its unmerged commits are gone forever immediately"
           }
         }
       ],
@@ -884,8 +884,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Đây là phiên bản thứ 3 của tag `v2.1.0`",
-            "en": "This is the 3rd revision of tag `v2.1.0`"
+            "vi": "Đây là phiên bản thứ 3 của tag `v2.1.0`, lưu dưới mã tag `4f2a9c1`",
+            "en": "This is the 3rd revision of tag `v2.1.0`, stored under the tag ID `4f2a9c1`"
           }
         },
         {
@@ -898,15 +898,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "`v2.1.0` còn 3 commit nữa mới tới `HEAD` trên remote",
-            "en": "`v2.1.0` is 3 commits behind `HEAD` on the remote"
+            "vi": "Remote có thêm 3 tag mới sau `v2.1.0`, tag mới nhất ở commit `4f2a9c1`",
+            "en": "The remote has 3 newer tags after `v2.1.0`, the latest at commit `4f2a9c1`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`HEAD` cách tag `v2.1.0` 3 commit, SHA rút gọn của `HEAD` là `4f2a9c1`",
-            "en": "`HEAD` is 3 commits after tag `v2.1.0` and its abbreviated SHA is `4f2a9c1`"
+            "vi": "`HEAD` cách tag `v2.1.0` 3 commit; `4f2a9c1` là SHA rút gọn của `HEAD`",
+            "en": "`HEAD` is 3 commits after tag `v2.1.0`; `4f2a9c1` is its short SHA"
           }
         }
       ],
@@ -931,22 +931,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "`--no-ff` luôn tạo merge commit thay vì chỉ dời con trỏ nhánh",
-            "en": "`--no-ff` always creates a merge commit instead of just moving the branch pointer"
+            "vi": "`--no-ff` luôn tạo merge commit thay vì fast-forward",
+            "en": "`--no-ff` always creates a merge commit instead of fast-forwarding"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`--no-ff` gộp mọi commit của `feature` thành một commit thường",
-            "en": "`--no-ff` squashes all commits of `feature` into one regular commit"
+            "vi": "`--no-ff` gộp mọi commit của `feature` thành một commit thường trên nhánh hiện tại",
+            "en": "`--no-ff` squashes all commits of `feature` into one regular commit on the current branch"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`--no-ff` bỏ qua conflict và giữ code của nhánh hiện tại",
-            "en": "`--no-ff` ignores conflicts and keeps the current branch code"
+            "vi": "`--no-ff` bỏ qua conflict và âm thầm giữ code của nhánh hiện tại",
+            "en": "`--no-ff` ignores conflicts and silently keeps the current branch's code"
           }
         },
         {
@@ -1080,8 +1080,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Rebase không bao giờ gây conflict còn merge thì có",
-            "en": "Rebase never causes conflicts while merge can"
+            "vi": "Rebase không bao giờ gây conflict, còn merge thì có khi hai nhánh sửa cùng dòng",
+            "en": "Rebase never causes conflicts, while merge can when both branches touched the same lines"
           }
         },
         {
@@ -1101,8 +1101,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Merge viết lại SHA của các commit trên feature",
-            "en": "Merge rewrites the SHAs of the feature commits"
+            "vi": "Merge viết lại SHA của mọi commit trên feature, còn rebase giữ nguyên commit và SHA gốc",
+            "en": "Merge rewrites the SHAs of all feature commits, while rebase keeps the original commits and SHAs"
           }
         }
       ],
@@ -1227,22 +1227,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Phải `git fetch` thay vì `git pull` trước khi rebase",
-            "en": "You must `git fetch` instead of `git pull` before rebasing"
+            "vi": "Phải chạy `git fetch` thay vì `git pull` trước khi rebase, nếu không rebase sẽ bị từ chối",
+            "en": "You must run `git fetch` instead of `git pull` before rebasing, or the rebase is rejected"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`--force` không có tác dụng khi push lên nhánh có tên `develop`",
-            "en": "`--force` has no effect when pushing to a branch named `develop`"
+            "vi": "`--force` không có tác dụng với `develop` vì Git mặc định bảo vệ nhánh tên `develop`",
+            "en": "`--force` has no effect on `develop` because Git protects branches named `develop` by default"
           }
         },
         {
           "id": "d",
           "text": {
             "vi": "Rebase rồi force push nhánh dùng chung, viết lại lịch sử và có thể xóa commit của người khác",
-            "en": "Rebasing and force-pushing a shared branch rewrites history and can wipe out others' commits"
+            "en": "Rebasing and force-pushing a shared branch rewrites history and can wipe others' commits"
           }
         }
       ],
@@ -1359,15 +1359,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "Hai nhánh có số commit khác nhau",
-            "en": "The branches have different numbers of commits"
+            "vi": "Hai nhánh có số commit khác nhau kể từ commit tổ tiên chung",
+            "en": "The branches have different numbers of commits since their common ancestor"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Hai nhánh sửa cùng một dòng trong cùng file theo hai cách khác nhau",
-            "en": "Both branches change the same line of the same file in different ways"
+            "vi": "Hai nhánh sửa cùng một dòng của một file theo cách khác nhau",
+            "en": "Both change the same line of a file differently"
           }
         },
         {
@@ -1450,22 +1450,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "`git add -A` sẽ báo lỗi vì file còn conflict",
-            "en": "`git add -A` fails because the file is still conflicted"
+            "vi": "`git add -A` sẽ báo lỗi vì `config.yml` vẫn còn conflict",
+            "en": "`git add -A` fails with an error because `config.yml` still contains conflicts"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Phải dùng `git commit -m` thay vì `--no-edit` khi merge",
-            "en": "You must use `git commit -m` instead of `--no-edit` for merges"
+            "vi": "Phải dùng `git commit -m` thay vì `--no-edit` khi hoàn tất một merge commit",
+            "en": "You must use `git commit -m` instead of `--no-edit` when concluding a merge commit"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Chưa sửa file mà đã `add`, conflict marker bị commit và push lên",
-            "en": "Files were added without being fixed, so conflict markers are committed and pushed"
+            "vi": "Chưa sửa file mà đã `add`, nên conflict marker bị commit và push lên",
+            "en": "The files were staged unfixed, so conflict markers get committed and pushed"
           }
         },
         {
@@ -1548,8 +1548,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Phiên bản từ commit của `feature`",
-            "en": "The version from the `feature` commit"
+            "vi": "Phiên bản từ commit của `feature`, vì bạn bắt đầu từ nhánh `feature`",
+            "en": "The version from the `feature` commit, since you started on `feature`"
           }
         },
         {
@@ -1562,15 +1562,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Lệnh báo lỗi vì `--ours` không dùng được khi rebase",
-            "en": "It errors because `--ours` is not allowed during a rebase"
+            "vi": "Lệnh báo lỗi vì `--ours` không dùng được khi đang rebase dở",
+            "en": "It errors because `--ours` is not allowed while a rebase is in progress"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Phiên bản từ `main` (nhánh nền), vì khi rebase ours/theirs bị đảo so với merge",
-            "en": "The `main` (base) version, because ours/theirs are swapped during a rebase compared with merge"
+            "vi": "Phiên bản từ `main`, vì khi rebase ours/theirs bị đảo so với merge",
+            "en": "The `main` version, since ours/theirs are swapped during a rebase"
           }
         }
       ],
@@ -1646,8 +1646,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Tự chọn phiên bản mới nhất theo thời gian commit khi conflict",
-            "en": "Automatically picks the newest version by commit time on conflicts"
+            "vi": "Tự chọn phiên bản mới nhất theo thời gian commit mỗi khi có conflict",
+            "en": "Automatically picks the newest version by commit time whenever a conflict occurs"
           }
         },
         {
@@ -1660,8 +1660,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "Ngăn mọi conflict bằng cách khóa file khi có người đang sửa",
-            "en": "Prevents conflicts by locking files while someone edits them"
+            "vi": "Ngăn conflict bằng cách khóa file trên remote khi có người đang sửa",
+            "en": "Prevents conflicts by locking files on the remote while someone is editing them"
           }
         },
         {
@@ -1745,15 +1745,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Mọi nhánh trên remote đều đã có nhánh local tương ứng",
-            "en": "Every remote branch already has a matching local branch"
+            "vi": "Mọi nhánh trên remote đều đã có nhánh local tương ứng được checkout và theo dõi",
+            "en": "Every remote branch already has a matching local branch checked out and tracking it"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Phải chạy `git init` sau clone mới commit được",
-            "en": "You must run `git init` after cloning before you can commit"
+            "vi": "Phải chạy `git init` trong thư mục vừa clone thì mới commit được",
+            "en": "You must run `git init` inside the cloned folder before you can make a commit"
           }
         }
       ],
@@ -1785,15 +1785,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "`fetch` tải code và ghi đè working tree; `pull` chỉ xem log",
-            "en": "`fetch` downloads code and overwrites the working tree; `pull` only shows the log"
+            "vi": "`fetch` tải code và ghi đè working tree; `pull` chỉ xem log trên remote",
+            "en": "`fetch` downloads code and overwrites the working tree; `pull` only shows the remote log"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`fetch` dùng cho tag, `pull` dùng cho nhánh",
-            "en": "`fetch` is for tags, `pull` is for branches"
+            "vi": "`fetch` chỉ tải tag và object của tag; `pull` tải và merge các nhánh",
+            "en": "`fetch` only downloads tags and their objects; `pull` downloads and merges branches"
           }
         },
         {
@@ -1887,22 +1887,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Push sẽ bị từ chối vì không phải fast-forward, dù có `--force`",
-            "en": "The push is rejected as non-fast-forward even with `--force`"
+            "vi": "Push bị từ chối vì không phải fast-forward dù có `--force`, nên commit của Alice vẫn an toàn",
+            "en": "The push is rejected as non-fast-forward even with `--force`, so Alice's commit stays safe"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Không vấn đề gì, Git tự merge commit của Alice vào khi force push",
-            "en": "No problem, Git merges Alice's commit in during the force push"
+            "vi": "Không vấn đề gì: khi force push, Git tự merge commit mới của Alice vào nhánh",
+            "en": "No problem: during a force push Git automatically merges Alice's newer commit into the branch"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`--force` xóa commit Alice đã push mà Bob chưa có; nên dùng `--force-with-lease` và fetch trước",
-            "en": "`--force` deletes Alice's pushed commit that Bob does not have; use `--force-with-lease` and fetch first"
+            "vi": "`--force` xóa commit của Alice mà Bob chưa có; nên fetch trước và dùng `--force-with-lease`",
+            "en": "`--force` wipes Alice's commit that Bob never had; fetch first and use `--force-with-lease`"
           }
         }
       ],
@@ -1978,22 +1978,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Đặt `origin/feature/cart` làm upstream để sau này chỉ cần `git push`/`git pull`",
-            "en": "Sets `origin/feature/cart` as upstream so later you can just `git push`/`git pull`"
+            "vi": "Đặt upstream để sau này chỉ cần `git push`/`git pull`",
+            "en": "Sets the upstream so plain `git push`/`git pull` work later"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Cập nhật (update) mọi nhánh lên remote",
-            "en": "Updates every branch on the remote"
+            "vi": "Cập nhật (update) mọi nhánh trên remote cho khớp với các nhánh local cùng tên",
+            "en": "Updates every branch on the remote to match the local branches of the same name"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Ép ghi đè nhánh trên remote",
-            "en": "Forces an overwrite of the remote branch"
+            "vi": "Ép ghi đè nhánh trên remote, giống `--force` nhưng chỉ áp dụng cho nhánh mới",
+            "en": "Forces an overwrite of the remote branch, like `--force` but only for new branches"
           }
         },
         {
@@ -2039,15 +2039,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Nhánh không được bảo vệ (protected) trên GitHub",
-            "en": "The branch is not protected on GitHub"
+            "vi": "Nhánh không được bảo vệ (protected) trên GitHub và bạn có quyền ghi đè nó",
+            "en": "The branch is not protected on GitHub and you have permission to rewrite it"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Working tree local không có thay đổi chưa commit",
-            "en": "The local working tree has no uncommitted changes"
+            "vi": "Working tree local không còn thay đổi chưa commit nào bị bỏ lại khi push",
+            "en": "The local working tree has no uncommitted changes that the push would leave behind"
           }
         }
       ],
@@ -2076,15 +2076,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Lệnh đẩy nhánh `main` chứ không phải nhánh hiện tại, nên `feature/search` không lên remote",
-            "en": "It pushes `main`, not the current branch, so `feature/search` never reaches the remote"
+            "vi": "Lệnh đẩy `main` chứ không phải nhánh hiện tại, nên `feature/search` không được push",
+            "en": "It pushes `main`, not the current branch, so `feature/search` never gets pushed"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Commit trên `feature/search` bị đẩy thẳng vào `main` trên remote",
-            "en": "The `feature/search` commit is pushed straight into remote `main`"
+            "vi": "Commit trên `feature/search` bị đẩy thẳng vào `main` trên remote thay vì lên nhánh mới",
+            "en": "The `feature/search` commit is pushed straight into remote `main` instead of a new branch"
           }
         },
         {
@@ -2171,15 +2171,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Khôi phục `app.js` về phiên bản trên remote",
-            "en": "Restores `app.js` to the remote version"
+            "vi": "Khôi phục `app.js` về phiên bản trên nhánh mặc định của remote",
+            "en": "Restores `app.js` to the version on the remote's default branch"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Tạo commit hoàn tác các thay đổi cũ của `app.js`",
-            "en": "Creates a commit undoing past changes to `app.js`"
+            "vi": "Tạo một commit mới hoàn tác các thay đổi cũ của `app.js`",
+            "en": "Creates a new commit that undoes past changes to `app.js`"
           }
         }
       ],
@@ -2225,8 +2225,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "`git reset --hard`",
-            "en": "`git reset --hard`"
+            "vi": "`git reset --hard HEAD -- secrets.txt`",
+            "en": "`git reset --hard HEAD -- secrets.txt`"
           }
         }
       ],
@@ -2502,15 +2502,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "`git reset --hard` chỉ unstage `debug.log`, đúng ý",
-            "en": "`git reset --hard` only unstages `debug.log`, exactly as intended"
+            "vi": "`git reset --hard` chỉ unstage `debug.log`, đúng ý, và giữ nguyên các sửa đổi",
+            "en": "`git reset --hard` only unstages `debug.log`, exactly as intended, and keeps the edits"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`reset --hard` xóa luôn mọi thay đổi chưa commit; nên dùng `git restore --staged debug.log`",
-            "en": "`reset --hard` wipes all uncommitted changes; use `git restore --staged debug.log`"
+            "vi": "`--hard` xóa mọi thay đổi chưa commit; nên dùng `git restore --staged debug.log`",
+            "en": "`--hard` wipes uncommitted work; use `git restore --staged debug.log`"
           }
         },
         {
@@ -2523,8 +2523,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "`reset --hard` xóa commit cuối cùng của nhánh",
-            "en": "`reset --hard` deletes the last commit of the branch"
+            "vi": "`reset --hard` xóa commit cuối cùng của nhánh cùng với `debug.log`",
+            "en": "`reset --hard` deletes the last commit of the branch along with `debug.log`"
           }
         }
       ],
@@ -2634,29 +2634,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Tải code mới nhất từ remote về máy",
-            "en": "Downloads the latest code from the remote"
+            "vi": "Tải code mới nhất từ remote về nhánh của bạn",
+            "en": "Downloads the latest code from the remote into your branch"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Lệnh Git để gộp nhiều commit thành một",
-            "en": "A Git command that squashes several commits"
+            "vi": "Lệnh Git để gộp nhiều commit thành một trước khi push",
+            "en": "A Git command that squashes several commits into one before pushing"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Đề nghị merge một nhánh, kèm review code và chạy CI trước khi merge",
-            "en": "Proposes merging a branch, with code review and CI before merging"
+            "vi": "Đề nghị merge một nhánh, kèm review và CI trước",
+            "en": "Proposes merging a branch, with review and CI first"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Sao lưu nhánh trước khi xóa",
-            "en": "Backs up a branch before deleting it"
+            "vi": "Sao lưu nhánh lên server trước khi bị xóa",
+            "en": "Backs up a branch on the server before it is deleted"
           }
         }
       ],
@@ -2728,8 +2728,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`feat(api): add pagination`",
-            "en": "`feat(api): add pagination`"
+            "vi": "`feat(api): add pagination to list endpoints`",
+            "en": "`feat(api): add pagination to list endpoints`"
           }
         },
         {
@@ -2742,8 +2742,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "`fix(api): handle empty body`",
-            "en": "`fix(api): handle empty body`"
+            "vi": "`fix(api): handle empty request body`",
+            "en": "`fix(api): handle empty request body`"
           }
         },
         {
@@ -2876,8 +2876,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "`commit -am` sẽ commit vào `feature/login` chứ không phải `feature/profile`",
-            "en": "`commit -am` commits into `feature/login` instead of `feature/profile`"
+            "vi": "`commit -am` vẫn commit vào `feature/login` chứ không phải nhánh mới `feature/profile`",
+            "en": "`commit -am` still commits into `feature/login` instead of the new `feature/profile`"
           }
         }
       ],
@@ -2902,15 +2902,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Chỉ vào `develop`, đợi release sau",
-            "en": "Only into `develop`, waiting for the next release"
+            "vi": "Chỉ vào `develop`, để bản sửa đi cùng nhánh release theo lịch kế tiếp",
+            "en": "Only into `develop`, so the fix ships with the next scheduled release branch"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Chỉ vào `main`, `develop` sẽ tự đồng bộ",
-            "en": "Only into `main`; `develop` syncs automatically"
+            "vi": "Chỉ vào `main`; `develop` sẽ tự nhận bản sửa ở lần release sau",
+            "en": "Only into `main`; `develop` picks up the fix automatically at the next release"
           }
         },
         {
@@ -2923,8 +2923,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Vào `main` (gắn tag) và merge ngược về `develop` (hoặc nhánh release đang mở)",
-            "en": "Into `main` (tagged) and back into `develop` (or the open release branch)"
+            "vi": "Vào `main` (gắn tag) và merge ngược về `develop` hoặc nhánh release đang mở",
+            "en": "Into `main` (tagged) and back into `develop` or the open release branch"
           }
         }
       ],
@@ -2949,8 +2949,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "SHA là số ngẫu nhiên được sinh lại mỗi lần sửa commit",
-            "en": "The SHA is a random number regenerated whenever a commit is edited"
+            "vi": "SHA là số ngẫu nhiên được Git sinh lại mỗi khi commit bị sửa hoặc amend",
+            "en": "The SHA is a random number that Git regenerates whenever a commit is edited or amended"
           }
         },
         {
@@ -3003,22 +3003,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Một danh sách tất cả commit thuộc nhánh",
-            "en": "A list of every commit belonging to the branch"
+            "vi": "Một danh sách SHA của mọi commit thuộc nhánh",
+            "en": "A list of every commit SHA that belongs to the branch"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Một thư mục con riêng trong working tree",
-            "en": "A separate subdirectory in the working tree"
+            "vi": "Một thư mục con riêng trong working tree chứa các file của nhánh",
+            "en": "A separate subdirectory in the working tree holding the branch's files"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Một ref chứa SHA của commit mới nhất trên nhánh",
-            "en": "A ref containing the SHA of the branch's latest commit"
+            "vi": "Một ref chứa SHA của commit mới nhất",
+            "en": "A ref holding the SHA of its latest commit"
           }
         }
       ],
@@ -3095,14 +3095,14 @@
           "id": "a",
           "text": {
             "vi": "Khoảng 500",
-            "en": "Khoảng 500"
+            "en": "About 500"
           }
         },
         {
           "id": "b",
           "text": {
             "vi": "Khoảng 100",
-            "en": "Khoảng 100"
+            "en": "About 100"
           }
         },
         {
@@ -3116,7 +3116,7 @@
           "id": "d",
           "text": {
             "vi": "Khoảng 10",
-            "en": "Khoảng 10"
+            "en": "About 10"
           }
         }
       ],
@@ -3217,29 +3217,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Hook phải viết bằng Python, shell script không chạy được",
-            "en": "Hooks must be written in Python; shell scripts do not run"
+            "vi": "Hook phải viết bằng Python; shell script trong `.git/hooks` bị Git âm thầm bỏ qua",
+            "en": "Hooks must be written in Python; shell scripts in `.git/hooks` are silently skipped by Git"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`pre-commit` chỉ chạy khi push, không chạy khi commit",
-            "en": "`pre-commit` only runs on push, not on commit"
+            "vi": "`pre-commit` chỉ chạy khi `git push`, nên hook không bao giờ chạy khi ai đó commit ở local",
+            "en": "`pre-commit` only runs during `git push`, so the hook never fires when anyone commits locally"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Hook local không được version và bị bỏ qua bằng `--no-verify`; chính sách phải thực thi bằng CI/branch protection",
-            "en": "Local hooks are not versioned and are skipped with `--no-verify`; enforce the policy with CI/branch protection"
+            "vi": "Hook local không được version và bị bỏ qua bằng `--no-verify`; phải thực thi bằng CI/branch protection",
+            "en": "Local hooks are unversioned and skipped by `--no-verify`; enforce it via CI/branch protection"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`chmod +x` làm hook bị Git bỏ qua vì lý do bảo mật",
-            "en": "`chmod +x` makes Git ignore the hook for security reasons"
+            "vi": "`chmod +x` làm Git bỏ qua hook vì lý do bảo mật, trừ khi đặt `core.hooksPath`",
+            "en": "`chmod +x` makes Git ignore the hook for security reasons unless `core.hooksPath` is set"
           }
         }
       ],
@@ -3264,8 +3264,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Xóa các commit cũ hơn 90 ngày",
-            "en": "Deletes commits older than 90 days"
+            "vi": "Xóa các commit cũ hơn 90 ngày trên mọi nhánh, chỉ giữ lịch sử gần đây",
+            "en": "Deletes commits older than 90 days from every branch, keeping only recent history"
           }
         },
         {
@@ -3294,6 +3294,1888 @@
       "explanation": {
         "vi": "Ban đầu mỗi object được lưu riêng (loose object, nén zlib). `git gc` gom chúng vào packfile, trong đó các phiên bản giống nhau được lưu dạng delta so với nhau, giúp tiết kiệm rất nhiều dung lượng; nó cũng dọn object không còn được tham chiếu và đã quá hạn. Git tự chạy `gc --auto` khi số loose object vượt ngưỡng, và fetch/push cũng truyền dữ liệu dưới dạng pack.",
         "en": "Objects start out stored individually (loose objects, zlib-compressed). `git gc` packs them into packfiles, where similar versions are stored as deltas against each other, saving a lot of space; it also prunes unreferenced objects past their expiry. Git runs `gc --auto` when loose objects exceed a threshold, and fetch/push also transfer data as packs."
+      }
+    },
+    {
+      "id": "git.basics.011",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn tạo thư mục rỗng `logs/`, chạy `git add .` rồi `git commit`. Khi người khác clone repo, thư mục `logs/` có tồn tại không?",
+        "en": "You create an empty `logs/` directory, run `git add .` and `git commit`. When someone else clones the repo, does `logs/` exist?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không, Git chỉ track file; thường thêm file như `logs/.gitkeep`",
+            "en": "No, Git tracks only files; add e.g. `logs/.gitkeep`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Có, Git lưu mọi thư mục trong working tree, kể cả thư mục rỗng",
+            "en": "Yes, Git stores every directory in the working tree, even empty ones"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Có, nhưng chỉ khi dùng `git add -A` thay vì `git add .` (lệnh này bỏ qua thư mục rỗng)",
+            "en": "Yes, but only if you use `git add -A` instead of `git add .`, which skips empty folders"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không, vì Git tự thêm các thư mục rỗng như `logs/` vào `.gitignore`",
+            "en": "No, because Git automatically adds empty directories like `logs/` to `.gitignore`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trong Git, thư mục chỉ tồn tại gián tiếp dưới dạng tree object chứa các file bên trong, nên thư mục rỗng không có gì để lưu. Quy ước phổ biến là đặt một file giữ chỗ như `.gitkeep`; cái tên này không có ý nghĩa đặc biệt với Git. Dùng `git add -A` hay `git add .` đều không thay đổi được điều này.",
+        "en": "In Git, directories exist only indirectly as tree objects holding the files inside them, so an empty directory has nothing to store. The common convention is a placeholder file such as `.gitkeep`; the name has no special meaning to Git. Neither `git add -A` nor `git add .` changes this."
+      }
+    },
+    {
+      "id": "git.basics.012",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Lệnh `git status --short` cuối cùng in ra gì? (các dòng output được nối bằng ` / `)",
+        "en": "What does the final `git status --short` print? (output lines joined with ` / `)"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git init -q -b main demo && cd demo\necho \"hello\" > a.txt && git add a.txt && git commit -q -m init\ngit mv a.txt b.txt\ngit status --short"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "R  a.txt -> b.txt",
+            "en": "R  a.txt -> b.txt"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "D  a.txt / ?? b.txt",
+            "en": "D  a.txt / ?? b.txt"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "D  a.txt / A  b.txt",
+            "en": "D  a.txt / A  b.txt"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "?? b.txt",
+            "en": "?? b.txt"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`git mv` vừa đổi tên file trên đĩa vừa stage cả việc xóa tên cũ lẫn thêm tên mới. Git không lưu thao tác đổi tên; `git status` phát hiện rename vì nội dung giống hệt nhau và hiển thị gọn thành `R  a.txt -> b.txt` (chữ `R` ở cột index). Nếu chỉ dùng `mv` của hệ điều hành mà không `git add`, bạn sẽ thấy ` D a.txt` và `?? b.txt`.",
+        "en": "`git mv` renames the file on disk and stages both the removal of the old name and the addition of the new one. Git does not record renames; `git status` detects one because the content is identical and shows it compactly as `R  a.txt -> b.txt` (`R` in the index column). With a plain OS `mv` and no `git add`, you would see ` D a.txt` and `?? b.txt`."
+      }
+    },
+    {
+      "id": "git.basics.013",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Git và GitHub khác nhau thế nào?",
+        "en": "How do Git and GitHub differ?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Git là hệ thống quản lý phiên bản phân tán, chạy trên máy bạn và dùng được khi không có mạng",
+          "en": "Git is a distributed version control system that runs on your machine and works offline"
+        },
+        {
+          "vi": "GitHub là dịch vụ lưu trữ (hosting) repository Git trên server, tương tự GitLab, Bitbucket",
+          "en": "GitHub is a hosting service for Git repositories, like GitLab or Bitbucket"
+        },
+        {
+          "vi": "GitHub thêm tính năng cộng tác: pull request, review, issue, Actions (CI/CD), phân quyền",
+          "en": "GitHub adds collaboration features: pull requests, reviews, issues, Actions (CI/CD), access control"
+        },
+        {
+          "vi": "Mỗi bản clone có đầy đủ lịch sử; remote chỉ là một bản repo dùng chung",
+          "en": "Every clone has the full history; the remote is just a shared copy"
+        }
+      ],
+      "explanation": {
+        "vi": "Git là công cụ: commit, branch, merge đều diễn ra trong thư mục `.git` trên máy, không cần server. GitHub là nơi lưu một bản repo dùng chung để cả team `push`/`pull`, đồng thời cung cấp quy trình như pull request hay CI. Pull request không phải lệnh Git mà là tính năng của nền tảng hosting.",
+        "en": "Git is the tool: commits, branches and merges all happen in the local `.git` directory, with no server needed. GitHub hosts a shared copy of the repo that the team `push`es to and `pull`s from, and adds workflows such as pull requests and CI. A pull request is not a Git command but a feature of the hosting platform."
+      }
+    },
+    {
+      "id": "git.basics.014",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Lệnh `git status --short` cuối cùng in ra gì? (các dòng output được nối bằng ` / `)",
+        "en": "What does the final `git status --short` print? (output lines joined with ` / `)"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git init -q -b main demo && cd demo\necho \"debug\" > app.log && git add . && git commit -q -m init\ngit rm -q --cached app.log\ngit status --short"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "?? app.log",
+            "en": "?? app.log"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "D  app.log / ?? app.log",
+            "en": "D  app.log / ?? app.log"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": " D app.log",
+            "en": " D app.log"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "D  app.log",
+            "en": "D  app.log"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`git rm --cached` xóa file khỏi index nhưng giữ nguyên file trên đĩa. So với commit trước, index không còn `app.log` nên cột trái là `D` (thao tác xóa đã được stage), còn file trên đĩa giờ không được track nên hiện `?? app.log`. Thêm `app.log` vào `.gitignore` rồi commit thì dòng `??` sẽ biến mất.",
+        "en": "`git rm --cached` removes the file from the index but leaves it on disk. Compared with the last commit, the index no longer has `app.log`, so the left column shows `D` (a staged deletion), and the file on disk is now untracked, so it shows `?? app.log`. Adding `app.log` to `.gitignore` and committing makes the `??` line disappear."
+      }
+    },
+    {
+      "id": "git.basics.015",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Chuỗi lệnh sau có vấn đề gì?",
+        "en": "What is wrong with this command sequence?"
+      },
+      "code": {
+        "language": "bash",
+        "source": "# app.js đã được track\necho \"const MAX_RETRY = 3;\" >> app.js\ngit commit -m \"fix: retry login\"\ngit push origin main\n# Reviewer: \"Trên remote không thấy thay đổi nào\""
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`git push origin main` cần `--force` vì `main` trên remote đã có commit",
+            "en": "`git push origin main` needs `--force` because the remote `main` already has commits"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thay đổi chưa được stage nên `git commit` không tạo commit nào; cần `git add app.js` trước",
+            "en": "The edit was never staged, so `git commit` creates nothing; run `git add app.js` first"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Message commit phải bắt đầu bằng chữ hoa, nếu không remote sẽ từ chối push",
+            "en": "The commit message must start with an uppercase letter, otherwise the remote rejects the push"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Commit đã được tạo nhưng nằm ở detached HEAD chứ không phải trên nhánh `main`",
+            "en": "The commit was created, but on a detached HEAD rather than on the `main` branch"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`git commit` chỉ đóng gói những gì đã có trong index. Sửa file mà không `git add` thì index không đổi, Git dừng lại với thông báo `no changes added to commit`, và `git push` sau đó báo `Everything up-to-date`. Cần `git add app.js` (hoặc `git commit -am` với file đã track) rồi commit lại; luôn đọc output và kiểm tra `git status` trước khi push.",
+        "en": "`git commit` only packages what is already in the index. Editing a file without `git add` leaves the index unchanged, so Git stops with `no changes added to commit`, and the following `git push` says `Everything up-to-date`. Run `git add app.js` (or `git commit -am` for tracked files) and commit again; always read the output and check `git status` before pushing."
+      }
+    },
+    {
+      "id": "git.branching.010",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "branching",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn đang ở `feature/cart` và vừa chuyển sang `main` để pull code. Lệnh nào đưa bạn quay lại ngay nhánh trước đó?",
+        "en": "You are on `feature/cart` and just switched to `main` to pull. Which command takes you straight back to the previous branch?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`git switch HEAD~1`",
+            "en": "`git switch HEAD~1`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`git restore -`",
+            "en": "`git restore -`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`git switch -`",
+            "en": "`git switch -`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`git branch -`",
+            "en": "`git branch -`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`git switch -` (và `git checkout -`) chuyển về nhánh bạn đứng trước đó, giống `cd -` trong shell; Git lấy thông tin này từ reflog của `HEAD`. `HEAD~1` là một commit chứ không phải nhánh, nên `git switch HEAD~1` báo lỗi nếu không có `--detach`, và có `--detach` thì đưa bạn tới commit cha ở trạng thái detached HEAD. `git restore` dùng để khôi phục file, không đổi nhánh.",
+        "en": "`git switch -` (and `git checkout -`) returns to the branch you were on before, like `cd -` in a shell; Git reads this from the `HEAD` reflog. `HEAD~1` is a commit, not a branch, so `git switch HEAD~1` fails without `--detach`, and with `--detach` it takes you to the parent commit in detached HEAD state. `git restore` restores files and does not change branches."
+      }
+    },
+    {
+      "id": "git.branching.011",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "branching",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chuỗi lệnh sau in ra gì? (các dòng output được nối bằng ` / `)",
+        "en": "What does this command sequence print? (output lines joined with ` / `)"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git init -q -b main demo && cd demo\ngit commit -q --allow-empty -m c1\ngit branch feature\ngit commit -q --allow-empty -m c2\ngit rev-parse --abbrev-ref HEAD\ngit rev-list --count feature\ngit rev-list --count main"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "main / 1 / 2",
+            "en": "main / 1 / 2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "feature / 2 / 1",
+            "en": "feature / 2 / 1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "feature / 1 / 2",
+            "en": "feature / 1 / 2"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "main / 2 / 2",
+            "en": "main / 2 / 2"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`git branch feature` chỉ tạo một con trỏ mới tại commit hiện tại chứ không chuyển sang nhánh đó, nên `HEAD` vẫn ở `main`. Vì vậy commit `c2` nằm trên `main`, còn `feature` vẫn đứng ở `c1` với 1 commit. Muốn tạo và chuyển sang nhánh mới cùng lúc thì dùng `git switch -c feature`.",
+        "en": "`git branch feature` only creates a new pointer at the current commit; it does not switch to it, so `HEAD` stays on `main`. Commit `c2` therefore lands on `main`, while `feature` stays at `c1` with 1 commit. To create and switch in one step, use `git switch -c feature`."
+      }
+    },
+    {
+      "id": "git.branching.012",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "branching",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Lệnh `git log main..feature` hiển thị gì?",
+        "en": "What does `git log main..feature` show?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Các commit có trên `feature` nhưng không có trên `main`",
+            "en": "Commits on `feature` that are not on `main`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Các commit có trên `main` nhưng chưa có trên `feature`",
+            "en": "Commits on `main` that are not on `feature`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Toàn bộ commit của cả hai nhánh, sắp theo thời gian commit",
+            "en": "All commits of both branches, sorted by commit time"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Các commit được tạo trong khoảng thời gian giữa lúc tạo `main` và `feature`",
+            "en": "Commits created between the times `main` and `feature` were created"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Cú pháp hai chấm `A..B` nghĩa là \"reachable từ B nhưng không reachable từ A\", nên `main..feature` liệt kê đúng những commit mà PR từ `feature` sẽ mang vào `main`. Đảo lại, `feature..main` cho biết `main` đã tiến thêm những gì. Cú pháp ba chấm `A...B` mới là các commit thuộc một trong hai nhánh nhưng không thuộc cả hai.",
+        "en": "The two-dot syntax `A..B` means \"reachable from B but not from A\", so `main..feature` lists exactly the commits a PR from `feature` would bring into `main`. Reversed, `feature..main` shows what `main` has gained. The three-dot `A...B` is the set of commits on either side but not on both."
+      }
+    },
+    {
+      "id": "git.branching.013",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "branching",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chuỗi lệnh sau in ra gì? (các dòng output được nối bằng ` / `)",
+        "en": "What does this command sequence print? (output lines joined with ` / `)"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git init -q -b main demo && cd demo\ngit commit -q --allow-empty -m c1\ngit switch -q -c login\ngit commit -q --allow-empty -m l1\ngit switch -q main\ngit merge -q login\ngit switch -q -c cart\ngit commit -q --allow-empty -m k1\ngit switch -q main\ngit branch --merged"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "  cart /   login / * main",
+            "en": "  cart /   login / * main"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "* main",
+            "en": "* main"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "  cart / * main",
+            "en": "  cart / * main"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "  login / * main",
+            "en": "  login / * main"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`git branch --merged` liệt kê các nhánh có đỉnh đã nằm trong lịch sử của `HEAD`, tức là có thể xóa an toàn bằng `git branch -d`. `login` đã được merge vào `main` nên xuất hiện, còn `cart` có commit `k1` chưa merge nên không có. Nhánh hiện tại luôn được đánh dấu `*` và cũng nằm trong danh sách.",
+        "en": "`git branch --merged` lists branches whose tip is already in `HEAD`'s history, i.e. those you can safely delete with `git branch -d`. `login` was merged into `main`, so it appears, while `cart` has the unmerged commit `k1`, so it does not. The current branch is always marked with `*` and is included too."
+      }
+    },
+    {
+      "id": "git.branching.014",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "branching",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Chuỗi lệnh sau có vấn đề gì?",
+        "en": "What is wrong with this command sequence?"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git push -u origin feature/logn        # lỡ gõ sai tên nhánh\ngit branch -m feature/logn feature/login\ngit push origin feature/login\n# Remote giờ có cả feature/logn lẫn feature/login,\n# và git status vẫn so sánh với origin/feature/logn"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`git branch -m` xóa luôn toàn bộ commit của nhánh",
+            "en": "`git branch -m` deletes all of the branch's commits"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không đổi tên được nhánh có dấu `/`, nên `feature/logn` giữ tên cũ cả ở local lẫn remote",
+            "en": "Branches containing `/` cannot be renamed, so `feature/logn` keeps its old name locally and remotely"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`git branch -m` chỉ đổi tên ở local: `origin/feature/logn` vẫn còn và vẫn là upstream; cần xóa nó và push lại với `-u`",
+            "en": "`git branch -m` is local only: `origin/feature/logn` stays and is still the upstream; delete it and push with `-u`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lệnh push cuối thiếu `--force` nên `feature/login` không được tạo trên remote và `origin/feature/logn` vẫn là upstream",
+            "en": "The last push lacks `--force`, so `feature/login` is never created on the remote and `origin/feature/logn` stays the upstream"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Đổi tên nhánh là thao tác cục bộ, remote không hề biết. Lệnh push thứ hai tạo thêm `feature/login` trên remote, nhưng `feature/logn` vẫn nằm đó và cấu hình upstream của nhánh local vẫn là `origin/feature/logn`, nên `git status` so sánh với nhầm nhánh. Cần xóa nhánh cũ trên remote và đặt lại upstream bằng `-u`; PR đã mở từ nhánh cũ cũng phải mở lại.",
+        "en": "Renaming a branch is a local operation the remote knows nothing about. The second push creates `feature/login` on the remote, but `feature/logn` is still there and the local branch's upstream is still `origin/feature/logn`, so `git status` compares against the wrong branch. Delete the old remote branch and reset the upstream with `-u`; a PR opened from the old branch must be reopened too."
+      }
+    },
+    {
+      "id": "git.merging.010",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "merging",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn đang đứng ở nhánh `main` và chạy `git merge feature`. Nhánh nào nhận thay đổi?",
+        "en": "You are on `main` and run `git merge feature`. Which branch receives the changes?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`feature`: Git đưa thay đổi của `main` sang `feature` vì `feature` là nhánh được chỉ định",
+            "en": "`feature`: Git brings the changes of `main` into `feature`, since `feature` is named"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cả hai nhánh cùng được cập nhật tới một commit",
+            "en": "Both branches are moved to the same commit"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`main`: thay đổi của `feature` vào nhánh hiện tại; `feature` giữ nguyên",
+            "en": "`main`: `feature`'s changes come into the current branch; `feature` is unchanged"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không nhánh nào, Git tạo một nhánh mới tên `merge/feature`",
+            "en": "Neither; Git creates a new branch named `merge/feature`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`git merge <nhánh>` luôn tích hợp nhánh được chỉ định vào nhánh đang checkout (`HEAD`). Sau lệnh, chỉ con trỏ `main` di chuyển (fast-forward hoặc tới merge commit mới), còn `feature` vẫn trỏ đúng chỗ cũ. Muốn cập nhật `feature` theo `main` thì phải đứng ở `feature` và chạy `git merge main`.",
+        "en": "`git merge <branch>` always integrates the named branch into the branch currently checked out (`HEAD`). Afterwards only the `main` pointer moves (fast-forward or to a new merge commit), while `feature` still points where it did. To update `feature` with `main`, stand on `feature` and run `git merge main`."
+      }
+    },
+    {
+      "id": "git.merging.011",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "merging",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Merge commit khác commit thông thường ở điểm nào?",
+        "en": "How does a merge commit differ from a regular commit?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nó không chứa snapshot file riêng nào, chỉ chứa danh sách các nhánh được merge",
+            "en": "It contains no file snapshot of its own, only a list of the branches that were merged"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nó có từ hai cha trở lên, nối lịch sử các nhánh được merge",
+            "en": "It has two or more parents, joining the merged histories"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Nó không có SHA riêng vì được Git tạo tự động",
+            "en": "It has no SHA of its own because Git creates it automatically"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nó tự bị xóa sau khi được push lên remote",
+            "en": "It is deleted automatically after being pushed to the remote"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Commit thường có một cha (commit đầu tiên thì không có), còn merge commit có ít nhất hai: cha thứ nhất là đỉnh nhánh hiện tại, cha thứ hai là đỉnh nhánh được merge. Giống mọi commit khác, nó vẫn trỏ tới một tree chứa snapshot đầy đủ và có SHA riêng. Nhờ các commit cha này, Git biết `feature` đã được tích hợp và lần merge sau chỉ cần xét các commit mới.",
+        "en": "A regular commit has one parent (the very first has none), while a merge commit has at least two: the first parent is the current branch tip and the second is the merged branch tip. Like every commit, it still points to a tree with a full snapshot and has its own SHA. These parents let Git know `feature` has been integrated, so the next merge only considers new commits."
+      }
+    },
+    {
+      "id": "git.merging.012",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "merging",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chuỗi lệnh sau in ra gì? (các dòng output được nối bằng ` / `)",
+        "en": "What does this command sequence print? (output lines joined with ` / `)"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git init -q -b main demo && cd demo\ngit commit -q --allow-empty -m c1\ngit switch -q -c feature\necho a > a.txt && git add . && git commit -q -m f1\necho b > b.txt && git add . && git commit -q -m f2\ngit switch -q main\necho m > m.txt && git add . && git commit -q -m m1\ngit merge -q --squash feature > /dev/null 2>&1\ngit commit -q -m \"feat: squash\"\ngit rev-list --count HEAD\ngit log -1 --format=%p | wc -w | tr -d ' '"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "3 / 1",
+            "en": "3 / 1"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "5 / 2",
+            "en": "5 / 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "4 / 2",
+            "en": "4 / 2"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "3 / 2",
+            "en": "3 / 2"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`git merge --squash` gom toàn bộ thay đổi của `feature` vào index mà không tạo merge commit; lệnh `git commit` sau đó tạo một commit thường với một cha duy nhất là `m1`. Lịch sử của `main` vì vậy gồm `c1`, `m1` và commit squash, tổng cộng 3, còn `f1`, `f2` không nằm trong đó. Hệ quả là Git không ghi nhận `feature` đã được merge, nên `git branch -d feature` sẽ từ chối xóa.",
+        "en": "`git merge --squash` puts all of `feature`'s changes into the index without creating a merge commit; the following `git commit` makes a regular commit whose only parent is `m1`. `main`'s history is therefore `c1`, `m1` and the squash commit, 3 in total, without `f1` or `f2`. As a consequence Git does not record `feature` as merged, so `git branch -d feature` will refuse to delete it."
+      }
+    },
+    {
+      "id": "git.merging.013",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "merging",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Team cấu hình `git config pull.ff only` (tương đương `git pull --ff-only`). Khi nhánh local và `origin/main` đã rẽ nhánh (mỗi bên có commit riêng), `git pull` sẽ làm gì?",
+        "en": "The team sets `git config pull.ff only` (same as `git pull --ff-only`). When the local branch and `origin/main` have diverged (each has its own commits), what does `git pull` do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tự tạo merge commit như bình thường",
+            "en": "It creates a merge commit as usual"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Từ chối và báo lỗi, để bạn tự chọn rebase hoặc merge",
+            "en": "It refuses and errors, leaving you to rebase or merge"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tự rebase các commit local lên `origin/main` để giữ lịch sử thẳng",
+            "en": "It automatically rebases the local commits onto `origin/main` and keeps history linear"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ghi đè các commit local bằng `origin/main` mà không hỏi",
+            "en": "It overwrites the local commits with `origin/main` without asking"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`--ff-only` chỉ cho phép fast-forward, tức trường hợp nhánh local không có commit nào mà remote thiếu. Khi hai bên đã rẽ nhánh thì không thể fast-forward, nên Git dừng với lỗi `Not possible to fast-forward, aborting.` và không thay đổi gì. Thiết lập này tránh việc `git pull` âm thầm sinh merge commit; bạn chủ động chạy `git rebase origin/main` hoặc `git merge` sau đó.",
+        "en": "`--ff-only` allows only fast-forwards, i.e. when the local branch has no commits the remote lacks. Once the two sides have diverged a fast-forward is impossible, so Git stops with `Not possible to fast-forward, aborting.` and changes nothing. This setting stops `git pull` from silently creating merge commits; you then run `git rebase origin/main` or `git merge` deliberately."
+      }
+    },
+    {
+      "id": "git.merging.014",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "merging",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Merge base là gì và Git dùng nó thế nào trong three-way merge?",
+        "en": "What is the merge base, and how does Git use it in a three-way merge?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Merge base là commit tổ tiên chung tốt nhất của hai nhánh (`git merge-base main feature`)",
+          "en": "The merge base is the best common ancestor of the two branches (`git merge-base main feature`)"
+        },
+        {
+          "vi": "Git so sánh base với đỉnh của từng nhánh để biết mỗi bên đã thay đổi gì",
+          "en": "Git diffs the base against each branch tip to see what each side changed"
+        },
+        {
+          "vi": "Chỉ một bên sửa một vùng thì lấy bên đó; cả hai bên sửa cùng vùng theo cách khác nhau thì conflict",
+          "en": "If only one side changed a region, take that side; if both changed the same region differently, it is a conflict"
+        },
+        {
+          "vi": "Nếu base chính là đỉnh nhánh hiện tại thì chỉ cần fast-forward",
+          "en": "If the base is the current branch tip, a fast-forward is enough"
+        }
+      ],
+      "explanation": {
+        "vi": "Nếu chỉ so hai phiên bản cuối, Git không biết dòng khác nhau là do bên nào sửa. Có base làm mốc, Git biết chính xác thay đổi của từng nhánh kể từ lúc tách ra và tự kết hợp những thay đổi không chồng lấn. Conflict chỉ xảy ra khi cả hai bên sửa cùng một vùng theo cách khác nhau so với base.",
+        "en": "Comparing only the two final versions, Git could not tell which side changed a differing line. With the base as a reference point, Git knows exactly what each branch changed since they split and combines non-overlapping changes automatically. A conflict arises only when both sides changed the same region differently relative to the base."
+      }
+    },
+    {
+      "id": "git.conflicts.009",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "conflicts",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi chạy `git rebase main` trên nhánh `feature`, bạn gặp conflict ở `cart.js` và đã sửa xong file. Bước tiếp theo đúng là gì?",
+        "en": "While running `git rebase main` on `feature`, you hit a conflict in `cart.js` and have fixed the file. What is the correct next step?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`git add cart.js` rồi `git rebase --continue`",
+            "en": "`git add cart.js`, then `git rebase --continue`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`git commit -m \"fix conflict\"` rồi `git push`",
+            "en": "`git commit -m \"fix conflict\"`, then `git push`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`git merge --continue`",
+            "en": "`git merge --continue`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`git rebase --skip`",
+            "en": "`git rebase --skip`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trong rebase, `git add` đánh dấu conflict đã được giải quyết, rồi `git rebase --continue` tạo lại commit đang dừng và áp dụng tiếp các commit còn lại. Tự `git commit` và push giữa chừng sẽ tạo thêm commit ngoài ý muốn trong khi rebase chưa xong. `git rebase --skip` bỏ hẳn commit đang bị conflict, làm mất thay đổi của nó.",
+        "en": "During a rebase, `git add` marks the conflict as resolved, then `git rebase --continue` recreates the stopped commit and replays the rest. Committing and pushing yourself midway creates an extra, unintended commit while the rebase is unfinished. `git rebase --skip` drops the conflicting commit entirely, losing its changes."
+      }
+    },
+    {
+      "id": "git.conflicts.010",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "conflicts",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Team hay gặp conflict khi merge. Bạn đề xuất những cách nào để giảm conflict?",
+        "en": "Your team often hits merge conflicts. What would you suggest to reduce them?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Chia PR nhỏ, merge thường xuyên, tránh nhánh sống lâu",
+          "en": "Keep PRs small, merge often, avoid long-lived branches"
+        },
+        {
+          "vi": "Cập nhật nhánh từ `main` thường xuyên (rebase hoặc merge)",
+          "en": "Update your branch from `main` regularly (rebase or merge)"
+        },
+        {
+          "vi": "Thống nhất formatter/linter để không ai format lại file hàng loạt",
+          "en": "Agree on a formatter/linter so nobody reformats files en masse"
+        },
+        {
+          "vi": "Trao đổi trước khi nhiều người cùng sửa một file hoặc module",
+          "en": "Talk before several people edit the same file or module"
+        },
+        {
+          "vi": "Tách file lớn, tránh để mọi người cùng sửa một file cấu hình trung tâm",
+          "en": "Split large files; avoid everyone editing one central config file"
+        }
+      ],
+      "explanation": {
+        "vi": "Conflict tăng theo thời gian nhánh tách khỏi `main` và theo số dòng mà nhiều người cùng chạm vào. PR nhỏ, tích hợp sớm và đồng bộ thường xuyên giữ khoảng cách giữa các nhánh nhỏ, nên nếu có conflict thì cũng dễ giải. Formatter chạy tự động trên mọi máy ngăn những thay đổi khoảng trắng vô nghĩa gây conflict trên cả file.",
+        "en": "Conflicts grow with how long a branch has been away from `main` and how many lines several people touch. Small PRs, early integration and frequent syncing keep branches close, so any conflicts stay easy to resolve. A formatter that runs automatically on every machine prevents meaningless whitespace changes from conflicting across whole files."
+      }
+    },
+    {
+      "id": "git.conflicts.011",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "conflicts",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chuỗi lệnh sau in ra gì? (các dòng output được nối bằng ` / `)",
+        "en": "What does this command sequence print? (output lines joined with ` / `)"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git init -q -b main demo && cd demo\necho \"base\" > f.txt && git add . && git commit -q -m base\ngit switch -q -c feature\necho \"feature\" > f.txt\necho \"new\" > g.txt\ngit add . && git commit -q -m feat\ngit switch -q main\necho \"main\" > f.txt && git commit -q -am main\ngit merge -q -X ours --no-edit feature > /dev/null\ncat f.txt\nls"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "main / f.txt",
+            "en": "main / f.txt"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "main / f.txt / g.txt",
+            "en": "main / f.txt / g.txt"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "feature / f.txt / g.txt",
+            "en": "feature / f.txt / g.txt"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "base / f.txt / g.txt",
+            "en": "base / f.txt / g.txt"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`-X ours` là option của chiến lược merge mặc định: chỉ những hunk bị conflict mới tự động lấy phiên bản của nhánh hiện tại, nên `f.txt` giữ nội dung `main`. Các thay đổi không conflict của `feature`, như file mới `g.txt`, vẫn được merge vào bình thường. Điều này khác với `-s ours`, chiến lược bỏ qua toàn bộ thay đổi của nhánh kia; cả hai đều cần dùng cẩn thận vì chúng âm thầm bỏ thay đổi của người khác.",
+        "en": "`-X ours` is an option of the default merge strategy: only conflicting hunks automatically take the current branch's version, so `f.txt` keeps `main`'s content. Non-conflicting changes from `feature`, such as the new file `g.txt`, are still merged normally. This differs from `-s ours`, a strategy that discards all of the other branch's changes; both need care because they silently drop someone else's work."
+      }
+    },
+    {
+      "id": "git.conflicts.012",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "conflicts",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Chuỗi lệnh sau có vấn đề gì?",
+        "en": "What is wrong with this command sequence?"
+      },
+      "code": {
+        "language": "bash",
+        "source": "# Đang sửa dở config.js (chưa commit)\ngit pull origin main\n# error: Your local changes to the following files would be overwritten by merge:\n#         config.js\n# Please commit your changes or stash them before you merge.\ngit reset --hard\ngit pull origin main"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không có vấn đề, `reset --hard` chỉ xóa các commit chưa push",
+            "en": "Nothing; `reset --hard` only removes unpushed commits"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Dùng `git fetch` thay cho `git pull` là hết lỗi, vì fetch merge mà không đụng tới file local",
+            "en": "Using `git fetch` instead of `git pull` avoids the error, since fetch merges without touching local files"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`reset --hard` xóa luôn phần sửa dở trong `config.js`; nên stash (hoặc commit) trước, pull, rồi `git stash pop`",
+            "en": "`reset --hard` discards the unfinished `config.js` edits; stash (or commit) first, pull, then `git stash pop`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi xảy ra vì `config.js` chưa có trong `.gitignore`; thêm vào thì pull sẽ ghi đè an toàn",
+            "en": "The error happens because `config.js` is not in `.gitignore`; ignoring it lets the pull overwrite it safely"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Git chặn `pull` để bảo vệ thay đổi chưa commit của bạn khỏi bị ghi đè. `git reset --hard` là cách \"chữa\" sai vì nó vứt bỏ mọi thay đổi chưa commit của file được track, và không lấy lại được bằng reflog. Nên stash hoặc commit phần đang làm, pull, rồi áp lại và giải conflict nếu có. `git fetch` chỉ tải về chứ không cập nhật nhánh, nên không giải quyết được việc cần tích hợp code.",
+        "en": "Git blocks the `pull` to protect your uncommitted changes from being overwritten. `git reset --hard` is the wrong \"fix\" because it discards all uncommitted changes to tracked files, and they cannot be recovered from the reflog. Stash or commit your work, pull, then reapply it and resolve any conflict. `git fetch` only downloads without updating the branch, so it does not solve the need to integrate."
+      }
+    },
+    {
+      "id": "git.conflicts.013",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "conflicts",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Merge `main` vào nhánh của bạn bị conflict trong `package-lock.json` (hàng trăm dòng). Cách xử lý hợp lý nhất là gì?",
+        "en": "Merging `main` into your branch conflicts in `package-lock.json` (hundreds of lines). What is the most sensible way to resolve it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Sửa tay từng conflict marker trong lockfile để chủ động chọn từng phiên bản dependency",
+            "en": "Edit every conflict marker in the lockfile by hand so each dependency version is chosen deliberately"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lấy lockfile của `main` (`--theirs`), giải conflict `package.json`, chạy `npm install` rồi commit",
+            "en": "Take `main`'s lockfile (`--theirs`), resolve `package.json`, run `npm install` and commit"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Xóa `package-lock.json` khỏi repo và thêm vào `.gitignore` để không bao giờ conflict nữa",
+            "en": "Delete `package-lock.json` from the repo and add it to `.gitignore` so it never conflicts again"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Dùng `git merge -s ours` để giữ toàn bộ phía mình, rồi chạy `npm install` để lấy dependency của `main`",
+            "en": "Use `git merge -s ours` to keep your side of everything, then run `npm install` to pull in `main`'s dependencies"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Lockfile là file sinh tự động; sửa tay hàng trăm dòng rất dễ tạo ra cây phụ thuộc không nhất quán. Khi đang merge `main` vào nhánh mình, `--theirs` là phía `main`; lấy bản đó làm nền rồi để `npm install` bổ sung các dependency của nhánh mình đã khai báo trong `package.json`. Bỏ lockfile khỏi repo làm mất khả năng build tái lập, còn `-s ours` vứt bỏ toàn bộ thay đổi của `main`.",
+        "en": "A lockfile is generated; hand-editing hundreds of lines easily produces an inconsistent dependency tree. When merging `main` into your branch, `--theirs` is the `main` side; use it as the base and let `npm install` add your branch's dependencies declared in `package.json`. Dropping the lockfile loses reproducible builds, and `-s ours` discards all of `main`'s changes."
+      }
+    },
+    {
+      "id": "git.remote.010",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "remote",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn đóng góp cho một dự án open source qua fork. Làm sao giữ fork và nhánh làm việc luôn cập nhật với repo gốc?",
+        "en": "You contribute to an open-source project through a fork. How do you keep your fork and working branch up to date with the original repo?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Thêm repo gốc làm remote thứ hai: `git remote add upstream <url>`",
+          "en": "Add the original repo as a second remote: `git remote add upstream <url>`"
+        },
+        {
+          "vi": "`origin` là fork của bạn, `upstream` là repo gốc",
+          "en": "`origin` is your fork, `upstream` is the original repo"
+        },
+        {
+          "vi": "`git fetch upstream`, cập nhật `main` local từ `upstream/main` rồi push lên `origin`",
+          "en": "`git fetch upstream`, update local `main` from `upstream/main`, then push it to `origin`"
+        },
+        {
+          "vi": "Rebase hoặc merge nhánh làm việc lên `upstream/main` trước khi mở PR",
+          "en": "Rebase or merge your working branch onto `upstream/main` before opening the PR"
+        },
+        {
+          "vi": "Không commit thẳng lên `main` của fork; làm trên nhánh riêng",
+          "en": "Do not commit directly to your fork's `main`; work on a separate branch"
+        }
+      ],
+      "explanation": {
+        "vi": "Fork là một bản sao độc lập nên không tự cập nhật khi repo gốc có commit mới. Thêm remote `upstream` cho phép fetch lịch sử mới của repo gốc rồi đưa vào `main` của bạn; giữ `main` sạch thì lúc nào cũng fast-forward được. Nhánh tính năng được rebase lên `upstream/main` giúp PR không bị conflict và chỉ chứa thay đổi của bạn. GitHub cũng có nút \"Sync fork\" làm việc tương tự cho `main`.",
+        "en": "A fork is an independent copy, so it does not update when the original repo gets new commits. Adding an `upstream` remote lets you fetch the original's new history and bring it into your `main`; keeping `main` clean means it can always fast-forward. Rebasing your feature branch onto `upstream/main` keeps the PR conflict-free and limited to your changes. GitHub's \"Sync fork\" button does the same for `main`."
+      }
+    },
+    {
+      "id": "git.remote.011",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "remote",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trên GitHub, \"fork\" một repository nghĩa là gì?",
+        "en": "On GitHub, what does it mean to \"fork\" a repository?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tạo bản sao của repo trên server dưới tài khoản của bạn, để push lên và mở PR từ đó",
+            "en": "Create a server-side copy of the repo under your account, to push to and open PRs from"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tạo một nhánh mới bên trong repo gốc mà chỉ tài khoản của bạn được push",
+            "en": "Create a new branch inside the original repo that only your account is allowed to push to"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tải repo cùng toàn bộ lịch sử về máy, giống hệt chạy `git clone`",
+            "en": "Download the repo with its full history to your machine, exactly like running `git clone`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Khóa repo gốc để chỉ mình bạn được push cho tới khi pull request được merge",
+            "en": "Lock the original repo so only you can push until your pull request is merged"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Fork là khái niệm của nền tảng hosting, không phải lệnh Git: nó tạo một repo mới trên GitHub mà bạn có toàn quyền. Cách này cho phép đóng góp vào dự án mà bạn không có quyền push. `git clone` chỉ tạo bản sao trên máy local; sau khi fork, bạn vẫn cần clone fork đó về để làm việc.",
+        "en": "A fork is a hosting-platform concept, not a Git command: it creates a new repo on GitHub that you fully control. It lets you contribute to projects you cannot push to. `git clone` only makes a local copy; after forking you still clone your fork to work on it."
+      }
+    },
+    {
+      "id": "git.remote.012",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "remote",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Chuỗi lệnh sau có vấn đề gì?",
+        "en": "What is wrong with this command sequence?"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git clone https://github.com/acme/shop.git && cd shop\ngit switch -c fix/typo\ngit commit -am \"fix: typo in footer\"\ngit push -u origin fix/typo\n# Username: an-dev\n# Password: (nhập mật khẩu đăng nhập GitHub)\n# remote: Support for password authentication was removed on August 13, 2021.\n# fatal: Authentication failed"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nhánh `fix/typo` chưa tồn tại trên remote, và `git push -u` không tạo được nhánh mới",
+            "en": "The `fix/typo` branch does not exist on the remote yet, and `git push -u` cannot create new branches"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải chạy `git pull` trước mỗi lần push, nếu không GitHub sẽ từ chối thông tin đăng nhập",
+            "en": "You must run `git pull` before every push, otherwise GitHub rejects the credentials"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "GitHub không còn nhận mật khẩu tài khoản qua HTTPS; dùng personal access token hoặc SSH key",
+            "en": "GitHub no longer accepts account passwords over HTTPS; use a personal access token or an SSH key"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "URL clone phải kết thúc bằng `.zip`; URL `.git` thường chỉ cho đọc ẩn danh",
+            "en": "The clone URL must end in `.zip`; plain `.git` URLs only allow anonymous read access"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Từ tháng 8/2021, GitHub bỏ hẳn xác thực bằng mật khẩu tài khoản cho thao tác Git, kể cả khi bạn gõ đúng mật khẩu. Với HTTPS, bạn dùng personal access token (thường được credential manager lưu hộ); hoặc dùng SSH với khóa đã thêm vào tài khoản. Nhánh chưa có trên remote không phải vấn đề, vì `git push -u origin fix/typo` sẽ tự tạo nhánh đó.",
+        "en": "Since August 2021 GitHub has removed account-password authentication for Git operations, even if you type the right password. Over HTTPS you use a personal access token (usually stored by a credential manager), or you use SSH with a key added to your account. The branch not existing remotely is no problem, because `git push -u origin fix/typo` creates it."
+      }
+    },
+    {
+      "id": "git.remote.013",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "remote",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Lệnh cuối cùng của bob in ra gì?",
+        "en": "What does bob's last command print?"
+      },
+      "code": {
+        "language": "bash",
+        "source": "# alice và bob cùng clone server.git (có 1 commit \"init\")\ncd alice\ngit commit -q --allow-empty -m a1\ngit commit -q --allow-empty -m a2\ngit push -q origin main\ncd ../bob\ngit commit -q --allow-empty -m b1\ngit fetch -q\ngit rev-list --left-right --count main...origin/main | tr '\\t' ' '"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "2 1",
+            "en": "2 1"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "0 2",
+            "en": "0 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "1 3",
+            "en": "1 3"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "1 2",
+            "en": "1 2"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Cú pháp ba chấm `main...origin/main` lấy các commit thuộc một trong hai phía nhưng không thuộc cả hai, và `--left-right --count` đếm riêng từng phía. Bên trái (`main` của bob) có 1 commit `b1` mà remote chưa có; bên phải (`origin/main`) có 2 commit `a1`, `a2` mà bob chưa có. Đây chính là con số \"ahead 1, behind 2\" mà `git status` hiển thị, và bob cần rebase hoặc merge trước khi push.",
+        "en": "The three-dot `main...origin/main` selects commits on either side but not on both, and `--left-right --count` counts each side separately. The left (bob's `main`) has 1 commit, `b1`, that the remote lacks; the right (`origin/main`) has 2 commits, `a1` and `a2`, that bob lacks. These are the \"ahead 1, behind 2\" numbers `git status` shows, and bob must rebase or merge before pushing."
+      }
+    },
+    {
+      "id": "git.remote.014",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "remote",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`git pull --rebase` khác `git pull` mặc định (merge) thế nào khi nhánh local có commit chưa push và remote cũng có commit mới?",
+        "en": "How does `git pull --rebase` differ from a default (merge) `git pull` when the local branch has unpushed commits and the remote also has new commits?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nó ghi đè các commit trên remote bằng commit local rồi tự động push kết quả",
+            "en": "It overwrites the remote commits with the local ones, then pushes the result automatically"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nó fetch rồi đặt lại các commit local lên trên đỉnh nhánh remote, không tạo merge commit",
+            "en": "It fetches, then replays local commits on top of the remote tip, with no merge commit"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Nó chỉ fetch và cập nhật `origin/main`, giữ nguyên nhánh local",
+            "en": "It only fetches and updates `origin/main`, leaving the local branch exactly as it was"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nó xóa các commit local chưa push",
+            "en": "It deletes the unpushed local commits"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Với merge, `git pull` tạo merge commit kiểu \"Merge branch 'main' of ...\" mỗi khi hai bên rẽ nhánh, khiến lịch sử rối. `--rebase` viết lại các commit chưa push của bạn (với SHA mới) lên trên `origin/main`; việc này an toàn vì chưa ai khác có những commit đó. Remote không bị thay đổi, bạn vẫn cần `git push` như bình thường sau đó.",
+        "en": "With merge, `git pull` creates a \"Merge branch 'main' of ...\" commit whenever the two sides diverge, cluttering history. `--rebase` rewrites your unpushed commits (with new SHAs) on top of `origin/main`, which is safe because nobody else has them yet. The remote is not changed; you still `git push` normally afterwards."
+      }
+    },
+    {
+      "id": "git.undo.011",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "undo",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chuỗi lệnh sau in ra gì? (các dòng output được nối bằng ` / `)",
+        "en": "What does this command sequence print? (output lines joined with ` / `)"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git init -q -b main demo && cd demo\necho v1 > a.txt && git add . && git commit -q -m one\necho v2 > a.txt && git commit -q -am two\ngit reset -q HEAD~1\ngit status --short\ncat a.txt"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "M  a.txt / v2",
+            "en": "M  a.txt / v2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": " M a.txt / v1",
+            "en": " M a.txt / v1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "?? a.txt / v2",
+            "en": "?? a.txt / v2"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": " M a.txt / v2",
+            "en": " M a.txt / v2"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`git reset HEAD~1` mặc định là `--mixed`: di chuyển nhánh về commit `one` và đặt lại index theo commit đó, nhưng giữ nguyên working tree. File trên đĩa vẫn là `v2` nhưng không còn được stage, nên `git status` hiện `M` ở cột phải. Với `--soft`, thay đổi vẫn được stage (`M` ở cột trái), còn `--hard` sẽ đưa file về `v1`.",
+        "en": "`git reset HEAD~1` defaults to `--mixed`: it moves the branch back to commit `one` and resets the index to it, but leaves the working tree alone. The file on disk is still `v2` but no longer staged, so `git status` shows `M` in the right column. With `--soft` the change would stay staged (`M` in the left column), and `--hard` would put the file back to `v1`."
+      }
+    },
+    {
+      "id": "git.undo.012",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "undo",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Sau khi chạy thử build, thư mục có nhiều file untracked rác. Lệnh nào liệt kê trước những file untracked sẽ bị xóa mà chưa xóa thật?",
+        "en": "After a trial build, the directory is full of untracked junk files. Which command lists the untracked files that would be deleted without actually deleting them?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`git reset --hard`",
+            "en": "`git reset --hard`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`git restore .`",
+            "en": "`git restore .`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`git clean -n`",
+            "en": "`git clean -n`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`git stash -n`",
+            "en": "`git stash -n`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`git clean` xóa file untracked; `-n` (`--dry-run`) chỉ liệt kê những file sẽ bị xóa, `-f` mới xóa thật, còn `-d` thêm cả thư mục. File untracked bị xóa không thể lấy lại bằng Git vì chưa từng được lưu, nên luôn chạy `-n` trước. `git reset --hard` và `git restore .` chỉ tác động lên file đã được track.",
+        "en": "`git clean` deletes untracked files; `-n` (`--dry-run`) only lists what would be removed, `-f` actually deletes, and `-d` includes directories. Deleted untracked files cannot be recovered with Git because they were never stored, so always run `-n` first. `git reset --hard` and `git restore .` only affect tracked files."
+      }
+    },
+    {
+      "id": "git.undo.013",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "undo",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn lỡ chạy `git branch -D feature/payment` khi nhánh có 5 commit chưa merge và chưa push. Làm sao khôi phục?",
+        "en": "You accidentally ran `git branch -D feature/payment` while it had 5 unmerged, unpushed commits. How do you recover it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Commit chưa mất ngay, chỉ là không còn tên nhánh nào trỏ tới",
+          "en": "The commits are not gone yet; nothing points to them anymore"
+        },
+        {
+          "vi": "Lấy SHA từ thông báo `Deleted branch feature/payment (was 1a2b3c4)` hoặc từ `git reflog`",
+          "en": "Get the SHA from the message `Deleted branch feature/payment (was 1a2b3c4)` or from `git reflog`"
+        },
+        {
+          "vi": "Tạo lại nhánh: `git branch feature/payment <sha>` (hoặc `git switch -c`)",
+          "en": "Recreate it: `git branch feature/payment <sha>` (or `git switch -c`)"
+        },
+        {
+          "vi": "Làm sớm: commit không còn reachable sẽ bị `git gc` dọn sau khi reflog hết hạn",
+          "en": "Act soon: unreachable commits are pruned by `git gc` once the reflog expires"
+        },
+        {
+          "vi": "Phòng ngừa: push nhánh thường xuyên, ưu tiên `-d` thay vì `-D`",
+          "en": "Prevention: push branches often and prefer `-d` over `-D`"
+        }
+      ],
+      "explanation": {
+        "vi": "Nhánh chỉ là con trỏ tới commit; xóa nhánh chỉ xóa con trỏ, còn các commit object vẫn nằm trong `.git`. Reflog của `HEAD` ghi lại những commit bạn từng đứng, nên tìm được đỉnh của nhánh cũ. Mặc định entry reflog của commit không còn reachable có thể bị dọn sau 30 ngày (90 ngày với commit còn reachable), nên khôi phục càng sớm càng chắc.",
+        "en": "A branch is just a pointer to a commit; deleting it removes the pointer while the commit objects stay in `.git`. The `HEAD` reflog records the commits you have been on, so you can find the old branch tip. By default reflog entries for unreachable commits may be expired after 30 days (90 days for reachable ones), so recover as soon as possible."
+      }
+    },
+    {
+      "id": "git.undo.014",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "undo",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Bạn muốn hoàn tác merge commit vừa push lên `main` nhưng lệnh thất bại. Vấn đề và cách sửa là gì?",
+        "en": "You want to undo the merge commit you just pushed to `main`, but the command fails. What is the problem and the fix?"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git log -1 --format=%s\n# Merge branch 'feature/coupon'\ngit revert HEAD\n# error: commit 3f9a1c2... is a merge but no -m option was given.\n# fatal: revert failed"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`git revert` không dùng được với commit đã push; phải `git reset --hard HEAD~1` rồi force push",
+            "en": "`git revert` cannot be used on pushed commits; use `git reset --hard HEAD~1` and force push"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải dùng `git revert -m 2 HEAD` để giữ lại thay đổi của `feature/coupon`",
+            "en": "Use `git revert -m 2 HEAD` to keep the `feature/coupon` changes"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải xóa nhánh `feature/coupon` trước rồi mới revert được",
+            "en": "Delete the `feature/coupon` branch first, then revert"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Merge commit có hai cha; dùng `git revert -m 1 HEAD` để lấy `main` làm mainline",
+            "en": "A merge commit has two parents; use `git revert -m 1 HEAD` to keep `main` as the mainline"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`-m` chọn cha nào là \"mainline\": `-m 1` giữ lịch sử của `main` và tạo commit đảo ngược mọi thay đổi do nhánh tính năng mang vào. `-m 2` lại lấy nhánh tính năng làm gốc, tức đảo ngược những gì `main` có thêm, không phải điều bạn muốn. Revert chính là cách an toàn cho commit đã push, còn reset rồi force push sẽ viết lại lịch sử chung. Lưu ý: muốn merge lại nhánh đó sau này thì phải revert chính commit revert.",
+        "en": "`-m` picks which parent is the \"mainline\": `-m 1` keeps `main`'s history and creates a commit undoing everything the feature branch brought in. `-m 2` would take the feature branch as the base and undo what `main` gained instead, which is not what you want. Reverting is the safe way to undo pushed commits, whereas reset plus force push rewrites shared history. Note: to merge that branch again later, you must revert the revert commit."
+      }
+    },
+    {
+      "id": "git.undo.015",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "undo",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn muốn đưa riêng file `src/pricing.js` về đúng nội dung của 2 commit trước, giữ nguyên mọi file khác và không đổi lịch sử. Lệnh nào phù hợp?",
+        "en": "You want to bring only `src/pricing.js` back to its content from 2 commits ago, leaving every other file and the history untouched. Which command fits?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`git restore --source=HEAD~2 src/pricing.js`",
+            "en": "`git restore --source=HEAD~2 src/pricing.js`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`git reset --hard HEAD~2`",
+            "en": "`git reset --hard HEAD~2`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`git revert HEAD~2`",
+            "en": "`git revert HEAD~2`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`git switch --detach HEAD~2 -- src/pricing.js`",
+            "en": "`git switch --detach HEAD~2 -- src/pricing.js`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`git restore --source=<commit> <path>` lấy nội dung file từ commit chỉ định và ghi vào working tree, các file khác cùng lịch sử không đổi; sau đó bạn review rồi commit như một thay đổi bình thường. `git reset --hard HEAD~2` kéo cả nhánh lùi lại, vứt 2 commit gần nhất cùng mọi thay đổi chưa commit. `git revert HEAD~2` tạo commit đảo ngược riêng commit đó trên mọi file nó đã sửa, còn `git switch` không nhận đường dẫn file.",
+        "en": "`git restore --source=<commit> <path>` writes the file's content from the given commit into the working tree, leaving other files and history unchanged; you then review and commit it as a normal change. `git reset --hard HEAD~2` moves the whole branch back, discarding the last 2 commits and all uncommitted changes. `git revert HEAD~2` creates a commit undoing that one commit across every file it touched, and `git switch` does not take file paths."
+      }
+    },
+    {
+      "id": "git.workflow.008",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "workflow",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Repository bật branch protection cho `main`: bắt buộc pull request, ít nhất 1 approval và CI phải pass. Mục đích chính là gì?",
+        "en": "The repository enables branch protection on `main`: pull requests required, at least 1 approval, and CI must pass. What is the main purpose?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mã hóa nhánh `main` khi lưu trữ để người ngoài không có quyền truy cập không đọc được code",
+            "en": "Encrypt `main` at rest so outsiders without repository access cannot read the code"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tự động sao lưu `main` sang một repository khác mỗi khi có pull request được merge",
+            "en": "Automatically back up `main` to a second repository every time a pull request is merged"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tăng tốc clone `main` bằng cách chỉ giữ các commit đã review trong lịch sử",
+            "en": "Speed up cloning `main` by keeping only reviewed commits in its history"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đảm bảo mọi thay đổi vào `main` đều được review và qua CI, không ai push thẳng hay force push",
+            "en": "Ensure every change to `main` is reviewed and passes CI, with no direct or force pushes"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Branch protection là quy tắc phía server (GitHub, GitLab), nên áp dụng cho mọi người, khác với hook local có thể bị bỏ qua. Bắt buộc PR, review và status check giữ cho `main` luôn ở trạng thái có thể release. Nó không liên quan tới quyền đọc code hay việc sao lưu.",
+        "en": "Branch protection is a server-side rule (GitHub, GitLab), so it applies to everyone, unlike local hooks that can be skipped. Requiring PRs, reviews and status checks keeps `main` always releasable. It has nothing to do with read access or backups."
+      }
+    },
+    {
+      "id": "git.workflow.009",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "workflow",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ứng dụng đang ở phiên bản `2.4.1` theo Semantic Versioning. Bạn chỉ sửa một bug, không thêm tính năng và không đổi API. Phiên bản tiếp theo là gì?",
+        "en": "The app is at version `2.4.1` under Semantic Versioning. You only fix a bug, adding no features and changing no API. What is the next version?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`2.5.0`",
+            "en": "`2.5.0`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`3.0.0`",
+            "en": "`3.0.0`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`2.4.1.1`",
+            "en": "`2.4.1.1`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`2.4.2`",
+            "en": "`2.4.2`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "SemVer có dạng `MAJOR.MINOR.PATCH`: sửa lỗi tương thích ngược thì tăng PATCH, thêm tính năng tương thích ngược thì tăng MINOR (và đưa PATCH về 0), thay đổi phá vỡ tương thích thì tăng MAJOR. Bản sửa bug từ `2.4.1` vì vậy là `2.4.2`. Tag release trong Git thường đặt theo phiên bản này, ví dụ `v2.4.2`.",
+        "en": "SemVer is `MAJOR.MINOR.PATCH`: backward-compatible bug fixes bump PATCH, backward-compatible features bump MINOR (resetting PATCH to 0), and breaking changes bump MAJOR. A bug fix on `2.4.1` is therefore `2.4.2`. Release tags in Git usually follow this version, e.g. `v2.4.2`."
+      }
+    },
+    {
+      "id": "git.workflow.010",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "workflow",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "File `.github/CODEOWNERS` có dòng `/src/payments/ @acme/payments-team`. Tác dụng của nó là gì?",
+        "en": "The `.github/CODEOWNERS` file contains the line `/src/payments/ @acme/payments-team`. What does it do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ team payments được clone thư mục `src/payments/`",
+            "en": "Only the payments team can clone `src/payments/`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Git chặn mọi commit vào `src/payments/` của người ngoài team ngay trên máy local, trước cả khi push",
+            "en": "Git blocks local commits to `src/payments/` by anyone outside the team, even before pushing"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "PR sửa file trong `src/payments/` tự động yêu cầu team payments review",
+            "en": "PRs touching `src/payments/` automatically request review from the payments team"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Team payments trở thành tác giả của mọi commit trong thư mục đó và được báo khi có push",
+            "en": "The payments team becomes the author of every commit in that folder and is notified on push"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "CODEOWNERS là tính năng của GitHub/GitLab, không phải của Git: nó gán người chịu trách nhiệm theo đường dẫn để tự động thêm reviewer. Kết hợp với quy tắc \"Require review from Code Owners\", thay đổi vào vùng nhạy cảm như thanh toán bắt buộc phải có người am hiểu duyệt. Nó không giới hạn quyền đọc hay quyền commit trên máy local.",
+        "en": "CODEOWNERS is a GitHub/GitLab feature, not a Git one: it assigns owners by path so reviewers are added automatically. Combined with the \"Require review from Code Owners\" rule, changes to sensitive areas such as payments must be approved by someone who knows them. It does not restrict reading or local commits."
+      }
+    },
+    {
+      "id": "git.workflow.011",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "workflow",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Mô tả quy trình Git hằng ngày của bạn từ lúc nhận một ticket tới khi code được merge.",
+        "en": "Describe your everyday Git workflow from picking up a ticket until the code is merged."
+      },
+      "keyPoints": [
+        {
+          "vi": "Cập nhật `main` rồi tạo nhánh theo quy ước, ví dụ `feature/PROJ-123-coupon`",
+          "en": "Update `main`, then create a branch following the convention, e.g. `feature/PROJ-123-coupon`"
+        },
+        {
+          "vi": "Commit nhỏ, có ý nghĩa, message rõ ràng (ví dụ theo Conventional Commits)",
+          "en": "Small, meaningful commits with clear messages (e.g. Conventional Commits)"
+        },
+        {
+          "vi": "Đồng bộ với `main` thường xuyên, tự chạy test/lint trước khi push",
+          "en": "Sync with `main` regularly; run tests/lint before pushing"
+        },
+        {
+          "vi": "Mở PR có mô tả, link ticket, ảnh chụp màn hình nếu là UI; xử lý góp ý review và lỗi CI",
+          "en": "Open a PR with a description, ticket link and screenshots for UI; address review comments and CI failures"
+        },
+        {
+          "vi": "Merge theo chiến lược của team (squash/rebase/merge) rồi xóa nhánh",
+          "en": "Merge with the team's strategy (squash/rebase/merge), then delete the branch"
+        }
+      ],
+      "explanation": {
+        "vi": "Nhà tuyển dụng muốn thấy bạn làm việc có kỷ luật trong team: không làm trực tiếp trên `main`, nhánh sống ngắn và truy vết được về ticket. Commit nhỏ cùng PR có mô tả tốt giúp review nhanh và dễ revert khi có sự cố. Sau khi merge, xóa nhánh và kéo `main` mới nhất về để bắt đầu việc tiếp theo.",
+        "en": "Interviewers want to see disciplined teamwork: no work directly on `main`, short-lived branches traceable to a ticket. Small commits and a well-described PR make review quick and reverting easy when something breaks. After merging, delete the branch and pull the latest `main` before starting the next task."
+      }
+    },
+    {
+      "id": "git.workflow.012",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "workflow",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Quy trình làm việc sau có vấn đề gì?",
+        "en": "What is wrong with this workflow?"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git switch -c feature/new-checkout main   # 01/09\n# ...3 tuần code một mình, 60 commit, không đồng bộ với main\ngit push -u origin feature/new-checkout   # 22/09, lần push đầu tiên\n# Mở PR: 140 file thay đổi, conflict ở 25 file"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tên nhánh không được chứa dấu `-`, nên Git làm sai tên và PR so sánh nhầm với base khác",
+            "en": "Branch names must not contain `-`, so Git mangles the name and the PR compares against the wrong base"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nhánh bị cô lập quá lâu: không push sớm, không đồng bộ `main`, nên PR quá lớn và đầy conflict",
+            "en": "It stayed isolated too long: no early pushes or syncing with `main`, so the PR is huge and conflicted"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lần push đầu phải dùng `git push --force` vì remote chưa từng thấy 60 commit local này",
+            "en": "The first push must use `git push --force` since the remote has never seen these 60 local commits"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không có vấn đề; conflict nhiều là bình thường với tính năng lớn và nên giải một lần lúc mở PR",
+            "en": "Nothing; many conflicts are normal for a big feature and are best resolved all at once at PR time"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Càng lâu không tích hợp, `main` càng khác xa nhánh của bạn và conflict cộng dồn, trong khi code chỉ nằm trên một máy nên dễ mất. PR 140 file gần như không thể review kỹ. Chia tính năng thành nhiều PR nhỏ, ẩn phần chưa xong sau feature flag, push và đồng bộ `main` thường xuyên giúp phát hiện xung đột từ sớm khi còn nhỏ.",
+        "en": "The longer you go without integrating, the further `main` drifts from your branch and the more conflicts pile up, while the code lives on a single machine and is easy to lose. A 140-file PR is practically impossible to review properly. Splitting the feature into small PRs, hiding unfinished parts behind a feature flag, and pushing and syncing with `main` often surface conflicts early while they are small."
+      }
+    },
+    {
+      "id": "git.internals.009",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "internals",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong Git, một `blob` object lưu gì?",
+        "en": "In Git, what does a `blob` object store?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nội dung file cùng tên file, đường dẫn và quyền truy cập",
+            "en": "The file content together with its name, path and permissions"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Danh sách các commit đã sửa file đó theo thời gian",
+            "en": "The list of commits that changed the file over time"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ nội dung file, không có tên hay quyền truy cập",
+            "en": "Only a file's content, without name or permissions"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phần diff so với phiên bản trước của cùng file",
+            "en": "The diff against the previous version of the same file"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Blob chỉ chứa nội dung, và SHA của nó được tính từ chính nội dung đó; tên file, mode và cấu trúc thư mục nằm trong `tree` object. Vì vậy hai file khác tên nhưng cùng nội dung dùng chung một blob. Về mặt khái niệm Git lưu snapshot chứ không lưu diff; nén delta chỉ là tối ưu bên trong packfile.",
+        "en": "A blob holds only content, and its SHA is computed from that content; file names, modes and directory structure live in `tree` objects. That is why two files with different names but identical content share one blob. Conceptually Git stores snapshots, not diffs; delta compression is just an optimisation inside packfiles."
+      }
+    },
+    {
+      "id": "git.internals.010",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "internals",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một bạn mới lỡ xóa thư mục `.git` trong project (các file code vẫn còn). Hậu quả là gì?",
+        "en": "A newcomer accidentally deletes the project's `.git` directory (the code files are still there). What is the consequence?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không sao, Git tự tạo lại `.git` ở lần chạy lệnh tiếp theo",
+            "en": "No problem; Git recreates `.git` on the next command"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Toàn bộ repository trên GitHub cũng bị xóa theo, vì remote liên kết với `.git` ở local",
+            "en": "The whole repository on GitHub is deleted too, since the remote is linked to the local `.git`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ mất `.gitignore` và config local; lịch sử vẫn an toàn trong working tree",
+            "en": "Only `.gitignore` and local config are lost; history remains safe in the working tree"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thư mục không còn là repo: mất lịch sử, nhánh và commit chưa push ở local; code vẫn còn",
+            "en": "It is no longer a repo: local history, branches and unpushed commits are gone; code stays"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Mọi thứ Git quản lý (object, ref, index, cấu hình, stash) đều nằm trong `.git`; working tree chỉ là bản checkout. Xóa `.git` không ảnh hưởng tới remote, nên những gì đã push có thể clone lại, nhưng commit, nhánh và stash chỉ có ở local thì mất. `.gitignore` là file bình thường trong working tree, không nằm trong `.git`.",
+        "en": "Everything Git manages (objects, refs, index, config, stashes) lives in `.git`; the working tree is just a checkout. Deleting `.git` does not affect the remote, so anything pushed can be cloned again, but local-only commits, branches and stashes are gone. `.gitignore` is an ordinary file in the working tree, not inside `.git`."
+      }
+    },
+    {
+      "id": "git.internals.011",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "internals",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chuỗi lệnh sau in ra gì? (các dòng output được nối bằng ` / `)",
+        "en": "What does this command sequence print? (output lines joined with ` / `)"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git init -q -b main demo && cd demo\necho \"# Shop\" > README.md && git add . && git commit -q -m init\ngit cat-file -t HEAD\ngit cat-file -t \"HEAD^{tree}\"\ngit cat-file -t HEAD:README.md"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "commit / commit / file",
+            "en": "commit / commit / file"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "commit / tree / blob",
+            "en": "commit / tree / blob"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "commit / tree / file",
+            "en": "commit / tree / file"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "ref / tree / blob",
+            "en": "ref / tree / blob"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`git cat-file -t` in ra loại của object. `HEAD` trỏ tới một commit; `HEAD^{tree}` là tree gốc mà commit đó trỏ tới (snapshot của thư mục); `HEAD:README.md` là blob chứa nội dung file. Git chỉ có bốn loại object: blob, tree, commit và annotated tag; nhánh và `HEAD` là ref, không phải object.",
+        "en": "`git cat-file -t` prints an object's type. `HEAD` resolves to a commit; `HEAD^{tree}` is the root tree that commit points to (the directory snapshot); `HEAD:README.md` is the blob holding the file's content. Git has only four object types: blob, tree, commit and annotated tag; branches and `HEAD` are refs, not objects."
+      }
+    },
+    {
+      "id": "git.internals.012",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "internals",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Chuỗi lệnh sau in ra gì? (các dòng output được nối bằng ` / `)",
+        "en": "What does this command sequence print? (output lines joined with ` / `)"
+      },
+      "code": {
+        "language": "bash",
+        "source": "git init -q -b main demo && cd demo\nmkdir -p src/utils\necho \"x\" > src/utils/date.js\necho \"# Shop\" > README.md\ngit add . && git commit -q -m init\ngit ls-tree --name-only HEAD"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "README.md / src/utils/date.js",
+            "en": "README.md / src/utils/date.js"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "README.md / src / src/utils / src/utils/date.js",
+            "en": "README.md / src / src/utils / src/utils/date.js"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "src/utils/date.js / README.md",
+            "en": "src/utils/date.js / README.md"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "README.md / src",
+            "en": "README.md / src"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Mỗi tree object chỉ mô tả một cấp thư mục, với các entry là blob (file) hoặc tree con (thư mục). `git ls-tree HEAD` liệt kê tree gốc của commit nên chỉ thấy `README.md` và tree `src`, sắp theo tên. Thêm `-r` thì Git đi đệ quy và in ra `src/utils/date.js`. Nhờ cấu trúc này, thư mục không đổi giữa hai commit được dùng lại nguyên tree cũ.",
+        "en": "Each tree object describes a single directory level, with entries that are blobs (files) or subtrees (directories). `git ls-tree HEAD` lists the commit's root tree, so you only see `README.md` and the `src` tree, sorted by name. Adding `-r` makes Git recurse and print `src/utils/date.js`. Thanks to this structure, a directory unchanged between two commits reuses the same tree."
+      }
+    },
+    {
+      "id": "git.internals.013",
+      "contentVersion": 1,
+      "trackId": "git",
+      "topicId": "internals",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`HEAD` đang là một merge commit (cha thứ nhất là `m1` trên `main`, cha thứ hai là `f1` từ `feature`). Nhận định nào đúng?",
+        "en": "`HEAD` is a merge commit (first parent `m1` on `main`, second parent `f1` from `feature`). Which statement is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`HEAD~1` là `m1`, `HEAD^2` là `f1`, còn `HEAD~2` là cha thứ nhất của `m1`",
+            "en": "`HEAD~1` is `m1`, `HEAD^2` is `f1`, and `HEAD~2` is the first parent of `m1`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`HEAD~2` và `HEAD^2` luôn là cùng một commit: cha thứ hai của merge",
+            "en": "`HEAD~2` and `HEAD^2` always name the same commit: the second parent of the merge"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`HEAD^2` là commit ông (cha của cha) theo nhánh `main`",
+            "en": "`HEAD^2` is the grandparent along `main`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`HEAD~1` là `f1` vì đó là commit cha được tạo gần nhất",
+            "en": "`HEAD~1` is `f1` because it is the most recently created commit among the parents"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`~n` đi lùi n bước theo cha thứ nhất, nên `HEAD~1` là `m1` và `HEAD~2` là cha của `m1`. `^n` chọn cha thứ n của chính commit đó, nên `HEAD^2` là `f1`, đỉnh của nhánh được merge vào. Với commit thường chỉ có một cha thì `HEAD^` và `HEAD~` giống nhau, nhưng ở merge commit thì `^2` và `~2` khác hẳn.",
+        "en": "`~n` walks back n steps along first parents, so `HEAD~1` is `m1` and `HEAD~2` is `m1`'s parent. `^n` picks the n-th parent of that commit itself, so `HEAD^2` is `f1`, the tip of the merged branch. For a regular single-parent commit `HEAD^` and `HEAD~` are the same, but on a merge commit `^2` and `~2` are very different."
       }
     }
   ]

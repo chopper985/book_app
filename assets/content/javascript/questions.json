@@ -207,8 +207,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`===` so sánh cả kiểu lẫn giá trị, không ép kiểu; `==` ép kiểu hai vế trước khi so sánh",
-            "en": "`===` compares type and value without coercion; `==` coerces the operands before comparing"
+            "vi": "`===` so sánh kiểu và giá trị, không ép kiểu; `==` ép kiểu hai vế trước",
+            "en": "`===` compares type and value with no coercion; `==` coerces the operands first"
           }
         },
         {
@@ -288,15 +288,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "`===` không dùng được để so sánh số thực",
-            "en": "`===` cannot be used to compare floating-point numbers"
+            "vi": "`===` không so sánh được số thực; phải dùng `Object.is()` cho mọi giá trị không phải số nguyên",
+            "en": "`===` cannot compare floating-point numbers; you must use `Object.is()` for any non-integer value"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Số được lưu dạng dấu phẩy động nhị phân IEEE 754, `0.1` và `0.2` không biểu diễn chính xác nên tổng là `0.30000000000000004`",
-            "en": "Numbers are IEEE 754 binary floating point; `0.1` and `0.2` are not exact, so the sum is `0.30000000000000004`"
+            "vi": "Số là double IEEE 754; `0.1` và `0.2` không biểu diễn chính xác nên tổng là `0.30000000000000004`",
+            "en": "Numbers are IEEE 754 doubles; `0.1` and `0.2` aren't exact, so the sum is `0.30000000000000004`"
           }
         },
         {
@@ -309,8 +309,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Đây là lỗi của engine V8, các engine khác trả về `true`",
-            "en": "It is a V8 engine bug; other engines return `true`"
+            "vi": "Đây là lỗi cộng số thực của engine V8; SpiderMonkey và JavaScriptCore trả về `true`",
+            "en": "It is a V8 engine bug in floating-point addition; SpiderMonkey and JavaScriptCore return `true`"
           }
         }
       ],
@@ -488,8 +488,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Object khai báo bằng `const` trở thành bất biến hoàn toàn",
-            "en": "An object declared with `const` becomes fully immutable"
+            "vi": "Object khai báo bằng `const` trở thành bất biến hoàn toàn, kể cả mọi thuộc tính lồng nhau và phần tử mảng",
+            "en": "An object declared with `const` becomes fully immutable, including all nested properties and array elements"
           }
         },
         {
@@ -549,15 +549,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Hàm cùng với scope bên ngoài nơi nó được tạo; hàm vẫn truy cập được biến của scope đó kể cả khi hàm ngoài đã chạy xong",
-            "en": "A function bundled with the outer scope it was created in; it can still access that scope's variables after the outer function has finished"
+            "vi": "Hàm cùng với scope bên ngoài của nó; vẫn dùng được biến của scope đó sau khi hàm ngoài kết thúc",
+            "en": "A function together with its outer scope; it can still use that scope's variables after the outer function returns"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Cơ chế giải phóng biến cục bộ ngay khi hàm kết thúc",
-            "en": "A mechanism that frees local variables as soon as the function returns"
+            "vi": "Cơ chế giải phóng biến cục bộ của hàm ngay khi hàm kết thúc, nên các callback tạo bên trong không còn đọc được chúng",
+            "en": "A mechanism that frees a function's local variables as soon as it returns, so callbacks created inside can no longer read them"
           }
         }
       ],
@@ -867,8 +867,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`call` và `apply` gọi hàm ngay (`call` nhận từng tham số, `apply` nhận mảng); `bind` trả về hàm mới với `this` cố định",
-            "en": "`call` and `apply` invoke immediately (`call` takes individual args, `apply` an array); `bind` returns a new function with a fixed `this`"
+            "vi": "`call` và `apply` gọi hàm ngay (từng tham số hoặc một mảng); `bind` trả về hàm mới đã gắn `this`",
+            "en": "`call` and `apply` invoke now (individual args vs. an array); `bind` returns a new bound function"
           }
         },
         {
@@ -881,8 +881,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "`bind` gọi hàm ngay, còn `call` và `apply` trả về hàm mới",
-            "en": "`bind` calls the function immediately, while `call` and `apply` return a new function"
+            "vi": "`bind` gọi hàm ngay với `this` cố định, còn `call` và `apply` trả về hàm mới để gọi sau",
+            "en": "`bind` calls the function immediately with a fixed `this`, while `call` and `apply` return a new function for later"
           }
         },
         {
@@ -1117,8 +1117,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "`F.prototype` là object làm prototype cho các instance tạo bằng `new F()`; `obj.__proto__` trỏ tới prototype của chính object đó",
-            "en": "`F.prototype` is the object used as the prototype of instances created by `new F()`; `obj.__proto__` points to that object's own prototype"
+            "vi": "`F.prototype` là prototype của các object tạo bằng `new F()`; `obj.__proto__` là prototype của chính `obj`",
+            "en": "`F.prototype` becomes the prototype of objects made by `new F()`; `obj.__proto__` is `obj`'s own prototype"
           }
         },
         {
@@ -1131,8 +1131,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "`F.prototype` và `F.__proto__` luôn là cùng một object",
-            "en": "`F.prototype` and `F.__proto__` are always the same object"
+            "vi": "`F.prototype` và `F.__proto__` luôn trỏ tới cùng một object, nên instance của `new F()` kế thừa từ `Function.prototype`",
+            "en": "`F.prototype` and `F.__proto__` always reference the same object, so `new F()` instances inherit from `Function.prototype`"
           }
         }
       ],
@@ -1161,22 +1161,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Phải gọi `clearInterval` trước `setInterval`",
-            "en": "`clearInterval` must be called before `setInterval`"
+            "vi": "Phải gọi `clearInterval` trước `setInterval`, nếu không timer trước đó vẫn tiếp tục chạy",
+            "en": "`clearInterval` must be called before `setInterval`, or the previous timer keeps running"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`this.seconds++` không hợp lệ trong class, phải viết `this.seconds += 1`",
-            "en": "`this.seconds++` is invalid in a class; it must be `this.seconds += 1`"
+            "vi": "`this.seconds++` không hợp lệ với field của class, phải viết `this.seconds += 1` hoặc `this.seconds = this.seconds + 1`",
+            "en": "`this.seconds++` is invalid on class fields; it must be written as `this.seconds += 1` or `this.seconds = this.seconds + 1`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Callback là `function` thường nên `this` bên trong không phải instance `Timer`; nên đổi sang arrow function",
-            "en": "The callback is a regular `function`, so `this` inside is not the `Timer` instance; use an arrow function"
+            "vi": "Callback là `function` thường nên `this` không phải `Timer`; hãy dùng arrow function",
+            "en": "The callback is a regular `function`, so `this` isn't the `Timer`; use an arrow function"
           }
         },
         {
@@ -1547,22 +1547,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "`Promise.all` reject ngay khi có một promise reject; `allSettled` chờ tất cả và trả về mảng `{ status, value/reason }`",
-            "en": "`Promise.all` rejects as soon as one promise rejects; `allSettled` waits for all and returns `{ status, value/reason }` objects"
+            "vi": "`all` reject ngay ở lần reject đầu tiên; `allSettled` chờ hết và trả về các object `{ status, value/reason }`",
+            "en": "`all` rejects on the first rejection; `allSettled` waits and returns `{ status, value/reason }` objects"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`Promise.all` bỏ qua promise lỗi và trả về các giá trị thành công",
-            "en": "`Promise.all` skips failed promises and returns the successful values"
+            "vi": "`Promise.all` bỏ qua các promise lỗi và resolve với các giá trị thành công, theo thứ tự hoàn thành",
+            "en": "`Promise.all` skips the failed promises and resolves with only the successful values, in the order they finished"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`allSettled` reject nếu hơn một nửa số promise bị lỗi",
-            "en": "`allSettled` rejects if more than half of the promises fail"
+            "vi": "`allSettled` chỉ reject khi hơn một nửa số promise lỗi, nếu không thì trả về các giá trị fulfilled",
+            "en": "`allSettled` rejects only if more than half of the promises fail, otherwise it returns the fulfilled values"
           }
         }
       ],
@@ -1598,15 +1598,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "Thiếu `await` trước `console.log('All saved')`",
-            "en": "`await` is missing before `console.log('All saved')`"
+            "vi": "Thiếu `await` trước `console.log('All saved')` nên log chạy trước khi `save` cuối cùng resolve",
+            "en": "`await` is missing before `console.log('All saved')`, so the log runs before the last `save` resolves"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`forEach` không chờ Promise do callback `async` trả về; dùng `for...of` với `await` hoặc `await Promise.all(items.map(save))`",
-            "en": "`forEach` does not await the Promises returned by the `async` callback; use `for...of` with `await` or `await Promise.all(items.map(save))`"
+            "vi": "`forEach` không chờ Promise của callback `async`; dùng `for...of` + `await` hoặc `Promise.all`",
+            "en": "`forEach` doesn't await the `async` callback's Promises; use `for...of` + `await` or `Promise.all`"
           }
         },
         {
@@ -1765,8 +1765,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Engine tự giới hạn 1000 microtask rồi chạy `setTimeout`",
-            "en": "The engine caps it at 1000 microtasks, then runs the `setTimeout`"
+            "vi": "Engine giới hạn hàng đợi ở 1000 microtask mỗi tick, rồi chạy callback của `setTimeout`",
+            "en": "The engine caps the queue at 1000 microtasks per tick, then runs the `setTimeout` callback"
           }
         }
       ],
@@ -1798,15 +1798,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "`forEach` trả về mảng mới, còn `map` sửa trực tiếp mảng gốc",
-            "en": "`forEach` returns a new array, while `map` mutates the original"
+            "vi": "`forEach` trả về mảng mới chứa kết quả callback, còn `map` sửa trực tiếp mảng gốc",
+            "en": "`forEach` returns a new array of the callback results, while `map` mutates the original array in place"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`map` trả mảng mới cùng độ dài; `filter` trả mảng mới gồm phần tử thoả điều kiện; `forEach` trả về `undefined`",
-            "en": "`map` returns a same-length new array; `filter` returns a new array of matching elements; `forEach` returns `undefined`"
+            "vi": "`map` trả mảng mới cùng độ dài, `filter` trả mảng mới gồm phần tử khớp, `forEach` trả về `undefined`",
+            "en": "`map` returns a same-length array, `filter` a new array of matches, `forEach` returns `undefined`"
           }
         },
         {
@@ -2093,29 +2093,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "`Object.freeze` chỉ đóng băng cấp một; object lồng `api` vẫn sửa được, cần deep freeze",
-            "en": "`Object.freeze` is shallow; the nested `api` object can still change, so deep freeze is needed"
+            "vi": "`Object.freeze` chỉ đóng băng nông; `api` lồng bên trong không bị đóng băng",
+            "en": "`Object.freeze` is shallow; nested `api` isn't frozen"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`Object.freeze` chỉ có tác dụng với mảng",
-            "en": "`Object.freeze` only works on arrays"
+            "vi": "`Object.freeze` chỉ có tác dụng với mảng, không với object thường",
+            "en": "`Object.freeze` only works on arrays, not on plain objects"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`'use strict'` vô hiệu hoá `Object.freeze`",
-            "en": "`'use strict'` disables `Object.freeze`"
+            "vi": "`'use strict'` vô hiệu hoá `Object.freeze` với thao tác ghi lồng nhau",
+            "en": "`'use strict'` disables `Object.freeze` for nested writes"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Phải dùng `let` thay vì `const` thì freeze mới có hiệu lực",
-            "en": "You must use `let` instead of `const` for freeze to work"
+            "vi": "Phải dùng `let` thay vì `const`, vì `Object.freeze` không khoá được biến khai báo bằng `const`",
+            "en": "You must use `let` instead of `const`, because `Object.freeze` cannot lock a binding declared with `const`"
           }
         }
       ],
@@ -2377,22 +2377,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Mỗi module có tối đa một default export, import với tên tuỳ ý; named export import bằng đúng tên trong `{}` (đổi tên bằng `as`)",
-            "en": "A module has at most one default export, imported under any name; named exports are imported by exact name in `{}` (rename with `as`)"
+            "vi": "Tối đa một default export, import tên tuỳ ý; named export dùng đúng tên trong `{}`",
+            "en": "At most one default export, any import name; named exports use exact names in `{}`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Named export chỉ dùng cho class, default export chỉ dùng cho function",
-            "en": "Named exports are only for classes, default exports only for functions"
+            "vi": "Named export chỉ dùng được cho class và hằng số, còn default export chỉ dùng được cho function",
+            "en": "Named exports are only allowed for classes and constants, while default exports are only allowed for functions"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`export default` được tải bất đồng bộ, named export thì đồng bộ",
-            "en": "`export default` is loaded asynchronously, named exports synchronously"
+            "vi": "`export default` được trình duyệt tải bất đồng bộ, còn named export được tải đồng bộ",
+            "en": "`export default` is loaded asynchronously by the browser, while named exports load synchronously"
           }
         }
       ],
@@ -2519,15 +2519,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "ESM được phân tích tĩnh và import là live binding; `require` chạy lúc runtime và trả về `module.exports` tại thời điểm đó",
-            "en": "ESM is analyzed statically and imports are live bindings; `require` runs at runtime and returns `module.exports` as it is at that moment"
+            "vi": "ESM phân tích tĩnh với live binding; `require` chạy lúc runtime, trả về `module.exports` hiện tại",
+            "en": "ESM is static with live bindings; `require` runs at runtime and returns the current `module.exports`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "CommonJS hỗ trợ tree-shaking tốt hơn ESM",
-            "en": "CommonJS supports tree-shaking better than ESM"
+            "vi": "CommonJS hỗ trợ tree-shaking tốt hơn ESM vì mọi lời gọi `require` đều được resolve và phân tích lúc build",
+            "en": "CommonJS supports tree-shaking better than ESM because every `require` call is resolved and analyzed at build time"
           }
         },
         {
@@ -2540,8 +2540,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "ESM chỉ chạy trên trình duyệt, CommonJS chỉ chạy trên Node.js",
-            "en": "ESM only runs in browsers, CommonJS only in Node.js"
+            "vi": "ESM chỉ chạy trên trình duyệt, CommonJS chỉ chạy trên Node.js, nên thư viện phải phát hành hai bản build",
+            "en": "ESM only runs in browsers and CommonJS only in Node.js, so libraries must ship two separate builds"
           }
         }
       ],
@@ -2651,22 +2651,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Sự kiện lan từ `window` xuống tới phần tử đích",
-            "en": "The event travels down from `window` to the target"
+            "vi": "Sự kiện được gửi tới `window` trước, rồi lan xuống qua từng phần tử cha cho tới phần tử đích",
+            "en": "The event is first delivered to `window`, then travels down through each ancestor until it reaches the target"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Sự kiện chỉ chạy ở phần tử đích, không ảnh hưởng phần tử khác",
-            "en": "The event only runs on the target and affects no other element"
+            "vi": "Sự kiện chỉ chạy ở chính phần tử đích, không bao giờ tới phần tử cha hay phần tử anh em",
+            "en": "The event only runs on the target element itself and never reaches any parent or sibling element"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Sự kiện xảy ra ở phần tử đích rồi lan dần lên các phần tử cha, tới `document` và `window`",
-            "en": "The event fires on the target and then propagates up through its ancestors to `document` and `window`"
+            "vi": "Sự kiện xảy ra ở phần tử đích rồi lan lên qua các phần tử cha tới `document`/`window`",
+            "en": "The event fires on the target, then propagates up through its ancestors to `document`/`window`"
           }
         },
         {
@@ -2698,8 +2698,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`preventDefault()` ngăn sự kiện lan, `stopPropagation()` chặn hành vi mặc định",
-            "en": "`preventDefault()` stops propagation, `stopPropagation()` blocks the default action"
+            "vi": "`preventDefault()` ngăn sự kiện lan lên phần tử cha, còn `stopPropagation()` huỷ hành vi mặc định của trình duyệt",
+            "en": "`preventDefault()` stops the event from propagating to parent elements, while `stopPropagation()` cancels the browser's default action"
           }
         },
         {
@@ -2719,8 +2719,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "`preventDefault()` chặn hành vi mặc định (submit form, mở link); `stopPropagation()` ngăn sự kiện lan sang phần tử khác",
-            "en": "`preventDefault()` blocks the default action (form submit, link navigation); `stopPropagation()` stops the event from reaching other elements"
+            "vi": "`preventDefault()` huỷ hành vi mặc định (submit, chuyển trang); `stopPropagation()` ngăn sự kiện tới phần tử khác",
+            "en": "`preventDefault()` cancels the default action (submit, navigation); `stopPropagation()` stops it reaching other elements"
           }
         }
       ],
@@ -2745,8 +2745,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Gắn một listener ở phần tử cha và dựa vào `event.target` để xử lý cho các phần tử con, kể cả con được thêm sau",
-            "en": "Attaching one listener to a parent and using `event.target` to handle its children, including ones added later"
+            "vi": "Một listener ở phần tử cha dùng `event.target` để xử lý các phần tử con, kể cả con thêm sau",
+            "en": "One listener on a parent that uses `event.target` to handle its children, even ones added later"
           }
         },
         {
@@ -2766,8 +2766,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Gọi `dispatchEvent` để chuyển sự kiện sang phần tử khác",
-            "en": "Calling `dispatchEvent` to forward the event to another element"
+            "vi": "Gọi `dispatchEvent` trên từng phần tử con để chuyển sự kiện từ phần tử cha tới phần tử cần xử lý",
+            "en": "Calling `dispatchEvent` on each child to forward the event from the parent to the element that should handle it"
           }
         }
       ],
@@ -3029,22 +3029,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Luôn chạy sau `try`/`catch`, dù có lỗi, không lỗi hay đã `return`",
-            "en": "Always after `try`/`catch`, whether there was an error, no error, or a `return`"
+            "vi": "Luôn chạy sau `try`/`catch`, kể cả khi có lỗi hay đã `return`",
+            "en": "Always after `try`/`catch`, even after an error or a `return`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Chỉ khi `catch` bắt được lỗi",
-            "en": "Only when `catch` caught an error"
+            "vi": "Chỉ khi `catch` bắt được lỗi, như cơ hội cuối để xử lý trước khi lỗi lan ra ngoài",
+            "en": "Only when `catch` caught an error, as a last chance to handle it before it propagates"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Chỉ khi chương trình kết thúc",
-            "en": "Only when the program exits"
+            "vi": "Chỉ khi chương trình kết thúc, sau khi mọi timer và Promise đang chờ đã xong",
+            "en": "Only when the program exits, after all pending timers and Promises have finished"
           }
         }
       ],
@@ -3175,8 +3175,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Cache key chỉ lấy `args[0]` nên hai lời gọi trùng key; cần key từ toàn bộ tham số",
-            "en": "The cache key only uses `args[0]`, so both calls collide; the key must cover all arguments"
+            "vi": "Key chỉ lấy `args[0]` nên các lời gọi bị trùng",
+            "en": "The key only uses `args[0]`, so the calls collide"
           }
         },
         {
@@ -3189,15 +3189,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Toán tử `in` không dùng được với object",
-            "en": "The `in` operator does not work on objects"
+            "vi": "Toán tử `in` không dùng được với object thường, chỉ với `Map`",
+            "en": "The `in` operator does not work on plain objects, only on `Map`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Phép gán `(cache[key] = fn(...args))` trả về `undefined`",
-            "en": "The assignment `(cache[key] = fn(...args))` returns `undefined`"
+            "vi": "Phép gán `(cache[key] = fn(...args))` trả về `undefined` nên cache không lưu được gì",
+            "en": "The assignment `(cache[key] = fn(...args))` returns `undefined`, so the cache stores nothing"
           }
         }
       ],
@@ -3226,29 +3226,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "`JSON.parse` không bao giờ ném lỗi",
-            "en": "`JSON.parse` never throws"
+            "vi": "`JSON.parse` không bao giờ ném lỗi; nó trả về `undefined` khi dữ liệu không hợp lệ",
+            "en": "`JSON.parse` never throws; it returns `undefined` for invalid input"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`try/catch` đồng bộ đã chạy xong trước khi `.then` chạy; cần `await` hoặc `.catch()`",
-            "en": "The synchronous `try/catch` has finished before `.then` runs; use `await` or `.catch()`"
+            "vi": "`.then` chạy sau khi `try/catch` đã kết thúc",
+            "en": "`.then` runs after `try/catch` has already finished"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`catch` chỉ bắt được lỗi kiểu `TypeError`",
-            "en": "`catch` only catches `TypeError`s"
+            "vi": "`catch` chỉ bắt `TypeError`, không bắt `SyntaxError` khi parse",
+            "en": "`catch` only catches `TypeError`s, not a `SyntaxError` from parsing"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`fetchData` phải trả về callback thay vì Promise",
-            "en": "`fetchData` must return a callback instead of a Promise"
+            "vi": "`fetchData` phải nhận callback thay vì trả về Promise, nếu không `try/catch` không thấy được lỗi",
+            "en": "`fetchData` must accept a callback instead of returning a Promise, otherwise `try/catch` cannot see its errors"
           }
         }
       ],
@@ -3341,6 +3341,1884 @@
       "explanation": {
         "vi": "Engine như V8 dùng GC kiểu mark-and-sweep theo thế hệ: object nào không còn đi tới được từ root (global, call stack, closure đang sống) thì bị thu hồi. Rò rỉ xảy ra khi object không còn cần nhưng vẫn còn tham chiếu: listener, `setInterval`, subscription không huỷ; biến global vô tình; closure giữ dữ liệu lớn; node DOM đã gỡ nhưng còn bị biến JS trỏ tới; cache tăng mãi. Cách phòng: huỷ listener/timer khi xong (`AbortController`, cleanup của component), giới hạn cache (LRU) hoặc dùng `WeakMap`/`WeakRef`. Phát hiện bằng tab Memory của DevTools: chụp nhiều heap snapshot và so sánh, hoặc `--inspect` trên Node.",
         "en": "Engines like V8 use a generational mark-and-sweep GC: any object no longer reachable from the roots (globals, the call stack, live closures) is reclaimed. A leak happens when an object is no longer needed but is still referenced: listeners, `setInterval`s or subscriptions never removed; accidental globals; closures holding large data; detached DOM nodes still referenced from JS; caches that grow forever. Prevent it by removing listeners/timers when done (`AbortController`, component cleanup), bounding caches (LRU) or using `WeakMap`/`WeakRef`. Detect it with the DevTools Memory tab by taking and comparing several heap snapshots, or `--inspect` in Node."
+      }
+    },
+    {
+      "id": "javascript.basics.009",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Kiểu nào sau đây KHÔNG phải kiểu nguyên thuỷ (primitive) trong JavaScript?",
+        "en": "Which of the following is NOT a primitive type in JavaScript?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Array`",
+            "en": "`Array`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`symbol`",
+            "en": "`symbol`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`bigint`",
+            "en": "`bigint`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`undefined`",
+            "en": "`undefined`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "JavaScript có 7 kiểu nguyên thuỷ: `string`, `number`, `bigint`, `boolean`, `undefined`, `symbol` và `null`. Mảng là một object đặc biệt (`typeof [] === 'object'`) và được truyền theo tham chiếu, nên không phải primitive. `symbol` và `bigint` ít gặp hơn nhưng vẫn là kiểu nguyên thuỷ, dễ bị nhầm là object.",
+        "en": "JavaScript has 7 primitive types: `string`, `number`, `bigint`, `boolean`, `undefined`, `symbol` and `null`. An array is a special kind of object (`typeof [] === 'object'`) and is passed by reference, so it is not a primitive. `symbol` and `bigint` are less common but are still primitives, which is why they are easy to mistake for objects."
+      }
+    },
+    {
+      "id": "javascript.basics.010",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "console.log(typeof NaN, typeof [], typeof function () {});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "NaN array function",
+            "en": "NaN array function"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "number array object",
+            "en": "number array object"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "undefined object object",
+            "en": "undefined object object"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "number object function",
+            "en": "number object function"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`NaN` là một giá trị đặc biệt của kiểu number nên `typeof NaN` là `\"number\"`. Mảng là object nên `typeof []` là `\"object\"`; muốn kiểm tra mảng phải dùng `Array.isArray`. Hàm là trường hợp riêng: `typeof` trả về `\"function\"` dù về bản chất hàm cũng là object.",
+        "en": "`NaN` is a special value of the number type, so `typeof NaN` is `\"number\"`. Arrays are objects, so `typeof []` is `\"object\"`; use `Array.isArray` to detect arrays. Functions are a special case: `typeof` returns `\"function\"` even though functions are objects too."
+      }
+    },
+    {
+      "id": "javascript.basics.011",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Nhận định nào về `undefined` và `null` là đúng?",
+        "en": "Which statement about `undefined` and `null` is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`null === undefined` trả về `true`",
+            "en": "`null === undefined` returns `true`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`undefined` là giá trị mặc định của biến chưa gán và thuộc tính không tồn tại; `null` được gán chủ động cho \"không có giá trị\"",
+            "en": "`undefined` is the default for unassigned variables and missing properties; `null` is set on purpose for \"no value\""
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`undefined` chỉ xuất hiện khi code bị lỗi",
+            "en": "`undefined` only appears when the code has an error"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`JSON.stringify({ a: undefined, b: null })` giữ cả hai thuộc tính, ghi `undefined` thành chuỗi `\"undefined\"`",
+            "en": "`JSON.stringify({ a: undefined, b: null })` keeps both properties, writing `undefined` as the string `\"undefined\"`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`undefined` là giá trị JavaScript tự gán cho biến đã khai báo nhưng chưa gán giá trị, tham số không được truyền hay thuộc tính không tồn tại. `null` thường do lập trình viên gán chủ động để nói \"không có giá trị\". `null == undefined` là `true` nhưng `null === undefined` là `false` vì khác kiểu. `JSON.stringify` bỏ qua thuộc tính có giá trị `undefined` và chỉ giữ lại `null`.",
+        "en": "`undefined` is what JavaScript gives a declared but unassigned variable, a missing argument or a missing property. `null` is usually assigned on purpose by the developer to mean \"no value\". `null == undefined` is `true`, but `null === undefined` is `false` because the types differ. `JSON.stringify` drops properties whose value is `undefined` and only keeps `null`."
+      }
+    },
+    {
+      "id": "javascript.basics.012",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`Number('12px')` và `parseInt('12px')` lần lượt trả về gì?",
+        "en": "What do `Number('12px')` and `parseInt('12px')` return, respectively?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`NaN` và `12`",
+            "en": "`NaN` and `12`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`12` và `12`",
+            "en": "`12` and `12`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`12` và `NaN`",
+            "en": "`12` and `NaN`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`NaN` và `NaN`",
+            "en": "`NaN` and `NaN`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Number()` chuyển cả chuỗi và trả về `NaN` nếu có bất kỳ ký tự nào không hợp lệ (khoảng trắng ở hai đầu thì được bỏ qua). `parseInt()` đọc từ trái sang phải và dừng ở ký tự đầu tiên không phải chữ số, nên lấy được `12`. Vì vậy `parseInt` hợp với chuỗi như `'12px'`, còn `Number` hợp khi muốn kiểm tra chặt dữ liệu nhập. Lưu ý thêm `Number('')` là `0`, không phải `NaN`.",
+        "en": "`Number()` converts the whole string and returns `NaN` if any character is invalid (leading/trailing whitespace is ignored). `parseInt()` reads left to right and stops at the first non-digit, so it gets `12`. That makes `parseInt` suitable for strings like `'12px'`, while `Number` suits strict input validation. Also note that `Number('')` is `0`, not `NaN`."
+      }
+    },
+    {
+      "id": "javascript.basics.013",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Hàm `larger` nhận hai giá trị lấy từ `<input>` và trả về `'9'` thay vì `'10'`. Lỗi ở đâu?",
+        "en": "`larger` receives two values read from `<input>` elements and returns `'9'` instead of `'10'`. Where is the bug?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "// a, b come from input.value\nfunction larger(a, b) {\n  return a > b ? a : b;\n}\n\nconsole.log(larger('10', '9')); // Expected: '10'"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Toán tử `>` không dùng được với string nên luôn trả về `false` và toán tử ba ngôi rơi về `b`",
+            "en": "The `>` operator does not work on strings, so it always returns `false` and the ternary falls back to `b`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Toán tử ba ngôi cần đặt trong ngoặc tròn mới trả về đúng nhánh",
+            "en": "The ternary needs parentheses to return the correct branch"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`a` và `b` là string nên bị so sánh theo thứ tự từ điển; cần chuyển bằng `Number()` trước",
+            "en": "`a` and `b` are strings, so they compare lexicographically; convert with `Number()` first"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải dùng `>==` để so sánh chặt",
+            "en": "You must use `>==` for a strict comparison"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Giá trị của `<input>` luôn là string, và khi cả hai vế của `>` là string, JavaScript so sánh theo thứ tự từ điển (từng ký tự UTF-16). Ký tự đầu `'1'` nhỏ hơn `'9'` nên `'10' > '9'` là `false`. Cần chuyển sang số trước khi so sánh, ví dụ `Number(a) > Number(b)`. Toán tử `>` vẫn dùng được với string, chỉ là kết quả không phải so sánh số.",
+        "en": "An `<input>` value is always a string, and when both operands of `>` are strings JavaScript compares them lexicographically (by UTF-16 code units). The first character `'1'` is less than `'9'`, so `'10' > '9'` is `false`. Convert to numbers before comparing, e.g. `Number(a) > Number(b)`. `>` does work on strings; it just does not compare them numerically."
+      }
+    },
+    {
+      "id": "javascript.scope.010",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "scope",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Sau đoạn `if (true) { var a = 1; let b = 2; }`, truy cập `a` và `b` ở bên ngoài khối `if` cho kết quả gì?",
+        "en": "After `if (true) { var a = 1; let b = 2; }`, what happens when you access `a` and `b` outside the `if` block?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`a` là `1`, còn truy cập `b` ném `ReferenceError`",
+            "en": "`a` is `1`, while accessing `b` throws a `ReferenceError`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`a` là `1` và `b` là `2`",
+            "en": "`a` is `1` and `b` is `2`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả `a` và `b` đều ném `ReferenceError`",
+            "en": "Both `a` and `b` throw a `ReferenceError`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`a` là `undefined`, còn `b` là `2`",
+            "en": "`a` is `undefined` and `b` is `2`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`var` có phạm vi hàm (function scope) nên không bị giới hạn trong khối `{}`; `a` vẫn truy cập được và bằng `1`. `let` và `const` có phạm vi khối (block scope), nên ra khỏi khối thì `b` không tồn tại và truy cập sẽ ném `ReferenceError`. Đây là một lý do nên dùng `let`/`const` thay vì `var` để biến không \"rò\" ra ngoài.",
+        "en": "`var` is function-scoped, so it is not limited by the `{}` block; `a` is still accessible and equals `1`. `let` and `const` are block-scoped, so outside the block `b` does not exist and accessing it throws a `ReferenceError`. This is one reason to prefer `let`/`const` over `var`: variables do not leak out of blocks."
+      }
+    },
+    {
+      "id": "javascript.scope.011",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "scope",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong một `<script>` thường (không phải module) trên trình duyệt, khai báo ở cấp cao nhất `var x = 1;` và `let y = 2;`. Nhận định nào đúng?",
+        "en": "In a classic (non-module) browser `<script>`, you declare `var x = 1;` and `let y = 2;` at the top level. Which statement is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cả `window.x` và `window.y` đều có giá trị",
+            "en": "Both `window.x` and `window.y` have values"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`window.x` là `1` nhưng `window.y` là `undefined`",
+            "en": "`window.x` is `1` but `window.y` is `undefined`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả hai đều không truy cập được từ script khác trên cùng trang",
+            "en": "Neither can be accessed from another script on the same page"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`let` ở cấp cao nhất gây `SyntaxError`",
+            "en": "A top-level `let` causes a `SyntaxError`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Ở cấp cao nhất của script thường, `var` tạo thuộc tính trên global object nên `window.x` là `1`. `let`/`const` cũng là biến toàn cục nhưng nằm trong một vùng khai báo riêng, không gắn lên `window`, nên `window.y` là `undefined`. Trong ES module thì cả hai đều chỉ thuộc phạm vi module, không trở thành biến toàn cục.",
+        "en": "At the top level of a classic script, `var` creates a property on the global object, so `window.x` is `1`. `let`/`const` are also global variables but live in a separate declarative record that is not attached to `window`, so `window.y` is `undefined`. In an ES module, both are module-scoped and do not become globals at all."
+      }
+    },
+    {
+      "id": "javascript.scope.012",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "scope",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "function makeStore() {\n  let items = [];\n  return {\n    getItems: () => items,\n    add: (x) => items.push(x),\n    clear: () => {\n      items = [];\n    },\n  };\n}\n\nconst store = makeStore();\nconst list = store.getItems();\nstore.add('a');\nstore.clear();\nstore.add('b');\nconsole.log(list, store.getItems());"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[ 'b' ] [ 'b' ]",
+            "en": "[ 'b' ] [ 'b' ]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[] [ 'b' ]",
+            "en": "[] [ 'b' ]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[ 'a' ] [ 'b' ]",
+            "en": "[ 'a' ] [ 'b' ]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "[ 'a', 'b' ] [ 'b' ]",
+            "en": "[ 'a', 'b' ] [ 'b' ]"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`list` giữ tham chiếu tới mảng đầu tiên mà closure trả về, mảng này có `'a'`. `clear()` không xoá phần tử mà gán biến `items` trong closure sang một mảng mới, nên `list` vẫn trỏ tới mảng cũ `['a']`. Lệnh `add('b')` sau đó thêm vào mảng mới, nên `getItems()` trả về `['b']`. Đáp án `['b'] ['b']` sai vì closure giữ biến chứ không \"đồng bộ\" các tham chiếu đã lấy ra trước đó.",
+        "en": "`list` holds a reference to the first array returned by the closure, which gets `'a'`. `clear()` does not empty that array; it reassigns the closure variable `items` to a new array, so `list` still points to the old `['a']`. The later `add('b')` pushes into the new array, so `getItems()` returns `['b']`. `['b'] ['b']` is wrong because the closure captures the variable, it does not update references taken out earlier."
+      }
+    },
+    {
+      "id": "javascript.scope.013",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "scope",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Hàm sau chạy được trong một script cũ, nhưng khi chuyển sang ES module thì ném `ReferenceError: total is not defined`. Vì sao?",
+        "en": "This function worked in an old script, but after moving to an ES module it throws `ReferenceError: total is not defined`. Why?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "export function sumAll(groups) {\n  const results = [];\n  for (const group of groups) {\n    total = 0;\n    for (const n of group) total += n;\n    results.push(total);\n  }\n  return results;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "ES module không hỗ trợ `for...of` lồng nhau",
+            "en": "ES modules do not support nested `for...of` loops"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`total` chưa được khai báo; module chạy strict nên không tự tạo biến toàn cục. Cần `let total = 0`",
+            "en": "`total` is never declared; modules are strict, so no implicit global is created. Use `let total = 0`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải viết `total = total + n` thay vì `+=`, vì phép gán kết hợp không được phép trong module",
+            "en": "You must write `total = total + n` instead of `+=`, because compound assignment is not allowed in modules"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`results` phải khai báo bằng `let` vì `push` sửa nó, mà module cấm thay đổi một `const`",
+            "en": "`results` must be declared with `let` because `push` modifies it, and modules forbid mutating a `const`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`total` được gán mà chưa từng khai báo bằng `let`/`const`/`var`. Ở chế độ sloppy, phép gán như vậy âm thầm tạo một biến toàn cục (dễ gây xung đột và rò rỉ dữ liệu giữa các lần gọi). ES module luôn chạy ở strict mode nên phép gán vào biến chưa khai báo ném `ReferenceError`. Sửa bằng cách khai báo `let total = 0;` bên trong vòng lặp; `for...of` và `+=` không liên quan tới lỗi.",
+        "en": "`total` is assigned without ever being declared with `let`/`const`/`var`. In sloppy mode that assignment silently creates a global variable (risking collisions and data leaking between calls). ES modules always run in strict mode, so assigning to an undeclared variable throws a `ReferenceError`. Fix it by declaring `let total = 0;` inside the loop; `for...of` and `+=` are not the problem."
+      }
+    },
+    {
+      "id": "javascript.scope.014",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "scope",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích lexical scope và scope chain trong JavaScript. Khi gặp một tên biến, engine tìm nó như thế nào?",
+        "en": "Explain lexical scope and the scope chain in JavaScript. When the engine meets a variable name, how does it look it up?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Phạm vi được xác định khi viết code (nơi khai báo hàm), không phải nơi gọi hàm",
+          "en": "Scope is fixed by where the function is written, not where it is called"
+        },
+        {
+          "vi": "Tra cứu từ scope hiện tại đi dần ra ngoài tới global; không thấy thì `ReferenceError`",
+          "en": "Lookup goes from the current scope outward to global; if not found, `ReferenceError`"
+        },
+        {
+          "vi": "Biến cùng tên ở scope trong che (shadow) biến ở scope ngoài",
+          "en": "An inner variable with the same name shadows the outer one"
+        },
+        {
+          "vi": "Block scope với `let`/`const`, function scope với `var`",
+          "en": "`let`/`const` are block-scoped, `var` is function-scoped"
+        },
+        {
+          "vi": "Closure giữ scope chain sống sau khi hàm ngoài kết thúc",
+          "en": "A closure keeps the scope chain alive after the outer function returns"
+        }
+      ],
+      "explanation": {
+        "vi": "Lexical scope nghĩa là phạm vi được quyết định bởi vị trí viết code: hàm được khai báo ở đâu thì nhìn thấy biến ở đó, bất kể được gọi từ đâu. Khi tra cứu, engine tìm ở scope hiện tại trước, không thấy thì đi lên scope bao ngoài, cứ thế tới global; nếu vẫn không có thì ném `ReferenceError`. Biến trùng tên ở scope trong sẽ che (shadow) biến ở ngoài. Closure chính là việc hàm giữ lại scope chain này sau khi hàm bao ngoài đã chạy xong.",
+        "en": "Lexical scope means scope is decided by where code is written: a function sees the variables available where it was declared, no matter where it is called from. On lookup the engine checks the current scope first, then the enclosing scope, and so on up to the global scope; if the name is still missing it throws a `ReferenceError`. A variable with the same name in an inner scope shadows the outer one. A closure is simply a function keeping this scope chain alive after the outer function has returned."
+      }
+    },
+    {
+      "id": "javascript.this_prototype.011",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "this_prototype",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Từ khoá `class` trong JavaScript thực chất tạo ra gì?",
+        "en": "What does the `class` keyword in JavaScript actually create?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một kiểu dữ liệu mới hoàn toàn, `typeof` của nó trả về `\"class\"`",
+            "en": "A brand-new data type whose `typeof` is `\"class\"`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một hàm constructor, với các method nằm trên `prototype` của nó (cú pháp gọn cho kế thừa prototype)",
+            "en": "A constructor function whose methods live on its `prototype` (syntax over prototype inheritance)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Một object mà mỗi instance nhận bản sao riêng của mọi method, nên sửa cái này không ảnh hưởng cái khác",
+            "en": "An object where every instance gets its own copy of every method, so changing one never affects others"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Một cấu trúc chỉ tồn tại lúc biên dịch như kiểu TypeScript, bị xoá hoàn toàn trước khi code chạy",
+            "en": "A compile-time-only construct like a TypeScript type, which is erased entirely before the code runs"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`class` là cú pháp gọn hơn cho cơ chế kế thừa prototype sẵn có: nó tạo ra một hàm constructor (`typeof Foo === 'function'`) và các method được đặt trên `Foo.prototype`, dùng chung cho mọi instance. Khác với hàm thường, class luôn chạy ở strict mode và phải gọi bằng `new`. Method không bị sao chép vào từng instance, nên đáp án đó sai.",
+        "en": "`class` is nicer syntax over the existing prototype mechanism: it creates a constructor function (`typeof Foo === 'function'`) and its methods are placed on `Foo.prototype`, shared by all instances. Unlike a normal function, a class body always runs in strict mode and must be called with `new`. Methods are not copied onto each instance, so that option is wrong."
+      }
+    },
+    {
+      "id": "javascript.this_prototype.012",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "this_prototype",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giá trị của `this` trong một hàm thường được xác định như thế nào? Nêu các quy tắc chính.",
+        "en": "How is the value of `this` determined inside a regular function? List the main rules."
+      },
+      "keyPoints": [
+        {
+          "vi": "`this` phụ thuộc cách gọi hàm, không phụ thuộc nơi khai báo",
+          "en": "`this` depends on how the function is called, not where it is declared"
+        },
+        {
+          "vi": "`new Fn()` → object mới; `call`/`apply`/`bind` → giá trị truyền vào",
+          "en": "`new Fn()` → the new object; `call`/`apply`/`bind` → the passed value"
+        },
+        {
+          "vi": "`obj.fn()` → `obj`; gọi trơn `fn()` → `undefined` (strict) hoặc global object",
+          "en": "`obj.fn()` → `obj`; plain `fn()` → `undefined` (strict) or the global object"
+        },
+        {
+          "vi": "Arrow function lấy `this` từ scope bao ngoài",
+          "en": "Arrow functions take `this` from the enclosing scope"
+        },
+        {
+          "vi": "Tách method ra biến (`const f = obj.fn`) làm mất `this`",
+          "en": "Pulling a method into a variable (`const f = obj.fn`) loses `this`"
+        }
+      ],
+      "explanation": {
+        "vi": "Với hàm thường, `this` được quyết định bởi cách gọi hàm chứ không phải nơi khai báo. Gọi bằng `new` thì `this` là object mới tạo; gọi qua `call`/`apply`/`bind` thì `this` là giá trị được truyền vào; gọi như method `obj.fn()` thì `this` là `obj`. Gọi trơn `fn()` thì `this` là `undefined` ở strict mode (hoặc global object ở sloppy mode). Arrow function là ngoại lệ: không có `this` riêng mà lấy từ scope bao ngoài.",
+        "en": "For a regular function, `this` is decided by how the function is called, not where it is declared. Called with `new`, `this` is the newly created object; via `call`/`apply`/`bind`, it is the value passed in; as a method `obj.fn()`, it is `obj`. A plain call `fn()` gives `undefined` in strict mode (or the global object in sloppy mode). Arrow functions are the exception: they have no own `this` and use the one from the enclosing scope."
+      }
+    },
+    {
+      "id": "javascript.this_prototype.013",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "this_prototype",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `class User { static count = 0; ... }`, nhận định nào về thành viên `static` là đúng?",
+        "en": "Given `class User { static count = 0; ... }`, which statement about `static` members is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mỗi instance có một bản sao `count` riêng, bắt đầu từ `0`",
+            "en": "Every instance gets its own copy of `count`, starting at `0`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`static` biến `count` thành hằng không thể gán lại, giống khai báo bằng `const`",
+            "en": "`static` makes `count` a constant that cannot be reassigned, like declaring it with `const`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`count` thuộc về class: `User.count`",
+            "en": "`count` belongs to the class: `User.count`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ method mới được `static`; thuộc tính như `count` sẽ gây `SyntaxError`",
+            "en": "Only methods can be `static`; a property like `count` causes a `SyntaxError`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Thành viên `static` thuộc về chính class (hàm constructor), nên truy cập bằng `User.count`. Instance không kế thừa thuộc tính static vì chúng không nằm trên `User.prototype`, nên `new User().count` là `undefined`. Static hay dùng cho bộ đếm, hằng số hoặc factory method như `User.fromJSON()`. Static không làm thuộc tính bất biến; muốn vậy cần `Object.freeze` hoặc getter.",
+        "en": "A `static` member belongs to the class itself (the constructor function), so you access it as `User.count`. Instances do not inherit static properties because they are not on `User.prototype`, so `new User().count` is `undefined`. Statics are used for counters, constants or factory methods like `User.fromJSON()`. `static` does not make a property immutable; you would need `Object.freeze` or a getter."
+      }
+    },
+    {
+      "id": "javascript.this_prototype.014",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "this_prototype",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau in `Hi undefined` thay vì `Hi An`. Lỗi ở đâu?",
+        "en": "The code prints `Hi undefined` instead of `Hi An`. Where is the bug?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "function Person(name) {\n  this.name = name;\n}\n\nPerson.prototype.greet = () => `Hi ${this.name}`;\n\nconsole.log(new Person('An').greet()); // Expected: \"Hi An\""
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`greet` là arrow function nên `this` không phải instance",
+            "en": "`greet` is an arrow function, so `this` isn't the instance"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Constructor `Person` thiếu câu lệnh `return this` tường minh",
+            "en": "The `Person` constructor is missing an explicit `return this`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải gọi `Person('An')` không có `new` thì `greet` mới thấy `name`",
+            "en": "You must call `Person('An')` without `new` for `greet` to see `name`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Template literal không đọc được thuộc tính của `this`; phải nối chuỗi bằng `'Hi ' + this.name`",
+            "en": "Template literals cannot read properties of `this`; build the string with `'Hi ' + this.name` instead"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`greet` được gán bằng arrow function, mà arrow function không có `this` riêng: `this` được lấy từ scope nơi nó được viết (cấp module), không phải từ object gọi nó. Vì vậy `this.name` không phải tên của `Person`. Method trên prototype phải là hàm thường: `Person.prototype.greet = function () { return `Hi ${this.name}`; };`. Constructor và `new` không có vấn đề gì.",
+        "en": "`greet` is assigned an arrow function, and arrow functions have no own `this`: it is taken from the scope where it is written (module level), not from the object it is called on. So `this.name` is not the person's name. A prototype method must be a regular function: `Person.prototype.greet = function () { return `Hi ${this.name}`; };`. The constructor and `new` are fine."
+      }
+    },
+    {
+      "id": "javascript.this_prototype.015",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "this_prototype",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`const child = Object.create(parent)` làm gì?",
+        "en": "What does `const child = Object.create(parent)` do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Sao chép nông mọi thuộc tính enumerable của `parent` sang `child`, giống `Object.assign({}, parent)`",
+            "en": "Shallow-copies all of `parent`'s own enumerable properties onto `child`, like `Object.assign({}, parent)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tạo object rỗng mới có prototype là `parent`; việc tra thuộc tính đi theo prototype chain",
+            "en": "Makes a new empty object whose prototype is `parent`; lookups follow the prototype chain"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gọi constructor của `parent` để tạo instance mới, giống hệt `new parent.constructor()`",
+            "en": "Calls `parent`'s constructor to make a new instance, the same as `new parent.constructor()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tạo bản sao sâu (deep clone) của `parent`",
+            "en": "Creates a deep clone of `parent`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Object.create(parent)` tạo một object rỗng mới có prototype (`[[Prototype]]`) là `parent`. `child` không sao chép thuộc tính nào; khi đọc `child.x` mà `child` không có, engine tìm tiếp trên `parent` qua prototype chain. Nếu sau đó `parent` thay đổi thì `child` cũng \"thấy\" thay đổi đó. Nó không gọi constructor nào và cũng không phải deep clone.",
+        "en": "`Object.create(parent)` creates a new empty object whose prototype (`[[Prototype]]`) is `parent`. `child` copies nothing; when you read `child.x` and `child` lacks it, the engine continues up the prototype chain to `parent`. If `parent` later changes, `child` \"sees\" that change. It calls no constructor and is not a deep clone."
+      }
+    },
+    {
+      "id": "javascript.async.011",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "async",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một Promise bị reject nhưng không có `.catch()` hay `try/catch` nào xử lý. Điều gì xảy ra?",
+        "en": "A Promise rejects but no `.catch()` or `try/catch` handles it. What happens?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lỗi bị bỏ qua hoàn toàn, không có dấu hiệu gì",
+            "en": "The error is silently ignored with no sign at all"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Promise tự động chạy lại thao tác lỗi cho tới khi thành công hoặc trang được tải lại",
+            "en": "The Promise automatically retries the failed operation until it succeeds or the page is reloaded"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Promise chuyển sang fulfilled với `undefined` khi engine tới điểm kiểm tra microtask kế tiếp",
+            "en": "The Promise becomes fulfilled with `undefined` once the engine reaches its next microtask checkpoint"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi thành unhandled rejection: trình duyệt phát `unhandledrejection`, Node.js mặc định dừng tiến trình",
+            "en": "It becomes an unhandled rejection: browsers fire `unhandledrejection`, Node.js exits by default"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Lỗi trở thành \"unhandled rejection\": trình duyệt in lỗi ra console và phát sự kiện `unhandledrejection`, còn Node.js (từ v15) mặc định kết thúc tiến trình. Lỗi không bị bỏ qua lặng lẽ và cũng không được tự động thử lại. Vì vậy mỗi chuỗi Promise nên có điểm xử lý lỗi, ví dụ `.catch()` ở cuối hoặc `try/catch` quanh `await`.",
+        "en": "It becomes an \"unhandled rejection\": browsers log the error and fire an `unhandledrejection` event, and Node.js (since v15) terminates the process by default. The error is not silently ignored and nothing retries automatically. That is why every Promise chain should have an error handler, such as a final `.catch()` or `try/catch` around `await`."
+      }
+    },
+    {
+      "id": "javascript.async.012",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "async",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì (theo thứ tự)?",
+        "en": "What does the following code print (in order)?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const p = new Promise((resolve) => {\n  console.log('A');\n  resolve('B');\n  console.log('C');\n});\n\np.then((v) => console.log(v));\nconsole.log('D');"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "A, C, D, B",
+            "en": "A, C, D, B"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "A, B, C, D",
+            "en": "A, B, C, D"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "D, A, C, B",
+            "en": "D, A, C, B"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "A, D, C, B",
+            "en": "A, D, C, B"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Hàm executor truyền vào `new Promise` chạy đồng bộ ngay lập tức, nên `A` và `C` được in liền nhau; gọi `resolve` không dừng phần code còn lại. Callback của `.then` luôn chạy bất đồng bộ dưới dạng microtask, nên `D` (code đồng bộ) được in trước, sau đó mới tới `B`. Nhiều người nghĩ executor chạy sau, nhưng thực tế chỉ `.then` mới bị hoãn.",
+        "en": "The executor passed to `new Promise` runs synchronously right away, so `A` and `C` print back to back; calling `resolve` does not stop the rest of the code. A `.then` callback always runs asynchronously as a microtask, so `D` (synchronous code) prints first, then `B`. Many people think the executor is deferred, but only `.then` callbacks are."
+      }
+    },
+    {
+      "id": "javascript.async.013",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "async",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì (theo thứ tự)?",
+        "en": "What does the following code print (in order)?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "async function fail() {\n  throw new Error('boom');\n}\n\nasync function main() {\n  try {\n    await fail();\n  } catch (e) {\n    console.log('caught', e.message);\n  }\n\n  const r = await fail().catch(() => 'fallback');\n  console.log(r);\n}\n\nmain();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "caught boom, Error: boom",
+            "en": "caught boom, Error: boom"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "fallback, caught boom",
+            "en": "fallback, caught boom"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "caught boom, fallback",
+            "en": "caught boom, fallback"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ có `caught boom`, sau đó là unhandled rejection",
+            "en": "Only `caught boom`, then an unhandled rejection"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`await fail()` khiến Promise bị reject được \"ném\" ra như một exception tại dòng `await`, nên `try/catch` bắt được và in `caught boom`. Ở dòng sau, `.catch(() => 'fallback')` biến Promise bị reject thành Promise fulfilled với `'fallback'`, nên `await` nhận giá trị đó và in ra. Không có unhandled rejection vì cả hai lỗi đều đã được xử lý.",
+        "en": "`await fail()` turns the rejected Promise into an exception thrown at the `await` line, so the `try/catch` catches it and prints `caught boom`. On the next line, `.catch(() => 'fallback')` turns the rejected Promise into one fulfilled with `'fallback'`, so `await` receives that value and prints it. There is no unhandled rejection because both errors are handled."
+      }
+    },
+    {
+      "id": "javascript.async.014",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "async",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "`users[0].name` luôn là `undefined` dù API trả về dữ liệu đúng. Lỗi ở đâu?",
+        "en": "`users[0].name` is always `undefined` even though the API returns correct data. Where is the bug?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "async function loadUsers(ids) {\n  const users = ids.map(async (id) => await getUser(id));\n  console.log(users[0].name);\n  return users;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`map` trả về mảng Promise; cần `await Promise.all`",
+            "en": "`map` returns an array of Promises; use `await Promise.all`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`getUser` phải được gọi bằng `new` vì nó trả về một object",
+            "en": "`getUser` must be called with `new` because it returns an object"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`await` không dùng được trong arrow function nên callback trả về trước khi `getUser` xong",
+            "en": "`await` cannot be used inside arrow functions, so the callback returns before `getUser` finishes"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cần đổi `const users` thành `let users` để có thể gán lại sau đó",
+            "en": "`const users` must be changed to `let users` so it can be reassigned later"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Callback `async` của `map` luôn trả về một Promise, nên `users` là mảng các Promise chứ không phải mảng user. Đọc `.name` trên một Promise cho ra `undefined`. Cần chờ tất cả bằng `const users = await Promise.all(ids.map((id) => getUser(id)));`. Từ khoá `await` bên trong callback chỉ chờ trong callback đó, không làm `map` chờ theo.",
+        "en": "An `async` callback in `map` always returns a Promise, so `users` is an array of Promises, not users. Reading `.name` on a Promise gives `undefined`. Wait for all of them with `const users = await Promise.all(ids.map((id) => getUser(id)));`. The `await` inside the callback only waits inside that callback; it does not make `map` wait."
+      }
+    },
+    {
+      "id": "javascript.async.015",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "async",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`Promise.race` và `Promise.any` khác nhau thế nào?",
+        "en": "How do `Promise.race` and `Promise.any` differ?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hai hàm giống nhau, `any` chỉ là tên mới của `race`",
+            "en": "They are the same; `any` is just a new name for `race`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`race` chờ mọi Promise settle xong rồi resolve với giá trị của Promise nào hoàn thành sớm nhất",
+            "en": "`race` waits for every Promise to settle and then resolves with the value of whichever one finished first"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`race` theo Promise settle đầu tiên, kể cả reject; `any` theo Promise fulfill đầu tiên (`AggregateError` nếu tất cả reject)",
+            "en": "`race` follows the first to settle, even a rejection; `any` the first to fulfill (`AggregateError` if all reject)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`any` reject ngay khi có một Promise bị reject",
+            "en": "`any` rejects as soon as one Promise rejects"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Promise.race` kết thúc theo Promise đầu tiên *settle*, dù đó là fulfill hay reject; vì vậy hay dùng để làm timeout. `Promise.any` bỏ qua các Promise bị reject và fulfill với giá trị đầu tiên thành công; nó chỉ reject (bằng `AggregateError`) khi tất cả đều reject. Đáp án nói hai hàm giống nhau sai ở chỗ `race` không bỏ qua lỗi.",
+        "en": "`Promise.race` settles with the first Promise to *settle*, whether it fulfills or rejects, which is why it is used for timeouts. `Promise.any` ignores rejections and fulfills with the first successful value; it only rejects (with an `AggregateError`) when all of them reject. The option saying they are the same is wrong because `race` does not skip errors."
+      }
+    },
+    {
+      "id": "javascript.arrays_objects.011",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "arrays_objects",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`find` và `filter` trên mảng khác nhau thế nào?",
+        "en": "How do `find` and `filter` differ on an array?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`find` trả về chỉ số (index), `filter` trả về phần tử",
+            "en": "`find` returns an index, `filter` returns elements"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`find` trả về phần tử đầu tiên khớp (hoặc `undefined`); `filter` trả về mảng mới chứa mọi phần tử khớp",
+            "en": "`find` returns the first match (or `undefined`); `filter` returns a new array of all matches"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`filter` sửa mảng gốc bằng cách xoá phần tử không khớp, còn `find` giữ nguyên mảng",
+            "en": "`filter` mutates the original array by removing non-matching items, while `find` leaves it untouched"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`find` trả về mảng rỗng khi không khớp, giống `filter`, nên phải kiểm tra `.length`",
+            "en": "`find` returns an empty array when nothing matches, just like `filter`, so check `.length` instead"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`find` trả về *phần tử đầu tiên* thoả điều kiện, hoặc `undefined` nếu không có, và dừng ngay khi tìm thấy. `filter` luôn duyệt hết và trả về *mảng mới* chứa mọi phần tử thoả điều kiện (có thể là mảng rỗng). Vì vậy khi cần một object theo `id` thì dùng `find`, còn khi cần danh sách thì dùng `filter`. Cả hai đều không thay đổi mảng gốc.",
+        "en": "`find` returns the *first* element that matches, or `undefined` if none, and stops as soon as it finds one. `filter` always goes through everything and returns a *new array* with every match (possibly empty). So use `find` to get one object by `id` and `filter` when you need a list. Neither mutates the original array."
+      }
+    },
+    {
+      "id": "javascript.arrays_objects.012",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "arrays_objects",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích sự khác nhau khi gán và truyền giá trị nguyên thuỷ (primitive) so với object/mảng trong JavaScript.",
+        "en": "Explain how assigning and passing primitive values differs from objects/arrays in JavaScript."
+      },
+      "keyPoints": [
+        {
+          "vi": "Primitive được sao chép giá trị khi gán/truyền",
+          "en": "Primitives are copied by value on assignment/passing"
+        },
+        {
+          "vi": "Object/mảng: biến giữ tham chiếu, nhiều biến có thể trỏ cùng một object",
+          "en": "Objects/arrays: variables hold references, several can point to the same object"
+        },
+        {
+          "vi": "Hàm sửa nội dung object được truyền vào thì bên ngoài thấy; gán lại tham số thì không",
+          "en": "A function mutating a passed object is visible outside; reassigning the parameter is not"
+        },
+        {
+          "vi": "`===` trên object so sánh tham chiếu, không so sánh nội dung",
+          "en": "`===` on objects compares references, not contents"
+        },
+        {
+          "vi": "Muốn độc lập thì tạo bản sao: spread (nông) hoặc `structuredClone` (sâu)",
+          "en": "To make them independent, copy: spread (shallow) or `structuredClone` (deep)"
+        }
+      ],
+      "explanation": {
+        "vi": "Giá trị nguyên thuỷ được sao chép: `let b = a` rồi đổi `b` không ảnh hưởng `a`. Với object và mảng, biến chỉ giữ tham chiếu, nên `const b = a; b.push(4)` cũng làm `a` thay đổi vì cả hai trỏ tới cùng một object. Khi truyền vào hàm cũng vậy: hàm có thể sửa nội dung object được truyền vào, nhưng gán lại tham số thì không ảnh hưởng biến bên ngoài. `===` trên object so sánh tham chiếu, nên hai object có cùng nội dung vẫn khác nhau; muốn tách biệt thì phải tạo bản sao (spread, `structuredClone`).",
+        "en": "Primitives are copied: `let b = a` and then changing `b` does not affect `a`. Objects and arrays are held by reference, so `const b = a; b.push(4)` also changes `a` because both point to the same object. Passing to functions works the same way: a function can modify the contents of an object passed in, but reassigning the parameter does not affect the caller's variable. `===` on objects compares references, so two objects with the same content are still different; to separate them you must copy (spread, `structuredClone`)."
+      }
+    },
+    {
+      "id": "javascript.arrays_objects.013",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "arrays_objects",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách nào trả về một mảng mới đã sắp xếp mà KHÔNG thay đổi mảng gốc `nums`?",
+        "en": "Which returns a new sorted array WITHOUT changing the original `nums`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`nums.sort((a, b) => a - b)`",
+            "en": "`nums.sort((a, b) => a - b)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`nums.splice(0).sort((a, b) => a - b)`",
+            "en": "`nums.splice(0).sort((a, b) => a - b)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`nums.reverse().sort((a, b) => a - b)`",
+            "en": "`nums.reverse().sort((a, b) => a - b)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`nums.toSorted((a, b) => a - b)`",
+            "en": "`nums.toSorted((a, b) => a - b)`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`toSorted()` (ES2023) trả về bản sao đã sắp xếp và giữ nguyên mảng gốc; tương tự còn có `toReversed()`, `toSpliced()` và `with()`. `sort()` sắp xếp tại chỗ và trả về chính mảng đó, nên mảng gốc bị đổi. `splice(0)` trả về mảng mới nhưng đồng thời xoá hết phần tử khỏi `nums`. Cách cũ tương đương là `[...nums].sort((a, b) => a - b)`.",
+        "en": "`toSorted()` (ES2023) returns a sorted copy and leaves the original untouched; similar methods are `toReversed()`, `toSpliced()` and `with()`. `sort()` sorts in place and returns the same array, so the original changes. `splice(0)` returns a new array but also removes every element from `nums`. The older equivalent is `[...nums].sort((a, b) => a - b)`."
+      }
+    },
+    {
+      "id": "javascript.arrays_objects.014",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "arrays_objects",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Mong đợi `[1, 2, 3]` nhưng kết quả là `[1, NaN, NaN]`. Nguyên nhân là gì?",
+        "en": "Expected `[1, 2, 3]` but got `[1, NaN, NaN]`. What is the cause?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const ids = ['1', '2', '3'].map(parseInt);\nconsole.log(ids); // Expected: [1, 2, 3]"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`parseInt` không nhận được string, phải dùng `parseFloat`",
+            "en": "`parseInt` cannot take strings; use `parseFloat`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Mảng chứa ký tự khoảng trắng ẩn nên `parseInt` thất bại với mọi phần tử sau phần tử đầu",
+            "en": "The array contains hidden whitespace characters, so `parseInt` fails on every element after the first"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`map` bỏ qua phần tử thứ hai và thứ ba",
+            "en": "`map` skips the second and third elements"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`map` truyền index làm đối số thứ hai, bị `parseInt` hiểu là cơ số",
+            "en": "`map` passes the index as the second argument, which `parseInt` treats as the radix"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`map` gọi callback với ba đối số `(element, index, array)`, nên thực tế chạy `parseInt('1', 0)`, `parseInt('2', 1)`, `parseInt('3', 2)`. Đối số thứ hai của `parseInt` là cơ số (radix): `0` được coi như mặc định 10, cơ số `1` không hợp lệ, còn `'3'` không phải chữ số hợp lệ ở hệ nhị phân, nên ra `NaN`. Sửa bằng `.map(Number)` hoặc `.map((s) => parseInt(s, 10))`.",
+        "en": "`map` calls the callback with three arguments `(element, index, array)`, so it actually runs `parseInt('1', 0)`, `parseInt('2', 1)`, `parseInt('3', 2)`. `parseInt`'s second argument is the radix: `0` is treated as the default 10, radix `1` is invalid, and `'3'` is not a valid binary digit, hence `NaN`. Fix it with `.map(Number)` or `.map((s) => parseInt(s, 10))`."
+      }
+    },
+    {
+      "id": "javascript.arrays_objects.015",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "arrays_objects",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cho `const prices = { tea: 10, coffee: 25 }`. Biểu thức nào tạo ra object mới `{ tea: 5, coffee: 12.5 }`?",
+        "en": "Given `const prices = { tea: 10, coffee: 25 }`, which expression creates a new object `{ tea: 5, coffee: 12.5 }`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Object.fromEntries(Object.entries(prices).map(([k, p]) => [k, p / 2]))`",
+            "en": "`Object.fromEntries(Object.entries(prices).map(([k, p]) => [k, p / 2]))`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Object.values(prices).map((p) => p / 2)`",
+            "en": "`Object.values(prices).map((p) => p / 2)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`prices.map((p) => p / 2)`",
+            "en": "`prices.map((p) => p / 2)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Object.keys(prices).map((k) => prices[k] / 2)`",
+            "en": "`Object.keys(prices).map((k) => prices[k] / 2)`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Object thường không có `map`, nên cách phổ biến là chuyển sang mảng cặp `[key, value]` bằng `Object.entries`, biến đổi rồi ghép lại bằng `Object.fromEntries`. `Object.values(...).map(...)` và `Object.keys(...).map(...)` chỉ cho ra mảng, mất cấu trúc key–value. `prices.map` ném `TypeError` vì `map` chỉ có trên mảng.",
+        "en": "Plain objects have no `map`, so the usual approach is to turn them into `[key, value]` pairs with `Object.entries`, transform them, and rebuild with `Object.fromEntries`. `Object.values(...).map(...)` and `Object.keys(...).map(...)` only produce arrays and lose the key–value shape. `prices.map` throws a `TypeError` because `map` only exists on arrays."
+      }
+    },
+    {
+      "id": "javascript.es6.009",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "es6",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `function log(...args) {}` và lời gọi `log(...items)`, hai dấu `...` có ý nghĩa gì?",
+        "en": "In `function log(...args) {}` and the call `log(...items)`, what do the two `...` mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`...args` là rest (gom đối số thành mảng); `...items` là spread (trải thành các đối số)",
+            "en": "`...args` is rest (collects arguments into an array); `...items` is spread (expands into arguments)"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cả hai đều là spread và sao chép sâu mảng",
+            "en": "Both are spread and deep-copy the array"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`...args` tạo object `arguments`, còn `...items` nối mảng thành chuỗi phân tách bằng dấu phẩy",
+            "en": "`...args` creates an `arguments` object, while `...items` joins the array into a comma-separated string"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cả hai đều là rest, chỉ dùng được trong arrow function",
+            "en": "Both are rest and only work in arrow functions"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trong danh sách tham số, `...args` là rest parameter: gom tất cả đối số còn lại thành một mảng thật. Ở lời gọi hàm, `...items` là spread: trải từng phần tử của mảng (hoặc iterable) ra thành các đối số riêng lẻ. Cùng ký hiệu nhưng ngược chiều nhau: rest gom lại, spread trải ra. Rest parameter phải đứng cuối danh sách tham số.",
+        "en": "In a parameter list, `...args` is a rest parameter: it gathers all remaining arguments into a real array. In a call, `...items` is spread: it expands each element of the array (or iterable) into separate arguments. Same symbol, opposite directions: rest collects, spread expands. A rest parameter must be the last parameter."
+      }
+    },
+    {
+      "id": "javascript.es6.010",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "es6",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "let a = 1;\nlet b = 2;\n[a, b] = [b, a];\n\nconst [x, , z = 9] = [10, 20];\nconsole.log(a, b, x, z);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "1 2 10 9",
+            "en": "1 2 10 9"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "2 1 10 9",
+            "en": "2 1 10 9"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "2 1 10 undefined",
+            "en": "2 1 10 undefined"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "2 1 20 9",
+            "en": "2 1 20 9"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Destructuring mảng `[a, b] = [b, a]` tạo mảng tạm `[2, 1]` rồi gán lại, nên hai biến được hoán đổi: `a = 2`, `b = 1`. Ở dòng sau, dấu phẩy trống bỏ qua phần tử thứ hai (`20`), còn `z` không có phần tử tương ứng nên nhận giá trị mặc định `9`. Giá trị mặc định chỉ dùng khi phần tử là `undefined`, nên `x` vẫn là `10`.",
+        "en": "The array destructuring `[a, b] = [b, a]` builds a temporary array `[2, 1]` and assigns it back, so the two variables are swapped: `a = 2`, `b = 1`. On the next line, the empty slot skips the second element (`20`), and `z` has no matching element so it takes the default `9`. Defaults only apply when the element is `undefined`, so `x` stays `10`."
+      }
+    },
+    {
+      "id": "javascript.es6.011",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "es6",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const arr = ['x', 'y'];\narr.extra = 'z';\n\nconst keys = [];\nfor (const k in arr) keys.push(k);\n\nconst values = [];\nfor (const v of arr) values.push(v);\n\nconsole.log(keys, values);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[ 0, 1 ] [ 'x', 'y' ]",
+            "en": "[ 0, 1 ] [ 'x', 'y' ]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[ 'x', 'y', 'z' ] [ 'x', 'y', 'z' ]",
+            "en": "[ 'x', 'y', 'z' ] [ 'x', 'y', 'z' ]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[ '0', '1', 'extra' ] [ 'x', 'y' ]",
+            "en": "[ '0', '1', 'extra' ] [ 'x', 'y' ]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "[ '0', '1' ] [ 'x', 'y', 'z' ]",
+            "en": "[ '0', '1' ] [ 'x', 'y', 'z' ]"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`for...in` duyệt các *key* có thể liệt kê (enumerable) của object dưới dạng string, gồm cả chỉ số mảng lẫn thuộc tính tự thêm như `extra`. `for...of` dùng iterator của mảng nên chỉ duyệt các *giá trị* phần tử theo thứ tự, bỏ qua `extra`. Vì vậy với mảng nên dùng `for...of` (hoặc `forEach`), còn `for...in` dành cho key của object thường.",
+        "en": "`for...in` iterates an object's enumerable *keys* as strings, including array indexes and added properties like `extra`. `for...of` uses the array's iterator, so it only visits element *values* in order and skips `extra`. That is why arrays should use `for...of` (or `forEach`), while `for...in` is meant for keys of plain objects."
+      }
+    },
+    {
+      "id": "javascript.es6.012",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "es6",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`import('./chart.js')` (dynamic import) trả về gì và thường dùng khi nào?",
+        "en": "What does `import('./chart.js')` (dynamic import) return, and when is it typically used?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trả về module ngay lập tức một cách đồng bộ, giống `require`, nên dùng được mà không cần `await`",
+            "en": "Returns the module immediately and synchronously, like `require`, so it can be used without `await`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một Promise resolve thành module; dùng để tải module khi cần (code splitting, lazy loading)",
+            "en": "A Promise resolving to the module; used to load modules on demand (code splitting, lazy loading)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ dùng được ở đầu file, giống `import` tĩnh, và được hoisting lên trước code khác",
+            "en": "It can only be used at the top of a file, like a static `import`, and is hoisted before other code"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Trả về chuỗi mã nguồn của file để `eval`",
+            "en": "Returns the file's source code as a string to `eval`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Dynamic `import()` trả về một Promise resolve thành module namespace object, nên dùng với `await` hoặc `.then` (ví dụ `const { drawChart } = await import('./chart.js')`). Nó cho phép tải module khi thật sự cần, nên bundler tách thành chunk riêng (code splitting) và giảm kích thước tải ban đầu. Khác với `import` tĩnh, nó có thể đặt trong `if` hay trong hàm. Nó không trả về module đồng bộ như `require`.",
+        "en": "Dynamic `import()` returns a Promise that resolves to the module namespace object, so you use it with `await` or `.then` (e.g. `const { drawChart } = await import('./chart.js')`). It loads a module only when needed, so bundlers split it into a separate chunk (code splitting) and the initial download shrinks. Unlike a static `import`, it can be placed inside an `if` or a function. It does not return the module synchronously like `require`."
+      }
+    },
+    {
+      "id": "javascript.es6.013",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "es6",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh arrow function với function thường. Khi nào KHÔNG nên dùng arrow function?",
+        "en": "Compare arrow functions with regular functions. When should you NOT use an arrow function?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Arrow lấy `this` và `arguments` từ scope bao ngoài",
+          "en": "Arrows take `this` and `arguments` from the enclosing scope"
+        },
+        {
+          "vi": "Arrow không có `prototype`, không dùng được với `new`",
+          "en": "Arrows have no `prototype` and cannot be used with `new`"
+        },
+        {
+          "vi": "Hợp làm callback vì giữ `this` của nơi bao ngoài",
+          "en": "Good as callbacks because they keep the outer `this`"
+        },
+        {
+          "vi": "Không dùng cho method cần `this` là object gọi, constructor, hoặc khi cần `arguments`",
+          "en": "Avoid for methods needing the calling object as `this`, constructors, or when `arguments` is needed"
+        },
+        {
+          "vi": "Function declaration được hoisting; arrow gán vào `const` thì không",
+          "en": "Function declarations are hoisted; an arrow in a `const` is not"
+        }
+      ],
+      "explanation": {
+        "vi": "Arrow function không có `this`, `arguments` riêng mà lấy từ scope bao ngoài, nên rất hợp làm callback (`map`, `setTimeout`, handler trong class). Arrow function không có `prototype` và không gọi được bằng `new`. Vì vậy không nên dùng arrow cho method của object hoặc method gán lên prototype cần `this` là object gọi, cho constructor, hoặc khi cần `arguments`. Ngoài ra function declaration được hoisting, còn arrow gán vào `const` thì không.",
+        "en": "Arrow functions have no own `this` or `arguments`; they use those of the enclosing scope, which makes them great callbacks (`map`, `setTimeout`, handlers in classes). They have no `prototype` and cannot be called with `new`. So avoid arrows for object methods or prototype methods that need `this` to be the calling object, for constructors, or when you need `arguments`. Also, function declarations are hoisted, while an arrow assigned to a `const` is not."
+      }
+    },
+    {
+      "id": "javascript.dom.008",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "dom",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "DOM là gì? JavaScript thay đổi giao diện trang web thông qua DOM như thế nào, và vì sao nên gom các thay đổi DOM lại?",
+        "en": "What is the DOM? How does JavaScript change a web page through it, and why should DOM changes be batched?"
+      },
+      "keyPoints": [
+        {
+          "vi": "DOM là cây object biểu diễn HTML mà JavaScript đọc/sửa được",
+          "en": "The DOM is the object tree representing the HTML that JavaScript can read/modify"
+        },
+        {
+          "vi": "Lấy phần tử bằng `querySelector`/`getElementById`, sửa bằng `textContent`, `classList`, `append`...",
+          "en": "Select with `querySelector`/`getElementById`, modify with `textContent`, `classList`, `append`..."
+        },
+        {
+          "vi": "Thay đổi layout gây reflow/repaint, tốn chi phí",
+          "en": "Layout changes trigger reflow/repaint, which costs time"
+        },
+        {
+          "vi": "Gom thay đổi (ví dụ `DocumentFragment`), tránh xen kẽ đọc–ghi layout trong vòng lặp",
+          "en": "Batch changes (e.g. `DocumentFragment`), avoid interleaving layout reads and writes in loops"
+        }
+      ],
+      "explanation": {
+        "vi": "DOM (Document Object Model) là cây object mà trình duyệt tạo ra từ HTML; mỗi thẻ là một node mà JavaScript có thể đọc và sửa. Ta lấy phần tử bằng `querySelector`/`getElementById`, rồi đổi nội dung (`textContent`), thuộc tính, class (`classList`) hoặc thêm/xoá node (`append`, `remove`). Mỗi thay đổi ảnh hưởng tới layout có thể khiến trình duyệt tính lại bố cục (reflow) và vẽ lại (repaint), vốn tốn kém. Vì vậy nên gom thay đổi, ví dụ dựng sẵn trong `DocumentFragment` rồi chèn một lần, và tránh xen kẽ đọc kích thước với ghi style trong vòng lặp.",
+        "en": "The DOM (Document Object Model) is the tree of objects the browser builds from HTML; every tag is a node JavaScript can read and modify. You get elements with `querySelector`/`getElementById`, then change content (`textContent`), attributes, classes (`classList`) or add/remove nodes (`append`, `remove`). Each layout-affecting change may make the browser recompute layout (reflow) and repaint, which is expensive. So batch changes, e.g. build in a `DocumentFragment` and insert once, and avoid interleaving size reads with style writes in loops."
+      }
+    },
+    {
+      "id": "javascript.dom.009",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "dom",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần hiển thị bình luận do người dùng nhập vào một phần tử. Vì sao nên dùng `el.textContent = comment` thay vì `el.innerHTML = comment`?",
+        "en": "You need to display a user-submitted comment in an element. Why use `el.textContent = comment` instead of `el.innerHTML = comment`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`innerHTML` không hiển thị được ký tự Unicode như tiếng Việt, nên chữ có dấu sẽ bị lỗi font",
+            "en": "`innerHTML` cannot display Unicode characters such as Vietnamese, so accented text would appear garbled"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`textContent` tự động đổi xuống dòng thành `<br>` và giữ nguyên định dạng",
+            "en": "`textContent` automatically turns line breaks into `<br>` and keeps formatting"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`innerHTML` chỉ dùng được với thẻ `div`, không dùng được với `p` hay `span`",
+            "en": "`innerHTML` only works on `div` elements, not on `p` or `span`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`innerHTML` phân tích markup nên script chèn vào có thể chạy (XSS)",
+            "en": "`innerHTML` parses markup, so injected scripts can run (XSS)"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`innerHTML` phân tích chuỗi như HTML, nên nếu người dùng nhập `<img src=x onerror=\"...\">` thì đoạn script đó có thể chạy, đây là lỗ hổng XSS. `textContent` chèn chuỗi như văn bản thuần nên mọi ký tự `<`, `>` hiển thị nguyên dạng và không có gì được thực thi. Lý do chính là bảo mật, không phải `innerHTML` không hiển thị được tiếng Việt hay chỉ dùng được với thẻ `div`.",
+        "en": "`innerHTML` parses the string as HTML, so if a user types `<img src=x onerror=\"...\">` that script can run, which is an XSS vulnerability. `textContent` inserts the string as plain text, so `<` and `>` show up literally and nothing executes. The main reason is security, not that `innerHTML` cannot show Unicode text or only works on `div`."
+      }
+    },
+    {
+      "id": "javascript.dom.010",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "dom",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Thuộc tính `defer` và `async` trên thẻ `<script src>` khác nhau thế nào?",
+        "en": "How do the `defer` and `async` attributes on `<script src>` differ?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`async` chặn phân tích HTML tới khi script tải và chạy xong, còn `defer` tải song song",
+            "en": "`async` blocks HTML parsing until the script has downloaded and run, while `defer` downloads in parallel"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`defer` chỉ chạy sau sự kiện `load` khi mọi ảnh đã tải xong",
+            "en": "`defer` only runs after the `load` event when all images are loaded"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`defer` chạy sau khi phân tích xong, theo thứ tự; `async` chạy ngay khi tải xong, không theo thứ tự",
+            "en": "`defer` runs after parsing, in order; `async` runs as soon as it downloads, in any order"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hai thuộc tính giống hệt nhau, chỉ khác tên",
+            "en": "They are identical apart from the name"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Cả hai đều tải script song song mà không chặn việc phân tích HTML. Script `defer` chỉ chạy sau khi HTML được phân tích xong (trước `DOMContentLoaded`) và giữ đúng thứ tự xuất hiện, hợp với code app cần DOM. Script `async` chạy ngay khi tải xong, có thể chen giữa lúc đang phân tích HTML và không đảm bảo thứ tự, hợp với script độc lập như analytics. Script `type=\"module\"` mặc định hoạt động giống `defer`.",
+        "en": "Both download the script in parallel without blocking HTML parsing. A `defer` script runs only after the HTML is parsed (before `DOMContentLoaded`) and keeps document order, which suits app code that needs the DOM. An `async` script runs as soon as it downloads, possibly in the middle of parsing and in no guaranteed order, which suits independent scripts like analytics. `type=\"module\"` scripts behave like `defer` by default."
+      }
+    },
+    {
+      "id": "javascript.dom.011",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "dom",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Code đăng ký `button.addEventListener('click', () => console.log('clicked'))`, sau đó gọi `button.removeEventListener('click', () => console.log('clicked'))`. Vì sao click vẫn in `clicked`?",
+        "en": "Code registers `button.addEventListener('click', () => console.log('clicked'))`, then calls `button.removeEventListener('click', () => console.log('clicked'))`. Why does clicking still print `clicked`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hai arrow function là hai tham chiếu hàm khác nhau",
+            "en": "The two arrows are different function references"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`removeEventListener` chỉ có tác dụng sau khi trang tải lại",
+            "en": "`removeEventListener` only takes effect after a page reload"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Listener dạng arrow function không bao giờ gỡ được sau khi đã thêm",
+            "en": "Arrow-function listeners can never be removed once they are added"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải gọi `removeEventListener` trước `addEventListener`, nếu không listener đã bị khoá cố định",
+            "en": "`removeEventListener` must be called before `addEventListener`, otherwise the listener is already locked in"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`removeEventListener` chỉ gỡ được listener khi truyền đúng *cùng một tham chiếu hàm* (và cùng tuỳ chọn `capture`) đã dùng lúc đăng ký. Hai arrow function viết giống nhau vẫn là hai object hàm khác nhau, nên lệnh gỡ không khớp listener nào. Hãy lưu hàm vào biến `const onClick = () => ...` rồi dùng cho cả hai lệnh, hoặc truyền `{ signal }` của `AbortController` và gọi `abort()`.",
+        "en": "`removeEventListener` only removes a listener when given the *same function reference* (and the same `capture` option) used when adding it. Two identical-looking arrow functions are still two different function objects, so the removal matches nothing. Store the function in a variable `const onClick = () => ...` and use it for both calls, or pass an `AbortController`'s `{ signal }` and call `abort()`."
+      }
+    },
+    {
+      "id": "javascript.dom.012",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "dom",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const target = new EventTarget();\nlet count = 0;\n\ntarget.addEventListener('ping', () => (count += 1), { once: true });\ntarget.addEventListener('ping', () => (count += 10));\n\ntarget.dispatchEvent(new Event('ping'));\ntarget.dispatchEvent(new Event('ping'));\nconsole.log(count);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "22",
+            "en": "22"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "11",
+            "en": "11"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "20",
+            "en": "20"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "21",
+            "en": "21"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Listener đầu tiên được đăng ký với `{ once: true }` nên chỉ chạy ở lần dispatch đầu rồi tự bị gỡ. Lần thứ nhất: `count` tăng `1` rồi `+10` thành `11`. Lần thứ hai chỉ còn listener thứ hai: `11 + 10 = 21`. Đáp án `22` sai vì nó coi `once` như không có tác dụng.",
+        "en": "The first listener is registered with `{ once: true }`, so it only runs on the first dispatch and is then removed automatically. First dispatch: `count` goes up by `1`, then `+10`, giving `11`. The second dispatch only has the second listener: `11 + 10 = 21`. `22` is wrong because it treats `once` as having no effect."
+      }
+    },
+    {
+      "id": "javascript.patterns.009",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "patterns",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách nào cập nhật `age` của `user` theo kiểu bất biến (immutable)?",
+        "en": "Which way updates `user`'s `age` immutably?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`user.age = 21; const next = user;`",
+            "en": "`user.age = 21; const next = user;`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`const next = Object.freeze(user);`",
+            "en": "`const next = Object.freeze(user);`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`const next = { ...user, age: 21 };`",
+            "en": "`const next = { ...user, age: 21 };`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`const next = user; next.age = 21;`",
+            "en": "`const next = user; next.age = 21;`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Cập nhật bất biến nghĩa là không sửa object cũ mà tạo object mới: `{ ...user, age: 21 }` sao chép các thuộc tính rồi ghi đè `age`, còn `user` giữ nguyên. Gán `user.age = 21` (kể cả qua biến khác trỏ cùng object) là sửa trực tiếp. `Object.freeze` chỉ khoá object, không tạo ra phiên bản mới có `age` khác. Cách này quan trọng với React/Redux vì chúng so sánh tham chiếu để phát hiện thay đổi.",
+        "en": "Updating immutably means creating a new object instead of changing the old one: `{ ...user, age: 21 }` copies the properties and overrides `age`, while `user` stays the same. `user.age = 21` (even through another variable pointing to the same object) mutates it directly. `Object.freeze` only locks the object; it does not produce a new version with a different `age`. This matters in React/Redux because they compare references to detect changes."
+      }
+    },
+    {
+      "id": "javascript.patterns.010",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "patterns",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "function parseName(json) {\n  try {\n    return JSON.parse(json).name;\n  } catch {\n    return 'invalid';\n  }\n}\n\nconsole.log(parseName('{\"name\":\"An\"}'), parseName('{name:An}'), parseName('null'));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "An invalid null",
+            "en": "An invalid null"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "An invalid undefined",
+            "en": "An invalid undefined"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "An undefined invalid",
+            "en": "An undefined invalid"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "An invalid invalid",
+            "en": "An invalid invalid"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Lần gọi đầu parse thành công và trả về `'An'`. Lần thứ hai `'{name:An}'` không phải JSON hợp lệ nên `JSON.parse` ném `SyntaxError` và rơi vào `catch`. Lần thứ ba `'null'` là JSON hợp lệ, `JSON.parse` trả về `null`, nhưng đọc `.name` trên `null` ném `TypeError`, lỗi này cũng bị `catch` bắt. Vì `catch` không phân biệt loại lỗi nên cả hai đều trả về `'invalid'`.",
+        "en": "The first call parses fine and returns `'An'`. The second, `'{name:An}'`, is not valid JSON, so `JSON.parse` throws a `SyntaxError` and lands in `catch`. The third, `'null'`, is valid JSON and `JSON.parse` returns `null`, but reading `.name` on `null` throws a `TypeError`, which the same `catch` catches. Because the `catch` does not distinguish error types, both return `'invalid'`."
+      }
+    },
+    {
+      "id": "javascript.patterns.011",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "patterns",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Người dùng rời trang trong khi một request `fetch` dài vẫn đang chạy. Cách chuẩn để huỷ request đó là gì?",
+        "en": "The user leaves the page while a long `fetch` request is still running. What is the standard way to cancel it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gán biến chứa Promise thành `null` để trình duyệt tự huỷ",
+            "en": "Set the variable holding the Promise to `null` so the browser cancels it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Truyền `signal` của một `AbortController` vào `fetch`, rồi gọi `controller.abort()`",
+            "en": "Pass an `AbortController`'s `signal` to `fetch`, then call `controller.abort()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gọi `clearTimeout` với Promise của `fetch` để huỷ request mạng bên dưới",
+            "en": "Call `clearTimeout` with the `fetch` Promise, which cancels the underlying network request"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gọi `Promise.reject()` trên Promise đang chạy",
+            "en": "Call `Promise.reject()` on the running Promise"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Tạo `AbortController`, truyền `controller.signal` vào `fetch(url, { signal })`, và gọi `controller.abort()` khi cần huỷ. Khi đó Promise của `fetch` reject với lỗi có `name === 'AbortError'`, nên cần bỏ qua lỗi này trong `catch`. Gán `null` cho biến Promise không dừng request, và `clearTimeout` chỉ huỷ timer. Có thể dùng `AbortSignal.timeout(ms)` để tự huỷ sau một khoảng thời gian.",
+        "en": "Create an `AbortController`, pass `controller.signal` to `fetch(url, { signal })`, and call `controller.abort()` when you need to cancel. The `fetch` Promise then rejects with an error whose `name === 'AbortError'`, which you should ignore in `catch`. Setting the Promise variable to `null` does not stop the request, and `clearTimeout` only cancels timers. `AbortSignal.timeout(ms)` can cancel automatically after a delay."
+      }
+    },
+    {
+      "id": "javascript.patterns.012",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "patterns",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Sau khi gọi `off('save', onSave)`, sự kiện `save` vẫn gọi `onSave`. Lỗi ở đâu?",
+        "en": "After calling `off('save', onSave)`, the `save` event still calls `onSave`. Where is the bug?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "class Emitter {\n  constructor() {\n    this.handlers = {};\n  }\n  on(evt, fn) {\n    (this.handlers[evt] ??= []).push(fn);\n  }\n  off(evt, fn) {\n    this.handlers[evt]?.filter((h) => h !== fn);\n  }\n  emit(evt, data) {\n    this.handlers[evt]?.forEach((h) => h(data));\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`??=` trong `on` ghi đè mảng handler mỗi lần đăng ký",
+            "en": "`??=` in `on` overwrites the handler array on every registration"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "So sánh hàm phải dùng `==` thay vì `!==`",
+            "en": "Functions must be compared with `==` instead of `!==`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`forEach` trong `emit` chạy handler theo thứ tự ngược",
+            "en": "`forEach` in `emit` runs handlers in reverse order"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Kết quả của `filter` không được gán lại vào `this.handlers[evt]`",
+            "en": "The result of `filter` is never assigned back to `this.handlers[evt]`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`filter` không sửa mảng gốc mà trả về một mảng mới; ở đây kết quả bị bỏ đi nên danh sách handler không đổi. Cần gán lại: `this.handlers[evt] = this.handlers[evt]?.filter((h) => h !== fn);`. So sánh `h !== fn` là đúng vì cùng một tham chiếu hàm được truyền vào `on` và `off`. Toán tử `??=` trong `on` cũng hoạt động đúng.",
+        "en": "`filter` does not modify the original array; it returns a new one, and here the result is thrown away, so the handler list is unchanged. Reassign it: `this.handlers[evt] = this.handlers[evt]?.filter((h) => h !== fn);`. The `h !== fn` comparison is correct because the same function reference is passed to `on` and `off`. The `??=` in `on` also works correctly."
+      }
+    },
+    {
+      "id": "javascript.patterns.013",
+      "contentVersion": 1,
+      "trackId": "javascript",
+      "topicId": "patterns",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích Observer pattern (pub/sub). Pattern này xuất hiện ở đâu trong JavaScript và cần lưu ý gì khi dùng?",
+        "en": "Explain the Observer (pub/sub) pattern. Where does it appear in JavaScript and what should you watch out for?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Nguồn phát sự kiện, nhiều observer đăng ký nhận mà không phụ thuộc trực tiếp",
+          "en": "A source emits events, many observers subscribe without direct coupling"
+        },
+        {
+          "vi": "Ví dụ: `addEventListener`, `EventEmitter`, store Redux/Zustand, RxJS",
+          "en": "Examples: `addEventListener`, `EventEmitter`, Redux/Zustand stores, RxJS"
+        },
+        {
+          "vi": "Lợi ích: giảm phụ thuộc, dễ thêm bên nhận mới",
+          "en": "Benefit: looser coupling, easy to add new subscribers"
+        },
+        {
+          "vi": "Phải huỷ đăng ký khi không dùng để tránh rò rỉ bộ nhớ",
+          "en": "Unsubscribe when done to avoid memory leaks"
+        },
+        {
+          "vi": "Cô lập lỗi trong từng handler",
+          "en": "Isolate errors in each handler"
+        }
+      ],
+      "explanation": {
+        "vi": "Observer pattern cho phép một nguồn (subject/emitter) thông báo cho nhiều bên đăng ký (observer) mà không cần biết họ là ai: bên nhận gọi `subscribe`/`on`, nguồn gọi `emit` để phát sự kiện. Trong JavaScript nó có ở khắp nơi: `addEventListener` của DOM, `EventEmitter` của Node.js, store của Redux/Zustand hay RxJS. Lợi ích là giảm phụ thuộc giữa các module. Cần nhớ huỷ đăng ký (`off`, hàm unsubscribe) khi không dùng nữa để tránh rò rỉ bộ nhớ, và xử lý lỗi trong handler để một handler lỗi không làm hỏng các handler khác.",
+        "en": "The Observer pattern lets a source (subject/emitter) notify many subscribers (observers) without knowing who they are: receivers call `subscribe`/`on`, and the source calls `emit` to publish events. In JavaScript it is everywhere: DOM `addEventListener`, Node.js `EventEmitter`, Redux/Zustand stores, RxJS. The benefit is looser coupling between modules. Remember to unsubscribe (`off`, an unsubscribe function) when done to avoid memory leaks, and handle errors in handlers so one failing handler does not break the others."
       }
     }
   ]

@@ -265,15 +265,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "Chuyển từ TCP sang UDP để giảm độ trễ",
-            "en": "Switching from TCP to UDP to reduce latency"
+            "vi": "Chuyển tầng transport từ TCP sang UDP để mọi request tránh được độ trễ handshake của TCP",
+            "en": "Switching the transport from TCP to UDP so every request avoids the TCP handshake latency"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Bỏ hẳn header để giảm kích thước request",
-            "en": "Dropping headers entirely to shrink requests"
+            "vi": "Bỏ phần lớn header, chỉ gửi method và path để giảm kích thước mỗi request",
+            "en": "Dropping most headers and sending only the method and path to shrink every request"
           }
         },
         {
@@ -316,8 +316,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Query string không được chứa tiếng Việt, phải đổi sang không dấu",
-            "en": "Query strings cannot contain Vietnamese, so diacritics must be removed"
+            "vi": "Query string không được chứa tiếng Việt, nên phải bỏ dấu `áo thun` thành `ao thun` trước khi gửi",
+            "en": "Query strings cannot contain Vietnamese characters, so the diacritics in `áo thun` must be stripped to `ao thun` first"
           }
         },
         {
@@ -330,8 +330,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Thiếu header `Content-Type`",
-            "en": "The `Content-Type` header is missing"
+            "vi": "Thiếu header `Content-Type: application/x-www-form-urlencoded` nên server không parse được query",
+            "en": "The `Content-Type: application/x-www-form-urlencoded` header is missing, so the server cannot parse the query"
           }
         }
       ],
@@ -356,22 +356,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "HTTP/3 bỏ TLS để handshake nhanh hơn",
-            "en": "HTTP/3 drops TLS to make the handshake faster"
+            "vi": "HTTP/3 bỏ handshake TLS và dựa vào checksum của UDP nên thiết lập và khôi phục kết nối nhanh hơn",
+            "en": "HTTP/3 drops the TLS handshake and relies on UDP checksums, so connections are set up and resumed faster"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Chạy trên QUIC (UDP): mất gói chỉ chặn stream bị ảnh hưởng, và connection ID giúp giữ kết nối khi đổi IP",
-            "en": "It runs over QUIC (UDP): a lost packet only stalls the affected stream, and connection IDs keep the connection alive across IP changes"
+            "vi": "Chạy trên QUIC: mất gói chỉ chặn stream của nó, và connection ID giữ kết nối khi đổi IP",
+            "en": "It runs over QUIC: a lost packet stalls only its own stream, and connection IDs survive IP changes"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "HTTP/3 mở nhiều kết nối TCP song song thay cho multiplexing",
-            "en": "HTTP/3 opens many parallel TCP connections instead of multiplexing"
+            "vi": "HTTP/3 mở nhiều kết nối TCP song song thay cho multiplexing, nên mất một gói chỉ làm chậm một kết nối",
+            "en": "HTTP/3 opens several parallel TCP connections instead of multiplexing, so one lost packet only slows one of them"
           }
         },
         {
@@ -488,22 +488,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "`200 OK` kèm header `Retry-After`",
-            "en": "`200 OK` with a `Retry-After` header"
+            "vi": "`200 OK` kèm header `Retry-After` báo khi nào client lấy được đơn hàng",
+            "en": "`200 OK` with a `Retry-After` header telling the client when to fetch the order"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`204 No Content` kèm body chứa đơn hàng",
-            "en": "`204 No Content` with the order in the body"
+            "vi": "`204 No Content` kèm toàn bộ đơn hàng mới trong body",
+            "en": "`204 No Content` with the full new order in the response body"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`201 Created` kèm header `Location` trỏ tới đơn hàng mới",
-            "en": "`201 Created` with a `Location` header pointing to the new order"
+            "vi": "`201 Created` kèm header `Location` của đơn hàng mới",
+            "en": "`201 Created` with a `Location` header for the new order"
           }
         },
         {
@@ -691,8 +691,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Nên trả `500` vì đây là lỗi",
-            "en": "It should return `500` because this is an error"
+            "vi": "Nên trả `500 Internal Server Error` vì email trùng là lỗi mà server phải báo",
+            "en": "It should return `500 Internal Server Error`, because a duplicate email is a failure the server must report"
           }
         },
         {
@@ -705,8 +705,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Body lỗi không được là JSON",
-            "en": "An error body must not be JSON"
+            "vi": "Body lỗi không được là JSON; phải là plain text để client nào cũng đọc được",
+            "en": "An error body must not be JSON; it should be plain text so every client can read it"
           }
         }
       ],
@@ -867,8 +867,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Giữ kết nối mở đến khi xong rồi trả `200 OK`, tăng timeout ở mọi proxy",
-            "en": "Keep the connection open until done, then return `200 OK`, raising timeouts on every proxy"
+            "vi": "Giữ kết nối mở đến khi xong rồi trả `200 OK`, tăng idle timeout ở mọi proxy và load balancer lên 10 phút",
+            "en": "Keep the connection open until done, then return `200 OK`, raising idle timeouts on every proxy and load balancer to 10 minutes"
           }
         },
         {
@@ -968,22 +968,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "`PATCH` là idempotent còn `PUT` thì không",
-            "en": "`PATCH` is idempotent while `PUT` is not"
+            "vi": "`PATCH` idempotent theo định nghĩa, còn `PUT` có thể tạo bản trùng khi retry",
+            "en": "`PATCH` is idempotent by definition, while `PUT` may create duplicates when retried"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`PUT` gửi dữ liệu qua query string, `PATCH` gửi qua body",
-            "en": "`PUT` sends data in the query string, `PATCH` in the body"
+            "vi": "`PUT` gửi dữ liệu qua query string, còn `PATCH` gửi các trường thay đổi trong body",
+            "en": "`PUT` sends data in the query string, while `PATCH` sends the changed fields in the request body"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`PUT` thay thế toàn bộ representation của resource, `PATCH` chỉ áp dụng thay đổi một phần",
-            "en": "`PUT` replaces the entire resource representation, `PATCH` applies a partial modification"
+            "vi": "`PUT` thay thế toàn bộ resource, `PATCH` chỉ áp dụng thay đổi một phần",
+            "en": "`PUT` replaces the whole resource; `PATCH` applies a partial modification"
           }
         }
       ],
@@ -1019,8 +1019,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Id `42` phải đặt trong query string",
-            "en": "The id `42` must be in the query string"
+            "vi": "Id `42` phải chuyển vào query string (`/api/users/delete?id=42`) để cache không lưu mãi URL xoá của từng user",
+            "en": "The id `42` must move to the query string (`/api/users/delete?id=42`) so caches do not store each user's delete URL forever"
           }
         },
         {
@@ -1033,8 +1033,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Thiếu header `Accept: text/html`",
-            "en": "The `Accept: text/html` header is missing"
+            "vi": "Thiếu header `Accept: text/html` nên server không chọn được trang xác nhận để trả về trước khi xoá",
+            "en": "The `Accept: text/html` header is missing, so the server cannot choose a confirmation page to return before deleting"
           }
         }
       ],
@@ -1202,15 +1202,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "`page` phải bắt đầu từ 0",
-            "en": "`page` must start at 0"
+            "vi": "`page` phải bắt đầu từ 0, nên `page=1` âm thầm bỏ qua một triệu sản phẩm đầu",
+            "en": "`page` must start at 0, so `page=1` silently skips the first million products"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Tham số phân trang phải đặt trong header thay vì query",
-            "en": "Pagination parameters must be headers instead of query params"
+            "vi": "Tham số phân trang phải gửi qua header `Range: items=0-999999` thay vì query, vì REST bắt buộc như vậy",
+            "en": "Pagination parameters must be sent as `Range: items=0-999999` headers instead of query parameters, as REST requires"
           }
         },
         {
@@ -1242,22 +1242,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Thêm một trường optional mới vào response luôn là breaking change nên phải lên version",
-            "en": "Adding a new optional field to a response is always a breaking change and requires a new version"
+            "vi": "Thêm một trường optional mới vào response luôn là breaking change, nên mỗi lần thêm đều phải lên path `/v2`",
+            "en": "Adding a new optional field to a response is always a breaking change, so every such addition requires a new `/v2` path"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Version trong path (`/v1/...`) dễ thấy, dễ route và cache; version qua header/media type giữ URL ổn định nhưng khó thử trên browser và cache phải `Vary` theo header đó",
-            "en": "Path versioning (`/v1/...`) is visible and easy to route and cache; header/media-type versioning keeps URLs stable but is harder to try in a browser and caches must `Vary` on that header"
+            "vi": "Version trong path (`/v1/...`) dễ route và cache; version qua header giữ URL ổn định nhưng cache phải `Vary` theo header đó",
+            "en": "Path versioning (`/v1/...`) is easy to route and cache; header versioning keeps URLs stable, but caches must `Vary` on that header"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Version qua custom header được CDN cache đúng mà không cần cấu hình gì",
-            "en": "Custom-header versioning is cached correctly by CDNs without any configuration"
+            "vi": "Version qua custom header được CDN cache đúng mà không cần cấu hình, vì mặc định CDN đưa mọi request header vào cache key",
+            "en": "Custom-header versioning is cached correctly by CDNs without any configuration, because CDNs include every request header in the cache key by default"
           }
         },
         {
@@ -1330,8 +1330,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Authentication chỉ dùng cho web, authorization chỉ dùng cho mobile",
-            "en": "Authentication is only for web, authorization only for mobile"
+            "vi": "Authentication chỉ áp dụng cho web app, còn authorization chỉ áp dụng cho mobile app",
+            "en": "Authentication applies only to web apps, while authorization applies only to mobile apps"
           }
         },
         {
@@ -1344,8 +1344,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Authorization luôn diễn ra trước authentication",
-            "en": "Authorization always happens before authentication"
+            "vi": "Authorization luôn diễn ra trước, sau đó authentication xác nhận các quyền đã cấp",
+            "en": "Authorization always happens first, then authentication confirms the granted permissions"
           }
         }
       ],
@@ -1404,15 +1404,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Query string `?token=<token>`",
-            "en": "The query string `?token=<token>`"
+            "vi": "Query string `?token=<token>` trên mỗi URL",
+            "en": "The query string `?token=<token>` on each URL"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Header `Content-Type: Bearer <token>`",
-            "en": "The `Content-Type: Bearer <token>` header"
+            "vi": "Header `Content-Type: Bearer <token>` của request",
+            "en": "The `Content-Type: Bearer <token>` request header"
           }
         },
         {
@@ -1451,8 +1451,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Payload được mã hoá bằng secret nên an toàn để chứa mật khẩu",
-            "en": "The payload is encrypted with the secret, so it is safe to store passwords in it"
+            "vi": "Payload được mã hoá bằng secret dùng để ký nên an toàn để chứa mật khẩu và số thẻ",
+            "en": "The payload is encrypted with the signing secret, so it is safe to store passwords and card numbers in it"
           }
         },
         {
@@ -1465,8 +1465,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "Chữ ký ngăn người khác đọc được payload",
-            "en": "The signature prevents others from reading the payload"
+            "vi": "Chữ ký mã hoá payload nên chỉ người giữ key mới đọc được các claim trong token",
+            "en": "The signature encrypts the payload, so only holders of the key can read the claims inside the token"
           }
         },
         {
@@ -1502,29 +1502,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Nên trả `404` thay vì `403`",
-            "en": "It should return `404` instead of `403`"
+            "vi": "Nên trả `404` thay vì `403`, vì để lộ việc route admin tồn tại là rủi ro chính ở đây",
+            "en": "It should return `404` instead of `403`, because revealing that the admin route exists is the main risk here"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`jwt.decode` không kiểm tra chữ ký: ai cũng tự tạo được token có `role: admin`. Phải dùng `jwt.verify` với key và chỉ định `algorithms`",
-            "en": "`jwt.decode` does not check the signature: anyone can forge a token with `role: admin`. Use `jwt.verify` with the key and explicit `algorithms`"
+            "vi": "`jwt.decode` không kiểm tra chữ ký nên ai cũng giả được `role: admin`; phải dùng `jwt.verify` với key và `algorithms`",
+            "en": "`jwt.decode` skips signature checks, so anyone can forge `role: admin`; use `jwt.verify` with the key and `algorithms`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`split(' ')` sai, phải dùng `split(':')`",
-            "en": "`split(' ')` is wrong; it should be `split(':')`"
+            "vi": "`split(' ')` sai: header `Authorization` có dạng `Bearer:<token>`, nên phải dùng `split(':')` để lấy token",
+            "en": "`split(' ')` is wrong: the `Authorization` header is sent as `Bearer:<token>`, so it must be `split(':')` to extract it"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Không nên gán `payload` vào `req.user`",
-            "en": "`payload` should not be assigned to `req.user`"
+            "vi": "Không nên gán `payload` vào `req.user`, vì các handler sau có thể sửa claim của token",
+            "en": "`payload` should not be assigned to `req.user`, because later handlers can then mutate the token's claims"
           }
         }
       ],
@@ -1556,22 +1556,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Vì refresh token được gửi kèm mọi request API nên nhanh hơn",
-            "en": "Because the refresh token is sent with every API request, which is faster"
+            "vi": "Vì khi đó refresh token được gửi kèm mọi request API, nên server khỏi phải kiểm tra access token",
+            "en": "Because the refresh token is then sent with every API request, so the server can skip verifying access tokens"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Giới hạn thiệt hại nếu access token bị lộ, trong khi refresh token được lưu kỹ hơn, có thể xoay vòng và thu hồi",
-            "en": "To limit the damage if an access token leaks, while the refresh token is stored more carefully and can be rotated and revoked"
+            "vi": "Giới hạn thiệt hại nếu access token bị lộ, còn refresh token được bảo vệ kỹ hơn, có thể xoay vòng và thu hồi",
+            "en": "To limit damage if an access token leaks, while the better-protected refresh token can be rotated and revoked"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Vì chuẩn JWT bắt buộc token hết hạn sau 15 phút",
-            "en": "Because the JWT standard requires tokens to expire after 15 minutes"
+            "vi": "Vì chuẩn JWT (RFC 7519) bắt buộc mọi access token hết hạn trong vòng 15 phút sau khi phát hành",
+            "en": "Because the JWT standard (RFC 7519) requires every access token to expire within 15 minutes of issue"
           }
         }
       ],
@@ -1600,15 +1600,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Nên dùng `GET` thay vì `POST`",
-            "en": "It should use `GET` instead of `POST`"
+            "vi": "Nên dùng `GET` thay vì `POST`, vì gửi OTP không tạo ra resource nào",
+            "en": "It should use `GET` instead of `POST`, since sending an OTP does not create a resource"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Key nên được base64 trước khi đặt vào code",
-            "en": "The key should be base64-encoded before being put in the code"
+            "vi": "Key nên được base64 hoặc obfuscate trước khi đặt vào code để DevTools không lộ được",
+            "en": "The key should be base64-encoded or obfuscated before being put in the code so DevTools cannot reveal it"
           }
         },
         {
@@ -1621,8 +1621,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Secret API key nằm trong bundle JS, ai cũng xem được và lạm dụng; phải gọi qua backend giữ key",
-            "en": "The secret API key ships in the JS bundle, so anyone can read and abuse it; calls must go through a backend that holds the key"
+            "vi": "Secret key nằm trong bundle JS để ai cũng lạm dụng được; chỉ backend mới nên giữ key",
+            "en": "The secret key ships in the JS bundle for anyone to abuse; only a backend should hold it"
           }
         }
       ],
@@ -1647,8 +1647,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "PKCE mã hoá access token để resource server không đọc được",
-            "en": "PKCE encrypts the access token so the resource server cannot read it"
+            "vi": "PKCE mã hoá access token bằng `code_challenge` nên chỉ app khởi tạo luồng đăng nhập mới giải mã được",
+            "en": "PKCE encrypts the access token with the `code_challenge`, so only the app that started the login flow can decrypt it"
           }
         },
         {
@@ -1661,15 +1661,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Public client không giữ được `client_secret`; PKCE gắn authorization code với `code_verifier` nên kẻ chặn được code cũng không đổi lấy token được",
-            "en": "Public clients cannot keep a `client_secret`; PKCE binds the authorization code to a `code_verifier`, so an intercepted code cannot be exchanged for tokens"
+            "vi": "Public client không giữ được secret; PKCE gắn code với `code_verifier` nên code bị đánh cắp cũng vô dụng",
+            "en": "Public clients cannot keep a secret; PKCE binds the code to a `code_verifier`, so a stolen code is useless"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "PKCE giúp dùng Implicit flow an toàn hơn",
-            "en": "PKCE makes the Implicit flow safe to use"
+            "vi": "PKCE giúp Implicit flow an toàn bằng cách thêm `code_challenge` vào token trả về trong URL fragment",
+            "en": "PKCE makes the Implicit flow safe by adding a `code_challenge` to the token returned in the URL fragment"
           }
         }
       ],
@@ -1732,22 +1732,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Chặn mọi lỗi XSS và SQL injection trong ứng dụng",
-            "en": "It blocks all XSS and SQL injection bugs in the application"
+            "vi": "Chặn XSS và SQL injection vì kẻ tấn công không sửa được request đã mã hoá",
+            "en": "It blocks XSS and SQL injection, since attackers cannot alter encrypted requests"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Ẩn hoàn toàn tên miền đang truy cập khỏi nhà mạng",
-            "en": "It fully hides the visited domain from the network provider"
+            "vi": "Ẩn hoàn toàn tên miền đang truy cập khỏi nhà mạng, kể cả qua DNS và SNI",
+            "en": "It fully hides which domain you visit from the network provider, including DNS and SNI"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Mã hoá dữ liệu trên đường truyền, chống sửa đổi và xác thực server qua certificate",
-            "en": "Encryption in transit, tamper protection and server authentication via certificates"
+            "vi": "Mã hoá trên đường truyền, toàn vẹn dữ liệu và xác thực server",
+            "en": "Encryption in transit, integrity and server authentication"
           }
         },
         {
@@ -1800,8 +1800,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Đặt tên bảng khó đoán trong DB",
-            "en": "Give DB tables hard-to-guess names"
+            "vi": "Đặt tên bảng và cột khó đoán trong DB",
+            "en": "Give the DB tables and columns hard-to-guess names"
           }
         }
       ],
@@ -1830,29 +1830,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Nên trả `200` để không lộ việc có lỗi",
-            "en": "It should return `200` to hide that an error occurred"
+            "vi": "Nên trả `200` với danh sách rỗng để kẻ tấn công không biết câu truy vấn bị lỗi",
+            "en": "It should return `200` with an empty list, so attackers cannot tell that the query failed"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Body lỗi phải là HTML thay vì JSON",
-            "en": "The error body must be HTML instead of JSON"
+            "vi": "Body lỗi phải là HTML render từ template lỗi, vì response `500` không được phép có body JSON",
+            "en": "The error body must be HTML rendered by an error template, because JSON error bodies are not allowed for `500` responses"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Lộ thông tin nội bộ (SQL, stack trace, version DB) giúp kẻ tấn công dò lỗ hổng; ngoài ra id sai định dạng nên được validate và trả `400`",
-            "en": "It leaks internals (SQL, stack trace, DB version) that help attackers probe for flaws; also the malformed id should be validated and return `400`"
+            "vi": "Lộ câu SQL, stack trace và version DB cho kẻ tấn công; id sai định dạng nên nhận `400`",
+            "en": "It leaks SQL, stack traces and the DB version to attackers; the bad id deserves a `400`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Thiếu header `Cache-Control: public`",
-            "en": "The `Cache-Control: public` header is missing"
+            "vi": "Thiếu header `Cache-Control: public` nên mỗi lần retry CDN lại gọi xuống database với cùng câu truy vấn lỗi",
+            "en": "The `Cache-Control: public` header is missing, so the CDN keeps hitting the database with the same failing query on every retry"
           }
         }
       ],
@@ -1928,29 +1928,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Nên đổi thành `Access-Control-Allow-Origin: *` cùng `Allow-Credentials: true`",
-            "en": "It should use `Access-Control-Allow-Origin: *` together with `Allow-Credentials: true`"
+            "vi": "Nên đổi thành `Access-Control-Allow-Origin: *` cùng `Allow-Credentials: true` để không ưu tiên origin nào",
+            "en": "It should use `Access-Control-Allow-Origin: *` together with `Allow-Credentials: true` so no origin is singled out"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Preflight phải trả `200` thay vì `204`",
-            "en": "The preflight must return `200` instead of `204`"
+            "vi": "Preflight phải trả `200 OK` thay vì `204`, nếu không browser sẽ bỏ qua các header CORS đi kèm",
+            "en": "The preflight must return `200 OK` instead of `204`, otherwise browsers ignore the CORS headers it carries"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Mọi website đều đọc được response kèm cookie đăng nhập của nạn nhân; phải so `Origin` với allowlist",
-            "en": "Any website can read responses made with the victim's login cookies; `Origin` must be checked against an allowlist"
+            "vi": "Mọi website đều đọc được response kèm cookie của nạn nhân; cần so `Origin` với allowlist",
+            "en": "Any website can read responses sent with the victim's cookies; check `Origin` against an allowlist"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Thiếu `DELETE` trong `Access-Control-Allow-Methods`",
-            "en": "`DELETE` is missing from `Access-Control-Allow-Methods`"
+            "vi": "Thiếu `DELETE` trong `Access-Control-Allow-Methods` nên front-end không đóng được tài khoản",
+            "en": "`DELETE` is missing from `Access-Control-Allow-Methods`, so the account cannot be closed from the front-end"
           }
         }
       ],
@@ -2056,8 +2056,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Fixed window chặn burst hoàn hảo, kể cả ở ranh giới giữa hai cửa sổ",
-            "en": "Fixed window blocks bursts perfectly, even at the boundary between two windows"
+            "vi": "Fixed window chặn burst hoàn hảo, kể cả khi request dồn vào ranh giới giữa hai cửa sổ liền kề",
+            "en": "Fixed window blocks bursts perfectly, even when requests cluster at the boundary between two adjacent windows"
           }
         },
         {
@@ -2070,15 +2070,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Leaky bucket cho phép gửi bao nhiêu request cũng được miễn trung bình theo ngày không vượt hạn mức",
-            "en": "Leaky bucket allows any number of requests as long as the daily average stays under the quota"
+            "vi": "Leaky bucket cho phép burst bao nhiêu request cũng được miễn trung bình theo ngày không vượt hạn mức",
+            "en": "Leaky bucket allows any number of requests in a burst as long as the daily average stays under the quota"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Token bucket cho phép burst tới dung lượng bucket nhưng vẫn giữ tốc độ trung bình bằng tốc độ nạp token",
-            "en": "Token bucket allows bursts up to the bucket capacity while keeping the average rate equal to the refill rate"
+            "vi": "Token bucket cho phép burst tới dung lượng bucket nhưng tốc độ trung bình vẫn bằng tốc độ nạp token",
+            "en": "Token bucket allows bursts up to its capacity while the average rate stays at the refill rate"
           }
         }
       ],
@@ -2151,15 +2151,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "`no-cache` cấm lưu, `no-store` cho lưu tối đa 1 giờ",
-            "en": "`no-cache` forbids storing, `no-store` allows storing for up to 1 hour"
+            "vi": "`no-cache` cấm lưu response, còn `no-store` cho lưu tối đa 1 giờ mà không cần revalidate",
+            "en": "`no-cache` forbids storing the response, while `no-store` allows storing it for up to 1 hour without revalidation"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`no-store` chỉ áp dụng cho CDN, không áp dụng cho browser",
-            "en": "`no-store` only applies to CDNs, not browsers"
+            "vi": "`no-store` chỉ áp dụng cho shared cache như CDN, còn browser vẫn được lưu response",
+            "en": "`no-store` only applies to shared caches such as CDNs, while browsers may still keep the response"
           }
         }
       ],
@@ -2333,15 +2333,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "`max-age=3600` quá ngắn",
-            "en": "`max-age=3600` is too short"
+            "vi": "`max-age=3600` quá ngắn nên CDN phải tải lại liên tục và trộn lẫn response của các user",
+            "en": "`max-age=3600` is too short, so the CDN refetches and mixes up responses from different users"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Thiếu header `Content-Length`",
-            "en": "The `Content-Length` header is missing"
+            "vi": "Thiếu header `Content-Length` nên CDN ghép lẫn body response của các user khác nhau",
+            "en": "The `Content-Length` header is missing, so the CDN merges the bodies of different users' responses together"
           }
         },
         {
@@ -2354,8 +2354,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "`Cache-Control: public` cho phép shared cache (CDN) lưu dữ liệu riêng tư; nên dùng `private` hoặc `no-store`",
-            "en": "`Cache-Control: public` lets shared caches (the CDN) store private data; use `private` or `no-store`"
+            "vi": "`Cache-Control: public` cho phép CDN lưu dữ liệu riêng tư; nên dùng `private` hoặc `no-store`",
+            "en": "`Cache-Control: public` lets the CDN store private data; use `private` or `no-store`"
           }
         }
       ],
@@ -2380,8 +2380,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Giữ dữ liệu user trên server giữa các request như session",
-            "en": "Keeping user data on the server between requests like a session"
+            "vi": "Giữ dữ liệu user trên server giữa các request, giống session gắn với kết nối",
+            "en": "Keeping user data on the server between requests, like a session tied to the connection"
           }
         },
         {
@@ -2394,8 +2394,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "Tự động cache mọi response trong RAM của client",
-            "en": "Automatically caching every response in client memory"
+            "vi": "Tự động cache mọi response trong RAM của client suốt vòng đời kết nối",
+            "en": "Automatically caching every response in client memory for the connection's lifetime"
           }
         },
         {
@@ -2704,29 +2704,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "`POST` không được có body",
-            "en": "`POST` cannot have a body"
+            "vi": "`POST` không gửi được body object nếu không kèm header `Transfer-Encoding: chunked`",
+            "en": "`POST` cannot carry an object body unless the `Transfer-Encoding: chunked` header is also sent"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Phải dùng `PUT` để tạo user",
-            "en": "`PUT` must be used to create a user"
+            "vi": "Phải dùng `PUT` để tạo user, vì body của `POST` chỉ được parse khi submit form",
+            "en": "`PUT` must be used to create a user, because `POST` bodies are only parsed for form submissions"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Thiếu `await` trước `fetch`",
-            "en": "`await` is missing before `fetch`"
+            "vi": "`fetch` mã hoá body object thành `multipart/form-data`, nhưng thiếu `boundary` nên server không đọc được trường nào",
+            "en": "`fetch` encodes object bodies as `multipart/form-data`, but without a `boundary` the server cannot read any of the fields"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Body là object JS nên bị chuyển thành chuỗi `\"[object Object]\"`; cần `JSON.stringify(...)` và header `Content-Type: application/json`",
-            "en": "The body is a JS object, so it becomes the string `\"[object Object]\"`; it needs `JSON.stringify(...)` and a `Content-Type: application/json` header"
+            "vi": "Object JS bị ép thành chuỗi `\"[object Object]\"`; cần `JSON.stringify(...)` và `Content-Type: application/json`",
+            "en": "The JS object is coerced to `\"[object Object]\"`; it needs `JSON.stringify(...)` and `Content-Type: application/json`"
           }
         }
       ],
@@ -2755,29 +2755,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Tự đặt `Content-Type` làm mất tham số `boundary` nên server không tách được các part; hãy để browser tự đặt header",
-            "en": "Setting `Content-Type` by hand drops the `boundary` parameter, so the server cannot split the parts; let the browser set the header"
+            "vi": "Tự đặt `Content-Type` làm mất `boundary` nên server không tách được các part",
+            "en": "Setting `Content-Type` by hand drops the `boundary`, so the server cannot split the parts"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`FormData` chỉ dùng được với `GET`",
-            "en": "`FormData` only works with `GET`"
+            "vi": "`FormData` chỉ dùng được với `GET`, khi đó các trường được gửi thành query parameter",
+            "en": "`FormData` only works with `GET`, which sends the fields as query parameters the server can read"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Phải `JSON.stringify(form)` trước khi gửi",
-            "en": "The form must be `JSON.stringify`-ed before sending"
+            "vi": "Phải `JSON.stringify(form)` trước, vì `fetch` không tự gửi được body `FormData`",
+            "en": "The form must be `JSON.stringify`-ed first, because `fetch` cannot send a `FormData` body on its own"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`append` phải được gọi trước khi tạo `FormData`",
-            "en": "`append` must be called before creating the `FormData`"
+            "vi": "`append` phải được gọi trước khi tạo `FormData`, nếu không các trường bị bỏ qua âm thầm",
+            "en": "`append` must be called before the `FormData` is created, otherwise the fields are silently dropped"
           }
         }
       ],
@@ -2802,15 +2802,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Là giao thức thay thế HTTP cho API",
-            "en": "A protocol that replaces HTTP for APIs"
+            "vi": "Giao thức nhị phân thay thế HTTP cho API, tự thương lượng schema giữa client và server lúc chạy",
+            "en": "A binary protocol that replaces HTTP for APIs and negotiates schemas between client and server at runtime"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Mô tả API dạng máy đọc được (path, tham số, schema) để sinh tài liệu, client SDK và mock server",
-            "en": "Describing an API in a machine-readable way (paths, parameters, schemas) to generate docs, client SDKs and mock servers"
+            "vi": "Bản mô tả API dạng máy đọc được, dùng để sinh tài liệu, SDK và mock server",
+            "en": "A machine-readable API description used to generate docs, SDKs and mock servers"
           }
         },
         {
@@ -2823,8 +2823,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Là công cụ chỉ dùng để load test",
-            "en": "A tool used only for load testing"
+            "vi": "Công cụ chỉ dùng để load test, phát lại traffic đã ghi để đo throughput của API",
+            "en": "A tool used only for load testing, replaying recorded traffic against an API to measure throughput"
           }
         }
       ],
@@ -2981,22 +2981,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Client mở kết nối giữ nguyên để trao đổi dữ liệu hai chiều",
-            "en": "The client keeps a connection open for two-way data exchange"
+            "vi": "Client giữ một kết nối mở để hai bên trao đổi message theo cả hai chiều bất cứ lúc nào",
+            "en": "The client keeps one connection open so both sides can exchange messages in either direction at any time"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Hệ thống khác chủ động gửi HTTP request tới URL của bạn khi có sự kiện (vd. thanh toán thành công)",
-            "en": "Another system actively sends an HTTP request to your URL when an event happens (e.g. a successful payment)"
+            "vi": "Hệ thống khác gửi HTTP request tới URL bạn đã đăng ký khi có sự kiện (vd. thanh toán thành công)",
+            "en": "Another system sends an HTTP request to a URL you registered when an event happens (e.g. a payment succeeds)"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Client định kỳ gọi API để hỏi có dữ liệu mới không",
-            "en": "The client periodically calls the API to ask for new data"
+            "vi": "Client định kỳ gọi API của nhà cung cấp để hỏi có sự kiện mới nào (vd. thanh toán) không",
+            "en": "The client periodically calls the provider's API to ask whether any new events (e.g. payments) have happened"
           }
         },
         {
@@ -3028,15 +3028,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "SSE là kết nối hai chiều, client gửi dữ liệu trên cùng kết nối",
-            "en": "SSE is a two-way connection where the client sends data on the same connection"
+            "vi": "SSE là kênh hai chiều, client cũng gửi message ngược lại trên cùng event stream kéo dài đó",
+            "en": "SSE is a two-way channel where the client also sends messages back over the same long-lived event stream"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "SSE chạy trên UDP nên không cần HTTP",
-            "en": "SSE runs over UDP, so it does not need HTTP"
+            "vi": "SSE chạy trên datagram UDP nên không cần kết nối HTTP và vẫn giữ được khi đổi mạng",
+            "en": "SSE runs over UDP datagrams, so it needs no HTTP connection and survives network switches"
           }
         },
         {
@@ -3049,8 +3049,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Server đẩy dữ liệu một chiều tới client qua một HTTP response kéo dài với `Content-Type: text/event-stream`",
-            "en": "The server pushes one-way data to the client over a long-lived HTTP response with `Content-Type: text/event-stream`"
+            "vi": "Server đẩy event một chiều qua một HTTP response `text/event-stream` kéo dài",
+            "en": "The server pushes one-way events over a long-lived `text/event-stream` HTTP response"
           }
         }
       ],
@@ -3079,29 +3079,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Webhook phải dùng `GET` thay vì `POST`",
-            "en": "Webhooks must use `GET` instead of `POST`"
+            "vi": "Webhook phải dùng `GET` thay vì `POST` để cổng thanh toán retry an toàn",
+            "en": "Webhooks must use `GET` instead of `POST`, so the payment gateway can safely retry the call"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Nên trả `201 Created` thay vì `200`",
-            "en": "It should return `201 Created` instead of `200`"
+            "vi": "Nên trả `201 Created` thay vì `200`, nếu không nhà cung cấp sẽ retry mãi cùng một event đã thanh toán",
+            "en": "It should return `201 Created` instead of `200`, otherwise the provider keeps retrying the same paid event"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Không xác minh chữ ký (vd. HMAC trong header) nên ai cũng có thể giả request đánh dấu đơn đã thanh toán",
-            "en": "It does not verify a signature (e.g. an HMAC header), so anyone can forge a request marking orders as paid"
+            "vi": "Không xác minh chữ ký (vd. HMAC) nên ai cũng giả được request báo thanh toán thành công",
+            "en": "It never verifies a signature (e.g. HMAC), so anyone can forge a payment-success call"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`express.json()` không parse được JSON",
-            "en": "`express.json()` cannot parse JSON"
+            "vi": "`express.json()` không parse được JSON do cổng thanh toán gửi, nên `status` luôn là undefined",
+            "en": "`express.json()` cannot parse JSON bodies sent by payment gateways, so `status` is always undefined"
           }
         }
       ],
@@ -3126,29 +3126,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "gRPC truyền JSON dạng text nên dễ debug bằng `curl` hơn REST",
-            "en": "gRPC sends text JSON, so it is easier to debug with `curl` than REST"
+            "vi": "gRPC gửi JSON dạng text trên HTTP/1.1 nên dễ debug bằng `curl` hơn REST API",
+            "en": "gRPC sends human-readable JSON over HTTP/1.1, so it is easier to debug with `curl` than a REST API"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "gRPC dùng HTTP/2 và Protobuf, contract chặt và hỗ trợ streaming, hợp cho service-to-service; browser không gọi gRPC trực tiếp được mà cần gRPC-Web hoặc proxy",
-            "en": "gRPC uses HTTP/2 and Protobuf, has a strict contract and streaming, and suits service-to-service calls; browsers cannot call it directly and need gRPC-Web or a proxy"
+            "vi": "gRPC dùng HTTP/2 và Protobuf, contract chặt và hỗ trợ streaming; browser cần gRPC-Web hoặc proxy mới gọi được",
+            "en": "gRPC uses HTTP/2 and Protobuf with strict contracts and streaming; browsers need gRPC-Web or a proxy to call it"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "gRPC không hỗ trợ streaming, chỉ có request/response đơn",
-            "en": "gRPC has no streaming, only unary request/response"
+            "vi": "gRPC chỉ hỗ trợ lời gọi unary request/response; muốn streaming phải chuyển sang WebSocket",
+            "en": "gRPC supports only unary request/response calls; streaming requires switching to WebSockets"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "gRPC chạy trên HTTP/1.1 nên tương thích mọi proxy cũ",
-            "en": "gRPC runs on HTTP/1.1, so it works with every legacy proxy"
+            "vi": "gRPC chạy trên HTTP/1.1 thuần nên đi qua mọi proxy cũ và browser nào cũng gọi trực tiếp bằng `fetch` được",
+            "en": "gRPC runs on plain HTTP/1.1, so it passes through every legacy proxy and any browser can call it directly with `fetch`"
           }
         }
       ],
@@ -3228,6 +3228,1872 @@
       "explanation": {
         "vi": "Mạng và server merchant chắc chắn sẽ lỗi, nên mục tiêu thực tế là at-least-once delivery cộng với idempotency ở phía nhận, thay vì cố đạt exactly-once. Transactional outbox bảo đảm không mất event khi service gửi bị crash giữa chừng. Retry giãn dần và dead-letter giúp vượt qua sự cố tạm thời mà không spam merchant, kèm dashboard để merchant xem và gửi lại event. Vì event có thể tới trùng hoặc sai thứ tự, phía nhận nên dedupe theo `id` và coi webhook là tín hiệu để đồng bộ trạng thái mới nhất.",
         "en": "Networks and merchant servers will fail, so the practical goal is at-least-once delivery plus idempotency on the receiver, rather than chasing exactly-once. A transactional outbox ensures no event is lost if the sender crashes mid-way. Spaced-out retries and a dead-letter queue ride out transient outages without spamming merchants, along with a dashboard for merchants to inspect and redeliver events. Since events may arrive duplicated or out of order, receivers should dedupe by `id` and treat the webhook as a signal to sync the latest state."
+      }
+    },
+    {
+      "id": "http_api.http.010",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "http",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Header `Content-Length` trong một HTTP message cho biết điều gì?",
+        "en": "What does the `Content-Length` header in an HTTP message indicate?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Số ký tự của toàn bộ message, gồm cả header",
+            "en": "The number of characters in the whole message, including headers"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Kích thước body tính bằng byte",
+            "en": "The size of the body in bytes"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thời gian tối đa server được phép xử lý request",
+            "en": "The maximum time the server may spend processing the request"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Số request còn lại trên kết nối keep-alive",
+            "en": "The number of requests left on the keep-alive connection"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Content-Length` là số byte (octet) của body, không tính phần header. Bên nhận dựa vào nó để biết body kết thúc ở đâu, nhất là khi nhiều message đi chung một kết nối keep-alive. Lưu ý đây là số byte chứ không phải số ký tự: ký tự `đ` trong UTF-8 chiếm 2 byte.",
+        "en": "`Content-Length` is the number of bytes (octets) in the body, excluding the headers. The receiver uses it to know where the body ends, especially when several messages share one keep-alive connection. Note that it counts bytes, not characters: the character `đ` takes 2 bytes in UTF-8."
+      }
+    },
+    {
+      "id": "http_api.http.011",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "http",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Sau khi server trả `Set-Cookie: session=abc; HttpOnly; Secure`, browser gửi cookie đó lại cho server trong các request sau bằng header nào?",
+        "en": "After the server responds with `Set-Cookie: session=abc; HttpOnly; Secure`, which header does the browser use to send that cookie back on later requests?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Set-Cookie: session=abc`",
+            "en": "`Set-Cookie: session=abc`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Cookie: session=abc`",
+            "en": "`Cookie: session=abc`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Authorization: Cookie session=abc`",
+            "en": "`Authorization: Cookie session=abc`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`X-Session: abc`",
+            "en": "`X-Session: abc`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Set-Cookie` chỉ dùng trong response để server yêu cầu browser lưu cookie. Ở chiều ngược lại, browser gửi header `Cookie` chứa cặp `tên=giá trị`, không kèm các thuộc tính như `HttpOnly` hay `Secure`. Browser tự đính kèm cookie vào mọi request tới đúng domain và path, đó cũng là lý do API dùng cookie cần chống CSRF.",
+        "en": "`Set-Cookie` is only used in responses, for the server to ask the browser to store a cookie. In the other direction the browser sends a `Cookie` header with `name=value` pairs, without attributes such as `HttpOnly` or `Secure`. The browser attaches cookies automatically to every request for the matching domain and path, which is also why cookie-based APIs need CSRF protection."
+      }
+    },
+    {
+      "id": "http_api.http.012",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "http",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Mô tả cấu trúc của một HTTP request và một HTTP response.",
+        "en": "Describe the structure of an HTTP request and an HTTP response."
+      },
+      "keyPoints": [
+        {
+          "vi": "Request line: method, request target (path + query), phiên bản HTTP",
+          "en": "Request line: method, request target (path + query), HTTP version"
+        },
+        {
+          "vi": "Status line của response: phiên bản, status code, reason phrase",
+          "en": "Response status line: version, status code, reason phrase"
+        },
+        {
+          "vi": "Header là các cặp `Tên: giá trị` chứa metadata (`Host`, `Content-Type`, `Authorization`...)",
+          "en": "Headers are `Name: value` pairs carrying metadata (`Host`, `Content-Type`, `Authorization`...)"
+        },
+        {
+          "vi": "Một dòng trống (CRLF) ngăn cách phần header và body",
+          "en": "An empty line (CRLF) separates the headers from the body"
+        },
+        {
+          "vi": "Body là tùy chọn; kiểu và kích thước do `Content-Type`, `Content-Length` mô tả",
+          "en": "The body is optional; its type and size are described by `Content-Type` and `Content-Length`"
+        }
+      ],
+      "explanation": {
+        "vi": "Request bắt đầu bằng request line như `POST /orders HTTP/1.1`, còn response bắt đầu bằng status line như `HTTP/1.1 201 Created`. Tiếp theo là các header, một dòng trống, rồi tới body (có thể không có, ví dụ với `GET` hoặc `204`). Trong HTTP/2 và HTTP/3, các thành phần này được mã hóa thành frame nhị phân và pseudo-header như `:method`, `:path`, `:status`, nhưng ngữ nghĩa vẫn giữ nguyên.",
+        "en": "A request starts with a request line such as `POST /orders HTTP/1.1`, and a response starts with a status line such as `HTTP/1.1 201 Created`. Then come the headers, an empty line, and the body (which may be absent, e.g. for `GET` or `204`). In HTTP/2 and HTTP/3 these parts are encoded as binary frames and pseudo-headers such as `:method`, `:path`, `:status`, but the semantics stay the same."
+      }
+    },
+    {
+      "id": "http_api.http.013",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "http",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "App upload một video 500 MB và gửi kèm header `Expect: 100-continue`. Mục đích của header này là gì?",
+        "en": "The app uploads a 500 MB video and sends the header `Expect: 100-continue`. What is the purpose of this header?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Yêu cầu server giữ kết nối mở sau response để lần upload 500 MB tiếp theo dùng lại",
+            "en": "Asks the server to keep the connection open after the response so the next 500 MB upload can reuse it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cho phép server stream response theo từng chunk kèm tiến độ trong khi client vẫn đang upload body",
+            "en": "Lets the server stream its response in chunks with progress updates while the client is still uploading the body"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Báo server tự tiếp tục từ byte cuối đã nhận nếu upload 500 MB thất bại giữa chừng",
+            "en": "Tells the server to resume automatically from the last received byte if the 500 MB upload fails midway through"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Client gửi header trước và chờ `100 Continue` rồi mới upload body",
+            "en": "The client sends headers first and waits for `100 Continue` before uploading the body"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Expect: 100-continue` cho server cơ hội kiểm tra header (xác thực, `Content-Length`, `Content-Type`) trước khi client đẩy cả body lớn lên. Nếu chấp nhận, server trả response tạm thời `100 Continue`; nếu không, server trả ngay status cuối cùng như `413 Content Too Large` hoặc `401`. Giữ kết nối mở là việc của keep-alive, còn chunked là cách truyền body, không liên quan tới header này.",
+        "en": "`Expect: 100-continue` gives the server a chance to check the headers (authentication, `Content-Length`, `Content-Type`) before the client pushes a large body. If it accepts, the server sends the interim response `100 Continue`; otherwise it immediately sends a final status such as `413 Content Too Large` or `401`. Keeping the connection open is keep-alive's job, and chunked is a body transfer coding; neither is what this header does."
+      }
+    },
+    {
+      "id": "http_api.http.014",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "http",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Request tìm kiếm sau chạy tốt khi gọi thẳng server, nhưng khi đi qua CDN/proxy thì bộ lọc bị bỏ qua hoặc request bị từ chối. Vấn đề nằm ở đâu?",
+        "en": "This search request works when calling the server directly, but behind a CDN/proxy the filters are ignored or the request is rejected. What is the problem?"
+      },
+      "code": {
+        "language": "http",
+        "source": "GET /api/products/search HTTP/1.1\nHost: api.shop.vn\nContent-Type: application/json\nContent-Length: 52\n\n{\"category\": \"shoes\", \"priceMax\": 500000, \"page\": 2}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thiếu header `Accept: application/json` nên CDN chuyển sang HTML và bỏ các bộ lọc JSON",
+            "en": "The `Accept: application/json` header is missing, so the CDN falls back to HTML and strips the JSON filters"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Body trong `GET` không có ngữ nghĩa xác định nên proxy có thể bỏ hoặc từ chối; hãy dùng query string",
+            "en": "Content in a `GET` has no defined semantics, so proxies may drop or reject it; use the query string"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`GET` chỉ được lấy một resource theo id, nên CDN coi mọi endpoint tìm kiếm là không hợp lệ và âm thầm bỏ hết bộ lọc",
+            "en": "`GET` may only fetch a single resource by id, so CDNs treat any search endpoint as invalid and silently drop all its filters"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "JSON không cho phép số lớn như `500000` trong body, nên proxy từ chối payload vì sai định dạng",
+            "en": "JSON does not allow numbers as large as `500000` in a request body, so proxies reject the payload as malformed"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "RFC 9110 nói content trong request `GET` không có ngữ nghĩa được định nghĩa chung và có thể khiến một số implementation từ chối request. Cache cũng chỉ dùng URL làm khóa, nên hai lần tìm với body khác nhau có thể nhận cùng một kết quả. Cách chuẩn là `GET /api/products/search?category=shoes&priceMax=500000&page=2`; nếu bộ lọc quá phức tạp thì dùng `POST`. Thiếu `Accept` không làm bộ lọc bị bỏ qua.",
+        "en": "RFC 9110 says content in a `GET` request has no generally defined semantics and may cause some implementations to reject the request. Caches also key only on the URL, so two searches with different bodies may get the same result. The standard way is `GET /api/products/search?category=shoes&priceMax=500000&page=2`; if the filters are too complex, use `POST`. A missing `Accept` does not cause filters to be ignored."
+      }
+    },
+    {
+      "id": "http_api.status.011",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "status",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "App gọi `GET /api/users/999` nhưng không có user nào có id 999. Server nên trả status nào?",
+        "en": "The app calls `GET /api/users/999` but no user with id 999 exists. Which status should the server return?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`404 Not Found`",
+            "en": "`404 Not Found`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`200 OK` với body `null`",
+            "en": "`200 OK` with a `null` body"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`400 Bad Request`",
+            "en": "`400 Bad Request`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`500 Internal Server Error`",
+            "en": "`500 Internal Server Error`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`404 Not Found` nghĩa là server không tìm thấy resource tương ứng với URL; request vẫn đúng cú pháp nên không phải `400`. Trả `200` kèm `null` buộc client phải đoán ý nghĩa và che mất lỗi trong log, monitoring. Đây cũng không phải lỗi phía server nên không dùng `5xx`.",
+        "en": "`404 Not Found` means the server found no resource for the URL; the request is syntactically fine, so it is not `400`. Returning `200` with `null` forces clients to guess the meaning and hides the failure from logs and monitoring. It is not a server fault either, so `5xx` is wrong."
+      }
+    },
+    {
+      "id": "http_api.status.012",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "status",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "App nhận response sau khi gọi API. Client nên làm gì tiếp theo?",
+        "en": "The app receives this response after calling the API. What should the client do next?"
+      },
+      "code": {
+        "language": "http",
+        "source": "GET /api/orders HTTP/1.1\nHost: api.shop.vn\nAuthorization: Bearer eyJhbGciOiJSUzI1NiJ9...\n\nHTTP/1.1 401 Unauthorized\nWWW-Authenticate: Bearer error=\"invalid_token\", error_description=\"The access token expired\""
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hiện lỗi \"Bạn không có quyền\" vì tài khoản đã bị khóa vĩnh viễn",
+            "en": "Show \"You do not have permission\" because the account is permanently banned"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gửi lại đúng request đó liên tục cho tới khi thành công",
+            "en": "Resend the same request repeatedly until it succeeds"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bỏ qua vì `401` chỉ là cảnh báo, dữ liệu vẫn nằm trong body",
+            "en": "Ignore it because `401` is only a warning and the data is still in the body"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Dùng refresh token lấy access token mới rồi gửi lại request một lần; nếu refresh thất bại thì đưa người dùng về màn đăng nhập",
+            "en": "Use the refresh token to get a new access token and retry the request once; if refreshing fails, send the user to the login screen"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`401 Unauthorized` nghĩa là thông tin xác thực thiếu hoặc không hợp lệ; header `WWW-Authenticate` ở đây nói rõ token đã hết hạn (`invalid_token`). Cách xử lý chuẩn là refresh token rồi retry một lần, tránh vòng lặp vô hạn. Nếu token hợp lệ nhưng không đủ quyền, server sẽ trả `403`, và khi đó refresh token cũng không giúp được.",
+        "en": "`401 Unauthorized` means the credentials are missing or invalid; the `WWW-Authenticate` header here says the token has expired (`invalid_token`). The standard handling is to refresh the token and retry once, avoiding an endless loop. If the token were valid but lacked permission, the server would return `403`, and refreshing would not help."
+      }
+    },
+    {
+      "id": "http_api.status.013",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "status",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "API chuyển vĩnh viễn từ `/v1/orders` sang `/v2/orders`, nhưng client cũ vẫn gửi `POST /v1/orders`. Status nào báo chuyển vĩnh viễn và đảm bảo client giữ nguyên method `POST` cùng body khi đi theo redirect?",
+        "en": "The API moved permanently from `/v1/orders` to `/v2/orders`, but old clients still send `POST /v1/orders`. Which status signals a permanent move and guarantees the client keeps the `POST` method and body when following the redirect?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`301 Moved Permanently`",
+            "en": "`301 Moved Permanently`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`302 Found`",
+            "en": "`302 Found`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`308 Permanent Redirect`",
+            "en": "`308 Permanent Redirect`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`307 Temporary Redirect`",
+            "en": "`307 Temporary Redirect`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`308` là redirect vĩnh viễn và không cho phép client đổi method, nên `POST` vẫn là `POST` kèm body. Với `301` và `302`, vì lý do lịch sử nhiều client đổi `POST` thành `GET` khi đi theo redirect, làm mất body. `307` cũng giữ method nhưng chỉ là tạm thời, nên client và cache không ghi nhận URL mới.",
+        "en": "`308` is a permanent redirect that does not allow the client to change the method, so `POST` stays `POST` with its body. With `301` and `302`, for historical reasons many clients switch `POST` to `GET` when following the redirect, dropping the body. `307` also keeps the method but is temporary, so clients and caches do not adopt the new URL."
+      }
+    },
+    {
+      "id": "http_api.status.014",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "status",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Resource `/api/products/42` chỉ hỗ trợ `GET` và `PUT`, nhưng client gửi `DELETE`. Response đúng theo RFC 9110 là gì?",
+        "en": "The resource `/api/products/42` only supports `GET` and `PUT`, but the client sends `DELETE`. What is the correct response per RFC 9110?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`404 Not Found` vì không có route `DELETE`",
+            "en": "`404 Not Found` because there is no `DELETE` route"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`501 Not Implemented` kèm header `Allow: GET, PUT`",
+            "en": "`501 Not Implemented` with an `Allow: GET, PUT` header"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`400 Bad Request` vì `DELETE` không hợp lệ ở đây",
+            "en": "`400 Bad Request` because `DELETE` is not a valid method here"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`405 Method Not Allowed` kèm header `Allow: GET, PUT`",
+            "en": "`405 Method Not Allowed` with an `Allow: GET, PUT` header"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`405` nghĩa là server biết method này nhưng resource đích không hỗ trợ, và RFC 9110 yêu cầu server gửi kèm header `Allow` liệt kê các method được hỗ trợ. `501` dành cho trường hợp server hoàn toàn không nhận ra hoặc không hỗ trợ method đó cho bất kỳ resource nào. Resource vẫn tồn tại nên `404` gây hiểu nhầm.",
+        "en": "`405` means the server knows the method but the target resource does not support it, and RFC 9110 requires an `Allow` header listing the supported methods. `501` is for when the server does not recognise or support the method for any resource at all. The resource exists, so `404` is misleading."
+      }
+    },
+    {
+      "id": "http_api.status.015",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "status",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Load balancer dùng endpoint `/health` để quyết định có gửi traffic tới instance hay không. Khi database mất kết nối, endpoint trả response sau. Vấn đề là gì?",
+        "en": "The load balancer uses `/health` to decide whether to send traffic to an instance. When the database connection is lost, the endpoint returns the response below. What is the problem?"
+      },
+      "code": {
+        "language": "http",
+        "source": "GET /health HTTP/1.1\nHost: api.shop.vn\n\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{\"status\": \"down\", \"database\": \"unreachable\"}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Load balancer chỉ đọc status code; nên trả `503 Service Unavailable`",
+            "en": "Load balancers read only the status code; it should return `503 Service Unavailable`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nên trả `404 Not Found` vì database mà health endpoint phụ thuộc không còn tìm thấy được",
+            "en": "It should return `404 Not Found`, because the database the endpoint depends on can no longer be found"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Health check phải dùng `POST` thay vì `GET` để proxy không trả `200 OK` cũ đã cache cho `/health`",
+            "en": "Health checks must use `POST` instead of `GET`, so that proxies never serve a stale cached `200 OK` for `/health`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Body phải là text thuần `OK`, vì load balancer coi body JSON là health check thất bại",
+            "en": "The body must be the plain text `OK`, since load balancers treat a JSON health body as a failure"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Load balancer, Kubernetes probe hay uptime monitor thường chỉ đánh giá status code, không đọc body. Trả `200` khi một phụ thuộc bắt buộc đã chết khiến người dùng tiếp tục bị đẩy tới instance lỗi. `503 Service Unavailable` báo đúng rằng server tạm thời không phục vụ được; `404` sai vì chính endpoint `/health` vẫn tồn tại.",
+        "en": "Load balancers, Kubernetes probes and uptime monitors usually judge only the status code and do not read the body. Returning `200` while a required dependency is down keeps routing users to a broken instance. `503 Service Unavailable` correctly says the server temporarily cannot serve; `404` is wrong because the `/health` endpoint itself exists."
+      }
+    },
+    {
+      "id": "http_api.rest.010",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "rest",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ràng buộc `stateless` trong REST nghĩa là gì?",
+        "en": "What does the `stateless` constraint in REST mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Server không được lưu dữ liệu nào vào database, nên mọi resource phải dựng lại từ request gửi tới",
+            "en": "The server must not keep any data in a database, so every resource has to be rebuilt from the incoming request"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Mỗi request mang đủ thông tin để xử lý; server không giữ trạng thái session nào của client",
+            "en": "Each request carries everything needed to process it; the server keeps no client session state"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "API chỉ được dùng method `GET`, vì các method khác thay đổi trạng thái server",
+            "en": "The API may only use `GET`, because other methods change server state"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Response không bao giờ được thay đổi theo thời gian, để client và cache lưu mãi mà không cần revalidate",
+            "en": "Responses must never change over time, so that clients and caches can safely store them forever without revalidating"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Stateless nói về trạng thái phiên giữa các request, không phải dữ liệu nghiệp vụ: server vẫn lưu đơn hàng, user... trong database như bình thường. Vì mỗi request tự chứa đủ thông tin, bất kỳ instance nào phía sau load balancer cũng xử lý được, giúp scale ngang dễ dàng. Dữ liệu của resource tất nhiên vẫn có thể thay đổi.",
+        "en": "Stateless is about session state between requests, not business data: the server still stores orders, users and so on in its database. Because each request is self-contained, any instance behind the load balancer can handle it, which makes horizontal scaling easy. Resource data can of course still change."
+      }
+    },
+    {
+      "id": "http_api.rest.011",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "rest",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cần API lấy danh sách sản phẩm thuộc danh mục `shoes`, sắp xếp theo giá giảm dần. Thiết kế nào theo đúng phong cách REST?",
+        "en": "You need an API that lists products in the `shoes` category sorted by price descending. Which design follows REST style?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`GET /products?category=shoes&sort=-price`",
+            "en": "`GET /products?category=shoes&sort=-price`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`POST /getProductsByCategory` với body `{\"category\": \"shoes\"}`",
+            "en": "`POST /getProductsByCategory` with body `{\"category\": \"shoes\"}`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`GET /products/shoes/sortByPriceDesc`",
+            "en": "`GET /products/shoes/sortByPriceDesc`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`GET /getProducts?action=filter&category=shoes`",
+            "en": "`GET /getProducts?action=filter&category=shoes`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "URL nên là danh từ chỉ collection (`/products`), còn lọc, sắp xếp, phân trang là tham số trên collection nên đặt trong query string. Nhét động từ vào path (`getProducts`, `sortByPriceDesc`) biến API thành kiểu RPC và làm số endpoint tăng theo mọi tổ hợp. Dùng `POST` để đọc dữ liệu còn làm mất khả năng cache và tính `safe` của `GET`.",
+        "en": "URLs should be nouns naming the collection (`/products`), while filtering, sorting and paging are parameters on that collection, so they go in the query string. Putting verbs in the path (`getProducts`, `sortByPriceDesc`) turns the API into RPC style and multiplies endpoints for every combination. Using `POST` for reads also loses caching and the `safe` property of `GET`."
+      }
+    },
+    {
+      "id": "http_api.rest.012",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "rest",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Màn danh sách trên mobile chỉ cần `id`, `name`, `thumbnail`, nhưng `GET /products` trả về hơn 40 trường cho mỗi sản phẩm. Cách xử lý phổ biến trong REST là gì?",
+        "en": "The mobile list screen only needs `id`, `name`, `thumbnail`, but `GET /products` returns more than 40 fields per product. What is a common REST approach?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gửi danh sách trường cần lấy trong header `Content-Type`",
+            "en": "Send the wanted fields in the `Content-Type` header"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đổi sang `POST /products` với danh sách trường trong body, vì `GET` không nhận được tham số",
+            "en": "Switch to `POST /products` with the field list in the body, because `GET` cannot take parameters"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hỗ trợ chọn trường, ví dụ `GET /products?fields=id,name,thumbnail`, để giảm kích thước payload",
+            "en": "Support field selection, e.g. `GET /products?fields=id,name,thumbnail`, to shrink the payload"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Để client tự bỏ các trường thừa; kích thước payload không ảnh hưởng hiệu năng",
+            "en": "Let the client drop the extra fields; payload size does not affect performance"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Sparse fieldsets (như trong JSON:API hay Google APIs) cho client chọn đúng các trường cần dùng, giảm băng thông và thời gian parse trên mạng di động. Đây chính là vấn đề over-fetching mà GraphQL giải quyết, nhưng REST cũng xử lý được bằng tham số `fields`. `Content-Type` mô tả kiểu của body đang gửi, không dùng để chọn trường.",
+        "en": "Sparse fieldsets (as in JSON:API or Google APIs) let the client pick exactly the fields it needs, cutting bandwidth and parse time on mobile networks. This is the over-fetching problem GraphQL addresses, but REST can handle it with a `fields` parameter. `Content-Type` describes the body being sent and is not for selecting fields."
+      }
+    },
+    {
+      "id": "http_api.rest.013",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "rest",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Một API quản lý user được thiết kế như sau. Vấn đề chính là gì?",
+        "en": "A user-management API is designed as follows. What is the main problem?"
+      },
+      "code": {
+        "language": "http",
+        "source": "POST /api/getUser        {\"id\": 42}\nPOST /api/createUser     {\"name\": \"An\"}\nPOST /api/updateUser     {\"id\": 42, \"name\": \"Bình\"}\nPOST /api/deleteUser     {\"id\": 42}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tên endpoint phải viết hoa toàn bộ",
+            "en": "Endpoint names must be all uppercase"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ thiếu tiền tố phiên bản `/v1`; ngoài ra đã đúng REST vì `POST` được dùng cho mọi thao tác",
+            "en": "It only lacks a `/v1` version prefix; otherwise it is proper REST, since `POST` is allowed for every operation"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`POST` không được có body JSON",
+            "en": "`POST` must not have a JSON body"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đây là kiểu RPC: động từ trong URL và mọi thao tác đều `POST`; nên dùng resource `/api/users` với `GET`, `POST`, `PATCH`, `DELETE`",
+            "en": "It is RPC style: verbs in URLs and `POST` for everything; model `/api/users` with `GET`, `POST`, `PATCH`, `DELETE`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "REST dùng URL để định danh resource (`/api/users/42`) và dùng method để nói hành động. Khi mọi thứ đều là `POST`, client, cache và proxy không còn biết request nào `safe` hay idempotent: không cache được thao tác đọc và không retry an toàn được. Versioning là chuyện riêng và không sửa được lỗi thiết kế này.",
+        "en": "REST uses the URL to identify the resource (`/api/users/42`) and the method to express the action. When everything is `POST`, clients, caches and proxies cannot tell which requests are `safe` or idempotent: reads cannot be cached and nothing can be retried safely. Versioning is a separate concern and does not fix this design."
+      }
+    },
+    {
+      "id": "http_api.rest.014",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "rest",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn thiết kế format lỗi thống nhất cho toàn bộ REST API như thế nào?",
+        "en": "How do you design a consistent error format for a whole REST API?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Dùng status code đúng ngữ nghĩa (`400`, `401`, `403`, `404`, `409`, `422`, `5xx`)",
+          "en": "Use semantically correct status codes (`400`, `401`, `403`, `404`, `409`, `422`, `5xx`)"
+        },
+        {
+          "vi": "Body có cấu trúc cố định, ví dụ RFC 9457 `application/problem+json` (`type`, `title`, `status`, `detail`)",
+          "en": "A fixed body structure, e.g. RFC 9457 `application/problem+json` (`type`, `title`, `status`, `detail`)"
+        },
+        {
+          "vi": "Mã lỗi ổn định cho máy đọc và danh sách lỗi theo từng field khi validate",
+          "en": "A stable machine-readable error code and per-field errors for validation"
+        },
+        {
+          "vi": "Kèm `traceId`/request id để đối chiếu với log",
+          "en": "Include a `traceId`/request id to correlate with logs"
+        },
+        {
+          "vi": "Không lộ stack trace, câu SQL hay chi tiết nội bộ",
+          "en": "Never leak stack traces, SQL or internal details"
+        }
+      ],
+      "explanation": {
+        "vi": "Client cần phân loại lỗi bằng status code trước, rồi dùng mã lỗi trong body để xử lý cụ thể như hiện thông báo hay đánh dấu field sai. RFC 9457 Problem Details là chuẩn có sẵn, giúp tránh việc mỗi endpoint trả lỗi một kiểu. Thông điệp hiển thị cho người dùng nên tách khỏi mã lỗi để dịch được, còn `traceId` giúp backend tìm đúng log khi người dùng báo lỗi.",
+        "en": "Clients first classify the error by status code, then use the error code in the body for specific handling such as showing a message or highlighting a field. RFC 9457 Problem Details is a ready-made standard that avoids every endpoint inventing its own shape. User-facing messages should be separate from the error code so they can be translated, and a `traceId` lets the backend find the right logs when a user reports a problem."
+      }
+    },
+    {
+      "id": "http_api.auth.010",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "auth",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Server nên lưu mật khẩu người dùng trong database như thế nào?",
+        "en": "How should the server store user passwords in the database?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Băm bằng thuật toán chậm có salt như Argon2id hoặc bcrypt",
+            "en": "Hash them with a slow, salted algorithm such as Argon2id or bcrypt"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Mã hóa AES để khi cần có thể giải mã gửi lại cho người dùng",
+            "en": "Encrypt them with AES so they can be decrypted and sent back to users when needed"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Băm bằng MD5 hoặc SHA-1 vì nhanh",
+            "en": "Hash them with MD5 or SHA-1 because it is fast"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Encode Base64 để không ai đọc được trực tiếp",
+            "en": "Base64-encode them so nobody can read them directly"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mật khẩu chỉ cần được so khớp chứ không cần đọc lại, nên dùng hàm băm một chiều được thiết kế chậm (Argon2id, bcrypt, scrypt) với salt riêng cho từng user. Thuật toán nhanh như MD5/SHA-1 cho phép kẻ tấn công thử hàng tỷ mật khẩu mỗi giây khi database bị lộ. Mã hóa có thể bị giải ngược nếu lộ key, còn Base64 chỉ là encoding, ai cũng decode được.",
+        "en": "Passwords only need to be compared, never read back, so use a deliberately slow one-way hash (Argon2id, bcrypt, scrypt) with a per-user salt. Fast algorithms like MD5/SHA-1 let attackers try billions of passwords per second once the database leaks. Encryption can be reversed if the key leaks, and Base64 is just an encoding anyone can decode."
+      }
+    },
+    {
+      "id": "http_api.auth.011",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "auth",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một API dùng header `Authorization: Basic YW46c2VjcmV0MTIz`. Nhận định nào đúng?",
+        "en": "An API uses the header `Authorization: Basic YW46c2VjcmV0MTIz`. Which statement is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chuỗi chỉ là Base64 của `username:password`, decode được ngay, nên bắt buộc dùng HTTPS",
+            "en": "It is just Base64 of `username:password`, trivially decodable, so HTTPS is mandatory"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chuỗi đã được mã hóa bằng khóa bí mật của server nên thông tin đăng nhập vẫn an toàn kể cả khi gửi qua HTTP",
+            "en": "The string is encrypted with the server's secret key, so the credentials stay safe even when they are sent over plain HTTP"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đây là token có thời hạn, tự hết hạn sau 15 phút",
+            "en": "It is a token that expires automatically after 15 minutes"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đây là chữ ký HMAC của request tính bằng mật khẩu nên không thể bị giả mạo hay replay",
+            "en": "It is an HMAC signature of the request computed with the password, so it cannot be forged or replayed"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Basic authentication (RFC 7617) gửi `username:password` được encode Base64 trong mọi request; chuỗi trên decode ra `an:secret123`. Base64 không phải mã hóa, và thông tin này không tự hết hạn, nên sẽ lộ ngay nếu đi qua HTTP thường hoặc bị ghi vào log. Vì vậy Basic auth chỉ chấp nhận được trên TLS, thường dùng cho công cụ nội bộ hoặc giao tiếp giữa các server.",
+        "en": "Basic authentication (RFC 7617) sends `username:password` Base64-encoded on every request; the string above decodes to `an:secret123`. Base64 is not encryption and these credentials never expire, so they leak immediately over plain HTTP or in logs. That is why Basic auth is only acceptable over TLS, typically for internal tools or server-to-server calls."
+      }
+    },
+    {
+      "id": "http_api.auth.012",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "auth",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "OpenID Connect (OIDC) bổ sung gì so với OAuth 2.0?",
+        "en": "What does OpenID Connect (OIDC) add on top of OAuth 2.0?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một lớp mã hóa thay thế TLS bằng cách mã hóa mọi token trao đổi với nhà cung cấp",
+            "en": "An encryption layer that replaces TLS by encrypting every token exchanged with the provider"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một kiểu cấp quyền mới thay thế hoàn toàn access token, dùng ID token có chữ ký để gọi các API được bảo vệ",
+            "en": "A new authorization grant that fully replaces access tokens, using signed ID tokens to call protected APIs instead"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Một lớp xác thực danh tính: `ID token` (JWT) cho biết người dùng là ai, cùng scope `openid` và endpoint `userinfo`",
+            "en": "An identity layer: an `ID token` (JWT) identifying the user, plus the `openid` scope and `userinfo` endpoint"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không bổ sung gì, OIDC chỉ là tên gọi khác của OAuth 2.0",
+            "en": "Nothing; OIDC is just another name for OAuth 2.0"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "OAuth 2.0 là framework ủy quyền: access token cho phép gọi API thay mặt người dùng nhưng không chuẩn hóa việc người dùng là ai. OIDC thêm `ID token` có chữ ký chứa các claim như `sub`, `iss`, `aud`, `exp` để client xác thực việc đăng nhập, như các nút \"Đăng nhập bằng Google\". Access token vẫn dùng để gọi API, và không nên gửi ID token tới API thay cho access token.",
+        "en": "OAuth 2.0 is an authorization framework: an access token lets a client call APIs on the user's behalf but does not standardise who the user is. OIDC adds a signed `ID token` with claims such as `sub`, `iss`, `aud`, `exp` so the client can authenticate the login, as in \"Sign in with Google\" buttons. Access tokens are still used to call APIs, and ID tokens should not be sent to APIs in their place."
+      }
+    },
+    {
+      "id": "http_api.auth.013",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "auth",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code SPA sau có rủi ro bảo mật nghiêm trọng nhất là gì?",
+        "en": "What is the most serious security risk in this SPA code?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "// Sau khi đăng nhập\nconst { accessToken, refreshToken } = await login(email, password);\nlocalStorage.setItem('accessToken', accessToken);\nlocalStorage.setItem('refreshToken', refreshToken); // hạn 30 ngày\n\n// Trang sản phẩm: hiển thị mô tả do người bán tự nhập\ndescriptionEl.innerHTML = product.description;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`innerHTML` cho phép XSS, và script được chèn vào đọc được `localStorage` nên lấy được cả refresh token 30 ngày",
+            "en": "`innerHTML` enables XSS, and injected script can read `localStorage` and steal the 30-day refresh token"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`localStorage` bị xóa mỗi khi đóng tab nên người dùng mất refresh token 30 ngày và phải đăng nhập lại",
+            "en": "`localStorage` is cleared whenever the tab closes, so users lose the 30-day refresh token and must log in again"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Token phải lưu trong `sessionStorage` thì server mới đọc được",
+            "en": "Tokens must be in `sessionStorage` for the server to read them"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`innerHTML` chậm hơn `textContent` nên mô tả dài của người bán làm treo trang sản phẩm",
+            "en": "`innerHTML` is slower than `textContent`, so long seller descriptions freeze the product page"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mọi JavaScript chạy trên cùng origin, kể cả script được chèn qua XSS, đều đọc được `localStorage`. Ở đây mô tả do người bán nhập được gán thẳng vào `innerHTML`, nên kẻ xấu có thể chèn script gửi token về server của mình và chiếm tài khoản tới 30 ngày. Cần render bằng `textContent` hoặc sanitize, giữ access token ngắn hạn trong bộ nhớ và refresh token trong cookie `HttpOnly; Secure; SameSite`. `localStorage` không tự xóa khi đóng tab; đó là `sessionStorage`.",
+        "en": "Any JavaScript on the same origin, including script injected through XSS, can read `localStorage`. Here seller-provided text is assigned straight to `innerHTML`, so an attacker can inject a script that ships the tokens to their server and take over accounts for up to 30 days. Render with `textContent` or sanitise, keep a short-lived access token in memory and the refresh token in an `HttpOnly; Secure; SameSite` cookie. `localStorage` does not clear when the tab closes; that is `sessionStorage`."
+      }
+    },
+    {
+      "id": "http_api.auth.014",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "auth",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Hệ thống dùng JWT access token không lưu trạng thái. Bạn triển khai chức năng đăng xuất (và \"đăng xuất khỏi mọi thiết bị\") như thế nào?",
+        "en": "The system uses stateless JWT access tokens. How do you implement logout (and \"log out of all devices\")?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Xóa token phía client không vô hiệu hóa được token đã bị lộ; JWT vẫn hợp lệ tới `exp`",
+          "en": "Deleting the token on the client does not invalidate a leaked token; the JWT stays valid until `exp`"
+        },
+        {
+          "vi": "Access token ngắn hạn (vài phút) để thu hẹp thời gian rủi ro",
+          "en": "Short-lived access tokens (minutes) to narrow the exposure window"
+        },
+        {
+          "vi": "Thu hồi refresh token ở server (lưu trong DB, có rotation)",
+          "en": "Revoke refresh tokens on the server (stored in a DB, with rotation)"
+        },
+        {
+          "vi": "Khi cần chặn ngay: denylist theo `jti` hoặc so `tokenVersion` của user",
+          "en": "To block immediately: a denylist by `jti` or a per-user `tokenVersion` check"
+        },
+        {
+          "vi": "Đăng xuất mọi thiết bị: thu hồi toàn bộ refresh token/session của user",
+          "en": "Log out everywhere: revoke all of the user's refresh tokens/sessions"
+        }
+      ],
+      "explanation": {
+        "vi": "JWT tự chứa thông tin và được kiểm tra bằng chữ ký, nên server không có chỗ để \"xóa\" nó như session. Cách thực tế là để access token sống ngắn và quản lý refresh token có trạng thái ở server: đăng xuất là thu hồi refresh token để client không gia hạn được nữa. Nếu cần chặn tức thì (ví dụ tài khoản bị lộ), kiểm tra thêm denylist theo `jti` hoặc so `tokenVersion` trong token với DB, chấp nhận đánh đổi là mỗi request phải tra cứu thêm.",
+        "en": "A JWT is self-contained and verified by its signature, so the server has nowhere to \"delete\" it as it would a session. The practical approach is short-lived access tokens plus stateful refresh tokens on the server: logging out revokes the refresh token so the client cannot renew. If you need to block immediately (e.g. a compromised account), also check a `jti` denylist or compare a `tokenVersion` claim with the DB, accepting an extra lookup per request."
+      }
+    },
+    {
+      "id": "http_api.security.010",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "security",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "App mobile đã kiểm tra dữ liệu nhập (email đúng định dạng, số lượng > 0). Tại sao API vẫn phải validate lại ở server?",
+        "en": "The mobile app already validates input (valid email, quantity > 0). Why must the API still validate on the server?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Client có thể bị bỏ qua: ai cũng gọi thẳng API bằng `curl`/Postman hoặc sửa app được",
+          "en": "The client can be bypassed: anyone can call the API directly with `curl`/Postman or modify the app"
+        },
+        {
+          "vi": "Server là nơi duy nhất đáng tin để bảo vệ dữ liệu và quy tắc nghiệp vụ",
+          "en": "The server is the only trusted place to protect data and business rules"
+        },
+        {
+          "vi": "Validate kiểu, độ dài, khoảng giá trị và từ chối field không mong đợi",
+          "en": "Validate types, lengths, ranges and reject unexpected fields"
+        },
+        {
+          "vi": "Validation phía client chỉ để cải thiện trải nghiệm (báo lỗi sớm)",
+          "en": "Client-side validation is only for UX (early feedback)"
+        },
+        {
+          "vi": "App phiên bản cũ có thể chưa có quy tắc mới",
+          "en": "Old app versions may not have the newest rules"
+        }
+      ],
+      "explanation": {
+        "vi": "Mọi thứ chạy trên thiết bị người dùng đều có thể bị thay đổi: request có thể được dựng tay, bị sửa qua proxy hoặc đến từ bản app cũ. Nếu server tin dữ liệu từ client, kẻ xấu có thể đặt số lượng âm, sửa giá hoặc chèn payload injection. Validation ở client giúp người dùng sửa lỗi nhanh, còn validation ở server mới là hàng rào bảo mật và toàn vẹn dữ liệu.",
+        "en": "Anything running on the user's device can be tampered with: requests can be hand-crafted, modified through a proxy or come from an old app version. If the server trusts client data, attackers can send negative quantities, change prices or inject payloads. Client-side validation helps users fix mistakes quickly; server-side validation is the real security and data-integrity barrier."
+      }
+    },
+    {
+      "id": "http_api.security.011",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "security",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao không nên gửi access token hoặc mật khẩu trong query string, như `GET /api/orders?token=eyJ...`?",
+        "en": "Why should you not send an access token or password in the query string, as in `GET /api/orders?token=eyJ...`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Query string không được mã hóa khi dùng HTTPS vì TLS chỉ bảo vệ header và body",
+            "en": "The query string is sent unencrypted under HTTPS, because TLS only protects the headers and body"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "URL thường bị ghi vào access log, lịch sử browser, log của proxy/CDN và có thể lộ qua header `Referer`",
+            "en": "URLs are routinely recorded in access logs, browser history and proxy/CDN logs, and can leak via the `Referer` header"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "RFC 9110 giới hạn query string 64 ký tự nên access token JWT bị server âm thầm cắt bớt",
+            "en": "Query strings are limited to 64 characters by RFC 9110, so a JWT access token gets silently truncated by servers"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Server không đọc được query string của request `GET`",
+            "en": "Servers cannot read the query string of a `GET` request"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Với HTTPS, cả path lẫn query đều được mã hóa trên đường truyền, nên vấn đề không nằm ở việc bị nghe lén. Rủi ro là URL được lưu và chia sẻ ở rất nhiều nơi: log server, lịch sử, bookmark, công cụ analytics, header `Referer`. Bí mật nên đi trong header `Authorization` hoặc body, là những chỗ mặc định không bị ghi log.",
+        "en": "With HTTPS both the path and the query are encrypted in transit, so eavesdropping is not the issue. The risk is that URLs are stored and shared in many places: server logs, history, bookmarks, analytics tools, the `Referer` header. Secrets belong in the `Authorization` header or the body, which are not logged by default."
+      }
+    },
+    {
+      "id": "http_api.security.012",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "security",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Người dùng A gọi `GET /api/invoices/1002` và xem được hóa đơn của mình. A đổi thành `1003` và xem được hóa đơn của người dùng B. Đây là lỗ hổng gì?",
+        "en": "User A calls `GET /api/invoices/1002` and sees their own invoice. A changes it to `1003` and sees user B's invoice. What vulnerability is this?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "SQL injection, vì id dạng số từ URL được ghép thẳng vào câu truy vấn hóa đơn",
+            "en": "SQL injection, because the numeric id from the URL is concatenated into the invoice query"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "CSRF vì request dùng method `GET`",
+            "en": "CSRF because the request uses `GET`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Broken Object Level Authorization (BOLA/IDOR): server không kiểm tra hóa đơn có thuộc về người gọi",
+            "en": "Broken Object Level Authorization (BOLA/IDOR): ownership of the invoice is never checked"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi xác thực: session token của A được chấp nhận cho B, nên phải bắt A đăng nhập lại",
+            "en": "An authentication failure: A's session token is accepted for B, so A must be forced to log in again"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "A đã đăng nhập hợp lệ, nên vấn đề không nằm ở xác thực mà ở phân quyền theo từng object: server phải kiểm tra hóa đơn thuộc về user hiện tại (hoặc lọc theo user ngay trong truy vấn). BOLA đứng đầu OWASP API Security Top 10 vì rất phổ biến. Dùng UUID khó đoán chỉ giảm rủi ro chứ không thay được bước kiểm tra quyền.",
+        "en": "A is legitimately logged in, so the issue is not authentication but object-level authorization: the server must check that the invoice belongs to the current user (or filter by user in the query itself). BOLA tops the OWASP API Security Top 10 because it is so common. Hard-to-guess UUIDs only reduce the risk; they do not replace the permission check."
+      }
+    },
+    {
+      "id": "http_api.security.013",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "security",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Endpoint cập nhật hồ sơ sau có lỗ hổng gì?",
+        "en": "What vulnerability does this profile-update endpoint have?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "// Body hợp lệ từ app: {\"displayName\": \"An\", \"avatarUrl\": \"...\"}\napp.patch('/api/users/me', requireLogin, async (req, res) => {\n  const user = await User.findById(req.user.id);\n  Object.assign(user, req.body);\n  await user.save();\n  res.json(user);\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`PATCH` không được dùng cho hồ sơ, phải dùng `PUT`",
+            "en": "`PATCH` must not be used for profiles; use `PUT`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thiếu `await` trước `Object.assign`",
+            "en": "`await` is missing before `Object.assign`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dùng `/me` thay vì `/users/:id` khiến server không biết đang sửa bản ghi của user nào trong database",
+            "en": "Using `/me` instead of `/users/:id` means the server cannot tell which user's record is being updated in the database"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Mass assignment: field thêm như `{\"role\": \"admin\"}` được ghi thẳng vào model; cần allowlist các field được sửa",
+            "en": "Mass assignment: extra fields like `{\"role\": \"admin\"}` are written straight to the model; allowlist editable fields"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Object.assign(user, req.body)` chép mọi field client gửi lên, kể cả field nhạy cảm mà UI không hề hiển thị như `role`, `isVerified`, `balance`. Kẻ tấn công chỉ cần thêm field vào body là tự nâng quyền. Cách sửa là chỉ nhận các field trong allowlist hoặc dùng schema validation loại bỏ field lạ. Dùng `/me` lấy user từ token lại là cách làm tốt.",
+        "en": "`Object.assign(user, req.body)` copies every field the client sends, including sensitive ones the UI never shows, such as `role`, `isVerified`, `balance`. An attacker just adds a field to the body to escalate privileges. The fix is to accept only allowlisted fields or use schema validation that strips unknown ones. Taking the user from the token via `/me` is actually good practice."
+      }
+    },
+    {
+      "id": "http_api.security.014",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "security",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Header `Strict-Transport-Security: max-age=31536000; includeSubDomains` có tác dụng gì?",
+        "en": "What does the header `Strict-Transport-Security: max-age=31536000; includeSubDomains` do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mã hóa dữ liệu lưu trong cookie",
+            "en": "Encrypts data stored in cookies"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chặn website khác nhúng trang của domain hoặc bất kỳ subdomain nào vào `iframe` trong một năm",
+            "en": "Prevents other websites from embedding the page in an `iframe` on the domain or any of its subdomains for a year"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Yêu cầu browser chỉ dùng HTTPS cho domain và các subdomain trong một năm",
+            "en": "Tells the browser to use only HTTPS for the domain and its subdomains for one year"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cho phép mọi origin, kể cả các subdomain, gọi API qua CORS trong 31536000 giây tới",
+            "en": "Allows every origin, including all subdomains, to call the API via CORS for the next 31536000 seconds"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "HSTS chống tấn công hạ cấp kiểu SSL stripping: sau lần đầu nhận header qua HTTPS, browser từ chối dùng HTTP thường với domain đó cho tới khi hết `max-age`. Header chỉ có hiệu lực khi được gửi qua HTTPS. Chống nhúng `iframe` là việc của `Content-Security-Policy: frame-ancestors` hoặc `X-Frame-Options`.",
+        "en": "HSTS defends against downgrade attacks such as SSL stripping: after first receiving the header over HTTPS, the browser refuses plain HTTP for that domain until `max-age` runs out. The header only takes effect when delivered over HTTPS. Blocking `iframe` embedding is the job of `Content-Security-Policy: frame-ancestors` or `X-Frame-Options`."
+      }
+    },
+    {
+      "id": "http_api.caching.009",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "caching",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Theo mặc định, response của request nào thường được browser và CDN cache?",
+        "en": "By default, the response to which request is typically cached by browsers and CDNs?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`POST /api/orders`",
+            "en": "`POST /api/orders`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`DELETE /api/cart/items/5`",
+            "en": "`DELETE /api/cart/items/5`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`PATCH /api/users/me`",
+            "en": "`PATCH /api/users/me`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`GET /api/categories`",
+            "en": "`GET /api/categories`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Cache HTTP được xây dựng chủ yếu cho `GET` (và `HEAD`), vì đây là các method `safe` trả về biểu diễn của resource. Response của `POST` chỉ tái sử dụng được trong trường hợp đặc biệt có thông tin freshness rõ ràng, và trên thực tế browser/CDN hầu như không cache chúng. `DELETE` và `PATCH` thay đổi trạng thái server, và một request không `safe` thành công còn khiến cache vô hiệu hóa bản lưu của URL đó.",
+        "en": "HTTP caching is built mainly for `GET` (and `HEAD`), because they are `safe` methods returning a representation of the resource. `POST` responses are reusable only in special cases with explicit freshness information, and in practice browsers and CDNs almost never cache them. `DELETE` and `PATCH` change server state, and a successful unsafe request even makes caches invalidate their stored copy of that URL."
+      }
+    },
+    {
+      "id": "http_api.caching.010",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "caching",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Response trước đó có header `Last-Modified: Mon, 01 Sep 2025 08:00:00 GMT`. Khi bản cache hết hạn, client gửi header nào để hỏi server tài nguyên đã thay đổi chưa?",
+        "en": "An earlier response had `Last-Modified: Mon, 01 Sep 2025 08:00:00 GMT`. When the cached copy goes stale, which header does the client send to ask whether the resource has changed?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`If-Modified-Since: Mon, 01 Sep 2025 08:00:00 GMT`",
+            "en": "`If-Modified-Since: Mon, 01 Sep 2025 08:00:00 GMT`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Last-Modified: Mon, 01 Sep 2025 08:00:00 GMT`",
+            "en": "`Last-Modified: Mon, 01 Sep 2025 08:00:00 GMT`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`If-Match: Mon, 01 Sep 2025 08:00:00 GMT`",
+            "en": "`If-Match: Mon, 01 Sep 2025 08:00:00 GMT`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Expires: Mon, 01 Sep 2025 08:00:00 GMT`",
+            "en": "`Expires: Mon, 01 Sep 2025 08:00:00 GMT`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Last-Modified` đi cặp với `If-Modified-Since`, giống như `ETag` đi cặp với `If-None-Match`. Nếu tài nguyên chưa đổi kể từ thời điểm đó, server trả `304 Not Modified` không có body. `If-Match` dùng cho thao tác ghi có điều kiện (tránh lost update) và nhận ETag chứ không nhận ngày; `Expires` là header của response.",
+        "en": "`Last-Modified` pairs with `If-Modified-Since`, just as `ETag` pairs with `If-None-Match`. If the resource has not changed since that time, the server returns `304 Not Modified` with no body. `If-Match` is for conditional writes (avoiding lost updates) and takes ETags, not dates; `Expires` is a response header."
+      }
+    },
+    {
+      "id": "http_api.caching.011",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "caching",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Một cache có hỗ trợ `stale-while-revalidate` (browser hoặc CDN) nhận response sau lúc 08:00:00. Lúc 08:01:15 có request mới tới đúng URL đó. Điều gì xảy ra?",
+        "en": "A cache that supports `stale-while-revalidate` (browser or CDN) receives this response at 08:00:00. At 08:01:15 a new request for the same URL arrives. What happens?"
+      },
+      "code": {
+        "language": "http",
+        "source": "HTTP/1.1 200 OK\nDate: Mon, 01 Sep 2025 08:00:00 GMT\nCache-Control: max-age=60, stale-while-revalidate=30\nETag: \"p42-v3\"\nContent-Type: application/json"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Dùng bản cache mà không gửi request nào vì vẫn còn fresh",
+            "en": "The cached copy is used with no request at all because it is still fresh"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chờ conditional request hoàn tất rồi mới trả kết quả",
+            "en": "It waits for a conditional request to finish before returning anything"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bỏ cache và tải lại toàn bộ vì đã quá 60 giây",
+            "en": "The cache is discarded and the full response downloaded because 60 seconds have passed"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Trả ngay bản cache đã stale, đồng thời gửi conditional request ở nền để làm mới cache",
+            "en": "The stale cached copy is returned immediately, while a conditional request is sent in the background to refresh the cache"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Response fresh trong 60 giây đầu, tới 08:01:00. Từ 08:01:00 tới 08:01:30 nó đã stale nhưng còn trong cửa sổ `stale-while-revalidate=30`, nên cache được phép trả ngay bản cũ và revalidate song song (gửi `If-None-Match: \"p42-v3\"`). Sau 08:01:30, cache phải revalidate xong mới trả kết quả. Cơ chế này giúp người dùng không phải chờ mạng mà dữ liệu vẫn được làm mới.",
+        "en": "The response is fresh for the first 60 seconds, until 08:01:00. From 08:01:00 to 08:01:30 it is stale but inside the `stale-while-revalidate=30` window, so the cache may serve the old copy immediately and revalidate in parallel (sending `If-None-Match: \"p42-v3\"`). After 08:01:30 the cache must finish revalidating before responding. This keeps users from waiting on the network while the data still gets refreshed."
+      }
+    },
+    {
+      "id": "http_api.caching.012",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "caching",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "API trả `Cache-Control: public, max-age=60, s-maxage=600`. Nhận định nào đúng?",
+        "en": "The API returns `Cache-Control: public, max-age=60, s-maxage=600`. Which statement is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mọi cache, cả browser lẫn CDN, đều dùng giá trị lớn hơn là 600 giây",
+            "en": "Every cache, both the browser and the CDN, uses the larger of the two values, 600 seconds"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`s-maxage` là số giây server được phép xử lý request trước khi CDN báo timeout",
+            "en": "`s-maxage` is how many seconds the server may take to process the request before the CDN times out"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Browser coi response fresh trong 60 giây, còn shared cache như CDN dùng 600 giây",
+            "en": "Browsers treat the response as fresh for 60 seconds, while shared caches such as a CDN use 600 seconds"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hai directive mâu thuẫn nên response không được cache",
+            "en": "The two directives conflict, so the response is not cached"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`s-maxage` chỉ áp dụng cho shared cache (CDN, reverse proxy) và ghi đè `max-age` ở đó; private cache của browser bỏ qua nó. Cấu hình này cho CDN giữ lâu để giảm tải origin, trong khi browser hỏi lại sớm hơn. Khi cần cập nhật ngay, đội vận hành có thể purge CDN, điều không làm được với cache nằm trên máy người dùng.",
+        "en": "`s-maxage` applies only to shared caches (CDNs, reverse proxies) and overrides `max-age` there; the browser's private cache ignores it. This lets the CDN keep the response longer to offload the origin while browsers check back sooner. When an immediate update is needed, ops can purge the CDN, which is impossible for caches on users' devices."
+      }
+    },
+    {
+      "id": "http_api.caching.013",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "caching",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Client luôn gửi `If-None-Match`, nhưng server không bao giờ trả `304` dù sản phẩm không đổi. Lỗi ở đâu?",
+        "en": "The client always sends `If-None-Match`, yet the server never returns `304` even when the product has not changed. Where is the bug?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "app.get('/api/products/:id', async (req, res) => {\n  const product = await db.products.findById(req.params.id);\n  const etag = `\"${product.id}-${Date.now()}\"`;\n\n  if (req.headers['if-none-match'] === etag) {\n    return res.status(304).end();\n  }\n  res.set('ETag', etag).json(product);\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải so sánh với header `if-match` thay vì `if-none-match`, vì revalidate request `GET` dùng `If-Match`",
+            "en": "It should compare against `if-match` instead of `if-none-match`, since `If-Match` is what GET revalidation uses"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "ETag chứa `Date.now()` nên đổi sau mỗi request; hãy tạo ETag từ `updatedAt` hoặc hash nội dung",
+            "en": "The ETag includes `Date.now()`, so it changes on every request; derive it from `updatedAt` or a content hash"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Response `304` bắt buộc phải có body JSON",
+            "en": "A `304` response must include a JSON body"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Express không đọc được tên header viết thường",
+            "en": "Express cannot read lowercase header names"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "ETag là định danh cho một phiên bản biểu diễn của resource: nội dung giống nhau thì ETag phải giống nhau. Ở đây thời gian hiện tại làm ETag đổi liên tục nên phép so sánh không bao giờ đúng, client luôn phải tải lại toàn bộ body. Response `304` không có body, còn Node.js chuẩn hóa tên header thành chữ thường nên `req.headers['if-none-match']` là cách đọc đúng.",
+        "en": "An ETag identifies a version of the resource's representation: identical content must produce the same ETag. Here the current time makes the ETag change constantly, so the comparison never matches and the client always downloads the full body. A `304` has no body, and Node.js lowercases header names, so `req.headers['if-none-match']` is the correct way to read it."
+      }
+    },
+    {
+      "id": "http_api.formats.009",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "formats",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi một form HTML `<form method=\"post\">` chỉ có các ô text được submit, browser mặc định gửi body với `Content-Type` nào?",
+        "en": "When an HTML `<form method=\"post\">` with only text inputs is submitted, which `Content-Type` does the browser use for the body by default?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`application/json`",
+            "en": "`application/json`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`application/x-www-form-urlencoded`",
+            "en": "`application/x-www-form-urlencoded`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`multipart/form-data`",
+            "en": "`multipart/form-data`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`text/plain`",
+            "en": "`text/plain`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khi không khai báo `enctype`, form gửi body dạng `name=An&email=an%40example.com`, tức `application/x-www-form-urlencoded`. `multipart/form-data` chỉ được dùng khi khai báo `enctype` tương ứng, thường để upload file. Form HTML không tự gửi JSON; muốn gửi JSON phải dùng JavaScript như `fetch`.",
+        "en": "Without an `enctype`, a form sends a body like `name=An&email=an%40example.com`, i.e. `application/x-www-form-urlencoded`. `multipart/form-data` is used only when declared in `enctype`, typically for file uploads. HTML forms never send JSON on their own; that requires JavaScript such as `fetch`."
+      }
+    },
+    {
+      "id": "http_api.formats.010",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "formats",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Vì sao JSON là định dạng phổ biến nhất cho API, và nó có những hạn chế gì cần lưu ý?",
+        "en": "Why is JSON the most popular format for APIs, and what limitations should you watch out for?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Dễ đọc, gọn hơn XML, ngôn ngữ nào cũng có thư viện parse",
+          "en": "Human-readable, lighter than XML, parsers in every language"
+        },
+        {
+          "vi": "Không có kiểu ngày giờ: thống nhất dùng chuỗi ISO 8601 có múi giờ (`2025-09-01T08:00:00Z`)",
+          "en": "No date type: agree on ISO 8601 strings with a time zone (`2025-09-01T08:00:00Z`)"
+        },
+        {
+          "vi": "Số lớn và số tiền dễ mất chính xác: gửi id lớn dạng chuỗi, tiền theo đơn vị nhỏ nhất hoặc chuỗi decimal",
+          "en": "Large numbers and money can lose precision: send big ids as strings, money in minor units or decimal strings"
+        },
+        {
+          "vi": "Không hỗ trợ dữ liệu nhị phân trực tiếp (phải dùng Base64 hoặc multipart)",
+          "en": "No native binary data (needs Base64 or multipart)"
+        },
+        {
+          "vi": "Không có comment và schema sẵn; dùng JSON Schema/OpenAPI để mô tả",
+          "en": "No comments or built-in schema; use JSON Schema/OpenAPI to describe it"
+        }
+      ],
+      "explanation": {
+        "vi": "JSON khớp tự nhiên với object của JavaScript và hầu hết ngôn ngữ khác, nên trở thành mặc định cho REST. Nhưng nó chỉ có string, number, boolean, null, object và array, nên ngày giờ, số thập phân chính xác và dữ liệu nhị phân đều cần quy ước riêng. Team nên ghi các quy ước này vào tài liệu API (ví dụ OpenAPI) để client và server không hiểu khác nhau.",
+        "en": "JSON maps naturally to JavaScript objects and to most other languages, so it became the default for REST. But it only has string, number, boolean, null, object and array, so dates, exact decimals and binary data all need conventions. Teams should record these conventions in the API docs (e.g. OpenAPI) so clients and servers agree."
+      }
+    },
+    {
+      "id": "http_api.formats.011",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "formats",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn JavaScript sau in ra gì?",
+        "en": "What does the following JavaScript print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const payload = {\n  name: 'An',\n  nickname: undefined,\n  avatar: null,\n  onClick: () => {},\n  createdAt: new Date(0),\n};\nconsole.log(JSON.stringify(payload));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`{\"name\":\"An\",\"nickname\":null,\"avatar\":null,\"createdAt\":\"1970-01-01T00:00:00.000Z\"}`",
+            "en": "`{\"name\":\"An\",\"nickname\":null,\"avatar\":null,\"createdAt\":\"1970-01-01T00:00:00.000Z\"}`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`{\"name\":\"An\",\"nickname\":undefined,\"avatar\":null,\"onClick\":\"() => {}\",\"createdAt\":0}`",
+            "en": "`{\"name\":\"An\",\"nickname\":undefined,\"avatar\":null,\"onClick\":\"() => {}\",\"createdAt\":0}`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`{\"name\":\"An\",\"avatar\":null,\"createdAt\":\"1970-01-01T00:00:00.000Z\"}`",
+            "en": "`{\"name\":\"An\",\"avatar\":null,\"createdAt\":\"1970-01-01T00:00:00.000Z\"}`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`{\"name\":\"An\",\"createdAt\":{}}`",
+            "en": "`{\"name\":\"An\",\"createdAt\":{}}`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`JSON.stringify` bỏ qua các thuộc tính có giá trị `undefined` hoặc là function vì JSON không có hai kiểu này, còn `null` được giữ nguyên. `Date` có method `toJSON()` nên được chuyển thành chuỗi ISO 8601 theo UTC. Vì vậy server hoàn toàn không nhận được field `nickname` chứ không phải nhận `null`, điều cần lưu ý khi muốn xóa một giá trị bằng `PATCH`.",
+        "en": "`JSON.stringify` skips properties whose value is `undefined` or a function, because JSON has neither type, while `null` is kept. `Date` has a `toJSON()` method, so it becomes an ISO 8601 UTC string. The server therefore receives no `nickname` field at all rather than `null`, which matters when you want to clear a value with `PATCH`."
+      }
+    },
+    {
+      "id": "http_api.formats.012",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "formats",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Giỏ hàng tính giá bằng USD. Đoạn JavaScript sau tạo ra body gì để gửi lên API thanh toán?",
+        "en": "The cart is priced in USD. What body does this JavaScript produce for the payment API?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const cart = { items: [{ price: 0.1 }, { price: 0.2 }] };\nconst total = cart.items.reduce((sum, i) => sum + i.price, 0);\nconsole.log(JSON.stringify({ total }));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`{\"total\":0.3}`",
+            "en": "`{\"total\":0.3}`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`{\"total\":\"0.30\"}`",
+            "en": "`{\"total\":\"0.30\"}`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`{\"total\":0.30000000000000004}`",
+            "en": "`{\"total\":0.30000000000000004}`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`{\"total\":0.30}`",
+            "en": "`{\"total\":0.30}`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "0.1 và 0.2 không biểu diễn chính xác được bằng số thực nhị phân IEEE 754, nên tổng là `0.30000000000000004` và `JSON.stringify` in đúng giá trị đó. Server so sánh với `0.3` sẽ báo lệch tiền. Cách làm chuẩn là truyền tiền dưới dạng số nguyên theo đơn vị nhỏ nhất (`30` cent) hoặc chuỗi decimal kèm mã tiền tệ, và tính toán bằng kiểu decimal ở server.",
+        "en": "0.1 and 0.2 cannot be represented exactly as IEEE 754 binary floats, so the sum is `0.30000000000000004` and `JSON.stringify` prints exactly that. A server comparing it with `0.3` will report a mismatch. The standard practice is to send money as integers in minor units (`30` cents) or as decimal strings with a currency code, and to calculate with a decimal type on the server."
+      }
+    },
+    {
+      "id": "http_api.formats.013",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "formats",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Client gửi `Accept: application/xml`, nhưng API chỉ tạo được JSON. Theo RFC 9110, status code nào được định nghĩa riêng cho tình huống này?",
+        "en": "The client sends `Accept: application/xml`, but the API can only produce JSON. Per RFC 9110, which status code is defined specifically for this situation?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`415 Unsupported Media Type`",
+            "en": "`415 Unsupported Media Type`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`400 Bad Request`",
+            "en": "`400 Bad Request`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`422 Unprocessable Content`",
+            "en": "`422 Unprocessable Content`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`406 Not Acceptable`",
+            "en": "`406 Not Acceptable`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`406` nghĩa là server không có biểu diễn nào phù hợp với các header thương lượng nội dung như `Accept`. `415` dành cho chiều ngược lại: body client gửi lên có `Content-Type` mà server không hỗ trợ. RFC 9110 cũng cho phép server bỏ qua `Accept` và trả JSON kèm đúng `Content-Type`, nên client vẫn phải kiểm tra header này.",
+        "en": "`406` means the server has no representation matching the content negotiation headers such as `Accept`. `415` is the opposite direction: the body the client sent has a `Content-Type` the server does not support. RFC 9110 also allows the server to ignore `Accept` and return JSON with the correct `Content-Type`, so clients should still check that header."
+      }
+    },
+    {
+      "id": "http_api.alternatives.009",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "alternatives",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong GraphQL, loại operation nào dùng để thay đổi dữ liệu (tạo, sửa, xóa)?",
+        "en": "In GraphQL, which operation type is used to change data (create, update, delete)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`mutation`",
+            "en": "`mutation`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`query`",
+            "en": "`query`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`subscription`",
+            "en": "`subscription`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`fragment`",
+            "en": "`fragment`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`query` dùng để đọc, `mutation` dùng để ghi, còn `subscription` để nhận sự kiện realtime (thường qua WebSocket). Tách riêng `mutation` giúp server biết thao tác nào có tác dụng phụ, ví dụ các field gốc của mutation được thực thi tuần tự. `fragment` chỉ là cách tái sử dụng một nhóm field trong truy vấn, không phải loại operation.",
+        "en": "`query` reads, `mutation` writes, and `subscription` receives realtime events (usually over WebSocket). Separating `mutation` tells the server which operations have side effects; for example, top-level mutation fields are executed serially. A `fragment` is just a reusable set of fields inside a query, not an operation type."
+      }
+    },
+    {
+      "id": "http_api.alternatives.010",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "alternatives",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với HTTP/1.1, kết nối WebSocket được thiết lập như thế nào?",
+        "en": "With HTTP/1.1, how is a WebSocket connection established?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Client mở một kết nối UDP riêng tới cổng 8080",
+            "en": "The client opens a separate UDP connection to port 8080"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Request `GET` kèm `Upgrade: websocket` nhận `101 Switching Protocols`, rồi chính kết nối TCP đó chuyển sang WebSocket",
+            "en": "A `GET` with `Upgrade: websocket` gets `101 Switching Protocols`, then the same TCP connection speaks WebSocket"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Server trả `200 OK` rồi client poll lại mỗi giây",
+            "en": "The server returns `200 OK` and the client polls again every second"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Client phải gửi `POST /websocket` với body JSON chứa token, rồi server trả `201 Created`",
+            "en": "The client must send `POST /websocket` with a JSON body containing a token, then the server answers `201 Created`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "WebSocket (RFC 6455) bắt đầu bằng một HTTP handshake nên đi qua được cổng 80/443 và hạ tầng HTTP sẵn có. Sau khi server trả `101 Switching Protocols`, kết nối trở thành kênh hai chiều truyền frame, không còn theo mô hình request/response. `wss://` là WebSocket chạy trên TLS, tương tự `https://`.",
+        "en": "WebSocket (RFC 6455) starts with an HTTP handshake, so it passes through ports 80/443 and existing HTTP infrastructure. After the server replies `101 Switching Protocols`, the connection becomes a two-way frame channel instead of request/response. `wss://` is WebSocket over TLS, just like `https://`."
+      }
+    },
+    {
+      "id": "http_api.alternatives.011",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "alternatives",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "API GraphQL sau rất chậm khi client lấy danh sách bài viết kèm tác giả. Nguyên nhân chính là gì?",
+        "en": "This GraphQL API is very slow when clients fetch posts together with their authors. What is the main cause?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "// Client: { posts { title author { name } } }\nconst resolvers = {\n  Query: {\n    posts: () => db.query('SELECT * FROM posts LIMIT 50'),\n  },\n  Post: {\n    author: (post) =>\n      db.query('SELECT * FROM users WHERE id = ?', [post.authorId]),\n  },\n};"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "GraphQL không hỗ trợ quan hệ lồng nhau, phải tách thành 2 request",
+            "en": "GraphQL does not support nested relations; it needs 2 requests"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lỗi N+1: resolver `author` chạy một truy vấn cho mỗi bài (1 + 50 truy vấn); gom lại bằng DataLoader",
+            "en": "N+1 queries: the `author` resolver runs once per post (1 + 50 queries); batch them with DataLoader"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`LIMIT 50` quá lớn, GraphQL chỉ cho trả tối đa 10 item",
+            "en": "`LIMIT 50` is too large; GraphQL only allows 10 items"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Resolver phải là hàm `async`; nếu không, 50 truy vấn author chạy lần lượt thay vì song song",
+            "en": "Resolvers must be `async` functions; otherwise the 50 author queries run one after another instead of in parallel"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "GraphQL gọi resolver `Post.author` riêng cho từng bài viết, nên 50 bài sinh ra 50 truy vấn user cộng thêm 1 truy vấn lấy bài viết. DataLoader gom các id được yêu cầu trong cùng một tick thành một truy vấn batch và cache theo từng request. Resolver trả về Promise vốn đã chạy bất đồng bộ; thêm `async` không làm giảm số truy vấn.",
+        "en": "GraphQL calls the `Post.author` resolver separately for each post, so 50 posts produce 50 user queries plus 1 query for the posts. DataLoader collects the ids requested in the same tick into one batched query and caches per request. Resolvers returning Promises are already asynchronous; adding `async` does not reduce the number of queries."
+      }
+    },
+    {
+      "id": "http_api.alternatives.012",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "alternatives",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Client gọi `POST /graphql` và nhận `200 OK` với body `{\"data\": {\"user\": null}, \"errors\": [{\"message\": \"Not authorized\", \"path\": [\"user\"]}]}`. Client nên hiểu thế nào?",
+        "en": "The client calls `POST /graphql` and receives `200 OK` with body `{\"data\": {\"user\": null}, \"errors\": [{\"message\": \"Not authorized\", \"path\": [\"user\"]}]}`. How should the client interpret it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Request lỗi một phần: GraphQL thường trả `200` kể cả khi có lỗi, nên client phải kiểm tra mảng `errors`",
+            "en": "A partial failure: GraphQL often returns `200` with errors, so the client must check the `errors` array"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thành công hoàn toàn vì status là `200`",
+            "en": "Complete success because the status is `200`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Server cài đặt sai, vì spec GraphQL bắt buộc trả `401 Unauthorized` mỗi khi một field không có quyền",
+            "en": "The server is broken, because the GraphQL spec requires a `401 Unauthorized` status whenever a field is not authorized"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "User không tồn tại nên client nên tạo user mới",
+            "en": "The user does not exist, so the client should create one"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Một truy vấn GraphQL có thể lấy nhiều field, có field thành công có field lỗi, nên spec cho phép trả `data` và `errors` cùng lúc. Theo cách làm phổ biến, status HTTP vẫn là `200` khi request được thực thi, còn `4xx`/`5xx` dành cho lỗi ở tầng request như không parse được truy vấn. Vì vậy client và hệ thống monitoring phải đọc `errors`, nếu không lỗi phân quyền sẽ bị hiểu nhầm là \"không có dữ liệu\".",
+        "en": "A GraphQL query can request many fields, some succeeding and some failing, so the spec allows returning `data` and `errors` together. By common practice the HTTP status stays `200` when the request was executed, while `4xx`/`5xx` are for request-level failures such as an unparseable query. Clients and monitoring must therefore read `errors`, or an authorization failure will be mistaken for \"no data\"."
+      }
+    },
+    {
+      "id": "http_api.alternatives.013",
+      "contentVersion": 1,
+      "trackId": "http_api",
+      "topicId": "alternatives",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "API gateway và Backend for Frontend (BFF) là gì? Khi nào nên dùng?",
+        "en": "What are an API gateway and a Backend for Frontend (BFF)? When should you use them?"
+      },
+      "keyPoints": [
+        {
+          "vi": "API gateway: một điểm vào chung trước các service, lo routing, xác thực, rate limit, logging",
+          "en": "API gateway: a single entry point in front of services handling routing, auth, rate limiting, logging"
+        },
+        {
+          "vi": "BFF: backend riêng cho từng loại client (mobile, web), gom và định hình dữ liệu theo đúng nhu cầu màn hình",
+          "en": "BFF: a dedicated backend per client type (mobile, web) that aggregates and shapes data for its screens"
+        },
+        {
+          "vi": "Giảm số round trip và payload cho mobile, giấu cấu trúc microservice khỏi client",
+          "en": "Fewer round trips and smaller payloads for mobile; hides the microservice layout from clients"
+        },
+        {
+          "vi": "Đánh đổi: thêm một tầng phải vận hành, dễ thành điểm nghẽn hoặc chứa logic nghiệp vụ sai chỗ",
+          "en": "Trade-off: another layer to operate, which can become a bottleneck or collect misplaced business logic"
+        }
+      ],
+      "explanation": {
+        "vi": "Khi hệ thống có nhiều microservice, để app gọi thẳng từng service sẽ tốn nhiều request và lộ chi tiết nội bộ. API gateway xử lý các vấn đề chung (cross-cutting) ở một chỗ, còn BFF thêm logic gom dữ liệu riêng cho từng client, ví dụ một endpoint trả đủ dữ liệu cho màn Home của app. Với hệ thống nhỏ chỉ có một backend, thêm tầng này thường chưa đáng.",
+        "en": "With many microservices, letting the app call each service directly costs many requests and exposes internals. An API gateway handles cross-cutting concerns in one place, while a BFF adds per-client aggregation, e.g. one endpoint returning everything the app's Home screen needs. For a small system with a single backend, this extra layer is usually not worth it."
       }
     }
   ]

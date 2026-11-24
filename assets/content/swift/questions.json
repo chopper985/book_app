@@ -15,8 +15,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`let` không thể gán lại sau khi khởi tạo, `var` thì có thể",
-            "en": "`let` cannot be reassigned after initialization, `var` can"
+            "vi": "`let` không thể gán lại, `var` thì có thể",
+            "en": "`let` cannot be reassigned, `var` can"
           }
         },
         {
@@ -120,8 +120,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Phải gán giá trị mặc định cho biến",
-            "en": "Assign a default value to the variable"
+            "vi": "Gán giá trị mặc định cho biến đang được bind bởi `guard let`",
+            "en": "Assign a default value to the variable being bound by `guard let`"
           }
         },
         {
@@ -134,8 +134,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "In log lỗi rồi tiếp tục chạy code bên dưới",
-            "en": "Log an error and continue with the code below"
+            "vi": "In log lỗi rồi tiếp tục chạy phần code bên dưới câu lệnh `guard`",
+            "en": "Log an error and then continue executing the code below the `guard`"
           }
         }
       ],
@@ -215,8 +215,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`19.5` phải viết là `19.5f` hoặc ghi rõ kiểu `Float`",
-            "en": "`19.5` must be written as `19.5f` or typed as `Float`"
+            "vi": "`19.5` phải viết là `19.5f` hoặc khai báo hằng với kiểu `Float` rõ ràng",
+            "en": "`19.5` must be written as `19.5f` or the constant explicitly typed as `Float`"
           }
         },
         {
@@ -354,8 +354,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Vì `String` là reference type nên không có subscript",
-            "en": "Because `String` is a reference type and has no subscript"
+            "vi": "Vì `String` là reference type được bridge sang `NSString`, vốn không có subscript `Int`",
+            "en": "Because `String` is a reference type bridged to `NSString`, which has no `Int` subscript"
           }
         },
         {
@@ -368,8 +368,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Ký tự có độ dài byte khác nhau nên truy cập theo vị trí là O(n); Swift dùng `String.Index` thay vì `Int`",
-            "en": "Characters have variable byte length, so positional access is O(n); Swift uses `String.Index` instead of `Int`"
+            "vi": "Ký tự có độ dài byte khác nhau nên truy cập theo vị trí là O(n); Swift dùng `String.Index` thay cho `Int`",
+            "en": "Characters vary in byte length, so indexing is O(n); Swift uses `String.Index`, not `Int`"
           }
         }
       ],
@@ -441,8 +441,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Một con trỏ tới `Int` có thể trỏ vào vùng nhớ rỗng",
-            "en": "A pointer to an `Int` that may point to empty memory"
+            "vi": "Một con trỏ tới `Int` có thể trỏ vào vùng nhớ rỗng, giống Objective-C",
+            "en": "A pointer to an `Int` that may point to empty memory, like in Objective-C"
           }
         },
         {
@@ -546,8 +546,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Biến của `if let` dùng được sau khối `if`, còn biến của `guard let` thì không",
-            "en": "An `if let` binding is usable after the `if` block, a `guard let` binding is not"
+            "vi": "Biến của `if let` dùng được sau khối `if`, còn biến của `guard let` chỉ dùng được trong nhánh `else`",
+            "en": "An `if let` binding is usable after the `if` block, while a `guard let` binding is only usable inside `else`"
           }
         },
         {
@@ -597,8 +597,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "`for text in inputs` sai cú pháp, phải là `for (text) in inputs`",
-            "en": "`for text in inputs` is wrong syntax, it must be `for (text) in inputs`"
+            "vi": "`for text in inputs` sai cú pháp, phải là `for (text) in inputs` hoặc dùng `forEach`",
+            "en": "`for text in inputs` is wrong syntax; it must be `for (text) in inputs` or use `forEach`"
           }
         },
         {
@@ -709,8 +709,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Truy cập khi `nil` chỉ trả về `nil`, không crash",
-            "en": "Accessing it while `nil` just returns `nil` without crashing"
+            "vi": "Truy cập khi đang `nil` chỉ trả về `nil` giống optional chaining, không crash",
+            "en": "Accessing it while `nil` just returns `nil` like optional chaining, without crashing"
           }
         }
       ],
@@ -820,8 +820,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`Int??` (`Optional<Optional<Int>>`)",
-            "en": "`Int??` (`Optional<Optional<Int>>`)"
+            "vi": "`Int??`",
+            "en": "`Int??`"
           }
         },
         {
@@ -867,8 +867,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`struct` là value type (sao chép khi gán), `class` là reference type và hỗ trợ kế thừa",
-            "en": "`struct` is a value type (copied on assignment), `class` is a reference type and supports inheritance"
+            "vi": "`struct` là value type, sao chép khi gán; `class` là reference type, hỗ trợ kế thừa",
+            "en": "`struct` is a value type copied on assignment; `class` is a reference type with inheritance"
           }
         },
         {
@@ -888,8 +888,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "`class` được sao chép khi gán sang biến khác",
-            "en": "A `class` is copied when assigned to another variable"
+            "vi": "`class` được sao chép khi gán sang biến khác, còn `struct` được chia sẻ theo tham chiếu",
+            "en": "A `class` is copied when assigned to another variable, while a `struct` is shared by reference"
           }
         }
       ],
@@ -1081,8 +1081,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "`var value = 0` phải khai báo kiểu rõ ràng `Int`",
-            "en": "`var value = 0` needs an explicit `Int` type"
+            "vi": "`var value = 0` phải khai báo kiểu `Int` rõ ràng vì struct không suy luận được kiểu thuộc tính",
+            "en": "`var value = 0` needs an explicit `Int` type annotation because structs cannot infer property types"
           }
         },
         {
@@ -1114,15 +1114,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Raw value cố định cho mỗi case; associated value gắn với từng instance và lấy ra bằng pattern matching",
-            "en": "Raw values are fixed per case; associated values belong to each instance and are extracted with pattern matching"
+            "vi": "Raw value cố định cho mỗi case; associated value khác nhau theo instance, lấy ra bằng pattern matching",
+            "en": "Raw values are fixed per case; associated values vary per instance, read via pattern matching"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Associated value cố định cho mỗi case, raw value thay đổi theo instance",
-            "en": "Associated values are fixed per case, raw values vary per instance"
+            "vi": "Associated value cố định cho mỗi case lúc biên dịch, còn raw value có thể khác nhau ở từng instance",
+            "en": "Associated values are fixed per case at compile time, while raw values can differ for each instance"
           }
         },
         {
@@ -1257,8 +1257,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Kiểm tra `storage === storage` để biết có bị chia sẻ không",
-            "en": "Check `storage === storage` to see whether it is shared"
+            "vi": "Kiểm tra `storage === storage`; nếu `false` thì buffer đang bị chia sẻ, cần sao chép",
+            "en": "Check `storage === storage`; if `false`, the buffer is shared, so copy it"
           }
         },
         {
@@ -1271,8 +1271,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Khai báo `storage` là `weak` để ARC tự sao chép",
-            "en": "Declare `storage` as `weak` so ARC copies it automatically"
+            "vi": "Khai báo `storage` là `weak` để ARC tự sao chép ở lần ghi đầu tiên",
+            "en": "Declare `storage` as `weak` so ARC copies it automatically on the first write"
           }
         }
       ],
@@ -1297,29 +1297,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Chỉ `class` mới conform được protocol",
-            "en": "Only classes can conform to protocols"
+            "vi": "Chỉ `class` mới conform được protocol; `struct` phải dùng generic constraint thay thế",
+            "en": "Only classes can conform to protocols; structs must use generic constraints instead"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Một kiểu chỉ conform được tối đa một protocol",
-            "en": "A type can conform to at most one protocol"
+            "vi": "Một kiểu chỉ conform được tối đa một protocol, nhưng protocol có thể kế thừa nhiều protocol khác",
+            "en": "A type can conform to at most one protocol, but protocols can inherit from several others"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Là bản thiết kế các yêu cầu; `struct`, `enum`, `class` đều conform được và có thể conform nhiều protocol",
-            "en": "A blueprint of requirements; structs, enums and classes can conform, and to several protocols at once"
+            "vi": "Là bản thiết kế các yêu cầu; `struct`, `enum`, `class` đều conform được, kể cả nhiều protocol cùng lúc",
+            "en": "A blueprint of requirements that structs, enums and classes can all adopt, several at once"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Protocol không thể có cài đặt mặc định",
-            "en": "Protocols can never have default implementations"
+            "vi": "Protocol chỉ khai báo yêu cầu, không bao giờ có cài đặt mặc định",
+            "en": "Protocols only declare requirements and can never have default implementations"
           }
         }
       ],
@@ -1358,8 +1358,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "Computed property",
-            "en": "A computed property"
+            "vi": "Computed property như `var isBlank: Bool { isEmpty }`",
+            "en": "A computed property such as `var isBlank: Bool { isEmpty }`"
           }
         },
         {
@@ -1453,8 +1453,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Ép kiểu `(item as! Int) > (best as! Int)`",
-            "en": "Cast with `(item as! Int) > (best as! Int)`"
+            "vi": "Ép kiểu trong vòng lặp bằng `(item as! Int) > (best as! Int)`",
+            "en": "Force cast inside the loop with `(item as! Int) > (best as! Int)`"
           }
         },
         {
@@ -1493,8 +1493,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Tương đương `Any`, bỏ qua kiểm tra kiểu",
-            "en": "Equivalent to `Any`, skipping type checks"
+            "vi": "Tương đương `Any`, nên protocol bỏ qua kiểm tra kiểu tĩnh",
+            "en": "Equivalent to `Any`, so the protocol skips static type checks"
           }
         },
         {
@@ -1507,15 +1507,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Bắt buộc kiểu conform phải là `class`",
-            "en": "Forces the conforming type to be a `class`"
+            "vi": "Bắt buộc kiểu conform phải là `class` để có thể lưu dạng `weak`",
+            "en": "Forces the conforming type to be a `class` so it can be stored weakly"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Khai báo kiểu placeholder mà kiểu conform sẽ chỉ định cụ thể",
-            "en": "Declares a placeholder type that the conforming type specifies"
+            "vi": "Khai báo kiểu placeholder do kiểu conform chỉ định",
+            "en": "Declares a placeholder type the conforming type specifies"
           }
         }
       ],
@@ -1547,8 +1547,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Phía gọi được chọn kiểu collection cụ thể, giống tham số generic",
-            "en": "The caller chooses the concrete collection type, like a generic parameter"
+            "vi": "Phía gọi được chọn kiểu collection cụ thể, giống tham số generic `<C>`",
+            "en": "The caller chooses the concrete collection type, like a generic parameter `<C>`"
           }
         },
         {
@@ -1683,8 +1683,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Là garbage collector chạy định kỳ và tự phá retain cycle",
-            "en": "It is a periodic garbage collector that breaks retain cycles automatically"
+            "vi": "Là garbage collector chạy định kỳ, tự phát hiện và phá retain cycle ở background",
+            "en": "It is a periodic garbage collector that detects and breaks retain cycles in the background"
           }
         },
         {
@@ -1716,8 +1716,8 @@
       "level": "fresher",
       "type": "multipleChoice",
       "prompt": {
-        "vi": "Vì sao `weak var delegate: MyDelegate?` bắt buộc phải là `var` và kiểu optional?",
-        "en": "Why must `weak var delegate: MyDelegate?` be a `var` and optional?"
+        "vi": "Vì sao thuộc tính `weak` như `weak var delegate: MyDelegate?` bắt buộc phải có kiểu optional?",
+        "en": "Why must a `weak` property such as `weak var delegate: MyDelegate?` have an optional type?"
       },
       "options": [
         {
@@ -1744,15 +1744,15 @@
         {
           "id": "d",
           "text": {
-            "vi": "Không bắt buộc, `weak let x: MyDelegate` cũng hợp lệ",
-            "en": "It is not required, `weak let x: MyDelegate` is also valid"
+            "vi": "Không bắt buộc, `weak let delegate: MyDelegate` (không optional) cũng hợp lệ",
+            "en": "It is not required, `weak let delegate: MyDelegate` (non-optional) is also valid"
           }
         }
       ],
       "answerId": "a",
       "explanation": {
-        "vi": "`weak` không giữ object sống; khi object bị giải phóng, ARC tự đặt reference về `nil`. Vì giá trị có thể bị đổi thành `nil` bất cứ lúc nào, nó phải là optional và phải là `var` (hằng `let` không thể bị ARC thay đổi). Lý do không liên quan đến hiệu năng hay Objective-C.",
-        "en": "`weak` does not keep the object alive; when the object is deallocated, ARC sets the reference to `nil` automatically. Since the value can become `nil` at any time, it must be optional and a `var` (a `let` constant could not be changed by ARC). It has nothing to do with performance or Objective-C."
+        "vi": "`weak` không giữ object sống; khi object bị giải phóng, ARC tự đặt reference về `nil`. Vì giá trị có thể thành `nil` bất cứ lúc nào nên kiểu phải là optional. Từ Swift 6.2 (SE-0481) có thể khai báo `weak let`, nhưng vẫn phải là optional. Lý do không liên quan đến hiệu năng hay Objective-C.",
+        "en": "`weak` does not keep the object alive; when the object is deallocated, ARC sets the reference to `nil` automatically. Since the value can become `nil` at any time, the type must be optional. Since Swift 6.2 (SE-0481) you may declare `weak let`, but it must still be optional. It has nothing to do with performance or Objective-C."
       }
     },
     {
@@ -1825,8 +1825,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Gán `flat = nil` trước `john = nil`",
-            "en": "Set `flat = nil` before `john = nil`"
+            "vi": "Gán `flat = nil` trước khi gán `john = nil`",
+            "en": "Set `flat = nil` before setting `john = nil`"
           }
         },
         {
@@ -1839,8 +1839,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "Khai báo `weak var tenant: Person?` trong `Apartment`",
-            "en": "Declare `weak var tenant: Person?` in `Apartment`"
+            "vi": "Khai báo `weak var tenant: Person?`",
+            "en": "Declare `weak var tenant: Person?`"
           }
         },
         {
@@ -1879,15 +1879,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "`weak` là optional và tự về `nil`; `unowned` non-optional, crash nếu truy cập sau khi object bị giải phóng",
-            "en": "`weak` is optional and becomes `nil`; `unowned` is non-optional and crashes if accessed after deallocation"
+            "vi": "`weak` là optional và tự về `nil`; `unowned` non-optional, crash nếu dùng sau khi object bị giải phóng",
+            "en": "`weak` is optional and becomes `nil`; `unowned` is non-optional and crashes if used after deallocation"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`unowned` tự về `nil` an toàn hơn `weak`",
-            "en": "`unowned` becomes `nil` safely, making it safer than `weak`"
+            "vi": "`unowned` tự được đặt về `nil` khi object bị giải phóng nên dùng an toàn hơn `weak`",
+            "en": "`unowned` is set to `nil` automatically when the object is freed, so it is safer to use than `weak`"
           }
         },
         {
@@ -2004,15 +2004,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Có thể ngay sau lần dùng cuối; cần `withExtendedLifetime` nếu muốn giữ sống lâu hơn",
-            "en": "Possibly right after its last use; use `withExtendedLifetime` to keep it alive longer"
+            "vi": "Có thể ngay sau lần dùng cuối; `withExtendedLifetime` giúp giữ nó sống lâu hơn",
+            "en": "Possibly right after its last use; `withExtendedLifetime` keeps it alive longer"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Luôn đúng ở dấu `}` cuối phạm vi, như RAII trong C++",
-            "en": "Always exactly at the closing `}` of the scope, like C++ RAII"
+            "vi": "Luôn đúng ở dấu `}` cuối phạm vi, giống destructor RAII trong C++",
+            "en": "Always exactly at the closing `}` of the scope, like C++ RAII destructors do"
           }
         },
         {
@@ -2025,8 +2025,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Khi autorelease pool của run loop được xả",
-            "en": "When the run loop's autorelease pool is drained"
+            "vi": "Khi autorelease pool của run loop được xả sau sự kiện hiện tại",
+            "en": "When the run loop's autorelease pool drains after the current event"
           }
         }
       ],
@@ -2065,15 +2065,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Không cần gì, mọi protocol đều dùng được với `weak`",
-            "en": "Nothing, any protocol works with `weak`"
+            "vi": "Không cần gì, mọi protocol đều dùng được với `weak` miễn biến là optional",
+            "en": "Nothing, any protocol works with `weak` as long as the variable is optional"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Giới hạn chỉ class: `protocol DownloadDelegate: AnyObject`",
-            "en": "Be class-constrained: `protocol DownloadDelegate: AnyObject`"
+            "vi": "Ràng buộc class: `: AnyObject`",
+            "en": "A class constraint: `: AnyObject`"
           }
         }
       ],
@@ -2098,8 +2098,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Chỉ số (index) của phần tử hiện tại",
-            "en": "The index of the current element"
+            "vi": "Chỉ số (index) của phần tử hiện tại, bắt đầu từ 0",
+            "en": "The index of the current element, starting from 0"
           }
         },
         {
@@ -2112,8 +2112,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "Tham số đầu tiên của closure, tức từng phần tử",
-            "en": "The closure's first parameter, i.e. each element"
+            "vi": "Tham số đầu tiên: từng phần tử",
+            "en": "The first parameter: each element"
           }
         },
         {
@@ -2210,8 +2210,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "Closure chạy bất đồng bộ trên background thread",
-            "en": "A closure that runs asynchronously on a background thread"
+            "vi": "Closure luôn được compiler cho chạy bất đồng bộ trên background thread",
+            "en": "A closure that the compiler always runs asynchronously on a background thread"
           }
         },
         {
@@ -2294,8 +2294,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Khi closure được gọi nhiều hơn một lần trong hàm",
-            "en": "When the closure is called more than once inside the function"
+            "vi": "Khi closure được gọi nhiều hơn một lần trong thân hàm",
+            "en": "When the closure is called more than once inside the function body"
           }
         },
         {
@@ -2454,15 +2454,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "Dùng `[weak self]` trong closure: `{ [weak self] in self?.count += 1 }`",
-            "en": "Use `[weak self]`: `{ [weak self] in self?.count += 1 }`"
+            "vi": "Dùng `[weak self]`",
+            "en": "Use `[weak self]`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Đổi `final class` thành `struct`",
-            "en": "Change `final class` to `struct`"
+            "vi": "Đổi `final class` thành `struct` để `self` được sao chép vào closure",
+            "en": "Change `final class` to `struct` so `self` is copied into the closure"
           }
         },
         {
@@ -2528,8 +2528,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Vì UIKit không thread-safe và run loop chính xử lý sự kiện, vẽ màn hình",
-            "en": "Because UIKit is not thread-safe and the main run loop handles events and drawing"
+            "vi": "Vì UIKit không thread-safe",
+            "en": "Because UIKit is not thread-safe"
           }
         },
         {
@@ -2549,8 +2549,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Không bắt buộc, chỉ là khuyến nghị về code style",
-            "en": "It is not required, just a code style recommendation"
+            "vi": "Không bắt buộc, chỉ là khuyến nghị về code style trong guideline của Apple",
+            "en": "It is not required; it is just a code style recommendation from Apple's guidelines"
           }
         }
       ],
@@ -2575,15 +2575,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Đánh dấu điểm có thể tạm dừng mà không block thread",
-            "en": "Marks a potential suspension point without blocking the thread"
+            "vi": "Có thể tạm dừng tại đây mà không chặn thread",
+            "en": "May suspend here without blocking the thread"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Block thread hiện tại cho tới khi có kết quả",
-            "en": "Blocks the current thread until the result arrives"
+            "vi": "Block thread hiện tại cho tới khi có kết quả, giống semaphore",
+            "en": "Blocks the current thread until the result arrives, like a semaphore"
           }
         },
         {
@@ -2721,15 +2721,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Property và method của class được cô lập vào main actor, compiler kiểm tra lúc biên dịch",
-            "en": "The class's properties and methods are isolated to the main actor, checked at compile time"
+            "vi": "Property và method của class được cô lập vào main actor, kiểm tra lúc biên dịch",
+            "en": "Its properties and methods are isolated to the main actor, checked at compile time"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Biến class thành `actor` có thể chạy song song nhiều method",
-            "en": "Turns the class into an `actor` that runs methods in parallel"
+            "vi": "Biến class thành `actor` có các method chạy song song trên nhiều thread",
+            "en": "Turns the class into an `actor` whose methods can run in parallel on several threads"
           }
         }
       ],
@@ -2772,8 +2772,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "Lỗi biên dịch vì closure của `sync` không được `return`",
-            "en": "Compile error because a `sync` closure cannot `return`"
+            "vi": "Lỗi biên dịch vì closure truyền vào `sync` không được phép `return`",
+            "en": "Compile error because a closure passed to `sync` is not allowed to `return`"
           }
         },
         {
@@ -2816,8 +2816,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Cả hai đều thành công và `balance` thành `-60` do actor reentrancy",
-            "en": "Both succeed and `balance` becomes `-60` because of actor reentrancy"
+            "vi": "Cả hai thành công, `balance` thành `-60` do reentrancy",
+            "en": "Both succeed, `balance` ends at `-60` due to reentrancy"
           }
         },
         {
@@ -2867,8 +2867,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Khai báo `nonisolated(unsafe) var total = 0`",
-            "en": "Declare `nonisolated(unsafe) var total = 0`"
+            "vi": "Khai báo `nonisolated(unsafe) var total = 0` để compiler coi truy cập là an toàn",
+            "en": "Declare `nonisolated(unsafe) var total = 0` so the compiler treats access as safe"
           }
         },
         {
@@ -2921,8 +2921,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "Cả hai bị dừng ngay lập tức giữa chừng, kể cả khi không kiểm tra cancellation",
-            "en": "Both stop immediately mid-execution, even without checking for cancellation"
+            "vi": "Cả hai bị dừng ngay lập tức giữa chừng, kể cả khi code không hề kiểm tra cancellation",
+            "en": "Both stop immediately mid-execution, even if the code never checks for cancellation"
           }
         },
         {
@@ -2961,15 +2961,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "Nhận dữ liệu từ view cha và sửa ngược lại view cha",
-            "en": "Receives data from the parent and writes it back to the parent"
+            "vi": "Nhận dữ liệu từ view cha và ghi thay đổi ngược lại view cha",
+            "en": "Receives data from the parent view and writes changes back to the parent"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Lưu state cục bộ do view sở hữu; thay đổi sẽ làm view render lại",
-            "en": "Stores local state owned by the view; changes re-render the view"
+            "vi": "Lưu state cục bộ do view sở hữu",
+            "en": "Local state owned by the view"
           }
         },
         {
@@ -3082,15 +3082,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "`@State var isOn: Bool`, cha truyền `isOn`",
-            "en": "`@State var isOn: Bool`, the parent passes `isOn`"
+            "vi": "`@State var isOn: Bool`, và cha truyền `isOn`",
+            "en": "`@State var isOn: Bool`, and the parent passes `isOn`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`@Binding var isOn: Bool`, cha truyền `$isOn`",
-            "en": "`@Binding var isOn: Bool`, the parent passes `$isOn`"
+            "vi": "`@Binding var isOn: Bool`, truyền `$isOn`",
+            "en": "`@Binding var isOn: Bool` with `$isOn`"
           }
         },
         {
@@ -3133,8 +3133,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`@ObservedObject` không sở hữu model nên bị tạo lại; dùng `@StateObject`",
-            "en": "`@ObservedObject` does not own the model so it is recreated; use `@StateObject`"
+            "vi": "`@ObservedObject` không sở hữu model; dùng `@StateObject`",
+            "en": "Not owned by `@ObservedObject`; use `@StateObject`"
           }
         },
         {
@@ -3147,8 +3147,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "`.task` phải đổi thành `.onAppear` để dữ liệu được giữ lại",
-            "en": "`.task` must be replaced with `.onAppear` to keep the data"
+            "vi": "`.task` phải đổi thành `.onAppear` để dữ liệu đã tải được giữ lại khi view cha cập nhật",
+            "en": "`.task` must be replaced with `.onAppear` so the loaded data survives parent updates"
           }
         },
         {
@@ -3228,15 +3228,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "SwiftUI báo lỗi runtime vì id trùng nhau",
-            "en": "SwiftUI raises a runtime error because of duplicate ids"
+            "vi": "SwiftUI báo cảnh báo runtime rồi crash vì các giá trị `.id` bị trùng",
+            "en": "SwiftUI raises a runtime warning and crashes because of duplicate `.id` values"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Bị coi là view mới: `@State` bị reset và `onAppear`/`.task` chạy lại",
-            "en": "It is treated as a new view: `@State` resets and `onAppear`/`.task` run again"
+            "vi": "Identity mới: `@State` bị reset, `.task` chạy lại",
+            "en": "New identity: `@State` resets, `.task` reruns"
           }
         }
       ],
@@ -3282,6 +3282,2786 @@
       "explanation": {
         "vi": "Chia app thành các module Swift Package theo feature (Profile, Checkout…) và module dùng chung (Networking, DesignSystem, Core), với quy tắc phụ thuộc một chiều: feature không import trực tiếp feature khác mà giao tiếp qua protocol/interface module hoặc coordinator/router. Trong mỗi feature tách lớp rõ ràng (ví dụ MVVM hoặc TCA: View, ViewModel/@MainActor, UseCase, Repository) và dùng dependency injection qua protocol để dễ test và mock. Lợi ích: build song song, build tăng dần nhanh hơn, ownership rõ theo team, preview/test từng module độc lập. Cần cân nhắc chi phí: quá nhiều module nhỏ làm tăng độ phức tạp cấu hình, nên tách dần theo ranh giới domain thực tế.",
         "en": "Split the app into Swift Package modules per feature (Profile, Checkout…) plus shared modules (Networking, DesignSystem, Core), with one-directional dependencies: features never import other features directly but communicate through protocol/interface modules or a coordinator/router. Inside each feature keep clear layers (e.g. MVVM or TCA: View, ViewModel/@MainActor, UseCase, Repository) and use protocol-based dependency injection for testability and mocking. Benefits: parallel and faster incremental builds, clear team ownership, independent previews/tests per module. Weigh the cost: too many tiny modules add configuration complexity, so split gradually along real domain boundaries."
+      }
+    },
+    {
+      "id": "swift.basics.010",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về câu lệnh `switch` trong Swift?",
+        "en": "Which statement about the `switch` statement in Swift is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mỗi case phải kết thúc bằng `break`, nếu không sẽ chạy tiếp case bên dưới",
+            "en": "Each case must end with `break`, otherwise the next case also runs"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`switch` chỉ dùng được với `Int` và `String`",
+            "en": "`switch` only works with `Int` and `String`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`default` là bắt buộc kể cả khi đã liệt kê đầy đủ mọi case của một `enum`",
+            "en": "`default` is required even when every case of an `enum` is already listed"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`switch` phải exhaustive và không tự rơi xuống case tiếp theo, nên không cần `break`",
+            "en": "`switch` must be exhaustive and never falls through, so `break` is not needed"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Trong Swift, sau khi một case khớp và chạy xong, `switch` kết thúc luôn; muốn chạy tiếp case dưới phải viết rõ `fallthrough`. Compiler yêu cầu `switch` bao phủ mọi giá trị có thể, nên với `Int` hay `String` thường cần `default`, còn với `enum` đã liệt kê đủ case thì không cần. `switch` hỗ trợ mọi kiểu so khớp được, kể cả range, tuple và pattern có `where`.",
+        "en": "In Swift, once a matching case finishes, the `switch` ends; to continue into the next case you must write `fallthrough` explicitly. The compiler requires a `switch` to cover every possible value, so `Int` or `String` usually need `default`, while an `enum` with all cases listed does not. `switch` works with any matchable type, including ranges, tuples and patterns with `where`."
+      }
+    },
+    {
+      "id": "swift.basics.011",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "var fruits = [\"apple\", \"banana\"]\nfruits.append(\"cherry\")\nfruits.insert(\"kiwi\", at: 0)\nprint(fruits.count, fruits[0], fruits.last!)\nprint(fruits.contains(\"banana\"))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "3 apple cherry / true",
+            "en": "3 apple cherry / true"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "4 apple cherry / true",
+            "en": "4 apple cherry / true"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "4 kiwi cherry / true",
+            "en": "4 kiwi cherry / true"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "4 kiwi cherry / false",
+            "en": "4 kiwi cherry / false"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`append` thêm `cherry` vào cuối, rồi `insert(\"kiwi\", at: 0)` chèn `kiwi` vào đầu, nên mảng là `[\"kiwi\", \"apple\", \"banana\", \"cherry\"]` với 4 phần tử. `fruits[0]` là `kiwi`, `fruits.last!` là `cherry`, và `banana` vẫn còn trong mảng nên `contains` trả về `true`. `print` với nhiều đối số ngăn cách chúng bằng dấu cách.",
+        "en": "`append` adds `cherry` at the end, then `insert(\"kiwi\", at: 0)` puts `kiwi` at the front, so the array is `[\"kiwi\", \"apple\", \"banana\", \"cherry\"]` with 4 elements. `fruits[0]` is `kiwi`, `fruits.last!` is `cherry`, and `banana` is still in the array, so `contains` returns `true`. `print` with several arguments separates them with spaces."
+      }
+    },
+    {
+      "id": "swift.basics.012",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `let response = (code: 404, message: \"Not Found\")`, cách nào lấy được giá trị `404`?",
+        "en": "Given `let response = (code: 404, message: \"Not Found\")`, which way gets the value `404`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ `response[0]`",
+            "en": "Only `response[0]`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ `response.code`, vì tuple có tên thì không truy cập bằng chỉ số được",
+            "en": "Only `response.code`, because named tuples cannot be accessed by index"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải khai báo `struct` thì mới đọc được từng phần tử",
+            "en": "You must declare a `struct` to read individual elements"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`.code`, `.0` và destructuring đều được",
+            "en": "`.code`, `.0` and destructuring all work"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Tuple trong Swift nhóm nhiều giá trị (có thể khác kiểu) thành một. Phần tử truy cập được bằng chỉ số `.0`, `.1`, bằng tên nếu được đặt tên như `.code`, hoặc bằng destructuring `let (code, _) = response` với `_` để bỏ qua phần không cần. Tuple không có subscript `[0]`. Tuple hợp với giá trị trả về tạm thời; dữ liệu dùng lâu dài nên là `struct`.",
+        "en": "A Swift tuple groups several values (possibly of different types) into one. Elements are accessed by index `.0`, `.1`, by name when named like `.code`, or by destructuring `let (code, _) = response` with `_` to skip what you do not need. Tuples have no `[0]` subscript. Tuples suit temporary return values; long-lived data should be a `struct`."
+      }
+    },
+    {
+      "id": "swift.basics.013",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Hàm `func double(_ value: inout Int) { value *= 2 }` được gọi đúng cách nào?",
+        "en": "How is the function `func double(_ value: inout Int) { value *= 2 }` called correctly?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`let n = 5; double(&n)`",
+            "en": "`let n = 5; double(&n)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`var n = 5; double(n)`, và sau đó `n` là `10`",
+            "en": "`var n = 5; double(n)`, and afterwards `n` is `10`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`var n = 5; double(&n)`, sau đó `n == 10`",
+            "en": "`var n = 5; double(&n)`, then `n == 10`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`double(&5)`",
+            "en": "`double(&5)`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Tham số hàm trong Swift mặc định là hằng, nên muốn hàm sửa biến của người gọi thì khai báo `inout`. Khi gọi, phải truyền một biến `var` và đặt `&` phía trước để thể hiện rõ biến có thể bị thay đổi. Hằng `let` hoặc literal như `5` không truyền được vào `inout`, và bỏ `&` là lỗi biên dịch.",
+        "en": "Swift function parameters are constants by default, so a function that modifies the caller's variable declares the parameter `inout`. When calling, you must pass a `var` variable prefixed with `&` to make the possible mutation explicit. A `let` constant or a literal like `5` cannot be passed to `inout`, and omitting `&` is a compile error."
+      }
+    },
+    {
+      "id": "swift.basics.014",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "var stock = [\"tea\": 3]\nstock[\"milk\"] = 5\nstock[\"tea\", default: 0] += 1\nstock[\"coffee\", default: 0] += 2\nstock[\"milk\"] = nil\nprint(stock.keys.sorted())\nprint(stock[\"tea\"]!, stock[\"milk\"] ?? -1)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[\"coffee\", \"milk\", \"tea\"] / 4 5",
+            "en": "[\"coffee\", \"milk\", \"tea\"] / 4 5"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[\"tea\"] / 4 -1",
+            "en": "[\"tea\"] / 4 -1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[\"coffee\", \"tea\"] / 4 -1",
+            "en": "[\"coffee\", \"tea\"] / 4 -1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "[\"coffee\", \"tea\"] / 3 -1",
+            "en": "[\"coffee\", \"tea\"] / 3 -1"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`stock[\"milk\"] = 5` thêm key mới. Subscript `stock[\"tea\", default: 0] += 1` đọc giá trị hiện có (3) rồi ghi lại 4, còn với `coffee` chưa tồn tại thì bắt đầu từ `0` và thành 2. Gán `stock[\"milk\"] = nil` xoá key `milk` khỏi dictionary. Vì `Dictionary` không có thứ tự, đoạn code dùng `keys.sorted()` để in ổn định, và `stock[\"milk\"] ?? -1` cho `-1`.",
+        "en": "`stock[\"milk\"] = 5` adds a new key. The subscript `stock[\"tea\", default: 0] += 1` reads the existing value (3) and writes back 4, while the missing `coffee` starts from `0` and becomes 2. Assigning `stock[\"milk\"] = nil` removes the `milk` key from the dictionary. Since `Dictionary` is unordered, the code uses `keys.sorted()` to print a stable order, and `stock[\"milk\"] ?? -1` gives `-1`."
+      }
+    },
+    {
+      "id": "swift.optionals.010",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "optionals",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `user: User?` và `address: Address?` là thuộc tính của `User`, `city: String` là thuộc tính của `Address`, biểu thức `user?.address?.city` có kiểu gì?",
+        "en": "Given `user: User?`, where `User` has `address: Address?` and `Address` has `city: String`, what is the type of `user?.address?.city`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`String`",
+            "en": "`String`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`String?`",
+            "en": "`String?`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`String??`",
+            "en": "`String??`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Crash lúc chạy nếu `user` là `nil`",
+            "en": "It crashes at runtime if `user` is `nil`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Optional chaining dừng lại ngay khi gặp `nil` ở bất kỳ mắt xích nào và cả biểu thức trả về `nil`, không crash. Kết quả luôn là optional của kiểu cuối, và nhiều mức `?` liên tiếp không lồng optional vào nhau, nên kiểu là `String?` chứ không phải `String??`. Để có `String`, kết hợp với `??`, ví dụ `user?.address?.city ?? \"Unknown\"`.",
+        "en": "Optional chaining stops as soon as any link is `nil` and the whole expression returns `nil` instead of crashing. The result is always an optional of the final type, and several `?` steps do not nest optionals, so the type is `String?`, not `String??`. To get a `String`, combine it with `??`, e.g. `user?.address?.city ?? \"Unknown\"`."
+      }
+    },
+    {
+      "id": "swift.optionals.011",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "optionals",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch được. Nguyên nhân và cách sửa là gì?",
+        "en": "The code below does not compile. What is the cause and the fix?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "func greet(_ name: String?) {\n    print(\"Hello, \" + name)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`name` là `String?` nên phải unwrap trước khi dùng `+`, ví dụ `\"Hello, \" + (name ?? \"Guest\")`",
+            "en": "`name` is `String?` and must be unwrapped before `+`, e.g. `\"Hello, \" + (name ?? \"Guest\")`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Swift không cho phép nối chuỗi bằng `+`; phải dùng `append` hoặc interpolation",
+            "en": "Swift does not allow concatenating strings with `+`; use `append` or interpolation"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tham số có nhãn `_` không có tên nên không thể tham chiếu trong thân hàm",
+            "en": "A parameter labeled `_` has no name, so it cannot be referenced inside the function body"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`print` chỉ nhận một chuỗi literal, không nhận biểu thức",
+            "en": "`print` only accepts a string literal, not an expression"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Toán tử `+` nối hai `String`, còn `name` có kiểu `Optional<String>`, nên compiler báo \"value of optional type 'String?' must be unwrapped\". Cách an toàn là cung cấp giá trị mặc định bằng `??`, hoặc dùng `if let`/`guard let` để xử lý riêng trường hợp `nil`. `name!` cũng biên dịch được nhưng crash khi `name` là `nil`. Nhãn `_` chỉ bỏ nhãn đối số khi gọi, tên `name` vẫn dùng bình thường trong hàm.",
+        "en": "The `+` operator joins two `String`s, but `name` is an `Optional<String>`, so the compiler reports \"value of optional type 'String?' must be unwrapped\". The safe fix is a default with `??`, or `if let`/`guard let` to handle `nil` separately. `name!` also compiles but crashes when `name` is `nil`. The `_` label only removes the argument label at the call site; `name` is still usable inside the function."
+      }
+    },
+    {
+      "id": "swift.optionals.012",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "optionals",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Từ Swift 5.7, câu lệnh `if let nickname { print(nickname) }` có nghĩa là gì?",
+        "en": "Since Swift 5.7, what does `if let nickname { print(nickname) }` mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cách viết tắt của `if let nickname = nickname`, unwrap khi nó khác `nil`",
+            "en": "Shorthand for `if let nickname = nickname`, unwrapping it when it is not `nil`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Khai báo một hằng mới `nickname` có giá trị `nil` để dùng trong khối",
+            "en": "It declares a new constant `nickname` with the value `nil` for use inside the block"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Kiểm tra `nickname` có phải chuỗi rỗng hay không",
+            "en": "It checks whether `nickname` is an empty string"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Force unwrap `nickname` trong khối và crash lúc chạy nếu là `nil`",
+            "en": "It force unwraps `nickname` inside the block and crashes at runtime if it is `nil`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Swift 5.7 thêm cú pháp rút gọn cho optional binding: `if let x` tương đương `if let x = x`, và cũng áp dụng cho `guard let x` và `while let x`. Trong khối lệnh, `nickname` là giá trị đã unwrap kiểu non-optional; nếu là `nil` thì khối bị bỏ qua, không crash. Cú pháp này không kiểm tra chuỗi rỗng; `\"\"` vẫn là giá trị khác `nil`.",
+        "en": "Swift 5.7 added shorthand optional binding: `if let x` is equivalent to `if let x = x`, and it also works for `guard let x` and `while let x`. Inside the block, `nickname` is the unwrapped non-optional value; if it is `nil`, the block is skipped without crashing. It does not check for empty strings; `\"\"` is still a non-`nil` value."
+      }
+    },
+    {
+      "id": "swift.optionals.013",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "optionals",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "let scores: [String: Int] = [\"an\": 8]\nif case let s? = scores[\"an\"] {\n    print(\"an \\(s)\")\n}\nlet missing = scores[\"binh\"].map { $0 * 2 }\nprint(missing as Any)\nprint(scores[\"an\"].map { $0 * 2 } ?? 0)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "an Optional(8) / nil / 16",
+            "en": "an Optional(8) / nil / 16"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "an 8 / Optional(nil) / Optional(16)",
+            "en": "an 8 / Optional(nil) / Optional(16)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "an 8 / nil / 16",
+            "en": "an 8 / nil / 16"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "an 8 / 0 / 16",
+            "en": "an 8 / 0 / 16"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Subscript của `Dictionary` trả về `Int?`. Pattern `case let s?` chỉ khớp khi giá trị khác `nil` và bind giá trị đã unwrap, nên in `an 8` chứ không phải `Optional(8)`. `Optional.map` chỉ chạy closure khi có giá trị: với `binh` không tồn tại, kết quả là `nil` và `print(missing as Any)` in `nil`. Với `an`, `map` cho `Optional(16)` rồi `?? 0` unwrap thành `16`.",
+        "en": "A `Dictionary` subscript returns `Int?`. The pattern `case let s?` only matches non-`nil` values and binds the unwrapped value, so it prints `an 8`, not `Optional(8)`. `Optional.map` only runs the closure when there is a value: for the missing `binh` the result is `nil`, and `print(missing as Any)` prints `nil`. For `an`, `map` gives `Optional(16)` and `?? 0` unwraps it to `16`."
+      }
+    },
+    {
+      "id": "swift.optionals.014",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "optionals",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `func loadAvatar() throws -> Data`, biểu thức `let avatar = try? loadAvatar()` cho kết quả gì?",
+        "en": "Given `func loadAvatar() throws -> Data`, what does `let avatar = try? loadAvatar()` produce?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`avatar` có kiểu `Data` và app crash nếu hàm ném ra lỗi",
+            "en": "`avatar` has type `Data`, and the app crashes if the function throws an error"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`avatar` có kiểu `Result<Data, Error>`",
+            "en": "`avatar` has type `Result<Data, Error>`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`avatar` có kiểu `Data?`: dữ liệu nếu thành công, `nil` nếu ném lỗi (lỗi bị bỏ qua)",
+            "en": "`avatar` is `Data?`: the data on success, `nil` if it throws (error discarded)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch vì thiếu khối `do`/`catch`",
+            "en": "A compile error because a `do`/`catch` block is missing"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`try?` chuyển một lời gọi có thể ném lỗi thành optional: thành công thì bọc giá trị, ném lỗi thì trả về `nil` và lỗi bị bỏ đi, nên không cần `do`/`catch`. Khác với `try!`, nó không crash. Nhược điểm là mất thông tin lỗi, nên chỉ dùng khi thực sự không quan tâm lý do thất bại; còn muốn hiển thị lỗi cho người dùng thì dùng `do`/`catch`. Muốn có `Result` thì dùng `Result { try loadAvatar() }`.",
+        "en": "`try?` turns a throwing call into an optional: on success it wraps the value, on error it returns `nil` and discards the error, so no `do`/`catch` is needed. Unlike `try!`, it does not crash. The downside is losing the error information, so use it only when the failure reason truly does not matter; to show the error to users, use `do`/`catch`. For a `Result`, use `Result { try loadAvatar() }`."
+      }
+    },
+    {
+      "id": "swift.types.010",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "types",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khai báo `static let shared = APIClient()` bên trong `final class APIClient` có ý nghĩa gì?",
+        "en": "What does declaring `static let shared = APIClient()` inside `final class APIClient` mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mỗi instance của `APIClient` có một bản `shared` riêng, được tạo trong `init`",
+            "en": "Every `APIClient` instance gets its own copy of `shared`, created during its `init`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hằng thuộc về kiểu, khởi tạo lazy một lần và thread-safe",
+            "en": "A type-level constant, lazily created once and thread-safe"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`shared` được tạo lại mỗi lần truy cập, giống computed property",
+            "en": "`shared` is recreated every time it is accessed, like a computed property"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`static` chỉ dùng được trong `struct`, không dùng được trong `class`",
+            "en": "`static` only works in a `struct`, not in a `class`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Thuộc tính `static` gắn với kiểu chứ không gắn với instance, nên cả app dùng chung một `APIClient.shared`. Thuộc tính `static` lưu trữ trong Swift được khởi tạo lười ở lần truy cập đầu tiên và đảm bảo chỉ chạy một lần kể cả khi nhiều thread truy cập, nên đây là cách viết singleton phổ biến. `static` dùng được cho `struct`, `enum` và `class`. Ở Swift 6 language mode, `APIClient` cần là `Sendable` hoặc thuộc tính phải được cô lập (ví dụ `@MainActor`) thì mới biên dịch được, và singleton làm việc test khó hơn nên vẫn nên inject qua protocol khi có thể.",
+        "en": "A `static` property belongs to the type rather than to instances, so the whole app shares one `APIClient.shared`. Stored `static` properties in Swift are initialized lazily on first access and are guaranteed to run only once even with concurrent access, which makes this the common singleton pattern. `static` works in `struct`, `enum` and `class`. In Swift 6 language mode, `APIClient` must be `Sendable` or the property must be isolated (e.g. `@MainActor`) to compile, and singletons make testing harder, so injecting via a protocol is still preferable when possible."
+      }
+    },
+    {
+      "id": "swift.types.011",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "types",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "struct Temperature {\n    var celsius: Double {\n        didSet { print(\"changed from \\(oldValue)\") }\n    }\n    var fahrenheit: Double { celsius * 9 / 5 + 32 }\n}\n\nvar t = Temperature(celsius: 20)\nprint(t.fahrenheit)\nt.celsius = 30\nprint(t.fahrenheit)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "changed from 0.0 / 68.0 / changed from 20.0 / 86.0",
+            "en": "changed from 0.0 / 68.0 / changed from 20.0 / 86.0"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "68.0 / changed from 20.0 / 86.0",
+            "en": "68.0 / changed from 20.0 / 86.0"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "68.0 / changed from 30.0 / 86.0",
+            "en": "68.0 / changed from 30.0 / 86.0"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "68.0 / 86.0",
+            "en": "68.0 / 86.0"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`fahrenheit` là computed property, được tính lại mỗi lần đọc từ `celsius`: 20 độ C cho `68.0`. Observer `didSet` không chạy khi giá trị được gán trong initializer, nên lúc tạo `Temperature(celsius: 20)` không in gì. Khi gán `t.celsius = 30`, `didSet` chạy với `oldValue` là `20.0`, sau đó `fahrenheit` được tính lại thành `86.0`.",
+        "en": "`fahrenheit` is a computed property, recalculated from `celsius` on every read: 20°C gives `68.0`. A `didSet` observer does not run when the value is set inside an initializer, so creating `Temperature(celsius: 20)` prints nothing. When `t.celsius = 30` is assigned, `didSet` runs with `oldValue` equal to `20.0`, and then `fahrenheit` is recomputed as `86.0`."
+      }
+    },
+    {
+      "id": "swift.types.012",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "types",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Phát biểu nào đúng về `lazy var formatter = DateFormatter()` trong một class?",
+        "en": "Which statement about `lazy var formatter = DateFormatter()` inside a class is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tạo khi truy cập lần đầu; phải là `var`; không thread-safe",
+            "en": "Created on first access; must be `var`; not thread-safe"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giá trị được tạo ngay khi khởi tạo object nhưng lưu tạm xuống đĩa cho tới lần đọc đầu",
+            "en": "The value is created when the object is initialized but cached to disk until first read"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Có thể viết `lazy let` để giá trị không đổi",
+            "en": "You can write `lazy let` to keep the value constant"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Giá trị được tạo lại mỗi lần truy cập, giống hệt computed property",
+            "en": "The value is recreated on every access, just like a computed property would be"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`lazy` trì hoãn việc tạo giá trị đến lần đọc đầu tiên, hữu ích với object tốn kém như `DateFormatter` hoặc khi giá trị khởi tạo cần dùng `self`. Sau lần đầu, giá trị được lưu lại, khác với computed property tính lại mỗi lần. Vì thuộc tính thay đổi từ \"chưa có\" sang \"đã có\" sau khi object được tạo, nó phải là `var`; không tồn tại `lazy let`. Khác với `static let`, `lazy var` có thể bị khởi tạo nhiều lần nếu nhiều thread truy cập đồng thời.",
+        "en": "`lazy` defers creating the value until it is first read, useful for expensive objects like `DateFormatter` or when the initial value needs `self`. After the first access the value is stored, unlike a computed property that recalculates every time. Because the property changes from \"not yet set\" to \"set\" after the object is created, it must be a `var`; there is no `lazy let`. Unlike `static let`, a `lazy var` may be initialized more than once if several threads access it concurrently."
+      }
+    },
+    {
+      "id": "swift.types.013",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "types",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn cần decode JSON từ API có key dạng `snake_case` (ví dụ `user_name`, `created_at`), một số field có thể thiếu, và ngày ở định dạng ISO 8601. Trình bày cách dùng `Codable` để xử lý.",
+        "en": "You need to decode API JSON with `snake_case` keys (e.g. `user_name`, `created_at`), some fields may be missing, and dates are ISO 8601. Explain how to handle it with `Codable`."
+      },
+      "keyPoints": [
+        {
+          "vi": "Khai báo `struct User: Codable` với thuộc tính `camelCase`, kiểu khớp với JSON",
+          "en": "Declare `struct User: Codable` with `camelCase` properties whose types match the JSON"
+        },
+        {
+          "vi": "Dùng `decoder.keyDecodingStrategy = .convertFromSnakeCase` hoặc tự khai báo `enum CodingKeys`",
+          "en": "Use `decoder.keyDecodingStrategy = .convertFromSnakeCase` or declare a custom `enum CodingKeys`"
+        },
+        {
+          "vi": "Field có thể thiếu khai báo optional (`String?`); field bắt buộc bị thiếu sẽ gây lỗi `keyNotFound`",
+          "en": "Possibly missing fields are optional (`String?`); a missing required field throws `keyNotFound`"
+        },
+        {
+          "vi": "Đặt `decoder.dateDecodingStrategy = .iso8601` để decode `Date`",
+          "en": "Set `decoder.dateDecodingStrategy = .iso8601` to decode `Date`"
+        },
+        {
+          "vi": "Bắt `DecodingError` trong `do`/`catch` để log rõ key/kiểu bị sai",
+          "en": "Catch `DecodingError` in `do`/`catch` to log exactly which key/type is wrong"
+        }
+      ],
+      "explanation": {
+        "vi": "Khai báo model tuân theo `Codable` (hoặc chỉ `Decodable`) với tên thuộc tính kiểu Swift. Với JSON `snake_case`, đặt `keyDecodingStrategy = .convertFromSnakeCase` để `user_name` tự ánh xạ sang `userName`, hoặc khai báo `CodingKeys` khi tên khác hẳn. Field có thể thiếu hoặc `null` nên là optional, vì field non-optional bị thiếu sẽ khiến toàn bộ việc decode ném lỗi. Đặt `dateDecodingStrategy = .iso8601` cho ngày, và bắt `DecodingError` để biết chính xác lỗi nằm ở đâu.",
+        "en": "Declare the model conforming to `Codable` (or just `Decodable`) with Swift-style property names. For `snake_case` JSON, set `keyDecodingStrategy = .convertFromSnakeCase` so `user_name` maps to `userName` automatically, or declare `CodingKeys` when names differ entirely. Fields that may be missing or `null` should be optional, because a missing non-optional field makes the whole decode throw. Set `dateDecodingStrategy = .iso8601` for dates, and catch `DecodingError` to see exactly where it failed."
+      }
+    },
+    {
+      "id": "swift.types.014",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "types",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày các mức access control trong Swift (`open`, `public`, `package`, `internal`, `fileprivate`, `private`) và cách chọn mức phù hợp.",
+        "en": "Describe the access control levels in Swift (`open`, `public`, `package`, `internal`, `fileprivate`, `private`) and how to choose the right one."
+      },
+      "keyPoints": [
+        {
+          "vi": "`internal` là mặc định: dùng được trong cùng module",
+          "en": "`internal` is the default: visible within the same module"
+        },
+        {
+          "vi": "`public` cho module khác dùng; `open` cho phép thêm việc subclass/override từ module khác",
+          "en": "`public` exposes to other modules; `open` additionally allows subclassing/overriding from other modules"
+        },
+        {
+          "vi": "`package` (Swift 5.9+) chia sẻ giữa các module trong cùng một package",
+          "en": "`package` (Swift 5.9+) shares across modules in the same package"
+        },
+        {
+          "vi": "`private` giới hạn trong phạm vi khai báo (và extension cùng file); `fileprivate` trong cùng file",
+          "en": "`private` limits to the enclosing declaration (and its extensions in the same file); `fileprivate` to the same file"
+        },
+        {
+          "vi": "Nguyên tắc: chọn mức hẹp nhất có thể, ví dụ `private(set) var` để chỉ đọc từ bên ngoài",
+          "en": "Rule: choose the narrowest level possible, e.g. `private(set) var` for read-only from outside"
+        }
+      ],
+      "explanation": {
+        "vi": "Từ rộng đến hẹp: `open` và `public` mở cho module khác (chỉ `open` cho phép subclass hoặc override ở ngoài module), `package` cho các module trong cùng Swift package, `internal` (mặc định) trong module, `fileprivate` trong file, và `private` trong phạm vi khai báo cùng các extension của nó trong cùng file. Nên bắt đầu từ mức hẹp nhất và chỉ mở rộng khi cần, giúp API gọn và tránh trạng thái bị sửa từ nơi không mong muốn. `private(set)` rất hay dùng trong view model: bên ngoài đọc được nhưng chỉ bên trong được ghi.",
+        "en": "From widest to narrowest: `open` and `public` expose to other modules (only `open` allows subclassing or overriding outside the module), `package` covers modules in the same Swift package, `internal` (the default) the module, `fileprivate` the file, and `private` the enclosing declaration plus its extensions in the same file. Start with the narrowest level and widen only when needed, which keeps APIs small and prevents state from being modified unexpectedly. `private(set)` is common in view models: readable from outside but writable only inside."
+      }
+    },
+    {
+      "id": "swift.protocols.009",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "protocols",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `struct Point: Equatable { var x: Int; var y: Int }` (không tự viết `==`), điều gì xảy ra?",
+        "en": "Given `struct Point: Equatable { var x: Int; var y: Int }` (without writing `==` yourself), what happens?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lỗi biên dịch vì chưa cài đặt `==`",
+            "en": "A compile error because `==` is not implemented"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`==` so sánh địa chỉ bộ nhớ của hai giá trị",
+            "en": "`==` compares the memory addresses of the two values"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`struct` luôn so sánh được bằng `==`, kể cả khi không khai báo conformance `Equatable`",
+            "en": "A `struct` can always be compared with `==`, even without declaring `Equatable` conformance"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Swift tự sinh `==` so sánh từng thuộc tính",
+            "en": "Swift synthesizes a memberwise `==`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi một `struct` hoặc `enum` khai báo tuân theo `Equatable` và mọi thuộc tính lưu trữ (hoặc associated value) cũng `Equatable`, compiler tự sinh `==` so sánh từng thành phần. Tương tự cho `Hashable`. Bạn vẫn phải khai báo conformance; nếu không có `Equatable` thì không dùng được `==`. `struct` là value type nên không có khái niệm địa chỉ để so sánh như `===` của class.",
+        "en": "When a `struct` or `enum` declares `Equatable` conformance and all its stored properties (or associated values) are `Equatable`, the compiler synthesizes `==` comparing each component. The same goes for `Hashable`. You still have to declare the conformance; without `Equatable`, `==` is unavailable. A `struct` is a value type, so there is no identity to compare like a class's `===`."
+      }
+    },
+    {
+      "id": "swift.protocols.010",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "protocols",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Làm sao để mọi kiểu tuân theo protocol `Greeter` có sẵn một cài đặt mặc định cho `func greet() -> String`?",
+        "en": "How do you give every type conforming to the protocol `Greeter` a default implementation of `func greet() -> String`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Viết thân hàm ngay bên trong khai báo `protocol Greeter { ... }`",
+            "en": "Write the function body directly inside the `protocol Greeter { ... }` declaration"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đánh dấu requirement là `optional func greet()`",
+            "en": "Mark the requirement as `optional func greet()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cài đặt trong `extension Greeter { ... }`",
+            "en": "Implement it in `extension Greeter { ... }`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tạo `class BaseGreeter` và bắt mọi kiểu kế thừa nó",
+            "en": "Create a `class BaseGreeter` and make every type inherit from it"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Protocol extension cho phép cung cấp cài đặt mặc định, nên kiểu tuân theo không cần viết lại `greet()` nếu hành vi mặc định là đủ, và vẫn có thể tự cài đặt để thay thế. Khai báo protocol chỉ chứa requirement, không chứa thân hàm. `optional` chỉ dành cho protocol `@objc` và không cung cấp cài đặt. Dùng base class thì không áp dụng được cho `struct` và `enum`.",
+        "en": "A protocol extension can provide a default implementation, so conforming types do not need to write `greet()` if the default is enough, and they can still provide their own to replace it. The protocol declaration only holds requirements, not bodies. `optional` is only for `@objc` protocols and provides no implementation. A base class would not work for `struct`s and `enum`s."
+      }
+    },
+    {
+      "id": "swift.protocols.011",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "protocols",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "struct Version: Comparable {\n    let major: Int\n    let minor: Int\n\n    static func < (lhs: Version, rhs: Version) -> Bool {\n        (lhs.major, lhs.minor) < (rhs.major, rhs.minor)\n    }\n}\n\nlet versions = [\n    Version(major: 1, minor: 2),\n    Version(major: 0, minor: 9),\n    Version(major: 1, minor: 0),\n]\nprint(versions.sorted().map { \"\\($0.major).\\($0.minor)\" })\nprint(versions.max()!.minor, Version(major: 1, minor: 0) == Version(major: 1, minor: 0))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[\"1.2\", \"1.0\", \"0.9\"] / 2 true",
+            "en": "[\"1.2\", \"1.0\", \"0.9\"] / 2 true"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[\"0.9\", \"1.0\", \"1.2\"] / 0 true",
+            "en": "[\"0.9\", \"1.0\", \"1.2\"] / 0 true"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch vì thiếu cài đặt `==`",
+            "en": "Compile error because `==` is not implemented"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "[\"0.9\", \"1.0\", \"1.2\"] / 2 true",
+            "en": "[\"0.9\", \"1.0\", \"1.2\"] / 2 true"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Chỉ cần cài đặt `<`, `Comparable` cung cấp sẵn `>`, `<=`, `>=`, và cho phép dùng `sorted()`, `max()` không cần tham số. So sánh tuple `(major, minor)` theo thứ tự từ trái sang phải nên `0.9 < 1.0 < 1.2`, và `max()` là `1.2` với `minor` bằng 2. `Comparable` kế thừa `Equatable`, nhưng vì mọi thuộc tính là `Int` nên compiler tự sinh `==`, không có lỗi biên dịch.",
+        "en": "By implementing only `<`, `Comparable` provides `>`, `<=`, `>=`, and enables argument-less `sorted()` and `max()`. Tuples `(major, minor)` compare left to right, so `0.9 < 1.0 < 1.2`, and `max()` is `1.2` with `minor` equal to 2. `Comparable` inherits from `Equatable`, but since every property is an `Int`, the compiler synthesizes `==`, so there is no compile error."
+      }
+    },
+    {
+      "id": "swift.protocols.012",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "protocols",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Hàm `func save(_ item: some Identifiable & Codable)` yêu cầu gì ở đối số?",
+        "en": "What does `func save(_ item: some Identifiable & Codable)` require of its argument?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bất kỳ kiểu nào tuân theo `Identifiable` hoặc `Codable`, chỉ cần một trong hai",
+            "en": "Any type conforming to either `Identifiable` or `Codable`, just one of them"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một kiểu cụ thể tuân theo cả `Identifiable` lẫn `Codable` (protocol composition)",
+            "en": "A concrete type conforming to both `Identifiable` and `Codable` (protocol composition)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hai đối số riêng biệt, một `Identifiable` và một `Codable`, truyền dưới dạng tuple",
+            "en": "Two separate arguments, one `Identifiable` and one `Codable`, passed as a tuple"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Một `class` kế thừa từ cả hai protocol, vì `&` chỉ dùng được cho class",
+            "en": "A `class` that inherits from both protocols, since `&` is only allowed for classes"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Toán tử `&` trong vị trí kiểu tạo protocol composition: giá trị phải tuân theo tất cả protocol được liệt kê. Chính `Codable` cũng là `typealias Codable = Decodable & Encodable`. Với `some`, hàm làm việc với một kiểu cụ thể được suy ra lúc biên dịch; viết `any Identifiable & Codable` sẽ là existential. `struct` và `enum` đều dùng được, không riêng `class`.",
+        "en": "The `&` operator in a type position forms a protocol composition: the value must conform to every listed protocol. `Codable` itself is `typealias Codable = Decodable & Encodable`. With `some`, the function works with one concrete type inferred at compile time; writing `any Identifiable & Codable` would be an existential. `struct`s and `enum`s work too, not just `class`es."
+      }
+    },
+    {
+      "id": "swift.protocols.013",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "protocols",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau không biên dịch với lỗi `cannot assign to property: 'self' is immutable`. Cách sửa đúng là gì?",
+        "en": "The code below fails to compile with `cannot assign to property: 'self' is immutable`. What is the correct fix?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "protocol Resettable {\n    func reset()\n}\n\nstruct SearchForm: Resettable {\n    var query = \"swift\"\n\n    func reset() {\n        query = \"\"\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đánh dấu `reset()` là `mutating` ở cả protocol và struct",
+            "en": "Mark `reset()` `mutating` in protocol and struct"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đổi `var query` thành `let query`",
+            "en": "Change `var query` to `let query`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thêm `@objc` trước protocol",
+            "en": "Add `@objc` before the protocol"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Viết `self.query = \"\"` thay vì `query = \"\"` để ghi tường minh",
+            "en": "Write `self.query = \"\"` instead of `query = \"\"` to make the write explicit"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Method của `struct` mặc định không được sửa thuộc tính của chính nó; phải đánh dấu `mutating`. Vì protocol khai báo `func reset()` không `mutating`, struct không thể cài đặt nó bằng method `mutating`, nên cần sửa cả protocol thành `mutating func reset()`. Với `class`, từ khoá `mutating` trong protocol không ảnh hưởng gì, nên khai báo này vẫn dùng được cho mọi kiểu. Viết thêm `self.` không thay đổi tính bất biến.",
+        "en": "A `struct` method cannot modify the struct's own properties by default; it must be marked `mutating`. Since the protocol declares a non-`mutating` `func reset()`, the struct cannot satisfy it with a `mutating` method, so the protocol must also become `mutating func reset()`. For a `class`, `mutating` in the protocol has no effect, so this declaration still works for every kind of type. Adding `self.` does not change the immutability."
+      }
+    },
+    {
+      "id": "swift.memory.010",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "memory",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Strong reference cycle (retain cycle) là gì?",
+        "en": "What is a strong reference cycle (retain cycle)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một vòng lặp `for` tạo quá nhiều object",
+            "en": "A `for` loop that creates too many objects"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một `struct` có stored property kiểu chính nó, gây kích thước vô hạn",
+            "en": "A `struct` containing a stored property of its own type, causing infinite size"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi khi cùng một object bị giải phóng hai lần, gây crash trong `deinit`",
+            "en": "An error where the same object is released twice, causing a crash in `deinit`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hai hay nhiều object giữ tham chiếu `strong` lẫn nhau nên reference count không bao giờ về 0",
+            "en": "Two or more objects strongly reference each other, so their counts never reach 0"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "ARC chỉ giải phóng instance của class khi không còn tham chiếu `strong` nào tới nó. Nếu `A` giữ `B` và `B` giữ lại `A` (trực tiếp, hoặc qua closure capture `self`), cả hai luôn có ít nhất một tham chiếu nên không bao giờ được giải phóng, gây rò rỉ bộ nhớ và `deinit` không chạy. Cách phá vòng là cho một phía dùng `weak` hoặc `unowned`.",
+        "en": "ARC frees a class instance only when no `strong` references to it remain. If `A` holds `B` and `B` holds `A` back (directly, or via a closure capturing `self`), both always have at least one reference and are never freed, leaking memory and never running `deinit`. The cycle is broken by making one side `weak` or `unowned`."
+      }
+    },
+    {
+      "id": "swift.memory.011",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "memory",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`deinit` trong Swift được gọi khi nào?",
+        "en": "When is `deinit` called in Swift?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khi biến chứa `struct` được gán giá trị mới hoặc ra khỏi phạm vi",
+            "en": "Whenever a variable holding a `struct` is assigned a new value or goes out of scope"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ngay trước khi instance của class bị giải phóng",
+            "en": "Right before a class instance is freed"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Định kỳ mỗi khi garbage collector chạy",
+            "en": "Periodically whenever the garbage collector runs"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ khi lập trình viên gọi `object.deinit()`",
+            "en": "Only when the developer calls `object.deinit()`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`deinit` chỉ có ở class (và actor) vì chỉ kiểu tham chiếu mới được ARC quản lý. Swift không dùng garbage collector chạy định kỳ: ngay khi reference count về 0, ARC gọi `deinit` rồi giải phóng bộ nhớ, nên thời điểm này mang tính xác định. Không thể gọi `deinit` trực tiếp. Đây là nơi phù hợp để huỷ observer, timer hoặc in log kiểm tra rò rỉ.",
+        "en": "`deinit` only exists on classes (and actors), because only reference types are managed by ARC. Swift has no periodic garbage collector: as soon as the reference count reaches 0, ARC calls `deinit` and frees the memory, so the timing is deterministic. You cannot call `deinit` directly. It is a good place to remove observers, stop timers or log to check for leaks."
+      }
+    },
+    {
+      "id": "swift.memory.012",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "memory",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "class Node {\n    let name: String\n    init(_ name: String) { self.name = name }\n    deinit { print(\"deinit \\(name)\") }\n}\n\nvar a: Node? = Node(\"A\")\nvar b = a\na = nil\nprint(\"a cleared\")\nb = nil\nprint(\"end\")"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "a cleared / deinit A / end",
+            "en": "a cleared / deinit A / end"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "deinit A / a cleared / end",
+            "en": "deinit A / a cleared / end"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "a cleared / end / deinit A",
+            "en": "a cleared / end / deinit A"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "a cleared / end",
+            "en": "a cleared / end"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`a` và `b` cùng trỏ tới một instance `Node`, nên reference count là 2. Gán `a = nil` chỉ giảm còn 1, object vẫn sống và `a cleared` được in. Khi `b = nil`, tham chiếu `strong` cuối cùng mất đi, ARC gọi `deinit` ngay lập tức nên `deinit A` in ra trước `end`. Đây là điểm khác biệt của ARC so với garbage collector: thời điểm giải phóng là xác định.",
+        "en": "`a` and `b` point to the same `Node` instance, so the reference count is 2. Setting `a = nil` only drops it to 1, the object stays alive, and `a cleared` is printed. When `b = nil`, the last `strong` reference is gone and ARC calls `deinit` immediately, so `deinit A` prints before `end`. This is how ARC differs from a garbage collector: deallocation timing is deterministic."
+      }
+    },
+    {
+      "id": "swift.memory.013",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "memory",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "App thỉnh thoảng crash với thông báo \"attempted to read an unowned reference but object was already deallocated\" khi người dùng đóng màn hình trước khi ảnh tải xong. Lỗi ở đâu?",
+        "en": "The app occasionally crashes with \"attempted to read an unowned reference but object was already deallocated\" when the user closes the screen before the image finishes loading. Where is the bug?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "final class ProfileScreen {\n    let name = \"Profile\"\n    private let loader: ImageLoader\n\n    init(loader: ImageLoader) { self.loader = loader }\n\n    func loadAvatar() {\n        // completion is called later, after the network request\n        loader.load { [unowned self] image in\n            print(\"\\(self.name) loaded \\(image.size)\")\n        }\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thiếu `@escaping` ở closure nên ARC giải phóng nó cùng `self` trước khi request xong",
+            "en": "The closure lacks `@escaping`, so ARC releases it and `self` before the request finishes"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`unowned self` giả định màn hình còn sống; nên dùng `[weak self]` cùng `guard let self`",
+            "en": "`unowned self` assumes the screen is still alive; use `[weak self]` with `guard let self`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`let name` phải đổi thành `var name`",
+            "en": "`let name` must be changed to `var name`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải gọi `loader.load` trên main thread",
+            "en": "`loader.load` must be called on the main thread"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`unowned` không giữ object sống và không tự thành `nil`, nên nếu `ProfileScreen` đã bị giải phóng khi request xong, việc đọc `self` sẽ crash. `unowned` chỉ an toàn khi chắc chắn closure không sống lâu hơn `self`, điều không đúng với callback mạng. `[weak self]` biến `self` thành optional: nếu màn hình đã đóng thì `guard let self` thoát ra an toàn. `@escaping` thuộc về khai báo của `load` và không liên quan tới crash này.",
+        "en": "`unowned` does not keep the object alive and does not become `nil`, so if `ProfileScreen` has been deallocated when the request finishes, reading `self` crashes. `unowned` is only safe when the closure can never outlive `self`, which is not the case for network callbacks. `[weak self]` makes `self` optional: if the screen is gone, `guard let self` exits safely. `@escaping` belongs to `load`'s declaration and is unrelated to this crash."
+      }
+    },
+    {
+      "id": "swift.memory.014",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "memory",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh value type (`struct`, `enum`) và reference type (`class`) về cách quản lý bộ nhớ trong Swift. Điều gì xảy ra khi một `struct` chứa thuộc tính kiểu `class`?",
+        "en": "Compare value types (`struct`, `enum`) and reference types (`class`) in terms of memory management in Swift. What happens when a `struct` contains a `class` property?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Value type được sao chép khi gán/truyền, không cần ARC cho chính nó; thường nhẹ và an toàn đa luồng hơn",
+          "en": "Value types are copied on assignment/passing and need no ARC for themselves; usually lighter and safer across threads"
+        },
+        {
+          "vi": "Reference type nằm trên heap, được ARC đếm tham chiếu; nhiều biến cùng trỏ tới một object",
+          "en": "Reference types live on the heap and are reference-counted by ARC; many variables can point to one object"
+        },
+        {
+          "vi": "Collection như `Array`, `String` dùng copy-on-write để việc sao chép rẻ cho tới khi bị sửa",
+          "en": "Collections like `Array` and `String` use copy-on-write so copies are cheap until mutated"
+        },
+        {
+          "vi": "`struct` chứa thuộc tính `class` chỉ sao chép tham chiếu: các bản sao dùng chung object bên trong và vẫn tốn chi phí ARC",
+          "en": "A `struct` with a `class` property only copies the reference: copies share the inner object and still pay ARC costs"
+        },
+        {
+          "vi": "Retain cycle chỉ xảy ra với reference type (bao gồm closure)",
+          "en": "Retain cycles only occur with reference types (including closures)"
+        }
+      ],
+      "explanation": {
+        "vi": "Value type có ngữ nghĩa sao chép: mỗi biến giữ bản riêng, nên không có chia sẻ ngoài ý muốn và không cần đếm tham chiếu cho chính giá trị; compiler thường có thể đặt chúng trên stack hoặc inline. Class được cấp phát trên heap, và ARC tăng giảm reference count mỗi khi có tham chiếu mới hoặc mất đi. `Array`, `Dictionary`, `String` dùng copy-on-write nên gán cho biến khác rất rẻ. Khi `struct` chứa thuộc tính class, việc sao chép struct chỉ sao chép tham chiếu, nên hai bản sao cùng sửa một object, phá vỡ kỳ vọng về value semantics.",
+        "en": "Value types have copy semantics: each variable holds its own copy, so there is no accidental sharing and no reference counting for the value itself; the compiler can often keep them on the stack or inline. Classes are allocated on the heap, and ARC increments and decrements reference counts as references are created and dropped. `Array`, `Dictionary` and `String` use copy-on-write, so assigning them to another variable is cheap. When a `struct` holds a class property, copying the struct only copies the reference, so both copies mutate the same object, breaking value-semantics expectations."
+      }
+    },
+    {
+      "id": "swift.closures.010",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "closures",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách viết nào tương đương với `numbers.sorted(by: { (a: Int, b: Int) -> Bool in return a > b })`?",
+        "en": "Which is equivalent to `numbers.sorted(by: { (a: Int, b: Int) -> Bool in return a > b })`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`numbers.sorted(by: <)`",
+            "en": "`numbers.sorted(by: <)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`numbers.sorted { $0 < $1 }`",
+            "en": "`numbers.sorted { $0 < $1 }`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`numbers.sorted(by: { a, b in a })`",
+            "en": "`numbers.sorted(by: { a, b in a })`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`numbers.sorted(by: >)`",
+            "en": "`numbers.sorted(by: >)`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Swift cho phép rút gọn closure dần dần: suy luận kiểu tham số và kiểu trả về, bỏ `return` với biểu thức đơn, dùng `$0`, `$1`, và cuối cùng truyền thẳng toán tử `>` vì nó chính là hàm `(Int, Int) -> Bool`. Kết quả sắp xếp giảm dần. `<` và `$0 < $1` cho thứ tự tăng dần, còn `{ a, b in a }` trả về `Int` nên không khớp kiểu `Bool`.",
+        "en": "Swift lets you shorten closures step by step: infer parameter and return types, drop `return` for a single expression, use `$0`, `$1`, and finally pass the `>` operator directly since it is itself a `(Int, Int) -> Bool` function. The result is a descending sort. `<` and `$0 < $1` sort ascending, while `{ a, b in a }` returns an `Int`, which does not match `Bool`."
+      }
+    },
+    {
+      "id": "swift.closures.011",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "closures",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "let nums = [1, 2, 3, 4, 5]\nlet evens = nums.filter { $0 % 2 == 0 }\nlet total = nums.reduce(0, +)\nlet labels = evens.map { \"#\\($0)\" }\nprint(evens, total)\nprint(labels)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[2, 4] 15 / [\"#2\", \"#4\"]",
+            "en": "[2, 4] 15 / [\"#2\", \"#4\"]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[1, 3, 5] 15 / [\"#1\", \"#3\", \"#5\"]",
+            "en": "[1, 3, 5] 15 / [\"#1\", \"#3\", \"#5\"]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[2, 4] 6 / [\"#2\", \"#4\"]",
+            "en": "[2, 4] 6 / [\"#2\", \"#4\"]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "[2, 4] 15 / [#2, #4]",
+            "en": "[2, 4] 15 / [#2, #4]"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`filter` giữ các phần tử thoả điều kiện chẵn nên được `[2, 4]`. `reduce(0, +)` cộng dồn mọi phần tử của `nums` (không phải `evens`) từ 0, nên tổng là 15. `map` biến mỗi số chẵn thành chuỗi `#2`, `#4`, và khi in một mảng `String`, Swift hiển thị mỗi chuỗi trong dấu ngoặc kép.",
+        "en": "`filter` keeps the elements matching the even condition, giving `[2, 4]`. `reduce(0, +)` sums every element of `nums` (not `evens`) starting from 0, so the total is 15. `map` turns each even number into the strings `#2`, `#4`, and when printing a `String` array Swift shows each string in double quotes."
+      }
+    },
+    {
+      "id": "swift.closures.012",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "closures",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một hàm cũ dùng completion handler `func fetchUser(completion: @escaping (Result<User, Error>) -> Void)`. Ưu điểm của việc dùng `Result` ở đây là gì?",
+        "en": "A legacy function uses the completion handler `func fetchUser(completion: @escaping (Result<User, Error>) -> Void)`. What is the advantage of using `Result` here?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Result` tự động chạy completion trên main thread",
+            "en": "`Result` automatically runs the completion on the main thread"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Mỗi lần gọi trả về đúng một trong `.success` hoặc `.failure`, không bao giờ mơ hồ kiểu `(nil, nil)`",
+            "en": "Each call delivers exactly one of `.success` or `.failure`, never an ambiguous `(nil, nil)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Result` khiến completion chạy đồng bộ trên thread của phía gọi thay vì bất đồng bộ",
+            "en": "`Result` makes the completion run synchronously on the caller's thread instead of asynchronously"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Result` tự thử lại request khi gặp lỗi",
+            "en": "`Result` automatically retries the request on failure"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Với chữ ký `(User?, Error?) -> Void`, người gọi phải đoán cách xử lý khi cả hai đều `nil` hoặc cả hai đều có giá trị. `Result<User, Error>` là enum chỉ có hai case, nên `switch` trên nó bắt buộc xử lý cả thành công lẫn thất bại và không có trạng thái không hợp lệ. `Result` không quyết định thread, không thay đổi tính bất đồng bộ, và không có logic thử lại.",
+        "en": "With a `(User?, Error?) -> Void` signature, callers must guess what to do when both are `nil` or both have values. `Result<User, Error>` is an enum with only two cases, so a `switch` on it must handle both success and failure and there are no invalid states. `Result` does not decide the thread, does not change asynchrony, and has no retry logic."
+      }
+    },
+    {
+      "id": "swift.closures.013",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "closures",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Màn hình hiện spinner mãi không tắt khi `id` không hợp lệ. Lỗi ở đâu?",
+        "en": "The screen shows a spinner forever when the `id` is invalid. Where is the bug?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "func fetchName(id: Int, completion: @escaping (String?) -> Void) {\n    if id <= 0 {\n        print(\"invalid id\")\n        return\n    }\n    DispatchQueue.global().async {\n        completion(\"User \\(id)\")\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`@escaping` khiến `completion` không bao giờ được gọi sau khi hàm đã return",
+            "en": "`@escaping` prevents `completion` from ever being called after the function has returned"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`DispatchQueue.global()` không chạy được closure có tham số",
+            "en": "`DispatchQueue.global()` cannot run closures with parameters"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`print` chặn luồng nên `return` không bao giờ được chạy",
+            "en": "`print` blocks the thread, so `return` never runs"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nhánh `id <= 0` không bao giờ gọi `completion`",
+            "en": "The `id <= 0` branch never calls `completion`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Với completion handler, hợp đồng ngầm là mỗi lời gọi phải gọi lại `completion` đúng một lần, kể cả khi lỗi. Ở đây nhánh không hợp lệ chỉ in log rồi `return`, nên UI không bao giờ biết kết quả và spinner không tắt. Sửa bằng cách gọi `completion(nil)` (hoặc trả lỗi qua `Result`) trước khi thoát; `defer` cũng giúp tránh sót. Chuyển sang `async`/`await` loại bỏ hẳn lỗi này vì compiler buộc mọi nhánh phải trả về hoặc ném lỗi. Ngoài ra, nhớ chuyển về main thread trước khi cập nhật UI.",
+        "en": "With completion handlers, the implicit contract is that every call invokes `completion` exactly once, even on errors. Here the invalid branch only logs and `return`s, so the UI never gets a result and the spinner never stops. Fix by calling `completion(nil)` (or returning an error via `Result`) before exiting; `defer` also helps avoid missing paths. Switching to `async`/`await` removes this bug class entirely, because the compiler forces every path to return or throw. Also remember to hop to the main thread before updating the UI."
+      }
+    },
+    {
+      "id": "swift.closures.014",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "closures",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn cần gọi một API cũ dạng completion handler từ code `async`/`await`. Trình bày cách bọc nó bằng continuation và các lưu ý.",
+        "en": "You need to call a legacy completion-handler API from `async`/`await` code. Explain how to wrap it with a continuation and what to watch out for."
+      },
+      "keyPoints": [
+        {
+          "vi": "Dùng `withCheckedThrowingContinuation` (hoặc `withCheckedContinuation` nếu không có lỗi) để tạo hàm `async`",
+          "en": "Use `withCheckedThrowingContinuation` (or `withCheckedContinuation` when there are no errors) to create an `async` function"
+        },
+        {
+          "vi": "Trong completion gọi `continuation.resume(returning:)` hoặc `resume(throwing:)`, hoặc `resume(with: result)` với `Result`",
+          "en": "In the completion call `continuation.resume(returning:)` or `resume(throwing:)`, or `resume(with: result)` for a `Result`"
+        },
+        {
+          "vi": "Phải resume đúng một lần: resume hai lần sẽ crash, không resume thì task treo mãi",
+          "en": "Resume exactly once: resuming twice crashes, never resuming leaves the task suspended forever"
+        },
+        {
+          "vi": "Bản \"checked\" phát hiện lỗi dùng sai lúc chạy; chỉ dùng `withUnsafeContinuation` khi đã chắc chắn",
+          "en": "The \"checked\" variant detects misuse at runtime; use `withUnsafeContinuation` only when certain"
+        },
+        {
+          "vi": "Nhiều API của Apple đã có sẵn bản `async`, nên kiểm tra trước khi tự bọc",
+          "en": "Many Apple APIs already have `async` versions, so check before wrapping yourself"
+        }
+      ],
+      "explanation": {
+        "vi": "Continuation là cầu nối giữa thế giới callback và `async`/`await`: bên trong `withCheckedThrowingContinuation { continuation in ... }` bạn gọi API cũ, và trong completion thì `resume` với kết quả hoặc lỗi; hàm `async` bên ngoài sẽ tạm dừng cho tới lúc đó. Quy tắc quan trọng nhất là resume đúng một lần trên mọi nhánh, nên các API có nhánh thoát sớm không gọi completion sẽ khiến task treo. Bản checked ghi cảnh báo hoặc crash khi dùng sai, giúp phát hiện lỗi sớm. Trước khi bọc, nên kiểm tra SDK vì nhiều API như `URLSession` đã có phiên bản `async`.",
+        "en": "A continuation bridges callbacks and `async`/`await`: inside `withCheckedThrowingContinuation { continuation in ... }` you call the legacy API, and in its completion you `resume` with the result or error; the outer `async` function stays suspended until then. The key rule is resuming exactly once on every path, so APIs with early exits that skip the completion will hang the task. The checked variant warns or traps on misuse, catching bugs early. Before wrapping, check the SDK, since many APIs like `URLSession` already have `async` versions."
+      }
+    },
+    {
+      "id": "swift.concurrency.010",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "concurrency",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`actor Counter { var value = 0; func increment() { value += 1 } }` đảm bảo điều gì?",
+        "en": "What does `actor Counter { var value = 0; func increment() { value += 1 } }` guarantee?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mọi method của actor đều chạy trên main thread",
+            "en": "Every actor method runs on the main thread"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Trạng thái của nó chỉ được truy cập lần lượt từng tác vụ (không data race); gọi từ ngoài cần `await`",
+            "en": "Its state is accessed by one task at a time (no data races); outside calls need `await`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Actor là value type giống `struct` nên bị sao chép mỗi lần được truyền đi",
+            "en": "An actor is a value type like `struct`, so it is copied whenever it is passed"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Actor tự động lưu `value` xuống ổ đĩa",
+            "en": "An actor automatically persists `value` to disk"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Actor là kiểu tham chiếu có cơ chế cô lập: mutable state của nó chỉ được truy cập bởi một tác vụ tại một thời điểm, nên hai task cùng gọi `increment()` không thể ghi đè lẫn nhau. Vì có thể phải chờ đến lượt, lời gọi từ bên ngoài là bất đồng bộ và cần `await`. Actor thường không chạy trên main thread; chỉ `@MainActor` mới gắn với main thread. Lưu ý trạng thái có thể thay đổi giữa các điểm `await` bên trong method của actor.",
+        "en": "An actor is a reference type with isolation: its mutable state is accessed by only one task at a time, so two tasks calling `increment()` cannot overwrite each other. Since a caller may have to wait its turn, calls from outside are asynchronous and need `await`. Actors generally do not run on the main thread; only `@MainActor` is tied to it. Note that state can change across `await` points inside an actor method."
+      }
+    },
+    {
+      "id": "swift.concurrency.011",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "concurrency",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn SwiftUI sau không biên dịch được. Nguyên nhân và cách sửa là gì?",
+        "en": "The following SwiftUI code does not compile. What is the cause and the fix?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "import SwiftUI\nfinal class ProfileViewModel: ObservableObject {\n    func load() async {}\n}\nstruct ProfileView: View {\n    @StateObject private var viewModel = ProfileViewModel()\n\n    var body: some View {\n        Button(\"Load\") {\n            await viewModel.load()\n        }\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Action của `Button` là đồng bộ, không `await` được; dùng `Task { }`",
+            "en": "Sync `Button` action can't `await`; use `Task { }`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`@StateObject` không dùng được với `ObservableObject`",
+            "en": "`@StateObject` cannot be used with an `ObservableObject`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thiếu `try` trước `await`",
+            "en": "`try` is missing before `await`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hàm `async` chỉ được gọi từ `init` của view hoặc từ `onAppear`",
+            "en": "An `async` function can only be called from the view's `init` or from `onAppear`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Closure `action` của `Button` có kiểu `() -> Void` đồng bộ, nên compiler báo \"cannot pass function of type '() async -> Void' to parameter expecting synchronous function type\". `Task { ... }` tạo một tác vụ bất đồng bộ mới từ ngữ cảnh đồng bộ, nơi được phép `await`; trong view, task này kế thừa `@MainActor`. `load()` không `throws` nên không cần `try`. Với việc tải dữ liệu khi màn hình hiện, modifier `.task` thường phù hợp hơn.",
+        "en": "A `Button` `action` closure has the synchronous type `() -> Void`, so the compiler reports \"cannot pass function of type '() async -> Void' to parameter expecting synchronous function type\". `Task { ... }` creates a new asynchronous task from a synchronous context, where `await` is allowed; inside a view, it inherits `@MainActor`. `load()` does not `throw`, so no `try` is needed. For loading data when a screen appears, the `.task` modifier is usually a better fit."
+      }
+    },
+    {
+      "id": "swift.concurrency.012",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "enum LoginError: Error {\n    case wrongPassword\n}\n\nfunc login(_ password: String) async throws -> String {\n    if password != \"1234\" { throw LoginError.wrongPassword }\n    return \"token\"\n}\n\ndo {\n    print(try await login(\"1234\"))\n    print(try await login(\"0000\"))\n    print(\"done\")\n} catch {\n    print(\"error: \\(error)\")\n}\nprint(\"end\")"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "token / error: wrongPassword / done / end",
+            "en": "token / error: wrongPassword / done / end"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "token / done / end",
+            "en": "token / done / end"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "token / error: wrongPassword / end",
+            "en": "token / error: wrongPassword / end"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "error: wrongPassword / end",
+            "en": "error: wrongPassword / end"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Lần gọi đầu với `\"1234\"` thành công nên in `token`. Lần gọi thứ hai ném `LoginError.wrongPassword`, nên phần còn lại của khối `do` (bao gồm `print(\"done\")`) bị bỏ qua và điều khiển nhảy vào `catch`, nơi `error` được in dưới dạng `wrongPassword`. Sau khối `do`/`catch`, chương trình chạy tiếp và in `end`. Hàm `async throws` được gọi bằng `try await`.",
+        "en": "The first call with `\"1234\"` succeeds and prints `token`. The second call throws `LoginError.wrongPassword`, so the rest of the `do` block (including `print(\"done\")`) is skipped and control jumps to `catch`, where `error` prints as `wrongPassword`. After the `do`/`catch`, execution continues and prints `end`. An `async throws` function is called with `try await`."
+      }
+    },
+    {
+      "id": "swift.concurrency.013",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong SwiftUI, dùng modifier `.task { await viewModel.load() }` thay vì `.onAppear { Task { await viewModel.load() } }` có lợi gì?",
+        "en": "In SwiftUI, what is the benefit of `.task { await viewModel.load() }` over `.onAppear { Task { await viewModel.load() } }`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`.task` chạy trên background thread nên có thể cập nhật UI trực tiếp mà không cần `@MainActor`",
+            "en": "`.task` runs on a background thread, so it can update the UI directly without `@MainActor`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`.task` chỉ chạy một lần trong suốt vòng đời app",
+            "en": "`.task` runs only once for the entire app lifetime"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`.task` chặn việc hiển thị view cho đến khi `load()` xong",
+            "en": "`.task` blocks the view from showing until `load()` finishes"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tự động bị huỷ khi view biến mất",
+            "en": "It is cancelled automatically when the view disappears"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`.task` khởi động tác vụ khi view xuất hiện và tự huỷ nó khi view biến mất, nên request dài không tiếp tục chạy sau khi người dùng rời màn hình, miễn là code bên trong tôn trọng cancellation. `Task { }` tạo trong `onAppear` không được huỷ tự động, bạn phải tự lưu và huỷ. `.task(id: query)` còn huỷ task cũ và chạy lại khi `query` đổi. Task này kế thừa main actor của view và không chặn việc hiển thị.",
+        "en": "`.task` starts the work when the view appears and cancels it when the view disappears, so a long request does not keep running after the user leaves, as long as the code inside respects cancellation. A `Task { }` created in `onAppear` is not cancelled automatically; you must store and cancel it yourself. `.task(id: query)` also cancels the old task and restarts when `query` changes. The task inherits the view's main actor and does not block rendering."
+      }
+    },
+    {
+      "id": "swift.concurrency.014",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Cần tải profile, danh sách bài viết và thông báo cho một màn hình. So sánh ba cách: `await` tuần tự, `async let` và `withTaskGroup`. Khi nào dùng cách nào?",
+        "en": "A screen needs to load a profile, a post list and notifications. Compare three approaches: sequential `await`, `async let`, and `withTaskGroup`. When should you use each?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`await` tuần tự: chạy lần lượt, tổng thời gian là tổng các request; dùng khi request sau phụ thuộc request trước",
+          "en": "Sequential `await`: runs one after another, total time is the sum; use when a later request depends on an earlier one"
+        },
+        {
+          "vi": "`async let`: chạy song song một số lượng cố định tác vụ đã biết lúc viết code, có thể khác kiểu trả về",
+          "en": "`async let`: runs a fixed, known-at-compile-time number of tasks in parallel, possibly with different result types"
+        },
+        {
+          "vi": "`withTaskGroup`/`withThrowingTaskGroup`: số lượng tác vụ động (ví dụ tải N ảnh), cùng kiểu kết quả, thu theo thứ tự hoàn thành",
+          "en": "`withTaskGroup`/`withThrowingTaskGroup`: a dynamic number of tasks (e.g. load N images), same result type, collected in completion order"
+        },
+        {
+          "vi": "Cả `async let` và task group là structured concurrency: task con bị huỷ khi task cha bị huỷ hoặc khi một task con ném lỗi",
+          "en": "Both `async let` and task groups are structured concurrency: child tasks are cancelled when the parent is cancelled or a child throws"
+        }
+      ],
+      "explanation": {
+        "vi": "Với ba request độc lập, `await` tuần tự lãng phí thời gian vì mỗi request phải đợi request trước. `async let profile = loadProfile()` cùng hai dòng tương tự khởi chạy cả ba ngay, rồi `await` lấy kết quả, nên thời gian chỉ bằng request lâu nhất; rất hợp khi số tác vụ cố định và kiểu khác nhau. Khi số tác vụ phụ thuộc dữ liệu, như tải ảnh cho mọi item, dùng task group với `group.addTask` và lặp `for await`. Cả hai đều có cấu trúc: task cha chờ các task con, và lỗi hoặc cancellation được lan truyền đúng.",
+        "en": "With three independent requests, sequential `await` wastes time because each waits for the previous one. `async let profile = loadProfile()` plus two similar lines starts all three immediately, then `await` collects the results, so the total time equals the slowest request; ideal for a fixed number of tasks with different types. When the number of tasks depends on data, like loading images for every item, use a task group with `group.addTask` and `for await`. Both are structured: the parent waits for its children, and errors and cancellation propagate correctly."
+      }
+    },
+    {
+      "id": "swift.ui.009",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "ui",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong SwiftUI, container nào đặt các view con chồng lên nhau theo chiều sâu, ví dụ chữ đè lên ảnh?",
+        "en": "In SwiftUI, which container layers its child views on top of each other in depth, e.g. text over an image?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`ZStack`",
+            "en": "`ZStack`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`VStack`",
+            "en": "`VStack`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`HStack`",
+            "en": "`HStack`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`LazyVGrid`",
+            "en": "`LazyVGrid`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`ZStack` xếp các view con theo trục z: view khai báo sau nằm trên view khai báo trước, nên đặt `Image` trước rồi `Text` sau sẽ cho chữ đè lên ảnh. `VStack` xếp theo chiều dọc, `HStack` theo chiều ngang, còn `LazyVGrid` tạo lưới. Với trường hợp chỉ cần một lớp phủ phụ thuộc kích thước view chính, modifier `.overlay` cũng là lựa chọn tốt.",
+        "en": "`ZStack` stacks children along the z-axis: views declared later sit on top of earlier ones, so putting the `Image` first and the `Text` second shows the text over the image. `VStack` stacks vertically, `HStack` horizontally, and `LazyVGrid` builds a grid. When you only need an overlay sized to the main view, the `.overlay` modifier is also a good choice."
+      }
+    },
+    {
+      "id": "swift.ui.010",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "ui",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Để dùng `List(todos) { todo in Text(todo.title) }` với `todos: [Todo]`, kiểu `Todo` cần gì?",
+        "en": "To use `List(todos) { todo in Text(todo.title) }` with `todos: [Todo]`, what does the `Todo` type need?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải là `class` kế thừa `NSObject`",
+            "en": "It must be a `class` inheriting from `NSObject`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải tuân theo `Codable`",
+            "en": "It must conform to `Codable`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tuân theo `Identifiable` (`id` ổn định), hoặc truyền `id:` như `List(todos, id: \\.title)`",
+            "en": "Conform to `Identifiable` (stable `id`), or pass `id:` as in `List(todos, id: \\.title)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không cần gì, SwiftUI tự dùng chỉ số mảng làm id cho từng dòng",
+            "en": "Nothing; SwiftUI automatically falls back to using the array index as each row's id"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`List` và `ForEach` cần định danh từng phần tử để biết phần tử nào được thêm, xoá hay di chuyển, từ đó animate đúng và giữ state của từng hàng. Cách chuẩn là cho model tuân theo `Identifiable` với `id` ổn định (ví dụ `UUID` hoặc id từ server). Có thể truyền key path qua `id:`, nhưng key đó phải duy nhất; dùng giá trị trùng lặp như tiêu đề có thể gây hiển thị sai. `Codable` hay `NSObject` không liên quan.",
+        "en": "`List` and `ForEach` need to identify each element to know which ones were inserted, removed or moved, so they animate correctly and keep per-row state. The standard way is making the model `Identifiable` with a stable `id` (e.g. a `UUID` or a server id). You can pass a key path via `id:`, but it must be unique; duplicate values like titles can cause wrong rendering. `Codable` or `NSObject` are irrelevant."
+      }
+    },
+    {
+      "id": "swift.ui.011",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "ui",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "View sau không biên dịch được. Cách sửa đúng là gì?",
+        "en": "The following view does not compile. What is the correct fix?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "import SwiftUI\nstruct CounterView: View {\n    var count = 0\n\n    var body: some View {\n        Button(\"Count: \\(count)\") {\n            count += 1\n        }\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`@State private var count = 0`",
+            "en": "`@State private var count = 0`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đổi `struct CounterView` thành `class CounterView` để `body` sửa được `count`",
+            "en": "Change `struct CounterView` to `class CounterView` so `body` can mutate `count`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đánh dấu `body` là `mutating var body`",
+            "en": "Mark `body` as `mutating var body`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đổi `var count` thành `let count`",
+            "en": "Change `var count` to `let count`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "View trong SwiftUI là `struct`, và `body` cùng các closure trong đó không được sửa thuộc tính thường của view, nên compiler báo `self` là immutable. `@State` đưa giá trị vào bộ lưu trữ do SwiftUI quản lý, nằm ngoài struct, nên có thể thay đổi, và mỗi lần thay đổi sẽ cập nhật lại view. View không thể là `class`, và `body` là thuộc tính của protocol `View` nên không thể đánh dấu `mutating`.",
+        "en": "SwiftUI views are `struct`s, and `body` and the closures inside it cannot modify the view's plain properties, so the compiler reports that `self` is immutable. `@State` moves the value into SwiftUI-managed storage outside the struct, so it can change, and each change updates the view. A view cannot be a `class`, and `body` is a `View` protocol requirement that cannot be marked `mutating`."
+      }
+    },
+    {
+      "id": "swift.ui.012",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "ui",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong SwiftUI hiện đại (iOS 16+), cách điều hướng dựa trên giá trị nào là đúng?",
+        "en": "In modern SwiftUI (iOS 16+), which value-based navigation approach is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Dùng `NavigationView` vì đây là API điều hướng được khuyến nghị cho iOS 16+",
+            "en": "Use `NavigationView` because it is the recommended navigation API for iOS 16+"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Dùng `NavigationStack`, `NavigationLink(value:)` và `.navigationDestination(for:)`",
+            "en": "Use `NavigationStack`, `NavigationLink(value:)` and `.navigationDestination(for:)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gọi `present(ProductDetail(), animated: true)` trong closure action của `Button`",
+            "en": "Call `present(ProductDetail(), animated: true)` inside a `Button` action closure"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đặt `ProductDetail` trong `ZStack` và bật tắt bằng `opacity`",
+            "en": "Put `ProductDetail` in a `ZStack` and toggle it with `opacity`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`NavigationStack` (iOS 16+) thay thế `NavigationView` đã bị deprecate. Với điều hướng dựa trên giá trị, `NavigationLink(value:)` chỉ đẩy dữ liệu lên stack, còn `.navigationDestination(for:)` quyết định màn hình tương ứng. Có thể bind `NavigationStack(path:)` vào một mảng hoặc `NavigationPath` để điều hướng bằng code, pop về root hoặc xử lý deep link. `present(_:animated:)` là API UIKit, không dùng trong view SwiftUI.",
+        "en": "`NavigationStack` (iOS 16+) replaces the deprecated `NavigationView`. With value-based navigation, `NavigationLink(value:)` only pushes data onto the stack, while `.navigationDestination(for:)` decides the matching screen. You can bind `NavigationStack(path:)` to an array or `NavigationPath` to navigate programmatically, pop to root or handle deep links. `present(_:animated:)` is a UIKit API, not used in SwiftUI views."
+      }
+    },
+    {
+      "id": "swift.ui.013",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "ui",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Vì sao thứ tự modifier trong SwiftUI quan trọng? Giải thích sự khác nhau giữa `Text(\"Hi\").padding().background(.blue)` và `Text(\"Hi\").background(.blue).padding()`.",
+        "en": "Why does modifier order matter in SwiftUI? Explain the difference between `Text(\"Hi\").padding().background(.blue)` and `Text(\"Hi\").background(.blue).padding()`."
+      },
+      "keyPoints": [
+        {
+          "vi": "Mỗi modifier bọc view hiện tại thành một view mới, nên modifier sau áp dụng lên kết quả của modifier trước",
+          "en": "Each modifier wraps the current view into a new view, so later modifiers apply to the result of earlier ones"
+        },
+        {
+          "vi": "`.padding().background(.blue)`: nền xanh phủ cả vùng padding",
+          "en": "`.padding().background(.blue)`: the blue background covers the padded area"
+        },
+        {
+          "vi": "`.background(.blue).padding()`: nền chỉ ôm sát chữ, padding nằm ngoài nền",
+          "en": "`.background(.blue).padding()`: the background hugs the text and the padding sits outside it"
+        },
+        {
+          "vi": "Tương tự với `.frame`, `.clipShape`, `.onTapGesture`: vị trí quyết định vùng tác động và vùng chạm",
+          "en": "The same applies to `.frame`, `.clipShape`, `.onTapGesture`: position determines the affected area and the hit area"
+        }
+      ],
+      "explanation": {
+        "vi": "Modifier trong SwiftUI không đặt thuộc tính lên một object có sẵn mà tạo view mới bọc quanh view cũ. Với `.padding().background(.blue)`, view sau khi thêm padding đã to hơn, nên nền xanh tô cả phần padding. Với `.background(.blue).padding()`, nền được áp lên `Text` có kích thước vừa chữ, rồi padding thêm khoảng trống trong suốt bên ngoài. Hiểu nguyên tắc này giúp đặt đúng `.frame`, `.clipShape` hay `.contentShape` để vùng chạm và vùng vẽ như mong muốn.",
+        "en": "SwiftUI modifiers do not set properties on an existing object; they create a new view wrapping the previous one. With `.padding().background(.blue)`, the padded view is already larger, so the blue fills the padding too. With `.background(.blue).padding()`, the background is applied to the tightly sized `Text`, and then the padding adds transparent space outside. Understanding this helps place `.frame`, `.clipShape` or `.contentShape` so drawing and hit areas behave as intended."
+      }
+    },
+    {
+      "id": "swift.types.015",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "types",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn đang mô hình hóa một app thương mại điện tử bằng Swift. Người phỏng vấn hỏi trong các kiểu sau, kiểu nào nên là `class` thay vì `struct`. Lựa chọn tốt nhất là gì?",
+        "en": "You are modeling an e-commerce app in Swift. The interviewer asks which of these types should be a `class` rather than a `struct`. What is the best choice?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Money`, chứa số tiền và mã tiền tệ, vì giá tiền xuất hiện trên hầu hết mọi màn hình",
+            "en": "`Money`, holding an amount and a currency code, because prices appear on almost every screen"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`CartItem`, chứa ID sản phẩm và số lượng, vì số lượng thay đổi khi người dùng bấm +",
+            "en": "`CartItem`, holding a product ID and a quantity, because the quantity changes when the user taps +"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`ImageCache`, object dùng chung có state thay đổi và định danh cho nhiều màn hình",
+            "en": "`ImageCache`, one shared object with mutable state and identity that many screens must see"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Address`, chứa đường và thành phố, vì nó nằm trong `User` và được lưu xuống đĩa",
+            "en": "`Address`, holding street and city, because it lives inside `User` and is saved to disk"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Mặc định hãy dùng `struct` cho dữ liệu như `Money`, `CartItem` và `Address`: value semantics làm các bản sao độc lập, và vẫn thay đổi được qua `var` và `mutating`. Chọn `class` khi định danh và trạng thái thay đổi dùng chung chính là mục đích, như một cache mà mọi màn hình phải đọc và cập nhật trên cùng một instance (thường được bảo vệ bằng actor hoặc lock). Được dùng nhiều nơi, thay đổi được hay được lưu xuống đĩa tự bản thân chúng không phải lý do để dùng kiểu tham chiếu.",
+        "en": "Default to `struct` for data like `Money`, `CartItem` and `Address`: value semantics keep copies independent, and mutation through `var` and `mutating` is still allowed. Choose a `class` when identity and shared mutable state are the point, as with a cache that every screen must read and update as one instance (usually guarded by an actor or a lock). Being widely used, mutable or persisted is not by itself a reason to use a reference type."
+      }
+    },
+    {
+      "id": "swift.types.016",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "types",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Style guide của team bạn ghi: \"Đánh dấu mọi class là `final` trừ khi nó được thiết kế để kế thừa.\" Lý do chính của quy tắc này là gì?",
+        "en": "Your team's style guide says: \"Mark every class `final` unless it is designed for subclassing.\" What is the main reason for this rule?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nó chặn việc vô tình kế thừa và override, cho phép static dispatch",
+            "en": "It blocks accidental subclassing and overriding, and enables static dispatch"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Class `final` không còn thay đổi được nữa, nên nó thread-safe giống như một `struct`",
+            "en": "A `final` class can no longer be mutated, so it becomes thread-safe just like a `struct`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ class `final` mới conform được protocol hoặc được inject qua initializer",
+            "en": "Only `final` classes can conform to protocols or be injected through an initializer"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Class `final` được cấp phát trên stack thay vì heap, nên tránh được chi phí ARC",
+            "en": "A `final` class is allocated on the stack instead of the heap, so it avoids ARC"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Kế thừa là một hợp đồng cần được thiết kế và duy trì; `final` nói rõ trường hợp \"không thiết kế cho việc đó\" để không ai phụ thuộc vào việc override chi tiết bên trong. Vì không thể có override, lời gọi phương thức có thể được dispatch tĩnh và inline thay vì đi qua vtable. Class `final` vẫn là kiểu tham chiếu cấp phát trên heap và được đếm tham chiếu, các property `var` vẫn thay đổi được, nên nó không tự động thread-safe.",
+        "en": "Inheritance is a contract that has to be designed and maintained; `final` makes the \"not designed for it\" case explicit, so nobody depends on overriding internals. Because no override can exist, method calls can be dispatched statically and inlined instead of going through the vtable. A `final` class is still a heap-allocated, reference-counted reference type and its `var` properties remain mutable, so it is not automatically thread-safe."
+      }
+    },
+    {
+      "id": "swift.types.017",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "types",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "class Vehicle {\n    func describe() -> String { \"Vehicle\" }\n}\n\nclass Car: Vehicle {\n    override func describe() -> String {\n        \"Car < \" + super.describe()\n    }\n}\n\nlet garage: [Vehicle] = [Vehicle(), Car()]\nprint(garage.map { $0.describe() })"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[\"Vehicle\", \"Vehicle\"]",
+            "en": "[\"Vehicle\", \"Vehicle\"]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[\"Vehicle\", \"Car\"]",
+            "en": "[\"Vehicle\", \"Car\"]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch: `describe()` không phải `open`",
+            "en": "Compile error: `describe()` is not `open`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "[\"Vehicle\", \"Car < Vehicle\"]",
+            "en": "[\"Vehicle\", \"Car < Vehicle\"]"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Kiểu phần tử tĩnh của mảng là `Vehicle`, nhưng phương thức của class được dispatch động, nên instance `Car` chạy bản override của nó. Bản override gọi `super.describe()`, chạy phần cài đặt của lớp cha và tạo ra \"Car < Vehicle\". `open` chỉ cần khi kế thừa hoặc override từ module khác; trong cùng một module, class không `final` có thể được kế thừa tự do.",
+        "en": "The array's static element type is `Vehicle`, but class methods are dynamically dispatched, so the `Car` instance runs its override. The override calls `super.describe()`, which runs the parent implementation and yields \"Car < Vehicle\". `open` is only needed to subclass or override across module boundaries; inside one module a non-`final` class can be subclassed freely."
+      }
+    },
+    {
+      "id": "swift.types.018",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "types",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code dưới đây báo lỗi `property 'self.userID' not initialized at super.init call`. Cách sửa đúng là gì?",
+        "en": "The code below fails with `property 'self.userID' not initialized at super.init call`. What is the correct fix?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "class Screen {\n    let name: String\n\n    init(name: String) {\n        self.name = name\n    }\n}\n\nfinal class ProfileScreen: Screen {\n    let userID: String\n\n    init(userID: String) {\n        super.init(name: \"profile\")\n        self.userID = userID\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đánh dấu `init(userID:)` là `convenience`, vì lớp con không được khai báo designated initializer",
+            "en": "Mark `init(userID:)` as `convenience`, because subclasses cannot declare designated initializers"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gán `self.userID` trước, rồi mới gọi `super.init(name:)` (khởi tạo hai pha)",
+            "en": "Assign `self.userID = userID` first, then call `super.init(name:)` (two-phase init)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thêm `override` trước `init(userID:)`, vì mọi initializer của lớp con đều override lớp cha",
+            "en": "Add `override` before `init(userID:)`, since every subclass initializer overrides the parent"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bỏ `final` khỏi `ProfileScreen`, vì class `final` không được gọi `super.init`",
+            "en": "Remove `final` from `ProfileScreen`, because `final` classes cannot call `super.init`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khởi tạo class trong Swift có hai pha: designated initializer của lớp con phải khởi tạo hết stored property của chính nó trước khi ủy quyền lên bằng `super.init`, và chỉ sau đó mới được dùng `self` tự do. Chuyển `self.userID = userID` lên trên `super.init(name: \"profile\")` là sửa được. `override` chỉ cần khi chữ ký trùng với một initializer của lớp cha, còn `convenience init` phải gọi một initializer khác của cùng class chứ không gọi `super.init`.",
+        "en": "Swift class initialization has two phases: a subclass's designated initializer must initialize all of its own stored properties before delegating up with `super.init`, and only after that may it use `self` freely. Moving `self.userID = userID` above `super.init(name: \"profile\")` fixes it. `override` is only needed when the signature matches a parent initializer, and a `convenience` init must call another initializer of the same class rather than `super.init`."
+      }
+    },
+    {
+      "id": "swift.types.019",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "types",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một module theme khai báo các class dưới đây. Nhận định nào về `class func` và `static func` là đúng?",
+        "en": "A theming module declares the classes below. Which statement about `class func` and `static func` is correct?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "class Theme {\n    class func primaryColor() -> String { \"blue\" }\n    static func name() -> String { \"base\" }\n}\n\nfinal class DarkTheme: Theme {\n    override class func primaryColor() -> String { \"black\" }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`class func` override được ở lớp con; `static func` trong class hoạt động như `final class func`",
+            "en": "`class func` can be overridden in subclasses; `static func` in a class acts like `final class func`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`static func` override được còn `class func` thì không, vì `class` ở đây nghĩa là phương thức hằng",
+            "en": "`static func` can be overridden but `class func` cannot, because `class` here means a constant method"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả hai đều là phương thức instance, nên phải gọi bằng `DarkTheme().primaryColor()`",
+            "en": "Both are instance methods, so you call them as `DarkTheme().primaryColor()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`class func` chỉ dùng được trong `struct` và `enum`, nên đoạn code này không biên dịch được",
+            "en": "`class func` is only allowed inside `struct` and `enum`, so this code does not compile"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Cả hai đều khai báo phương thức của kiểu, gọi bằng `Theme.primaryColor()` hoặc `DarkTheme.name()`. `class func` tham gia dynamic dispatch, nên `DarkTheme.primaryColor()` trả về \"black\"; còn `static func` trong class không override được, giống hệt `final class func`. Trong `struct` và `enum` chỉ có `static`, vì kiểu giá trị không có kế thừa.",
+        "en": "Both declare type methods, called as `Theme.primaryColor()` or `DarkTheme.name()`. A `class func` participates in dynamic dispatch, so `DarkTheme.primaryColor()` returns \"black\"; a `static func` on a class cannot be overridden, exactly like a `final class func`. In a `struct` or `enum` only `static` exists, since value types have no inheritance."
+      }
+    },
+    {
+      "id": "swift.protocols.014",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "protocols",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Reviewer thấy đoạn code kiểu `if let dog = animal as? Dog { dog.bark() } else if let cat = animal as? Cat { cat.meow() }` lặp lại ở nhiều nơi, và mỗi khi thêm con vật mới lại phải sửa tất cả. Thiết kế Swift tốt hơn là gì?",
+        "en": "A reviewer finds code like `if let dog = animal as? Dog { dog.bark() } else if let cat = animal as? Cat { cat.meow() }` repeated in several places, and every new animal means editing all of them. What is the better Swift design?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thay `as?` bằng `as!` để ép kiểu nhanh hơn và trường hợp thiếu sẽ crash sớm khi test",
+            "en": "Replace `as?` with `as!` so casts are faster and a missing case crashes early in testing"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thêm requirement `func makeSound()` vào protocol; mỗi kiểu tự cài đặt, nơi gọi chỉ cần `animal.makeSound()`",
+            "en": "Add a `func makeSound()` requirement to the protocol; each type implements it, callers call `animal.makeSound()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tạo `class Animal` cơ sở có cả `bark()` lẫn `meow()` để mọi lớp con thừa hưởng cả hai và khỏi cần ép kiểu",
+            "en": "Create a base `class Animal` with both `bark()` and `meow()` so every subclass inherits them and needs no casts"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lưu loại con vật dưới dạng `String` rồi `switch` theo tên, cách này dễ mở rộng hơn ép kiểu",
+            "en": "Store the animal kind as a `String` and `switch` on the name, which extends more easily than casting"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Chuỗi kiểm tra kiểu là dấu hiệu hành vi đang nằm ở nơi gọi thay vì ở chính kiểu đó. Khai báo hành vi thành requirement của protocol cho phép mỗi kiểu conform tự cung cấp phần cài đặt, và lời gọi qua `any Animal` hay generic `some Animal` sẽ được dispatch tới đó. Con vật mới chỉ cần thêm conformance; một lớp cơ sở chứa phương thức của mọi con vật, hay `switch` trên chuỗi, vẫn giữ nguyên sự phụ thuộc chéo.",
+        "en": "Type-checking chains are a sign that behavior lives in the caller instead of the type. Declaring the behavior as a protocol requirement lets each conforming type supply its own implementation, and calls through `any Animal` or a generic `some Animal` are dispatched to it. New animals then only add a conformance; a base class holding every animal's methods, or string switches, keeps the same coupling."
+      }
+    },
+    {
+      "id": "swift.protocols.015",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "protocols",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Nhiều view controller kế thừa `BaseViewController` chỉ để có `showError(_:)` và spinner loading. Bạn muốn bỏ lớp cơ sở này. Cách tiếp cận hướng protocol nào idiomatic nhất?",
+        "en": "Many view controllers inherit from `BaseViewController` only to get `showError(_:)` and a loading spinner. You want to remove that base class. Which protocol-oriented approach is the most idiomatic?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khai báo `protocol ErrorPresentable: UIViewController` có stored property cho spinner, để lớp conform thừa hưởng bộ nhớ đó",
+            "en": "Declare `protocol ErrorPresentable: UIViewController` with stored properties for the spinner, so conformers inherit that storage"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Biến `ErrorPresentable` thành protocol có requirement `@objc optional`, để phần cài đặt gốc được thừa hưởng tự động",
+            "en": "Make `ErrorPresentable` a protocol with an `@objc optional` requirement, so the base implementation is inherited automatically"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Giữ `BaseViewController` nhưng đặt nó là `final`, rồi chép `showError(_:)` vào từng màn hình",
+            "en": "Keep `BaseViewController` but mark it `final`, then copy `showError(_:)` into each screen"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`showError(_:)` mặc định trong `extension ErrorPresenting where Self: UIViewController`; màn hình tự conform",
+            "en": "A default `showError(_:)` in `extension ErrorPresenting where Self: UIViewController`; screens opt in"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Một protocol extension có ràng buộc cung cấp phần cài đặt dùng chung và gọi được `present(_:animated:)` vì đã biết `Self` là `UIViewController`. Mỗi màn hình chỉ chọn đúng năng lực nó cần (`ErrorPresenting`, `LoadingPresenting`) thay vì thừa hưởng mọi thứ từ một lớp cơ sở. Protocol và extension không thêm được stored property, nên state như view spinner nằm trong kiểu conform hoặc trong một helper nhỏ được ghép vào; requirement `@objc optional` thì không bao giờ cung cấp phần cài đặt.",
+        "en": "A constrained protocol extension supplies the shared implementation and can call `present(_:animated:)` because `Self` is known to be a `UIViewController`. Each screen opts into exactly the capabilities it needs (`ErrorPresenting`, `LoadingPresenting`) instead of inheriting everything from one base class. Protocols and extensions cannot add stored properties, so state such as the spinner view lives in the conforming type or a small composed helper; `@objc optional` requirements never provide implementations."
+      }
+    },
+    {
+      "id": "swift.protocols.016",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "protocols",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "\"Swift là ngôn ngữ hướng protocol.\" Hãy so sánh kế thừa class với lập trình hướng protocol khi chia sẻ hành vi. Khi nào kế thừa vẫn là công cụ đúng?",
+        "en": "\"Swift is a protocol-oriented language.\" Compare class inheritance with protocol-oriented programming for sharing behavior. When is subclassing still the right tool?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Kế thừa: chỉ một lớp cha, chỉ cho kiểu tham chiếu, lớp con thừa hưởng stored state và có thể override, dễ gặp fragile base class",
+          "en": "Inheritance: a single superclass, reference types only, subclasses inherit stored state and can override, risking fragile base classes"
+        },
+        {
+          "vi": "Protocol: struct, enum và class đều có thể conform nhiều protocol; protocol extension cung cấp cài đặt mặc định",
+          "en": "Protocols: structs, enums and classes can adopt many protocols; protocol extensions supply default implementations"
+        },
+        {
+          "vi": "Protocol cho phép dùng kiểu giá trị, generic với `some`/static dispatch, và dễ tạo test double ở ranh giới",
+          "en": "Protocols enable value types, generics with `some`/static dispatch, and easy test doubles at boundaries"
+        },
+        {
+          "vi": "Bẫy: phương thức chỉ có trong extension (không phải requirement) được dispatch tĩnh, không tùy biến được qua kiểu protocol",
+          "en": "Pitfall: methods only in an extension (not requirements) are statically dispatched and cannot be customized through the protocol type"
+        },
+        {
+          "vi": "Kế thừa vẫn phù hợp với hierarchy của framework (`UIView`, `UIViewController`) và khi cần chia sẻ stored state cùng định danh",
+          "en": "Subclassing still fits framework hierarchies (`UIView`, `UIViewController`) and cases that need shared stored state plus identity"
+        }
+      ],
+      "explanation": {
+        "vi": "Thiết kế hướng protocol ghép các năng lực nhỏ lại với nhau và dùng được cho kiểu giá trị, còn kế thừa cho một cây cứng nhắc gồm toàn kiểu tham chiếu. Câu trả lời tốt không cực đoan: UIKit được xây trên kế thừa, và hierarchy class là hợp lý khi các object chia sẻ định danh và stored state. Nó cũng cho thấy bạn nắm quy tắc dispatch, vì nhầm giữa requirement và phương thức chỉ có trong extension là nguồn bug phổ biến.",
+        "en": "Protocol-oriented design composes small capabilities and works for value types, while inheritance gives one rigid tree of reference types. A strong answer is not dogmatic: UIKit is built on subclassing, and a class hierarchy is reasonable when objects share identity and stored state. It also shows awareness of dispatch rules, since confusing requirements with extension-only methods is a common source of bugs."
+      }
+    },
+    {
+      "id": "swift.protocols.017",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "protocols",
+      "level": "middle",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "protocol Greeter {\n    func greet() -> String\n}\n\nextension Greeter {\n    func greet() -> String { \"Hello\" }\n}\n\nclass BaseGreeter: Greeter {}\n\nclass FriendlyGreeter: BaseGreeter {\n    func greet() -> String { \"Hi friend\" }\n}\n\nlet greeter: any Greeter = FriendlyGreeter()\nprint(greeter.greet())\nprint(FriendlyGreeter().greet())"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Hi friend / Hi friend",
+            "en": "Hi friend / Hi friend"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hello / Hello",
+            "en": "Hello / Hello"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hello / Hi friend",
+            "en": "Hello / Hi friend"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch: `greet()` cần `override`",
+            "en": "Compile error: `greet()` needs `override`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`BaseGreeter` thỏa requirement `greet()` bằng bản mặc định trong protocol extension, và lựa chọn đó được ghi vào witness table của nó. `FriendlyGreeter.greet()` là một phương thức mới chứ không phải override (bản thân class cha không có `greet()` để override), nên lời gọi qua `any Greeter` vẫn dùng witness \"Hello\", còn lời gọi trực tiếp trên kiểu cụ thể thì tìm thấy phương thức của lớp con. Cách sửa là cài đặt `greet()` ngay trong `BaseGreeter` để lớp con có thể `override`.",
+        "en": "`BaseGreeter` satisfies the `greet()` requirement with the protocol extension's default, and that choice is recorded in its witness table. `FriendlyGreeter.greet()` is a new method, not an override (the superclass has no `greet()` of its own to override), so a call through `any Greeter` still uses the \"Hello\" witness, while a direct call on the concrete type finds the subclass method. The fix is to implement `greet()` in `BaseGreeter` itself so subclasses can `override` it."
+      }
+    },
+    {
+      "id": "swift.protocols.018",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "protocols",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Hãy thiết kế model phương thức thanh toán cho màn checkout Swift 6, hiện hỗ trợ thẻ, Apple Pay và ví điện tử, sau này còn thêm nhà cung cấp. Bạn dùng `enum`, protocol hay class hierarchy, và lựa chọn đó liên quan thế nào tới `any`/`some` và concurrency?",
+        "en": "Design the payment-method model for a Swift 6 checkout that supports card, Apple Pay and e-wallets today, with more providers expected. Would you use an `enum`, a protocol or a class hierarchy, and how does that choice interact with `any`/`some` and concurrency?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`enum` có associated value hợp với tập đóng do app sở hữu: `switch` exhaustive, nhưng thêm case thì phải sửa mọi switch",
+          "en": "An `enum` with associated values suits a closed set the app owns: exhaustive `switch`, but a new case edits every switch"
+        },
+        {
+          "vi": "`protocol PaymentProvider` hợp với tập mở (plugin, module theo nhà cung cấp): thêm nhà cung cấp mà không sửa checkout (Open/Closed)",
+          "en": "A `protocol PaymentProvider` suits an open set (plugins, per-provider modules): add providers without modifying checkout (Open/Closed)"
+        },
+        {
+          "vi": "Dùng `[any PaymentProvider]` cho danh sách lúc chạy và generic/`some` khi biết một kiểu cụ thể; tránh class hierarchy nếu không có state chung",
+          "en": "Use `[any PaymentProvider]` for the runtime list and generics/`some` when one concrete type is known; avoid a class hierarchy without shared state"
+        },
+        {
+          "vi": "Cho nó `Sendable` với các hàm `async throws`; giữ state phiên thay đổi được trong `actor`, còn UI chạy trên `@MainActor`",
+          "en": "Make it `Sendable` with `async throws` methods; keep mutable session state in an `actor` and the UI on `@MainActor`"
+        },
+        {
+          "vi": "Giữ kiểu của SDK nhà cung cấp phía sau protocol ở data layer, để domain và test dùng fake",
+          "en": "Keep provider SDK types behind the protocol in the data layer, so the domain and tests can use fakes"
+        }
+      ],
+      "explanation": {
+        "vi": "Không có một đáp án duy nhất; người phỏng vấn muốn nghe trade-off giữa tập đóng (enum, compiler kiểm tra exhaustive) và tập mở (protocol, mở rộng mà không sửa code cũ). Nhiều thiết kế thực tế kết hợp cả hai, ví dụ enum cho lựa chọn của người dùng và protocol cho nhà cung cấp thực thi thanh toán. Trong Swift 6, abstraction còn phải an toàn concurrency, nên conformance `Sendable` và actor isolation là một phần của thiết kế.",
+        "en": "There is no single right answer; the interviewer wants the trade-off between a closed set (an enum with compiler-checked exhaustiveness) and an open set (a protocol, extensible without modifying existing code). Many real designs combine them, e.g. an enum for the user's selection and a protocol for the provider that executes the payment. In Swift 6 the abstraction also has to be concurrency-safe, so `Sendable` conformance and actor isolation are part of the design."
+      }
+    },
+    {
+      "id": "swift.clean_architecture.001",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "clean_architecture",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một app iOS được chia thành các Swift package `Domain`, `Data` và `Presentation`. Nhận định nào về package `Domain` đúng theo Clean Architecture?",
+        "en": "An iOS app is split into the Swift packages `Domain`, `Data` and `Presentation`. Which statement about the `Domain` package follows Clean Architecture?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nó chứa entity, use case và protocol repository bằng Swift thuần, không import `UIKit`/`SwiftUI` hay thư viện mạng",
+            "en": "It holds entities, use cases and repository protocols in plain Swift, importing no UI or networking frameworks"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nó import `Data` để use case tự tạo repository dùng `URLSession`, giúp `Presentation` đơn giản hơn",
+            "en": "It imports `Data` so use cases can create `URLSession` repositories directly, keeping `Presentation` simpler"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Nó chứa các view SwiftUI, vì view là phần quy tắc quan trọng nhất của app",
+            "en": "It contains the SwiftUI views, since views are the most important rules of the app"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nó phải là framework target phụ thuộc mọi package khác để điều phối chúng",
+            "en": "It must be a framework target that depends on every other package to coordinate them"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trong Clean Architecture, phụ thuộc hướng vào trong: `Data` cài đặt các protocol repository khai báo trong `Domain`, `Presentation` gọi use case của `Domain`, còn `Domain` không phụ thuộc gì ngoài thư viện chuẩn (cùng lắm là Foundation). Nhờ vậy quy tắc nghiệp vụ biên dịch và test được mà không cần simulator, framework UI hay tầng mạng. Chỉ app target (composition root) mới phụ thuộc mọi package để nối các kiểu cụ thể với nhau.",
+        "en": "In Clean Architecture dependencies point inward: `Data` implements the repository protocols declared in `Domain`, `Presentation` calls `Domain`'s use cases, and `Domain` depends on nothing but the standard library (Foundation at most). That keeps business rules compilable and testable without a simulator, a UI framework or a network stack. Only the app target (the composition root) depends on every package, to wire the concrete types together."
+      }
+    },
+    {
+      "id": "swift.clean_architecture.002",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "clean_architecture",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Mỗi lần product thêm phương thức thanh toán, dev lại sửa cùng một `switch method` ở sáu file (tiêu đề UI, icon, phí, kiểm tra hợp lệ...) và lần nào cũng sót. Nguyên lý SOLID nào đang bị vi phạm trực tiếp nhất?",
+        "en": "Every time product adds a payment method, developers edit the same `switch method` in six files (UI title, icon, fee, validation...) and something is always missed. Which SOLID principle is being violated most directly?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Liskov Substitution, vì một `switch` không thể thay thế cho lớp con",
+            "en": "Liskov Substitution, since a `switch` cannot substitute for a subclass"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Interface Segregation, vì các câu lệnh `switch` lộ ra quá nhiều case",
+            "en": "Interface Segregation, because `switch` statements expose too many cases"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Open/Closed: thêm biến thể mới nên là thêm code, không phải sửa code cũ ở nhiều nơi",
+            "en": "Open/Closed: a new variant should mean adding code, not editing old code in many places"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Dependency Inversion, vì `switch` là câu lệnh điều khiển cấp thấp",
+            "en": "Dependency Inversion, because `switch` is a low-level control-flow statement"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "OCP nói module nên mở để mở rộng nhưng đóng với việc sửa đổi. Khi kiến thức về một phương thức thanh toán bị rải rác qua nhiều `switch`, mỗi phương thức mới đều phải sửa code cũ đã được test ở nhiều chỗ. Gom kiến thức đó sau một protocol (mỗi phương thức tự cung cấp tiêu đề, icon, phí và kiểm tra hợp lệ) hoặc vào một chỗ cho mỗi biến thể, thì phương thức mới chỉ là một kiểu conform mới. Một `switch` exhaustive duy nhất trên enum vẫn ổn; vấn đề là sự trùng lặp qua nhiều file.",
+        "en": "OCP says modules should be open for extension but closed for modification. When knowledge about a payment method is scattered across switches, every new method modifies existing, tested code in many places. Grouping that knowledge behind a protocol (each method provides its own title, icon, fee and validation), or in one place per variant, makes a new method just a new conforming type. A single exhaustive `switch` over an enum is fine; the problem is the duplication across files."
+      }
+    },
+    {
+      "id": "swift.clean_architecture.003",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "clean_architecture",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Vì sao `ProfileViewModel` nên phụ thuộc vào protocol `UserRepository` thay vì gọi trực tiếp `URLSession.shared`? Hãy giải thích như khi đi phỏng vấn.",
+        "en": "Why should `ProfileViewModel` depend on a `UserRepository` protocol instead of calling `URLSession.shared` directly? Explain it as you would in an interview."
+      },
+      "keyPoints": [
+        {
+          "vi": "Dependency Inversion: code cấp cao phụ thuộc vào abstraction do nó sở hữu, còn chi tiết mạng thì cài đặt abstraction đó",
+          "en": "Dependency Inversion: high-level code depends on an abstraction it owns, and the networking detail implements it"
+        },
+        {
+          "vi": "ViewModel nhận `any UserRepository` (hoặc generic) qua initializer thay vì tự tạo",
+          "en": "The ViewModel receives `any UserRepository` (or a generic) through its initializer instead of creating it"
+        },
+        {
+          "vi": "Test và SwiftUI preview có thể truyền stub trả về dữ liệu cố định, không cần mạng",
+          "en": "Tests and SwiftUI previews can pass a stub that returns fixed data, with no network"
+        },
+        {
+          "vi": "Có thể đổi hoặc kết hợp nguồn dữ liệu (REST, cache, mock server) mà không đụng tới ViewModel",
+          "en": "Sources can be swapped or combined (REST, cache, mock server) without touching the ViewModel"
+        }
+      ],
+      "explanation": {
+        "vi": "Gọi `URLSession.shared` trói logic presentation vào một chi tiết mạng cụ thể, nên ViewModel không test hay preview được nếu thiếu server thật. Phụ thuộc vào một protocol nhỏ đảo ngược điều đó: ViewModel định nghĩa thứ nó cần, còn `RemoteUserRepository` ở data layer cung cấp. Kiểu cụ thể được chọn ở một nơi duy nhất (composition root), nên phần còn lại của code không cần biết dữ liệu được lấy về như thế nào.",
+        "en": "Calling `URLSession.shared` ties presentation logic to one networking detail, so the ViewModel cannot be tested or previewed without a real server. Depending on a small protocol inverts that: the ViewModel defines what it needs, and a `RemoteUserRepository` in the data layer provides it. The concrete type is chosen in one place (the composition root), so the rest of the code does not know how the data is fetched."
+      }
+    },
+    {
+      "id": "swift.clean_architecture.004",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "clean_architecture",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Unit test của `LoadProfileUseCase` chạy chậm và thất bại khi máy build mất mạng. Vấn đề thiết kế nằm ở đâu?",
+        "en": "The unit test for `LoadProfileUseCase` is slow and fails whenever the build machine is offline. What is the design problem?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "protocol UserRepository: Sendable {\n    func user(id: String) async throws -> User\n}\n\nstruct LoadProfileUseCase {\n    private let repository: any UserRepository\n\n    init() {\n        repository = RemoteUserRepository(session: .shared)\n    }\n\n    func callAsFunction(id: String) async throws -> User {\n        try await repository.user(id: id)\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`callAsFunction` không thể là `async`, nên test quay về một lời gọi mạng chặn luồng",
+            "en": "`callAsFunction` cannot be `async`, so the test falls back to a blocking network call"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`UserRepository` không nên là `Sendable`; yêu cầu đó ép mọi lời gọi chạy trên thread mạng",
+            "en": "`UserRepository` should not be `Sendable`; that forces every call onto the network thread"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Use case nên là `class`, vì `struct` không thể lưu property có kiểu là protocol",
+            "en": "The use case should be a `class`, because a `struct` cannot store a protocol-typed property"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nó tự tạo `RemoteUserRepository`; nên inject `any UserRepository` qua initializer",
+            "en": "It creates `RemoteUserRepository` itself; inject `any UserRepository` through its `init`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Use case đã phụ thuộc vào abstraction, nhưng rồi lại tự chọn implementation cụ thể, nên phụ thuộc bị ẩn và không thay thế được. Inject qua initializer (`init(repository: any UserRepository)`) đẩy lựa chọn đó về composition root và cho test truyền vào stub trong bộ nhớ. Struct lưu được existential, hàm `async` kể cả `callAsFunction` là hợp lệ, còn `Sendable` chỉ nói rằng giá trị đi qua các concurrency domain một cách an toàn.",
+        "en": "The use case already depends on an abstraction, but then picks the concrete implementation itself, so the dependency is hidden and cannot be replaced. Initializer injection (`init(repository: any UserRepository)`) moves that choice to the composition root and lets tests pass an in-memory stub. Structs can store existentials, `async` functions including `callAsFunction` are fine, and `Sendable` only states that the value can cross concurrency domains safely."
+      }
+    },
+    {
+      "id": "swift.clean_architecture.005",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "clean_architecture",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "API trả về `UserDTO` với key `snake_case`, chuỗi `avatar_url` có thể thiếu và `created_at` dạng văn bản. Domain của app dùng `User(id: User.ID, avatarURL: URL?, joinedAt: Date)`. Việc chuyển đổi nên diễn ra ở đâu?",
+        "en": "The API returns a `UserDTO` with `snake_case` keys, an optional `avatar_url` string and `created_at` as text. The domain uses `User(id: User.ID, avatarURL: URL?, joinedAt: Date)`. Where should the conversion happen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trong `View` SwiftUI, để mỗi màn hình tự định dạng và kiểm tra field theo cách riêng",
+            "en": "Inside the SwiftUI `View`, so each screen can format and validate fields its own way"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ở Data layer, bằng `UserDTO.toDomain()` do repository gọi",
+            "en": "In the Data layer, as `UserDTO.toDomain()` called by the repository"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cho `User` của domain conform `Decodable` với `CodingKeys` phản chiếu đúng API",
+            "en": "Make the domain `User` conform to `Decodable` with `CodingKeys` that mirror the API"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Trong initializer `User(dto:)` ở `Domain`, để domain kiểm soát cách đọc dữ liệu API",
+            "en": "In a `Domain` initializer `User(dto:)`, so the domain controls how API data is read"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Data layer là nơi duy nhất biết cả định dạng truyền qua mạng lẫn model domain, nên mapper thuộc về đó và repository chỉ lộ ra `User`. Cách này giữ các đặc thù của API (snake_case, ngày dạng chuỗi, field bị thiếu) ra khỏi code nghiệp vụ, và mapper có thể throw hoặc dùng giá trị mặc định ở một chỗ có test. Cho kiểu domain phản chiếu API, hay thêm initializer nhận DTO vào domain, đều làm `Domain` phụ thuộc vào cấu trúc mạng.",
+        "en": "The Data layer is the only place that knows both the wire format and the domain model, so the mapper belongs there and the repository exposes only `User`. This keeps API quirks (snake_case, string dates, missing fields) out of business code and lets the mapper throw or fall back in one tested place. Making the domain type mirror the API, or giving it an initializer that takes a DTO, makes `Domain` depend on the network shape."
+      }
+    },
+    {
+      "id": "swift.clean_architecture.006",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "clean_architecture",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn sẽ làm thế nào để một `CheckoutViewModel` chạy trên `@MainActor`, có gọi `PlaceOrderUseCase`, dễ unit test trong Swift? Hãy mô tả các kỹ thuật bạn dùng.",
+        "en": "How would you make a `@MainActor` `CheckoutViewModel` that calls a `PlaceOrderUseCase` easy to unit test in Swift? Describe the techniques you would use."
+      },
+      "keyPoints": [
+        {
+          "vi": "Inject mọi phụ thuộc qua initializer (`init(placeOrder: PlaceOrderUseCase, clock: any Clock<Duration>)`), không dùng singleton bên trong",
+          "en": "Initializer injection of every dependency (`init(placeOrder: PlaceOrderUseCase, clock: any Clock<Duration>)`), with no singletons inside"
+        },
+        {
+          "vi": "Phụ thuộc là protocol, hoặc struct chứa closure (protocol witness) như `struct OrderClient { var place: @Sendable (Cart) async throws -> Order }`",
+          "en": "Dependencies are protocols, or a struct of closures (protocol witness) such as `struct OrderClient { var place: @Sendable (Cart) async throws -> Order }`"
+        },
+        {
+          "vi": "Test truyền stub/spy trả kết quả cố định hoặc ghi lại lời gọi, nên không cần mạng hay database",
+          "en": "Tests pass stubs/spies that return fixed results or record calls, so no network or database is needed"
+        },
+        {
+          "vi": "Viết test async gắn `@MainActor` (Swift Testing `@Test` với `#expect`, hoặc XCTest) và kiểm tra state được publish",
+          "en": "Write `@MainActor` async tests (Swift Testing `@Test` with `#expect`, or XCTest) and assert on the published state"
+        },
+        {
+          "vi": "Đặt quy tắc nghiệp vụ trong use case (Swift thuần) để phần lớn test không cần đụng tới ViewModel",
+          "en": "Keep business rules in the use case (plain Swift) so most tests never touch the ViewModel"
+        }
+      ],
+      "explanation": {
+        "vi": "Khả năng test đến từ phụ thuộc tường minh: nếu ViewModel nhận mọi thứ qua initializer, test có thể dựng nó với fake và quan sát state một cách tất định. Protocol witness (struct chứa closure) là lựa chọn nhẹ hơn protocol, cho phép mỗi test chỉ thay đúng một closure. Gắn `@MainActor` cho test khớp với isolation của ViewModel, nên đọc state mà không có data race.",
+        "en": "Testability follows from explicit dependencies: if the ViewModel receives everything through its initializer, a test can build it with fakes and observe its state deterministically. Protocol witnesses (structs of closures) are a lightweight alternative to protocols that let each test override just one closure. Marking tests `@MainActor` matches the ViewModel's isolation, so state can be read without data races."
+      }
+    },
+    {
+      "id": "swift.clean_architecture.007",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "clean_architecture",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "App SwiftUI của bạn không dùng framework DI. Các feature đang gọi `APIClient.shared`, `Database.shared` và `Analytics.shared` sâu bên trong code. Cách nối dependency được khuyến nghị là gì?",
+        "en": "Your SwiftUI app uses no DI framework. Features reach for `APIClient.shared`, `Database.shared` and `Analytics.shared` deep inside their code. What is the recommended way to wire dependencies?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Giữ các singleton nhưng gắn `@MainActor` để truy cập an toàn từ mọi nơi trong Swift 6",
+            "en": "Keep the singletons but mark them `@MainActor` so they are safe to use anywhere in Swift 6"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tạo dictionary toàn cục `ServiceLocator.resolve(T.self)` để mọi lớp tự gọi khi cần tới",
+            "en": "Create a global `ServiceLocator.resolve(T.self)` dictionary that every class calls on demand"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dựng đồ thị object một lần tại composition root (`@main App`) rồi truyền xuống qua initializer",
+            "en": "Build the graph once at a composition root (`@main App`) and pass it down through initializers"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Biến mọi dependency thành `struct` để nó được copy vào từng feature, khỏi cần nối gì",
+            "en": "Make every dependency a `struct` so it is copied into each feature and needs no wiring"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Composition root là nơi duy nhất biết các kiểu cụ thể: nó tạo `APIClient`, repository, use case và inject chúng vào factory của feature hoặc view model. Mọi phần khác chỉ phụ thuộc vào tham số initializer, nên dependency hiện rõ trong chữ ký hàm và thay được khi test hay preview. Service locator hay singleton gắn `@MainActor` vẫn che giấu dependency và trói feature vào state toàn cục; copy struct cũng không loại bỏ được việc phải quyết định feature nào dùng implementation nào.",
+        "en": "A composition root is the single place that knows concrete types: it creates the `APIClient`, repositories and use cases and injects them into feature factories or view models. Everything else depends only on initializer parameters, so dependencies are visible in signatures and replaceable in tests and previews. A service locator or `@MainActor` singletons still hide dependencies and couple features to global state, and copying structs does not remove the need to decide which implementation each feature gets."
+      }
+    },
+    {
+      "id": "swift.clean_architecture.008",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "clean_architecture",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Sau khi thêm `SharedDocument`, app crash lúc tự động lưu dù `autosave` đã dùng `try?`. Vấn đề thiết kế gốc là gì?",
+        "en": "After `SharedDocument` was added, the app crashes during autosave even though `autosave` uses `try?`. What is the underlying design problem?"
+      },
+      "code": {
+        "language": "swift",
+        "source": "class Document {\n    var text = \"\"\n\n    func save() throws {\n        // write `text` to disk\n    }\n}\n\nfinal class SharedDocument: Document {\n    override func save() throws {\n        fatalError(\"Shared documents are read-only\")\n    }\n}\n\nfunc autosave(_ documents: [Document]) {\n    for document in documents {\n        try? document.save()\n    }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Vi phạm Liskov: `SharedDocument` không thực hiện được `save()`; hãy tách việc lưu thành năng lực `Savable`",
+            "en": "It breaks Liskov: a `SharedDocument` cannot honor `save()`; split saving into a `Savable` capability"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải thay `try?` bằng `try!`, vì `try?` không lan truyền lỗi từ phương thức bị override",
+            "en": "Replace `try?` with `try!`, because `try?` does not propagate errors from overridden methods"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`SharedDocument` không được là `final`; lớp con `final` không thể override an toàn một phương thức có đánh dấu `throws`",
+            "en": "`SharedDocument` must not be `final`; a `final` subclass cannot safely override a method marked `throws`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Document` nên là `struct`, vì kiểu giá trị không thể crash khi gọi phương thức",
+            "en": "`Document` should be a `struct`, since value types cannot crash when a method is called"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`fatalError` không phải lỗi được throw nên `try?` không bắt được, nhưng vấn đề sâu hơn là kiểu con không thể thực hiện hợp đồng của kiểu cha: code viết cho `Document` mặc định rằng `save()` hoạt động. Điều đó vi phạm nguyên lý Liskov Substitution và buộc nơi gọi phải biết về các kiểu con. Hãy mô hình hóa năng lực riêng, ví dụ `protocol Savable { func save() throws }` chỉ cho tài liệu sửa được conform (interface segregation), hoặc cho `save()` throw một lỗi thật nằm trong hợp đồng.",
+        "en": "`fatalError` is not a thrown error, so `try?` cannot catch it, but the deeper issue is that the subtype cannot honor the base type's contract: code written for `Document` assumes `save()` works. That violates the Liskov Substitution Principle and forces callers to know about subtypes. Model the capability separately, e.g. `protocol Savable { func save() throws }` adopted only by editable documents (interface segregation), or have `save()` throw a real error that the contract allows."
+      }
+    },
+    {
+      "id": "swift.clean_architecture.009",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "clean_architecture",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trong app Swift 6 bật strict concurrency, bạn sẽ phân bổ isolation cho các tầng Clean Architecture (model domain, use case, repository, cache, view model) như thế nào và vì sao?",
+        "en": "In a Swift 6 app with strict concurrency, how would you assign isolation across the Clean Architecture layers (domain models, use cases, repositories, caches, view models), and why?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Entity domain là `struct` bất biến và `Sendable`, nên đi qua ranh giới actor thoải mái",
+          "en": "Domain entities are immutable `Sendable` structs, so they cross actor boundaries freely"
+        },
+        {
+          "vi": "Use case và protocol repository là `Sendable` với API `async`, không tự gắn isolation và không giả định chạy trên main thread",
+          "en": "Use cases and repository protocols are `Sendable` with `async` APIs and no isolation of their own; they do not assume the main thread"
+        },
+        {
+          "vi": "State thay đổi được dùng chung ở ranh giới data (cache bộ nhớ, làm mới token) nằm trong `actor` để tuần tự hóa truy cập",
+          "en": "Shared mutable state at the data boundary (in-memory cache, token refresh) lives in an `actor` to serialize access"
+        },
+        {
+          "vi": "View model và UI state là `@MainActor`; chúng `await` use case rồi cập nhật state trên main actor",
+          "en": "View models and UI state are `@MainActor`; they `await` use cases and update state on the main actor"
+        },
+        {
+          "vi": "Tránh `@unchecked Sendable` và `nonisolated(unsafe)` trừ khi bọc code cũ; chú ý reentrancy của actor qua mỗi `await`",
+          "en": "Avoid `@unchecked Sendable` and `nonisolated(unsafe)` except to wrap legacy code; watch actor reentrancy across each `await`"
+        }
+      ],
+      "explanation": {
+        "vi": "Strict concurrency biến an toàn data race thành một phần của kiến trúc, nên mỗi tầng cần câu chuyện isolation rõ ràng. Model domain là kiểu giá trị `Sendable` giúp lõi không cần lock; actor bảo vệ số ít chỗ có state thay đổi dùng chung, thường ở ranh giới data; còn `@MainActor` nằm ở rìa presentation. Nhắc tới reentrancy (state có thể đổi qua mỗi `await` bên trong actor) và cái giá của các lối thoát unsafe cho thấy hiểu biết ở mức senior.",
+        "en": "Strict concurrency makes data-race safety part of the architecture, so each layer needs a clear isolation story. Value-type, `Sendable` domain models keep the core free of locks; actors guard the few places with shared mutable state, typically at the data boundary; and `@MainActor` stays at the presentation edge. Mentioning reentrancy (state can change across an `await` inside an actor) and the cost of unsafe escape hatches shows senior-level understanding."
+      }
+    },
+    {
+      "id": "swift.clean_architecture.010",
+      "contentVersion": 1,
+      "trackId": "swift",
+      "topicId": "clean_architecture",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Team bạn (năm dev iOS, app SwiftUI dự kiến sống nhiều năm) đang tranh luận giữa VIPER và MVVM kết hợp use case, repository. Bạn sẽ so sánh và quyết định thế nào?",
+        "en": "Your team (five iOS developers, a SwiftUI app expected to live for years) is debating VIPER versus MVVM with use cases and repositories. How would you compare them and decide?"
+      },
+      "keyPoints": [
+        {
+          "vi": "VIPER tách View, Interactor, Presenter, Entity, Router: ranh giới chặt và dễ test, nhưng mỗi màn hình rất nhiều boilerplate",
+          "en": "VIPER splits View, Interactor, Presenter, Entity and Router: strict boundaries and testability, but heavy boilerplate per screen"
+        },
+        {
+          "vi": "VIPER hình thành quanh UIKit; với view hướng state của SwiftUI, cặp protocol Presenter/View trở nên gượng ép",
+          "en": "VIPER was shaped around UIKit; with SwiftUI's state-driven views, Presenter/View protocol pairs feel unnatural"
+        },
+        {
+          "vi": "MVVM + use case/repository cho cùng dependency rule mà ít nghi thức hơn; điều hướng chuyển sang coordinator hoặc router dùng `NavigationStack`",
+          "en": "MVVM with use cases/repositories keeps the same dependency rule with less ceremony; navigation moves to a coordinator or `NavigationStack` router"
+        },
+        {
+          "vi": "Quyết định theo tiêu chí: kinh nghiệm team, độ phức tạp feature, chiến lược test, chi phí onboarding; tính nhất quán quan trọng hơn cái tên",
+          "en": "Decide by criteria: team experience, feature complexity, test strategy, onboarding cost; consistency matters more than the acronym"
+        },
+        {
+          "vi": "Thử trên một feature, ghi quyết định vào ADR, và cho phép cấu trúc nhẹ hơn với màn hình đơn giản",
+          "en": "Pilot it on one feature, record the decision in an ADR, and allow a lighter structure for simple screens"
+        }
+      ],
+      "explanation": {
+        "vi": "Cả hai pattern đều hiện thực cùng các ý tưởng của Clean Architecture, nên câu hỏi thật là mỗi màn hình cần bao nhiêu cấu trúc. VIPER áp ranh giới qua rất nhiều protocol, có ích cho team UIKit lớn nhưng gây cản trở trong SwiftUI; MVVM kèm use case vẫn cô lập logic nghiệp vụ với ít thành phần hơn. Câu trả lời senior đặt quyết định trên các tiêu chí rõ ràng và có cách kiểm chứng, thay vì tranh cãi cho pattern mình thích.",
+        "en": "Both patterns implement the same Clean Architecture ideas, so the real question is how much structure each screen needs. VIPER enforces boundaries through many protocols, which helps large UIKit teams but adds friction in SwiftUI; MVVM with use cases keeps business logic isolated with fewer moving parts. A senior answer frames the decision with explicit criteria and a way to validate it, instead of arguing for a favorite pattern."
       }
     }
   ]

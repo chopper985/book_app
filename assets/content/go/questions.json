@@ -15,29 +15,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "`nil` slice với `len(s) == 0`, vẫn `append` được bình thường",
-            "en": "A `nil` slice with `len(s) == 0` that you can still `append` to"
+            "vi": "`nil` slice có độ dài 0, vẫn `append` được bình thường",
+            "en": "A `nil` slice with length 0 that you can still `append` to"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Slice rỗng khác `nil`, giống `[]int{}`",
-            "en": "An empty non-nil slice, same as `[]int{}`"
+            "vi": "Slice rỗng khác `nil`, tương đương `[]int{}` và `make([]int, 0)`",
+            "en": "An empty non-nil slice, equivalent to `[]int{}` and `make([]int, 0)`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Chưa khởi tạo, đọc `len(s)` sẽ panic",
-            "en": "Uninitialized; reading `len(s)` panics"
+            "vi": "Vùng nhớ chưa khởi tạo, nên chỉ đọc `len(s)` thôi cũng panic lúc chạy",
+            "en": "Uninitialized memory, so even reading `len(s)` panics at runtime"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Lỗi biên dịch vì biến chưa được gán",
-            "en": "A compile error because the variable is unassigned"
+            "vi": "Lỗi biên dịch vì biến được khai báo nhưng chưa bao giờ được gán",
+            "en": "A compile error because the variable is declared but never assigned"
           }
         }
       ],
@@ -118,15 +118,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Chỉ dùng được bên trong hàm, vừa khai báo vừa suy luận kiểu từ giá trị bên phải",
-            "en": "It only works inside functions and both declares the variable and infers its type from the right-hand side"
+            "vi": "Chỉ dùng được trong hàm, vừa khai báo biến vừa suy ra kiểu từ vế phải",
+            "en": "It only works inside functions; it declares the variable and infers its type"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Dùng được ở cấp package giống `var`",
-            "en": "It can be used at package level just like `var`"
+            "vi": "Dùng được cả ở cấp package, ví dụ `x := 5` đặt ngoài `main`",
+            "en": "It works at package level too, e.g. `x := 5` outside `main`"
           }
         }
       ],
@@ -191,28 +191,28 @@
           "id": "a",
           "text": {
             "vi": "Identifier bắt đầu bằng chữ cái viết hoa, ví dụ `NewServer`",
-            "en": "Identifiers that start with an uppercase letter, e.g. `NewServer`"
+            "en": "Identifiers starting with an uppercase letter, e.g. `NewServer`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Identifier có từ khoá `public` phía trước",
-            "en": "Identifiers marked with a `public` keyword"
+            "vi": "Identifier có từ khoá `public` phía trước hoặc được liệt kê trong `go.mod`",
+            "en": "Identifiers marked with the `public` keyword or listed in `go.mod`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Identifier bắt đầu bằng dấu gạch dưới `_`",
-            "en": "Identifiers that start with an underscore `_`"
+            "vi": "Identifier bắt đầu bằng dấu gạch dưới `_`, ví dụ `_NewServer`",
+            "en": "Identifiers that start with an underscore `_`, e.g. `_NewServer`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Mọi identifier khai báo trong file `main.go`",
-            "en": "Every identifier declared in `main.go`"
+            "vi": "Mọi identifier khai báo trong `main.go` hoặc trong file trùng tên package",
+            "en": "Every identifier declared in `main.go` or in a file named after the package"
           }
         }
       ],
@@ -283,22 +283,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Lỗi biên dịch vì `counts[w]++` không hợp lệ với map",
-            "en": "Compile error because `counts[w]++` is not allowed on a map"
+            "vi": "Lỗi biên dịch: `counts[w]++` không hợp lệ với phần tử map, phải viết `counts[w] = counts[w] + 1`",
+            "en": "Compile error: `counts[w]++` is not allowed on a map element; write `counts[w] = counts[w] + 1`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Panic `index out of range`",
-            "en": "It panics with `index out of range`"
+            "vi": "Panic `index out of range` vì map chưa có capacity",
+            "en": "It panics with `index out of range`, because the map has no capacity yet"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Panic `assignment to entry in nil map` vì map chưa được `make`",
-            "en": "It panics with `assignment to entry in nil map` because the map was never created with `make`"
+            "vi": "Panic vì `counts` là map `nil`, chưa được tạo bằng `make`",
+            "en": "It panics: `counts` is a `nil` map that was never created with `make`"
           }
         },
         {
@@ -411,22 +411,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Khi đăng ký type trong hàm `init()`",
-            "en": "When the type is registered in an `init()` function"
+            "vi": "Khi đăng ký type với interface trong hàm `init()`",
+            "en": "When the type is registered with the interface in an `init()` function"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Khi nó có đủ tất cả method của interface, không cần khai báo gì thêm",
-            "en": "When it has all the interface's methods; no explicit declaration is needed"
+            "vi": "Khi nó có đủ mọi method của interface, không cần khai báo thêm",
+            "en": "When it has all the interface's methods; no declaration needed"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Khi khai báo `type T struct{} implements Reader`",
-            "en": "When declared as `type T struct{} implements Reader`"
+            "vi": "Khi type khai báo tường minh, như `type T struct{} implements Reader`",
+            "en": "When the type declares it explicitly, as in `type T struct{} implements Reader`"
           }
         },
         {
@@ -458,22 +458,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Chỉ khi type được dùng như interface",
-            "en": "Only when the type is used through an interface"
+            "vi": "Chỉ khi type được dùng qua interface, để thoả method set của interface",
+            "en": "Only when the type is used through an interface, to satisfy its method set"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Không bao giờ, vì Go không cho gọi pointer method trên biến thường",
-            "en": "Never, because Go cannot call pointer methods on regular variables"
+            "vi": "Không bao giờ, vì Go không cho gọi pointer method trên biến thường (không phải con trỏ)",
+            "en": "Never, because Go cannot call pointer methods on regular (non-pointer) variables"
           }
         },
         {
           "id": "c",
           "text": {
             "vi": "Khi method cần thay đổi receiver hoặc struct lớn, tránh sao chép",
-            "en": "When the method must modify the receiver, or the struct is large and copying is costly"
+            "en": "When the method modifies the receiver, or the struct is costly to copy"
           }
         },
         {
@@ -643,15 +643,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "Interface `error` trả về chứa (type `*MyErr`, value `nil`) nên khác `nil`; cần `return nil` trực tiếp",
-            "en": "The returned `error` holds (type `*MyErr`, value `nil`), so it is not `nil`; return a literal `nil` instead"
+            "vi": "Interface `error` chứa (type `*MyErr`, value `nil`) nên khác `nil`; hãy `return nil` trực tiếp",
+            "en": "The `error` holds (type `*MyErr`, value `nil`), so it is not `nil`; `return nil` instead"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`var e *MyErr` tự cấp phát một `MyErr` mới",
-            "en": "`var e *MyErr` automatically allocates a new `MyErr`"
+            "vi": "`var e *MyErr` tự cấp phát một `MyErr` zero nên `e` không bao giờ là `nil`",
+            "en": "`var e *MyErr` automatically allocates a zero `MyErr`, so `e` is never `nil`"
           }
         },
         {
@@ -694,8 +694,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Có, Go tự lấy địa chỉ `&Cat{}` khi gán vào interface",
-            "en": "Yes, Go automatically takes `&Cat{}` when assigning to an interface"
+            "vi": "Có: Go tự lấy địa chỉ `&Cat{}` khi gán một giá trị vào interface",
+            "en": "Yes: Go automatically takes the address `&Cat{}` when assigning a value to an interface"
           }
         },
         {
@@ -815,28 +815,28 @@
           "id": "a",
           "text": {
             "vi": "Một interface built-in có duy nhất method `Error() string`",
-            "en": "A built-in interface with a single method `Error() string`"
+            "en": "A built-in interface with one method, `Error() string`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Một struct có field `Message` và `Code`",
-            "en": "A struct with `Message` and `Code` fields"
+            "vi": "Một struct có field `Message` và `Code` thuộc package `errors`",
+            "en": "A struct with `Message` and `Code` fields from package `errors`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Một lớp exception được ném bằng `throw`",
-            "en": "An exception class raised with `throw`"
+            "vi": "Một lớp exception được ném bằng `throw` và bắt bằng `catch`",
+            "en": "An exception class raised with `throw` and caught with `catch`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Một số nguyên mã lỗi giống `errno` của C",
-            "en": "An integer error code like C's `errno`"
+            "vi": "Một số nguyên mã lỗi giống `errno` của C, được gán sau mỗi lời gọi thất bại",
+            "en": "An integer error code like C's `errno`, set by every failing call"
           }
         }
       ],
@@ -861,15 +861,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Ghi lỗi vào một biến toàn cục rồi kiểm tra sau",
-            "en": "Store the error in a global variable and check it later"
+            "vi": "Ghi lỗi vào một biến cấp package rồi kiểm tra sau cả chuỗi lời gọi",
+            "en": "Store the error in a package-level variable and check it after the call chain"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Trả `error` làm giá trị cuối cùng và kiểm tra ngay bằng `if err != nil`",
-            "en": "Return `error` as the last result and check it immediately with `if err != nil`"
+            "vi": "Trả `error` làm giá trị cuối và kiểm tra ngay bằng `if err != nil`",
+            "en": "Return `error` as the last result and check `if err != nil` right away"
           }
         },
         {
@@ -882,8 +882,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Dùng `panic` cho mọi lỗi rồi `recover` ở `main`",
-            "en": "`panic` for every error and `recover` in `main`"
+            "vi": "Dùng `panic` cho mọi lỗi rồi `recover` một lần ở `main` để ghi log và chạy tiếp",
+            "en": "`panic` on every error and `recover` once in `main` to log it and continue"
           }
         }
       ],
@@ -953,15 +953,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Khi người dùng nhập dữ liệu không hợp lệ",
-            "en": "When the user submits invalid input"
+            "vi": "Khi người dùng nhập dữ liệu không hợp lệ, không qua được validate trong handler",
+            "en": "When the user submits invalid input that fails validation in a handler"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Trong thư viện, thay cho việc trả `error` để code gọn hơn",
-            "en": "In libraries, instead of returning `error`, to keep code shorter"
+            "vi": "Trong thư viện, thay cho việc trả `error`, vì caller luôn có thể `recover` và API gọn hơn",
+            "en": "In library code instead of returning `error`, since callers can always `recover` and APIs stay shorter"
           }
         },
         {
@@ -974,8 +974,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Khi gặp lỗi lập trình hoặc trạng thái không thể tiếp tục, ví dụ vi phạm bất biến hay cấu hình bắt buộc thiếu lúc khởi động",
-            "en": "For programmer errors or states you cannot continue from, e.g. a broken invariant or missing mandatory config at startup"
+            "vi": "Khi gặp lỗi lập trình hoặc trạng thái không thể tiếp tục, ví dụ vi phạm bất biến hay thiếu cấu hình bắt buộc lúc khởi động",
+            "en": "For bugs or unrecoverable states, e.g. a broken invariant or missing required config at startup"
           }
         }
       ],
@@ -1043,8 +1043,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`errors.Is` chỉ hoạt động với lỗi tạo bằng `errors.New`",
-            "en": "`errors.Is` only works with errors created by `errors.New`"
+            "vi": "`errors.Is` chỉ khớp với lỗi tạo bằng `errors.New`, không khớp lỗi từ `fmt.Errorf`",
+            "en": "`errors.Is` only matches errors created by `errors.New`, not by `fmt.Errorf`"
           }
         },
         {
@@ -1057,15 +1057,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "`os.ReadFile` không bao giờ trả `fs.ErrNotExist`",
-            "en": "`os.ReadFile` never returns `fs.ErrNotExist`"
+            "vi": "`os.ReadFile` không bao giờ trả `fs.ErrNotExist`, chỉ trả `*os.SyscallError` thông thường",
+            "en": "`os.ReadFile` never returns `fs.ErrNotExist`, only a plain `*os.SyscallError`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Phải trả `data` thay vì `nil` khi có lỗi",
-            "en": "It must return `data` instead of `nil` on error"
+            "vi": "Phải trả `data` thay vì `nil` khi có lỗi để caller còn kiểm tra được",
+            "en": "It must return `data` instead of `nil` on error so the caller can inspect it"
           }
         }
       ],
@@ -1179,29 +1179,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "In `done` vì `recover` trong `main` đã bắt panic",
-            "en": "It prints `done` because `recover` in `main` catches the panic"
+            "vi": "In `done` vì `recover` được defer trong `main` bắt panic của mọi goroutine",
+            "en": "It prints `done` because the deferred `recover` in `main` catches panics from all goroutines"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Chỉ goroutine con chết lặng lẽ, sau đó in `done`",
-            "en": "Only the child goroutine dies silently, then `done` is printed"
+            "vi": "Chỉ goroutine con chết lặng lẽ, sau đó `main` vẫn in `done` như bình thường",
+            "en": "Only the child goroutine dies silently, then `main` prints `done` as usual"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Lỗi biên dịch vì `recover()` không dùng giá trị trả về",
-            "en": "Compile error because the result of `recover()` is unused"
+            "vi": "Lỗi biên dịch, vì giá trị trả về của `recover()` không được dùng tới",
+            "en": "Compile error, because the value returned by `recover()` is never used"
           }
         },
         {
           "id": "d",
           "text": {
             "vi": "Crash cả chương trình với `panic: worker failed`, `done` không được in",
-            "en": "The whole program crashes with `panic: worker failed`; `done` is never printed"
+            "en": "The program crashes with `panic: worker failed`; `done` never prints"
           }
         }
       ],
@@ -1310,22 +1310,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Lỗi biên dịch",
-            "en": "Compile error"
+            "vi": "Lỗi biên dịch: một hàm không được vừa gửi vừa nhận trên cùng một unbuffered channel",
+            "en": "Compile error: one function cannot both send and receive on the same unbuffered channel"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`fatal error: all goroutines are asleep - deadlock!` vì gửi vào unbuffered channel phải chờ người nhận",
-            "en": "`fatal error: all goroutines are asleep - deadlock!` because a send on an unbuffered channel waits for a receiver"
+            "vi": "Lỗi `all goroutines are asleep - deadlock!`: lệnh gửi không có ai nhận",
+            "en": "It fails with `all goroutines are asleep - deadlock!`: the send has no receiver"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "In ra `42`",
-            "en": "It prints `42`"
+            "vi": "In ra `42`, vì runtime giữ tạm lệnh gửi cho tới khi `<-ch` ở dòng sau chạy",
+            "en": "It prints `42`, because the runtime holds the send until `<-ch` runs on the next line"
           }
         },
         {
@@ -1409,22 +1409,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Phải đóng mọi channel, nếu không sẽ rò rỉ bộ nhớ",
-            "en": "Every channel must be closed or it leaks memory"
+            "vi": "Phải đóng mọi channel, nếu không sẽ rò rỉ bộ nhớ sau khi goroutine kết thúc",
+            "en": "Every channel must be closed, or it leaks memory after the goroutines exit"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Đóng channel hai lần là an toàn, lần thứ hai bị bỏ qua",
-            "en": "Closing a channel twice is safe; the second close is ignored"
+            "vi": "Đóng channel hai lần là an toàn, lần `close` thứ hai bị bỏ qua một cách lặng lẽ",
+            "en": "Closing a channel twice is safe; the second `close` is silently ignored"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Gửi vào channel đã đóng sẽ panic, nên bên gửi (owner) mới là bên đóng channel",
-            "en": "Sending on a closed channel panics, so the sender (owner) should be the one closing it"
+            "vi": "Gửi vào channel đã đóng sẽ panic, nên bên gửi mới là bên đóng",
+            "en": "Sending on a closed channel panics, so the sender should close it"
           }
         }
       ],
@@ -1505,22 +1505,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Khi timeout, không còn ai nhận nên goroutine kẹt mãi ở `ch <- ...`; dùng `make(chan string, 1)`",
-            "en": "On timeout nobody receives, so the goroutine blocks forever on `ch <- ...`; use `make(chan string, 1)`"
+            "vi": "Sau khi timeout không còn ai nhận nên goroutine gửi kẹt mãi; dùng `make(chan string, 1)`",
+            "en": "After a timeout nobody receives, so the sender blocks forever; use `make(chan string, 1)`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`ctx.Err()` luôn trả `nil` nên caller thử lại liên tục",
-            "en": "`ctx.Err()` always returns `nil`, so callers retry forever"
+            "vi": "`ctx.Err()` luôn trả `nil` sau khi `ctx.Done()` kích hoạt, nên caller thử lại liên tục và sinh thêm goroutine",
+            "en": "`ctx.Err()` always returns `nil` after `ctx.Done()` fires, so callers keep retrying and spawning more"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`select` thiếu nhánh `default`",
-            "en": "The `select` is missing a `default` branch"
+            "vi": "`select` thiếu nhánh `default` nên không bao giờ return",
+            "en": "The `select` is missing a `default` branch, so it never returns"
           }
         }
       ],
@@ -1625,8 +1625,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Cấp phát buffer 1 phần tử trên heap rồi để receiver tự đọc sau",
-            "en": "It allocates a one-element heap buffer and lets the receiver read it later"
+            "vi": "Cấp phát buffer 1 phần tử trên heap, lưu giá trị vào đó rồi để receiver tự đọc sau",
+            "en": "It allocates a one-element heap buffer, stores the value there and lets the receiver read it later"
           }
         },
         {
@@ -1646,8 +1646,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Lấy receiver đang chờ khỏi `recvq`, copy giá trị thẳng vào stack của nó rồi đánh dấu nó runnable",
-            "en": "It dequeues the waiting receiver from `recvq`, copies the value straight into its stack and marks it runnable"
+            "vi": "Copy giá trị thẳng cho receiver đang chờ trong `recvq` rồi đánh dấu nó runnable",
+            "en": "It copies the value straight to the receiver waiting in `recvq` and marks it runnable"
           }
         }
       ],
@@ -1672,29 +1672,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Chờ một nhóm goroutine chạy xong bằng `Add`, `Done`, `Wait`",
-            "en": "Waiting for a group of goroutines to finish via `Add`, `Done` and `Wait`"
+            "vi": "Chờ các goroutine chạy xong bằng `Add`, `Done`, `Wait`",
+            "en": "Waiting for goroutines to finish via `Add`, `Done` and `Wait`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Khoá một vùng dữ liệu dùng chung giống `Mutex`",
-            "en": "Locking shared data like a `Mutex`"
+            "vi": "Khoá vùng dữ liệu dùng chung giống `Mutex` nhưng cho nhiều reader đọc cùng lúc",
+            "en": "Locking shared data like a `Mutex`, but allowing several readers at once"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Giới hạn số goroutine chạy cùng lúc",
-            "en": "Limiting how many goroutines run at once"
+            "vi": "Giới hạn số goroutine chạy cùng lúc theo con số truyền vào `Add`",
+            "en": "Limiting how many goroutines run at once, using the count passed to `Add`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Huỷ các goroutine đang chạy",
-            "en": "Cancelling running goroutines"
+            "vi": "Huỷ các goroutine đang chạy ngay khi một goroutine trả về lỗi",
+            "en": "Cancelling running goroutines once one of them returns an error"
           }
         }
       ],
@@ -1719,29 +1719,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "`go mod verify`",
-            "en": "`go mod verify`"
+            "vi": "`go mod verify`, lệnh này cũng phát hiện code đồng thời không an toàn",
+            "en": "`go mod verify`, which also detects unsafe concurrent code"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Chạy với cờ `-race`, ví dụ `go test -race ./...`",
-            "en": "Running with the `-race` flag, e.g. `go test -race ./...`"
+            "vi": "Cờ `-race`, ví dụ `go test -race ./...`",
+            "en": "The `-race` flag, e.g. `go test -race ./...`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`gofmt -l .`",
-            "en": "`gofmt -l .`"
+            "vi": "`gofmt -l .`, lệnh này liệt kê các file có truy cập không đồng bộ",
+            "en": "`gofmt -l .`, which lists files with unsynchronised access"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`GODEBUG=gctrace=1`",
-            "en": "`GODEBUG=gctrace=1`"
+            "vi": "`GODEBUG=gctrace=1`, in ra các truy cập không đồng bộ trong lúc GC",
+            "en": "`GODEBUG=gctrace=1`, which logs unsynchronised accesses during GC"
           }
         }
       ],
@@ -1770,8 +1770,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`wg.Wait()` trả về trước khi goroutine chạy xong",
-            "en": "`wg.Wait()` returns before the goroutines finish"
+            "vi": "`wg.Wait()` trả về ngay khi goroutine đầu tiên gọi `Done`, trước khi các goroutine khác xong",
+            "en": "`wg.Wait()` returns as soon as the first goroutine calls `Done`, before the rest finish"
           }
         },
         {
@@ -1784,15 +1784,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Data race: `count++` là đọc-sửa-ghi không atomic; cần `sync.Mutex` hoặc `atomic.Int64`",
-            "en": "Data race: `count++` is a non-atomic read-modify-write; use a `sync.Mutex` or `atomic.Int64`"
+            "vi": "Data race: `count++` không atomic; cần `sync.Mutex` hoặc `atomic.Int64`",
+            "en": "Data race: `count++` is not atomic; use a `sync.Mutex` or `atomic.Int64`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`wg.Add(1)` phải đặt bên trong goroutine",
-            "en": "`wg.Add(1)` must be inside the goroutine"
+            "en": "`wg.Add(1)` must be inside the goroutine, just before its `defer wg.Done()`",
+            "vi": "`wg.Add(1)` phải đặt bên trong goroutine, ngay trước `defer wg.Done()` của nó"
           }
         }
       ],
@@ -1817,29 +1817,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Vì timeout chỉ bắt đầu đếm sau khi gọi `cancel`",
-            "en": "Because the timeout only starts counting after `cancel` is called"
+            "vi": "Vì timeout chỉ bắt đầu đếm sau khi gọi `cancel`, thiếu nó thì context không bao giờ hết hạn",
+            "en": "Because the timeout only starts counting after `cancel` is called, so without it the context never expires"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Vì thiếu `cancel` sẽ bị lỗi biên dịch",
-            "en": "Because omitting `cancel` causes a compile error"
+            "vi": "Vì thiếu `cancel` sẽ bị type checker báo lỗi biên dịch",
+            "en": "Because omitting `cancel` is a compile error reported by the type checker"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Vì `cancel` sẽ tự retry các thao tác bị timeout",
-            "en": "Because `cancel` automatically retries timed-out operations"
+            "vi": "Vì `cancel` sẽ tự retry các thao tác bị dính timeout",
+            "en": "Because `cancel` automatically retries operations that hit the timeout"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Để giải phóng timer và liên kết với context cha ngay khi xong việc, thay vì giữ tới lúc hết hạn",
-            "en": "To release the timer and the link to the parent context as soon as the work is done, instead of holding them until the deadline"
+            "vi": "Để giải phóng timer và liên kết với context cha ngay khi xong việc",
+            "en": "To release the timer and the parent link as soon as the work is done"
           }
         }
       ],
@@ -1868,15 +1868,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "`wg.Add(1)` phải gọi trước lệnh `go`, nếu không `Wait` có thể thấy bộ đếm bằng 0 và return sớm",
-            "en": "`wg.Add(1)` must be called before the `go` statement, otherwise `Wait` may see a zero counter and return early"
+            "vi": "`wg.Add(1)` phải chạy trước `go`, nếu không `Wait` có thể thấy bộ đếm bằng 0 và return sớm",
+            "en": "`wg.Add(1)` must run before `go`, or `Wait` may see a zero counter and return early"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Mọi goroutine dùng chung biến `url` nên fetch trùng URL",
-            "en": "All goroutines share `url`, so they fetch the same URL"
+            "vi": "Mọi goroutine dùng chung biến lặp `url` nên fetch trùng một URL",
+            "en": "All goroutines share the loop variable `url`, so they fetch the same URL"
           }
         },
         {
@@ -1926,22 +1926,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Value receiver sao chép cả `Mutex`, mỗi lần gọi khoá một bản sao riêng; phải dùng `func (s *SafeMap)`",
-            "en": "The value receiver copies the `Mutex`, so each call locks its own copy; use `func (s *SafeMap)`"
+            "vi": "Value receiver sao chép cả `Mutex`, mỗi lần gọi khoá một bản sao; phải dùng `*SafeMap`",
+            "en": "The value receiver copies the `Mutex`, so each call locks a copy; use `*SafeMap`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`defer s.mu.Unlock()` mở khoá trước khi tăng giá trị",
-            "en": "`defer s.mu.Unlock()` unlocks before the increment"
+            "en": "`defer s.mu.Unlock()` unlocks before the increment, as soon as the `defer` is registered",
+            "vi": "`defer s.mu.Unlock()` mở khoá trước khi tăng giá trị, ngay lúc `defer` được đăng ký"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Map trong struct bắt buộc phải là `sync.Map`",
-            "en": "A map inside a struct must be a `sync.Map`"
+            "vi": "Map trong struct bắt buộc phải là `sync.Map`, vì `Mutex` không bảo vệ được thao tác ghi map",
+            "en": "A map inside a struct must be a `sync.Map`, because `Mutex` cannot guard map writes"
           }
         }
       ],
@@ -2088,22 +2088,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "`sync.Pool` không an toàn khi dùng từ nhiều goroutine",
-            "en": "`sync.Pool` is not safe for use from multiple goroutines"
+            "vi": "`sync.Pool` không an toàn khi dùng đồng thời, nên mỗi goroutine cần một pool riêng",
+            "en": "`sync.Pool` is not safe for concurrent use, so each goroutine needs its own pool"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Object đã `Put` vào pool không bao giờ bị GC thu hồi",
-            "en": "Objects `Put` into the pool are never reclaimed by the GC"
+            "vi": "Object đã `Put` vào pool không bao giờ bị GC thu hồi, nên bộ nhớ của pool chỉ tăng dần theo thời gian",
+            "en": "Objects `Put` into the pool are never reclaimed by the GC, so the pool's memory only grows over time"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Object trong pool có thể bị dọn ở bất kỳ chu kỳ GC nào, nên chỉ hợp để tái sử dụng object tạm như buffer, không dùng làm connection pool",
-            "en": "Pooled objects may be dropped at any GC cycle, so it only suits reusing temporary objects like buffers, not as a connection pool"
+            "vi": "Object trong pool có thể bị dọn ở bất kỳ lần GC nào, nên hợp cho buffer tạm chứ không dùng cho connection",
+            "en": "Pooled objects may be dropped at any GC, so it suits temporary buffers, not connections"
           }
         }
       ],
@@ -2180,22 +2180,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "`make` chỉ dùng cho slice, map, channel và trả về giá trị đã khởi tạo sẵn sàng dùng; `new(T)` trả `*T` trỏ tới zero value",
-            "en": "`make` is only for slices, maps and channels and returns an initialised, ready-to-use value; `new(T)` returns a `*T` pointing to a zero value"
+            "vi": "`make` chỉ dùng cho slice, map, channel và trả về chính giá trị; `new(T)` trả `*T` trỏ tới zero value",
+            "en": "`make` only builds slices, maps and channels and returns the value; `new(T)` returns a `*T` to a zero `T`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`new` cấp phát trên heap, `make` cấp phát trên stack",
-            "en": "`new` allocates on the heap, `make` on the stack"
+            "vi": "`new` luôn cấp phát trên heap và cần GC dọn, còn `make` cấp phát trên stack và được giải phóng khi hàm return",
+            "en": "`new` always allocates on the heap and needs the GC, while `make` allocates on the stack and is freed on return"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`make` trả về con trỏ, `new` trả về giá trị",
-            "en": "`make` returns a pointer, `new` returns a value"
+            "vi": "`make` trả về con trỏ tới giá trị mới, còn `new` trả về chính giá trị",
+            "en": "`make` returns a pointer to the new value, while `new` returns the value itself"
           }
         }
       ],
@@ -2305,8 +2305,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Slice 16 byte vẫn trỏ tới mảng 100 MB nên GC không thu hồi được; nên `bytes.Clone(data[:16])` hoặc `copy` sang slice mới",
-            "en": "The 16-byte slice still points to the 100 MB array, so the GC cannot free it; use `bytes.Clone(data[:16])` or `copy` into a new slice"
+            "vi": "Slice 16 byte giữ cả mảng 100 MB không cho GC thu hồi; hãy copy ra bằng `bytes.Clone(data[:16])`",
+            "en": "The 16-byte slice keeps the 100 MB array alive; copy it out with `bytes.Clone(data[:16])`"
           }
         },
         {
@@ -2319,8 +2319,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "`os.ReadFile` cấp phát trên stack nên dữ liệu bị mất khi hàm return",
-            "en": "`os.ReadFile` allocates on the stack, so the data is lost when the function returns"
+            "vi": "`os.ReadFile` cấp phát trên stack nên các byte trả về không còn hợp lệ sau khi hàm return",
+            "en": "`os.ReadFile` allocates on the stack, so the returned bytes become invalid once the function returns"
           }
         },
         {
@@ -2356,15 +2356,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Chạy được nhưng `Name` luôn là chuỗi rỗng",
-            "en": "It runs, but `Name` is always an empty string"
+            "vi": "Chạy được nhưng `Name` trong kết quả luôn là chuỗi rỗng",
+            "en": "It runs, but `Name` is always an empty string in the result"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "An toàn: escape analysis nhận ra `u` thoát khỏi hàm và cấp phát nó trên heap",
-            "en": "It is safe: escape analysis sees that `u` escapes and allocates it on the heap"
+            "vi": "An toàn: escape analysis chuyển `u` lên heap",
+            "en": "It is safe: escape analysis moves `u` to the heap"
           }
         },
         {
@@ -2377,8 +2377,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Lỗi biên dịch, phải dùng `new(User)`",
-            "en": "Compile error; you must use `new(User)`"
+            "vi": "Lỗi biên dịch, phải cấp phát bằng `new(User)` thay vào đó",
+            "en": "Compile error; you must allocate it with `new(User)` instead"
           }
         }
       ],
@@ -2417,15 +2417,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "GC tiếp theo được kích hoạt khi heap tăng thêm khoảng 100% so với heap còn sống sau lần GC trước; `GOMEMLIMIT` là giới hạn mềm khiến GC chạy dày hơn khi gần chạm ngưỡng",
-            "en": "The next GC triggers when the heap grows by about 100% over the live heap after the last GC; `GOMEMLIMIT` is a soft limit that makes the GC run more often near the threshold"
+            "vi": "GC chạy khi heap tăng khoảng 100% so với heap còn sống sau lần GC trước; `GOMEMLIMIT` là giới hạn mềm",
+            "en": "GC triggers when the heap grows ~100% over the live heap after the last GC; `GOMEMLIMIT` is a soft limit"
           }
         },
         {
           "id": "d",
           "text": {
             "vi": "GC chạy mỗi 100 ms; `GOMEMLIMIT` là giới hạn cứng, vượt quá sẽ bị OOM ngay",
-            "en": "GC runs every 100 ms; `GOMEMLIMIT` is a hard limit that triggers an immediate OOM when exceeded"
+            "en": "GC runs every 100 ms; `GOMEMLIMIT` is a hard limit that triggers an immediate OOM"
           }
         }
       ],
@@ -2625,29 +2625,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "`r.URL.Query().Get` panic khi không có tham số",
-            "en": "`r.URL.Query().Get` panics when the parameter is missing"
+            "vi": "`r.URL.Query().Get` panic khi URL không có tham số `id`",
+            "en": "`r.URL.Query().Get` panics when the `id` parameter is missing from the URL"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Phải dùng `context.Background()` thay vì `r.Context()`",
-            "en": "It must use `context.Background()` instead of `r.Context()`"
+            "vi": "Phải dùng `context.Background()` thay vì `r.Context()`, vốn đã bị huỷ ở thời điểm này",
+            "en": "It must use `context.Background()` instead of `r.Context()`, which is already cancelled here"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Thiếu `return` sau `http.Error` đầu tiên nên handler chạy tiếp và ghi thêm response",
-            "en": "A `return` is missing after the first `http.Error`, so the handler keeps running and writes more output"
+            "vi": "Thiếu `return` sau `http.Error` đầu tiên nên handler chạy tiếp và ghi thêm",
+            "en": "No `return` after the first `http.Error`, so the handler goes on writing"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`http.Error` phải được gọi sau `json.NewEncoder`",
-            "en": "`http.Error` must be called after `json.NewEncoder`"
+            "en": "`http.Error` must only be called after `json.NewEncoder` has written the body",
+            "vi": "`http.Error` chỉ được gọi sau khi `json.NewEncoder` đã ghi body"
           }
         }
       ],
@@ -2711,15 +2711,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Dùng `http.Client` có `Timeout` (client mặc định không có timeout) và luôn `defer resp.Body.Close()` sau khi kiểm tra `err`",
-            "en": "Use an `http.Client` with a `Timeout` (the default client has none) and always `defer resp.Body.Close()` after checking `err`"
+            "vi": "Dùng `http.Client` có `Timeout` và luôn `defer resp.Body.Close()` sau khi kiểm tra `err`",
+            "en": "Use an `http.Client` with a `Timeout` and always `defer resp.Body.Close()` after checking `err`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`http.DefaultClient` có sẵn timeout 30 giây nên dùng trực tiếp là đủ",
-            "en": "`http.DefaultClient` has a 30-second timeout, so using it directly is fine"
+            "vi": "`http.DefaultClient` có sẵn `Timeout` 30 giây nên dùng trực tiếp là đủ",
+            "en": "`http.DefaultClient` has a 30-second `Timeout`, so using it directly is fine"
           }
         },
         {
@@ -2765,15 +2765,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "Server không có timeout nào, client chậm (slowloris) có thể giữ kết nối mãi; nên tạo `http.Server` với `ReadHeaderTimeout`, `ReadTimeout`, `WriteTimeout`, `IdleTimeout`",
-            "en": "The server has no timeouts, so slow clients (slowloris) can hold connections forever; build an `http.Server` with `ReadHeaderTimeout`, `ReadTimeout`, `WriteTimeout` and `IdleTimeout`"
+            "vi": "Không có timeout nào nên client chậm (slowloris) có thể giữ kết nối mãi; hãy dùng `http.Server` có cấu hình timeout",
+            "en": "No timeouts are set, so slow clients (slowloris) can hold connections; use an `http.Server` with timeouts"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Server chỉ xử lý một request tại một thời điểm",
-            "en": "The server handles only one request at a time"
+            "vi": "Server chỉ xử lý một request mỗi lúc vì `ListenAndServe` chạy mux trong một goroutine duy nhất",
+            "en": "The server handles only one request at a time, because `ListenAndServe` runs the mux in a single goroutine"
           }
         },
         {
@@ -2843,8 +2843,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Hàm tên bắt đầu bằng `test` viết thường trong bất kỳ file nào",
-            "en": "A function starting with lowercase `test` in any file"
+            "vi": "Hàm có tên bắt đầu bằng `test` viết thường, trong bất kỳ file `.go` nào của package",
+            "en": "A function whose name starts with lowercase `test`, in any `.go` file of the package"
           }
         },
         {
@@ -2864,8 +2864,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "File nằm trong thư mục `tests/` và hàm có annotation `@Test`",
-            "en": "A file in a `tests/` folder and a function annotated with `@Test`"
+            "vi": "File nằm trong thư mục `tests/` và hàm có annotation `@Test` hoặc `//go:test`",
+            "en": "A file inside a `tests/` folder and a function annotated with `@Test` or `//go:test`"
           }
         }
       ],
@@ -2890,29 +2890,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Định dạng lại toàn bộ code theo chuẩn `gofmt`",
-            "en": "Reformats all code to the `gofmt` style"
+            "vi": "Định dạng lại toàn bộ code theo chuẩn `gofmt` và sắp xếp import trong mọi file",
+            "en": "Reformats all code to the `gofmt` style and sorts the imports in every file"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Nâng mọi dependency lên phiên bản mới nhất",
-            "en": "Upgrades every dependency to its latest version"
+            "vi": "Nâng mọi dependency lên phiên bản minor mới nhất và ghi lại `go.sum`",
+            "en": "Upgrades every dependency to its latest minor version and rewrites `go.sum`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Xoá cache build trong `$GOPATH`",
-            "en": "Clears the build cache in `$GOPATH`"
+            "vi": "Xoá cache build và các module đã tải trong `$GOPATH/pkg/mod`",
+            "en": "Clears the build cache and deletes downloaded modules under `$GOPATH/pkg/mod`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Thêm dependency còn thiếu, xoá dependency không dùng và cập nhật `go.mod`, `go.sum` cho khớp với code",
-            "en": "Adds missing dependencies, removes unused ones and updates `go.mod` and `go.sum` to match the code"
+            "vi": "Thêm dependency còn thiếu, xoá dependency không dùng trong `go.mod` và `go.sum`",
+            "en": "Adds missing and removes unused dependencies in `go.mod` and `go.sum`"
           }
         }
       ],
@@ -2937,8 +2937,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`t.Errorf` đánh dấu fail rồi chạy tiếp, `t.Fatalf` đánh dấu fail và dừng test hiện tại ngay",
-            "en": "`t.Errorf` marks the test failed and continues; `t.Fatalf` marks it failed and stops the current test immediately"
+            "vi": "`Errorf` đánh dấu fail rồi chạy tiếp; `Fatalf` đánh dấu fail và dừng test hiện tại ngay",
+            "en": "`Errorf` marks the test failed and continues; `Fatalf` also stops the current test"
           }
         },
         {
@@ -2951,8 +2951,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "`t.Fatalf` dừng toàn bộ chương trình `go test` và mọi package",
-            "en": "`t.Fatalf` stops the whole `go test` run across all packages"
+            "vi": "`t.Fatalf` dừng toàn bộ lần chạy `go test`, bỏ qua các test còn lại ở mọi package",
+            "en": "`t.Fatalf` stops the whole `go test` run, skipping the remaining tests in every package"
           }
         },
         {
@@ -3064,8 +3064,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`b.N` luôn cố định bằng 1000",
-            "en": "`b.N` is always fixed at 1000"
+            "vi": "`b.N` luôn cố định 1000 lần lặp cho mỗi benchmark",
+            "en": "`b.N` is always fixed at 1000 iterations per benchmark"
           }
         },
         {
@@ -3078,15 +3078,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Hàm `BenchmarkXxx(b *testing.B)` chạy thao tác trong vòng lặp `b.N` lần (hoặc `for b.Loop()` từ Go 1.24); chạy bằng `go test -bench=. -benchmem`",
-            "en": "A `BenchmarkXxx(b *testing.B)` runs the operation in a `b.N` loop (or `for b.Loop()` since Go 1.24); run it with `go test -bench=. -benchmem`"
+            "vi": "Hàm `BenchmarkXxx(b *testing.B)` lặp `b.N` lần (hoặc `for b.Loop()`); chạy bằng `go test -bench=.`",
+            "en": "`BenchmarkXxx(b *testing.B)` loops `b.N` times (or `for b.Loop()`); run it with `go test -bench=.`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`go test` mặc định chạy luôn mọi benchmark",
-            "en": "`go test` runs all benchmarks by default"
+            "vi": "`go test` mặc định chạy mọi benchmark sau unit test",
+            "en": "`go test` runs all benchmarks by default after the unit tests"
           }
         }
       ],
@@ -3115,15 +3115,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Không, vì `Celsius` không phải `float64`",
-            "en": "No, because `Celsius` is not `float64`"
+            "vi": "Không, vì `Celsius` là named type riêng nên không thuộc type set của `float64`",
+            "en": "No, because `Celsius` is a distinct named type and is not in the `float64` type set"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Không, vì toán tử `+=` không dùng được với type parameter",
-            "en": "No, because `+=` cannot be used with a type parameter"
+            "vi": "Không, vì toán tử như `+=` không áp dụng được cho giá trị kiểu type parameter `T`",
+            "en": "No, because operators like `+=` cannot be applied to values of a type parameter `T`"
           }
         },
         {
@@ -3136,8 +3136,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Có, in `4` vì `~float64` bao gồm mọi type có underlying type là `float64`",
-            "en": "Yes, it prints `4` because `~float64` includes every type whose underlying type is `float64`"
+            "vi": "Có, in `4`: `~float64` bao gồm các type có underlying type là `float64`",
+            "en": "Yes, it prints `4`: `~float64` covers types whose underlying type is `float64`"
           }
         }
       ],
@@ -3145,6 +3145,1826 @@
       "explanation": {
         "vi": "Dấu `~` trong constraint nghĩa là \"mọi type có underlying type này\", nên `Celsius` (underlying `float64`) thoả `Number`. Nếu viết `int | float64` không có `~`, lời gọi sẽ lỗi biên dịch vì `Celsius` không thuộc type set. `+=` hợp lệ vì mọi type trong type set đều hỗ trợ `+`. `fmt.Println` in `float64` bằng `%v` nên `4.0` hiển thị là `4`.",
         "en": "The `~` in a constraint means \"any type with this underlying type\", so `Celsius` (underlying `float64`) satisfies `Number`. Writing `int | float64` without `~` would make the call a compile error, because `Celsius` is not in the type set. `+=` is allowed because every type in the type set supports `+`. `fmt.Println` formats a float with `%v`, so `4.0` prints as `4`."
+      }
+    },
+    {
+      "id": "go.basics.010",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Sau `var i int; var s string; var p *int; var ok bool`, các biến có giá trị gì?",
+        "en": "After `var i int; var s string; var p *int; var ok bool`, what are the values?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`0`, `\"\"`, `nil`, `false`",
+            "en": "`0`, `\"\"`, `nil`, `false`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chưa được khởi tạo, đọc chúng là lỗi biên dịch",
+            "en": "Uninitialized; reading them is a compile error"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`0`, `nil`, `nil`, `false`",
+            "en": "`0`, `nil`, `nil`, `false`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Giá trị rác tùy theo bộ nhớ",
+            "en": "Garbage values depending on memory"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Go luôn khởi tạo biến bằng zero value của kiểu: số là `0`, chuỗi là `\"\"`, `bool` là `false`, còn pointer, slice, map, channel, function và interface là `nil`. Chuỗi trong Go là kiểu giá trị nên không bao giờ là `nil`. Nhờ zero value, Go không có giá trị rác như C, và nhiều kiểu (như `sync.Mutex`, `bytes.Buffer`) dùng được ngay mà không cần khởi tạo.",
+        "en": "Go always initializes variables to their type's zero value: numbers are `0`, strings `\"\"`, `bool` is `false`, and pointers, slices, maps, channels, functions and interfaces are `nil`. Strings are value types in Go and are never `nil`. Thanks to zero values Go has no garbage values like C, and many types (such as `sync.Mutex`, `bytes.Buffer`) are ready to use without initialization."
+      }
+    },
+    {
+      "id": "go.basics.011",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "go",
+        "source": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tx := 2\n\tswitch x {\n\tcase 1:\n\t\tfmt.Print(\"one \")\n\tcase 2:\n\t\tfmt.Print(\"two \")\n\t\tfallthrough\n\tcase 3:\n\t\tfmt.Print(\"three \")\n\tdefault:\n\t\tfmt.Print(\"other \")\n\t}\n\tfmt.Println(\"end\")\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "two three end"
+        },
+        {
+          "id": "b",
+          "text": "two end"
+        },
+        {
+          "id": "c",
+          "text": "two three other end"
+        },
+        {
+          "id": "d",
+          "text": "one two three end"
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`switch` trong Go tự dừng sau mỗi `case`, không cần `break`, nên bình thường chỉ in `two`. Từ khóa `fallthrough` buộc chạy tiếp thân của `case` kế tiếp mà không kiểm tra điều kiện của nó, nên `three` cũng được in. `case 3` không có `fallthrough` nên dừng ở đó, `default` không chạy.",
+        "en": "Go's `switch` stops after each `case` automatically, without `break`, so normally only `two` would print. The `fallthrough` keyword forces execution into the next `case` body without checking its condition, so `three` prints too. `case 3` has no `fallthrough`, so it stops there and `default` does not run."
+      }
+    },
+    {
+      "id": "go.basics.012",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì? (`é` chiếm 2 byte trong UTF-8)",
+        "en": "What does the following code print? (`é` takes 2 bytes in UTF-8)"
+      },
+      "code": {
+        "language": "go",
+        "source": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfor i, r := range \"aéb\" {\n\t\tfmt.Printf(\"%d%c \", i, r)\n\t}\n\tfmt.Println()\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "0a 1é 2b"
+        },
+        {
+          "id": "b",
+          "text": "0a 1Ã 2© 3b"
+        },
+        {
+          "id": "c",
+          "text": "1a 2é 3b"
+        },
+        {
+          "id": "d",
+          "text": "0a 1é 3b"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`range` trên chuỗi giải mã từng rune UTF-8: biến đầu là vị trí byte bắt đầu của rune, biến thứ hai là rune (`int32`). `a` ở byte 0, `é` ở byte 1 và chiếm 2 byte, nên `b` bắt đầu ở byte 3. Kết quả `0a 1é 2b` là của người nghĩ chỉ số tính theo ký tự, còn `Ã`/`©` là kết quả khi duyệt theo từng byte bằng `s[i]`.",
+        "en": "`range` over a string decodes UTF-8 runes: the first variable is the starting byte offset of the rune, the second is the rune (`int32`). `a` is at byte 0, `é` starts at byte 1 and takes 2 bytes, so `b` starts at byte 3. `0a 1é 2b` assumes character indexes, and `Ã`/`©` is what you get by iterating bytes with `s[i]`."
+      }
+    },
+    {
+      "id": "go.basics.013",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với khối hằng số dưới đây, `KB` và `MB` có giá trị bao nhiêu?",
+        "en": "Given the constant block below, what are `KB` and `MB`?"
+      },
+      "code": {
+        "language": "go",
+        "source": "const (\n\t_  = iota\n\tKB = 1 << (10 * iota)\n\tMB\n)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`KB = 1`, `MB = 2`",
+            "en": "`KB = 1`, `MB = 2`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`KB = 1024`, `MB = 1048576`",
+            "en": "`KB = 1024`, `MB = 1048576`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`KB = 1024`, `MB = 1024`",
+            "en": "`KB = 1024`, `MB = 1024`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi biên dịch vì `MB` chưa được gán giá trị",
+            "en": "Compile error because `MB` has no value"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`iota` bắt đầu từ 0 và tăng 1 ở mỗi dòng trong khối `const`; dòng `_` dùng giá trị 0 và bỏ đi. `KB` ở dòng `iota = 1` nên bằng `1 << 10 = 1024`. Dòng không có biểu thức sẽ lặp lại biểu thức của dòng trước với `iota` mới, nên `MB = 1 << 20 = 1048576`, không phải copy giá trị 1024.",
+        "en": "`iota` starts at 0 and increases by 1 on each line of a `const` block; the `_` line consumes 0. `KB` is on the line where `iota = 1`, so it is `1 << 10 = 1024`. A line without an expression repeats the previous line's expression with the new `iota`, so `MB = 1 << 20 = 1048576`, not a copy of 1024."
+      }
+    },
+    {
+      "id": "go.basics.014",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "go",
+        "source": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tx := 1\n\tdefer fmt.Println(\"deferred\", x)\n\tx = 2\n\tfmt.Println(\"now\", x)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "now 2\ndeferred 1",
+            "en": "now 2\ndeferred 1"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "now 2\ndeferred 2",
+            "en": "now 2\ndeferred 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "deferred 1\nnow 2",
+            "en": "deferred 1\nnow 2"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "now 2",
+            "en": "now 2"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Lời gọi `defer` chạy khi hàm sắp return, nên `now 2` in trước. Nhưng các đối số của hàm được defer được tính ngay tại thời điểm gặp câu `defer`, lúc đó `x` vẫn là 1, nên in `deferred 1`. Muốn đọc giá trị mới nhất thì defer một closure: `defer func() { fmt.Println(\"deferred\", x) }()`.",
+        "en": "A deferred call runs when the function is about to return, so `now 2` prints first. However, the deferred function's arguments are evaluated immediately when the `defer` statement executes, when `x` is still 1, so it prints `deferred 1`. To read the latest value, defer a closure: `defer func() { fmt.Println(\"deferred\", x) }()`."
+      }
+    },
+    {
+      "id": "go.structs.010",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "structs",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Có thể so sánh hai giá trị struct bằng `==` trong Go không?",
+        "en": "Can you compare two struct values with `==` in Go?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Có, nếu mọi field đều so sánh được; có field slice, map hoặc func thì `==` lỗi biên dịch",
+            "en": "Yes, if every field is comparable; with a slice, map or func field, `==` won't compile"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không, struct luôn phải so sánh bằng `reflect.DeepEqual`",
+            "en": "No, structs must always be compared with `reflect.DeepEqual`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Có, nhưng `==` chỉ so sánh địa chỉ bộ nhớ của hai struct",
+            "en": "Yes, but `==` only compares the memory addresses of the two structs"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Có, với mọi struct; field slice và map được so sánh theo từng phần tử như `reflect.DeepEqual`",
+            "en": "Yes, for any struct; slice and map fields are compared element by element, like `reflect.DeepEqual`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Struct là kiểu giá trị và so sánh được bằng `==` khi tất cả field đều comparable; khi đó Go so sánh từng field theo giá trị, không phải theo địa chỉ. Slice, map và function không comparable (trừ so với `nil`), nên struct chứa chúng không dùng được `==` và cũng không làm key của map được. Với những struct đó, dùng `slices.Equal`, so sánh thủ công hoặc `reflect.DeepEqual` (chậm hơn, thường dùng trong test).",
+        "en": "Structs are value types and comparable with `==` when all their fields are comparable; Go then compares field by field by value, not by address. Slices, maps and functions are not comparable (except with `nil`), so structs holding them cannot use `==` and cannot be map keys either. For those, use `slices.Equal`, manual comparison or `reflect.DeepEqual` (slower, mostly in tests)."
+      }
+    },
+    {
+      "id": "go.structs.011",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "structs",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Go không có constructor. Cách khởi tạo struct theo quy ước phổ biến là gì?",
+        "en": "Go has no constructors. What is the conventional way to create a struct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khai báo method `init()` bên trong struct",
+            "en": "Declare an `init()` method inside the struct"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Viết hàm `NewUser(...) *User` để thiết lập giá trị mặc định và kiểm tra đầu vào",
+            "en": "Write a `NewUser(...) *User` function that sets defaults and validates input"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Định nghĩa method trùng tên với struct như `func (u *User) User()`, Go sẽ tự gọi khi tạo",
+            "en": "Define a method named after the struct, like `func (u *User) User()`, which Go calls on creation"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Dùng từ khóa `new User(...)` với tham số",
+            "en": "Use the `new User(...)` keyword with arguments"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Quy ước của Go là hàm factory tên `NewXxx` (hoặc `New` nếu package chỉ có một kiểu chính, như `bufio.NewReader`, `errors.New`). Hàm `init()` là hàm cấp package chạy khi khởi động, không phải constructor. `new(T)` chỉ cấp phát zero value và trả về `*T`, không nhận tham số. Nếu zero value của struct đã dùng được thì không cần hàm `New` nào cả.",
+        "en": "Go's convention is a factory function named `NewXxx` (or `New` when the package has one main type, like `bufio.NewReader`, `errors.New`). `init()` is a package-level function run at startup, not a constructor. `new(T)` only allocates a zero value and returns `*T`; it takes no arguments. If the struct's zero value is already usable, no `New` function is needed at all."
+      }
+    },
+    {
+      "id": "go.structs.012",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "structs",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "go",
+        "source": "package main\n\nimport \"fmt\"\n\ntype P struct{ N int }\n\nfunc main() {\n\ta := P{N: 1}\n\tb := a\n\tb.N = 2\n\tpa := &a\n\tpa.N = 3\n\tfmt.Println(a.N, b.N)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "3 3"
+        },
+        {
+          "id": "b",
+          "text": "1 2"
+        },
+        {
+          "id": "c",
+          "text": "3 2"
+        },
+        {
+          "id": "d",
+          "text": "2 2"
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Gán struct (`b := a`) sao chép toàn bộ giá trị, nên `b` là bản độc lập và `b.N = 2` không ảnh hưởng `a`. `pa` là pointer tới `a`, và `pa.N = 3` (Go tự dereference, tương đương `(*pa).N`) sửa trực tiếp `a`. Vì vậy `a.N` là 3 và `b.N` là 2.",
+        "en": "Assigning a struct (`b := a`) copies the whole value, so `b` is independent and `b.N = 2` does not affect `a`. `pa` points to `a`, and `pa.N = 3` (Go dereferences automatically, same as `(*pa).N`) modifies `a` directly. So `a.N` is 3 and `b.N` is 2."
+      }
+    },
+    {
+      "id": "go.structs.013",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "structs",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Mong đợi in `User(An)`, nhưng chương trình in `{An}`. Vì sao?",
+        "en": "Expected `User(An)`, but the program prints `{An}`. Why?"
+      },
+      "code": {
+        "language": "go",
+        "source": "package main\n\nimport \"fmt\"\n\ntype User struct{ Name string }\n\nfunc (u *User) String() string {\n\treturn \"User(\" + u.Name + \")\"\n}\n\nfunc main() {\n\tu := User{Name: \"An\"}\n\tfmt.Println(u)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Method phải tên là `ToString()` thì `fmt` mới gọi",
+            "en": "The method must be named `ToString()` for `fmt` to call it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`fmt.Println` không bao giờ gọi method của người dùng; chỉ `fmt.Printf(\"%s\")` mới gọi `String()`",
+            "en": "`fmt.Println` never calls user methods; only `fmt.Printf(\"%s\")` checks for a `String()` method"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`String()` có pointer receiver nên giá trị `u` không phải `fmt.Stringer`; hãy truyền `&u`",
+            "en": "`String()` has a pointer receiver, so the value `u` is not a `fmt.Stringer`; pass `&u`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Field `Name` phải viết thường thì `String()` mới đọc được",
+            "en": "The `Name` field must be lowercase for `String()` to read it"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`fmt` kiểm tra xem đối số có implement `fmt.Stringer` hay không. Method set của kiểu giá trị `User` không gồm các method pointer receiver, nên `User` không phải `Stringer` và `fmt` in theo định dạng mặc định `{An}`. Truyền `&u` (kiểu `*User`) hoặc khai báo `func (u User) String()` đều sửa được; với `String()` chỉ đọc dữ liệu, value receiver thường là lựa chọn an toàn. `Printf(\"%s\")` cũng gặp cùng vấn đề.",
+        "en": "`fmt` checks whether the argument implements `fmt.Stringer`. The method set of the value type `User` excludes pointer-receiver methods, so `User` is not a `Stringer` and `fmt` uses the default format `{An}`. Passing `&u` (a `*User`) or declaring `func (u User) String()` both fix it; for a read-only `String()`, a value receiver is usually the safe choice. `Printf(\"%s\")` has the same problem."
+      }
+    },
+    {
+      "id": "go.structs.014",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "structs",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích các nguyên tắc thiết kế interface trong Go: interface nhỏ, \"accept interfaces, return structs\", và khai báo interface ở phía sử dụng.",
+        "en": "Explain Go interface design principles: small interfaces, \"accept interfaces, return structs\", and declaring interfaces on the consumer side."
+      },
+      "keyPoints": [
+        {
+          "vi": "Kiểu implement interface ngầm định, chỉ cần có đủ method, không cần từ khóa `implements`",
+          "en": "Types satisfy interfaces implicitly by having the methods; there is no `implements` keyword"
+        },
+        {
+          "vi": "Interface nên nhỏ, thường 1-2 method như `io.Reader`, `io.Writer`, `fmt.Stringer`, dễ implement và dễ ghép",
+          "en": "Interfaces should be small, often 1-2 methods like `io.Reader`, `io.Writer`, `fmt.Stringer`, so they are easy to implement and compose"
+        },
+        {
+          "vi": "Hàm nên nhận interface để linh hoạt và dễ test, nhưng trả về kiểu cụ thể để người gọi dùng được đầy đủ",
+          "en": "Functions should accept interfaces for flexibility and testability but return concrete types so callers get the full API"
+        },
+        {
+          "vi": "Khai báo interface ở package sử dụng (consumer) với đúng các method nó cần, thay vì ở package cung cấp",
+          "en": "Declare the interface in the consuming package with exactly the methods it needs, rather than in the providing package"
+        },
+        {
+          "vi": "Không tạo interface trước khi có ít nhất hai implementation hoặc nhu cầu mock thật sự",
+          "en": "Do not create an interface before there are two implementations or a real need to mock"
+        }
+      ],
+      "explanation": {
+        "vi": "Vì implement là ngầm định, package dùng có thể tự định nghĩa interface hẹp (ví dụ `type UserStore interface { Get(ctx, id) (User, error) }`) mà package cung cấp không cần biết. Điều này giảm phụ thuộc và giúp test bằng fake dễ dàng. Interface lớn kiểu \"Java\" khai báo sẵn bên cạnh implementation thường khó mock và bị coi là không idiomatic trong Go.",
+        "en": "Because satisfaction is implicit, the consumer can define a narrow interface (e.g. `type UserStore interface { Get(ctx, id) (User, error) }`) without the provider knowing about it. This reduces coupling and makes testing with fakes easy. Large \"Java-style\" interfaces declared next to their implementation are harder to mock and considered non-idiomatic in Go."
+      }
+    },
+    {
+      "id": "go.errors.010",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Theo quy ước Go (và cảnh báo của staticcheck), chuỗi lỗi nào được viết đúng phong cách?",
+        "en": "By Go convention (and staticcheck warnings), which error string has the right style?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`errors.New(\"Open config: File not found.\")`",
+            "en": "`errors.New(\"Open config: File not found.\")`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`errors.New(\"open config: file not found\")`",
+            "en": "`errors.New(\"open config: file not found\")`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`errors.New(\"ERROR!!! Config missing\\n\")`",
+            "en": "`errors.New(\"ERROR!!! Config missing\\n\")`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`errors.New(\"Error: config not found.\")`",
+            "en": "`errors.New(\"Error: config not found.\")`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Chuỗi lỗi trong Go nên viết thường ở đầu và không kết thúc bằng dấu chấm hay xuống dòng, vì chúng thường được nối với ngữ cảnh khác như `fmt.Errorf(\"load app: %w\", err)` thành `load app: open config: file not found`. Viết hoa hay có dấu chấm sẽ làm thông điệp ghép bị lủng củng. Tiền tố `Error:` cũng thừa vì giá trị đã là `error`.",
+        "en": "Go error strings should start lowercase and not end with punctuation or a newline, because they are usually chained with more context like `fmt.Errorf(\"load app: %w\", err)` into `load app: open config: file not found`. Capitals and trailing periods make the combined message awkward. An `Error:` prefix is redundant since the value is already an `error`."
+      }
+    },
+    {
+      "id": "go.errors.011",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì? (Go 1.20+)",
+        "en": "What does the following code print? (Go 1.20+)"
+      },
+      "code": {
+        "language": "go",
+        "source": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\nfunc main() {\n\te1 := errors.New(\"a\")\n\te2 := errors.New(\"b\")\n\terr := errors.Join(e1, e2)\n\tfmt.Println(errors.Is(err, e2))\n\tfmt.Println(err)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "false\na\nb",
+            "en": "false\na\nb"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "true\na; b",
+            "en": "true\na; b"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "false\n[a b]",
+            "en": "false\n[a b]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "true\na\nb",
+            "en": "true\na\nb"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`errors.Join` (Go 1.20) gộp nhiều lỗi thành một lỗi có method `Unwrap() []error`, nên `errors.Is` duyệt qua mọi lỗi con và tìm thấy `e2`, cho `true`. Method `Error()` của lỗi gộp nối các thông điệp bằng ký tự xuống dòng, nên in ra `a` và `b` trên hai dòng. Đây là cách tiện để trả về nhiều lỗi validation hoặc lỗi khi đóng nhiều tài nguyên.",
+        "en": "`errors.Join` (Go 1.20) combines several errors into one with an `Unwrap() []error` method, so `errors.Is` walks every child and finds `e2`, returning `true`. The joined error's `Error()` concatenates the messages with newlines, so `a` and `b` print on two lines. It is a handy way to return multiple validation errors or errors from closing several resources."
+      }
+    },
+    {
+      "id": "go.errors.012",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Khi `repo.Insert` thất bại, hàm `save` vẫn trả về `nil`. Lỗi ở đâu?",
+        "en": "When `repo.Insert` fails, `save` still returns `nil`. Where is the bug?"
+      },
+      "code": {
+        "language": "go",
+        "source": "func save(u User) error {\n\tvar err error\n\tif u.IsNew {\n\t\tid, err := repo.Insert(u)\n\t\tif err == nil {\n\t\t\tlog.Println(\"inserted\", id)\n\t\t}\n\t} else {\n\t\terr = repo.Update(u)\n\t}\n\treturn err\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`repo.Update` cũng chạy sau `repo.Insert` và ghi đè lỗi của insert bằng `nil`",
+            "en": "`repo.Update` also runs after `repo.Insert` and overwrites the insert error with `nil`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`id, err :=` trong khối `if` khai báo `err` mới che (shadow) biến `err` bên ngoài",
+            "en": "`id, err :=` in the `if` block declares a new `err` that shadows the outer one"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải khai báo tường minh `var err error = nil`, nếu không các lần gán sau bị bỏ qua",
+            "en": "You must declare `var err error = nil` explicitly, or later assignments are ignored"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`log.Println` reset biến `err` về `nil`",
+            "en": "`log.Println` resets `err` to `nil`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`:=` trong một scope mới luôn khai báo biến mới cho các tên bên trái nếu chúng chưa được khai báo trong chính scope đó, kể cả khi bên ngoài đã có `err`. Vì vậy lỗi của `Insert` chỉ nằm trong biến `err` bên trong khối `if` và biến mất khi khối kết thúc. Sửa bằng cách khai báo `var id int64` rồi dùng `id, err = repo.Insert(u)`, hoặc return ngay bên trong nhánh. `go vet -vettool` với analyzer `shadow` có thể phát hiện lỗi này.",
+        "en": "`:=` in a new scope always declares new variables for names not yet declared in that same scope, even if an outer `err` exists. So the `Insert` error lives only in the inner `err` of the `if` block and disappears when the block ends. Fix it by declaring `var id int64` and using `id, err = repo.Insert(u)`, or by returning directly inside the branch. The `shadow` analyzer (via `go vet -vettool`) can catch this."
+      }
+    },
+    {
+      "id": "go.errors.013",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trong một service nhiều tầng (handler → service → repository), bạn nên xử lý error thế nào: thêm ngữ cảnh, log ở đâu, và trả gì cho client?",
+        "en": "In a layered service (handler → service → repository), how should you handle errors: adding context, where to log, and what to return to clients?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Tầng dưới bọc lỗi kèm ngữ cảnh bằng `fmt.Errorf(\"get user %d: %w\", id, err)` rồi return, không log",
+          "en": "Lower layers wrap errors with context using `fmt.Errorf(\"get user %d: %w\", id, err)` and return them without logging"
+        },
+        {
+          "vi": "Tránh vừa log vừa return cùng một lỗi, vì sẽ log trùng nhiều lần ở mỗi tầng",
+          "en": "Avoid both logging and returning the same error, which produces duplicate logs at every layer"
+        },
+        {
+          "vi": "Log một lần ở tầng trên cùng (handler/middleware) với đầy đủ chuỗi ngữ cảnh và request id",
+          "en": "Log once at the top (handler/middleware) with the full context chain and a request id"
+        },
+        {
+          "vi": "Dùng `errors.Is`/`errors.As` để ánh xạ lỗi nghiệp vụ (`ErrNotFound`) sang HTTP status (404)",
+          "en": "Use `errors.Is`/`errors.As` to map domain errors (`ErrNotFound`) to HTTP status codes (404)"
+        },
+        {
+          "vi": "Không trả chi tiết lỗi nội bộ (SQL, stack) cho client; trả thông điệp chung cho lỗi 500",
+          "en": "Do not leak internal details (SQL, stacks) to clients; return a generic message for 500 errors"
+        }
+      ],
+      "explanation": {
+        "vi": "Bọc lỗi với `%w` giữ được lỗi gốc để kiểm tra bằng `errors.Is`, đồng thời tạo thông điệp kể lại \"đường đi\" của lỗi. Nếu mọi tầng đều log, một lỗi duy nhất sinh ra nhiều dòng log khó theo dõi. Handler là nơi biết ngữ cảnh request nên phù hợp để log một lần và quyết định mã lỗi trả về.",
+        "en": "Wrapping with `%w` keeps the original error checkable with `errors.Is` while building a message that tells the error's \"path\". If every layer logs, a single failure produces many confusing log lines. The handler knows the request context, so it is the right place to log once and choose the response status."
+      }
+    },
+    {
+      "id": "go.errors.014",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi mở file bằng `f, err := os.Open(path)`, nên đặt `defer f.Close()` ở đâu?",
+        "en": "After `f, err := os.Open(path)`, where should `defer f.Close()` go?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ngay sau khi kiểm tra `if err != nil { return err }`",
+            "en": "Right after checking `if err != nil { return err }`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ngay trước `os.Open`, để chắc chắn luôn được gọi",
+            "en": "Right before `os.Open`, to make sure it always runs"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Ngay sau `os.Open`, trước khi kiểm tra `err`",
+            "en": "Immediately after `os.Open`, before checking `err`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ở cuối hàm, không cần dùng `defer`",
+            "en": "At the end of the function, without `defer`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Nếu `os.Open` lỗi thì `f` là `nil`; defer `f.Close()` trước khi kiểm tra `err` sẽ gọi `Close` trên file nil (trả về lỗi `ErrInvalid` và che mất ý định), còn trước `os.Open` thì `f` chưa tồn tại. Đặt `defer` ngay sau khi kiểm tra lỗi đảm bảo file luôn được đóng ở mọi nhánh return. Gọi `Close` thủ công ở cuối hàm dễ bị bỏ sót khi có `return` sớm hoặc panic.",
+        "en": "If `os.Open` fails, `f` is `nil`; deferring `f.Close()` before checking `err` calls `Close` on a nil file (returning `ErrInvalid` and obscuring intent), and before `os.Open` `f` does not exist yet. Placing the `defer` right after the error check guarantees the file is closed on every return path. A manual `Close` at the end is easily skipped by an early `return` or a panic."
+      }
+    },
+    {
+      "id": "go.goroutines.011",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "goroutines",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`main` chỉ gồm `go sayHello()` rồi kết thúc ngay. Điều gì xảy ra với `sayHello`?",
+        "en": "`main` contains only `go sayHello()` and then returns. What happens to `sayHello`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Rất có thể nó không kịp chạy hoặc bị cắt ngang: chương trình thoát khi `main` return",
+            "en": "It probably never runs or is cut off: the program exits when `main` returns"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`main` tự động chờ mọi goroutine nó đã tạo chạy xong rồi process mới thoát",
+            "en": "`main` automatically waits for every goroutine it started to finish before the process exits"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch vì goroutine tạo trong `main` phải được `join` tường minh",
+            "en": "Compile error, because a goroutine started in `main` must be joined explicitly"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`sayHello` luôn chạy xong trước khi `main` return",
+            "en": "`sayHello` always finishes before `main` returns"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Khi `main` return, toàn bộ chương trình kết thúc và các goroutine khác bị dừng ngay, không có cơ chế join tự động. Goroutine mới tạo có thể chưa được scheduler cho chạy, nên kết quả không xác định. Hãy đồng bộ bằng `sync.WaitGroup`, channel hoặc `errgroup`; dùng `time.Sleep` để \"chờ\" chỉ là mẹo không đáng tin.",
+        "en": "When `main` returns, the whole program ends and other goroutines are stopped immediately; there is no automatic join. The new goroutine may not even have been scheduled yet, so the outcome is undefined. Synchronize with `sync.WaitGroup`, channels or `errgroup`; a `time.Sleep` to \"wait\" is an unreliable hack."
+      }
+    },
+    {
+      "id": "go.goroutines.012",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "goroutines",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Tham số `out chan<- int` trong `func producer(out chan<- int)` nghĩa là gì?",
+        "en": "What does the parameter `out chan<- int` in `func producer(out chan<- int)` mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Channel chỉ nhận: mũi tên chỉ ra khỏi `chan` nên hàm chỉ được `<-out`, không được gửi",
+            "en": "Receive-only: the arrow points out of `chan`, so the function may only `<-out`, never send"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Channel chỉ gửi: hàm chỉ được `out <- v` (và `close`), nhận từ nó sẽ lỗi biên dịch",
+            "en": "Send-only: the function may only `out <- v` (and `close`); receiving won't compile"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Channel có buffer kích thước 1",
+            "en": "A channel with a buffer of size 1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Channel đã bị đóng",
+            "en": "A channel that is already closed"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`chan<- T` là send-only, `<-chan T` là receive-only. Một `chan T` hai chiều tự chuyển đổi ngầm sang kiểu một chiều khi truyền vào hàm, giúp compiler bảo đảm producer không đọc nhầm và consumer không gửi nhầm. Hướng channel không liên quan tới buffer hay trạng thái đóng; chỉ bên gửi nên `close` channel.",
+        "en": "`chan<- T` is send-only and `<-chan T` is receive-only. A bidirectional `chan T` converts implicitly to a one-way type when passed to a function, letting the compiler guarantee producers do not read and consumers do not send. Direction has nothing to do with buffering or being closed; only the sender should `close` a channel."
+      }
+    },
+    {
+      "id": "go.goroutines.013",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "goroutines",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "go",
+        "source": "package main\n\nimport \"fmt\"\n\nfunc gen(nums ...int) <-chan int {\n\tout := make(chan int)\n\tgo func() {\n\t\tdefer close(out)\n\t\tfor _, n := range nums {\n\t\t\tout <- n\n\t\t}\n\t}()\n\treturn out\n}\n\nfunc sq(in <-chan int) <-chan int {\n\tout := make(chan int)\n\tgo func() {\n\t\tdefer close(out)\n\t\tfor n := range in {\n\t\t\tout <- n * n\n\t\t}\n\t}()\n\treturn out\n}\n\nfunc main() {\n\tsum := 0\n\tfor v := range sq(gen(1, 2, 3, 4)) {\n\t\tsum += v\n\t}\n\tfmt.Println(sum)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "10"
+        },
+        {
+          "id": "b",
+          "text": "0"
+        },
+        {
+          "id": "c",
+          "text": "Deadlock: all goroutines are asleep"
+        },
+        {
+          "id": "d",
+          "text": "30"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Đây là pipeline: `gen` gửi 1..4 rồi đóng channel, `sq` đọc tới khi channel vào đóng, gửi bình phương rồi đóng channel ra, còn `main` cộng dồn tới khi channel của `sq` đóng. Tổng là 1 + 4 + 9 + 16 = 30. Không có deadlock vì mỗi tầng đều `defer close(out)` khi xong, nên mọi vòng `range` đều kết thúc.",
+        "en": "This is a pipeline: `gen` sends 1..4 and closes its channel, `sq` reads until its input closes, sends squares and closes its output, and `main` sums until `sq`'s channel closes. The total is 1 + 4 + 9 + 16 = 30. There is no deadlock because each stage does `defer close(out)` when done, so every `range` loop ends."
+      }
+    },
+    {
+      "id": "go.goroutines.014",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "goroutines",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Chương trình thỉnh thoảng crash với `panic: close of closed channel`. Lỗi ở đâu?",
+        "en": "The program sometimes crashes with `panic: close of closed channel`. Where is the bug?"
+      },
+      "code": {
+        "language": "go",
+        "source": "func run(jobs []Job) <-chan Result {\n\tresults := make(chan Result)\n\tvar wg sync.WaitGroup\n\tfor _, j := range jobs {\n\t\twg.Add(1)\n\t\tgo func() {\n\t\t\tdefer wg.Done()\n\t\t\tresults <- process(j)\n\t\t\tclose(results)\n\t\t}()\n\t}\n\treturn results\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mỗi worker đều `close(results)`; phải đóng một lần duy nhất sau `wg.Wait()`",
+            "en": "Every worker calls `close(results)`; close it once, after `wg.Wait()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Channel `results` cần buffer bằng số worker để các lần `close` lặp lại được an toàn",
+            "en": "`results` needs a buffer equal to the number of workers so repeated `close` calls are safe"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải dùng `defer wg.Done()` thay vì `wg.Done()`",
+            "en": "You must use `defer wg.Done()` instead of `wg.Done()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không được gửi vào channel bên trong goroutine được tạo trong vòng lặp",
+            "en": "You cannot send on a channel inside a goroutine that was started in a loop"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Đóng một channel đã đóng luôn gây panic, và gửi vào channel đã đóng cũng panic. Ở đây worker đầu tiên làm xong sẽ đóng channel, khiến worker khác gửi hoặc đóng tiếp và crash. Mẫu chuẩn: một goroutine riêng chạy `wg.Wait()` rồi `close(results)`, còn worker chỉ gửi. Buffer hay `defer` không giải quyết được việc đóng nhiều lần.",
+        "en": "Closing an already closed channel always panics, and so does sending on a closed channel. Here the first worker to finish closes the channel, so others then send or close again and crash. The standard pattern: a separate goroutine runs `wg.Wait()` then `close(results)`, while workers only send. Buffering or `defer` does not fix closing multiple times."
+      }
+    },
+    {
+      "id": "go.goroutines.015",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "goroutines",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Go không có cách \"kill\" một goroutine từ bên ngoài. Làm thế nào để dừng một goroutine chạy nền đúng cách?",
+        "en": "Go has no way to \"kill\" a goroutine from outside. How do you stop a background goroutine properly?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Goroutine phải tự kết thúc; bên ngoài chỉ có thể báo hiệu cho nó dừng",
+          "en": "A goroutine must exit on its own; the outside can only signal it to stop"
+        },
+        {
+          "vi": "Truyền `context.Context` và trong vòng lặp `select` trên `ctx.Done()` để return khi bị hủy",
+          "en": "Pass a `context.Context` and `select` on `ctx.Done()` in the loop to return on cancellation"
+        },
+        {
+          "vi": "Hoặc dùng một `done` channel được `close` để phát tín hiệu cho mọi goroutine cùng lúc",
+          "en": "Or use a `done` channel that is `close`d to broadcast the signal to all goroutines"
+        },
+        {
+          "vi": "Dùng `WaitGroup`/`errgroup` để chờ goroutine thật sự thoát trước khi tắt service",
+          "en": "Use `WaitGroup`/`errgroup` to wait until goroutines have actually exited before shutting down"
+        },
+        {
+          "vi": "Thao tác blocking (I/O, gửi channel) cũng phải lắng nghe context, nếu không goroutine bị kẹt và rò rỉ",
+          "en": "Blocking operations (I/O, channel sends) must also honour the context, or the goroutine gets stuck and leaks"
+        }
+      ],
+      "explanation": {
+        "vi": "Dừng goroutine trong Go là hợp tác: bên gọi hủy context (`cancel()`), goroutine kiểm tra `ctx.Done()` ở các điểm hợp lý rồi dọn dẹp và return. Nếu goroutine đang chặn ở một thao tác không quan tâm context, nó sẽ không bao giờ thấy tín hiệu và trở thành goroutine leak. Vì vậy hãy truyền context xuống mọi lời gọi I/O và dùng `select` khi gửi/nhận channel.",
+        "en": "Stopping a goroutine in Go is cooperative: the caller cancels the context (`cancel()`), and the goroutine checks `ctx.Done()` at sensible points, cleans up and returns. If it is blocked in an operation that ignores the context, it never sees the signal and leaks. So pass the context down to every I/O call and use `select` for channel sends and receives."
+      }
+    },
+    {
+      "id": "go.sync.011",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "sync",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Nhiều goroutine cùng tăng một bộ đếm `int64`. Ngoài `sync.Mutex`, cách gọn và an toàn nào có sẵn trong standard library (Go 1.19+)?",
+        "en": "Many goroutines increment an `int64` counter. Besides `sync.Mutex`, which concise, safe option does the standard library offer (Go 1.19+)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`var n atomic.Int64` rồi gọi `n.Add(1)` và `n.Load()` (package `sync/atomic`)",
+            "en": "`var n atomic.Int64`, then `n.Add(1)` and `n.Load()` (package `sync/atomic`)"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Khai báo biến là `volatile int64`",
+            "en": "Declare the variable as `volatile int64`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dùng `n++` bình thường, vì phép tăng `int64` đã căn chỉnh là nguyên tử trên nền tảng 64-bit",
+            "en": "Use plain `n++`, because increments of an aligned `int64` are atomic on 64-bit platforms"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đặt `runtime.GOMAXPROCS(1)` để chỉ còn một thread",
+            "en": "Set `runtime.GOMAXPROCS(1)` so there is only one thread"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`atomic.Int64` thực hiện tăng/đọc bằng lệnh CPU nguyên tử, nhanh hơn mutex với bộ đếm đơn giản và không thể bị copy nhầm kiểu (go vet cảnh báo). `n++` là đọc-sửa-ghi gồm nhiều bước nên có data race. Go không có từ khóa `volatile`, và `GOMAXPROCS(1)` không loại bỏ race vì goroutine vẫn có thể bị chuyển đổi giữa chừng.",
+        "en": "`atomic.Int64` increments and reads using atomic CPU instructions, which is faster than a mutex for a simple counter, and `go vet` flags accidental copies. `n++` is a multi-step read-modify-write, so it races. Go has no `volatile` keyword, and `GOMAXPROCS(1)` does not remove races because goroutines can still be preempted mid-operation."
+      }
+    },
+    {
+      "id": "go.sync.012",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "sync",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `sync.RWMutex`, phát biểu nào đúng?",
+        "en": "Which statement about `sync.RWMutex` is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`RLock()` cho phép ghi an toàn miễn là mỗi lúc chỉ có một goroutine ghi",
+            "en": "`RLock()` allows safe writes as long as only one writer goroutine runs at a time"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Reader và writer có thể giữ khóa cùng lúc nếu thao tác trên các field khác nhau",
+            "en": "A reader and a writer can hold the lock at the same time on different fields"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`RWMutex` không cần `Unlock`, nó tự được nhả khi goroutine kết thúc",
+            "en": "`RWMutex` needs no `Unlock`; it is released automatically when the goroutine ends"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nhiều goroutine có thể giữ `RLock()` cùng lúc; `Lock()` thì độc quyền",
+            "en": "Many goroutines can hold `RLock()` at once; `Lock()` is exclusive"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`RWMutex` phù hợp với dữ liệu đọc nhiều ghi ít: các reader dùng `RLock`/`RUnlock` song song, còn writer dùng `Lock`/`Unlock` độc quyền. Ghi dữ liệu khi chỉ giữ `RLock` vẫn là data race. Khóa không tự mở khi goroutine kết thúc, nên luôn `defer mu.RUnlock()`/`defer mu.Unlock()` ngay sau khi lấy khóa.",
+        "en": "`RWMutex` suits read-heavy data: readers use `RLock`/`RUnlock` concurrently, while writers use `Lock`/`Unlock` exclusively. Writing while holding only `RLock` is still a data race. Locks are not released when a goroutine ends, so always `defer mu.RUnlock()`/`defer mu.Unlock()` right after acquiring."
+      }
+    },
+    {
+      "id": "go.sync.013",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "sync",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Chương trình kết thúc bằng `fatal error: all goroutines are asleep - deadlock!`. Lỗi ở đâu?",
+        "en": "The program ends with `fatal error: all goroutines are asleep - deadlock!`. Where is the bug?"
+      },
+      "code": {
+        "language": "go",
+        "source": "func worker(id int, wg sync.WaitGroup) {\n\tdefer wg.Done()\n\tfmt.Println(\"worker\", id)\n}\n\nfunc main() {\n\tvar wg sync.WaitGroup\n\tfor i := 1; i <= 3; i++ {\n\t\twg.Add(1)\n\t\tgo worker(i, wg)\n\t}\n\twg.Wait()\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`wg.Add(1)` phải gọi bên trong goroutine, nếu không bộ đếm bị tăng quá sớm",
+            "en": "`wg.Add(1)` must be called inside the goroutine, otherwise the counter is incremented too early"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`defer` không chạy được trong goroutine",
+            "en": "`defer` does not run inside a goroutine"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`worker` nhận `WaitGroup` theo giá trị nên `Done()` chạy trên bản sao; phải truyền `*sync.WaitGroup`",
+            "en": "`worker` gets the `WaitGroup` by value, so `Done()` hits a copy; pass `*sync.WaitGroup`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cần `time.Sleep` trước `wg.Wait()` để mọi worker kịp gọi `Done()`",
+            "en": "A `time.Sleep` is needed before `wg.Wait()` so that all workers have time to call `Done()`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`sync.WaitGroup` chứa trạng thái bên trong, truyền theo giá trị sẽ copy nó; mỗi worker gọi `Done()` trên bản sao riêng nên bộ đếm của `main` vẫn là 3 và `Wait()` chặn mãi, runtime phát hiện mọi goroutine đều ngủ và báo deadlock. `go vet` (copylocks) cảnh báo lỗi này. Gọi `wg.Add(1)` trước `go` như code là đúng; đưa nó vào goroutine mới là sai.",
+        "en": "`sync.WaitGroup` holds internal state, and passing it by value copies it; each worker calls `Done()` on its own copy, so `main`'s counter stays at 3 and `Wait()` blocks forever until the runtime sees all goroutines asleep and reports a deadlock. `go vet` (copylocks) warns about this. Calling `wg.Add(1)` before `go`, as the code does, is correct; moving it inside the goroutine would be the bug."
+      }
+    },
+    {
+      "id": "go.sync.014",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "sync",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Context tạo bằng `context.WithTimeout(ctx, 2*time.Second)` đã hết hạn. `ctx.Err()` trả về gì?",
+        "en": "A context from `context.WithTimeout(ctx, 2*time.Second)` has expired. What does `ctx.Err()` return?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`context.Canceled`",
+            "en": "`context.Canceled`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`context.DeadlineExceeded`",
+            "en": "`context.DeadlineExceeded`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`nil`",
+            "en": "`nil`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Panic vì context đã hết hạn",
+            "en": "A panic because the context expired"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khi deadline trôi qua, channel `ctx.Done()` bị đóng và `ctx.Err()` trả về `context.DeadlineExceeded`. `context.Canceled` là khi ai đó gọi `cancel()` trước hạn. `ctx.Err()` chỉ là `nil` khi context chưa kết thúc. Phân biệt hai lỗi này hữu ích khi quyết định trả 504 (timeout) hay bỏ qua vì client đã hủy request; nên kiểm tra bằng `errors.Is(err, context.DeadlineExceeded)` vì lỗi thường bị bọc.",
+        "en": "Once the deadline passes, `ctx.Done()` is closed and `ctx.Err()` returns `context.DeadlineExceeded`. `context.Canceled` is returned when someone calls `cancel()` early. `ctx.Err()` is `nil` only while the context is still active. Distinguishing them helps decide whether to return 504 (timeout) or ignore a client-cancelled request; check with `errors.Is(err, context.DeadlineExceeded)` since errors are often wrapped."
+      }
+    },
+    {
+      "id": "go.sync.015",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "sync",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần tải 1.000 URL bằng goroutine nhưng chỉ cho tối đa 10 request chạy đồng thời. Cách đơn giản, idiomatic nào?",
+        "en": "You need to fetch 1,000 URLs with goroutines but allow at most 10 concurrent requests. What is a simple, idiomatic approach?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đặt `runtime.GOMAXPROCS(10)`",
+            "en": "Set `runtime.GOMAXPROCS(10)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Dùng `sync.WaitGroup` với `wg.Add(10)`, để `Wait` chặn goroutine thứ 11 tới khi có chỗ trống",
+            "en": "Use a `sync.WaitGroup` with `wg.Add(10)`, so `Wait` blocks the 11th goroutine until a slot frees up"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dùng buffered channel `make(chan struct{}, 10)` làm semaphore, hoặc `errgroup` với `SetLimit(10)`",
+            "en": "A buffered channel `make(chan struct{}, 10)` as a semaphore, or `errgroup` with `SetLimit(10)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Dùng `sync.Once` cho mỗi nhóm 10 URL",
+            "en": "Use a `sync.Once` for each batch of 10 URLs"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Buffered channel dung lượng 10 chặn goroutine thứ 11 khi gửi cho tới khi một goroutine khác nhả chỗ, nên số request đồng thời không vượt quá 10; `errgroup.Group.SetLimit` đóng gói cùng ý tưởng và gom lỗi. `GOMAXPROCS` giới hạn số thread chạy code Go, không giới hạn số goroutine đang chờ I/O. `WaitGroup` chỉ đếm để chờ, không giới hạn song song.",
+        "en": "A buffered channel of capacity 10 blocks the 11th goroutine on send until another frees a slot, so no more than 10 requests run at once; `errgroup.Group.SetLimit` packages the same idea and collects errors. `GOMAXPROCS` limits threads executing Go code, not goroutines waiting on I/O. A `WaitGroup` only counts for waiting; it does not limit parallelism."
+      }
+    },
+    {
+      "id": "go.memory.009",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "memory",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Hàm `func double(s []int) { for i := range s { s[i] *= 2 } }` được gọi với một slice. Slice của người gọi thay đổi thế nào?",
+        "en": "`func double(s []int) { for i := range s { s[i] *= 2 } }` is called with a slice. How does the caller's slice change?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không đổi, vì Go copy toàn bộ mảng nền khi truyền slice theo giá trị",
+            "en": "Nothing changes, because Go copies the whole backing array when a slice is passed by value"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Bị nhân đôi: slice header được copy nhưng vẫn trỏ tới cùng mảng nền",
+            "en": "They are doubled: the copied slice header points to the same underlying array"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch, vì hàm phải nhận `*[]int` mới sửa được phần tử của người gọi",
+            "en": "Compile error, because a function must take `*[]int` to modify the caller's elements"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ phần tử đầu tiên bị thay đổi",
+            "en": "Only the first element changes"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Mọi thứ trong Go đều truyền theo giá trị, nhưng giá trị của slice chỉ là header gồm pointer, `len` và `cap`. Bản copy của header vẫn trỏ tới cùng mảng nền, nên sửa `s[i]` thấy được ở người gọi. Khác biệt quan trọng: `append` hoặc gán lại `s` trong hàm không ảnh hưởng tới header của người gọi, nên khi cần thay đổi độ dài phải trả slice về.",
+        "en": "Everything in Go is passed by value, but a slice value is just a header holding a pointer, `len` and `cap`. The copied header still points to the same underlying array, so changes to `s[i]` are visible to the caller. The key caveat: `append` or reassigning `s` inside the function does not affect the caller's header, so return the slice when the length must change."
+      }
+    },
+    {
+      "id": "go.memory.010",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "memory",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "go",
+        "source": "package main\n\nimport \"fmt\"\n\nfunc add(m map[string]int) {\n\tm[\"b\"] = 2\n}\n\nfunc reset(m map[string]int) {\n\tm = map[string]int{}\n}\n\nfunc main() {\n\tm := map[string]int{\"a\": 1}\n\tadd(m)\n\treset(m)\n\tfmt.Println(len(m), m[\"b\"])\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "0 0"
+        },
+        {
+          "id": "b",
+          "text": "2 2"
+        },
+        {
+          "id": "c",
+          "text": "1 0"
+        },
+        {
+          "id": "d",
+          "text": "2 0"
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Map là một tham chiếu tới cấu trúc hash table, nên `add` ghi `\"b\"` vào đúng map của `main`. Trong `reset`, câu `m = map[string]int{}` chỉ gán biến tham số cục bộ trỏ tới map mới, map của `main` không bị ảnh hưởng. Vì vậy `m` vẫn có 2 key và `m[\"b\"]` là 2. Muốn làm rỗng map của người gọi thì dùng `clear(m)` (Go 1.21+).",
+        "en": "A map is a reference to a hash table structure, so `add` writes `\"b\"` into `main`'s map. In `reset`, `m = map[string]int{}` only points the local parameter at a new map; `main`'s map is untouched. So `m` still has 2 keys and `m[\"b\"]` is 2. To empty the caller's map, use `clear(m)` (Go 1.21+)."
+      }
+    },
+    {
+      "id": "go.memory.011",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "memory",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `src := []int{1, 2, 3}` và `dst := make([]int, 0, 5)`, sau `n := copy(dst, src)` thì `n` và `dst` là gì?",
+        "en": "Given `src := []int{1, 2, 3}` and `dst := make([]int, 0, 5)`, what are `n` and `dst` after `n := copy(dst, src)`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`n = 3`, `dst = [1 2 3]`, vì `copy` được ghi tới `cap(dst)` là 5",
+            "en": "`n = 3`, `dst = [1 2 3]`, because `copy` can fill up to `cap(dst)`, which is 5"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`n = 3`, `dst = [1 2 3 0 0]`, hai ô còn lại được điền giá trị 0",
+            "en": "`n = 3`, `dst = [1 2 3 0 0]`, with the two unused slots zero-filled"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Panic lúc chạy, vì `dst` không đủ chỗ và `copy` không bao giờ nới rộng slice",
+            "en": "A runtime panic, because `dst` is too small and `copy` never grows a slice"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`n = 0`, `dst = []`, vì `copy` dựa vào `len(dst)` chứ không phải `cap`",
+            "en": "`n = 0`, `dst = []`, because `copy` respects `len(dst)`, not `cap`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`copy` dựa vào `len` chứ không phải `cap`, và không bao giờ mở rộng slice đích; `dst` có `len` 0 nên không có phần tử nào được chép và cũng không panic. Cách đúng là `dst := make([]int, len(src))` rồi `copy`, hoặc dùng `append(dst, src...)` với `dst` có `len` 0 hay `slices.Clone(src)`. Đây là lỗi hay gặp khi nhầm giữa tham số `len` và `cap` của `make`.",
+        "en": "`copy` uses `len`, not `cap`, and never grows the destination; `dst` has length 0, so nothing is copied and nothing panics. The fix is `dst := make([]int, len(src))` then `copy`, or `append(dst, src...)` with a zero-length `dst`, or `slices.Clone(src)`. It is a common mistake that comes from confusing the `len` and `cap` arguments of `make`."
+      }
+    },
+    {
+      "id": "go.memory.012",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "memory",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Sau khi gọi `addTag(tags, \"go\")`, slice `tags` của người gọi không có phần tử mới. Cách sửa idiomatic là gì?",
+        "en": "After `addTag(tags, \"go\")`, the caller's `tags` slice has no new element. What is the idiomatic fix?"
+      },
+      "code": {
+        "language": "go",
+        "source": "func addTag(tags []string, t string) {\n\ttags = append(tags, t)\n}\n\nfunc main() {\n\ttags := []string{\"web\"}\n\taddTag(tags, \"go\")\n\tfmt.Println(tags) // [web]\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải khởi tạo `tags` bằng `make` thì `append` mới hoạt động",
+            "en": "`tags` must be created with `make` for `append` to work"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`append` chỉ hoạt động với slice có capacity lớn hơn 0",
+            "en": "`append` only works on slices with capacity above 0"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`append` trả về slice header mới nhưng chỉ gán vào tham số cục bộ; hãy trả về slice (`return append(tags, t)`) và gán lại `tags = addTag(tags, \"go\")`",
+            "en": "`append` returns a new slice header that is only assigned to the local parameter; return it (`return append(tags, t)`) and reassign `tags = addTag(tags, \"go\")`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cần khóa `sync.Mutex` khi gọi `append`",
+            "en": "A `sync.Mutex` must be locked around `append`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Hàm nhận một bản copy của slice header. `append` có thể ghi vào mảng nền (nếu còn capacity) hoặc cấp phát mảng mới, nhưng trong cả hai trường hợp `len` của header bên người gọi không đổi, nên người gọi không \"thấy\" phần tử mới. Quy ước của Go, giống `append` của chính ngôn ngữ, là trả slice về và gán lại; truyền `*[]string` cũng được nhưng ít idiomatic hơn. `append` hoạt động bình thường với slice `nil`.",
+        "en": "The function receives a copy of the slice header. `append` may write into the backing array (if capacity remains) or allocate a new one, but either way the caller's header length is unchanged, so the caller does not \"see\" the new element. Go's convention, like the built-in `append` itself, is to return the slice and reassign it; passing `*[]string` also works but is less idiomatic. `append` works fine on a `nil` slice."
+      }
+    },
+    {
+      "id": "go.memory.013",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "memory",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Go có garbage collector. Điều này có nghĩa là gì với lập trình viên?",
+        "en": "Go has a garbage collector. What does that mean for the programmer?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mọi tài nguyên, kể cả file và kết nối mạng, đều được GC tự đóng ngay khi không dùng",
+            "en": "Every resource, including files and network connections, is closed by the GC as soon as it is unused"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không cần giải phóng bộ nhớ thủ công, nhưng vẫn phải tự đóng tài nguyên như file, kết nối, `resp.Body` (thường bằng `defer`)",
+            "en": "You never free memory manually, but you still must close resources like files, connections and `resp.Body` (usually with `defer`)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải gọi `runtime.GC()` thường xuyên để tránh hết bộ nhớ",
+            "en": "You must call `runtime.GC()` regularly to avoid running out of memory"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không thể bị rò rỉ bộ nhớ trong Go",
+            "en": "Memory leaks are impossible in Go"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "GC thu hồi vùng nhớ không còn được tham chiếu, nhưng không đảm bảo khi nào chạy và không quản lý tài nguyên hệ điều hành một cách kịp thời, nên file descriptor hay kết nối phải được `Close()` tường minh. Gọi `runtime.GC()` thủ công gần như không bao giờ cần. Go vẫn có thể \"rò rỉ\" khi bạn giữ tham chiếu không cần thiết, ví dụ goroutine bị kẹt, map cache lớn dần mãi, hoặc slice nhỏ giữ cả mảng nền lớn.",
+        "en": "The GC reclaims unreferenced memory, but gives no timing guarantee and does not manage OS resources promptly, so file descriptors and connections must be `Close()`d explicitly. Calling `runtime.GC()` manually is almost never needed. Go can still \"leak\" when you keep unnecessary references, such as stuck goroutines, ever-growing map caches, or a small slice pinning a large backing array."
+      }
+    },
+    {
+      "id": "go.http.009",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "http",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Từ Go 1.22, `http.ServeMux` hỗ trợ pattern có method và wildcard. Với `mux.HandleFunc(\"GET /users/{id}\", h)`, làm sao lấy `id` trong handler?",
+        "en": "Since Go 1.22, `http.ServeMux` supports method and wildcard patterns. With `mux.HandleFunc(\"GET /users/{id}\", h)`, how do you read `id` in the handler?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`r.URL.Query().Get(\"id\")`",
+            "en": "`r.URL.Query().Get(\"id\")`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`mux.Vars(r)[\"id\"]`",
+            "en": "`mux.Vars(r)[\"id\"]`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`r.FormValue(\"{id}\")`",
+            "en": "`r.FormValue(\"{id}\")`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`r.PathValue(\"id\")`",
+            "en": "`r.PathValue(\"id\")`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Go 1.22 bổ sung routing nâng cao cho `ServeMux`: pattern có thể kèm method (`GET`, `POST`) và wildcard `{id}`, đọc bằng `r.PathValue(\"id\")`. Request sai method nhận `405 Method Not Allowed` tự động. `Query().Get` đọc query string (`?id=`), còn `mux.Vars` là API của thư viện `gorilla/mux`, không phải standard library.",
+        "en": "Go 1.22 added enhanced routing to `ServeMux`: patterns may include a method (`GET`, `POST`) and `{id}` wildcards, read with `r.PathValue(\"id\")`. Requests with the wrong method automatically get `405 Method Not Allowed`. `Query().Get` reads the query string (`?id=`), and `mux.Vars` is the `gorilla/mux` library API, not the standard library."
+      }
+    },
+    {
+      "id": "go.http.010",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "http",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với request `GET /products?sort=price`, `r.URL.Query().Get(\"page\")` trả về gì?",
+        "en": "For `GET /products?sort=price`, what does `r.URL.Query().Get(\"page\")` return?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`nil`",
+            "en": "`nil`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Panic vì key không tồn tại",
+            "en": "A panic because the key does not exist"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chuỗi rỗng `\"\"`, nên cần tự đặt giá trị mặc định và parse bằng `strconv.Atoi`",
+            "en": "The empty string `\"\"`, so you set a default yourself and parse with `strconv.Atoi`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Số `0` kiểu `int`",
+            "en": "The `int` value `0`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`url.Values.Get` luôn trả về `string`; key không có thì trả `\"\"` chứ không phải `nil` hay panic. Giá trị query luôn là chuỗi, nên muốn dùng số phải `strconv.Atoi` và xử lý lỗi (trả 400 nếu không hợp lệ). Nếu cần phân biệt \"không truyền\" với \"truyền rỗng\", dùng `r.URL.Query().Has(\"page\")` (Go 1.17+).",
+        "en": "`url.Values.Get` always returns a `string`; a missing key gives `\"\"`, not `nil` or a panic. Query values are always strings, so numbers need `strconv.Atoi` with error handling (return 400 if invalid). To tell \"absent\" from \"present but empty\", use `r.URL.Query().Has(\"page\")` (Go 1.17+)."
+      }
+    },
+    {
+      "id": "go.http.011",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "http",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Service gọi API này hàng nghìn lần mỗi phút và dần dần cạn file descriptor, kết nối không được tái sử dụng. Lỗi ở đâu?",
+        "en": "The service calls this API thousands of times per minute and gradually runs out of file descriptors, with connections never reused. Where is the bug?"
+      },
+      "code": {
+        "language": "go",
+        "source": "func fetchPrice(url string) ([]byte, error) {\n\tresp, err := http.Get(url)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif resp.StatusCode != http.StatusOK {\n\t\treturn nil, fmt.Errorf(\"status %d\", resp.StatusCode)\n\t}\n\treturn io.ReadAll(resp.Body)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`http.Get` phải được gọi trong goroutine riêng",
+            "en": "`http.Get` must be called in its own goroutine"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`io.ReadAll` tự đóng kết nối nên gây mở lại liên tục",
+            "en": "`io.ReadAll` closes the connection, causing constant reconnects"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không đóng `resp.Body`; cần `defer resp.Body.Close()` ngay sau khi kiểm tra `err`",
+            "en": "`resp.Body` is never closed; add `defer resp.Body.Close()` right after checking `err`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải kiểm tra `resp.StatusCode` trước khi kiểm tra `err`",
+            "en": "`resp.StatusCode` must be checked before `err`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Người gọi luôn phải đóng `resp.Body` khi `err == nil`, kể cả khi không đọc hết body hoặc status lỗi. Không đóng thì kết nối TCP không được trả về pool để keep-alive, dẫn tới rò rỉ kết nối và file descriptor. `io.ReadAll` chỉ đọc chứ không đóng body. Ngoài ra nên dùng `http.Client` có `Timeout` thay vì `http.Get` mặc định không có timeout.",
+        "en": "The caller must always close `resp.Body` when `err == nil`, even if the body is not fully read or the status is an error. Otherwise the TCP connection is not returned to the keep-alive pool, leaking connections and file descriptors. `io.ReadAll` only reads; it does not close the body. You should also use an `http.Client` with a `Timeout` instead of `http.Get`, which has no timeout by default."
+      }
+    },
+    {
+      "id": "go.http.012",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "http",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì? (`encoding/json` của standard library)",
+        "en": "What does the following code print? (standard library `encoding/json`)"
+      },
+      "code": {
+        "language": "go",
+        "source": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"fmt\"\n)\n\ntype User struct {\n\tName string `json:\"name\"`\n\tAge  int    `json:\"age\"`\n}\n\nfunc main() {\n\tvar u User\n\terr := json.Unmarshal([]byte(`{\"NAME\":\"An\",\"email\":\"an@example.com\"}`), &u)\n\tfmt.Println(u.Name, u.Age, err)\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "An 0 <nil>"
+        },
+        {
+          "id": "b",
+          "text": "An 0 json: unknown field \"email\""
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Name` rỗng, rồi `0 <nil>`",
+            "en": "Empty `Name`, then `0 <nil>`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không in gì vì chương trình panic",
+            "en": "Nothing; the program panics"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`json.Unmarshal` khớp key với tag/field không phân biệt hoa thường, nên `\"NAME\"` vẫn gán vào `Name`. Field `email` không có trong struct nên bị bỏ qua mà không báo lỗi, còn `Age` không có trong JSON nên giữ zero value 0. Muốn từ chối field lạ thì dùng `json.NewDecoder(r).DisallowUnknownFields()`.",
+        "en": "`json.Unmarshal` matches keys to tags/fields case-insensitively, so `\"NAME\"` still fills `Name`. The `email` key has no matching field and is silently ignored, while `Age` is absent from the JSON and keeps its zero value 0. To reject unknown fields, use `json.NewDecoder(r).DisallowUnknownFields()`."
+      }
+    },
+    {
+      "id": "go.http.013",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "http",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Mô tả cách viết một handler JSON API `POST /users` chắc chắn với `net/http`: đọc body, validate, trả status code và xử lý lỗi.",
+        "en": "Describe how to write a robust JSON API handler `POST /users` with `net/http`: reading the body, validating, status codes and error handling."
+      },
+      "keyPoints": [
+        {
+          "vi": "Giới hạn kích thước body bằng `http.MaxBytesReader` và decode bằng `json.NewDecoder(r.Body)` (có thể `DisallowUnknownFields`)",
+          "en": "Limit body size with `http.MaxBytesReader` and decode with `json.NewDecoder(r.Body)` (optionally `DisallowUnknownFields`)"
+        },
+        {
+          "vi": "JSON sai hoặc dữ liệu không hợp lệ trả `400`/`422` kèm thông điệp rõ ràng, và `return` ngay sau khi ghi lỗi",
+          "en": "Malformed JSON or invalid data returns `400`/`422` with a clear message, followed by an immediate `return`"
+        },
+        {
+          "vi": "Dùng `r.Context()` khi gọi service/database để hủy khi client ngắt kết nối",
+          "en": "Pass `r.Context()` to service/database calls so work stops when the client disconnects"
+        },
+        {
+          "vi": "Thành công thì đặt `Content-Type: application/json`, gọi `WriteHeader(http.StatusCreated)` rồi mới encode body",
+          "en": "On success set `Content-Type: application/json`, call `WriteHeader(http.StatusCreated)`, then encode the body"
+        },
+        {
+          "vi": "Ánh xạ lỗi nghiệp vụ sang status (409 khi trùng email), lỗi không lường trước thành 500 và log ở server",
+          "en": "Map domain errors to statuses (409 for duplicate email); unexpected errors become 500 and are logged server-side"
+        }
+      ],
+      "explanation": {
+        "vi": "Một handler tốt coi mọi đầu vào là không tin cậy: giới hạn kích thước, decode chặt chẽ, validate rồi mới gọi tầng nghiệp vụ. Thứ tự ghi response quan trọng: header phải đặt trước `WriteHeader`, và sau khi body đã ghi thì không đổi status được nữa. Gom phần ghi JSON và lỗi vào helper (`writeJSON`, `writeError`) giúp các handler nhất quán.",
+        "en": "A good handler treats all input as untrusted: limit the size, decode strictly and validate before calling business logic. Response ordering matters: headers must be set before `WriteHeader`, and once the body is written the status cannot change. Putting JSON and error writing into helpers (`writeJSON`, `writeError`) keeps handlers consistent."
+      }
+    },
+    {
+      "id": "go.tooling.008",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "tooling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vai trò của `gofmt` (hoặc `go fmt`) trong dự án Go là gì?",
+        "en": "What is the role of `gofmt` (or `go fmt`) in a Go project?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Biên dịch code thành file thực thi",
+            "en": "It compiles code into an executable"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tìm data race trong lúc chạy",
+            "en": "It finds data races at runtime"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tải và cập nhật dependency trong `go.mod`",
+            "en": "It downloads and updates dependencies in `go.mod`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tự động định dạng code theo một chuẩn duy nhất của cộng đồng (tab, khoảng trắng, căn chỉnh), nên team không phải tranh luận về style",
+            "en": "It automatically formats code to the single community standard (tabs, spacing, alignment), so teams do not argue about style"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`gofmt` viết lại file theo định dạng chuẩn duy nhất, và hầu hết editor chạy nó (hoặc `goimports`, có thêm sắp xếp import) mỗi khi lưu. Vì mọi code Go trông giống nhau, review tập trung vào logic thay vì style. Biên dịch là `go build`, tìm race là `go test -race`, còn quản lý dependency là `go get`/`go mod tidy`.",
+        "en": "`gofmt` rewrites files into the single standard format, and most editors run it (or `goimports`, which also manages imports) on save. Because all Go code looks the same, reviews focus on logic rather than style. Compiling is `go build`, race detection is `go test -race`, and dependency management is `go get`/`go mod tidy`."
+      }
+    },
+    {
+      "id": "go.tooling.009",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "tooling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`go vet` dùng để làm gì?",
+        "en": "What is `go vet` used for?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Định dạng lại code cho đúng style",
+            "en": "Reformatting code to the standard style"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chạy unit test và đo coverage",
+            "en": "Running unit tests and measuring coverage"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phân tích tĩnh để tìm code đáng ngờ dù vẫn biên dịch được, như sai format string của `Printf`, copy `sync.Mutex`, struct tag sai",
+            "en": "Static analysis that finds suspicious code that still compiles, such as wrong `Printf` format strings, copied `sync.Mutex`, malformed struct tags"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Kiểm tra lỗ hổng bảo mật của dependency",
+            "en": "Checking dependencies for security vulnerabilities"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`go vet` chạy một tập analyzer phát hiện các lỗi phổ biến mà compiler không bắt, ví dụ `fmt.Printf(\"%d\", \"text\")` hay truyền `WaitGroup` theo giá trị. `go test` tự chạy một phần các check của vet trước khi chạy test. Định dạng code là việc của `gofmt`, còn quét lỗ hổng dependency là `govulncheck`. Nhiều team dùng thêm `staticcheck` hoặc `golangci-lint` cho các kiểm tra sâu hơn.",
+        "en": "`go vet` runs a set of analyzers that catch common mistakes the compiler accepts, e.g. `fmt.Printf(\"%d\", \"text\")` or passing a `WaitGroup` by value. `go test` runs a subset of vet checks automatically before tests. Formatting is `gofmt`'s job, and dependency vulnerability scanning is `govulncheck`. Many teams add `staticcheck` or `golangci-lint` for deeper checks."
+      }
+    },
+    {
+      "id": "go.tooling.010",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "tooling",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích vai trò của `go.mod` và `go.sum`, cách nâng cấp một dependency, và vì sao module phiên bản v2 trở lên phải có hậu tố `/v2` trong import path.",
+        "en": "Explain the roles of `go.mod` and `go.sum`, how to upgrade a dependency, and why v2+ modules need a `/v2` suffix in the import path."
+      },
+      "keyPoints": [
+        {
+          "vi": "`go.mod` khai báo module path, phiên bản Go và các dependency kèm phiên bản tối thiểu",
+          "en": "`go.mod` declares the module path, the Go version and dependencies with minimum versions"
+        },
+        {
+          "vi": "`go.sum` lưu checksum của từng phiên bản module để đảm bảo bản tải về không bị thay đổi; cả hai đều được commit",
+          "en": "`go.sum` stores checksums of each module version so downloads cannot be tampered with; both files are committed"
+        },
+        {
+          "vi": "Nâng cấp bằng `go get example.com/pkg@v1.5.0` (hoặc `@latest`), rồi `go mod tidy` để dọn dependency thừa",
+          "en": "Upgrade with `go get example.com/pkg@v1.5.0` (or `@latest`), then `go mod tidy` to remove unused ones"
+        },
+        {
+          "vi": "Semantic import versioning: bản major mới (v2+) có thể phá vỡ API nên là một import path khác, ví dụ `example.com/pkg/v2`",
+          "en": "Semantic import versioning: a new major version (v2+) may break the API, so it gets a different import path, e.g. `example.com/pkg/v2`"
+        },
+        {
+          "vi": "Go dùng Minimal Version Selection: chọn phiên bản thấp nhất thỏa mọi yêu cầu, giúp build tái lập được",
+          "en": "Go uses Minimal Version Selection: it picks the lowest version satisfying all requirements, making builds reproducible"
+        }
+      ],
+      "explanation": {
+        "vi": "`go.mod` mô tả \"cần gì\", `go.sum` bảo đảm \"đúng là thứ đó\". Vì v1 và v2 có import path khác nhau, một chương trình có thể dùng cả hai cùng lúc trong quá trình chuyển đổi mà không xung đột. MVS khiến việc nâng cấp là chủ động: phiên bản chỉ đổi khi bạn (hoặc một dependency) yêu cầu phiên bản cao hơn.",
+        "en": "`go.mod` describes \"what is needed\" and `go.sum` guarantees \"it is exactly that\". Because v1 and v2 have different import paths, a program can use both during a migration without conflicts. MVS makes upgrades deliberate: versions change only when you (or a dependency) require a higher one."
+      }
+    },
+    {
+      "id": "go.tooling.011",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "tooling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Lệnh `go test -run TestLogin -v ./...` làm gì?",
+        "en": "What does `go test -run TestLogin -v ./...` do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ chạy đúng một hàm `TestLogin` trong package hiện tại",
+            "en": "Runs only the single `TestLogin` function in the current package"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chạy mọi test ngoại trừ `TestLogin`",
+            "en": "Runs every test except `TestLogin`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chạy benchmark `TestLogin` với chế độ verbose",
+            "en": "Runs the `TestLogin` benchmark in verbose mode"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chạy các test có tên khớp regex `TestLogin` trong mọi package của module, và in chi tiết từng test",
+            "en": "Runs tests whose names match the regex `TestLogin` in every package of the module, printing each test verbosely"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`./...` nghĩa là package hiện tại và mọi package con. `-run` nhận một regular expression, nên nó khớp cả `TestLoginFailed` hay `TestLoginWithOTP`; muốn khớp chính xác thì viết `-run '^TestLogin$'`, và có thể chọn subtest bằng `-run 'TestLogin/wrong_password'`. `-v` in tên và kết quả từng test. Benchmark được chọn bằng cờ riêng `-bench`.",
+        "en": "`./...` means the current package and all sub-packages. `-run` takes a regular expression, so it also matches `TestLoginFailed` or `TestLoginWithOTP`; for an exact match write `-run '^TestLogin$'`, and subtests can be selected with `-run 'TestLogin/wrong_password'`. `-v` prints each test's name and result. Benchmarks are selected with the separate `-bench` flag."
+      }
+    },
+    {
+      "id": "go.tooling.012",
+      "contentVersion": 1,
+      "trackId": "go",
+      "topicId": "tooling",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khi viết unit test cho service gọi database hoặc HTTP API bên ngoài, bạn tạo fake/mock trong Go như thế nào?",
+        "en": "When unit testing a service that calls a database or an external HTTP API, how do you create fakes/mocks in Go?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Service phụ thuộc vào interface nhỏ (ví dụ `UserRepo`) thay vì kiểu cụ thể, được truyền qua constructor",
+          "en": "The service depends on a small interface (e.g. `UserRepo`) instead of a concrete type, injected via the constructor"
+        },
+        {
+          "vi": "Trong test viết struct fake implement interface đó, trả dữ liệu cố định hoặc lỗi định sẵn",
+          "en": "In tests write a fake struct implementing that interface, returning canned data or errors"
+        },
+        {
+          "vi": "Với HTTP client, dùng `httptest.NewServer` để dựng server giả trả response mong muốn",
+          "en": "For HTTP clients, use `httptest.NewServer` to stand up a fake server returning the desired responses"
+        },
+        {
+          "vi": "Với handler, dùng `httptest.NewRecorder` và `httptest.NewRequest` để test mà không mở cổng mạng",
+          "en": "For handlers, use `httptest.NewRecorder` and `httptest.NewRequest` to test without opening a port"
+        },
+        {
+          "vi": "Có thể sinh mock bằng công cụ như `mockgen`, nhưng fake viết tay thường đơn giản và dễ đọc hơn",
+          "en": "Tools like `mockgen` can generate mocks, but hand-written fakes are often simpler and more readable"
+        }
+      ],
+      "explanation": {
+        "vi": "Go không cần framework mock: vì interface được thỏa mãn ngầm định, test chỉ cần một struct có đúng method. Package `net/http/httptest` có sẵn công cụ để test cả phía client lẫn server mà không cần mạng thật. Kết hợp với table-driven test, bạn kiểm tra được cả nhánh thành công lẫn các nhánh lỗi như timeout hay `ErrNotFound`.",
+        "en": "Go needs no mocking framework: since interfaces are satisfied implicitly, a test only needs a struct with the right methods. The `net/http/httptest` package provides tools to test both clients and servers without a real network. Combined with table-driven tests, you can cover the success path and error paths such as timeouts or `ErrNotFound`."
       }
     }
   ]

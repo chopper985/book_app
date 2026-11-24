@@ -66,8 +66,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`View` không nhận thuộc tính `style` dạng inline",
-            "en": "`View` does not accept an inline `style` object"
+            "vi": "`View` không nhận `style` dạng inline; style phải được tạo bằng `StyleSheet.create`",
+            "en": "`View` does not accept an inline `style` object; it must come from `StyleSheet.create`"
           }
         },
         {
@@ -87,8 +87,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Component phải là class component mới render được text",
-            "en": "Only class components can render text"
+            "vi": "Chỉ class component mới render được text; function component phải trả về `View`",
+            "en": "Only class components can render text; a function component must return a `View`"
           }
         }
       ],
@@ -174,15 +174,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Bắt buộc phải dùng, style inline sẽ bị bỏ qua",
-            "en": "It is mandatory; inline styles are ignored"
+            "vi": "Bắt buộc phải dùng; style inline bị bỏ qua nếu không được đăng ký qua `StyleSheet`",
+            "en": "It is mandatory; inline styles are ignored unless they are also registered with `StyleSheet`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Gom style một chỗ, có kiểm tra kiểu tĩnh; style vẫn là object JS, không có cascade như CSS",
-            "en": "Groups styles in one place with static type checking; styles stay JS objects with no CSS-like cascade"
+            "vi": "Gom style có tên kèm kiểm tra kiểu; style vẫn là object JS, không có cascade như CSS",
+            "en": "Groups named styles with type checking; they stay plain JS objects with no CSS cascade"
           }
         }
       ],
@@ -262,8 +262,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Phải dùng `require(url)` thay vì `{ uri: url }`",
-            "en": "You must use `require(url)` instead of `{ uri: url }`"
+            "vi": "Phải dùng `require(url)` thay vì `{ uri: url }` cho mọi ảnh tải qua HTTPS",
+            "en": "You must use `require(url)` instead of `{ uri: url }` for any image loaded over HTTPS"
           }
         },
         {
@@ -276,8 +276,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "`Image` không được đặt bên trong `View`",
-            "en": "An `Image` cannot be placed inside a `View`"
+            "vi": "`Image` không được đặt bên trong một `View` có đặt `padding`",
+            "en": "An `Image` cannot be placed inside a `View` that has `padding` set on it"
           }
         },
         {
@@ -360,8 +360,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Dùng `SafeAreaView` có sẵn trong core `react-native`",
-            "en": "Use the `SafeAreaView` built into core `react-native`"
+            "vi": "Dùng `SafeAreaView` có sẵn trong core `react-native`, tự chừa inset trên cả hai nền tảng",
+            "en": "Use the `SafeAreaView` built into core `react-native`, which pads for insets on both platforms"
           }
         },
         {
@@ -374,8 +374,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "Ẩn hẳn thanh trạng thái bằng `StatusBar hidden`",
-            "en": "Always hide the status bar with `StatusBar hidden`"
+            "vi": "Luôn ẩn thanh trạng thái bằng `<StatusBar hidden />` để nội dung bắt đầu từ mép trên",
+            "en": "Always hide the status bar with `<StatusBar hidden />` so content starts at the top"
           }
         },
         {
@@ -458,8 +458,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`push` thay thế màn hình hiện tại bằng `Detail`",
-            "en": "`push` replaces the current screen with `Detail`"
+            "vi": "`push` thay màn hình hiện tại bằng `Detail`, nên khi back sẽ bỏ qua màn hình trước đó",
+            "en": "`push` replaces the current screen with `Detail`, so going back skips the previous screen"
           }
         },
         {
@@ -472,8 +472,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "`push` xoá toàn bộ stack rồi mở `Detail`",
-            "en": "`push` clears the whole stack and then opens `Detail`"
+            "vi": "`push` xoá toàn bộ stack rồi mở `Detail` làm màn hình gốc mới",
+            "en": "`push` clears the whole stack and then opens `Detail` as the new root screen"
           }
         },
         {
@@ -657,15 +657,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "Màn hình vẫn mounted khi quay lại nên `useEffect` với `[]` không chạy lại; cần `useFocusEffect`",
-            "en": "The screen stays mounted when you return, so the `[]` effect does not rerun; use `useFocusEffect`"
+            "vi": "Màn hình vẫn mounted nên effect với `[]` không chạy lại khi quay về; cần `useFocusEffect`",
+            "en": "The screen stays mounted, so the `[]` effect doesn't rerun on return; use `useFocusEffect`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`FlatList` cache dữ liệu và bỏ qua prop `data` mới",
-            "en": "`FlatList` caches data and ignores a new `data` prop"
+            "vi": "`FlatList` cache mảng `data` đầu tiên và bỏ qua prop `data` mới cho tới khi remount",
+            "en": "`FlatList` caches its first `data` array and ignores any new `data` prop until it remounts"
           }
         },
         {
@@ -711,15 +711,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Navigation state nên serializable; hàm làm hỏng deep link và khôi phục state",
-            "en": "Navigation state should be serializable; functions break deep linking and state restoration"
+            "vi": "Navigation state nên serializable; hàm làm hỏng deep link và việc khôi phục state",
+            "en": "Navigation state should be serializable; functions break deep linking and restoration"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Hàm trong params sẽ bị gọi tự động khi mở màn hình",
-            "en": "Functions in params are invoked automatically when the screen opens"
+            "vi": "Hàm trong params bị gọi tự động khi màn hình đích mở ra, trước khi nó render",
+            "en": "Functions in params are invoked automatically when the target screen opens, before it renders"
           }
         }
       ],
@@ -931,15 +931,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Lưu vị trí cuộn cập nhật 60 lần mỗi giây",
-            "en": "Storing a scroll position updated 60 times per second"
+            "vi": "Lưu vị trí cuộn cập nhật 60 lần mỗi giây và được nhiều component đọc",
+            "en": "Storing a scroll position that updates 60 times per second and is read by many components"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Lưu dữ liệu vĩnh viễn sau khi tắt app",
-            "en": "Persisting data permanently after the app is closed"
+            "vi": "Lưu dữ liệu vĩnh viễn để vẫn còn sau khi app đã bị tắt hẳn",
+            "en": "Persisting data permanently, so it is still available after the app has been fully closed"
           }
         },
         {
@@ -1097,8 +1097,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Gán `state.loading = true`",
-            "en": "Assigning `state.loading = true`"
+            "vi": "Gán `state.loading = true` trực tiếp trên draft mà không return",
+            "en": "Assigning `state.loading = true` directly on the draft without a return"
           }
         }
       ],
@@ -1212,8 +1212,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`persist` chỉ lưu khi app vào background",
-            "en": "`persist` only saves when the app goes to the background"
+            "vi": "`persist` chỉ lưu khi app vào background nên thay đổi cuối cùng luôn bị mất",
+            "en": "`persist` only saves when the app goes to the background, so the last change is always lost"
           }
         },
         {
@@ -1226,8 +1226,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "Phải bọc app trong `ZustandProvider` mới đọc được dữ liệu",
-            "en": "The app must be wrapped in a `ZustandProvider` to read the data"
+            "vi": "Phải bọc app trong `ZustandProvider` thì mới đọc được dữ liệu đã persist khi mở app",
+            "en": "The app must be wrapped in a `ZustandProvider` before persisted data can be read on launch"
           }
         },
         {
@@ -1263,8 +1263,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Đọc `items.length` khiến Redux theo dõi toàn bộ mảng",
-            "en": "Reading `items.length` makes Redux track the whole array"
+            "vi": "Đọc `items.length` khiến Redux theo dõi toàn bộ mảng `items` như một dependency",
+            "en": "Reading `items.length` makes Redux track the whole `items` array as a dependency"
           }
         },
         {
@@ -1284,8 +1284,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "`useSelector` luôn render lại với mọi action, không thể tránh",
-            "en": "`useSelector` always re-renders on every action; it cannot be avoided"
+            "vi": "`useSelector` luôn render lại với mọi action được dispatch, không thể tránh được",
+            "en": "`useSelector` always re-renders on every dispatched action; that cannot be avoided"
           }
         }
       ],
@@ -1324,15 +1324,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "`FlatList` render trên UI thread nên không cần JS",
-            "en": "`FlatList` renders on the UI thread so it needs no JS"
+            "vi": "`FlatList` render hoàn toàn trên UI thread nên không cần JavaScript",
+            "en": "`FlatList` renders entirely on the UI thread, so it needs no JavaScript at all"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`FlatList` tự cache ảnh của mọi item",
-            "en": "`FlatList` caches every item's images automatically"
+            "vi": "`FlatList` tự cache ảnh của mọi item nên các dòng không bao giờ tải lại ảnh",
+            "en": "`FlatList` caches every item's images automatically, so rows never reload them"
           }
         }
       ],
@@ -1459,8 +1459,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`Switch` phải là controlled bởi `FlatList`",
-            "en": "The `Switch` must be controlled by `FlatList`"
+            "vi": "`Switch` phải là controlled component do chính `FlatList` quản lý, không phải dòng",
+            "en": "The `Switch` must be a controlled component managed by `FlatList` itself, not the row"
           }
         },
         {
@@ -1513,15 +1513,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "`React.memo` không hoạt động bên trong `FlatList`",
-            "en": "`React.memo` does not work inside a `FlatList`"
+            "vi": "`React.memo` không hoạt động trong `FlatList`, vì các dòng được tái sử dụng ở phía native",
+            "en": "`React.memo` does not work inside a `FlatList`, because rows are recycled natively"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Phải dùng class component với `shouldComponentUpdate`",
-            "en": "You must use a class component with `shouldComponentUpdate`"
+            "vi": "Phải dùng class component với `shouldComponentUpdate`; `React.memo` bỏ qua props",
+            "en": "You must use a class component with `shouldComponentUpdate`; `React.memo` ignores props"
           }
         },
         {
@@ -1564,15 +1564,15 @@
         {
           "id": "b",
           "text": {
-            "vi": "`renderItem` bị `useCallback` với `[]` và thiếu `extraData={selectedId}` nên `FlatList` không render lại",
-            "en": "`renderItem` is memoized with `[]` and `extraData={selectedId}` is missing, so `FlatList` does not re-render"
+            "vi": "`renderItem` bị `useCallback` với `[]` và thiếu `extraData={selectedId}`",
+            "en": "`renderItem` is memoized with `[]` and `extraData={selectedId}` is missing"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`Pressable` không nhận được `onPress` bên trong `FlatList`",
-            "en": "`Pressable` cannot receive `onPress` inside a `FlatList`"
+            "vi": "`Pressable` không nhận được `onPress` trong `FlatList`; phải dùng `TouchableOpacity`",
+            "en": "`Pressable` cannot receive `onPress` inside a `FlatList`; use `TouchableOpacity` instead"
           }
         },
         {
@@ -1642,8 +1642,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Cuộn mượt hơn và không còn vùng trắng, không có nhược điểm",
-            "en": "Smoother scrolling with no blank areas and no downside"
+            "vi": "Cuộn mượt hơn, không còn vùng trắng và không có nhược điểm trên máy yếu",
+            "en": "Smoother scrolling with no blank areas, and no downside on low-end devices"
           }
         },
         {
@@ -1663,8 +1663,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Tắt virtualization, mọi item được render cùng lúc",
-            "en": "Virtualization is disabled and all items render at once"
+            "vi": "Tắt virtualization nên mọi item trong `data` được render cùng lúc khi mount",
+            "en": "Virtualization is disabled, so every item in `data` renders at once on mount"
           }
         }
       ],
@@ -1689,8 +1689,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Dùng JIT tối ưu mạnh như V8",
-            "en": "It uses an aggressive JIT like V8"
+            "vi": "Dùng trình biên dịch JIT mạnh như V8 để tối ưu các đoạn code nóng khi mở app",
+            "en": "It uses an aggressive JIT compiler like V8 to optimize hot code paths at launch"
           }
         },
         {
@@ -1710,8 +1710,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Biên dịch JS thành bytecode lúc build, không cần parse/compile khi mở app",
-            "en": "It compiles JS to bytecode at build time, so nothing is parsed/compiled at launch"
+            "vi": "Biên dịch JS thành bytecode lúc build, nên không phải parse khi mở app",
+            "en": "It compiles JS to bytecode at build time, so nothing is parsed at launch"
           }
         }
       ],
@@ -1787,8 +1787,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Lỗi vì thiếu file `Button.tsx`",
-            "en": "An error, because `Button.tsx` is missing"
+            "vi": "Lỗi, vì bắt buộc phải có `Button.tsx` dùng chung làm file mặc định",
+            "en": "An error, because a shared `Button.tsx` is required as the default fallback"
           }
         },
         {
@@ -1957,8 +1957,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Khi bị từ chối hàm ném lỗi nhưng `catch` đặt sai chỗ",
-            "en": "Denial throws an error but the `catch` is misplaced"
+            "vi": "Khi bị từ chối hàm ném lỗi, nhưng `catch` đặt ngoài `if` nên không bao giờ chạy",
+            "en": "Denial throws an error, but the `catch` is placed outside the `if` so it never runs"
           }
         },
         {
@@ -2025,8 +2025,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Bật `newArchEnabled: false` để Expo Go nạp được module",
-            "en": "Set `newArchEnabled: false` so Expo Go can load the module"
+            "vi": "Đặt `newArchEnabled: false` trong `app.json` để Expo Go nạp được module tuỳ biến",
+            "en": "Set `newArchEnabled: false` in `app.json` so Expo Go can load the custom module"
           }
         }
       ],
@@ -2051,29 +2051,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "App sẽ thoát ngay lập tức",
-            "en": "The app exits immediately"
+            "vi": "App thoát ngay lập tức, như khi người dùng bấm nút Home",
+            "en": "The app exits immediately, as if the user pressed Home"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Sự kiện đã được xử lý, chặn hành vi back mặc định",
-            "en": "The event is handled and the default back behaviour is blocked"
+            "vi": "Sự kiện đã được xử lý; chặn back mặc định",
+            "en": "The press is handled; default back is blocked"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Listener tự động bị gỡ bỏ",
-            "en": "The listener is removed automatically"
+            "vi": "Listener tự động bị gỡ bỏ sau khi xử lý lần bấm back đầu tiên",
+            "en": "The listener is removed automatically after it handles the first back press"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Chuyển sự kiện cho iOS xử lý",
-            "en": "The event is forwarded to iOS for handling"
+            "vi": "Sự kiện được chuyển cho màn hình trước đó xử lý",
+            "en": "The event is passed on to the previous screen for handling"
           }
         }
       ],
@@ -2238,29 +2238,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Keychain/Keystore qua `expo-secure-store` hoặc `react-native-keychain`",
-            "en": "Keychain/Keystore via `expo-secure-store` or `react-native-keychain`"
+            "vi": "Keychain/Keystore, ví dụ qua `expo-secure-store`",
+            "en": "Keychain/Keystore, e.g. via `expo-secure-store`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`AsyncStorage` vì nó đã được mã hoá sẵn",
-            "en": "`AsyncStorage`, because it is already encrypted"
+            "vi": "`AsyncStorage`, vì nó được mã hoá mặc định trên cả iOS và Android",
+            "en": "`AsyncStorage`, because it is encrypted by default on both iOS and Android"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Biến toàn cục trong JS",
-            "en": "A global JS variable"
+            "vi": "Biến toàn cục trong JS, chỉ nằm trong bộ nhớ và không bao giờ ghi xuống đĩa",
+            "en": "A global JS variable, which lives only in memory and is never written to disk"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "File `.env` đóng gói kèm app",
-            "en": "A `.env` file bundled with the app"
+            "vi": "File `.env` đóng gói kèm app và được đọc khi khởi động",
+            "en": "A `.env` file bundled with the app and read at startup"
           }
         }
       ],
@@ -2736,29 +2736,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Native driver không hỗ trợ animate `width` (thuộc tính layout)",
-            "en": "The native driver cannot animate `width` (a layout property)"
+            "vi": "Native driver không animate được `width`",
+            "en": "The native driver can't animate `width`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`Animated.Value` không được tạo trong `useRef`",
-            "en": "`Animated.Value` must not be created in `useRef`"
+            "vi": "`Animated.Value` không được tạo trong `useRef`; phải dùng `useState`",
+            "en": "`Animated.Value` must not be created in `useRef`; it needs `useState`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`Animated.timing` thiếu `easing`",
-            "en": "`Animated.timing` is missing `easing`"
+            "vi": "`Animated.timing` thiếu hàm `easing`, vốn bắt buộc khi dùng `useNativeDriver`",
+            "en": "`Animated.timing` is missing an `easing` function, which is required with `useNativeDriver`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`Animated.View` không nhận style động",
-            "en": "`Animated.View` does not accept animated styles"
+            "vi": "`Animated.View` không nhận style động lấy từ giá trị `useRef`",
+            "en": "`Animated.View` does not accept animated styles from a `useRef` value"
           }
         }
       ],
@@ -2783,22 +2783,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Gom các message JSON thành batch lớn hơn để gửi qua bridge nhanh hơn",
-            "en": "It batches JSON messages into bigger chunks so the bridge is faster"
+            "vi": "Gom message JSON thành batch lớn hơn để bridge bất đồng bộ ít lượt qua lại và nhanh hơn",
+            "en": "It batches JSON messages into larger chunks so the async bridge makes fewer, faster crossings"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "JS giữ tham chiếu tới host object C++ và gọi trực tiếp (có thể đồng bộ), không serialize JSON qua bridge",
-            "en": "JS holds references to C++ host objects and calls them directly (even synchronously), without JSON over a bridge"
+            "vi": "JS giữ tham chiếu tới host object C++ và gọi trực tiếp, kể cả đồng bộ",
+            "en": "JS holds references to C++ host objects and calls them directly, even synchronously"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Biên dịch JavaScript thành mã máy native lúc build",
-            "en": "It compiles JavaScript into native machine code at build time"
+            "vi": "Biên dịch JavaScript thành mã máy native lúc build, thay thế engine Hermes",
+            "en": "It compiles JavaScript into native machine code at build time, replacing the Hermes engine"
           }
         },
         {
@@ -2830,15 +2830,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Chuyển component JS thành view native lúc chạy",
-            "en": "Converts JS components into native views at runtime"
+            "vi": "Chuyển component JS thành view native lúc chạy bằng cách đọc kiểu prop của chúng",
+            "en": "Converts JS components into native views at runtime by inspecting their prop types"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Tự sinh unit test cho native module",
-            "en": "Generates unit tests for native modules automatically"
+            "vi": "Tự sinh unit test cho native module dựa trên định nghĩa kiểu TypeScript của chúng",
+            "en": "Generates unit tests for native modules automatically from their TypeScript type definitions"
           }
         },
         {
@@ -2915,8 +2915,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`queryByText` chờ phần tử xuất hiện, `getByText` thì không",
-            "en": "`queryByText` waits for the element to appear, `getByText` does not"
+            "vi": "`queryByText` chờ phần tử xuất hiện, còn `getByText` chỉ kiểm tra một lần",
+            "en": "`queryByText` waits for the element to appear, while `getByText` checks only once"
           }
         },
         {
@@ -2962,29 +2962,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Debug tải JS từ Metro lúc chạy, release đóng gói sẵn bundle trong app",
-            "en": "Debug loads JS from Metro at runtime, release embeds the bundle in the app"
+            "vi": "Debug tải JS từ Metro; release đóng gói sẵn bundle",
+            "en": "Debug loads JS from Metro; release embeds the bundle"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Bản debug không có quyền truy cập mạng",
-            "en": "Debug builds have no network permission"
+            "vi": "Bản debug không có quyền truy cập mạng nên không kết nối được Metro",
+            "en": "Debug builds have no network permission, so they cannot reach Metro"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Bản release không dùng JavaScript",
-            "en": "Release builds do not use JavaScript"
+            "vi": "Bản release không dùng JavaScript; mọi thứ được biên dịch thành mã native",
+            "en": "Release builds do not use JavaScript; everything is compiled to native code"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Metro chỉ cần cho iOS, không cần cho Android",
-            "en": "Metro is only needed on iOS, not on Android"
+            "vi": "Metro chỉ cần cho iOS; bản debug Android đã chứa sẵn bundle",
+            "en": "Metro is only needed on iOS; Android debug builds already contain the bundle"
           }
         }
       ],
@@ -3013,8 +3013,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`mockResolvedValue` phải đổi thành `mockReturnValue`",
-            "en": "`mockResolvedValue` must be `mockReturnValue`"
+            "vi": "Phải đổi `mockResolvedValue` thành `mockReturnValue`, vì bản thân test không phải `async`",
+            "en": "`mockResolvedValue` must be `mockReturnValue`, because the test itself is not `async`"
           }
         },
         {
@@ -3034,8 +3034,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Jest không hỗ trợ chuỗi tiếng Việt có dấu",
-            "en": "Jest does not support accented Vietnamese strings"
+            "vi": "Jest không hỗ trợ chuỗi tiếng Việt có dấu trừ khi file được lưu dạng UTF-16",
+            "en": "Jest does not support accented Vietnamese strings unless the file is saved as UTF-16"
           }
         }
       ],
@@ -3119,8 +3119,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "File JS bundle `index.android.bundle`",
-            "en": "The JS bundle file `index.android.bundle`"
+            "vi": "File JS bundle `index.android.bundle` do Metro xuất ra",
+            "en": "The JS bundle file `index.android.bundle` exported by Metro"
           }
         }
       ],
@@ -3145,29 +3145,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Flipper được tích hợp sẵn trong template",
-            "en": "Flipper, built into the template"
+            "vi": "Flipper, được tích hợp sẵn trong template React Native mặc định",
+            "en": "Flipper, which is built into the default React Native template"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Remote JS Debugging chạy JS trong tab Chrome",
-            "en": "Remote JS Debugging that runs JS inside a Chrome tab"
+            "vi": "Remote JS Debugging, chạy JavaScript của app bên trong một tab trình duyệt Chrome",
+            "en": "Remote JS Debugging, which runs the app's JavaScript inside a Chrome browser tab"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Chỉ có thể debug bằng `console.log`",
-            "en": "Only `console.log` debugging is possible"
+            "vi": "Chỉ có thể debug bằng `console.log` kể từ khi Hermes thành mặc định",
+            "en": "Only `console.log` debugging is possible since Hermes became the default"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "React Native DevTools (kết nối Hermes qua Chrome DevTools Protocol)",
-            "en": "React Native DevTools (connected to Hermes over the Chrome DevTools Protocol)"
+            "vi": "React Native DevTools, kết nối trực tiếp với Hermes",
+            "en": "React Native DevTools, connected to Hermes"
           }
         }
       ],
@@ -3213,8 +3213,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Đổi ảnh banner nằm trong JS bundle",
-            "en": "Changing a banner image bundled with the JS"
+            "vi": "Đổi ảnh banner được đóng gói cùng JS bundle",
+            "en": "Changing a banner image that is bundled together with the JS"
           }
         }
       ],
@@ -3260,6 +3260,1884 @@
       "explanation": {
         "vi": "CI build tự động (EAS Build/Fastlane), chạy unit test, lint, type-check và E2E (Detox/Maestro) trên mỗi bản; đánh version và `runtimeVersion` rõ ràng để OTA chỉ tới binary tương thích. Phát hành store theo staged rollout (Play) / phased release (App Store), thử trước qua TestFlight/internal testing. OTA tách channel (staging/production), rollout theo phần trăm và có thể rollback nhanh; chỉ dùng OTA cho sửa JS, không lách chính sách store. Theo dõi crash-free rate và số liệu chính qua Crashlytics/Sentry để dừng rollout khi chỉ số xấu, kèm feature flag để tắt tính năng lỗi mà không cần build mới.",
         "en": "Automate CI builds (EAS Build/Fastlane) running unit tests, lint, type-checks and E2E (Detox/Maestro) on every build; version clearly and set `runtimeVersion` so OTA only reaches compatible binaries. Ship store builds via staged rollout (Play) / phased release (App Store), after TestFlight/internal testing. Split OTA into channels (staging/production), roll out by percentage with fast rollback; use OTA only for JS fixes, never to bypass store policies. Watch the crash-free rate and key metrics in Crashlytics/Sentry to halt a rollout when they drop, and use feature flags to switch off broken features without a new build."
+      }
+    },
+    {
+      "id": "react_native.components.010",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần một nút tuỳ biến, đổi màu nền khi đang được nhấn. React Native khuyến nghị dùng component nào cho các tương tác chạm mới?",
+        "en": "You need a custom button whose background changes while it is pressed. Which component does React Native recommend for new touch interactions?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`View` với prop `onPress`",
+            "en": "`View` with an `onPress` prop"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`Button` với prop `style={{ backgroundColor }}`",
+            "en": "`Button` with a `style={{ backgroundColor }}` prop"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`ScrollView` với prop `onPress`",
+            "en": "`ScrollView` with an `onPress` prop"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Pressable` với `style={({ pressed }) => ...}`",
+            "en": "`Pressable` with `style={({ pressed }) => ...}`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Pressable` là API được khuyến nghị cho tương tác chạm: nó có `onPress`, `onLongPress`, `hitSlop` và nhận `style` dạng hàm `({ pressed }) => ...` để đổi giao diện khi đang nhấn. `View` không có prop `onPress`, nên gán vào sẽ không có tác dụng. `Button` có giao diện native cố định và không nhận prop `style`, nên không tuỳ biến được nền.",
+        "en": "`Pressable` is the recommended API for touch handling: it offers `onPress`, `onLongPress`, `hitSlop` and accepts a `style` function `({ pressed }) => ...` to change appearance while pressed. `View` has no `onPress` prop, so setting one does nothing. `Button` has a fixed native look and does not accept a `style` prop, so you cannot customise its background."
+      }
+    },
+    {
+      "id": "react_native.components.011",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong một `View` cha có kích thước cố định, phần tử con có `style={{ flex: 1 }}` nghĩa là gì?",
+        "en": "Inside a parent `View` with a fixed size, what does a child with `style={{ flex: 1 }}` mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Con giãn ra chiếm phần không gian còn trống theo trục chính của cha",
+            "en": "The child grows to fill the remaining space along the parent's main axis"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Con có chiều rộng đúng 1 điểm (dp)",
+            "en": "The child is exactly 1 point (dp) wide"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Con luôn rộng 100% theo chiều ngang, bất kể `flexDirection`",
+            "en": "The child is always 100% wide horizontally, whatever the `flexDirection`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Con được đặt `zIndex` bằng 1 để nằm trên các phần tử khác",
+            "en": "The child gets a `zIndex` of 1 so it sits above others"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`flex: 1` cho phép phần tử con giãn ra chiếm phần không gian còn trống dọc theo trục chính của cha. Nếu nhiều con cùng có `flex`, không gian được chia theo tỉ lệ, ví dụ `flex: 1` và `flex: 2` chia theo 1:2. Giá trị này không phải đơn vị kích thước như 1 điểm hay 1%, và nó phụ thuộc vào `flexDirection` của cha chứ không luôn là chiều ngang.",
+        "en": "`flex: 1` lets the child grow to fill the remaining space along the parent's main axis. If several children have `flex`, the space is split proportionally, e.g. `flex: 1` and `flex: 2` share it 1:2. It is not a size unit like 1 point or 1%, and it follows the parent's `flexDirection` rather than always being horizontal."
+      }
+    },
+    {
+      "id": "react_native.components.012",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích cách bố cục Flexbox hoạt động trong React Native: trục chính, trục phụ, `justifyContent` và `alignItems`. Có gì khác so với CSS trên web?",
+        "en": "Explain how Flexbox layout works in React Native: main axis, cross axis, `justifyContent` and `alignItems`. How does it differ from CSS on the web?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`flexDirection` quyết định trục chính, mặc định là `column`",
+          "en": "`flexDirection` sets the main axis, default `column`"
+        },
+        {
+          "vi": "`justifyContent` căn theo trục chính, `alignItems` căn theo trục phụ",
+          "en": "`justifyContent` aligns on the main axis, `alignItems` on the cross axis"
+        },
+        {
+          "vi": "`flex` chia không gian còn trống theo tỉ lệ",
+          "en": "`flex` splits remaining space proportionally"
+        },
+        {
+          "vi": "Khác web: mặc định `column`, không có đơn vị, mọi `View` đều là flex container",
+          "en": "Unlike the web: default `column`, unitless sizes, every `View` is a flex container"
+        }
+      ],
+      "explanation": {
+        "vi": "`flexDirection` quyết định trục chính: `column` (mặc định trong React Native) xếp con theo chiều dọc, `row` xếp theo chiều ngang; trục phụ vuông góc với trục chính. `justifyContent` căn các con dọc theo trục chính (`flex-start`, `center`, `space-between`...), còn `alignItems` căn theo trục phụ (mặc định là `stretch`). `flex` chia phần không gian còn lại giữa các con. Khác web: mặc định là `column` thay vì `row`, kích thước không có đơn vị (density-independent pixels), và mọi `View` đều dùng flexbox nên không có `display: block`/`inline`.",
+        "en": "`flexDirection` sets the main axis: `column` (the React Native default) stacks children vertically, `row` lays them out horizontally; the cross axis is perpendicular. `justifyContent` aligns children along the main axis (`flex-start`, `center`, `space-between`...), while `alignItems` aligns them on the cross axis (default `stretch`). `flex` splits the remaining space between children. Differences from the web: the default is `column` instead of `row`, sizes are unitless (density-independent pixels), and every `View` uses flexbox, so there is no `display: block`/`inline`."
+      }
+    },
+    {
+      "id": "react_native.components.013",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ô `TextInput` ở cuối màn hình đăng nhập bị bàn phím che mất khi người dùng nhập. Cách xử lý phổ biến là gì?",
+        "en": "A `TextInput` at the bottom of a login screen is hidden by the keyboard while typing. What is a common fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đặt `zIndex: 999` và `elevation: 10` cho `TextInput` để nó hiển thị trên cửa sổ bàn phím",
+            "en": "Give the `TextInput` `zIndex: 999` and `elevation: 10` so it renders above the keyboard window"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi `Keyboard.dismiss()` trong `onFocus` của `TextInput`",
+            "en": "Call `Keyboard.dismiss()` in the `TextInput`'s `onFocus`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bọc form bằng `KeyboardAvoidingView` với `behavior` phù hợp từng nền tảng",
+            "en": "Wrap the form in `KeyboardAvoidingView` with a per-platform `behavior`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đặt `position: 'absolute', bottom: 0` cho `TextInput`",
+            "en": "Set `position: 'absolute', bottom: 0` on the `TextInput`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Bàn phím ảo che lên nội dung, nên cần làm nội dung dịch lên hoặc co lại khi bàn phím mở. `KeyboardAvoidingView` làm việc này dựa trên chiều cao bàn phím, với `behavior` cần chọn theo nền tảng (thường `'padding'` trên iOS); các thư viện như `react-native-keyboard-controller` cho kết quả nhất quán hơn giữa iOS và Android. Tăng `zIndex` không có tác dụng vì bàn phím là cửa sổ hệ thống, không nằm trong cây view của app. Gọi `Keyboard.dismiss()` khi focus thì người dùng không gõ được nữa.",
+        "en": "The software keyboard covers the content, so the content must move up or shrink while it is open. `KeyboardAvoidingView` does this based on the keyboard height, with `behavior` chosen per platform (usually `'padding'` on iOS); libraries like `react-native-keyboard-controller` behave more consistently across iOS and Android. Raising `zIndex` does nothing because the keyboard is a system window, not part of the app's view tree. Calling `Keyboard.dismiss()` on focus just stops the user from typing."
+      }
+    },
+    {
+      "id": "react_native.components.014",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "components",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Khi gõ vào ô nhập, nội dung không hiển thị đúng và TypeScript báo lỗi kiểu ở prop của `TextInput`. Lỗi ở đâu?",
+        "en": "When typing into the input, the text does not show correctly and TypeScript reports a type error on a `TextInput` prop. Where is the bug?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function NameInput() {\n  const [name, setName] = useState('');\n\n  return (\n    <TextInput\n      value={name}\n      onChange={setName}\n      placeholder=\"Họ tên\"\n    />\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`onChange` truyền vào event chứ không phải chuỗi; dùng `onChangeText`",
+            "en": "`onChange` passes an event, not a string; use `onChangeText`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`useState('')` phải khởi tạo bằng `null` để `value` ban đầu rỗng",
+            "en": "`useState('')` must be initialised with `null` so `value` starts empty"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`TextInput` không hỗ trợ prop `value`; phải dùng `defaultValue`",
+            "en": "`TextInput` does not support a `value` prop; use `defaultValue` instead"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải bọc `TextInput` trong component `Text` thì ký tự gõ vào mới hiện",
+            "en": "The `TextInput` must be wrapped in a `Text` component for the typed characters to show"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`onChange` của `TextInput` nhận một event object (`NativeSyntheticEvent`), không phải chuỗi, nên `setName` lưu cả object đó vào state và `value` không còn là string. Prop dành cho chuỗi văn bản là `onChangeText`, nên chỉ cần `onChangeText={setName}`. Nếu muốn dùng `onChange` thì phải đọc `e.nativeEvent.text`. Khởi tạo `useState('')` là đúng, không phải nguyên nhân.",
+        "en": "`TextInput`'s `onChange` receives an event object (`NativeSyntheticEvent`), not a string, so `setName` stores that object in state and `value` is no longer a string. The prop for plain text is `onChangeText`, so `onChangeText={setName}` is all you need. If you want `onChange`, read `e.nativeEvent.text`. Initialising with `useState('')` is correct and not the cause."
+      }
+    },
+    {
+      "id": "react_native.navigation.010",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "navigation",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong native stack, người dùng đi qua `Home → List → Detail → Edit`. Gọi hàm nào để quay thẳng về `Home` (màn hình đầu tiên của stack)?",
+        "en": "In a native stack, the user went `Home → List → Detail → Edit`. Which call jumps straight back to `Home` (the first screen of the stack)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`navigation.goBack()`",
+            "en": "`navigation.goBack()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`navigation.push('Home')`",
+            "en": "`navigation.push('Home')`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`navigation.popToTop()`",
+            "en": "`navigation.popToTop()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`navigation.setParams({ screen: 'Home' })`",
+            "en": "`navigation.setParams({ screen: 'Home' })`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`navigation.popToTop()` gỡ mọi màn hình phía trên và quay về màn hình đầu tiên của stack. `goBack()` chỉ quay lại một bước (về `Detail`). `push('Home')` thêm một bản `Home` mới lên đỉnh stack, khiến stack càng dài và nút back sẽ quay lại `Edit`. `reset` cũng làm được nhưng là thao tác nặng tay hơn, thường dùng cho luồng như đăng xuất.",
+        "en": "`navigation.popToTop()` removes every screen above and returns to the first screen of the stack. `goBack()` only goes back one step (to `Detail`). `push('Home')` adds a new `Home` on top, making the stack longer, and back would return to `Edit`. `reset` can also do it but is heavier-handed and usually used for flows like logout."
+      }
+    },
+    {
+      "id": "react_native.navigation.011",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "navigation",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách nào đặt tiêu đề header `Chi tiết` cho màn hình `Detail` trong React Navigation?",
+        "en": "How do you set the header title `Chi tiết` for the `Detail` screen in React Navigation?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`navigation.title = 'Chi tiết'` trong component `Detail`",
+            "en": "`navigation.title = 'Chi tiết'` inside the `Detail` component"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`<Stack.Screen name=\"Detail\" component={Detail} options={{ title: 'Chi tiết' }} />`",
+            "en": "`<Stack.Screen name=\"Detail\" component={Detail} options={{ title: 'Chi tiết' }} />`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`<StatusBar title=\"Chi tiết\" />` trong component `Detail`",
+            "en": "`<StatusBar title=\"Chi tiết\" />` inside the `Detail` component"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`<Stack.Screen name=\"Chi tiết\" component={Detail} />` rồi gọi `navigate('Detail')`",
+            "en": "`<Stack.Screen name=\"Chi tiết\" component={Detail} />`, then call `navigate('Detail')`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Tiêu đề header được cấu hình qua `options` của màn hình, ví dụ `options={{ title: 'Chi tiết' }}` trên `Stack.Screen`; nếu tiêu đề phụ thuộc dữ liệu thì có thể truyền hàm `options={({ route }) => ...}` hoặc gọi `navigation.setOptions` bên trong màn hình. Gán `navigation.title` không có tác dụng vì đó không phải API. `StatusBar` chỉ điều khiển thanh trạng thái của hệ thống, không phải header.",
+        "en": "The header title is configured through the screen's `options`, e.g. `options={{ title: 'Chi tiết' }}` on `Stack.Screen`; if the title depends on data you can pass a function `options={({ route }) => ...}` or call `navigation.setOptions` inside the screen. Assigning `navigation.title` does nothing because it is not an API. `StatusBar` only controls the system status bar, not the header."
+      }
+    },
+    {
+      "id": "react_native.navigation.012",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "navigation",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "App bật state persistence cho React Navigation, nên state (kể cả params) được lưu bằng `JSON.stringify` và khôi phục bằng `JSON.parse`. Đoạn code mô phỏng dưới đây in ra gì?",
+        "en": "The app enables React Navigation state persistence, so the state (including params) is saved with `JSON.stringify` and restored with `JSON.parse`. What does the simulation below print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const params = { id: 7, createdAt: new Date('2025-01-01T00:00:00Z') };\n\nconst restored = JSON.parse(JSON.stringify(params));\nconsole.log(typeof restored.createdAt, restored.id);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "object 7",
+            "en": "object 7"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "string \"7\"",
+            "en": "string \"7\""
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "undefined 7",
+            "en": "undefined 7"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "string 7",
+            "en": "string 7"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`JSON.stringify` biến `Date` thành chuỗi ISO, và `JSON.parse` không tự đổi chuỗi đó về `Date`, nên sau khi khôi phục `createdAt` là `string`. Number như `id` vẫn giữ nguyên. Đây là lý do React Navigation khuyên params chỉ nên chứa dữ liệu serializable đơn giản như id, string, number; muốn dùng `Date` thì truyền timestamp hoặc chuỗi ISO rồi tự chuyển đổi. Gọi `createdAt.getTime()` sau khi khôi phục sẽ ném `TypeError`.",
+        "en": "`JSON.stringify` turns a `Date` into an ISO string, and `JSON.parse` does not turn it back into a `Date`, so after restoring `createdAt` is a `string`. A number like `id` stays the same. That is why React Navigation recommends params contain only simple serializable data such as ids, strings and numbers; for dates, pass a timestamp or ISO string and convert it yourself. Calling `createdAt.getTime()` after restoring would throw a `TypeError`."
+      }
+    },
+    {
+      "id": "react_native.navigation.013",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "navigation",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Màn hình sau đăng ký nhận dữ liệu khi được focus, nhưng log cho thấy nó subscribe/unsubscribe lại liên tục mỗi lần re-render. Lỗi ở đâu?",
+        "en": "This screen subscribes to updates while focused, but logs show it unsubscribes and resubscribes on every re-render. Where is the bug?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function OrdersScreen() {\n  const [orders, setOrders] = useState<Order[]>([]);\n\n  useFocusEffect(() => {\n    const sub = ordersApi.subscribe(setOrders);\n    return () => sub.unsubscribe();\n  });\n\n  return <OrderList data={orders} />;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không được trả về hàm cleanup trong `useFocusEffect`",
+            "en": "You must not return a cleanup function from `useFocusEffect`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`useFocusEffect` chỉ dùng được trong Tab Navigator",
+            "en": "`useFocusEffect` only works inside a Tab Navigator"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Callback không được bọc bằng `useCallback`",
+            "en": "The callback isn't wrapped in `useCallback`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải thay `useFocusEffect` bằng `useEffect` không có mảng dependency, vốn chỉ chạy khi focus",
+            "en": "Replace `useFocusEffect` with a `useEffect` that has no dependency array, which runs only on focus"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`useFocusEffect` chạy lại callback mỗi khi tham chiếu callback thay đổi. Truyền arrow function trực tiếp nghĩa là mỗi lần render tạo hàm mới, nên cleanup và subscribe lại chạy sau mỗi render. Tài liệu React Navigation yêu cầu bọc callback bằng `useCallback`: `useFocusEffect(useCallback(() => { ...; return () => sub.unsubscribe(); }, []))`. Việc trả về hàm cleanup là đúng và cần thiết.",
+        "en": "`useFocusEffect` re-runs its callback whenever the callback reference changes. Passing an inline arrow function creates a new function on every render, so cleanup and subscribe run again after each render. The React Navigation docs require wrapping the callback in `useCallback`: `useFocusEffect(useCallback(() => { ...; return () => sub.unsubscribe(); }, []))`. Returning a cleanup function is correct and necessary."
+      }
+    },
+    {
+      "id": "react_native.navigation.014",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "navigation",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Làm thế nào để khai báo kiểu cho React Navigation bằng TypeScript, để `navigate` và `route.params` được kiểm tra kiểu?",
+        "en": "How do you type React Navigation with TypeScript so that `navigate` and `route.params` are type-checked?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Khai báo param list: tên màn hình → kiểu params (`undefined` nếu không có)",
+          "en": "Declare a param list: screen name → params type (`undefined` if none)"
+        },
+        {
+          "vi": "Truyền param list vào `createNativeStackNavigator<...>()`",
+          "en": "Pass the param list to `createNativeStackNavigator<...>()`"
+        },
+        {
+          "vi": "Props màn hình dùng `NativeStackScreenProps<ParamList, 'Screen'>`",
+          "en": "Screen props use `NativeStackScreenProps<ParamList, 'Screen'>`"
+        },
+        {
+          "vi": "Navigator lồng nhau: `NavigatorScreenParams`, `CompositeScreenProps`",
+          "en": "Nested navigators: `NavigatorScreenParams`, `CompositeScreenProps`"
+        },
+        {
+          "vi": "Khai báo `RootParamList` toàn cục hoặc dùng static API để `useNavigation` có kiểu",
+          "en": "A global `RootParamList` or the static API types `useNavigation`"
+        }
+      ],
+      "explanation": {
+        "vi": "Khai báo một param list cho mỗi navigator, ví dụ `type RootStackParamList = { Home: undefined; Profile: { userId: string } }`, rồi truyền vào `createNativeStackNavigator<RootStackParamList>()`. Mỗi màn hình dùng kiểu props như `NativeStackScreenProps<RootStackParamList, 'Profile'>`, nhờ vậy `route.params.userId` có kiểu `string` và `navigate('Profile')` thiếu params sẽ báo lỗi. Với navigator lồng nhau thì dùng `NavigatorScreenParams` và `CompositeScreenProps`. Có thể khai báo `RootParamList` toàn cục qua `declare global { namespace ReactNavigation { ... } }` để `useNavigation()` có kiểu mà không cần truyền generic, hoặc dùng static API của React Navigation 7 để tự suy ra kiểu.",
+        "en": "Declare a param list per navigator, e.g. `type RootStackParamList = { Home: undefined; Profile: { userId: string } }`, and pass it to `createNativeStackNavigator<RootStackParamList>()`. Each screen uses props such as `NativeStackScreenProps<RootStackParamList, 'Profile'>`, so `route.params.userId` is a `string` and `navigate('Profile')` without params is an error. For nested navigators use `NavigatorScreenParams` and `CompositeScreenProps`. You can declare a global `RootParamList` via `declare global { namespace ReactNavigation { ... } }` so `useNavigation()` is typed without generics, or use React Navigation 7's static API to infer types."
+      }
+    },
+    {
+      "id": "react_native.state.010",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "state",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Màn hình giỏ hàng dùng `useReducer(cartReducer, { count: 0 })` và lần lượt dispatch các action trong mảng `actions`. Đoạn code mô phỏng bằng `reduce` dưới đây in ra gì?",
+        "en": "A cart screen uses `useReducer(cartReducer, { count: 0 })` and dispatches the actions in `actions` one by one. What does this `reduce`-based simulation print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "function cartReducer(state, action) {\n  switch (action.type) {\n    case 'add':\n      return { ...state, count: state.count + action.qty };\n    case 'clear':\n      return { ...state, count: 0 };\n    default:\n      return state;\n  }\n}\n\nconst actions = [\n  { type: 'add', qty: 2 },\n  { type: 'unknown' },\n  { type: 'add', qty: 3 },\n];\n\nconst final = actions.reduce(cartReducer, { count: 0 });\nconsole.log(final.count);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "5",
+            "en": "5"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "3",
+            "en": "3"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "0",
+            "en": "0"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "2",
+            "en": "2"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Reducer nhận state hiện tại và action, rồi trả về state mới: `add` với `qty: 2` cho `2`, action `unknown` rơi vào `default` và trả về nguyên state, rồi `add` với `qty: 3` cho `5`. `useReducer` hoạt động đúng như `reduce` trên chuỗi action. Đáp án `0` sai vì action lạ không reset state, nó chỉ được bỏ qua nhờ nhánh `default`.",
+        "en": "The reducer takes the current state and an action and returns the new state: `add` with `qty: 2` gives `2`, the `unknown` action falls into `default` and returns the state unchanged, then `add` with `qty: 3` gives `5`. `useReducer` works exactly like `reduce` over a sequence of actions. `0` is wrong because an unknown action does not reset the state; the `default` branch just ignores it."
+      }
+    },
+    {
+      "id": "react_native.state.011",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "state",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`useState(loadSettings())` và `useState(() => loadSettings())` khác nhau thế nào (với `loadSettings` là hàm tốn thời gian)?",
+        "en": "How do `useState(loadSettings())` and `useState(() => loadSettings())` differ (where `loadSettings` is expensive)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cách thứ hai lưu chính hàm vào state thay vì kết quả",
+            "en": "The second stores the function itself in state instead of its result"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cách thứ hai gọi lại `loadSettings` ở mọi lần render để state luôn được cập nhật mới nhất",
+            "en": "The second re-calls `loadSettings` on every render so the state always stays up to date"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hai cách hoàn toàn như nhau về hiệu năng",
+            "en": "The two are identical in performance"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cách thứ nhất gọi `loadSettings` ở mọi lần render; cách thứ hai chỉ gọi ở lần render đầu",
+            "en": "The first calls `loadSettings` on every render; the second only on the first render"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Với `useState(loadSettings())`, biểu thức `loadSettings()` được tính ở *mọi* lần render vì nó chỉ là đối số thường, dù React chỉ dùng kết quả ở lần render đầu. Truyền hàm `() => loadSettings()` là lazy initializer: React chỉ gọi nó một lần khi khởi tạo state. Cả hai đều cho cùng giá trị ban đầu, khác nhau ở chi phí. Lazy initializer không làm state cập nhật lại mỗi lần render.",
+        "en": "With `useState(loadSettings())`, `loadSettings()` is evaluated on *every* render because it is a plain argument, even though React only uses the result on the first render. Passing `() => loadSettings()` is a lazy initializer: React calls it only once when creating the state. Both give the same initial value; they differ in cost. A lazy initializer does not recompute the state on each render."
+      }
+    },
+    {
+      "id": "react_native.state.012",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "state",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Một handler viết như dưới đây rồi gọi `setCart(next)`. React so sánh state cũ và mới bằng `Object.is`. Đoạn code in ra gì?",
+        "en": "A handler is written as below and then calls `setCart(next)`. React compares old and new state with `Object.is`. What does the code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const prev = { items: ['milk'] };\n\n// handler written incorrectly\nconst next = prev;\nnext.items.push('eggs');\n\nconsole.log(Object.is(prev, next), prev.items.length);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "false 2",
+            "en": "false 2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "true 2",
+            "en": "true 2"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "true 1",
+            "en": "true 1"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "false 1",
+            "en": "false 1"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`next = prev` không tạo object mới mà chỉ thêm một biến trỏ tới cùng object, nên `push` sửa trực tiếp state cũ và `prev.items.length` thành `2`. `Object.is(prev, next)` là `true`, nên khi gọi `setCart(next)` React coi như state không đổi và có thể bỏ qua re-render, khiến UI không cập nhật. Cách đúng là tạo object mới: `setCart((c) => ({ ...c, items: [...c.items, 'eggs'] }))`.",
+        "en": "`next = prev` does not create a new object; it is just another variable pointing at the same one, so `push` mutates the old state and `prev.items.length` becomes `2`. `Object.is(prev, next)` is `true`, so after `setCart(next)` React treats the state as unchanged and may skip the re-render, leaving the UI stale. The correct way is to create new objects: `setCart((c) => ({ ...c, items: [...c.items, 'eggs'] }))`."
+      }
+    },
+    {
+      "id": "react_native.state.013",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "state",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với Redux Toolkit, `fetchProducts = createAsyncThunk('products/fetch', ...)`. Khi dispatch thunk này và API lỗi, những action nào được dispatch?",
+        "en": "With Redux Toolkit, `fetchProducts = createAsyncThunk('products/fetch', ...)`. When this thunk is dispatched and the API fails, which actions are dispatched?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ `products/fetch/rejected`",
+            "en": "Only `products/fetch/rejected`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`products/fetch/pending` rồi `products/fetch/fulfilled` với payload `undefined`",
+            "en": "`products/fetch/pending` then `products/fetch/fulfilled` with an `undefined` payload"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`products/fetch/pending` rồi `products/fetch/retry`",
+            "en": "`products/fetch/pending` then `products/fetch/retry`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`products/fetch/pending` rồi `products/fetch/rejected`",
+            "en": "`products/fetch/pending` then `products/fetch/rejected`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`createAsyncThunk` tự dispatch `products/fetch/pending` khi bắt đầu, rồi `products/fetch/fulfilled` nếu payload creator thành công hoặc `products/fetch/rejected` nếu nó ném lỗi (hoặc trả về `rejectWithValue`). Bạn xử lý ba trạng thái này trong `extraReducers` của slice để cập nhật `loading`/`error`. Lỗi không bị bỏ qua lặng lẽ và cũng không có action `retry` tự động.",
+        "en": "`createAsyncThunk` dispatches `products/fetch/pending` when it starts, then `products/fetch/fulfilled` if the payload creator succeeds or `products/fetch/rejected` if it throws (or returns `rejectWithValue`). You handle these three in the slice's `extraReducers` to update `loading`/`error`. Errors are not silently ignored and there is no automatic `retry` action."
+      }
+    },
+    {
+      "id": "react_native.state.014",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "state",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Sau khi nâng cấp lên Zustand v5, màn hình dưới đây crash với lỗi \"Maximum update depth exceeded\". Lỗi ở đâu?",
+        "en": "After upgrading to Zustand v5, the screen below crashes with \"Maximum update depth exceeded\". Where is the bug?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "const useCounterStore = create<CounterState>()((set) => ({\n  count: 0,\n  increment: () => set((s) => ({ count: s.count + 1 })),\n}));\n\nfunction Counter() {\n  const { count, increment } = useCounterStore((s) => ({\n    count: s.count,\n    increment: s.increment,\n  }));\n\n  return <Button title={`${count}`} onPress={increment} />;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không được để action `increment` trong store cùng với state",
+            "en": "The `increment` action must not live in the store alongside state"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Selector trả về object mới; dùng `useShallow`",
+            "en": "The selector returns a new object; use `useShallow`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`create` phải được gọi trong component để mỗi màn hình có store riêng",
+            "en": "`create` must be called inside the component so each screen gets its own store"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải sao chép `count` vào `useState` cục bộ trước khi hiển thị, nếu không store cập nhật lặp vô hạn",
+            "en": "`count` must be copied into local `useState` before rendering, or the store updates in a loop"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Selector trả về một object literal mới ở mỗi lần gọi, nên với Zustand v5 (dựa trên `useSyncExternalStore` và so sánh bằng `Object.is`) kết quả luôn bị coi là đã thay đổi, gây vòng lặp render. Cách sửa là bọc selector bằng `useShallow`: `useCounterStore(useShallow((s) => ({ count: s.count, increment: s.increment })))`, hoặc gọi hai selector riêng trả về giá trị đơn. Việc store có cả state lẫn action là bình thường.",
+        "en": "The selector returns a new object literal on every call, so with Zustand v5 (built on `useSyncExternalStore` and comparing with `Object.is`) the result always looks changed, causing a render loop. Fix it by wrapping the selector in `useShallow`: `useCounterStore(useShallow((s) => ({ count: s.count, increment: s.increment })))`, or use two selectors that each return a single value. Keeping both state and actions in the store is normal."
+      }
+    },
+    {
+      "id": "react_native.lists.010",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "lists",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần hiển thị danh bạ nhóm theo chữ cái đầu, mỗi nhóm có tiêu đề `A`, `B`, `C`... Component nào phù hợp nhất?",
+        "en": "You need to show contacts grouped by first letter, with a header `A`, `B`, `C`... for each group. Which component fits best?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`ScrollView` chứa nhiều `View` cho từng nhóm",
+            "en": "A `ScrollView` with a `View` per group"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một `FlatList` dọc lồng các `FlatList` dọc khác",
+            "en": "A vertical `FlatList` nesting other vertical `FlatList`s"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`VirtualizedList` với `horizontal={true}`",
+            "en": "`VirtualizedList` with `horizontal={true}`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`SectionList` với `sections` và `renderSectionHeader`",
+            "en": "`SectionList` with `sections` and `renderSectionHeader`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`SectionList` được thiết kế cho danh sách chia nhóm: nhận `sections` dạng `[{ title, data }]`, có `renderSectionHeader` và hỗ trợ sticky header, đồng thời vẫn virtualize như `FlatList`. `ScrollView` render toàn bộ phần tử nên chậm với danh bạ dài. `FlatList` lồng `FlatList` theo cùng chiều dọc gây cảnh báo về virtualization và khó cuộn mượt.",
+        "en": "`SectionList` is built for grouped lists: it takes `sections` shaped like `[{ title, data }]`, has `renderSectionHeader` and supports sticky headers, while still virtualising like `FlatList`. `ScrollView` renders everything, so it is slow for long contact lists. Nesting a `FlatList` inside a vertical `FlatList` triggers virtualization warnings and scrolls poorly."
+      }
+    },
+    {
+      "id": "react_native.lists.011",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "lists",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách đơn giản nhất để thêm \"kéo xuống để làm mới\" (pull-to-refresh) cho một `FlatList` là gì?",
+        "en": "What is the simplest way to add pull-to-refresh to a `FlatList`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Dùng `onEndReached` với `onEndReachedThreshold={0}`",
+            "en": "Use `onEndReached` with `onEndReachedThreshold={0}`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tự tính khoảng kéo trong `onScroll` rồi gọi API",
+            "en": "Measure the pull distance in `onScroll` and call the API"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bọc `FlatList` trong `Pressable` với `onLongPress`",
+            "en": "Wrap the `FlatList` in a `Pressable` with `onLongPress`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Truyền `refreshing` và `onRefresh` cho `FlatList`",
+            "en": "Pass `refreshing` and `onRefresh` to the `FlatList`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`FlatList` hỗ trợ sẵn pull-to-refresh qua hai prop `refreshing` (boolean cho biết đang làm mới) và `onRefresh` (hàm tải lại dữ liệu); bên trong nó dùng `RefreshControl`. Bạn bật `refreshing` thành `true` khi bắt đầu tải và `false` khi xong. `onEndReached` dùng cho tải thêm ở cuối danh sách, không phải làm mới. Tự bắt gesture bằng `onScroll` là không cần thiết và dễ sai.",
+        "en": "`FlatList` supports pull-to-refresh out of the box via `refreshing` (a boolean saying a refresh is in progress) and `onRefresh` (a function that reloads data); internally it uses `RefreshControl`. Set `refreshing` to `true` when loading starts and `false` when done. `onEndReached` is for loading more at the end of the list, not refreshing. Detecting the gesture yourself with `onScroll` is unnecessary and error-prone."
+      }
+    },
+    {
+      "id": "react_native.lists.012",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "lists",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Bạn chuyển mảng danh bạ thành dữ liệu `sections` cho `SectionList`. Đoạn code in ra gì?",
+        "en": "You turn a contacts array into `sections` data for a `SectionList`. What does the code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const contacts = [{ name: 'An' }, { name: 'Bình' }, { name: 'Anh' }, { name: 'Bảo' }];\n\nconst sections = Object.values(\n  contacts.reduce((acc, c) => {\n    const letter = c.name[0];\n    (acc[letter] ??= { title: letter, data: [] }).data.push(c.name);\n    return acc;\n  }, {}),\n);\n\nconsole.log(sections.map((s) => `${s.title}:${s.data.length}`).join(' '));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "A:2 B:2",
+            "en": "A:2 B:2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "A:1 B:1 A:1 B:1",
+            "en": "A:1 B:1 A:1 B:1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "A:4",
+            "en": "A:4"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "B:2 A:2",
+            "en": "B:2 A:2"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`reduce` gom tên theo ký tự đầu: `An` và `Anh` vào nhóm `A`, `Bình` và `Bảo` vào nhóm `B`; `??=` tạo nhóm mới khi chưa có. `Object.values` trả về các nhóm theo thứ tự key được thêm vào (`A` trước, `B` sau). Kết quả là hai section, mỗi section có 2 phần tử, đúng dạng `[{ title, data }]` mà `SectionList` cần.",
+        "en": "`reduce` groups names by first character: `An` and `Anh` go into `A`, `Bình` and `Bảo` into `B`; `??=` creates a group when it does not exist yet. `Object.values` returns the groups in insertion order (`A` first, then `B`). The result is two sections with 2 items each, exactly the `[{ title, data }]` shape `SectionList` expects."
+      }
+    },
+    {
+      "id": "react_native.lists.013",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "lists",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Khi cuộn nhanh xuống cuối, danh sách đôi khi bị lặp bài viết và xuất hiện cảnh báo trùng `key`. Lỗi ở đâu?",
+        "en": "When scrolling quickly to the end, the list sometimes shows duplicated posts and a duplicate `key` warning. Where is the bug?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "const [posts, setPosts] = useState<Post[]>([]);\nconst [page, setPage] = useState(1);\n\nconst loadMore = async () => {\n  const next = await api.getPosts(page + 1);\n  setPosts((prev) => [...prev, ...next]);\n  setPage((p) => p + 1);\n};\n\n<FlatList\n  data={posts}\n  keyExtractor={(item) => item.id}\n  renderItem={renderPost}\n  onEndReached={loadMore}\n  onEndReachedThreshold={0.5}\n/>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`onEndReachedThreshold` phải bằng `0`, nếu không `onEndReached` chạy trước khi list render xong",
+            "en": "`onEndReachedThreshold` must be `0`, otherwise `onEndReached` fires before the list is rendered"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`loadMore` không chặn khi đang tải, nên `onEndReached` gọi nhiều lần sẽ tải trùng một trang",
+            "en": "`loadMore` has no in-flight guard, so repeated `onEndReached` calls fetch the same page"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`setPosts` không được dùng dạng hàm cập nhật",
+            "en": "`setPosts` must not use the updater form"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`keyExtractor` phải trả về `index` thay vì `item.id` để tránh trùng key khi nối thêm dữ liệu",
+            "en": "`keyExtractor` must return `index` instead of `item.id` to avoid duplicate keys while appending"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`onEndReached` có thể được gọi nhiều lần liên tiếp khi người dùng ở gần cuối danh sách, trước khi request trước kịp xong và `page` được cập nhật. Vì `loadMore` không có cờ chặn, cùng một trang bị tải hai lần và nối vào danh sách, gây trùng phần tử và trùng `key`. Cách sửa: giữ cờ `loadingRef`/`isFetching` và `hasMore`, return sớm nếu đang tải hoặc đã hết dữ liệu. `onEndReachedThreshold={0.5}` là giá trị hợp lý, không phải nguyên nhân.",
+        "en": "`onEndReached` can fire several times in a row while the user is near the end, before the previous request finishes and `page` updates. Since `loadMore` has no guard, the same page is fetched twice and appended, producing duplicate items and keys. Fix: keep a `loadingRef`/`isFetching` flag and `hasMore`, and return early while loading or when there is no more data. `onEndReachedThreshold={0.5}` is a reasonable value and not the cause."
+      }
+    },
+    {
+      "id": "react_native.lists.014",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "lists",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Mọi dòng trong `FlatList` đều cao đúng 72. Truyền `getItemLayout` mang lại lợi ích gì?",
+        "en": "Every row in a `FlatList` is exactly 72 tall. What does passing `getItemLayout` give you?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tự động đặt chiều cao 72 cho mọi dòng, nên các dòng không cần style `height` riêng nữa",
+            "en": "It automatically sizes every row to 72 tall, so the rows no longer need their own `height` style"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cho phép bỏ `keyExtractor`, vì các dòng được nhận diện theo index",
+            "en": "It lets you drop `keyExtractor`, since rows are identified by index"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không cần đo từng dòng nên `scrollToIndex` chính xác",
+            "en": "Rows needn't be measured, so `scrollToIndex` is accurate"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Khiến `FlatList` render toàn bộ dòng ngay từ đầu, bỏ qua virtualization",
+            "en": "It makes `FlatList` render every row up front, skipping virtualization"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Khi biết trước chiều cao, `getItemLayout={(_, index) => ({ length: 72, offset: 72 * index, index })}` cho phép `FlatList` tính vị trí mọi dòng mà không cần render và đo từng dòng. Nhờ vậy `scrollToIndex` nhảy chính xác tới dòng chưa được render và cuộn nhanh ít bị khoảng trống hơn. Nó không tự đặt chiều cao cho component dòng, bạn vẫn phải style đúng 72, nếu không vị trí sẽ lệch.",
+        "en": "When the height is known, `getItemLayout={(_, index) => ({ length: 72, offset: 72 * index, index })}` lets `FlatList` compute every row's position without rendering and measuring them. That makes `scrollToIndex` jump accurately to rows not yet rendered and reduces blank areas during fast scrolling. It does not set the row's height for you; you still have to style rows at exactly 72 or positions will be off."
+      }
+    },
+    {
+      "id": "react_native.native.010",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "native",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi người dùng bấm vào số hotline, bạn muốn mở ứng dụng gọi điện của máy với số đó. Cách nào đúng?",
+        "en": "When the user taps a hotline number, you want to open the phone dialer with that number. Which is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`fetch('tel:19001234')`",
+            "en": "`fetch('tel:19001234')`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`navigation.navigate('tel:19001234')`",
+            "en": "`navigation.navigate('tel:19001234')`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Alert.alert('tel:19001234')`",
+            "en": "`Alert.alert('tel:19001234')`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Linking.openURL('tel:19001234')`",
+            "en": "`Linking.openURL('tel:19001234')`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Linking.openURL('tel:19001234')` giao URL cho hệ điều hành, hệ điều hành sẽ mở ứng dụng phù hợp; tương tự với `mailto:`, `sms:` hay `https:`. `fetch` chỉ gửi HTTP request, không mở ứng dụng khác. `navigation.navigate` chỉ chuyển giữa các màn hình trong app. Trên Android 11+ nếu muốn gọi `Linking.canOpenURL` trước cho các scheme này thì cần khai báo `<queries>` trong `AndroidManifest.xml`.",
+        "en": "`Linking.openURL('tel:19001234')` hands the URL to the OS, which opens the right app; the same works for `mailto:`, `sms:` or `https:`. `fetch` only sends HTTP requests and does not open other apps. `navigation.navigate` only moves between screens inside your app. On Android 11+, if you call `Linking.canOpenURL` first for these schemes, you need to declare `<queries>` in `AndroidManifest.xml`."
+      }
+    },
+    {
+      "id": "react_native.native.011",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "native",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn muốn hiện hộp thoại xác nhận native \"Xoá đơn hàng?\" với hai nút Huỷ và Xoá. API nào phù hợp?",
+        "en": "You want a native confirmation dialog \"Delete order?\" with Cancel and Delete buttons. Which API fits?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Alert.alert('Xoá đơn hàng?', '', [{ text: 'Huỷ', style: 'cancel' }, { text: 'Xoá', onPress: onDelete }])`",
+            "en": "`Alert.alert('Delete order?', '', [{ text: 'Cancel', style: 'cancel' }, { text: 'Delete', onPress: onDelete }])`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`window.confirm('Xoá đơn hàng?')`",
+            "en": "`window.confirm('Delete order?')`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`console.warn('Xoá đơn hàng?')`",
+            "en": "`console.warn('Delete order?')`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Linking.openURL('alert://Xoá đơn hàng?')`",
+            "en": "`Linking.openURL('alert://Delete order?')`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Alert.alert(title, message, buttons)` hiển thị hộp thoại native của iOS/Android; mỗi nút có `text`, `onPress` và `style` (ví dụ `'cancel'`, `'destructive'` trên iOS). `window.confirm` là API của trình duyệt và không có trong React Native. `console.warn` chỉ in cảnh báo ra log/LogBox lúc dev. `Modal` dùng được nhưng là giao diện tự vẽ, không phải hộp thoại native và cần nhiều code hơn.",
+        "en": "`Alert.alert(title, message, buttons)` shows the native iOS/Android dialog; each button has `text`, `onPress` and `style` (e.g. `'cancel'`, `'destructive'` on iOS). `window.confirm` is a browser API and does not exist in React Native. `console.warn` only prints a warning to the log/LogBox in development. `Modal` works but is a custom-drawn UI, not a native dialog, and needs more code."
+      }
+    },
+    {
+      "id": "react_native.native.012",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "native",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn đặt khoá bí mật của payment API vào file `.env` và đọc qua `react-native-config` (hoặc biến `EXPO_PUBLIC_*`). Nhận định nào đúng?",
+        "en": "You put a payment API secret key in `.env` and read it via `react-native-config` (or an `EXPO_PUBLIC_*` variable). Which statement is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Giá trị trong `.env` được mã hoá tự động lúc build nên khoá an toàn tuyệt đối",
+            "en": "`.env` values are encrypted automatically at build time, so the key is perfectly safe"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giá trị chỉ tồn tại trên máy dev, vì Metro tự loại bỏ giá trị `.env` khỏi bản release",
+            "en": "The value only exists on the dev machine, because Metro strips `.env` values from release builds"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bật Hermes là đủ để không ai đọc được khoá",
+            "en": "Enabling Hermes is enough to make the key unreadable"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Giá trị vẫn được đóng gói vào app và có thể bị trích xuất; secret thật phải để ở backend",
+            "en": "The value still ships inside the app and can be extracted; real secrets must stay on the backend"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Các công cụ này chỉ chèn giá trị vào JS bundle hoặc tài nguyên native lúc build, nên giá trị nằm trong file APK/IPA và có thể bị trích xuất bằng cách giải nén hoặc dịch ngược. Biến môi trường phù hợp cho cấu hình không bí mật như base URL hay public key. Secret thật (khoá payment, khoá admin) phải nằm ở backend, và app chỉ gọi backend của bạn. Obfuscation hay Hermes bytecode chỉ làm khó hơn chứ không bảo vệ được secret.",
+        "en": "These tools only inject values into the JS bundle or native resources at build time, so the values ship inside the APK/IPA and can be extracted by unpacking or reverse engineering. Environment variables are fine for non-secret config like base URLs or public keys. Real secrets (payment keys, admin keys) must live on your backend, and the app should only call your backend. Obfuscation or Hermes bytecode only makes extraction harder; it does not protect secrets."
+      }
+    },
+    {
+      "id": "react_native.native.013",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "native",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Màn hình dưới đây gọi `refreshData` mỗi khi app quay lại foreground. Sau vài lần mở/đóng màn hình, `refreshData` bị gọi nhiều lần cho mỗi lần quay lại app. Lỗi ở đâu?",
+        "en": "This screen calls `refreshData` whenever the app returns to the foreground. After opening and closing the screen a few times, `refreshData` runs several times per return. Where is the bug?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "useEffect(() => {\n  AppState.addEventListener('change', (state) => {\n    if (state === 'active') {\n      refreshData();\n    }\n  });\n}, []);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Listener không bao giờ được gỡ; cần lưu subscription và `return () => sub.remove()`",
+            "en": "The listener is never removed; store the subscription and `return () => sub.remove()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải dùng `'focus'` thay cho sự kiện `'change'`",
+            "en": "`'focus'` must be used instead of the `'change'` event"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`AppState` chỉ hoạt động trên iOS",
+            "en": "`AppState` only works on iOS"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Dependency `[]` khiến effect chạy ở mọi lần render, mỗi lần lại thêm một listener",
+            "en": "The `[]` dependency makes the effect run on every render, adding a listener each time"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Effect đăng ký listener `AppState` nhưng không trả về hàm cleanup, nên mỗi lần màn hình mount lại thêm một listener mới mà listener cũ không bao giờ bị gỡ. `AppState.addEventListener` trả về một subscription, và cách gỡ hiện nay là `sub.remove()` (`AppState.removeEventListener` đã bị xoá khỏi React Native). Sửa: `const sub = AppState.addEventListener('change', ...); return () => sub.remove();`. Dependency `[]` không phải vấn đề.",
+        "en": "The effect registers an `AppState` listener but returns no cleanup, so each mount adds a new listener while the old ones are never removed. `AppState.addEventListener` returns a subscription, and the current way to remove it is `sub.remove()` (`AppState.removeEventListener` has been removed from React Native). Fix: `const sub = AppState.addEventListener('change', ...); return () => sub.remove();`. The `[]` dependency array is not the issue."
+      }
+    },
+    {
+      "id": "react_native.native.014",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "native",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Mô tả luồng tích hợp push notification trong một app React Native (ví dụ dùng FCM/APNs qua Expo Notifications hoặc Notifee).",
+        "en": "Describe the flow for integrating push notifications in a React Native app (e.g. FCM/APNs via Expo Notifications or Notifee)."
+      },
+      "keyPoints": [
+        {
+          "vi": "Xin quyền thông báo đúng lúc (iOS, Android 13+ `POST_NOTIFICATIONS`)",
+          "en": "Request permission at the right time (iOS, Android 13+ `POST_NOTIFICATIONS`)"
+        },
+        {
+          "vi": "Lấy push token, gửi lên backend, cập nhật/xoá khi đổi hoặc đăng xuất",
+          "en": "Get the push token, send it to the backend, update/remove on change or logout"
+        },
+        {
+          "vi": "Backend gửi qua FCM/APNs",
+          "en": "The backend sends via FCM/APNs"
+        },
+        {
+          "vi": "Xử lý foreground, bấm thông báo từ background và mở từ trạng thái tắt hẳn; điều hướng theo data",
+          "en": "Handle foreground, tap from background and cold start; navigate using the data"
+        },
+        {
+          "vi": "Android cần notification channel",
+          "en": "Android needs notification channels"
+        }
+      ],
+      "explanation": {
+        "vi": "Đầu tiên app xin quyền thông báo (bắt buộc trên iOS và Android 13+ với `POST_NOTIFICATIONS`), vào thời điểm hợp lý thay vì ngay khi mở app. Sau đó lấy device push token (FCM/APNs hoặc Expo push token) và gửi lên backend gắn với user, đồng thời cập nhật khi token thay đổi hoặc xoá khi đăng xuất. Backend gửi thông báo qua FCM/APNs. Trong app cần xử lý ba trường hợp: nhận khi app đang mở (foreground, tự hiển thị nếu cần), khi người dùng bấm vào thông báo lúc app ở background, và khi app được mở từ trạng thái đã tắt hẳn; thường điều hướng theo dữ liệu đi kèm (deep link). Trên Android cần tạo notification channel.",
+        "en": "First the app requests notification permission (required on iOS and on Android 13+ via `POST_NOTIFICATIONS`), at a sensible moment rather than right at launch. Then it gets the device push token (FCM/APNs or an Expo push token) and sends it to the backend linked to the user, updating it when it changes and removing it on logout. The backend sends notifications via FCM/APNs. In the app you handle three cases: receiving while in the foreground (display it yourself if needed), the user tapping a notification while the app is in the background, and the app being launched from a killed state; usually you navigate based on the attached data (deep link). On Android you also need notification channels."
+      }
+    },
+    {
+      "id": "react_native.networking.010",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "networking",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Bạn cần ghép từ khoá tìm kiếm vào query string của URL. Đoạn code sau in ra gì?",
+        "en": "You need to put a search keyword into a URL query string. What does the code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const keyword = 'cà phê & bánh';\nconsole.log(encodeURIComponent(keyword));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "c%C3%A0%20ph%C3%AA%20&%20b%C3%A1nh",
+            "en": "c%C3%A0%20ph%C3%AA%20&%20b%C3%A1nh"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "cà phê & bánh",
+            "en": "cà phê & bánh"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "c%C3%A0%20ph%C3%AA%20%26%20b%C3%A1nh",
+            "en": "c%C3%A0%20ph%C3%AA%20%26%20b%C3%A1nh"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "c%C3%A0+ph%C3%AA+%26+b%C3%A1nh",
+            "en": "c%C3%A0+ph%C3%AA+%26+b%C3%A1nh"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`encodeURIComponent` mã hoá mọi ký tự không an toàn trong một thành phần URL: ký tự tiếng Việt thành chuỗi byte UTF-8 dạng `%XX`, khoảng trắng thành `%20` và `&` thành `%26`. Nếu không mã hoá, dấu `&` sẽ bị server hiểu là bắt đầu một tham số mới và từ khoá bị cắt mất. Đáp án giữ nguyên `&` là kết quả của `encodeURI`, hàm dành cho cả URL nên không mã hoá các ký tự phân tách như `&`, `?`, `=`.",
+        "en": "`encodeURIComponent` escapes every unsafe character in a URL component: Vietnamese characters become UTF-8 bytes as `%XX`, spaces become `%20` and `&` becomes `%26`. Without encoding, the server would read `&` as the start of a new parameter and the keyword would be cut off. The option that keeps `&` is what `encodeURI` produces; it is meant for whole URLs, so it does not escape separators like `&`, `?`, `=`."
+      }
+    },
+    {
+      "id": "react_native.networking.011",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "networking",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách nào gửi đúng một request POST với body JSON bằng `fetch`?",
+        "en": "Which correctly sends a POST request with a JSON body using `fetch`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })`",
+            "en": "`fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`fetch(url, { method: 'POST', body: data })`",
+            "en": "`fetch(url, { method: 'POST', body: data })`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`fetch(url, { method: 'POST', json: data })`",
+            "en": "`fetch(url, { method: 'POST', json: data })`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`fetch(url, { method: 'GET', body: JSON.stringify(data) })`",
+            "en": "`fetch(url, { method: 'GET', body: JSON.stringify(data) })`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`fetch` không tự chuyển object thành JSON: phải truyền `body: JSON.stringify(data)` và đặt header `'Content-Type': 'application/json'` để server biết cách đọc body. Truyền thẳng object vào `body` sẽ gửi chuỗi `[object Object]`. `fetch` cũng không có option `json` (đó là API của một số thư viện khác), và `GET` không được có body.",
+        "en": "`fetch` does not serialise objects for you: pass `body: JSON.stringify(data)` and set the `'Content-Type': 'application/json'` header so the server knows how to parse it. Passing the object directly as `body` sends the string `[object Object]`. `fetch` has no `json` option (that belongs to some other libraries), and a `GET` request must not have a body."
+      }
+    },
+    {
+      "id": "react_native.networking.012",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "networking",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Server trả về `204 No Content` cho request đăng xuất. Đoạn code dưới đây (dùng `Response` để mô phỏng phản hồi) in ra gì?",
+        "en": "The server responds `204 No Content` to a logout request. What does the code below print (using `Response` to simulate the reply)?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "async function parseBody(res) {\n  try {\n    return await res.json();\n  } catch (e) {\n    return e.name;\n  }\n}\n\nparseBody(new Response(null, { status: 204 })).then(console.log);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "SyntaxError",
+            "en": "SyntaxError"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "null",
+            "en": "null"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "{}",
+            "en": "{}"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "undefined",
+            "en": "undefined"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Phản hồi 204 không có body, nên `res.json()` cố parse chuỗi rỗng và reject với `SyntaxError` (Unexpected end of JSON input), rơi vào `catch` và trả về `e.name`. `res.json()` không trả về `null` hay `{}` cho body rỗng. Vì vậy với các endpoint có thể trả 204, nên kiểm tra `res.status === 204` (hoặc đọc `res.text()` trước) rồi mới parse JSON.",
+        "en": "A 204 response has no body, so `res.json()` tries to parse an empty string and rejects with a `SyntaxError` (Unexpected end of JSON input), landing in `catch`, which returns `e.name`. `res.json()` does not return `null` or `{}` for an empty body. So for endpoints that may return 204, check `res.status === 204` (or read `res.text()` first) before parsing JSON."
+      }
+    },
+    {
+      "id": "react_native.networking.013",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "networking",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn tổ chức lớp gọi API trong một app React Native như thế nào để dễ bảo trì và test?",
+        "en": "How do you organise the API layer in a React Native app so it is maintainable and testable?"
+      },
+      "keyPoints": [
+        {
+          "vi": "API client dùng chung: base URL theo môi trường, timeout, header, token",
+          "en": "A shared API client: per-env base URL, timeout, headers, token"
+        },
+        {
+          "vi": "Interceptor xử lý 401/refresh và chuẩn hoá lỗi",
+          "en": "Interceptors handle 401/refresh and normalise errors"
+        },
+        {
+          "vi": "Service theo feature với hàm có kiểu rõ ràng, validate dữ liệu ở ranh giới",
+          "en": "Per-feature services with typed functions, validating data at the boundary"
+        },
+        {
+          "vi": "Component dùng service qua hook/TanStack Query, không gọi `fetch` trực tiếp",
+          "en": "Components use services via hooks/TanStack Query, not `fetch` directly"
+        },
+        {
+          "vi": "Dễ mock khi test",
+          "en": "Easy to mock in tests"
+        }
+      ],
+      "explanation": {
+        "vi": "Tạo một API client dùng chung (instance `axios` hoặc wrapper quanh `fetch`) chứa base URL theo môi trường, timeout, header chung và gắn token. Đặt interceptor để xử lý tập trung 401/refresh token, chuẩn hoá lỗi (network, timeout, lỗi server) thành một kiểu thống nhất cho UI. Mỗi feature có module service/repository với hàm có kiểu rõ ràng như `getOrders(): Promise<Order[]>`, và validate dữ liệu trả về (ví dụ bằng Zod) ở ranh giới. Component không gọi `fetch` trực tiếp mà dùng service qua hook hoặc thư viện như TanStack Query; nhờ vậy dễ mock khi test.",
+        "en": "Create a shared API client (an `axios` instance or a `fetch` wrapper) holding the per-environment base URL, timeout, common headers and token injection. Add interceptors to handle 401/token refresh centrally and normalise errors (network, timeout, server) into one shape for the UI. Each feature has a service/repository module with typed functions like `getOrders(): Promise<Order[]>`, and validates responses (e.g. with Zod) at the boundary. Components do not call `fetch` directly but use services via hooks or a library like TanStack Query, which also makes mocking easy in tests."
+      }
+    },
+    {
+      "id": "react_native.networking.014",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "networking",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "App React Native dùng TanStack Query. Bạn muốn dữ liệu tự refetch khi người dùng quay lại app từ background, nhưng `refetchOnWindowFocus` không có tác dụng. Vì sao và cách xử lý?",
+        "en": "A React Native app uses TanStack Query. You want data to refetch when the user returns from the background, but `refetchOnWindowFocus` has no effect. Why, and what is the fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải đặt `staleTime: 0` thì `refetchOnWindowFocus` mới chạy",
+            "en": "`refetchOnWindowFocus` only works with `staleTime: 0`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "React Native không có sự kiện focus của `window`; cần nối `focusManager` với `AppState`",
+            "en": "React Native has no `window` focus events; wire `focusManager` to `AppState`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "TanStack Query không hỗ trợ React Native",
+            "en": "TanStack Query does not support React Native"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đặt `refetchInterval: 1000` là cách được khuyến nghị cho app React Native",
+            "en": "Setting `refetchInterval: 1000` is the recommended approach for React Native apps"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "TanStack Query phát hiện \"focus\" dựa trên sự kiện của `window`/document trên trình duyệt, mà React Native không có các sự kiện đó. Tài liệu hướng dẫn nối `focusManager.setFocused(status === 'active')` với `AppState.addEventListener('change', ...)` để báo cho thư viện biết app đang active; tương tự có thể nối `onlineManager` với NetInfo. Giảm `staleTime` không tạo ra sự kiện focus, còn `refetchInterval` thì refetch liên tục kể cả khi không cần.",
+        "en": "TanStack Query detects \"focus\" using browser `window`/document events, which React Native does not have. The docs show wiring `focusManager.setFocused(status === 'active')` to `AppState.addEventListener('change', ...)` so the library knows when the app is active; similarly you can wire `onlineManager` to NetInfo. Lowering `staleTime` creates no focus event, and `refetchInterval` refetches constantly even when not needed."
+      }
+    },
+    {
+      "id": "react_native.architecture.009",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "architecture",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau chạy trên JS thread của app. Nó in ra gì (theo thứ tự)?",
+        "en": "This code runs on the app's JS thread. What does it print (in order)?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const start = Date.now();\n\nsetTimeout(() => {\n  console.log('timer', Date.now() - start >= 500);\n}, 100);\n\nwhile (Date.now() - start < 500) {\n  // heavy synchronous work\n}\nconsole.log('loop done');"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "timer false, loop done",
+            "en": "timer false, loop done"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "loop done, timer true",
+            "en": "loop done, timer true"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "timer true, loop done",
+            "en": "timer true, loop done"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "loop done, timer false",
+            "en": "loop done, timer false"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "JS thread chỉ chạy một việc tại một thời điểm: vòng `while` chặn thread khoảng 500ms, nên dù timer hẹn 100ms, callback không thể chạy cho tới khi vòng lặp xong. Vì vậy `loop done` in trước, sau đó timer mới chạy và thấy đã trôi qua ít nhất 500ms nên in `timer true`. Trong app thật, trong lúc bị chặn như vậy, các touch handler và cập nhật UI do JS điều khiển cũng bị treo.",
+        "en": "The JS thread does one thing at a time: the `while` loop blocks it for about 500ms, so even though the timer was set for 100ms its callback cannot run until the loop ends. So `loop done` prints first, then the timer runs and sees at least 500ms have passed, printing `timer true`. In a real app, touch handlers and JS-driven UI updates freeze during such a block too."
+      }
+    },
+    {
+      "id": "react_native.architecture.010",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "architecture",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong quá trình phát triển, Metro đóng vai trò gì?",
+        "en": "What role does Metro play during development?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bundler: chuyển đổi và phục vụ code JS/TS cùng asset cho app, hỗ trợ Fast Refresh",
+            "en": "The bundler: transforms and serves JS/TS and assets to the app, enabling Fast Refresh"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Engine JavaScript thực thi code của app trên thiết bị, thay thế JavaScriptCore",
+            "en": "The JavaScript engine that executes the app's code on the device, replacing JavaScriptCore"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Công cụ biên dịch code Kotlin và Swift",
+            "en": "The tool that compiles Kotlin and Swift code"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Dịch vụ phát hành app lên App Store và Google Play",
+            "en": "A service that publishes apps to the App Store and Google Play"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Metro là JavaScript bundler của React Native: nó gom code JS/TS và asset thành bundle, chạy Babel để chuyển đổi cú pháp, và phục vụ bundle cho app qua server dev, hỗ trợ Fast Refresh khi bạn sửa code. Nó không biên dịch code native Kotlin/Swift (việc của Gradle/Xcode) và không phải máy ảo chạy JS (đó là Hermes). Bản release dùng bundle được build sẵn và đóng gói vào app, không cần Metro.",
+        "en": "Metro is React Native's JavaScript bundler: it bundles JS/TS code and assets, runs Babel transforms, and serves the bundle to the app via the dev server, enabling Fast Refresh when you edit code. It does not compile native Kotlin/Swift code (that is Gradle/Xcode) and it is not the JS engine (that is Hermes). Release builds ship a prebuilt bundle inside the app and do not need Metro."
+      }
+    },
+    {
+      "id": "react_native.architecture.011",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "architecture",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với Reanimated, vì sao animation viết bằng `useSharedValue` + `useAnimatedStyle` vẫn mượt khi JS thread đang bận?",
+        "en": "With Reanimated, why does an animation built with `useSharedValue` + `useAnimatedStyle` stay smooth while the JS thread is busy?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Reanimated tạm dừng JS thread khi animation chạy để không bao giờ rớt khung hình",
+            "en": "Reanimated pauses the JS thread while animating so frames are never dropped"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Style chạy trong worklet trên UI thread",
+            "en": "The style runs in a worklet on the UI thread"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Reanimated gọi `setState` 60 lần mỗi giây trên một thread nền",
+            "en": "Reanimated calls `setState` 60 times a second on a background thread"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Animation được render trong một WebView ẩn nên không phụ thuộc JS thread",
+            "en": "Animations are rendered in a hidden WebView, so they do not depend on the JS thread"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Hàm trong `useAnimatedStyle` là worklet: nó được chuyển sang chạy trên UI thread, và shared value được đọc/ghi trực tiếp ở đó. Mỗi frame animation vì vậy được tính ngay trên UI thread mà không cần chờ JS thread hay gửi dữ liệu qua lại. Reanimated không làm JS thread chạy nhanh hơn và không bỏ qua bước render native. `setState` bên trong worklet cũng không phải cơ chế ở đây.",
+        "en": "The function in `useAnimatedStyle` is a worklet: it is moved to run on the UI thread, where shared values are read and written directly. Each animation frame is computed right on the UI thread without waiting for the JS thread or passing data back and forth. Reanimated does not make the JS thread faster and does not skip native rendering. Calling `setState` inside a worklet is not the mechanism either."
+      }
+    },
+    {
+      "id": "react_native.architecture.012",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "architecture",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn sẽ tổ chức cấu trúc thư mục và các lớp (layer) của một app React Native cỡ vừa như thế nào để dễ mở rộng và test?",
+        "en": "How would you structure the folders and layers of a medium-sized React Native app so it scales and stays testable?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Chia thư mục theo feature thay vì theo loại file",
+          "en": "Organise by feature rather than by file type"
+        },
+        {
+          "vi": "Phần dùng chung (UI kit, theme, API client, navigation) ở `shared`/`core`",
+          "en": "Shared pieces (UI kit, theme, API client, navigation) in `shared`/`core`"
+        },
+        {
+          "vi": "Tách lớp: UI → hook/store → service/repository",
+          "en": "Layers: UI → hooks/stores → services/repositories"
+        },
+        {
+          "vi": "Logic nghiệp vụ là hàm thuần, dễ unit test",
+          "en": "Business logic as pure, unit-testable functions"
+        },
+        {
+          "vi": "Quy tắc phụ thuộc rõ ràng, alias import",
+          "en": "Clear dependency rules and import aliases"
+        }
+      ],
+      "explanation": {
+        "vi": "Chia theo feature (ví dụ `features/auth`, `features/orders`), mỗi feature chứa màn hình, component, hook, state và service của riêng nó, thay vì gom tất cả screen vào một thư mục và tất cả API vào một thư mục khác. Phần dùng chung đặt ở `shared`/`core`: UI kit, theme, API client, utils, navigation. Tách lớp rõ ràng: UI chỉ hiển thị và gọi hook; hook/store giữ logic và state; service/repository lo gọi API và lưu trữ. Logic nghiệp vụ nên là hàm thuần dễ unit test, và dùng alias import cùng quy tắc phụ thuộc (feature không import chéo nội bộ của nhau) để tránh rối.",
+        "en": "Organise by feature (e.g. `features/auth`, `features/orders`), each holding its own screens, components, hooks, state and services, rather than one folder for all screens and another for all APIs. Shared pieces go in `shared`/`core`: UI kit, theme, API client, utils, navigation. Keep layers clear: UI only renders and calls hooks; hooks/stores hold logic and state; services/repositories handle API calls and storage. Business logic should be pure functions that are easy to unit test, and use import aliases plus dependency rules (features do not reach into each other's internals) to avoid tangles."
+      }
+    },
+    {
+      "id": "react_native.architecture.013",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "architecture",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Component `FadeIn` hiện dần nội dung khi mount. Nhưng mỗi khi component cha re-render, nội dung bỗng biến mất (trong suốt) và không hiện lại. Lỗi ở đâu?",
+        "en": "`FadeIn` fades its content in on mount. But whenever the parent re-renders, the content suddenly becomes invisible and never comes back. Where is the bug?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "function FadeIn({ children }: { children: React.ReactNode }) {\n  const opacity = new Animated.Value(0);\n\n  useEffect(() => {\n    Animated.timing(opacity, {\n      toValue: 1,\n      duration: 300,\n      useNativeDriver: true,\n    }).start();\n  }, []);\n\n  return <Animated.View style={{ opacity }}>{children}</Animated.View>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`useNativeDriver: true` không hỗ trợ `opacity`, chỉ hỗ trợ `transform`",
+            "en": "`useNativeDriver: true` does not support `opacity`, only `transform`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải gọi `.start()` trước `Animated.timing`, nếu không animation sẽ bị xếp hàng chờ mãi",
+            "en": "`.start()` must be called before `Animated.timing`, otherwise the animation is queued forever"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Mỗi lần render tạo `Animated.Value` mới; cần dùng `useRef`",
+            "en": "A new `Animated.Value` is made every render; use `useRef`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Animated.View` không nhận `children` khi bật `useNativeDriver`",
+            "en": "`Animated.View` does not accept `children` when `useNativeDriver` is on"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`new Animated.Value(0)` nằm trực tiếp trong thân component nên mỗi lần render lại tạo một giá trị mới bằng `0` và gắn vào `style`. Effect chỉ chạy một lần với giá trị đầu tiên, nên các giá trị mới tạo ra sau đó không bao giờ được animate và view luôn có `opacity` bằng 0. Cần giữ cùng một instance qua các lần render: `const opacity = useRef(new Animated.Value(0)).current;`. `useNativeDriver: true` với `opacity` là hợp lệ.",
+        "en": "`new Animated.Value(0)` sits directly in the component body, so every render creates a new value at `0` and attaches it to `style`. The effect only runs once with the first value, so the later values are never animated and the view stays at `opacity` 0. Keep the same instance across renders: `const opacity = useRef(new Animated.Value(0)).current;`. `useNativeDriver: true` with `opacity` is valid."
+      }
+    },
+    {
+      "id": "react_native.release.009",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "release",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trên Android, `versionCode` và `versionName` khác nhau thế nào khi phát hành bản cập nhật?",
+        "en": "On Android, how do `versionCode` and `versionName` differ when shipping an update?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`versionName` phải tăng ở mỗi lần upload, còn `versionCode` có thể giữ nguyên giữa các bản build",
+            "en": "`versionName` must increase on every upload, while `versionCode` can stay the same between builds"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hai giá trị bắt buộc phải giống hệt nhau",
+            "en": "The two values must be identical"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`versionCode` là số nguyên phải tăng ở mỗi lần upload; `versionName` dùng để hiển thị",
+            "en": "`versionCode` is an integer that must grow each upload; `versionName` is for display"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`versionCode` chỉ dùng cho bản debug; Google Play so sánh `versionName` thay vào đó",
+            "en": "`versionCode` is only used for debug builds; Google Play compares `versionName` instead"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`versionCode` là số nguyên nội bộ mà Google Play dùng để phân biệt các bản build, và mỗi bản upload phải có `versionCode` lớn hơn bản trước. `versionName` là chuỗi hiển thị cho người dùng như `2.3.0`, có thể đặt theo semantic versioning. Trên iOS tương ứng là build number (`CFBundleVersion`) và version (`CFBundleShortVersionString`). Hai giá trị không bắt buộc phải bằng nhau.",
+        "en": "`versionCode` is an internal integer Google Play uses to tell builds apart, and every upload must have a higher `versionCode` than the previous one. `versionName` is the user-facing string such as `2.3.0`, often following semantic versioning. On iOS the equivalents are the build number (`CFBundleVersion`) and version (`CFBundleShortVersionString`). The two values do not have to match."
+      }
+    },
+    {
+      "id": "react_native.release.010",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "release",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Keystore (Android) dùng để làm gì trong quá trình phát hành app?",
+        "en": "What is the Android keystore used for when releasing an app?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mã hoá toàn bộ source code JavaScript trong app",
+            "en": "Encrypts all JavaScript source code in the app"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chứa khoá ký bản build release, chứng minh bản cập nhật đến từ cùng nhà phát triển",
+            "en": "Holds the key that signs release builds, proving updates come from the same developer"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lưu API key cho app để gọi backend an toàn mà không làm lộ khoá",
+            "en": "Stores API keys for the app so it can call the backend securely without exposing them"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nén bundle JS để giảm dung lượng app",
+            "en": "Compresses the JS bundle to shrink the app"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Keystore chứa khoá dùng để ký bản build release; chữ ký giúp hệ điều hành và store xác nhận các bản cập nhật đến từ cùng một nhà phát triển. Với Play App Signing, khoá bạn giữ là upload key, còn Google giữ app signing key thật; nếu mất upload key có thể yêu cầu Google đặt lại. Keystore không mã hoá source code, không chứa API key của app và không liên quan tới việc nén bundle.",
+        "en": "The keystore holds the key used to sign release builds; the signature lets the OS and store verify that updates come from the same developer. With Play App Signing, the key you keep is the upload key while Google holds the actual app signing key; if you lose the upload key you can ask Google to reset it. The keystore does not encrypt source code, does not hold your app's API keys and has nothing to do with bundle compression."
+      }
+    },
+    {
+      "id": "react_native.release.011",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "release",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Biến toàn cục `__DEV__` trong React Native có giá trị thế nào và thường dùng để làm gì?",
+        "en": "What value does the global `__DEV__` have in React Native and what is it typically used for?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`true` khi chạy trên emulator hoặc simulator, `false` trên thiết bị thật",
+            "en": "`true` on an emulator or simulator, `false` on a real device"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Luôn là `true`, trừ khi người dùng tắt Tuỳ chọn nhà phát triển trong cài đặt Android",
+            "en": "Always `true` unless the user turns off Developer options in the Android settings"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`true` ở bundle dev, `false` ở bản release",
+            "en": "`true` in dev bundles, `false` in release"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chứa số phiên bản của app, đọc từ `package.json` lúc build",
+            "en": "Contains the app's version number, read from `package.json` at build time"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`__DEV__` là `true` khi chạy bundle ở chế độ development (debug) và `false` trong bundle production (release). Nó thường dùng để bật công cụ chỉ dành cho dev như log chi tiết, màn hình debug, hoặc trỏ tới server dev; khi build release, đoạn code trong `if (__DEV__)` bị loại bỏ khi minify. Nó không phụ thuộc vào việc chạy trên emulator hay thiết bị thật, cũng không do người dùng bật.",
+        "en": "`__DEV__` is `true` when the bundle runs in development (debug) mode and `false` in a production (release) bundle. It is used to enable dev-only tooling such as verbose logs, debug screens or pointing to a dev server; in release builds, code inside `if (__DEV__)` is stripped during minification. It does not depend on emulator vs real device and is not toggled by users."
+      }
+    },
+    {
+      "id": "react_native.release.012",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "release",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "App kiểm tra bắt buộc cập nhật bằng đoạn code dưới đây. Người dùng đang ở bản `1.10.0`, phiên bản tối thiểu là `1.9.0`. Kết quả in ra là gì?",
+        "en": "The app checks for a forced update with the code below. The user is on `1.10.0` and the minimum version is `1.9.0`. What is printed?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "const current = '1.10.0';\nconst minimum = '1.9.0';\n\nconsole.log(current >= minimum ? 'ok' : 'force update');"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "ok",
+            "en": "ok"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "force update",
+            "en": "force update"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "true",
+            "en": "true"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "TypeError",
+            "en": "TypeError"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "So sánh hai string dùng thứ tự từ điển từng ký tự: `'1.1...'` và `'1.9...'` khác nhau ở ký tự thứ ba, mà `'1'` nhỏ hơn `'9'`, nên `'1.10.0' >= '1.9.0'` là `false`. Kết quả là người dùng bản mới hơn lại bị buộc cập nhật. Cách đúng là tách thành các số (`split('.').map(Number)`) và so sánh từng phần, hoặc dùng thư viện `semver`.",
+        "en": "Comparing two strings uses lexicographic order character by character: `'1.1...'` and `'1.9...'` differ at the third character, and `'1'` is less than `'9'`, so `'1.10.0' >= '1.9.0'` is `false`. As a result, users on the newer version are forced to update. The correct way is to split into numbers (`split('.').map(Number)`) and compare part by part, or use the `semver` library."
+      }
+    },
+    {
+      "id": "react_native.release.013",
+      "contentVersion": 1,
+      "trackId": "react_native",
+      "topicId": "release",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trước khi phát hành một bản React Native lên store, bạn kiểm tra những gì?",
+        "en": "Before releasing a React Native build to the stores, what do you check?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Test trên bản release thật, cả iOS và Android, máy cấu hình thấp",
+          "en": "Test the actual release build on iOS and Android, including low-end devices"
+        },
+        {
+          "vi": "Cấu hình môi trường production, tăng version/build number, ký đúng khoá",
+          "en": "Production config, bumped version/build number, correct signing key"
+        },
+        {
+          "vi": "Rà quyền, mô tả quyền, privacy manifest, khai báo dữ liệu",
+          "en": "Review permissions, usage descriptions, privacy manifest, data declarations"
+        },
+        {
+          "vi": "Bật crash reporting và upload source map",
+          "en": "Enable crash reporting and upload source maps"
+        },
+        {
+          "vi": "Smoke test luồng chính, phát hành dần và theo dõi crash",
+          "en": "Smoke-test main flows, roll out gradually and monitor crashes"
+        }
+      ],
+      "explanation": {
+        "vi": "Kiểm tra trên bản build release thật (không phải debug) trên cả thiết bị iOS và Android, ưu tiên máy cấu hình thấp, vì hiệu năng và lỗi minify/ProGuard chỉ lộ ra ở release. Đảm bảo cấu hình môi trường đúng (API production, tắt log dev), tăng version/build number, và ký bằng đúng khoá. Rà lại quyền và mô tả quyền (iOS `Info.plist`, Android manifest), privacy manifest và khai báo dữ liệu theo yêu cầu store. Bật crash reporting/analytics (Sentry, Crashlytics) và upload source map để đọc được stack trace. Cuối cùng chạy test tự động và smoke test các luồng chính, rồi phát hành dần (staged rollout/TestFlight) để theo dõi tỉ lệ crash.",
+        "en": "Test the real release build (not debug) on both iOS and Android devices, preferably low-end ones, because performance and minify/ProGuard issues only show up in release. Make sure environment config is correct (production API, dev logs off), bump the version/build number, and sign with the right key. Review permissions and their usage descriptions (iOS `Info.plist`, Android manifest), the privacy manifest and the store's data declarations. Enable crash reporting/analytics (Sentry, Crashlytics) and upload source maps so stack traces are readable. Finally run automated tests and smoke-test the main flows, then release gradually (staged rollout/TestFlight) and watch the crash rate."
       }
     }
   ]

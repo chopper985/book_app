@@ -181,15 +181,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "`is` so sánh giá trị, `==` so sánh địa chỉ bộ nhớ",
-            "en": "`is` compares values, `==` compares memory addresses"
+            "vi": "`is` so sánh giá trị, `==` so sánh địa chỉ bộ nhớ do `id()` trả về",
+            "en": "`is` compares values, `==` compares memory addresses returned by `id()`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`is` chỉ dùng được với số nguyên",
-            "en": "`is` only works with integers"
+            "vi": "`is` chỉ dùng được với số nguyên nhỏ và chuỗi đã được CPython cache",
+            "en": "`is` only works with small integers and strings that CPython has cached"
           }
         }
       ],
@@ -291,8 +291,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`grid[0][0] = 1` phải viết là `grid[0, 0] = 1`",
-            "en": "`grid[0][0] = 1` must be written as `grid[0, 0] = 1`"
+            "vi": "Với list lồng nhau, `grid[0][0] = 1` phải viết là `grid[0, 0] = 1`",
+            "en": "`grid[0][0] = 1` must be written as `grid[0, 0] = 1` for nested lists"
           }
         },
         {
@@ -305,8 +305,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "`[0] * n` tạo ra tuple nên không sửa được",
-            "en": "`[0] * n` creates a tuple, so it cannot be changed"
+            "vi": "`[0] * n` tạo ra tuple nên không sửa được các hàng con",
+            "en": "`[0] * n` creates a tuple, so the inner rows cannot be changed"
           }
         },
         {
@@ -600,8 +600,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "`fn(*args, **kwargs)`: phải lưu kết quả và `return` nó từ `wrapper`",
-            "en": "`fn(*args, **kwargs)`: store the result and `return` it from `wrapper`"
+            "vi": "`fn(*args, **kwargs)`: `wrapper` phải `return` kết quả của nó",
+            "en": "`fn(*args, **kwargs)`: `wrapper` must `return` its result"
           }
         }
       ],
@@ -633,22 +633,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Bắt buộc phải có, thiếu sẽ báo `SyntaxError`",
-            "en": "It is mandatory; without it you get a `SyntaxError`"
+            "vi": "Bắt buộc phải có, thiếu sẽ báo `SyntaxError` ngay tại dòng `@`",
+            "en": "It is mandatory; without it Python raises `SyntaxError` at the `@` line"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Giữ lại `__name__`, `__doc__` và metadata của hàm gốc cho `wrapper`",
-            "en": "It keeps the original function's `__name__`, `__doc__` and metadata on `wrapper`"
+            "vi": "Chép `__name__`, `__doc__` và metadata khác của hàm gốc sang `wrapper`",
+            "en": "It copies `__name__`, `__doc__` and other metadata onto `wrapper`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Tự động cache kết quả của hàm",
-            "en": "It caches the function's results automatically"
+            "vi": "Tự động cache kết quả của hàm, giống hệt `functools.lru_cache`",
+            "en": "It caches the function's results automatically, just like `functools.lru_cache`"
           }
         }
       ],
@@ -811,8 +811,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "`count += 1` biến `count` thành biến local nhưng đọc trước khi gán; cần `global count`",
-            "en": "`count += 1` makes `count` local but reads it before assignment; `global count` is needed"
+            "vi": "`count += 1` biến `count` thành biến local của hàm; cần khai báo `global count`",
+            "en": "`count += 1` makes `count` local to the function; it needs `global count`"
           }
         }
       ],
@@ -888,15 +888,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "`items = []` là class attribute dùng chung; cần gán `self.items = []` trong `__init__`",
-            "en": "`items = []` is a shared class attribute; assign `self.items = []` in `__init__`"
+            "vi": "`items = []` là class attribute dùng chung; cần tạo `self.items` trong `__init__`",
+            "en": "`items = []` is a shared class attribute; create `self.items` in `__init__`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`self.items.append(item)` phải đổi thành `items.append(item)`",
-            "en": "`self.items.append(item)` should be `items.append(item)`"
+            "vi": "`self.items.append(item)` phải đổi thành `items.append(item)` để dùng list cục bộ",
+            "en": "`self.items.append(item)` should be `items.append(item)` to use the local list"
           }
         },
         {
@@ -909,8 +909,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "`print(b.items)` đọc nhầm sang dữ liệu của `a`",
-            "en": "`print(b.items)` accidentally reads `a`'s data"
+            "vi": "`print(b.items)` đọc nhầm dữ liệu của `a` vì `b` được tạo ngay sau `a` trong module",
+            "en": "`print(b.items)` reads `a`'s data because `b` is created right after `a` in the module"
           }
         }
       ],
@@ -1114,22 +1114,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Tạo set có 1 phần tử",
-            "en": "Creates a set with one element"
+            "vi": "Tạo set có 1 phần tử là instance `User(1)`",
+            "en": "Creates a set with one element, the `User(1)` instance"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Tạo set rỗng",
-            "en": "Creates an empty set"
+            "vi": "Tạo set rỗng vì `User` có định nghĩa `__eq__`",
+            "en": "Creates an empty set, because `User` defines `__eq__`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Báo `SyntaxError`",
-            "en": "Reports a `SyntaxError`"
+            "vi": "Báo `SyntaxError` tại literal `{User(1)}`",
+            "en": "Reports a `SyntaxError` at the `{User(1)}` literal"
           }
         }
       ],
@@ -1206,15 +1206,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Đăng ký trong `__init__` của `Plugin`",
-            "en": "Register inside `Plugin.__init__`"
+            "vi": "Đăng ký trong `__init__` của `Plugin`, vốn chạy một lần cho mỗi subclass",
+            "en": "Register inside `Plugin.__init__`, which runs once per subclass"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Gắn `@staticmethod` lên mỗi subclass",
-            "en": "Put `@staticmethod` on each subclass"
+            "vi": "Gắn `@staticmethod` lên mỗi subclass để nó tự đăng ký khi import",
+            "en": "Put `@staticmethod` on each subclass so it registers on import"
           }
         }
       ],
@@ -1246,22 +1246,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Một generator object; thân hàm chỉ chạy khi lặp hoặc gọi `next()`",
-            "en": "A generator object; the body only runs when iterated or on `next()`"
+            "vi": "Một generator object, thân hàm chỉ chạy khi được lặp",
+            "en": "A generator object whose body runs only when iterated"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Một `list` chứa mọi giá trị được `yield`",
-            "en": "A `list` of all yielded values"
+            "vi": "Một `list` chứa mọi giá trị được `yield`, tạo ngay khi gọi",
+            "en": "A `list` of all yielded values, built on the first call"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`None` vì hàm không có `return`",
-            "en": "`None`, because there is no `return`"
+            "vi": "`None` vì hàm không có câu lệnh `return`",
+            "en": "`None`, because the function has no `return` statement"
           }
         }
       ],
@@ -1332,8 +1332,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "File luôn được đóng khi ra khỏi khối `with`, kể cả khi có exception",
-            "en": "The file is always closed when leaving the `with` block, even on an exception"
+            "vi": "File luôn được đóng khi ra khỏi khối, kể cả khi có exception",
+            "en": "The file is always closed on exit from the block, even on an exception"
           }
         },
         {
@@ -1346,8 +1346,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Tự động đọc toàn bộ file vào bộ nhớ",
-            "en": "It reads the whole file into memory automatically"
+            "vi": "Tự động đọc toàn bộ file vào bộ nhớ và gán nội dung cho `f`",
+            "en": "It reads the whole file into memory automatically and exposes it as `f`"
           }
         }
       ],
@@ -1454,8 +1454,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Đổi `yield name` thành `return name`",
-            "en": "Change `yield name` to `return name`"
+            "vi": "Đổi `yield name` thành `return name` để generator kết thúc gọn gàng",
+            "en": "Change `yield name` to `return name` so the generator finishes cleanly"
           }
         },
         {
@@ -1468,8 +1468,8 @@
         {
           "id": "c",
           "text": {
-            "vi": "Thêm `@staticmethod` cho `acquire`",
-            "en": "Add `@staticmethod` to `acquire`"
+            "vi": "Thêm `@staticmethod` cho `acquire` để decorator nhận một hàm thường",
+            "en": "Add `@staticmethod` to `acquire` so the decorator receives a plain function"
           }
         },
         {
@@ -1501,8 +1501,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Iterator có `__next__` và `__iter__` trả về chính nó; `list` là iterable nhưng không phải iterator",
-            "en": "An iterator has `__next__` and an `__iter__` returning itself; a `list` is iterable but not an iterator"
+            "vi": "Iterator có `__next__` và `__iter__` trả về chính nó; `list` chỉ là iterable",
+            "en": "An iterator has `__next__` and `__iter__` returning itself; a `list` is only iterable"
           }
         },
         {
@@ -1515,15 +1515,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Iterator luôn có thể lặp lại từ đầu nhiều lần",
-            "en": "An iterator can always restart from the beginning"
+            "vi": "Iterator luôn có thể lặp lại từ đầu sau khi đã ném `StopIteration`",
+            "en": "An iterator can always restart from the beginning once it has raised `StopIteration`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`iter()` trên list trả về chính list đó",
-            "en": "`iter()` on a list returns the list itself"
+            "vi": "`iter()` trên list trả về chính list đó vì `list` vốn đã có `__next__`",
+            "en": "`iter()` on a list returns the list itself, because every `list` already implements `__next__`"
           }
         }
       ],
@@ -1625,15 +1625,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Khi một khối `except` bắt được lỗi",
-            "en": "When an `except` block catches an error"
+            "vi": "Khi một khối `except` bắt được lỗi ném ra trong `try`",
+            "en": "When an `except` block catches an error raised inside `try`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Luôn luôn chạy, giống `finally`",
-            "en": "Always, just like `finally`"
+            "vi": "Luôn luôn chạy giống `finally`, dù có lỗi hay không",
+            "en": "Always, just like `finally`, whether or not an error occurs"
           }
         },
         {
@@ -1646,8 +1646,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Khi không có khối `except` nào khớp với lỗi",
-            "en": "When no `except` block matches the error"
+            "vi": "Khi không có khối `except` nào khớp với lỗi được ném ra",
+            "en": "When no `except` block matches the raised error"
           }
         }
       ],
@@ -1762,22 +1762,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "`int(raw)` không ném lỗi với chuỗi `\"abc\"`",
-            "en": "`int(raw)` does not raise for the string `\"abc\"`"
+            "vi": "`int(raw)` không ném lỗi với chuỗi `\"abc\"` mà âm thầm trả về `-1`",
+            "en": "`int(raw)` does not raise for the string `\"abc\"`; it silently returns `-1` instead"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`return` trong `try` khiến các khối `except` bị bỏ qua",
-            "en": "The `return` inside `try` makes the `except` blocks get skipped"
+            "vi": "`return` trong `try` khiến Python bỏ qua hoàn toàn các khối `except`",
+            "en": "The `return` inside `try` makes Python skip the `except` blocks entirely"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`except Exception` đứng trước nên bắt mất `ValueError`; phải đặt `except ValueError` lên trước",
-            "en": "`except Exception` comes first and swallows `ValueError`; put `except ValueError` first"
+            "vi": "`except Exception` đứng trước nên bắt mất `ValueError`; cần đảo thứ tự",
+            "en": "`except Exception` comes first and catches `ValueError`; reorder them"
           }
         },
         {
@@ -1897,22 +1897,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "`dict[str, int]` không hợp lệ, phải dùng `typing.Dict`",
-            "en": "`dict[str, int]` is invalid; `typing.Dict` is required"
+            "vi": "`dict[str, int]` không hợp lệ trong annotation, phải dùng `typing.Dict[str, int]`",
+            "en": "`dict[str, int]` is invalid in annotations; `typing.Dict[str, int]` is required"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`dict.get` trả về `int | None`, không khớp kiểu trả về `int`",
-            "en": "`dict.get` returns `int | None`, which does not match the `int` return type"
+            "vi": "`dict.get` trả về `int | None`, không phải `int` như đã khai báo",
+            "en": "`dict.get` returns `int | None`, not the declared `int`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "mypy không hỗ trợ phương thức `dict.get`",
-            "en": "mypy does not support `dict.get`"
+            "vi": "mypy không hỗ trợ `dict.get` trên dict khai báo bằng generic dựng sẵn",
+            "en": "mypy does not support `dict.get` on dicts typed with built-in generics"
           }
         },
         {
@@ -1993,22 +1993,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Một `Future` đã hoàn thành",
-            "en": "A completed `Future`"
+            "vi": "Một `Future` đã hoàn thành, `.result()` đã chứa sẵn 42",
+            "en": "A completed `Future` whose `.result()` already holds 42"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`None`",
-            "en": "`None`"
+            "vi": "`None`, vì kết quả chỉ được gán trên event loop",
+            "en": "`None`, since the result is only set on the event loop"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Một coroutine object; phải `await` hoặc `asyncio.run` mới có 42",
-            "en": "A coroutine object; you need `await` or `asyncio.run` to get 42"
+            "vi": "Một coroutine object; cần `await` hoặc `asyncio.run`",
+            "en": "A coroutine object; it needs `await` or `asyncio.run`"
           }
         }
       ],
@@ -2149,22 +2149,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Có: GIL đảm bảo kết quả luôn đúng 400000",
-            "en": "Yes: the GIL guarantees exactly 400000"
+            "vi": "Có: GIL khiến mỗi bytecode là atomic nên chắc chắn ra đúng 400000",
+            "en": "Yes: the GIL makes each bytecode atomic, so exactly 400000 is guaranteed"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Không: vì `range(100_000)` bị chia nhỏ cho các thread",
-            "en": "No: because `range(100_000)` is split between the threads"
+            "vi": "Không: `range(100_000)` bị chia cho các thread nên mỗi thread lặp ít hơn",
+            "en": "No: `range(100_000)` is split between the threads, so each runs fewer iterations"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Không: `counter += 1` không atomic, thread có thể bị chuyển giữa chừng; cần `threading.Lock`",
-            "en": "No: `counter += 1` is not atomic and a thread can switch mid-way; use a `threading.Lock`"
+            "vi": "Không: `counter += 1` không atomic nên có thể mất cập nhật; cần `Lock`",
+            "en": "No: `counter += 1` is not atomic, so updates can be lost; use a `Lock`"
           }
         },
         {
@@ -2371,8 +2371,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "`makemigrations` tạo file migration từ thay đổi của model; `migrate` áp dụng chúng vào database",
-            "en": "`makemigrations` creates migration files from model changes; `migrate` applies them to the database"
+            "vi": "`makemigrations` sinh file migration từ model; `migrate` áp dụng chúng vào database",
+            "en": "`makemigrations` generates migration files from models; `migrate` applies them"
           }
         },
         {
@@ -2385,15 +2385,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Hai lệnh giống nhau, `migrate` chỉ là alias",
-            "en": "They are the same; `migrate` is just an alias"
+            "vi": "Hai lệnh giống nhau, `migrate` chỉ là alias mới giữ lại cho tương thích",
+            "en": "They are the same; `migrate` is just a newer alias kept for compatibility"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`migrate` sinh model Python từ các bảng có sẵn",
-            "en": "`migrate` generates Python models from existing tables"
+            "vi": "`migrate` sinh model Python từ các bảng có sẵn, giống `inspectdb`",
+            "en": "`migrate` generates Python models from existing tables, like `inspectdb`"
           }
         }
       ],
@@ -2461,8 +2461,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Khai báo `response_model=UserOut` trong `@app.get(...)` (hoặc `-> UserOut`) để FastAPI lọc field",
-            "en": "Declare `response_model=UserOut` in `@app.get(...)` (or `-> UserOut`) so FastAPI filters fields"
+            "vi": "Khai báo `response_model=UserOut` (hoặc `-> UserOut`) để FastAPI lọc dữ liệu trả về",
+            "en": "Declare `response_model=UserOut` (or `-> UserOut`) so FastAPI filters the output"
           }
         },
         {
@@ -2475,15 +2475,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Thêm `async` trước `def get_user`",
-            "en": "Add `async` before `def get_user`"
+            "vi": "Thêm `async` trước `def get_user` để FastAPI kiểm tra dict trả về",
+            "en": "Add `async` before `def get_user` so FastAPI validates the returned dict"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Cho `UserOut` kế thừa `dict` thay vì `BaseModel`",
-            "en": "Make `UserOut` inherit from `dict` instead of `BaseModel`"
+            "vi": "Cho `UserOut` kế thừa `dict` thay vì `BaseModel` để các key thừa bị loại bỏ",
+            "en": "Make `UserOut` inherit from `dict` instead of `BaseModel` so extra keys are dropped"
           }
         }
       ],
@@ -2586,15 +2586,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "`select_related` dùng được cho mọi quan hệ, `prefetch_related` chỉ là alias",
-            "en": "`select_related` works for every relation; `prefetch_related` is just an alias"
+            "vi": "`select_related` dùng được cho mọi loại quan hệ, `prefetch_related` chỉ là alias cũ",
+            "en": "`select_related` works for every relation type; `prefetch_related` is just a legacy alias"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`prefetch_related` luôn nhanh hơn nên dùng cho mọi trường hợp",
-            "en": "`prefetch_related` is always faster, so use it everywhere"
+            "vi": "`prefetch_related` luôn nhanh hơn vì có cache kết quả nên dùng cho mọi trường hợp",
+            "en": "`prefetch_related` is always faster since it caches results, so use it everywhere"
           }
         },
         {
@@ -2607,8 +2607,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "`select_related` dùng JOIN cho ForeignKey/OneToOne; quan hệ nhiều (reverse FK, ManyToMany) cần `prefetch_related` với query riêng",
-            "en": "`select_related` JOINs ForeignKey/OneToOne; many-relations (reverse FK, ManyToMany) need `prefetch_related` with separate queries"
+            "vi": "`select_related` JOIN cho FK/OneToOne; reverse FK và M2M cần `prefetch_related`",
+            "en": "`select_related` JOINs FK/OneToOne; reverse FK and M2M need `prefetch_related`"
           }
         }
       ],
@@ -2671,15 +2671,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Định nghĩa schema bảng trong database",
-            "en": "Defining database table schemas"
+            "vi": "Định nghĩa schema bảng và model database để mọi endpoint tự động dùng chung",
+            "en": "Defining database table schemas and models that all endpoints share automatically"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Xử lý chung cho mọi request/response như logging, CORS, đo thời gian, thêm header",
-            "en": "Cross-cutting request/response handling such as logging, CORS, timing and headers"
+            "vi": "Xử lý chung cho mọi request/response như logging, CORS, thêm header",
+            "en": "Cross-cutting request/response concerns like logging, CORS and headers"
           }
         },
         {
@@ -2692,8 +2692,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Tự động chạy migration khi khởi động",
-            "en": "Running migrations automatically on startup"
+            "vi": "Tự động chạy các migration còn thiếu mỗi khi ứng dụng khởi động",
+            "en": "Running pending migrations automatically every time the application starts up"
           }
         }
       ],
@@ -2718,15 +2718,15 @@
         {
           "id": "a",
           "text": {
-            "vi": "Giúp code Python chạy nhanh hơn",
-            "en": "It makes Python code run faster"
+            "vi": "Giúp code Python chạy nhanh hơn nhờ cache bytecode đã biên dịch riêng cho từng project",
+            "en": "It makes Python code run faster by caching compiled bytecode separately for each project"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Cô lập package và phiên bản của từng project, tránh xung đột với project khác và Python hệ thống",
-            "en": "It isolates each project's packages and versions from other projects and the system Python"
+            "vi": "Cô lập package của từng project với project khác và Python hệ thống",
+            "en": "It isolates each project's packages from other projects and the system Python"
           }
         },
         {
@@ -2739,8 +2739,8 @@
         {
           "id": "d",
           "text": {
-            "vi": "Tự động đóng gói app thành file thực thi",
-            "en": "It packages the app into an executable automatically"
+            "vi": "Tự động đóng gói app thành file thực thi độc lập, giống PyInstaller",
+            "en": "It packages the app into a standalone executable automatically, like PyInstaller"
           }
         }
       ],
@@ -2811,22 +2811,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Trước khi test chạy",
-            "en": "Before the test runs"
+            "vi": "Trước khi test chạy, ngay sau khi mở kết nối",
+            "en": "Before the test runs, right after the connection opens"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Không bao giờ chạy vì nằm sau `yield`",
-            "en": "Never, because it comes after `yield`"
+            "vi": "Không bao giờ, vì code sau `yield` trong fixture không thể chạy tới",
+            "en": "Never, because code after `yield` in a fixture is unreachable"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Chỉ khi test pass",
-            "en": "Only when the test passes"
+            "vi": "Chỉ khi test pass; nếu test fail thì teardown bị bỏ qua",
+            "en": "Only when the test passes; a failure skips the teardown"
           }
         },
         {
@@ -2876,15 +2876,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "`from app.services import convert` phải đặt bên trong hàm test",
-            "en": "`from app.services import convert` must go inside the test function"
+            "vi": "`from app.services import convert` phải đặt bên trong hàm test, sau khi patch",
+            "en": "`from app.services import convert` must go inside the test function, after patching"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`@patch(\"app.clients.fetch_rate\", ...)`: phải patch nơi tên được dùng, `\"app.services.fetch_rate\"`",
-            "en": "`@patch(\"app.clients.fetch_rate\", ...)`: patch where the name is used, `\"app.services.fetch_rate\"`"
+            "vi": "Sai target của `@patch`: phải patch nơi tên được dùng, `\"app.services.fetch_rate\"`",
+            "en": "`@patch` target: patch where the name is used, `\"app.services.fetch_rate\"`"
           }
         }
       ],
@@ -2943,22 +2943,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Ghi chính xác phiên bản mọi dependency để cài lại giống hệt trên máy khác, CI và production",
-            "en": "It pins the exact version of every dependency so other machines, CI and production install the same thing"
+            "vi": "Ghi chính xác phiên bản mọi dependency để mọi máy cài ra cùng một bộ package",
+            "en": "It pins exact versions of all dependencies so every machine installs the same set"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Chứa mã nguồn của các package",
-            "en": "It contains the packages' source code"
+            "vi": "Chứa bản sao mã nguồn của từng package để cài đặt offline",
+            "en": "It contains a vendored copy of each package's source code for offline installs"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Ngăn người khác chỉnh sửa `pyproject.toml`",
-            "en": "It stops others from editing `pyproject.toml`"
+            "vi": "Ngăn người khác sửa `pyproject.toml` mà không cập nhật dependency",
+            "en": "It stops others from editing `pyproject.toml` without updating the dependencies"
           }
         },
         {
@@ -3011,6 +3011,2778 @@
       "explanation": {
         "vi": "Phần lớn nên là unit test nhanh cho logic nghiệp vụ tách khỏi framework, cộng một lớp integration test gọi API qua `TestClient` của FastAPI hoặc test client của Django với database test thật. Dùng fixture của pytest để tạo dữ liệu và dọn dẹp, `pytest.mark.parametrize` để phủ nhiều trường hợp biên. Dịch vụ bên ngoài như HTTP API hay email nên được mock hoặc override dependency (`app.dependency_overrides`). Chạy test trên CI cho mỗi pull request và theo dõi coverage như một tín hiệu, không phải mục tiêu.",
         "en": "Most tests should be fast unit tests for business logic kept separate from the framework, plus a layer of integration tests that call the API through FastAPI's `TestClient` or Django's test client against a real test database. Use pytest fixtures for data setup and teardown and `pytest.mark.parametrize` to cover edge cases. External services such as HTTP APIs or email should be mocked or replaced via dependency overrides (`app.dependency_overrides`). Run tests in CI on every pull request and treat coverage as a signal, not a target."
+      }
+    },
+    {
+      "id": "python.basics.011",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "print(7 // 2, -7 // 2, 7 % -3, 7 / 2)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "3 -4 -2 3.5",
+            "en": "3 -4 -2 3.5"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "3 -3 1 3.5",
+            "en": "3 -3 1 3.5"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "3 -4 1 3",
+            "en": "3 -4 1 3"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "3.5 -3.5 -2 3.5",
+            "en": "3.5 -3.5 -2 3.5"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`//` là chia lấy phần nguyên theo hướng làm tròn xuống (floor), nên `7 // 2` là `3` còn `-7 // 2` là `-4`, không phải `-3` như nhiều ngôn ngữ khác. Toán tử `%` trong Python luôn cho kết quả cùng dấu với số chia, nên `7 % -3` là `-2`. `/` luôn trả về `float`, nên `7 / 2` là `3.5`.",
+        "en": "`//` is floor division, rounding down, so `7 // 2` is `3` and `-7 // 2` is `-4`, not `-3` as in many other languages. Python's `%` always has the sign of the divisor, so `7 % -3` is `-2`. `/` always returns a `float`, so `7 / 2` is `3.5`."
+      }
+    },
+    {
+      "id": "python.basics.012",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Giá trị nào dưới đây là truthy (khiến `if value:` chạy vào nhánh `if`)?",
+        "en": "Which of the values below is truthy (makes `if value:` enter the branch)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`\"0\"`",
+            "en": "`\"0\"`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`0`",
+            "en": "`0`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`[]`",
+            "en": "`[]`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`None`",
+            "en": "`None`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trong Python, các giá trị falsy gồm `None`, `False`, số 0 (`0`, `0.0`), và các collection rỗng như `\"\"`, `[]`, `{}`, `set()`. Chuỗi `\"0\"` không rỗng (có một ký tự) nên là truthy, dù nội dung trông như số 0. Đây là lỗi hay gặp khi đọc dữ liệu từ form hoặc biến môi trường: cần chuyển kiểu trước khi kiểm tra.",
+        "en": "In Python the falsy values are `None`, `False`, zero (`0`, `0.0`) and empty collections such as `\"\"`, `[]`, `{}`, `set()`. The string `\"0\"` is not empty (it has one character), so it is truthy even though it looks like zero. This is a common bug when reading form data or environment variables: convert the type before checking."
+      }
+    },
+    {
+      "id": "python.basics.013",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`price = 3.14159`. Biểu thức `f\"Giá: {price:.2f}\"` cho ra chuỗi nào?",
+        "en": "`price = 3.14159`. Which string does `f\"Price: {price:.2f}\"` produce?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`\"Giá: 3.14159\"`",
+            "en": "`\"Price: 3.14159\"`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`\"Giá: 3\"`",
+            "en": "`\"Price: 3\"`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`\"Giá: 3.14\"`",
+            "en": "`\"Price: 3.14\"`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`\"Giá: {price:.2f}\"`",
+            "en": "`\"Price: {price:.2f}\"`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Trong f-string, phần sau dấu `:` là format spec; `.2f` nghĩa là hiển thị dạng số thực cố định với 2 chữ số thập phân, có làm tròn, nên `3.14159` thành `3.14`. Nó không cắt thành số nguyên và không giữ nguyên toàn bộ chữ số. Ngoài ra còn có các spec hữu ích như `:,` để thêm dấu phân cách hàng nghìn hay `:>10` để căn lề phải.",
+        "en": "In an f-string, the part after `:` is the format spec; `.2f` means fixed-point with 2 decimal places, rounded, so `3.14159` becomes `3.14`. It neither truncates to an integer nor keeps all digits. Other useful specs include `:,` for thousands separators and `:>10` for right alignment."
+      }
+    },
+    {
+      "id": "python.basics.014",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "a = {\"x\": 1, \"y\": 2}\nb = {\"y\": 3, \"z\": 4}\nprint(a | b, {**b, **a})"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "{'x': 1, 'y': 3, 'z': 4} {'y': 2, 'z': 4, 'x': 1}",
+            "en": "{'x': 1, 'y': 3, 'z': 4} {'y': 2, 'z': 4, 'x': 1}"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "{'x': 1, 'y': 2, 'z': 4} {'y': 3, 'z': 4, 'x': 1}",
+            "en": "{'x': 1, 'y': 2, 'z': 4} {'y': 3, 'z': 4, 'x': 1}"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "{'x': 1, 'y': 3, 'z': 4} {'x': 1, 'y': 2, 'z': 4}",
+            "en": "{'x': 1, 'y': 3, 'z': 4} {'x': 1, 'y': 2, 'z': 4}"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "TypeError: unsupported operand type(s) for |",
+            "en": "TypeError: unsupported operand type(s) for |"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Toán tử `|` (Python 3.9) gộp hai dict; key trùng lấy giá trị của dict bên phải, nên `a | b` cho `y` bằng `3`. `{**b, **a}` giải nén `b` trước rồi `a`, nên `a` thắng ở key `y` và có giá trị `2`. Dict giữ thứ tự chèn: key `y` được chèn lần đầu từ `b` nên vẫn đứng trước `z`, còn `x` từ `a` đứng cuối.",
+        "en": "The `|` operator (Python 3.9) merges two dicts; for duplicate keys the right-hand dict wins, so `a | b` has `y` equal to `3`. `{**b, **a}` unpacks `b` first and then `a`, so `a` wins for `y`, giving `2`. Dicts keep insertion order: `y` was first inserted from `b`, so it stays before `z`, and `x` from `a` comes last."
+      }
+    },
+    {
+      "id": "python.basics.015",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "basics",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Hàm cần trả về danh sách tên đã sắp xếp nhưng lại in ra `None`. Lỗi nằm ở đâu?",
+        "en": "The function should return the sorted names but prints `None`. What is the bug?"
+      },
+      "code": {
+        "language": "python",
+        "source": "def sorted_names(names):\n    names = names.sort()\n    return names\n\nprint(sorted_names([\"Chi\", \"An\", \"Binh\"]))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`list.sort()` sắp xếp tại chỗ và trả về `None`; hãy dùng `sorted(names)`",
+            "en": "`list.sort()` sorts in place and returns `None`; use `sorted(names)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`sort()` không sắp xếp được chuỗi tiếng Việt",
+            "en": "`sort()` cannot sort Vietnamese strings"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`sort()` thất bại với tên lẫn hoa thường vì thiếu `key=str.lower`",
+            "en": "`sort()` fails on mixed-case names because `key=str.lower` is missing"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hàm phải dùng `yield` thay cho `return`",
+            "en": "The function must use `yield` instead of `return`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`list.sort()` sắp xếp tại chỗ (in-place) và trả về `None`, nên `names = names.sort()` gán `None` cho `names`. Cách sửa là gọi `names.sort()` rồi `return names`, hoặc `return sorted(names)` để tạo list mới mà không sửa list gốc. Đây là quy ước chung của Python: method thay đổi object tại chỗ như `append`, `sort`, `reverse` đều trả về `None`.",
+        "en": "`list.sort()` sorts in place and returns `None`, so `names = names.sort()` assigns `None` to `names`. The fix is to call `names.sort()` and then `return names`, or `return sorted(names)` to build a new list without modifying the original. This is a general Python convention: methods that mutate in place, such as `append`, `sort`, `reverse`, return `None`."
+      }
+    },
+    {
+      "id": "python.functions.011",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một hàm Python không có câu lệnh `return` (hoặc chỉ có `return` trống) trả về gì khi được gọi?",
+        "en": "What does a Python function without a `return` statement (or with a bare `return`) return when called?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`0`",
+            "en": "`0`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`None`",
+            "en": "`None`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Giá trị của biểu thức cuối cùng trong hàm",
+            "en": "The value of the last expression in the function"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ném `TypeError`",
+            "en": "It raises `TypeError`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Mọi hàm Python đều trả về một giá trị; nếu không có `return` hoặc chỉ có `return` trống, giá trị đó là `None`. Vì vậy `result = print(\"hi\")` cho `result` bằng `None`. Python không trả về giá trị của biểu thức cuối cùng như Ruby, và cũng không ném exception.",
+        "en": "Every Python function returns a value; without a `return`, or with a bare `return`, that value is `None`. That is why `result = print(\"hi\")` leaves `result` as `None`. Python does not return the last expression like Ruby does, and it does not raise an exception."
+      }
+    },
+    {
+      "id": "python.functions.012",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `def greet(name, greeting=\"Hello\"): ...`, lời gọi nào gây lỗi?",
+        "en": "Given `def greet(name, greeting=\"Hello\"): ...`, which call fails?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`greet(\"An\")`",
+            "en": "`greet(\"An\")`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`greet(\"An\", \"Hi\")`",
+            "en": "`greet(\"An\", \"Hi\")`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`greet(greeting=\"Hi\", name=\"An\")`",
+            "en": "`greet(greeting=\"Hi\", name=\"An\")`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`greet(greeting=\"Hi\", \"An\")`",
+            "en": "`greet(greeting=\"Hi\", \"An\")`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Trong lời gọi hàm, đối số theo vị trí (positional) phải đứng trước đối số theo tên (keyword). `greet(greeting=\"Hi\", \"An\")` vi phạm quy tắc này nên bị `SyntaxError: positional argument follows keyword argument` ngay khi biên dịch. Các lời gọi còn lại hợp lệ: truyền theo vị trí, theo tên, hoặc theo tên với thứ tự tuỳ ý.",
+        "en": "In a call, positional arguments must come before keyword arguments. `greet(greeting=\"Hi\", \"An\")` breaks this rule, so it is a `SyntaxError: positional argument follows keyword argument` at compile time. The other calls are valid: positional, keyword, or keyword in any order."
+      }
+    },
+    {
+      "id": "python.functions.013",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "first, *middle, last = (1, 2, 3, 4, 5)\nprint(first, middle, last)\nprint(*middle)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`1 (2, 3, 4) 5` rồi `2 3 4`",
+            "en": "`1 (2, 3, 4) 5` then `2 3 4`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`1 [2, 3, 4] 5` rồi `[2, 3, 4]`",
+            "en": "`1 [2, 3, 4] 5` then `[2, 3, 4]`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`1 [2, 3, 4] 5` rồi `2 3 4`",
+            "en": "`1 [2, 3, 4] 5` then `2 3 4`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "ValueError: too many values to unpack",
+            "en": "ValueError: too many values to unpack"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Extended unpacking với `*` gom mọi phần tử \"còn lại\" vào một list: `first` nhận `1`, `last` nhận `5`, và `middle` nhận `[2, 3, 4]`. Biến có `*` luôn là `list`, kể cả khi nguồn là tuple. Ở lệnh gọi `print(*middle)`, dấu `*` lại giải nén list thành các đối số riêng nên in `2 3 4`.",
+        "en": "Extended unpacking with `*` collects every \"remaining\" element into a list: `first` gets `1`, `last` gets `5`, and `middle` gets `[2, 3, 4]`. The starred variable is always a `list`, even if the source is a tuple. In the call `print(*middle)`, `*` unpacks the list into separate arguments, printing `2 3 4`."
+      }
+    },
+    {
+      "id": "python.functions.014",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Thêm `@lru_cache` để tăng tốc thì hàm ném `TypeError: unhashable type: 'list'`. Lỗi nằm ở đâu?",
+        "en": "After adding `@lru_cache` for speed, the function raises `TypeError: unhashable type: 'list'`. What is the bug?"
+      },
+      "code": {
+        "language": "python",
+        "source": "from functools import lru_cache\n\n@lru_cache\ndef total(prices):\n    return sum(prices)\n\nprint(total([10, 20, 30]))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải khai báo `@lru_cache(maxsize=None)` mới chạy được",
+            "en": "It only works with `@lru_cache(maxsize=None)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`sum` không dùng được trong hàm có cache vì nó tiêu thụ hết list",
+            "en": "`sum` cannot be used inside a cached function because it consumes the list"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`lru_cache` chỉ dùng được cho method của class, không dùng cho hàm cấp module",
+            "en": "`lru_cache` only works on class methods, not on module-level functions"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`lru_cache` cần đối số hashable mà `list` thì không; hãy truyền `tuple`",
+            "en": "`lru_cache` needs hashable arguments and a `list` is not; pass a `tuple`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`functools.lru_cache` dùng các đối số làm key của một dict bên trong, nên mọi đối số phải hashable. `list` là mutable nên không hashable, gây `TypeError` ngay khi gọi. Cách sửa là truyền dữ liệu bất biến như `tuple(prices)` (và khai báo tham số tương ứng), hoặc bỏ cache nếu đầu vào thay đổi liên tục. `maxsize` không liên quan tới lỗi này.",
+        "en": "`functools.lru_cache` uses the arguments as keys of an internal dict, so every argument must be hashable. A `list` is mutable and therefore unhashable, causing `TypeError` on the call. The fix is to pass immutable data such as `tuple(prices)` (and type the parameter accordingly), or drop the cache if inputs keep changing. `maxsize` has nothing to do with this error."
+      }
+    },
+    {
+      "id": "python.functions.015",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "functions",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích \"hàm là first-class object\" trong Python. Cho ví dụ về higher-order function trong code thực tế.",
+        "en": "Explain \"functions are first-class objects\" in Python. Give examples of higher-order functions in real code."
+      },
+      "keyPoints": [
+        {
+          "vi": "Hàm là object: gán biến, lưu trong collection, truyền và trả về",
+          "en": "Functions are objects: assign, store in collections, pass and return them"
+        },
+        {
+          "vi": "Higher-order function: `sorted(key=...)`, `map`, `filter`, decorator",
+          "en": "Higher-order functions: `sorted(key=...)`, `map`, `filter`, decorators"
+        },
+        {
+          "vi": "`functools.partial` cố định trước một số tham số",
+          "en": "`functools.partial` pre-fills some arguments"
+        },
+        {
+          "vi": "Closure giúp hàm nhớ trạng thái; lambda chỉ cho biểu thức ngắn",
+          "en": "Closures let functions remember state; lambdas only for short expressions"
+        }
+      ],
+      "explanation": {
+        "vi": "Trong Python, hàm là object như mọi giá trị khác: gán được vào biến, lưu trong list/dict, truyền làm đối số và trả về từ hàm khác. Higher-order function là hàm nhận hoặc trả về hàm, ví dụ `sorted(users, key=lambda u: u.age)`, `map`/`filter`, decorator, hay `functools.partial` để cố định bớt tham số. Kết hợp với closure, ta có thể tạo hàm \"nhớ\" trạng thái như factory hoặc callback. Lambda chỉ nên dùng cho biểu thức ngắn; logic dài nên tách thành hàm có tên.",
+        "en": "In Python, functions are objects like any other value: they can be assigned to variables, stored in lists/dicts, passed as arguments and returned from other functions. A higher-order function takes or returns a function, e.g. `sorted(users, key=lambda u: u.age)`, `map`/`filter`, decorators, or `functools.partial` to pre-fill arguments. Combined with closures, you can build functions that \"remember\" state, such as factories or callbacks. Lambdas should stay short; longer logic deserves a named function."
+      }
+    },
+    {
+      "id": "python.oop.010",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `def deposit(self, amount):`, tham số `self` là gì?",
+        "en": "In `def deposit(self, amount):`, what is the `self` parameter?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Từ khoá bắt buộc trỏ tới class `Account`, giống `this` trong Java",
+            "en": "A mandatory keyword referring to the `Account` class, like `this` in Java"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một biến toàn cục dùng chung cho mọi object",
+            "en": "A global variable shared by all objects"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tham số người gọi phải tự truyền vào, ví dụ `acc.deposit(acc, 100)`",
+            "en": "A parameter callers must pass manually, as in `acc.deposit(acc, 100)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Instance đang gọi method, được Python tự truyền vào",
+            "en": "The instance the method is called on, passed automatically by Python"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`self` là tham chiếu tới chính instance đang gọi method; khi viết `acc.deposit(100)`, Python tự truyền `acc` làm đối số đầu tiên, tương đương `Account.deposit(acc, 100)`. Nhờ `self`, method đọc/ghi được thuộc tính riêng của từng object như `self.balance`. `self` không phải từ khoá mà chỉ là quy ước đặt tên, và nó không trỏ tới class.",
+        "en": "`self` refers to the instance the method is called on; when you write `acc.deposit(100)`, Python passes `acc` as the first argument, equivalent to `Account.deposit(acc, 100)`. Through `self`, a method reads and writes each object's own attributes, such as `self.balance`. `self` is not a keyword, just a naming convention, and it does not refer to the class."
+      }
+    },
+    {
+      "id": "python.oop.011",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt giữa `@staticmethod` và `@classmethod` là gì?",
+        "en": "What is the difference between `@staticmethod` and `@classmethod`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`@staticmethod` nhận `cls`, `@classmethod` nhận `self`",
+            "en": "`@staticmethod` receives `cls`, `@classmethod` receives `self`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ `@staticmethod` gọi được mà không cần tạo instance của class trước",
+            "en": "Only `@staticmethod` can be called without creating an instance of the class first"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`@classmethod` nhận `cls` (tiện làm factory); `@staticmethod` không nhận `self` lẫn `cls`",
+            "en": "`@classmethod` receives `cls` (handy for factories); `@staticmethod` gets neither"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`@classmethod` chạy nhanh hơn vì được cache",
+            "en": "`@classmethod` is faster because it is cached"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`@classmethod` nhận class làm tham số đầu tiên (`cls`), nên hay dùng làm constructor thay thế như `User.from_dict(data)` và vẫn đúng với subclass. `@staticmethod` không nhận `self` hay `cls`; nó chỉ là hàm bình thường đặt trong namespace của class. Cả hai đều gọi được qua class hoặc instance mà không cần tạo object trước.",
+        "en": "`@classmethod` receives the class as its first parameter (`cls`), so it is often used for alternative constructors like `User.from_dict(data)` and works correctly for subclasses. `@staticmethod` receives neither `self` nor `cls`; it is just a plain function inside the class namespace. Both can be called on the class or an instance without creating an object first."
+      }
+    },
+    {
+      "id": "python.oop.012",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def speak(self):\n        return f\"{self.name} makes a sound\"\n\n\nclass Dog(Animal):\n    def speak(self):\n        return f\"{self.name} barks\"\n\n\nprint(Dog(\"Rex\").speak(), \"|\", Animal(\"Tom\").speak())"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Rex barks | Tom makes a sound",
+            "en": "Rex barks | Tom makes a sound"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Rex makes a sound | Tom makes a sound",
+            "en": "Rex makes a sound | Tom makes a sound"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Rex barks | Tom barks",
+            "en": "Rex barks | Tom barks"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "AttributeError: 'Dog' object has no attribute 'name'",
+            "en": "AttributeError: 'Dog' object has no attribute 'name'"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Dog` kế thừa `__init__` từ `Animal` nên `Dog(\"Rex\")` vẫn có `self.name`. `Dog` override `speak`, nên `Dog(\"Rex\").speak()` trả `Rex barks`. `Animal(\"Tom\")` dùng method của chính `Animal` nên trả `Tom makes a sound`. Method được tìm theo kiểu thực của object lúc chạy.",
+        "en": "`Dog` inherits `__init__` from `Animal`, so `Dog(\"Rex\")` still has `self.name`. `Dog` overrides `speak`, so `Dog(\"Rex\").speak()` returns `Rex barks`. `Animal(\"Tom\")` uses `Animal`'s own method and returns `Tom makes a sound`. Methods are looked up on the object's actual type at runtime."
+      }
+    },
+    {
+      "id": "python.oop.013",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với class bên dưới, `acc.__balance` ở dòng cuối cho kết quả gì?",
+        "en": "Given the class below, what does `acc.__balance` on the last line give?"
+      },
+      "code": {
+        "language": "python",
+        "source": "class Account:\n    def __init__(self, balance):\n        self.__balance = balance\n\nacc = Account(100)\nprint(acc.__balance)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`100`",
+            "en": "`100`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`None`",
+            "en": "`None`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`PermissionError`, vì thuộc tính bắt đầu bằng `__` là private của class",
+            "en": "`PermissionError`, because attributes starting with `__` are private to the class"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`AttributeError`, vì tên đã bị đổi thành `_Account__balance`",
+            "en": "`AttributeError`, because the name was mangled to `_Account__balance`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Thuộc tính bắt đầu bằng hai dấu gạch dưới (và không kết thúc bằng hai dấu gạch dưới) bị name mangling: bên trong class, `self.__balance` được đổi thành `_Account__balance`. Vì vậy từ bên ngoài, `acc.__balance` không tồn tại và ném `AttributeError`, dù vẫn truy cập được bằng `acc._Account__balance`. Đây không phải private thực sự; mục đích chính là tránh trùng tên với subclass. Quy ước thông thường cho \"nội bộ\" là một dấu gạch dưới `_balance`.",
+        "en": "Attributes starting with two underscores (and not ending with two) are name-mangled: inside the class, `self.__balance` becomes `_Account__balance`. So from outside, `acc.__balance` does not exist and raises `AttributeError`, although `acc._Account__balance` still works. This is not true privacy; its main purpose is to avoid clashes with subclasses. The usual convention for \"internal\" is a single underscore, `_balance`."
+      }
+    },
+    {
+      "id": "python.oop.014",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Dunder method (magic method) là gì? Làm sao để một class `Playlist` dùng được với `len()`, `in`, vòng `for`, `==` và hiển thị đẹp khi debug?",
+        "en": "What are dunder (magic) methods? How do you make a `Playlist` class work with `len()`, `in`, `for` loops, `==`, and display nicely when debugging?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Python gọi dunder method ngầm cho cú pháp/hàm built-in (data model)",
+          "en": "Python calls dunder methods implicitly for syntax/built-ins (data model)"
+        },
+        {
+          "vi": "`__len__` → `len()`, `__contains__` → `in`, `__iter__` → `for`",
+          "en": "`__len__` → `len()`, `__contains__` → `in`, `__iter__` → `for`"
+        },
+        {
+          "vi": "`__eq__` cho `==`, nhớ xử lý `__hash__` đi kèm",
+          "en": "`__eq__` for `==`, handle `__hash__` alongside"
+        },
+        {
+          "vi": "`__repr__` cho hiển thị khi debug; `@dataclass` tự sinh nhiều method",
+          "en": "`__repr__` for debugging output; `@dataclass` generates many of them"
+        }
+      ],
+      "explanation": {
+        "vi": "Dunder method là các method có dạng `__name__` mà Python gọi ngầm khi dùng cú pháp hoặc hàm built-in tương ứng (data model). `__len__` phục vụ `len()`, `__contains__` phục vụ `in`, `__iter__` (hoặc `__getitem__`) cho vòng `for`, `__eq__` cho `==` (khi override thì nhớ xử lý `__hash__`), và `__repr__` cho chuỗi hiển thị khi debug. Nhờ vậy class tự viết hoạt động tự nhiên như kiểu built-in. Với class chủ yếu chứa dữ liệu, `@dataclass` tự sinh sẵn `__init__`, `__repr__`, `__eq__`.",
+        "en": "Dunder methods are `__name__`-style methods that Python calls implicitly for the matching syntax or built-in function (the data model). `__len__` backs `len()`, `__contains__` backs `in`, `__iter__` (or `__getitem__`) enables `for` loops, `__eq__` handles `==` (remember `__hash__` when overriding it), and `__repr__` gives the debugging representation. This lets custom classes behave naturally like built-in types. For data-holding classes, `@dataclass` generates `__init__`, `__repr__` and `__eq__`."
+      }
+    },
+    {
+      "id": "python.iterators.010",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cần in danh sách món ăn kèm số thứ tự bắt đầu từ 1 (`1. Phở`, `2. Bún chả`...). Cách viết Pythonic nhất là gì?",
+        "en": "You need to print a menu with numbers starting at 1 (`1. Pho`, `2. Bun cha`...). What is the most Pythonic way?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`for item in items: print(f\"{items.index(item) + 1}. {item}\")`",
+            "en": "`for item in items: print(f\"{items.index(item) + 1}. {item}\")`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`for i, item in enumerate(items, start=1): print(f\"{i}. {item}\")`",
+            "en": "`for i, item in enumerate(items, start=1): print(f\"{i}. {item}\")`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`for i in items: print(f\"{i}. {items[i]}\")`",
+            "en": "`for i in items: print(f\"{i}. {items[i]}\")`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`for i, item in items: print(f\"{i}. {item}\")`",
+            "en": "`for i, item in items: print(f\"{i}. {item}\")`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`enumerate(items, start=1)` trả về từng cặp `(chỉ số, phần tử)` và cho phép chọn số bắt đầu, nên vừa gọn vừa tránh lỗi off-by-one. Dùng `range(len(items))` rồi truy cập `items[i]` vẫn chạy nhưng dài dòng hơn. `items.index(x)` tìm vị trí lần xuất hiện đầu tiên nên vừa chậm vừa sai khi có phần tử trùng.",
+        "en": "`enumerate(items, start=1)` yields `(index, item)` pairs and lets you choose the starting number, which is concise and avoids off-by-one errors. Using `range(len(items))` with `items[i]` works but is more verbose. `items.index(x)` searches for the first occurrence, so it is slow and wrong when there are duplicates."
+      }
+    },
+    {
+      "id": "python.iterators.011",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "print(list(zip([1, 2, 3], \"ab\")))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[(1, 'a'), (2, 'b')]",
+            "en": "[(1, 'a'), (2, 'b')]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[(1, 'a'), (2, 'b'), (3, None)]",
+            "en": "[(1, 'a'), (2, 'b'), (3, None)]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[(1, 'ab'), (2, 'ab'), (3, 'ab')]",
+            "en": "[(1, 'ab'), (2, 'ab'), (3, 'ab')]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "ValueError: zip() arguments have different lengths",
+            "en": "ValueError: zip() arguments have different lengths"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`zip` ghép phần tử cùng vị trí của các iterable thành tuple và dừng khi iterable ngắn nhất hết phần tử. Chuỗi `\"ab\"` chỉ có 2 ký tự nên kết quả chỉ có 2 cặp và số `3` bị bỏ qua, không có lỗi. Nếu muốn báo lỗi khi độ dài khác nhau, dùng `zip(..., strict=True)` (Python 3.10); muốn điền giá trị thiếu, dùng `itertools.zip_longest`.",
+        "en": "`zip` pairs elements at the same position into tuples and stops when the shortest iterable runs out. The string `\"ab\"` has only 2 characters, so there are only 2 pairs and `3` is dropped without any error. To raise on mismatched lengths use `zip(..., strict=True)` (Python 3.10); to fill missing values use `itertools.zip_longest`."
+      }
+    },
+    {
+      "id": "python.iterators.012",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "scores = {\"an\": 7, \"binh\": 9, \"chi\": 8}\ntop = sorted(scores, key=scores.get, reverse=True)[:2]\nprint(top)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "['an', 'binh']",
+            "en": "['an', 'binh']"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "['binh', 'chi']",
+            "en": "['binh', 'chi']"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[9, 8]",
+            "en": "[9, 8]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "[('binh', 9), ('chi', 8)]",
+            "en": "[('binh', 9), ('chi', 8)]"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Lặp qua dict là lặp qua các key. `sorted(scores, key=scores.get, reverse=True)` sắp xếp các key theo giá trị điểm giảm dần: `binh` (9), `chi` (8), `an` (7). Cắt `[:2]` lấy hai tên đầu. Kết quả là list các key chứ không phải cặp `(key, value)`.",
+        "en": "Iterating over a dict iterates over its keys. `sorted(scores, key=scores.get, reverse=True)` sorts the keys by score in descending order: `binh` (9), `chi` (8), `an` (7). Slicing `[:2]` takes the first two names. The result is a list of keys, not `(key, value)` pairs."
+      }
+    },
+    {
+      "id": "python.iterators.013",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Hàm xoá các session đã hết hạn ném `RuntimeError: dictionary changed size during iteration`. Cách sửa đúng là gì?",
+        "en": "The function that removes expired sessions raises `RuntimeError: dictionary changed size during iteration`. What is the right fix?"
+      },
+      "code": {
+        "language": "python",
+        "source": "import time\n\nsessions = {\"s1\": time.time() - 10, \"s2\": time.time() + 3600}\n\ndef purge_expired(sessions):\n    now = time.time()\n    for sid in sessions:\n        if sessions[sid] < now:\n            del sessions[sid]\n\npurge_expired(sessions)\nprint(sessions.keys())"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đổi `del sessions[sid]` thành `sessions.pop(sid)` vì nó an toàn khi đang lặp",
+            "en": "Change `del sessions[sid]` to `sessions.pop(sid)`, which is safe while iterating"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lặp trên bản sao `list(sessions)` hoặc tạo dict mới",
+            "en": "Iterate over a copy, `list(sessions)`, or build a new dict"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dùng `sessions.items()` vì nó trả về bản chụp các cặp key-value",
+            "en": "Use `sessions.items()` instead, which returns a snapshot of the pairs"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thêm `time.sleep(0)` sau mỗi lần xoá",
+            "en": "Add `time.sleep(0)` after each deletion"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Không được thêm hoặc xoá key của dict trong khi đang lặp trực tiếp trên chính dict đó, vì iterator phát hiện kích thước thay đổi và ném `RuntimeError`. Cách sửa là lặp trên bản sao danh sách key, `for sid in list(sessions):`, hoặc tạo dict mới bằng comprehension chỉ giữ session còn hạn. Đổi `del` sang `pop` vẫn là xoá trong lúc lặp nên vẫn lỗi.",
+        "en": "You must not add or remove keys of a dict while iterating directly over it; the iterator detects the size change and raises `RuntimeError`. The fix is to iterate over a copy of the keys, `for sid in list(sessions):`, or build a new dict with a comprehension that keeps only valid sessions. Switching `del` to `pop` still removes during iteration, so it still fails."
+      }
+    },
+    {
+      "id": "python.iterators.014",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "iterators",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`itertools.groupby(orders, key=lambda o: o[\"status\"])` cho ra nhiều nhóm `\"paid\"` tách rời nhau thay vì một nhóm. Vì sao?",
+        "en": "`itertools.groupby(orders, key=lambda o: o[\"status\"])` produces several separate `\"paid\"` groups instead of one. Why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`groupby` chỉ hoạt động với key là số",
+            "en": "`groupby` only works with numeric keys"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lambda không được dùng làm `key`",
+            "en": "A lambda cannot be used as `key`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`groupby` chỉ gom phần tử liên tiếp; cần sắp xếp theo cùng key trước",
+            "en": "`groupby` only groups consecutive elements; sort by the same key first"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`groupby` chạy song song trên nhiều thread nên thứ tự nhóm ngẫu nhiên",
+            "en": "`groupby` runs in parallel threads, so the order of groups is random"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`itertools.groupby` chỉ gom các phần tử liên tiếp có cùng key; mỗi khi key thay đổi, nó bắt đầu nhóm mới. Nếu dữ liệu chưa sắp xếp, các đơn `\"paid\"` nằm rải rác sẽ thành nhiều nhóm. Cần `sorted(orders, key=...)` trước với cùng hàm key, hoặc dùng `collections.defaultdict(list)` nếu chỉ muốn gom nhóm không cần thứ tự. `groupby` không phải bị lỗi hay không ổn định.",
+        "en": "`itertools.groupby` only groups consecutive elements with the same key; whenever the key changes, it starts a new group. If the data is unsorted, scattered `\"paid\"` orders become several groups. Sort first with `sorted(orders, key=...)` using the same key function, or use `collections.defaultdict(list)` if you only need grouping without order. `groupby` is not buggy or unstable."
+      }
+    },
+    {
+      "id": "python.errors.009",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Biểu thức `[1, 2, 3][5]` ném exception nào?",
+        "en": "Which exception does `[1, 2, 3][5]` raise?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`IndexError`",
+            "en": "`IndexError`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`KeyError`",
+            "en": "`KeyError`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`ValueError`",
+            "en": "`ValueError`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`TypeError`",
+            "en": "`TypeError`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Truy cập chỉ số ngoài phạm vi của list (hoặc tuple, chuỗi) ném `IndexError: list index out of range`. `KeyError` dành cho key không có trong dict, `ValueError` cho giá trị sai kiểu nội dung như `int(\"abc\")`, còn `TypeError` cho thao tác sai kiểu như `\"a\" + 1`. Cả `IndexError` và `KeyError` đều là subclass của `LookupError`.",
+        "en": "Accessing an out-of-range index of a list (or tuple, string) raises `IndexError: list index out of range`. `KeyError` is for a missing dict key, `ValueError` for a bad value such as `int(\"abc\")`, and `TypeError` for an operation on the wrong type, like `\"a\" + 1`. Both `IndexError` and `KeyError` subclass `LookupError`."
+      }
+    },
+    {
+      "id": "python.errors.010",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao không nên viết `except:` trống (bare except) trong code?",
+        "en": "Why should you avoid a bare `except:` in code?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đó là lỗi cú pháp từ Python 3",
+            "en": "It is a syntax error since Python 3"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nó bắt cả `KeyboardInterrupt`, `SystemExit` lẫn lỗi lập trình thật",
+            "en": "It also catches `KeyboardInterrupt`, `SystemExit` and real bugs"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Nó không bắt được exception tự định nghĩa",
+            "en": "It cannot catch custom exceptions"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nó làm chương trình chậm đáng kể vì phải kiểm tra mọi frame",
+            "en": "It makes the program significantly slower, since every frame is inspected"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`except:` trống bắt mọi `BaseException`, kể cả `KeyboardInterrupt` (Ctrl+C) và `SystemExit` (`sys.exit()`), khiến chương trình khó dừng và che giấu lỗi lập trình như `NameError`. Nên bắt exception cụ thể nhất có thể, hoặc tối thiểu là `except Exception:` và ghi log. Bare except không làm code chậm hơn và cũng không phải lỗi cú pháp.",
+        "en": "A bare `except:` catches every `BaseException`, including `KeyboardInterrupt` (Ctrl+C) and `SystemExit` (`sys.exit()`), making the program hard to stop and hiding programming errors like `NameError`. Catch the most specific exception possible, or at least `except Exception:` and log it. A bare except does not slow code down and is not a syntax error."
+      }
+    },
+    {
+      "id": "python.errors.011",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "try:\n    {\"a\": 1}[\"b\"]\nexcept LookupError as e:\n    print(\"lookup\", type(e).__name__)\nexcept KeyError:\n    print(\"key\")"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "key",
+            "en": "key"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "lookup KeyError",
+            "en": "lookup KeyError"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "lookup LookupError",
+            "en": "lookup LookupError"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "KeyError: 'b'",
+            "en": "KeyError: 'b'"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Truy cập key `\"b\"` không có trong dict ném `KeyError`. Python thử các khối `except` theo thứ tự từ trên xuống và chạy khối đầu tiên khớp; `KeyError` là subclass của `LookupError` nên khối đầu khớp và in `lookup KeyError`. Khối `except KeyError` phía sau không bao giờ được chạy, vì vậy nên đặt exception cụ thể trước exception tổng quát.",
+        "en": "Accessing the missing key `\"b\"` raises `KeyError`. Python tries the `except` blocks top to bottom and runs the first one that matches; `KeyError` is a subclass of `LookupError`, so the first block matches and prints `lookup KeyError`. The later `except KeyError` block never runs, which is why specific exceptions should come before general ones."
+      }
+    },
+    {
+      "id": "python.errors.012",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Khi thanh toán lỗi, log chỉ có một dòng `Payment failed: timeout` và không biết lỗi xảy ra ở đâu. Cách sửa phù hợp là gì?",
+        "en": "When a payment fails, the log only has one line, `Payment failed: timeout`, with no idea where it happened. What is the right fix?"
+      },
+      "code": {
+        "language": "python",
+        "source": "import logging\n\nlogger = logging.getLogger(\"payments\")\n\ndef charge(order, gateway):\n    try:\n        return gateway.charge(order.total)\n    except Exception as e:\n        logger.error(\"Payment failed: %s\", e)\n        return None"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đổi `logger.error` thành `print` vì nó tự in kèm toàn bộ stack",
+            "en": "Replace `logger.error` with `print`, which includes the full stack automatically"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Bắt `BaseException` thay vì `Exception` để giữ lại frame gốc",
+            "en": "Catch `BaseException` instead of `Exception` so the original frame is kept"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tăng log level lên `CRITICAL`",
+            "en": "Raise the log level to `CRITICAL`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ghi log bằng `logger.exception(...)` để giữ traceback; không nuốt lỗi",
+            "en": "Log with `logger.exception(...)` to keep the traceback; do not swallow it"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`logger.error(\"...: %s\", e)` chỉ ghi thông điệp của exception, mất toàn bộ traceback. Bên trong khối `except`, dùng `logger.exception(\"Payment failed\")` (ghi ở mức `ERROR` kèm traceback) hoặc `logger.error(..., exc_info=True)`. Nuốt lỗi bằng `return None` cũng khiến nơi gọi không biết thanh toán thất bại, nên thường cần `raise` lại hoặc trả kết quả rõ ràng. Dùng `print` không giải quyết được vấn đề.",
+        "en": "`logger.error(\"...: %s\", e)` only logs the exception message and loses the whole traceback. Inside the `except` block, use `logger.exception(\"Payment failed\")` (logs at `ERROR` with the traceback) or `logger.error(..., exc_info=True)`. Swallowing the error with `return None` also hides the failure from callers, so you usually re-`raise` or return an explicit result. Switching to `print` does not help."
+      }
+    },
+    {
+      "id": "python.errors.013",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "errors",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh hai phong cách EAFP (\"Easier to Ask Forgiveness than Permission\") và LBYL (\"Look Before You Leap\") trong Python. Khi nào nên dùng mỗi cách?",
+        "en": "Compare EAFP (\"Easier to Ask Forgiveness than Permission\") and LBYL (\"Look Before You Leap\") in Python. When should you use each?"
+      },
+      "keyPoints": [
+        {
+          "vi": "LBYL: kiểm tra trước (`if key in d`); EAFP: thử rồi bắt exception",
+          "en": "LBYL: check first (`if key in d`); EAFP: try and catch the exception"
+        },
+        {
+          "vi": "EAFP là phong cách phổ biến trong Python",
+          "en": "EAFP is idiomatic in Python"
+        },
+        {
+          "vi": "EAFP tránh race condition kiểu kiểm tra rồi mới dùng (ví dụ với file)",
+          "en": "EAFP avoids check-then-use race conditions (e.g. with files)"
+        },
+        {
+          "vi": "LBYL hợp khi lỗi xảy ra thường xuyên; giữ khối `try` nhỏ",
+          "en": "LBYL fits when failures are frequent; keep `try` blocks small"
+        }
+      ],
+      "explanation": {
+        "vi": "LBYL kiểm tra điều kiện trước rồi mới làm, ví dụ `if key in d: value = d[key]`. EAFP cứ làm và bắt exception nếu thất bại, ví dụ `try: value = d[key] except KeyError: ...`, đây là phong cách phổ biến trong Python. EAFP tránh race condition kiểu \"kiểm tra rồi mới dùng\" (ví dụ file bị xoá giữa lúc kiểm tra và mở) và gọn khi lỗi hiếm xảy ra. LBYL hợp hơn khi lỗi xảy ra thường xuyên hoặc thao tác có tác dụng phụ khó hoàn tác; và khối `try` nên giữ thật nhỏ để không bắt nhầm lỗi khác.",
+        "en": "LBYL checks a condition before acting, e.g. `if key in d: value = d[key]`. EAFP just acts and catches the exception if it fails, e.g. `try: value = d[key] except KeyError: ...`, which is idiomatic Python. EAFP avoids \"check-then-use\" race conditions (e.g. a file deleted between checking and opening) and is concise when failures are rare. LBYL fits better when failures are frequent or the action has side effects that are hard to undo; and `try` blocks should stay small so they do not catch unrelated errors."
+      }
+    },
+    {
+      "id": "python.concurrency.009",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong một script Python thông thường, từ khoá `await` được phép dùng ở đâu?",
+        "en": "In a regular Python script, where may the `await` keyword be used?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ở bất kỳ đâu, kể cả trong hàm thường",
+            "en": "Anywhere, including regular functions"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ bên trong hàm được chạy bằng `threading.Thread`",
+            "en": "Only inside functions run by `threading.Thread`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ bên trong hàm `async def`",
+            "en": "Only inside an `async def` function"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ ở cấp cao nhất của module",
+            "en": "Only at the top level of a module"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`await` chỉ hợp lệ bên trong hàm được khai báo bằng `async def` (coroutine); dùng trong hàm thường sẽ bị `SyntaxError`. Vì vậy điểm vào của chương trình thường là `asyncio.run(main())`, với `main` là coroutine chứa các lệnh `await`. Một số môi trường như REPL `python -m asyncio` hay Jupyter cho phép `await` ở cấp cao nhất, nhưng script thường thì không.",
+        "en": "`await` is only valid inside a function declared with `async def` (a coroutine); using it in a regular function is a `SyntaxError`. That is why a program's entry point is usually `asyncio.run(main())`, with `main` being a coroutine containing the `await`s. Some environments, like the `python -m asyncio` REPL or Jupyter, allow top-level `await`, but regular scripts do not."
+      }
+    },
+    {
+      "id": "python.concurrency.010",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`asyncio.run(main())` làm gì?",
+        "en": "What does `asyncio.run(main())` do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chạy `main()` trên một thread mới rồi trả về ngay",
+            "en": "Runs `main()` on a new thread and returns immediately"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tạo một process mới cho mỗi lệnh `await`",
+            "en": "Creates a new process for each `await`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tạo event loop, chạy `main()` tới khi xong rồi đóng loop",
+            "en": "Creates an event loop, runs `main()` to completion, then closes the loop"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ lên lịch `main()` trên loop mặc định; phải gọi thêm `loop.start()`",
+            "en": "Only schedules `main()` on the default loop; you must also call `loop.start()`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`asyncio.run` tạo một event loop mới, chạy coroutine `main()` cho tới khi hoàn tất, trả về kết quả của nó, rồi dọn dẹp và đóng loop. Nó là điểm vào chuẩn cho chương trình asyncio và không được gọi khi đã có event loop đang chạy trong cùng thread. Nó không tạo thread hay process mới, cũng không chạy `main` ở chế độ nền.",
+        "en": "`asyncio.run` creates a new event loop, runs the `main()` coroutine until it completes, returns its result, then cleans up and closes the loop. It is the standard entry point for asyncio programs and must not be called while another event loop is running in the same thread. It does not create new threads or processes, nor does it run `main` in the background."
+      }
+    },
+    {
+      "id": "python.concurrency.011",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "import time\nfrom concurrent.futures import ThreadPoolExecutor\n\ndef work(n):\n    time.sleep(0.1 * (3 - n))\n    return n * n\n\nwith ThreadPoolExecutor(max_workers=3) as pool:\n    print(list(pool.map(work, [1, 2, 3])))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "[9, 4, 1]",
+            "en": "[9, 4, 1]"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "[1, 4, 9]",
+            "en": "[1, 4, 9]"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "[1, 2, 3]",
+            "en": "[1, 2, 3]"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thứ tự thay đổi mỗi lần chạy",
+            "en": "The order changes on every run"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`ThreadPoolExecutor.map` chạy các lời gọi `work` đồng thời trên 3 thread, nên `work(3)` (không ngủ) xong trước và `work(1)` xong sau cùng. Tuy vậy `map` luôn trả kết quả theo đúng thứ tự đầu vào, không theo thứ tự hoàn thành, nên kết quả là `[1, 4, 9]`. Nếu cần xử lý theo thứ tự hoàn thành, dùng `submit` kết hợp `as_completed`.",
+        "en": "`ThreadPoolExecutor.map` runs the `work` calls concurrently on 3 threads, so `work(3)` (no sleep) finishes first and `work(1)` finishes last. However `map` always yields results in input order, not completion order, so the result is `[1, 4, 9]`. To handle results as they finish, use `submit` with `as_completed`."
+      }
+    },
+    {
+      "id": "python.concurrency.012",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Script in `order saved` nhưng email xác nhận không bao giờ được gửi, kèm cảnh báo `RuntimeWarning: coroutine 'send_email' was never awaited`. Lỗi nằm ở đâu?",
+        "en": "The script prints `order saved`, but the confirmation email is never sent, and there is a warning `RuntimeWarning: coroutine 'send_email' was never awaited`. What is the bug?"
+      },
+      "code": {
+        "language": "python",
+        "source": "import asyncio\n\nasync def send_email(order_id):\n    await asyncio.sleep(0.1)\n    print(f\"email sent for {order_id}\")\n\nasync def place_order(order_id):\n    print(\"order saved\")\n    send_email(order_id)\n\nasyncio.run(place_order(42))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`asyncio.sleep` chặn event loop nên email bị huỷ",
+            "en": "`asyncio.sleep` blocks the event loop, so the email is cancelled"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`send_email(order_id)` được gọi mà thiếu `await` nên không bao giờ chạy",
+            "en": "`send_email(order_id)` is called without `await`, so it never runs"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hàm `async` không được gọi từ hàm `async` khác",
+            "en": "An `async` function cannot be called from another `async` function"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`asyncio.run` chỉ chạy được một coroutine nên `send_email` bị bỏ qua",
+            "en": "`asyncio.run` can only run one coroutine, so `send_email` is skipped"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Gọi một hàm `async def` chỉ tạo ra object coroutine chứ chưa chạy thân hàm. Vì `send_email(...)` không được `await` (hoặc không được đưa vào `asyncio.create_task` và giữ tham chiếu), coroutine bị huỷ mà không chạy, nên email không được gửi và Python cảnh báo \"never awaited\". Cách sửa là `await send_email(order_id)`. `asyncio.sleep` vẫn chạy đúng.",
+        "en": "Calling an `async def` function only creates a coroutine object without running its body. Since `send_email(...)` is never awaited (nor passed to `asyncio.create_task` with a kept reference), the coroutine is discarded without running, so no email is sent and Python warns \"never awaited\". The fix is `await send_email(order_id)`. `asyncio.sleep` works as expected."
+      }
+    },
+    {
+      "id": "python.concurrency.013",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "concurrency",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh `asyncio.gather` và `asyncio.TaskGroup` (Python 3.11+). Làm sao xử lý lỗi và đặt timeout khi chạy nhiều tác vụ bất đồng bộ?",
+        "en": "Compare `asyncio.gather` and `asyncio.TaskGroup` (Python 3.11+). How do you handle errors and set timeouts when running many async tasks?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`gather`: lỗi đầu tiên được ném ra, các task khác vẫn chạy; có `return_exceptions=True`",
+          "en": "`gather`: the first error propagates, others keep running; `return_exceptions=True` available"
+        },
+        {
+          "vi": "`TaskGroup`: một task lỗi thì huỷ các task còn lại (structured concurrency)",
+          "en": "`TaskGroup`: one failure cancels the remaining tasks (structured concurrency)"
+        },
+        {
+          "vi": "Lỗi của `TaskGroup` gom trong `ExceptionGroup`, bắt bằng `except*`",
+          "en": "`TaskGroup` errors come as an `ExceptionGroup`, caught with `except*`"
+        },
+        {
+          "vi": "Timeout bằng `asyncio.timeout()` hoặc `asyncio.wait_for()`",
+          "en": "Timeouts with `asyncio.timeout()` or `asyncio.wait_for()`"
+        }
+      ],
+      "explanation": {
+        "vi": "Cả hai đều chạy nhiều coroutine đồng thời. Với `gather`, exception đầu tiên được ném cho nơi `await` nhưng các task còn lại vẫn tiếp tục chạy; `return_exceptions=True` trả exception như một kết quả trong list. `TaskGroup` (`async with asyncio.TaskGroup() as tg: tg.create_task(...)`) theo structured concurrency: khi một task lỗi, các task khác bị huỷ và mọi lỗi được gom vào `ExceptionGroup`, xử lý bằng `except*`. Timeout đặt bằng `asyncio.timeout(seconds)` (3.11) hoặc `asyncio.wait_for`.",
+        "en": "Both run several coroutines concurrently. With `gather`, the first exception propagates to the awaiting code but the other tasks keep running; `return_exceptions=True` returns exceptions as results in the list. `TaskGroup` (`async with asyncio.TaskGroup() as tg: tg.create_task(...)`) follows structured concurrency: when one task fails the others are cancelled and all errors are collected into an `ExceptionGroup`, handled with `except*`. Timeouts are set with `asyncio.timeout(seconds)` (3.11) or `asyncio.wait_for`."
+      }
+    },
+    {
+      "id": "python.web.010",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong FastAPI, làm sao để endpoint tạo mới trả về status `201 Created` thay vì `200` mặc định?",
+        "en": "In FastAPI, how do you make a create endpoint return `201 Created` instead of the default `200`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`@app.post(\"/items\", status_code=201)`",
+            "en": "`@app.post(\"/items\", status_code=201)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`return {\"status\": 201, **item}`",
+            "en": "`return {\"status\": 201, **item}`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`raise HTTPException(status_code=201)`",
+            "en": "`raise HTTPException(status_code=201)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`@app.post(\"/items/201\")`",
+            "en": "`@app.post(\"/items/201\")`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "FastAPI cho phép khai báo status mặc định ngay trên decorator: `@app.post(\"/items\", status_code=201)` (hoặc `status.HTTP_201_CREATED`). Khi hàm trả về bình thường, response sẽ có status `201` và tài liệu OpenAPI cũng hiển thị đúng. Thêm key `\"status\"` vào dict chỉ thay đổi body, còn ném `HTTPException` dành cho trường hợp lỗi.",
+        "en": "FastAPI lets you declare the default status on the decorator: `@app.post(\"/items\", status_code=201)` (or `status.HTTP_201_CREATED`). When the function returns normally, the response gets status `201`, and the OpenAPI docs show it correctly. Adding a `\"status\"` key to the dict only changes the body, and raising `HTTPException` is meant for errors."
+      }
+    },
+    {
+      "id": "python.web.011",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong Django, thành phần nào nhận request và trả về response?",
+        "en": "In Django, which component receives a request and returns a response?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "View (trong `views.py`)",
+            "en": "The view (in `views.py`)"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Model (trong `models.py`)",
+            "en": "The model (in `models.py`)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Template (file `.html`)",
+            "en": "The template (a `.html` file)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "File `settings.py`",
+            "en": "The `settings.py` file"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Trong mô hình MTV của Django, view (hàm hoặc class trong `views.py`) nhận `HttpRequest`, xử lý logic (thường gọi model) và trả về `HttpResponse`, ví dụ render một template hay trả JSON. `urls.py` chỉ ánh xạ URL tới view, model mô tả dữ liệu và bảng database, còn template chỉ lo phần hiển thị HTML.",
+        "en": "In Django's MTV pattern, a view (a function or class in `views.py`) receives an `HttpRequest`, runs the logic (often using models) and returns an `HttpResponse`, e.g. a rendered template or JSON. `urls.py` only maps URLs to views, models describe data and database tables, and templates only handle HTML presentation."
+      }
+    },
+    {
+      "id": "python.web.012",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với endpoint FastAPI bên dưới, request nào truyền đúng `skip` và `limit`?",
+        "en": "For the FastAPI endpoint below, which request passes `skip` and `limit` correctly?"
+      },
+      "code": {
+        "language": "python",
+        "source": "@app.get(\"/products\")\ndef list_products(skip: int = 0, limit: int = 10):\n    return db.list_products(offset=skip, limit=limit)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`GET /products/20/10`",
+            "en": "`GET /products/20/10`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`GET /products?skip=20&limit=10`",
+            "en": "`GET /products?skip=20&limit=10`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`GET /products` với body `{\"skip\": 20, \"limit\": 10}`",
+            "en": "`GET /products` with the body `{\"skip\": 20, \"limit\": 10}`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`GET /products` với header `skip: 20`",
+            "en": "`GET /products` with the header `skip: 20`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Tham số của hàm không xuất hiện trong path và có kiểu đơn giản (`int`, `str`...) được FastAPI hiểu là query parameter. Vì vậy client truyền `GET /products?skip=20&limit=10`; nếu bỏ qua, giá trị mặc định `0` và `10` được dùng. FastAPI không đọc chúng từ path segment hay từ body JSON của request `GET`.",
+        "en": "Function parameters that are not in the path and have simple types (`int`, `str`...) are treated by FastAPI as query parameters. So the client sends `GET /products?skip=20&limit=10`; if omitted, the defaults `0` and `10` apply. FastAPI does not read them from path segments or from a JSON body on a `GET` request."
+      }
+    },
+    {
+      "id": "python.web.013",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn sẽ tổ chức cấu trúc một dự án FastAPI cỡ vừa như thế nào (router, schema, model, cấu hình, dependency)?",
+        "en": "How would you structure a medium-sized FastAPI project (routers, schemas, models, configuration, dependencies)?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Chia router theo nghiệp vụ bằng `APIRouter` + `include_router`",
+          "en": "Split routers by domain with `APIRouter` + `include_router`"
+        },
+        {
+          "vi": "Tách Pydantic schema khỏi ORM model",
+          "en": "Separate Pydantic schemas from ORM models"
+        },
+        {
+          "vi": "Logic nghiệp vụ ở tầng service, router chỉ lo HTTP",
+          "en": "Business logic in a service layer, routers only handle HTTP"
+        },
+        {
+          "vi": "Dùng `Depends` cho DB session, user hiện tại",
+          "en": "Use `Depends` for the DB session and current user"
+        },
+        {
+          "vi": "Cấu hình qua biến môi trường với `pydantic-settings`",
+          "en": "Configuration via environment variables with `pydantic-settings`"
+        }
+      ],
+      "explanation": {
+        "vi": "Chia endpoint theo nghiệp vụ bằng `APIRouter` (ví dụ `users`, `orders`) và gắn vào app bằng `include_router` với prefix và tag. Tách Pydantic schema (dữ liệu vào/ra của API) khỏi ORM model (bảng database) để không lộ field nhạy cảm và tự do thay đổi DB. Logic nghiệp vụ đặt trong tầng service, còn router chỉ xử lý HTTP. Tài nguyên dùng chung như DB session, user hiện tại được cung cấp qua `Depends`, và cấu hình đọc từ biến môi trường bằng `pydantic-settings`.",
+        "en": "Split endpoints by domain with `APIRouter` (e.g. `users`, `orders`) and mount them with `include_router` using prefixes and tags. Keep Pydantic schemas (API input/output) separate from ORM models (database tables) so sensitive fields are not exposed and the DB can evolve freely. Put business logic in a service layer, leaving routers to handle HTTP only. Shared resources such as the DB session or current user are provided through `Depends`, and configuration is read from environment variables with `pydantic-settings`."
+      }
+    },
+    {
+      "id": "python.web.014",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "web",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với dependency `get_db` bên dưới, `db.close()` chạy khi nào?",
+        "en": "With the `get_db` dependency below, when does `db.close()` run?"
+      },
+      "code": {
+        "language": "python",
+        "source": "def get_db():\n    db = SessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()\n\n@app.get(\"/users/{user_id}\")\ndef read_user(user_id: int, db: Session = Depends(get_db)):\n    return db.get(User, user_id)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ngay sau `yield`, trước khi endpoint chạy, lúc `db` vừa được inject",
+            "en": "Right after `yield`, before the endpoint runs, as soon as `db` is injected"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ khi server tắt",
+            "en": "Only when the server shuts down"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không bao giờ, phải tự gọi `db.close()` ở cuối mỗi hàm endpoint",
+            "en": "Never; you must call `db.close()` yourself at the end of every endpoint function"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Sau khi endpoint xử lý xong request, kể cả khi có exception",
+            "en": "After the endpoint has handled the request, even if an exception occurs"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Dependency dùng `yield` hoạt động như context manager: phần trước `yield` chạy trước khi endpoint được gọi, giá trị được `yield` được inject vào tham số `db`, và phần trong `finally` chạy sau khi request được xử lý xong, kể cả khi endpoint ném exception. Nhờ vậy mỗi request có một session riêng và luôn được đóng. FastAPI không tạo session mới mỗi lần truy vấn và không giữ session tới khi tắt server.",
+        "en": "A dependency using `yield` works like a context manager: code before `yield` runs before the endpoint, the yielded value is injected into the `db` parameter, and the `finally` part runs after the request has been handled, even if the endpoint raises. So each request gets its own session that is always closed. FastAPI does not create a session per query, nor keep it until server shutdown."
+      }
+    },
+    {
+      "id": "python.tooling.008",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "tooling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Lệnh `pip freeze > requirements.txt` làm gì?",
+        "en": "What does `pip freeze > requirements.txt` do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cài mọi package có trong `requirements.txt`",
+            "en": "Installs every package listed in `requirements.txt`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Khoá môi trường để không thể cài thêm package bằng `pip`",
+            "en": "Locks the environment so no more packages can be installed with `pip`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Ghi danh sách package đã cài kèm phiên bản chính xác vào `requirements.txt`",
+            "en": "Writes the installed packages with exact versions into `requirements.txt`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nâng cấp mọi package lên bản mới nhất",
+            "en": "Upgrades every package to the latest version"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`pip freeze` liệt kê mọi package đang cài trong môi trường hiện tại kèm phiên bản chính xác (`name==version`), và `>` ghi danh sách đó vào `requirements.txt`. Sau đó người khác cài lại đúng các phiên bản bằng `pip install -r requirements.txt`. Lưu ý nó liệt kê cả dependency gián tiếp, và nên chạy trong virtual environment để không lẫn package của hệ thống.",
+        "en": "`pip freeze` lists every package installed in the current environment with exact versions (`name==version`), and `>` writes that list into `requirements.txt`. Others can then reinstall the same versions with `pip install -r requirements.txt`. Note that it includes transitive dependencies, and it should be run inside a virtual environment to avoid mixing in system packages."
+      }
+    },
+    {
+      "id": "python.tooling.009",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "tooling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khối `if __name__ == \"__main__\":` ở cuối file `report.py` dùng để làm gì?",
+        "en": "What is the `if __name__ == \"__main__\":` block at the end of `report.py` for?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bắt buộc phải có thì Python mới chạy được file",
+            "en": "Python requires it to run the file at all"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đăng ký `main` làm entry point của package, giống cấu hình `console_scripts`",
+            "en": "It registers `main` as the package's entry point, like a `console_scripts` setting"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ chạy code bên trong khi file được chạy trực tiếp, không chạy khi bị import",
+            "en": "Run the code inside only when the file is executed directly, not when imported"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Giúp code trong khối chạy nhanh hơn",
+            "en": "It makes the code inside the block run faster"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Khi chạy trực tiếp `python report.py`, biến `__name__` của module là `\"__main__\"`, nên code trong khối được chạy. Khi file được `import report` từ module khác, `__name__` là `\"report\"` nên khối bị bỏ qua. Nhờ vậy một file vừa dùng làm script vừa import được như thư viện (kể cả trong test) mà không vô tình chạy logic chính.",
+        "en": "When run directly with `python report.py`, the module's `__name__` is `\"__main__\"`, so the code in the block runs. When the file is imported with `import report`, `__name__` is `\"report\"`, so the block is skipped. This lets one file act both as a script and as an importable library (including in tests) without accidentally running the main logic."
+      }
+    },
+    {
+      "id": "python.tooling.010",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "tooling",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cần viết test pytest kiểm tra `withdraw(-5)` ném `ValueError` với thông điệp chứa `negative`. Cách viết nào đúng?",
+        "en": "You need a pytest test checking that `withdraw(-5)` raises `ValueError` with a message containing `negative`. Which is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`assert withdraw(-5) == ValueError`",
+            "en": "`assert withdraw(-5) == ValueError`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Bọc `withdraw(-5)` trong `try` / `except ValueError: pass`",
+            "en": "Wrap `withdraw(-5)` in `try` / `except ValueError: pass`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`assert pytest.raises(withdraw(-5), ValueError)`",
+            "en": "`assert pytest.raises(withdraw(-5), ValueError)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`with pytest.raises(ValueError, match=\"negative\"): withdraw(-5)`",
+            "en": "`with pytest.raises(ValueError, match=\"negative\"): withdraw(-5)`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`pytest.raises` dùng như context manager: test pass nếu code bên trong ném đúng exception, và fail nếu không có exception nào được ném. Tham số `match` dùng `re.search` trên thông điệp lỗi, nên kiểm tra được nội dung. Dùng `try/except` mà không `pytest.fail` khi không có exception thì test vẫn pass sai. `assert withdraw(-5) == ValueError` không bao giờ đúng vì hàm ném exception chứ không trả về class.",
+        "en": "`pytest.raises` is a context manager: the test passes if the code inside raises the expected exception and fails if nothing is raised. The `match` argument applies `re.search` to the error message, so it checks the content. A `try/except` without `pytest.fail` when nothing is raised would wrongly pass. `assert withdraw(-5) == ValueError` can never hold because the function raises rather than returning the class."
+      }
+    },
+    {
+      "id": "python.tooling.011",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "tooling",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Script chạy xong nhưng không thấy dòng log `Import finished` nào trên console, chỉ thấy cảnh báo. Lỗi nằm ở đâu?",
+        "en": "The script finishes, but no `Import finished` log line appears on the console, only the warning. What is the bug?"
+      },
+      "code": {
+        "language": "python",
+        "source": "import logging\n\nlogger = logging.getLogger(__name__)\n\ndef import_rows(rows):\n    if not rows:\n        logger.warning(\"No rows to import\")\n    logger.info(\"Import finished: %d rows\", len(rows))\n\nimport_rows([])"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải dùng `logging.getLogger(\"root\")` thay cho `__name__` thì log mới ra console",
+            "en": "`logging.getLogger(\"root\")` must be used instead of `__name__` so messages reach the console"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`logger.info` chỉ ghi vào file, không ghi ra console",
+            "en": "`logger.info` only writes to files, never to the console"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải gọi `logger.flush()` sau mỗi lần log",
+            "en": "`logger.flush()` must be called after each log call"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chưa cấu hình logging nên mức mặc định là `WARNING`; cần `logging.basicConfig(level=logging.INFO)`",
+            "en": "No logging config, so the level is `WARNING`; add `logging.basicConfig(level=logging.INFO)`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi chưa cấu hình logging, Python dùng handler dự phòng với mức `WARNING`, nên `logger.info(...)` bị bỏ qua, chỉ `warning` và cao hơn được in ra. Cần cấu hình một lần ở điểm vào chương trình, ví dụ `logging.basicConfig(level=logging.INFO, format=\"%(asctime)s %(levelname)s %(name)s %(message)s\")`. Việc dùng `getLogger(__name__)` là đúng, không phải nguyên nhân.",
+        "en": "Without any logging configuration, Python uses a last-resort handler at `WARNING` level, so `logger.info(...)` is dropped and only `warning` and above are printed. Configure it once at the program entry point, e.g. `logging.basicConfig(level=logging.INFO, format=\"%(asctime)s %(levelname)s %(name)s %(message)s\")`. Using `getLogger(__name__)` is correct and not the cause."
+      }
+    },
+    {
+      "id": "python.tooling.012",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "tooling",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn thiết lập công cụ kiểm tra chất lượng code cho một dự án Python thế nào (format, lint, type check, test) để cả team dùng thống nhất?",
+        "en": "How do you set up code-quality tooling for a Python project (formatting, linting, type checking, tests) so the whole team uses it consistently?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Formatter tự động: `ruff format` hoặc `black`",
+          "en": "Automatic formatter: `ruff format` or `black`"
+        },
+        {
+          "vi": "Linter `ruff`; type checker `mypy`/`pyright`",
+          "en": "Linter `ruff`; type checker `mypy`/`pyright`"
+        },
+        {
+          "vi": "Cấu hình tập trung trong `pyproject.toml`",
+          "en": "Centralized config in `pyproject.toml`"
+        },
+        {
+          "vi": "Chạy bằng `pre-commit` và trong CI cùng `pytest`",
+          "en": "Run via `pre-commit` and in CI along with `pytest`"
+        },
+        {
+          "vi": "Khoá phiên bản công cụ để kết quả thống nhất",
+          "en": "Pin tool versions for consistent results"
+        }
+      ],
+      "explanation": {
+        "vi": "Dùng formatter tự động (`ruff format` hoặc `black`) để chấm dứt tranh luận về style, và linter như `ruff` để bắt lỗi phổ biến, import thừa, sắp xếp import. Thêm type checker như `mypy` hoặc `pyright` cho code có type hint. Cấu hình tập trung trong `pyproject.toml`, chạy tự động bằng `pre-commit` trước khi commit, và chạy lại trong CI cùng `pytest` (có thể kèm đo coverage) để chặn merge khi lỗi. Phiên bản công cụ cũng cần được khoá để mọi người cho cùng kết quả.",
+        "en": "Use an automatic formatter (`ruff format` or `black`) to end style debates, and a linter like `ruff` to catch common bugs, unused imports and import ordering. Add a type checker such as `mypy` or `pyright` for type-hinted code. Keep configuration in `pyproject.toml`, run the tools automatically with `pre-commit` before commits, and run them again in CI together with `pytest` (optionally with coverage) to block merges on failures. Pin tool versions so everyone gets the same results."
+      }
+    },
+    {
+      "id": "python.oop.015",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`Cart` lưu hàng trong `self._items` và có `@property items` trả về `self._items`. Một module khác gọi `cart.items.append(item)`, bỏ qua bước kiểm tra giá trong `add_item()`. Cách sửa tốt nhất là gì?",
+        "en": "`Cart` stores goods in `self._items` and has an `@property items` that returns `self._items`. Another module calls `cart.items.append(item)`, skipping the price check in `add_item()`. What is the best fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đổi `_items` thành `__items`, vì name mangling khiến list hoàn toàn không thể bị thay đổi từ bên ngoài class",
+            "en": "Rename `_items` to `__items`, because name mangling makes the list impossible to change from outside the class"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Bỏ property và để `items` là attribute public, vì Python dựa vào quy ước chứ không cần đóng gói dữ liệu",
+            "en": "Drop the property and make `items` a public attribute, since Python relies on convention rather than encapsulation"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Trả về dạng bất biến như `tuple(self._items)` và giữ `add_item()` là cách duy nhất để thay đổi giỏ hàng",
+            "en": "Return an immutable view such as `tuple(self._items)` and keep `add_item()` as the only way to change the cart"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thêm `@items.setter` có kiểm tra giá, để mọi lời gọi `append` trên list đều phải đi qua setter đó",
+            "en": "Add an `@items.setter` that checks the price, so that every `append` call on the list goes through the setter"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Property trả về chính list nội bộ nên người gọi sửa được list mà không qua quy tắc nghiệp vụ. Trả về `tuple` (hoặc bản sao) và chỉ cho thay đổi qua `add_item()` giúp object tự bảo vệ invariant. Setter chỉ chạy khi gán `cart.items = ...`, không chạy khi gọi `append`, còn name mangling chỉ đổi tên attribute chứ không làm list bất biến.",
+        "en": "The property returns the internal list itself, so callers can mutate it and bypass the business rule. Returning a `tuple` (or a copy) and allowing changes only through `add_item()` lets the object protect its invariant. A setter only runs on `cart.items = ...`, not on `append`, and name mangling only renames the attribute; it does not make the list immutable."
+      }
+    },
+    {
+      "id": "python.oop.016",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một đồng nghiệp cài đặt stack bằng `class Stack(list)` kèm method `push`/`pop`. Vì sao người phỏng vấn gợi ý dùng composition thay thế?",
+        "en": "A teammate implements a stack as `class Stack(list)` with `push`/`pop` methods. Why would an interviewer suggest composition instead?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Kế thừa `list` làm lộ `insert`, `sort` và slicing nên người gọi phá được LIFO; bọc một list private chỉ lộ thao tác của stack",
+            "en": "Subclassing `list` exposes `insert`, `sort` and slicing, so callers can break LIFO; a wrapped private list exposes only stack operations"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Kiểu built-in như `list` không thể kế thừa trong Python 3, nên định nghĩa class sẽ ném `TypeError` ngay khi import",
+            "en": "Built-in types such as `list` cannot be subclassed in Python 3, so the class definition raises `TypeError` at import time"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Kế thừa `list` khiến mọi `Stack` dùng chung một vùng lưu trữ, nên push vào một stack sẽ làm thay đổi các stack khác",
+            "en": "Subclassing `list` makes every `Stack` share the same storage, so pushing onto one stack changes all the other stacks"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Kế thừa `list` vô hiệu hoá `len()` và vòng lặp `for` cho lớp con, trừ khi viết lại `__len__` và `__iter__`",
+            "en": "Subclassing `list` disables `len()` and `for` loops on the subclass unless `__len__` and `__iter__` are rewritten"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Kế thừa nghĩa là \"Stack là một list\", nên mọi method của list đều trở thành API của stack và người gọi có thể chèn, sắp xếp hay cắt giữa chừng. Composition (`self._data = []`) chỉ lộ `push`, `pop`, `peek`, `__len__` và giữ được invariant LIFO. Python vẫn cho kế thừa `list` và lớp con dùng `len()` bình thường, nên các phương án còn lại là sai sự thật.",
+        "en": "Inheritance says \"a Stack is a list\", so every list method becomes part of the stack's API and callers can insert, sort or slice in the middle. Composition (`self._data = []`) exposes only `push`, `pop`, `peek` and `__len__` and keeps the LIFO invariant. Python does allow subclassing `list` and the subclass works with `len()`, so the other options are factually wrong."
+      }
+    },
+    {
+      "id": "python.oop.017",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "class Base:\n    def __init__(self):\n        print(\"Base init\")\n        self.ready = True\n\n\nclass Child(Base):\n    def __init__(self):\n        print(\"Child init\")\n\n\nc = Child()\nprint(hasattr(c, \"ready\"))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Base init / Child init / True",
+            "en": "Base init / Child init / True"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Child init / False",
+            "en": "Child init / False"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Child init / Base init / True",
+            "en": "Child init / Base init / True"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Child init / True",
+            "en": "Child init / True"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khi lớp con định nghĩa `__init__` riêng, Python không tự gọi `__init__` của lớp cha. Vì `Child.__init__` không gọi `super().__init__()`, chỉ có `Child init` được in và attribute `ready` không bao giờ được tạo, nên `hasattr` trả về `False`. Đây là lỗi phổ biến khi kế thừa: object ở trạng thái khởi tạo dở dang.",
+        "en": "When a subclass defines its own `__init__`, Python does not call the parent's `__init__` automatically. Because `Child.__init__` never calls `super().__init__()`, only `Child init` is printed and `ready` is never set, so `hasattr` returns `False`. This is a common inheritance bug: the object ends up half-initialised."
+      }
+    },
+    {
+      "id": "python.oop.018",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Use case cần một `FileStorage` có `save(name, data) -> str`. Một implementation bọc class của SDK bên thứ ba mà bạn không sửa được. Câu nào giải thích đúng nhất vì sao `typing.Protocol` phù hợp hơn `abc.ABC` ở đây?",
+        "en": "A use case needs a `FileStorage` with `save(name, data) -> str`. One implementation wraps a third-party SDK class you cannot modify. Which statement best explains why `typing.Protocol` fits better than `abc.ABC` here?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Protocol` kiểm tra chữ ký method lúc runtime ở mỗi lần gọi, còn `ABC` chỉ được mypy kiểm tra trong lúc phát triển",
+            "en": "A `Protocol` enforces the method signature at runtime on every call, while an `ABC` is only checked by mypy during development"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`ABC` không khai báo được abstract method có tham số, nên `save(name, data)` chỉ mô tả được bằng `Protocol`",
+            "en": "An `ABC` cannot declare abstract methods that take parameters, so `save(name, data)` can only be described by a `Protocol`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Protocol` tự sinh ra một class adapter lúc import để chuyển tiếp lời gọi sang các method của SDK",
+            "en": "A `Protocol` automatically generates an adapter class at import time that forwards calls to the SDK's own methods"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Protocol` theo cấu trúc: class nào có `save` khớp chữ ký đều qua type checker mà không cần kế thừa",
+            "en": "A `Protocol` is structural: any class with a matching `save` method passes the type checker without inheriting"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`Protocol` mô tả \"hình dạng\" cần có (structural subtyping), nên mypy/pyright chấp nhận mọi object có method phù hợp mà không cần kế thừa từ class của bạn. `ABC` dùng nominal subtyping: implementation phải kế thừa hoặc được `register`, và việc thiếu abstract method bị phát hiện khi khởi tạo object. `Protocol` không kiểm tra lúc runtime trừ khi dùng `@runtime_checkable` với `isinstance`, và khi đó cũng chỉ kiểm tra method có tồn tại.",
+        "en": "A `Protocol` describes the required shape (structural subtyping), so mypy/pyright accept any object with a matching method without inheriting from your class. An `ABC` uses nominal subtyping: implementations must inherit or be `register`ed, and missing abstract methods are caught at instantiation. A `Protocol` is not checked at runtime unless you use `@runtime_checkable` with `isinstance`, and even then it only checks that methods exist."
+      }
+    },
+    {
+      "id": "python.oop.019",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "middle",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "python",
+        "source": "class JsonMixin:\n    def to_dict(self):\n        data = super().to_dict()\n        data[\"format\"] = \"json\"\n        return data\n\n\nclass Model:\n    def to_dict(self):\n        return {\"id\": 1}\n\n\nclass User(JsonMixin, Model):\n    pass\n\n\nclass Admin(Model, JsonMixin):\n    pass\n\n\nprint(User().to_dict(), Admin().to_dict())"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "{'id': 1, 'format': 'json'} {'id': 1, 'format': 'json'}",
+            "en": "{'id': 1, 'format': 'json'} {'id': 1, 'format': 'json'}"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "{'id': 1} {'id': 1, 'format': 'json'}",
+            "en": "{'id': 1} {'id': 1, 'format': 'json'}"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "{'id': 1, 'format': 'json'} {'id': 1}",
+            "en": "{'id': 1, 'format': 'json'} {'id': 1}"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "TypeError: Cannot create a consistent method resolution order (MRO)",
+            "en": "TypeError: Cannot create a consistent method resolution order (MRO)"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "MRO của `User` là `User → JsonMixin → Model → object`, nên `JsonMixin.to_dict` chạy trước, gọi `super()` tới `Model` rồi thêm `format`. Với `Admin`, MRO là `Admin → Model → JsonMixin → object`: `Model.to_dict` được tìm thấy trước và không gọi `super()`, nên mixin bị bỏ qua hoàn toàn. MRO này hợp lệ nên không có `TypeError`; bài học là mixin phải đứng trước lớp cơ sở trong danh sách kế thừa.",
+        "en": "`User`'s MRO is `User → JsonMixin → Model → object`, so `JsonMixin.to_dict` runs first, calls `super()` into `Model` and adds `format`. For `Admin` the MRO is `Admin → Model → JsonMixin → object`: `Model.to_dict` is found first and does not call `super()`, so the mixin is skipped entirely. The MRO is valid, so there is no `TypeError`; the lesson is that mixins must come before the base class in the bases list."
+      }
+    },
+    {
+      "id": "python.oop.020",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "`checkout` chạy tốt ở production nhưng ở staging lại crash với `AttributeError` khi dùng `SandboxGateway` cho số tiền lớn. Nguyên nhân gốc là gì?",
+        "en": "`checkout` works in production but crashes with `AttributeError` in staging when `SandboxGateway` handles large amounts. What is the root cause?"
+      },
+      "code": {
+        "language": "python",
+        "source": "class PaymentError(Exception):\n    pass\n\n\nclass PaymentGateway:\n    def charge(self, amount: int) -> str:\n        \"\"\"Return a receipt id; raise PaymentError on failure.\"\"\"\n        raise NotImplementedError\n\n\nclass SandboxGateway(PaymentGateway):\n    def charge(self, amount: int) -> str | None:\n        if amount > 1_000_000:\n            return None\n        return \"sandbox-receipt\"\n\n\ndef checkout(gateway: PaymentGateway, amount: int) -> str:\n    try:\n        receipt = gateway.charge(amount)\n    except PaymentError:\n        return \"payment failed\"\n    return f\"paid, receipt {receipt.upper()}\""
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`SandboxGateway` phá hợp đồng của lớp cha (Liskov): trả `None` thay vì ném `PaymentError`, nên code viết theo lớp cha bị hỏng",
+            "en": "`SandboxGateway` breaks the base contract (Liskov): it returns `None` instead of raising `PaymentError`, so base-type callers break"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`checkout` nên kiểm tra `isinstance(gateway, SandboxGateway)` trước, vì người gọi phải tự xử lý trường hợp đặc biệt của từng lớp con",
+            "en": "`checkout` should check `isinstance(gateway, SandboxGateway)` first, because callers are expected to handle each subclass's special cases"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`1_000_000` không phải literal số nguyên hợp lệ trong phép so sánh, nên điều kiện luôn đúng và luôn trả về `None`",
+            "en": "`1_000_000` is not a valid integer literal in a comparison, so the condition is always true and `None` is always returned"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`PaymentError` phải kế thừa `BaseException` thay vì `Exception`, nếu không `except` sẽ không bắt được lỗi từ lớp con",
+            "en": "`PaymentError` must inherit from `BaseException` instead of `Exception`, otherwise `except` cannot catch it from a subclass"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Hợp đồng của `PaymentGateway.charge` là trả về mã biên nhận hoặc ném `PaymentError`. `SandboxGateway` đổi cách báo lỗi sang trả `None`, tức làm yếu hậu điều kiện, nên `receipt.upper()` ném `AttributeError` trong code vốn đúng với lớp cha. Sửa bằng cách ném `PaymentError` trong lớp con; thêm `isinstance` vào người gọi chỉ che giấu vi phạm Liskov. Type checker cũng sẽ cảnh báo vì kiểu trả về `str | None` không tương thích với `str`.",
+        "en": "The contract of `PaymentGateway.charge` is to return a receipt id or raise `PaymentError`. `SandboxGateway` changes failure signalling to returning `None`, weakening the postcondition, so `receipt.upper()` raises `AttributeError` in code that is correct for the base class. Fix it by raising `PaymentError` in the subclass; adding `isinstance` checks to callers only hides the Liskov violation. A type checker would also flag it, since `str | None` is not compatible with `str`."
+      }
+    },
+    {
+      "id": "python.oop.021",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Với domain model trong Python 3.12, khi nào bạn dùng class thường, `@dataclass(frozen=True, slots=True)`, `NamedTuple` hay model Pydantic? Cho ví dụ từng loại.",
+        "en": "For a domain model in Python 3.12, when would you use a regular class, `@dataclass(frozen=True, slots=True)`, `NamedTuple` or a Pydantic model? Give an example of each."
+      },
+      "keyPoints": [
+        {
+          "vi": "`@dataclass(frozen=True)` hợp với value object (`Money`, `Email`): so sánh theo giá trị, bất biến, hash được; `slots=True` tiết kiệm bộ nhớ và chặn gõ nhầm tên attribute",
+          "en": "`@dataclass(frozen=True)` suits value objects (`Money`, `Email`): value equality, immutable, hashable; `slots=True` saves memory and blocks attribute typos"
+        },
+        {
+          "vi": "Class thường (hoặc dataclass không frozen có method) cho entity có trạng thái thay đổi qua method bảo vệ invariant",
+          "en": "A regular class (or a non-frozen dataclass with methods) for entities whose state changes through methods that guard invariants"
+        },
+        {
+          "vi": "`NamedTuple` cho record nhẹ, bất biến, cần hành vi tuple (unpack, index); không hợp với hành vi phức tạp",
+          "en": "`NamedTuple` for lightweight immutable records that need tuple behaviour (unpacking, indexing); not for rich behaviour"
+        },
+        {
+          "vi": "Pydantic dùng ở biên (request/response, config) để parse và validate; giữ nó ngoài lõi domain để tránh phụ thuộc framework",
+          "en": "Pydantic belongs at the boundaries (request/response, config) for parsing and validation; keep it out of the core domain"
+        },
+        {
+          "vi": "Kiểm tra invariant của dataclass trong `__post_init__`",
+          "en": "Check dataclass invariants in `__post_init__`"
+        }
+      ],
+      "explanation": {
+        "vi": "Người phỏng vấn muốn thấy bạn chọn công cụ theo vai trò của object chứ không theo thói quen. Value object cần bất biến và so sánh theo giá trị, entity cần định danh và hành vi, còn dữ liệu ở biên cần parse/validate. Giữ Pydantic ở biên giúp domain độc lập với framework web và dễ test hơn.",
+        "en": "The interviewer wants to see you pick a tool by the object's role, not by habit. Value objects need immutability and value equality, entities need identity and behaviour, and boundary data needs parsing and validation. Keeping Pydantic at the edges makes the domain independent of the web framework and easier to test."
+      }
+    },
+    {
+      "id": "python.oop.022",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Entity `Order` được khai báo `@dataclass class Order: id: UUID; status: str; lines: list[Line]`. Sau `order.status = \"paid\"`, test so sánh nó với bản đã nạp trước khi thanh toán bị fail, còn `orders_set.add(order)` ném `TypeError`. Nên thiết kế equality cho entity thế nào?",
+        "en": "The `Order` entity is declared as `@dataclass class Order: id: UUID; status: str; lines: list[Line]`. After `order.status = \"paid\"`, a test comparing it with the copy loaded before payment fails, and `orders_set.add(order)` raises `TypeError`. How should entity equality be designed?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Dùng `@dataclass(frozen=True)` cho `Order` để nó hash được; khi đổi trạng thái thì sửa trực tiếp list `lines` bên trong",
+            "en": "Use `@dataclass(frozen=True)` for `Order` so it becomes hashable; to change state, mutate the `lines` list in place instead"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "So sánh entity theo định danh: `__eq__`/`__hash__` chỉ theo `id` (`@dataclass(eq=False)`); value object so theo field",
+            "en": "Compare entities by identity: `__eq__`/`__hash__` on `id` only (`@dataclass(eq=False)`); value objects keep field equality"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Giữ `__eq__` được sinh ra và thêm `unsafe_hash=True`, để hash đi theo mọi field và set luôn nhất quán sau khi cập nhật",
+            "en": "Keep the generated `__eq__` and add `unsafe_hash=True`, so the hash follows every field and the set stays consistent after updates"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bỏ hẳn `__eq__` và so sánh order bằng `is`, vì hai object nạp từ database luôn là cùng một instance duy nhất trong bộ nhớ",
+            "en": "Remove `__eq__` entirely and compare orders with `is`, since two objects loaded from the database are always the same instance"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Entity được nhận diện bằng định danh, nên một đơn hàng đổi trạng thái vẫn là cùng đơn hàng đó; `__eq__` mặc định của dataclass so sánh mọi field nên sai về ngữ nghĩa. Dataclass có `eq=True` còn đặt `__hash__ = None`, vì vậy object không đưa được vào `set`. `unsafe_hash=True` vừa ném lỗi với field kiểu `list`, vừa làm hash thay đổi khi object đổi, còn `frozen=True` mâu thuẫn với một entity có trạng thái thay đổi.",
+        "en": "An entity is identified by its identity, so an order that changes status is still the same order; the dataclass default `__eq__` compares every field, which is semantically wrong. A dataclass with `eq=True` also sets `__hash__ = None`, so the object cannot go into a `set`. `unsafe_hash=True` both fails on a `list` field and makes the hash change as the object changes, while `frozen=True` contradicts an entity whose state changes."
+      }
+    },
+    {
+      "id": "python.oop.023",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "`ReportExporter` là base class có template method `export()` và sáu lớp con override các hook `fetch_rows()`, `format_row()`, `write()` theo nhiều tổ hợp khác nhau. Khi nào và bằng cách nào bạn refactor sang composition?",
+        "en": "`ReportExporter` is a base class with an `export()` template method and six subclasses overriding the `fetch_rows()`, `format_row()` and `write()` hooks in different combinations. When and how would you refactor it toward composition?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Dấu hiệu: lớp con trộn các lựa chọn độc lập (nguồn × định dạng × đích), override bị lặp, test phải dựng cả hierarchy",
+          "en": "Signs: subclasses mix independent choices (source × format × destination), duplicated overrides, tests need the whole hierarchy"
+        },
+        {
+          "vi": "Tách thành các vai trò nhỏ `RowSource`, `RowFormatter`, `Writer` dạng `Protocol` (hoặc callable, vì hàm là first-class trong Python)",
+          "en": "Split into small roles `RowSource`, `RowFormatter`, `Writer` as `Protocol`s (or plain callables, since functions are first-class in Python)"
+        },
+        {
+          "vi": "`ReportExporter` nhận chúng qua `__init__` và điều phối; tổ hợp mới là cấu hình chứ không phải lớp con mới",
+          "en": "`ReportExporter` receives them in `__init__` and orchestrates; a new combination is configuration, not a new subclass"
+        },
+        {
+          "vi": "Template method vẫn ổn khi khung cố định và ít biến thể; giữ ít hook và ghi rõ override có phải gọi `super()` không",
+          "en": "Template method is still fine when the skeleton is fixed and variation is small; keep few hooks and document whether overrides call `super()`"
+        }
+      ],
+      "explanation": {
+        "vi": "Template method dựa vào kế thừa nên mỗi tổ hợp hành vi thường cần một lớp con, và lớp con phụ thuộc chặt vào thứ tự gọi của lớp cha. Chuyển sang strategy được inject giúp ghép các vai trò độc lập và test từng phần riêng. Câu trả lời tốt cũng nói khi nào không cần refactor, và đề xuất làm từng bước với test bao quanh.",
+        "en": "Template method relies on inheritance, so each combination of behaviours tends to need a subclass, and subclasses depend tightly on the base's call order. Moving to injected strategies lets you combine independent roles and test each part separately. A good answer also says when refactoring is not needed, and proposes doing it incrementally under test."
+      }
+    },
+    {
+      "id": "python.oop.024",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "oop",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Một codebase Django có class-based view kiểu `class OrderView(LoginRequiredMixin, TenantMixin, AuditMixin, CacheMixin, PermissionMixin, UpdateView)`, và không ai biết `dispatch()` hay `get_queryset()` nào thực sự chạy. Bạn đánh giá và refactor thế nào?",
+        "en": "A Django codebase has class-based views like `class OrderView(LoginRequiredMixin, TenantMixin, AuditMixin, CacheMixin, PermissionMixin, UpdateView)`, and nobody can tell which `dispatch()` or `get_queryset()` actually runs. How would you evaluate and refactor this?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Giải thích qua MRO (`OrderView.__mro__`): mỗi mixin phải gọi `super()` hợp tác; thứ tự quan trọng, mixin quên `super()` sẽ âm thầm cắt chuỗi",
+          "en": "Explain via the MRO (`OrderView.__mro__`): each mixin must call `super()` cooperatively; order matters and a mixin that forgets `super()` silently cuts the chain"
+        },
+        {
+          "vi": "Chi phí: các mixin ngầm phụ thuộc nhau qua attribute/method dùng chung, khó đọc và khó test",
+          "en": "Cost: mixins are implicitly coupled through shared attributes and methods, hard to read and test"
+        },
+        {
+          "vi": "Đưa logic nghiệp vụ ra khỏi view sang service/use case; view mỏng, mixin chỉ dành cho mối quan tâm chung của framework (auth)",
+          "en": "Move business logic out of views into services/use cases; keep views thin and mixins only for framework cross-cutting concerns (auth)"
+        },
+        {
+          "vi": "Thay một số mixin bằng composition tường minh: decorator/middleware cho auth và cache, query object được inject cho lọc tenant",
+          "en": "Replace some mixins with explicit composition: decorators/middleware for auth and caching, injected query objects for tenant filtering"
+        },
+        {
+          "vi": "Khoá hành vi bằng test trước khi refactor và chuyển đổi dần từng view",
+          "en": "Lock behaviour with tests before refactoring and migrate one view at a time"
+        }
+      ],
+      "explanation": {
+        "vi": "Mixin chồng sâu là dạng kế thừa đa tầng khó kiểm soát: hành vi phụ thuộc thứ tự trong danh sách lớp cha và vào việc mọi lớp đều gọi `super()` đúng cách. Ở cấp senior, bạn nên chỉ ra cách chẩn đoán (đọc MRO, test), tiêu chí giữ lại mixin, và lộ trình refactor an toàn. Mục tiêu là logic nghiệp vụ nằm ngoài view, để framework chỉ còn vai trò adapter.",
+        "en": "Deep mixin stacks are a hard-to-control form of multiple inheritance: behaviour depends on the order of the bases and on every class calling `super()` correctly. At senior level you should show how to diagnose it (read the MRO, write tests), criteria for keeping a mixin, and a safe refactoring path. The goal is business logic living outside views, so the framework is only an adapter."
+      }
+    },
+    {
+      "id": "python.clean_architecture.001",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "clean_architecture",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một service FastAPI được chia thành `domain/`, `application/`, `infrastructure/` và `api/`. Câu import nào vi phạm dependency rule của Clean Architecture?",
+        "en": "A FastAPI service is organised into `domain/`, `application/`, `infrastructure/` and `api/`. Which import breaks the Clean Architecture dependency rule?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`from domain.order import Order` trong `application/place_order.py`, để use case tạo được đơn hàng mới",
+            "en": "`from domain.order import Order` in `application/place_order.py`, so that the use case can create new orders"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`from application.ports import OrderRepository` trong `infrastructure/sql_orders.py` để implement port đó",
+            "en": "`from application.ports import OrderRepository` in `infrastructure/sql_orders.py` to implement that port"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`from infrastructure.sql_orders import SqlOrderRepository` trong `api/deps.py` để nối các dependency",
+            "en": "`from infrastructure.sql_orders import SqlOrderRepository` in `api/deps.py` to wire up the dependencies"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`from infrastructure.db import SessionLocal` trong `domain/order.py`, để entity `Order` tự lưu chính nó",
+            "en": "`from infrastructure.db import SessionLocal` in `domain/order.py`, so the `Order` entity can save itself"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Domain là vòng trong cùng, không được import bất cứ thứ gì từ Infrastructure hay framework. Application import Domain, và Infrastructure import port của Application để implement, đều là phụ thuộc hướng vào trong. `api/deps.py` đóng vai composition root nên được phép biết class cụ thể để nối dependency.",
+        "en": "The domain is the innermost ring and must not import anything from infrastructure or frameworks. Application importing Domain and Infrastructure importing Application's port to implement it are both inward dependencies. `api/deps.py` acts as the composition root, so it may know concrete classes to wire dependencies."
+      }
+    },
+    {
+      "id": "python.clean_architecture.002",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "clean_architecture",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Gần như tháng nào cũng có phương thức giao hàng mới, và mỗi lần đều phải sửa `shipping_fee`, đôi khi làm hỏng nhánh cũ. Thay đổi nào áp dụng nguyên tắc Open/Closed tốt nhất?",
+        "en": "A new shipping method is added almost every month, and each time someone edits `shipping_fee`, sometimes breaking an existing branch. Which change best applies the Open/Closed principle?"
+      },
+      "code": {
+        "language": "python",
+        "source": "def shipping_fee(method: str, weight: float) -> float:\n    if method == \"standard\":\n        return 15_000 + weight * 2_000\n    elif method == \"express\":\n        return 30_000 + weight * 3_000\n    elif method == \"drone\":\n        return 50_000\n    raise ValueError(method)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thay chuỗi `if/elif` bằng câu lệnh `match`, vì `match` cho phép thêm case mới mà không phải sửa lại nội dung hàm",
+            "en": "Replace the `if/elif` chain with a `match` statement, because `match` lets you add cases without modifying the function"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Định nghĩa protocol `ShippingMethod` có `fee(weight)`, mỗi phương thức là một class, tra cứu qua dict registry",
+            "en": "Define a `ShippingMethod` protocol with `fee(weight)`, write one class per method, and look them up in a registry"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chuyển hàm vào một class dưới dạng `@staticmethod`, để sau này có thể tạo lớp con mỗi khi thêm phương thức",
+            "en": "Move the function into a class as a `@staticmethod`, so that subclasses can be created whenever a method is added"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Giữ nguyên hàm nhưng thêm unit test cho từng nhánh, vì Open/Closed là bảo vệ code bằng test chứ không phải thiết kế",
+            "en": "Keep the function but add unit tests for each branch, since Open/Closed is about protecting code with tests, not design"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Open/Closed nghĩa là thêm hành vi mới bằng code mới thay vì sửa code đã chạy ổn. Với một protocol chung và registry, thêm phương thức giao hàng chỉ là thêm một class và đăng ký nó, các nhánh cũ không bị đụng tới. `match` vẫn là sửa cùng một hàm, còn test tuy cần thiết nhưng không thay đổi thiết kế. Nếu tập phương thức hầu như cố định thì giữ `if/elif` đơn giản cũng chấp nhận được.",
+        "en": "Open/Closed means adding behaviour with new code rather than editing code that already works. With a shared protocol and a registry, adding a shipping method is just a new class plus a registration, and existing branches are untouched. `match` still edits the same function, and tests, while necessary, do not change the design. If the set of methods were nearly fixed, a simple `if/elif` would be acceptable."
+      }
+    },
+    {
+      "id": "python.clean_architecture.003",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "clean_architecture",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích nguyên tắc Dependency Inversion bằng ví dụ Python: use case `RegisterUser` cần gửi email chào mừng. Nó giúp việc test dễ hơn thế nào?",
+        "en": "Explain the Dependency Inversion principle with a Python example: a `RegisterUser` use case needs to send a welcome email. How does it make testing easier?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Use case cấp cao không import thẳng `smtplib`/SDK gửi mail; nó phụ thuộc abstraction như `class EmailSender(Protocol)` có method `send`",
+          "en": "The high-level use case does not import `smtplib` or a mail SDK directly; it depends on an abstraction like `class EmailSender(Protocol)` with `send`"
+        },
+        {
+          "vi": "Abstraction thuộc về layer application; infrastructure cung cấp `SmtpEmailSender` thoả protocol đó",
+          "en": "The abstraction is owned by the application layer; infrastructure provides an `SmtpEmailSender` that satisfies it"
+        },
+        {
+          "vi": "Dependency được truyền qua `__init__` và nối ở composition root (FastAPI `Depends`, hàm `bootstrap()`)",
+          "en": "Dependencies are passed via `__init__` and wired in the composition root (FastAPI `Depends`, a `bootstrap()` function)"
+        },
+        {
+          "vi": "Khi test, truyền `FakeEmailSender` ghi lại email đã gửi: không cần mạng, nhanh và ổn định",
+          "en": "In tests, pass a `FakeEmailSender` that records sent emails: no network, fast and deterministic"
+        }
+      ],
+      "explanation": {
+        "vi": "Dependency Inversion đảo hướng phụ thuộc: chi tiết (SMTP) phụ thuộc vào abstraction do chính sách nghiệp vụ định nghĩa, chứ không phải ngược lại. Trong Python, `Protocol` cho phép mô tả abstraction mà implementation không cần kế thừa. Lợi ích rõ nhất khi phỏng vấn là test: use case được kiểm thử bằng fake trong vài mili giây.",
+        "en": "Dependency Inversion flips the direction of dependency: the detail (SMTP) depends on an abstraction defined by the business policy, not the other way round. In Python, a `Protocol` describes the abstraction without implementations having to inherit. The clearest benefit to mention in an interview is testing: the use case is tested with a fake in milliseconds."
+      }
+    },
+    {
+      "id": "python.clean_architecture.004",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "clean_architecture",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Quy tắc: \"đơn hàng đã giao cho vận chuyển thì không được huỷ\". Trong dự án FastAPI + SQLAlchemy theo Clean Architecture, quy tắc này nên nằm ở đâu?",
+        "en": "Rule: \"an order cannot be cancelled once it has shipped\". In a FastAPI + SQLAlchemy project following Clean Architecture, where should this rule live?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trong domain: `Order.cancel()` kiểm tra trạng thái và ném domain exception như `OrderAlreadyShipped` cho mọi lối gọi",
+            "en": "In the domain: `Order.cancel()` checks the status and raises a domain exception such as `OrderAlreadyShipped` for every caller"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Trong schema Pydantic `CancelOrderRequest`, dưới dạng `field_validator` tự đọc trạng thái đơn hàng từ database",
+            "en": "In the Pydantic `CancelOrderRequest` schema, as a `field_validator` that reads the order status from the database"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Trong router FastAPI, là một câu `if` trước khi gọi use case, để layer HTTP trả `409` trực tiếp",
+            "en": "In the FastAPI router, as an `if` before calling the use case, so the HTTP layer can return `409` directly"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ trong một trigger PostgreSQL, để mọi service ghi vào bảng đều bị buộc phải tuân theo quy tắc",
+            "en": "Only in a PostgreSQL trigger, so that every service writing to the table is forced to follow the rule"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Đây là invariant nghiệp vụ của aggregate `Order`, nên thuộc về domain: entity tự từ chối chuyển trạng thái không hợp lệ. Nhờ vậy rule được áp dụng dù use case được gọi từ API, job nền hay CLI, và test được mà không cần web hay database. Router chỉ map `OrderAlreadyShipped` sang `409`; schema Pydantic chỉ nên kiểm tra hình thức đầu vào.",
+        "en": "This is a business invariant of the `Order` aggregate, so it belongs in the domain: the entity refuses invalid state transitions itself. The rule then applies whether the use case is called from the API, a background job or a CLI, and it can be tested without the web or a database. The router just maps `OrderAlreadyShipped` to `409`; a Pydantic schema should only check input shape."
+      }
+    },
+    {
+      "id": "python.clean_architecture.005",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "clean_architecture",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Team muốn chạy `CancelOrder` cả từ job Celery và lệnh CLI. Khi review, vấn đề thiết kế chính là gì?",
+        "en": "The team also wants to run `CancelOrder` from a Celery job and a CLI command. In review, what is the main design problem?"
+      },
+      "code": {
+        "language": "python",
+        "source": "# application/cancel_order.py\nfrom fastapi import HTTPException\n\nfrom application.ports import OrderRepository\n\n\nclass CancelOrder:\n    def __init__(self, orders: OrderRepository) -> None:\n        self._orders = orders\n\n    def execute(self, order_id: int) -> None:\n        order = self._orders.get(order_id)\n        if order is None:\n            raise HTTPException(status_code=404, detail=\"Order not found\")\n        order.cancel()\n        self._orders.save(order)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`OrderRepository` phải được import từ `infrastructure`, vì layer application cần biết class database cụ thể đang dùng",
+            "en": "`OrderRepository` must be imported from `infrastructure`, because the application layer needs to know the concrete database class"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`execute` phải là `async def`, vì job Celery và lệnh CLI chỉ gọi được các use case viết dưới dạng coroutine",
+            "en": "`execute` must be an `async def`, because Celery jobs and CLI commands can only call use cases written as coroutines"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Use case ném `HTTPException` nên bị gắn với FastAPI; hãy ném `OrderNotFound` và map sang `404` ở layer API",
+            "en": "It raises `HTTPException`, coupling the use case to FastAPI; raise `OrderNotFound` and map it to `404` in the API"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`self._orders` nên là class attribute, để mọi instance `CancelOrder` dùng chung một repository và một kết nối",
+            "en": "`self._orders` should be a class attribute, so that all `CancelOrder` instances share one repository and one connection"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Use case phải độc lập với cơ chế gọi nó; `HTTPException` là khái niệm của tầng web, chẳng có nghĩa gì với Celery hay CLI. Ném một exception của application/domain và đăng ký `app.exception_handler(OrderNotFound)` để chuyển thành `404` ở layer API. Phần import port từ `application.ports` và constructor injection là đúng hướng phụ thuộc.",
+        "en": "A use case must be independent of how it is invoked; `HTTPException` is a web-layer concept that means nothing to Celery or a CLI. Raise an application/domain exception and register `app.exception_handler(OrderNotFound)` to turn it into `404` in the API layer. Importing the port from `application.ports` and using constructor injection already point dependencies the right way."
+      }
+    },
+    {
+      "id": "python.clean_architecture.006",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "clean_architecture",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn unit test use case `PlaceOrder` phụ thuộc `OrderRepository` và `PaymentGateway` thế nào mà không cần database hay mạng? So sánh fake và mock.",
+        "en": "How would you unit test a `PlaceOrder` use case that depends on an `OrderRepository` and a `PaymentGateway`, without a database or network? Compare fakes and mocks."
+      },
+      "keyPoints": [
+        {
+          "vi": "Vì use case phụ thuộc `Protocol`, test inject fake trong bộ nhớ (`InMemoryOrderRepository` lưu dict) thay cho adapter thật",
+          "en": "Because the use case depends on `Protocol`s, tests inject in-memory fakes (`InMemoryOrderRepository` backed by a dict) instead of real adapters"
+        },
+        {
+          "vi": "Fake kiểm tra hành vi và trạng thái (đơn đã lưu, đã thanh toán); mock (`unittest.mock`) kiểm tra tương tác, lạm dụng sẽ gắn test vào chi tiết cài đặt",
+          "en": "Fakes check behaviour and state (order saved, paid); mocks (`unittest.mock`) verify interactions, and overuse ties tests to implementation details"
+        },
+        {
+          "vi": "Dùng `create_autospec` hoặc fake có type hint để fake luôn khớp chữ ký của port",
+          "en": "Use `create_autospec` or typed fakes so they stay in sync with the port's signature"
+        },
+        {
+          "vi": "Vẫn giữ vài integration test cho adapter thật (SQLAlchemy với DB test, contract test cho payment gateway)",
+          "en": "Keep a few integration tests for the real adapters (SQLAlchemy with a test DB, contract tests for the payment gateway)"
+        }
+      ],
+      "explanation": {
+        "vi": "Lợi ích thực tế của ports & adapters là use case test được nhanh với fake. Fake thường bền hơn mock vì test kiểm tra kết quả thay vì từng lời gọi. Tuy nhiên fake có thể lệch so với adapter thật, nên cần thêm integration test ở biên để bù lại.",
+        "en": "The practical payoff of ports and adapters is that use cases can be tested quickly with fakes. Fakes are usually more robust than mocks because tests check outcomes rather than individual calls. Fakes can drift from the real adapters, though, so integration tests at the edges are needed to compensate."
+      }
+    },
+    {
+      "id": "python.clean_architecture.007",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "clean_architecture",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Khi `reserve` ném `OutOfStock` ở dòng hàng thứ hai, đơn hàng vẫn nằm trong database và tồn kho của dòng đầu tiên vẫn bị giữ. Lỗi thiết kế là gì?",
+        "en": "When `reserve` raises `OutOfStock` for the second line, the order is still in the database and the first line's stock stays reserved. What is the design flaw?"
+      },
+      "code": {
+        "language": "python",
+        "source": "class SqlOrderRepository:\n    def __init__(self, session: Session) -> None:\n        self._session = session\n\n    def add(self, order: Order) -> None:\n        self._session.add(order)\n        self._session.commit()\n\n\nclass SqlStockRepository:\n    def __init__(self, session: Session) -> None:\n        self._session = session\n\n    def reserve(self, sku: str, qty: int) -> None:\n        item = self._session.get(StockItem, sku)\n        item.reserve(qty)  # raises OutOfStock\n        self._session.commit()\n\n\nclass PlaceOrder:\n    def __init__(self, orders, stock) -> None:\n        self._orders, self._stock = orders, stock\n\n    def execute(self, order: Order) -> None:\n        self._orders.add(order)\n        for line in order.lines:\n            self._stock.reserve(line.sku, line.qty)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`self._orders, self._stock = orders, stock` gán cả hai attribute vào cùng một object, nên `reserve` ghi vào repository đơn hàng",
+            "en": "`self._orders, self._stock = orders, stock` binds both attributes to the same object, so `reserve` writes into the order repository"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hai repository nhận hai `Session` khác nhau từ FastAPI, nên session thứ hai rollback các thay đổi do session đầu tạo ra",
+            "en": "The two repositories get separate `Session` objects from FastAPI, so the second session rolls back changes made by the first"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`reserve` nên bắt `OutOfStock` và trả `False`, để `PlaceOrder` có thể tiếp tục giữ hàng cho các dòng còn lại",
+            "en": "`reserve` should catch `OutOfStock` and return `False`, so `PlaceOrder` can keep reserving the remaining lines of the order"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Repository tự commit nên một use case trải trên nhiều transaction; hãy để unit of work (`with uow:`) quyết định việc commit",
+            "en": "Repositories commit on their own, so one use case spans several transactions; a unit of work (`with uow:`) should own the commit"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Mỗi lần `commit()` trong repository đóng một transaction, nên khi bước sau thất bại thì các bước trước đã được lưu vĩnh viễn. Quyết định commit thuộc về use case, thường qua một unit of work bọc `Session`: mọi thay đổi trong `with uow:` chỉ được commit khi use case chạy xong, còn exception sẽ rollback. Phép gán tuple gán đúng từng attribute, và việc nuốt lỗi `OutOfStock` chỉ che giấu vấn đề.",
+        "en": "Each `commit()` inside a repository closes a transaction, so when a later step fails the earlier steps are already permanent. The commit decision belongs to the use case, usually via a unit of work wrapping the `Session`: changes inside `with uow:` are committed only when the use case completes, and an exception rolls them back. The tuple assignment binds each attribute correctly, and swallowing `OutOfStock` would only hide the problem."
+      }
+    },
+    {
+      "id": "python.clean_architecture.008",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "clean_architecture",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Team dùng thẳng model declarative của SQLAlchemy (`class Order(Base)`) làm entity của domain. Khi domain ngày càng phức tạp, câu nào mô tả đúng nhất trade-off và các lựa chọn thay thế?",
+        "en": "The team uses SQLAlchemy declarative models (`class Order(Base)`) directly as domain entities. As the domain grows complex, which statement best describes the trade-off and the alternatives?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Clean Architecture cấm cách này, nên mọi dự án phải có model domain riêng và mapper viết tay ngay từ commit đầu tiên",
+            "en": "Clean Architecture forbids this, so every project must keep separate domain models and hand-written mappers from the very first commit"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thực dụng nhưng gắn domain với ORM (session, lazy loading trong rule); imperative mapping hoặc model riêng kèm mapper giữ lõi thuần",
+            "en": "It is pragmatic but ties the domain to the ORM (sessions, lazy loading in rules); imperative mapping or separate models with mappers keep it pure"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không có trade-off nào, vì model SQLAlchemy là class Python thuần và không bao giờ phát sinh query từ code domain",
+            "en": "There is no trade-off, because SQLAlchemy models are plain Python classes and can never trigger database queries from domain code"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ ảnh hưởng hiệu năng; model domain riêng giúp query nhanh hơn vì SQLAlchemy không còn theo dõi các object",
+            "en": "It only affects performance; separate domain models make queries faster because SQLAlchemy no longer tracks the objects"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Dùng model ORM làm entity là lựa chọn hợp lý cho domain đơn giản, nhưng khi rule phức tạp thì lazy loading, session và chi tiết cột lọt vào logic nghiệp vụ, làm test chậm và khó hiểu. SQLAlchemy hỗ trợ classical/imperative mapping để map class domain thuần vào bảng mà không cần kế thừa `Base`. Lựa chọn khác là tách model và viết mapper, đổi lại thêm code chuyển đổi cần bảo trì.",
+        "en": "Using ORM models as entities is reasonable for a simple domain, but as rules grow, lazy loading, sessions and column details leak into business logic, making tests slow and code harder to follow. SQLAlchemy supports classical/imperative mapping to map plain domain classes to tables without inheriting `Base`. The other option is separate models plus mappers, at the cost of conversion code to maintain."
+      }
+    },
+    {
+      "id": "python.clean_architecture.009",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "clean_architecture",
+      "level": "senior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Endpoint dashboard liệt kê 50 đơn hàng kèm tên khách và số lượng sản phẩm. Hiện nó nạp đầy đủ aggregate `Order` qua `OrderRepository` rồi map lại, và rất chậm. Cách sửa nào phù hợp với Clean Architecture?",
+        "en": "A dashboard endpoint lists 50 orders with customer name and item count. It currently loads full `Order` aggregates through `OrderRepository` and maps them, and it is slow. Which fix fits Clean Architecture?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm query service phía đọc chạy projection SQL/ORM tối ưu thẳng ra DTO response, bỏ qua aggregate và repository của domain",
+            "en": "Add a read-side query service that runs an optimised SQL/ORM projection straight into a response DTO, bypassing aggregates and repositories"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thêm `get_dashboard_rows()` trả về dict thô vào chính entity `Order`, để domain quyết định cách truy vấn cho dashboard",
+            "en": "Add a `get_dashboard_rows()` method returning raw dicts to the `Order` entity, so the domain decides how the dashboard is queried"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Giữ repository nhưng cache vĩnh viễn mọi aggregate `Order` trong bộ nhớ process, để các request sau khỏi chạm database",
+            "en": "Keep the repository but cache every `Order` aggregate in process memory forever, so that later requests skip the database"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tách dashboard thành microservice có database riêng, vì Clean Architecture cấm mọi query đọc nằm ngoài domain",
+            "en": "Move the dashboard into a microservice with its own database, since Clean Architecture forbids read queries outside the domain"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Aggregate tồn tại để bảo vệ invariant khi ghi; dùng nó cho màn hình đọc nặng là lãng phí và hay gây N+1 query. Đây là ý tưởng CQRS ở mức nhẹ: phía đọc dùng query service riêng (một port trong application, implement bằng SQL ở infrastructure) trả thẳng DTO. Cache vĩnh viễn gây dữ liệu cũ và tốn bộ nhớ, còn tách microservice là giải pháp quá tay cho một query chậm.",
+        "en": "Aggregates exist to protect invariants on writes; using them for a heavy read screen is wasteful and often causes N+1 queries. This is lightweight CQRS: the read side uses a dedicated query service (a port in application, implemented with SQL in infrastructure) that returns DTOs directly. Caching forever causes stale data and memory growth, and a new microservice is overkill for one slow query."
+      }
+    },
+    {
+      "id": "python.clean_architecture.010",
+      "contentVersion": 1,
+      "trackId": "python",
+      "topicId": "clean_architecture",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn có áp dụng Clean Architecture (ports & adapters) cho một dự án Django không? Hãy bàn về trade-off khi ORM của Django là Active Record, và bạn vạch ranh giới ở đâu.",
+        "en": "Would you apply Clean Architecture (ports and adapters) to a Django project? Discuss the trade-offs given that Django's ORM is Active Record, and where you would draw the boundaries."
+      },
+      "keyPoints": [
+        {
+          "vi": "Django \"có sẵn mọi thứ\" và theo Active Record; cô lập hoàn toàn nghĩa là phải map model ↔ object domain và mất bớt tiện ích của admin, form, ORM",
+          "en": "Django is batteries-included and Active Record; full isolation means mapping models ↔ domain objects and losing admin, forms and ORM conveniences"
+        },
+        {
+          "vi": "App nặng CRUD thì giữ cách làm của Django; vùng domain phức tạp thì tách lớp service/use case và logic thuần Python",
+          "en": "For CRUD-heavy apps keep Django idioms; for complex domain areas extract a service/use-case layer and pure Python logic"
+        },
+        {
+          "vi": "Ranh giới: view/serializer là adapter, use case nhận repository hoặc query object, ORM nằm trong module hạ tầng",
+          "en": "Boundaries: views/serializers are adapters, use cases take repositories or query objects, the ORM stays in infrastructure modules"
+        },
+        {
+          "vi": "Áp dụng có chọn lọc theo từng bounded context, dựa trên tốc độ test, tần suất thay đổi và độ quen thuộc của team",
+          "en": "Apply it selectively per bounded context, based on test speed, change frequency and team familiarity"
+        }
+      ],
+      "explanation": {
+        "vi": "Không có câu trả lời đúng tuyệt đối; người phỏng vấn senior muốn nghe bạn cân nhắc chi phí và lợi ích. Chống lại framework thường tạo nhiều lớp mapping mà không mang lại giá trị, nhưng để logic nghiệp vụ rải trong view và model cũng làm hệ thống khó thay đổi. Cách thực tế là giữ Django ở biên và tách lõi nghiệp vụ ở những nơi phức tạp nhất.",
+        "en": "There is no absolute right answer; a senior interviewer wants to hear you weigh costs and benefits. Fighting the framework often creates mapping layers with little value, yet scattering business logic across views and models makes the system hard to change. The practical approach is to keep Django at the edges and extract a business core where the domain is most complex."
       }
     }
   ]

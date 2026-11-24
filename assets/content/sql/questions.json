@@ -139,22 +139,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Alias phải viết trong nháy kép `AS \"total\"`",
-            "en": "The alias must be double-quoted: `AS \"total\"`"
+            "en": "The alias must be double-quoted as `AS \"total\"` to be visible in `WHERE`",
+            "vi": "Alias phải đặt trong nháy kép `AS \"total\"` thì `WHERE` mới thấy được"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Không được dùng phép nhân trong `SELECT`",
-            "en": "Multiplication is not allowed in `SELECT`"
+            "en": "Multiplication is not allowed in `SELECT` when the query also has `ORDER BY`",
+            "vi": "Không được dùng phép nhân trong `SELECT` khi truy vấn có `ORDER BY`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "`WHERE` được xử lý trước `SELECT` nên chưa biết alias `total`",
-            "en": "`WHERE` is processed before `SELECT`, so the `total` alias is not known yet"
+            "en": "`WHERE` runs before `SELECT`, so the `total` alias does not exist yet",
+            "vi": "`WHERE` chạy trước `SELECT` nên alias `total` chưa tồn tại"
           }
         }
       ],
@@ -312,8 +312,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Thêm `WHERE bonus IS NOT NULL`",
-            "en": "Add `WHERE bonus IS NOT NULL`"
+            "en": "Add `WHERE bonus IS NOT NULL` so NULL rows are skipped in the sum",
+            "vi": "Thêm `WHERE bonus IS NOT NULL` để bỏ qua dòng NULL khi cộng"
           }
         },
         {
@@ -349,29 +349,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Bỏ `ORDER BY` để DB khỏi phải sắp xếp",
-            "en": "Drop `ORDER BY` so the database does not sort"
+            "en": "Drop `ORDER BY` so the database no longer sorts 200,000 rows",
+            "vi": "Bỏ `ORDER BY` để DB không còn phải sắp xếp 200.000 dòng"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Chạy `SELECT COUNT(*)` trước mỗi trang",
-            "en": "Run `SELECT COUNT(*)` before every page"
+            "en": "Run `SELECT COUNT(*)` before every page so the client knows the total",
+            "vi": "Chạy `SELECT COUNT(*)` trước mỗi trang để client biết tổng số dòng"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Dùng keyset pagination: `WHERE id < :last_id ORDER BY id DESC LIMIT 20`",
-            "en": "Use keyset pagination: `WHERE id < :last_id ORDER BY id DESC LIMIT 20`"
+            "en": "Keyset pagination: `WHERE id < :last_id ORDER BY id DESC LIMIT 20`",
+            "vi": "Keyset pagination: `WHERE id < :last_id ORDER BY id DESC LIMIT 20`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Tăng `LIMIT` lên 1000 để giảm số lần gọi",
-            "en": "Raise `LIMIT` to 1000 to reduce the number of calls"
+            "en": "Raise `LIMIT` to 1000 and cache pages client-side to reduce the number of calls",
+            "vi": "Tăng `LIMIT` lên 1000 và cache các trang ở client để giảm số lần gọi"
           }
         }
       ],
@@ -560,8 +560,8 @@
         {
           "id": "a",
           "text": {
-            "vi": "Đổi `LEFT JOIN` thành `INNER JOIN`",
-            "en": "Change `LEFT JOIN` to `INNER JOIN`"
+            "en": "Change `LEFT JOIN` to `INNER JOIN` so the filter applies before joining",
+            "vi": "Đổi `LEFT JOIN` thành `INNER JOIN` để điều kiện lọc chạy trước khi join"
           }
         },
         {
@@ -574,15 +574,15 @@
         {
           "id": "c",
           "text": {
-            "vi": "Chuyển `o.status = 'paid'` từ `WHERE` lên `ON`: `ON o.customer_id = c.id AND o.status = 'paid'`",
-            "en": "Move `o.status = 'paid'` from `WHERE` into `ON`: `ON o.customer_id = c.id AND o.status = 'paid'`"
+            "en": "Move `o.status = 'paid'` from `WHERE` into the `ON` clause",
+            "vi": "Chuyển `o.status = 'paid'` từ `WHERE` vào mệnh đề `ON`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Đổi thành `WHERE o.status = 'paid' OR o.status IS NULL`",
-            "en": "Change it to `WHERE o.status = 'paid' OR o.status IS NULL`"
+            "en": "Change it to `WHERE o.status = 'paid' OR o.status IS NULL` to keep unmatched customers",
+            "vi": "Đổi thành `WHERE o.status = 'paid' OR o.status IS NULL` để giữ khách không có đơn"
           }
         }
       ],
@@ -913,22 +913,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Cột `status` không nằm trong `GROUP BY` và không được bọc bởi hàm aggregate",
-            "en": "The `status` column is neither in `GROUP BY` nor wrapped in an aggregate function"
+            "en": "`status` is neither in `GROUP BY` nor inside an aggregate function",
+            "vi": "`status` không nằm trong `GROUP BY` cũng không nằm trong hàm aggregate"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`COUNT(*)` phải viết thành `COUNT(id)`",
-            "en": "`COUNT(*)` must be written as `COUNT(id)`"
+            "en": "`COUNT(*)` must be written as `COUNT(id)` when grouping by a column",
+            "vi": "`COUNT(*)` phải viết thành `COUNT(id)` khi có `GROUP BY`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Thiếu mệnh đề `HAVING`",
-            "en": "The `HAVING` clause is missing"
+            "en": "The `HAVING` clause is missing after `GROUP BY customer_id`",
+            "vi": "Thiếu mệnh đề `HAVING` sau `GROUP BY customer_id`"
           }
         },
         {
@@ -1046,13 +1046,13 @@
         {
           "id": "c",
           "text": {
-            "vi": "Dùng `ROW_NUMBER() OVER (PARTITION BY dept_id ORDER BY salary DESC)` trong CTE rồi lọc `rn <= 3`",
-            "en": "Use `ROW_NUMBER() OVER (PARTITION BY dept_id ORDER BY salary DESC)` in a CTE, then filter `rn <= 3`"
+            "en": "`ROW_NUMBER() OVER (PARTITION BY dept_id ORDER BY salary DESC)` in a CTE, filter `rn <= 3`",
+            "vi": "`ROW_NUMBER() OVER (PARTITION BY dept_id ORDER BY salary DESC)` trong CTE, lọc `rn <= 3`"
           }
         },
         {
           "id": "d",
-          "text": "SELECT dept_id, MAX(salary) FROM employees GROUP BY dept_id"
+          "text": "SELECT dept_id, MAX(salary) FROM employees GROUP BY dept_id ORDER BY MAX(salary) DESC LIMIT 3"
         }
       ],
       "answerId": "c",
@@ -1080,22 +1080,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "`CASE WHEN` trả về NULL cho đơn `cancelled`",
-            "en": "`CASE WHEN` returns NULL for the `cancelled` order"
+            "en": "`CASE WHEN` returns NULL for the `cancelled` order, so `SUM` skips it",
+            "vi": "`CASE WHEN` trả về NULL cho đơn `cancelled` nên `SUM` bỏ qua nó"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Chia số nguyên: `3 / 4` bị cắt thành 0 trước khi nhân 100",
-            "en": "Integer division: `3 / 4` truncates to 0 before multiplying by 100"
+            "en": "Integer division: `3 / 4` is truncated to 0 before `* 100`",
+            "vi": "Chia số nguyên: `3 / 4` bị cắt về 0 trước khi nhân 100"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`COUNT(*)` đếm cả các dòng NULL",
-            "en": "`COUNT(*)` also counts NULL rows"
+            "en": "`COUNT(*)` also counts NULL rows, so the divisor is too large",
+            "vi": "`COUNT(*)` đếm cả các dòng NULL nên số chia bị lớn hơn"
           }
         },
         {
@@ -1239,29 +1239,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Nó chỉ chạy đúng một lần trước truy vấn ngoài",
-            "en": "It runs exactly once before the outer query"
+            "en": "It runs exactly once before the outer query and its result is reused",
+            "vi": "Nó chỉ chạy đúng một lần trước truy vấn ngoài rồi dùng lại kết quả"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Nó chỉ được đặt trong mệnh đề `FROM`",
-            "en": "It can only appear in the `FROM` clause"
+            "en": "It can only appear in the `FROM` clause, never inside `WHERE` or `SELECT`",
+            "vi": "Nó chỉ được đặt trong mệnh đề `FROM`, không được nằm trong `WHERE` hay `SELECT`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Nó luôn nhanh hơn JOIN tương đương",
-            "en": "It is always faster than the equivalent JOIN"
+            "en": "It is always faster than the equivalent JOIN because results are cached per row",
+            "vi": "Nó luôn nhanh hơn JOIN tương đương vì kết quả được cache theo từng dòng"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Nó tham chiếu cột của truy vấn ngoài, nên về logic được tính lại cho từng dòng ngoài",
-            "en": "It references a column of the outer query, so logically it is re-evaluated for each outer row"
+            "en": "It uses an outer column, so logically it runs per outer row",
+            "vi": "Nó dùng cột của truy vấn ngoài nên về logic chạy lại theo từng dòng ngoài"
           }
         }
       ],
@@ -1381,22 +1381,22 @@
         {
           "id": "b",
           "text": {
-            "vi": "Thêm `DISTINCT` vào `SELECT id, name`",
-            "en": "Add `DISTINCT` to `SELECT id, name`"
+            "en": "Add `DISTINCT` to `SELECT id, name` to remove duplicate rows",
+            "vi": "Thêm `DISTINCT` vào `SELECT id, name` để loại dòng trùng"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Thêm `ORDER BY id` trong subquery",
-            "en": "Add `ORDER BY id` inside the subquery"
+            "en": "Add `ORDER BY id` inside the subquery so only the first row is used",
+            "vi": "Thêm `ORDER BY id` trong subquery để chỉ lấy dòng đầu tiên"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Đổi `LIKE 'Sales%'` thành `LIKE '%Sales%'`",
-            "en": "Change `LIKE 'Sales%'` to `LIKE '%Sales%'`"
+            "en": "Change `LIKE 'Sales%'` to `LIKE '%Sales%'` to match both departments",
+            "vi": "Đổi `LIKE 'Sales%'` thành `LIKE '%Sales%'` để khớp cả hai phòng"
           }
         }
       ],
@@ -1421,22 +1421,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Tạo một bảng lưu vĩnh viễn trong database",
-            "en": "It creates a permanently stored table"
+            "en": "It creates a permanently stored table in the current schema",
+            "vi": "Tạo một bảng lưu vĩnh viễn trong schema hiện tại"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Chỉ dùng được trong câu lệnh `INSERT`",
-            "en": "It can only be used in `INSERT` statements"
+            "en": "It can only be used in `INSERT` statements, not in `UPDATE`/`DELETE`",
+            "vi": "Chỉ dùng được trong câu lệnh `INSERT`, không dùng với `UPDATE`/`DELETE`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Đặt tên cho một truy vấn con, chỉ tồn tại trong câu lệnh hiện tại",
-            "en": "It names a subquery that exists only within the current statement"
+            "en": "It names a subquery that exists only within one statement",
+            "vi": "Đặt tên cho một truy vấn con chỉ tồn tại trong một câu lệnh"
           }
         },
         {
@@ -1583,22 +1583,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "Thêm cột `course_ids` dạng chuỗi `'1,2,3'` vào `students`",
-            "en": "Add a `course_ids` string column like `'1,2,3'` to `students`"
+            "en": "Add a `course_ids` string column like `'1,2,3'` to `students` and split it when reading",
+            "vi": "Thêm cột `course_ids` dạng chuỗi `'1,2,3'` vào `students` rồi tách ra khi đọc"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Tạo bảng trung gian `enrollments(student_id, course_id)` với hai foreign key",
-            "en": "Create a junction table `enrollments(student_id, course_id)` with two foreign keys"
+            "en": "A junction table `enrollments(student_id, course_id)` with two foreign keys",
+            "vi": "Bảng trung gian `enrollments(student_id, course_id)` với hai foreign key"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Thêm cột `student_id` vào `courses`",
-            "en": "Add a `student_id` column to `courses`"
+            "en": "Add a `student_id` column to `courses` as a foreign key pointing to `students`",
+            "vi": "Thêm cột `student_id` vào `courses` làm foreign key trỏ tới `students`"
           }
         },
         {
@@ -1710,29 +1710,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Vi phạm 3NF do phụ thuộc bắc cầu qua `customer_id`; tách sang bảng `customers`",
-            "en": "It violates 3NF via a transitive dependency on `customer_id`; move the data into `customers`"
+            "en": "Violates 3NF (transitive dependency); move customer data to `customers`",
+            "vi": "Vi phạm 3NF (phụ thuộc bắc cầu); tách dữ liệu khách sang `customers`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Vi phạm 1NF vì có quá nhiều cột",
-            "en": "It violates 1NF because it has too many columns"
+            "en": "It violates 1NF because it has too many columns about different entities",
+            "vi": "Vi phạm 1NF vì có quá nhiều cột thuộc về các thực thể khác nhau"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Không có vấn đề, chỉ cần thêm index trên `customer_name`",
-            "en": "No problem; just add an index on `customer_name`"
+            "en": "No problem; just add an index on `customer_name` to speed up lookups by name",
+            "vi": "Không có vấn đề, chỉ cần thêm index trên `customer_name` để tìm theo tên nhanh hơn"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Phải đổi khóa chính thành `(id, customer_phone)`",
-            "en": "The primary key must become `(id, customer_phone)`"
+            "en": "The primary key must become `(id, customer_phone)` so each customer's orders stay unique",
+            "vi": "Phải đổi khóa chính thành `(id, customer_phone)` để đơn của mỗi khách luôn duy nhất"
           }
         }
       ],
@@ -1761,29 +1761,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Lệnh `UPDATE` chưa được commit",
-            "en": "The `UPDATE` has not been committed"
+            "en": "The `UPDATE` has not been committed, so the `SELECT` still sees 0.1",
+            "vi": "Lệnh `UPDATE` chưa được commit nên `SELECT` vẫn thấy 0.1"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Phải so sánh bằng `LIKE '0.3'`",
-            "en": "It must compare with `LIKE '0.3'`"
+            "en": "It must compare with `LIKE '0.3'` because SQLite stores `REAL` values as text",
+            "vi": "Phải so sánh bằng `LIKE '0.3'` vì SQLite lưu giá trị `REAL` dạng chuỗi"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "`REAL` là số dấu phẩy động nên `0.1 + 0.2 ≠ 0.3`; dùng `DECIMAL`/`NUMERIC` hoặc lưu số nguyên",
-            "en": "`REAL` is floating point, so `0.1 + 0.2 ≠ 0.3`; use `DECIMAL`/`NUMERIC` or store integers"
+            "en": "`REAL` is floating point, so `0.1 + 0.2 ≠ 0.3`; use `NUMERIC` or integers",
+            "vi": "`REAL` là số dấu phẩy động nên `0.1 + 0.2 ≠ 0.3`; dùng `NUMERIC` hoặc số nguyên"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Thiếu index trên cột `balance`",
-            "en": "There is no index on `balance`"
+            "en": "There is no index on `balance`, so the equality check falls back to approximate matching",
+            "vi": "Thiếu index trên cột `balance` nên phép so sánh bằng chuyển sang so khớp gần đúng"
           }
         }
       ],
@@ -1846,29 +1846,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Tăng tốc mọi truy vấn mà không có nhược điểm",
-            "en": "It speeds up every query with no downside"
+            "en": "It speeds up every query, including writes, with no downside",
+            "vi": "Tăng tốc mọi truy vấn, kể cả ghi, mà không có nhược điểm"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Nén dữ liệu của bảng cho nhỏ lại",
-            "en": "It compresses the table's data"
+            "en": "It compresses the table's data so scans read fewer pages",
+            "vi": "Nén dữ liệu của bảng để quét đọc ít trang hơn"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Tăng tốc tìm kiếm và sắp xếp theo cột, đổi lại tốn dung lượng và làm ghi chậm hơn",
-            "en": "It speeds up lookups and sorting on the column, at the cost of space and slower writes"
+            "en": "Faster lookups and sorting, but uses space and slows writes",
+            "vi": "Tìm kiếm và sắp xếp nhanh hơn, đổi lại tốn dung lượng và ghi chậm hơn"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Luôn đảm bảo giá trị trong cột không trùng nhau",
-            "en": "It always guarantees the column has no duplicates"
+            "en": "It always guarantees the column has no duplicates, like a primary key does",
+            "vi": "Luôn đảm bảo giá trị trong cột không trùng nhau, giống như khóa chính"
           }
         }
       ],
@@ -1904,8 +1904,8 @@
         {
           "id": "b",
           "text": {
-            "vi": "Đổi `SELECT id, total` thành `SELECT *`",
-            "en": "Change `SELECT id, total` to `SELECT *`"
+            "en": "Change `SELECT id, total` to `SELECT *` so the planner considers the index",
+            "vi": "Đổi `SELECT id, total` thành `SELECT *` để planner cân nhắc dùng index"
           }
         },
         {
@@ -1948,22 +1948,22 @@
         {
           "id": "a",
           "text": {
-            "vi": "`LIKE` không bao giờ dùng được index",
-            "en": "`LIKE` can never use an index"
+            "en": "`LIKE` can never use an index, with or without wildcards",
+            "vi": "`LIKE` không bao giờ dùng được index, dù có ký tự đại diện hay không"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Ký tự `%` ở đầu nên không xác định được điểm bắt đầu trong cây đã sắp xếp",
-            "en": "The leading `%` means there is no starting point in the sorted tree"
+            "en": "A leading `%` gives the B-tree no starting point",
+            "vi": "`%` ở đầu khiến B-tree không có điểm bắt đầu"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Phải viết `ILIKE` thay vì `LIKE`",
-            "en": "It must use `ILIKE` instead of `LIKE`"
+            "en": "It must use `ILIKE` instead of `LIKE` for the index to apply",
+            "vi": "Phải viết `ILIKE` thay vì `LIKE` thì index mới được dùng"
           }
         },
         {
@@ -2030,29 +2030,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Hầu như không: điều kiện lọc ra quá nhiều dòng nên optimizer thường chọn quét bảng",
-            "en": "Hardly: the condition matches too many rows, so the optimizer usually scans the table"
+            "en": "Hardly: it matches most rows, so a table scan is usually chosen",
+            "vi": "Hầu như không: điều kiện khớp phần lớn dòng nên thường chọn quét bảng"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Có, index luôn nhanh hơn quét bảng",
-            "en": "Yes, an index is always faster than a table scan"
+            "en": "Yes, an index is always faster than a table scan, regardless of how many rows match",
+            "vi": "Có, index luôn nhanh hơn quét bảng dù khớp bao nhiêu dòng"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Không, cột boolean không thể đánh index",
-            "en": "No, boolean columns cannot be indexed"
+            "en": "No, boolean columns cannot be indexed in PostgreSQL or MySQL",
+            "vi": "Không, cột boolean không thể đánh index trong PostgreSQL hay MySQL"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Chỉ nhanh hơn khi thêm `ORDER BY is_active`",
-            "en": "Only if you add `ORDER BY is_active`"
+            "en": "Only if you add `ORDER BY is_active` so the index is read in order",
+            "vi": "Chỉ nhanh hơn khi thêm `ORDER BY is_active` để đọc index theo thứ tự"
           }
         }
       ],
@@ -2077,29 +2077,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Index hai cột luôn nhỏ hơn index một cột",
-            "en": "A two-column index is always smaller than a one-column index"
+            "en": "A two-column index is always smaller and shallower than a one-column index",
+            "vi": "Index hai cột luôn nhỏ và nông hơn index một cột"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Index hai cột tự động được cache trong RAM",
-            "en": "Two-column indexes are automatically cached in RAM"
+            "en": "Two-column indexes are automatically pinned in RAM by the buffer manager",
+            "vi": "Index hai cột được buffer manager tự động giữ cố định trong RAM"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Vì nó biến điều kiện `email = ?` thành `UNIQUE`",
-            "en": "Because it turns `email = ?` into a `UNIQUE` lookup"
+            "en": "Because it turns `email = ?` into a `UNIQUE` lookup that stops at the first match",
+            "vi": "Vì nó biến `email = ?` thành phép tra `UNIQUE`, dừng ngay ở kết quả đầu tiên"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Index chứa đủ cột cần đọc nên DB trả kết quả từ index, không phải đọc bảng (covering index)",
-            "en": "The index holds every needed column, so the database answers from the index without reading the table (covering index)"
+            "en": "The index covers every needed column, so the table is never read (covering index)",
+            "vi": "Index chứa đủ cột cần đọc nên không phải đọc bảng (covering index)"
           }
         }
       ],
@@ -2124,29 +2124,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Cập nhật thống kê bằng `ANALYZE` (và kiểm tra autovacuum), rồi xem lại plan",
-            "en": "Refresh statistics with `ANALYZE` (and check autovacuum), then re-check the plan"
+            "en": "Run `ANALYZE` to refresh statistics, then re-check the plan",
+            "vi": "Chạy `ANALYZE` để cập nhật thống kê rồi xem lại plan"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Xóa mọi index trên bảng để ép quét tuần tự",
-            "en": "Drop every index on the table to force sequential scans"
+            "en": "Drop every index on the table to force sequential scans and a hash join",
+            "vi": "Xóa mọi index trên bảng để ép quét tuần tự và hash join"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Thêm `LIMIT` lớn vào truy vấn",
-            "en": "Add a large `LIMIT` to the query"
+            "en": "Add a large `LIMIT` to the query so the planner switches to a hash join",
+            "vi": "Thêm `LIMIT` lớn vào truy vấn để planner chuyển sang hash join"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Đổi mọi `JOIN` thành `UNION ALL`",
-            "en": "Rewrite every `JOIN` as `UNION ALL`"
+            "en": "Rewrite every `JOIN` as `UNION ALL` so the planner estimates each part separately",
+            "vi": "Đổi mọi `JOIN` thành `UNION ALL` để planner ước lượng từng phần riêng"
           }
         }
       ],
@@ -2400,29 +2400,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Thêm `ORDER BY id` vào lệnh `SELECT`",
-            "en": "Add `ORDER BY id` to the `SELECT`"
+            "en": "Add `ORDER BY id` to the `SELECT` so requests read rows in a consistent order",
+            "vi": "Thêm `ORDER BY id` vào `SELECT` để các request đọc dòng theo thứ tự nhất quán"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "`UPDATE products SET stock = stock - 1 WHERE id = 1 AND stock > 0` và kiểm tra số dòng bị ảnh hưởng",
-            "en": "`UPDATE products SET stock = stock - 1 WHERE id = 1 AND stock > 0` and check the affected row count"
+            "en": "`UPDATE ... SET stock = stock - 1 WHERE id = 1 AND stock > 0`, check affected rows",
+            "vi": "`UPDATE ... SET stock = stock - 1 WHERE id = 1 AND stock > 0`, kiểm tra số dòng bị ảnh hưởng"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Đọc lại `stock` hai lần trước khi ghi",
-            "en": "Read `stock` twice before writing"
+            "en": "Read `stock` twice before writing and retry if the two values differ",
+            "vi": "Đọc lại `stock` hai lần trước khi ghi, nếu khác nhau thì thử lại"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Tăng kích thước connection pool",
-            "en": "Increase the connection pool size"
+            "en": "Increase the connection pool size so each request gets its own isolated session",
+            "vi": "Tăng kích thước connection pool để mỗi request có session riêng biệt"
           }
         }
       ],
@@ -2447,29 +2447,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Transaction khác đã cập nhật dòng trước; cần báo xung đột hoặc đọc lại rồi thử lại",
-            "en": "Another transaction updated the row first; report a conflict or re-read and retry"
+            "en": "Another transaction changed the row first; report a conflict or re-read and retry",
+            "vi": "Transaction khác đã sửa dòng trước; báo xung đột hoặc đọc lại rồi thử lại"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Database bị lỗi, cần khởi động lại",
-            "en": "The database failed and must be restarted"
+            "en": "The database failed and must be restarted before writing again",
+            "vi": "Database bị lỗi, cần khởi động lại trước khi ghi tiếp"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Đã xảy ra deadlock",
-            "en": "A deadlock occurred"
+            "en": "A deadlock occurred and the database rolled back the update",
+            "vi": "Đã xảy ra deadlock và DB đã rollback lệnh update"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Dòng đang bị khóa, lệnh sẽ tự chạy lại sau",
-            "en": "The row is locked and the statement will retry by itself"
+            "en": "The row is locked by another session and the statement will retry by itself",
+            "vi": "Dòng đang bị session khác khóa, lệnh sẽ tự chạy lại sau"
           }
         }
       ],
@@ -2494,29 +2494,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Cả hai chờ nhau mãi mãi vì DB không tự xử lý",
-            "en": "Both wait forever because the database never intervenes"
+            "en": "Both wait forever because the database never detects lock cycles on `UPDATE`",
+            "vi": "Cả hai chờ nhau mãi mãi vì DB không phát hiện vòng khóa với `UPDATE`"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Cả hai commit bình thường vì khóa chỉ áp dụng cho `SELECT`",
-            "en": "Both commit normally because locks only apply to `SELECT`"
+            "en": "Both commit normally because row locks only apply to `SELECT ... FOR UPDATE`",
+            "vi": "Cả hai commit bình thường vì khóa dòng chỉ áp dụng cho `SELECT ... FOR UPDATE`"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "DB tự gộp hai transaction thành một",
-            "en": "The database merges the two transactions into one"
+            "en": "The database merges the two transactions into one and applies them in `id` order",
+            "vi": "DB tự gộp hai transaction thành một và chạy theo thứ tự `id`"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Deadlock; DB phát hiện và hủy một transaction. Phòng bằng cách khóa theo cùng thứ tự và retry",
-            "en": "Deadlock; the database detects it and aborts one transaction. Prevent it by locking in a consistent order and retrying"
+            "en": "Deadlock; the DB aborts one transaction. Lock rows in a consistent order and retry",
+            "vi": "Deadlock; DB hủy một transaction. Khóa dòng theo cùng thứ tự và retry"
           }
         }
       ],
@@ -2746,29 +2746,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Redis làm nơi lưu chính duy nhất",
-            "en": "Redis as the only primary store"
+            "en": "Redis as the only primary store, with everything kept in memory",
+            "vi": "Redis làm nơi lưu chính duy nhất, mọi dữ liệu giữ trong bộ nhớ"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Lưu số dư trong file JSON trên server",
-            "en": "Balances in a JSON file on the server"
+            "en": "Balances in a JSON file on the server, rewritten after each transfer",
+            "vi": "Lưu số dư trong file JSON trên server, ghi đè sau mỗi lần chuyển"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "CSDL quan hệ (PostgreSQL/MySQL) với transaction ACID",
-            "en": "A relational database (PostgreSQL/MySQL) with ACID transactions"
+            "en": "A relational database with ACID transactions",
+            "vi": "CSDL quan hệ với transaction ACID"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Lưu số dư trong `localStorage` của trình duyệt",
-            "en": "Balances in the browser's `localStorage`"
+            "en": "Balances in the browser's `localStorage`, synced to the server",
+            "vi": "Lưu số dư trong `localStorage` của trình duyệt, đồng bộ lên server"
           }
         }
       ],
@@ -2793,29 +2793,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Index trên bảng `users` bị hỏng",
-            "en": "The index on `users` is corrupted"
+            "en": "The index on `users` is corrupted, so the replica returns a stale row",
+            "vi": "Index trên bảng `users` bị hỏng nên replica trả về dòng cũ"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Replication lag; đọc từ primary ngay sau khi ghi (read-your-writes) hoặc chờ replica bắt kịp",
-            "en": "Replication lag; read from the primary right after writing (read-your-writes) or wait for the replica to catch up"
+            "en": "Replication lag; read from the primary right after writing",
+            "vi": "Replication lag; đọc từ primary ngay sau khi ghi"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Deadlock giữa primary và replica",
-            "en": "A deadlock between primary and replica"
+            "en": "A deadlock between primary and replica blocks the avatar update from applying",
+            "vi": "Deadlock giữa primary và replica chặn việc áp dụng cập nhật avatar"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Transaction ghi avatar chưa được commit",
-            "en": "The avatar transaction was never committed"
+            "en": "The avatar transaction was never committed, so only the writing session can see it",
+            "vi": "Transaction ghi avatar chưa được commit nên chỉ session ghi mới thấy"
           }
         }
       ],
@@ -2840,29 +2840,29 @@
         {
           "id": "a",
           "text": {
-            "vi": "Mọi lượt ghi mới dồn vào shard của tháng hiện tại (hot spot); nên dùng key phân bố đều như hash `user_id`",
-            "en": "All new writes hit the current month's shard (a hot spot); use an evenly spread key such as a hash of `user_id`"
+            "en": "Every new write hits the current month's shard: a hot spot",
+            "vi": "Mọi lượt ghi mới dồn vào shard của tháng hiện tại: hot spot"
           }
         },
         {
           "id": "b",
           "text": {
-            "vi": "Không thể tạo index trên bảng đã shard",
-            "en": "Sharded tables cannot have indexes"
+            "en": "Sharded tables cannot have indexes, so every query on `events` is a full scan",
+            "vi": "Không thể tạo index trên bảng đã shard nên mọi truy vấn trên `events` đều quét toàn bộ"
           }
         },
         {
           "id": "c",
           "text": {
-            "vi": "Truy vấn theo khoảng thời gian luôn phải quét mọi shard",
-            "en": "Time-range queries always have to scan every shard"
+            "en": "Time-range queries always have to scan every shard, even for a single month",
+            "vi": "Truy vấn theo khoảng thời gian luôn phải quét mọi shard, kể cả khi chỉ hỏi một tháng"
           }
         },
         {
           "id": "d",
           "text": {
-            "vi": "Shard theo thời gian làm mất tính ACID trong từng shard",
-            "en": "Time-based sharding removes ACID within each shard"
+            "en": "Time-based sharding removes ACID within each shard, so every write needs two-phase commit",
+            "vi": "Shard theo thời gian làm mất ACID trong từng shard, mọi lượt ghi phải dùng two-phase commit"
           }
         }
       ],
@@ -2942,6 +2942,1855 @@
       "explanation": {
         "vi": "Cache-aside: ứng dụng đọc Redis trước; nếu miss thì truy vấn DB, ghi kết quả vào Redis kèm TTL rồi trả về. Khi sản phẩm thay đổi, cập nhật DB rồi xóa (invalidate) key cache để lần đọc sau nạp lại, thay vì cố cập nhật cache song song dễ gây lệch. Cần đặt TTL để dữ liệu cũ tự hết hạn, và đề phòng cache stampede khi key nóng hết hạn cùng lúc (khóa nạp lại, TTL ngẫu nhiên).",
         "en": "Cache-aside: the application reads Redis first; on a miss it queries the database, stores the result in Redis with a TTL and returns it. When a product changes, update the database and then delete (invalidate) the cache key so the next read reloads it, rather than updating the cache in parallel, which easily drifts. Set a TTL so stale data expires on its own, and guard against cache stampedes when a hot key expires (reload locks, jittered TTLs)."
+      }
+    },
+    {
+      "id": "sql.queries.010",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "queries",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`WHERE price BETWEEN 100 AND 200` trả về những dòng nào?",
+        "en": "Which rows does `WHERE price BETWEEN 100 AND 200` return?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Rows with `price >= 100 AND price <= 200`, both ends included",
+            "vi": "Các dòng có `price >= 100 AND price <= 200`, gồm cả hai đầu mút"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Các dòng có `price > 100 AND price < 200`, không gồm hai đầu mút",
+            "en": "Rows with `price > 100 AND price < 200`, both ends excluded"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Các dòng có `price >= 100 AND price < 200`",
+            "en": "Rows with `price >= 100 AND price < 200`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cả các dòng có `price` là NULL",
+            "en": "Also the rows where `price` is NULL"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`BETWEEN a AND b` tương đương `x >= a AND x <= b`, nên 100 và 200 đều được lấy. Dòng có `price` NULL cho kết quả `UNKNOWN` và bị loại như mọi so sánh khác với NULL. Cẩn thận khi dùng `BETWEEN` với timestamp: `BETWEEN '2024-05-01' AND '2024-05-31'` bỏ sót các thời điểm sau 00:00 ngày 31, nên với khoảng thời gian thường viết `>= start AND < next_day`.",
+        "en": "`BETWEEN a AND b` means `x >= a AND x <= b`, so both 100 and 200 are included. Rows with a NULL `price` evaluate to `UNKNOWN` and are filtered out like any comparison with NULL. Be careful with timestamps: `BETWEEN '2024-05-01' AND '2024-05-31'` misses times after 00:00 on the 31st, so date ranges are usually written as `>= start AND < next_day`."
+      }
+    },
+    {
+      "id": "sql.queries.011",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "queries",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh `DELETE`, `TRUNCATE` và `DROP TABLE`. Khi nào dùng từng lệnh?",
+        "en": "Compare `DELETE`, `TRUNCATE` and `DROP TABLE`. When do you use each?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`DELETE` là DML, xóa từng dòng, có thể kèm `WHERE`, kích hoạt trigger và rollback được trong transaction",
+          "en": "`DELETE` is DML, removes rows one by one, can take a `WHERE`, fires triggers and can be rolled back in a transaction"
+        },
+        {
+          "vi": "`TRUNCATE` xóa toàn bộ dữ liệu rất nhanh, không có `WHERE`, thường reset bộ đếm tự tăng",
+          "en": "`TRUNCATE` removes all rows very fast, has no `WHERE`, and usually resets the auto-increment counter"
+        },
+        {
+          "vi": "`DROP TABLE` xóa cả bảng: cấu trúc, index, constraint lẫn dữ liệu",
+          "en": "`DROP TABLE` removes the whole table: structure, indexes, constraints and data"
+        },
+        {
+          "vi": "PostgreSQL rollback được `TRUNCATE` trong transaction; MySQL thì `TRUNCATE`/`DROP` tự commit ngầm",
+          "en": "PostgreSQL can roll back `TRUNCATE` inside a transaction; in MySQL `TRUNCATE`/`DROP` cause an implicit commit"
+        },
+        {
+          "vi": "`TRUNCATE` bị chặn nếu bảng đang được foreign key tham chiếu (trừ khi dùng `CASCADE` trên PostgreSQL)",
+          "en": "`TRUNCATE` is blocked when the table is referenced by a foreign key (unless you use `CASCADE` on PostgreSQL)"
+        }
+      ],
+      "explanation": {
+        "vi": "Dùng `DELETE ... WHERE` cho nghiệp vụ hằng ngày, `TRUNCATE` khi cần làm trống cả bảng (ví dụ bảng staging) và `DROP` khi bảng không còn cần nữa. `DELETE` không có `WHERE` cũng xóa hết dữ liệu nhưng chậm hơn nhiều với bảng lớn vì ghi log từng dòng. Vì `TRUNCATE` và `DROP` có hành vi transaction khác nhau giữa các hệ quản trị, hãy luôn kiểm tra trước khi chạy trên production.",
+        "en": "Use `DELETE ... WHERE` for everyday business logic, `TRUNCATE` to empty a whole table (e.g. a staging table) and `DROP` when the table is no longer needed. A `DELETE` without `WHERE` also removes everything but is much slower on large tables because it logs each row. Since `TRUNCATE` and `DROP` behave differently in transactions across databases, always double-check before running them in production."
+      }
+    },
+    {
+      "id": "sql.queries.012",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "queries",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Cột `grade` của An, Binh, Chi, Dung lần lượt là gì?",
+        "en": "What is the `grade` of An, Binh, Chi and Dung, in order?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "CREATE TABLE scores (name TEXT, score INT);\nINSERT INTO scores VALUES\n  ('An', 85), ('Binh', 60), ('Chi', 45), ('Dung', NULL);\n\nSELECT name,\n       CASE\n         WHEN score >= 80 THEN 'A'\n         WHEN score >= 50 THEN 'B'\n         ELSE 'C'\n       END AS grade\nFROM scores\nORDER BY name;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "A, B, C, NULL"
+        },
+        {
+          "id": "b",
+          "text": "A, A, B, C"
+        },
+        {
+          "id": "c",
+          "text": "A, B, B, C"
+        },
+        {
+          "id": "d",
+          "text": "A, B, C, C"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`CASE` kiểm tra các nhánh `WHEN` từ trên xuống và dừng ở nhánh đúng đầu tiên: 85 → `A`, 60 → `B`, 45 → `C`. Với Dung, `NULL >= 80` và `NULL >= 50` đều là `UNKNOWN` (không phải true) nên rơi vào `ELSE 'C'`. Kết quả chỉ là NULL nếu `CASE` không có `ELSE`.",
+        "en": "`CASE` checks the `WHEN` branches from top to bottom and stops at the first true one: 85 → `A`, 60 → `B`, 45 → `C`. For Dung, `NULL >= 80` and `NULL >= 50` are both `UNKNOWN` (not true), so it falls into `ELSE 'C'`. The result would only be NULL if the `CASE` had no `ELSE`."
+      }
+    },
+    {
+      "id": "sql.queries.013",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "queries",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Yêu cầu: lấy các đơn `paid` hoặc `shipped` có `total > 100`. Nhưng kết quả có cả đơn `paid` giá 50. Lỗi ở đâu?",
+        "en": "Goal: orders that are `paid` or `shipped` with `total > 100`. But the result includes a `paid` order of 50. Where is the bug?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "SELECT id, status, total\nFROM orders\nWHERE status = 'paid' OR status = 'shipped'\n  AND total > 100;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`OR` không được dùng hai lần với cùng một cột",
+            "en": "`OR` cannot be used twice on the same column"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "You must compare `total > '100'` because the column is stored as a string",
+            "vi": "Phải so sánh `total > '100'` vì cột được lưu dạng chuỗi"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`AND` binds tighter than `OR`; add parentheses around the `OR`",
+            "vi": "`AND` ưu tiên cao hơn `OR`; cần thêm ngoặc quanh phần `OR`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "SQL evaluates conditions right to left and short-circuits, so `total > 100` is skipped",
+            "vi": "SQL đánh giá điều kiện từ phải sang trái và ngắt sớm nên `total > 100` bị bỏ qua"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Trong SQL, `NOT` ưu tiên hơn `AND`, và `AND` ưu tiên hơn `OR`. Vì vậy `total > 100` chỉ gắn với nhánh `shipped`, còn mọi đơn `paid` đều được lấy bất kể giá trị. Cách sửa rõ ràng nhất là `WHERE status IN ('paid', 'shipped') AND total > 100`. Đây không phải vấn đề thứ tự đánh giá trái/phải mà là độ ưu tiên toán tử.",
+        "en": "In SQL, `NOT` binds tighter than `AND`, and `AND` tighter than `OR`. So `total > 100` only attaches to the `shipped` branch, and every `paid` order is returned regardless of total. The clearest fix is `WHERE status IN ('paid', 'shipped') AND total > 100`. This is about operator precedence, not left-to-right evaluation."
+      }
+    },
+    {
+      "id": "sql.queries.014",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "queries",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần \"thêm user nếu `email` chưa có, nếu có rồi thì cập nhật `name`\" trong một câu lệnh, với `email` có ràng buộc `UNIQUE`. Cách nào đúng trên PostgreSQL?",
+        "en": "You need \"insert the user if the `email` is new, otherwise update `name`\" in one statement, with a `UNIQUE` constraint on `email`. Which is correct on PostgreSQL?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`SELECT` kiểm tra trước rồi `INSERT` hoặc `UPDATE` trong code ứng dụng, không cần transaction",
+            "en": "`SELECT` first, then `INSERT` or `UPDATE` in application code, without a transaction"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`INSERT ... ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name`",
+            "vi": "`INSERT ... ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`INSERT IGNORE`, because it updates the existing row automatically on a duplicate key",
+            "vi": "`INSERT IGNORE` vì nó tự cập nhật dòng đã tồn tại khi trùng khóa"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`UPDATE ... IF NOT EXISTS INSERT`",
+            "en": "`UPDATE ... IF NOT EXISTS INSERT`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Upsert bằng `ON CONFLICT ... DO UPDATE` là nguyên tử: database dùng ràng buộc unique để quyết định chèn hay cập nhật, và `EXCLUDED` chứa giá trị đang định chèn. Cách \"SELECT rồi INSERT\" có race condition: hai request cùng thấy chưa có rồi cùng chèn, một bên sẽ lỗi duplicate key. `INSERT IGNORE` (MySQL) chỉ bỏ qua dòng trùng chứ không cập nhật, còn cú pháp `UPDATE ... IF NOT EXISTS INSERT` không tồn tại.",
+        "en": "Upserting with `ON CONFLICT ... DO UPDATE` is atomic: the database uses the unique constraint to decide between insert and update, and `EXCLUDED` holds the values you tried to insert. \"SELECT then INSERT\" has a race: two requests both see no row and both insert, so one fails with a duplicate key. `INSERT IGNORE` (MySQL) just skips the duplicate without updating, and `UPDATE ... IF NOT EXISTS INSERT` is not real syntax."
+      }
+    },
+    {
+      "id": "sql.joins.010",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "joins",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Câu truy vấn sau báo lỗi `column reference \"id\" is ambiguous` (PostgreSQL). Cách sửa là gì?",
+        "en": "This query fails with `column reference \"id\" is ambiguous` (PostgreSQL). What is the fix?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "SELECT id, c.name, o.total\nFROM orders o\nJOIN customers c ON c.id = o.customer_id;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đổi `JOIN` thành `LEFT JOIN`",
+            "en": "Change `JOIN` to `LEFT JOIN`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thêm `DISTINCT` sau `SELECT`",
+            "en": "Add `DISTINCT` after `SELECT`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Table aliases must use `AS`, e.g. `orders AS o`, or columns are not resolved",
+            "vi": "Alias bảng phải viết bằng `AS`, ví dụ `orders AS o`, nếu không cột sẽ không được phân giải"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Both tables have `id`; qualify it with an alias, e.g. `SELECT o.id, c.name`",
+            "vi": "Cả hai bảng đều có `id`; cần ghi rõ alias, ví dụ `SELECT o.id, c.name`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi join, nếu một tên cột xuất hiện ở nhiều bảng, database không biết bạn muốn cột nào nên báo lỗi ambiguous. Hãy luôn tiền tố cột bằng alias (`o.id`, `c.id`) trong truy vấn có join; điều này cũng giúp code dễ đọc. Đổi kiểu join hay thêm `DISTINCT` không giải quyết sự mơ hồ, và từ khóa `AS` cho alias bảng là tùy chọn.",
+        "en": "In a join, if a column name exists in several tables the database cannot tell which one you mean and reports it as ambiguous. Always prefix columns with an alias (`o.id`, `c.id`) in join queries; it also makes the query easier to read. Changing the join type or adding `DISTINCT` does not remove the ambiguity, and the `AS` keyword for table aliases is optional."
+      }
+    },
+    {
+      "id": "sql.joins.011",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "joins",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`SELECT ... FROM orders o RIGHT JOIN customers c ON c.id = o.customer_id` tương đương với câu nào?",
+        "en": "`SELECT ... FROM orders o RIGHT JOIN customers c ON c.id = o.customer_id` is equivalent to which query?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`SELECT ... FROM orders o LEFT JOIN customers c ON c.id = o.customer_id`",
+            "en": "`SELECT ... FROM orders o LEFT JOIN customers c ON c.id = o.customer_id`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`SELECT ... FROM orders o INNER JOIN customers c ON c.id = o.customer_id`",
+            "en": "`SELECT ... FROM orders o INNER JOIN customers c ON c.id = o.customer_id`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`SELECT ... FROM customers c LEFT JOIN orders o ON c.id = o.customer_id`",
+            "en": "`SELECT ... FROM customers c LEFT JOIN orders o ON c.id = o.customer_id`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`SELECT ... FROM orders o FULL JOIN customers c ON c.id = o.customer_id`",
+            "en": "`SELECT ... FROM orders o FULL JOIN customers c ON c.id = o.customer_id`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`RIGHT JOIN` giữ mọi dòng của bảng bên phải (`customers`), nên nó chính là `LEFT JOIN` khi đảo vị trí hai bảng. Giữ nguyên thứ tự mà đổi sang `LEFT JOIN` sẽ giữ mọi đơn hàng thay vì mọi khách hàng. Trong thực tế đa số team chỉ dùng `LEFT JOIN` và sắp xếp bảng \"chính\" đứng trước cho dễ đọc.",
+        "en": "`RIGHT JOIN` keeps every row of the right table (`customers`), so it is exactly a `LEFT JOIN` with the two tables swapped. Keeping the order and switching to `LEFT JOIN` would keep every order instead of every customer. In practice most teams use only `LEFT JOIN` and put the \"main\" table first for readability."
+      }
+    },
+    {
+      "id": "sql.joins.012",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "joins",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Câu truy vấn trả về gì?",
+        "en": "What does the query return?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "CREATE TABLE customers (id INT, name TEXT);\nCREATE TABLE orders (id INT, customer_id INT);\nINSERT INTO customers VALUES (1, 'An'), (2, 'Binh'), (3, 'Chi');\nINSERT INTO orders VALUES (10, 1), (11, 1), (12, 2);\n\nSELECT c.name, COUNT(o.id) AS n\nFROM customers c\nLEFT JOIN orders o ON o.customer_id = c.id\nGROUP BY c.name\nORDER BY c.name;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "An 2, Binh 1, Chi 1",
+            "en": "An 2, Binh 1, Chi 1"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "An 2, Binh 1",
+            "en": "An 2, Binh 1"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "An 3, Binh 3, Chi 3",
+            "en": "An 3, Binh 3, Chi 3"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "An 2, Binh 1, Chi 0",
+            "en": "An 2, Binh 1, Chi 0"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`LEFT JOIN` giữ Chi với một dòng có `o.id` là NULL. `COUNT(o.id)` chỉ đếm giá trị khác NULL, nên Chi được 0; nếu dùng `COUNT(*)` thì Chi sẽ bị đếm thành 1 vì dòng NULL đó vẫn là một dòng. Đây là lỗi phổ biến khi thống kê \"số đơn mỗi khách hàng\" mà muốn hiện cả khách chưa có đơn.",
+        "en": "`LEFT JOIN` keeps Chi with one row whose `o.id` is NULL. `COUNT(o.id)` counts only non-NULL values, so Chi gets 0; `COUNT(*)` would count Chi as 1 because that NULL-filled row is still a row. This is a common mistake when reporting \"orders per customer\" while still showing customers with no orders."
+      }
+    },
+    {
+      "id": "sql.joins.013",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "joins",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `INNER JOIN`, đặt điều kiện lọc `o.status = 'paid'` trong `ON` hay trong `WHERE` có khác nhau về kết quả không?",
+        "en": "With an `INNER JOIN`, does putting the filter `o.status = 'paid'` in `ON` versus `WHERE` change the result?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "No: with `INNER JOIN` both are equivalent; it only matters for outer joins",
+            "vi": "Không: với `INNER JOIN` hai cách tương đương; chỉ khác với outer join"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Có: đặt trong `ON` sẽ giữ lại các đơn không phải `paid` với cột NULL",
+            "en": "Yes: putting it in `ON` keeps non-`paid` orders with NULL columns"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Có: `WHERE` chạy trước `JOIN` nên nhanh hơn và trả nhiều dòng hơn",
+            "en": "Yes: `WHERE` runs before the `JOIN`, so it is faster and returns more rows"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không được đặt điều kiện không phải khóa trong `ON`",
+            "en": "Non-key conditions are not allowed in `ON`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`INNER JOIN` chỉ giữ cặp dòng thỏa điều kiện, nên lọc trong `ON` hay `WHERE` đều loại cùng các dòng; optimizer cũng thường sinh cùng một plan. Với `LEFT JOIN` thì khác: điều kiện ở `ON` chỉ quyết định dòng bên phải nào được ghép, còn điều kiện trên bảng phải ở `WHERE` sẽ loại các dòng NULL và biến nó thành inner join. `ON` hoàn toàn cho phép điều kiện không phải khóa.",
+        "en": "`INNER JOIN` only keeps row pairs that match, so filtering in `ON` or `WHERE` removes the same rows; the optimizer usually produces the same plan. With `LEFT JOIN` it differs: a condition in `ON` only decides which right-side rows get matched, while a condition on the right table in `WHERE` drops the NULL rows and effectively turns it into an inner join. `ON` happily accepts non-key conditions."
+      }
+    },
+    {
+      "id": "sql.joins.014",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "joins",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "MySQL (8.x) không hỗ trợ `FULL OUTER JOIN`. Cách phổ biến để có kết quả tương đương là gì?",
+        "en": "MySQL (8.x) does not support `FULL OUTER JOIN`. What is the common way to get an equivalent result?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Use a `CROSS JOIN`, then filter with `WHERE a.id = b.id OR a.id IS NULL`",
+            "vi": "Dùng `CROSS JOIN` rồi lọc bằng `WHERE a.id = b.id OR a.id IS NULL`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Dùng `NATURAL JOIN`",
+            "en": "Use `NATURAL JOIN`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`UNION` of a `LEFT JOIN` and a `RIGHT JOIN` (or a swapped `LEFT JOIN`)",
+            "vi": "`UNION` một `LEFT JOIN` với một `RIGHT JOIN` (hoặc `LEFT JOIN` đảo bảng)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Write two consecutive `INNER JOIN`s, one in each direction",
+            "vi": "Viết `INNER JOIN` hai lần liên tiếp, mỗi lần một chiều"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`FULL OUTER JOIN` = các dòng khớp + dòng chỉ có ở bảng trái + dòng chỉ có ở bảng phải. `LEFT JOIN` cho hai phần đầu, `RIGHT JOIN` cho phần khớp và phần chỉ có ở bên phải, và `UNION` loại bỏ các dòng khớp bị trùng (nếu dữ liệu có thể có dòng trùng hợp lệ thì dùng `UNION ALL` với nhánh thứ hai lọc `WHERE a.id IS NULL`). `CROSS JOIN` lọc bằng `WHERE` chỉ là inner join, và `NATURAL JOIN` cũng là inner join theo cột trùng tên.",
+        "en": "`FULL OUTER JOIN` = matching rows + rows only on the left + rows only on the right. `LEFT JOIN` gives the first two parts, `RIGHT JOIN` gives the matches plus the right-only rows, and `UNION` removes the duplicated matches (if legitimate duplicate rows can exist, use `UNION ALL` with the second branch filtered by `WHERE a.id IS NULL`). A `CROSS JOIN` filtered in `WHERE` is just an inner join, and `NATURAL JOIN` is also an inner join on same-named columns."
+      }
+    },
+    {
+      "id": "sql.aggregation.011",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "aggregation",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Thứ tự viết các mệnh đề nào sau đây là đúng cú pháp SQL?",
+        "en": "Which clause order is syntactically correct SQL?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`SELECT ... FROM ... GROUP BY ... WHERE ... HAVING ... ORDER BY ...`",
+            "en": "`SELECT ... FROM ... GROUP BY ... WHERE ... HAVING ... ORDER BY ...`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`SELECT ... FROM ... WHERE ... GROUP BY ... HAVING ... ORDER BY ... LIMIT ...`",
+            "en": "`SELECT ... FROM ... WHERE ... GROUP BY ... HAVING ... ORDER BY ... LIMIT ...`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`SELECT ... FROM ... WHERE ... HAVING ... GROUP BY ... ORDER BY ...`",
+            "en": "`SELECT ... FROM ... WHERE ... HAVING ... GROUP BY ... ORDER BY ...`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`SELECT ... FROM ... ORDER BY ... WHERE ... GROUP BY ...`",
+            "en": "`SELECT ... FROM ... ORDER BY ... WHERE ... GROUP BY ...`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Thứ tự viết chuẩn là `SELECT`, `FROM`, `WHERE`, `GROUP BY`, `HAVING`, `ORDER BY`, `LIMIT`. Nó phản ánh luồng xử lý: lọc dòng bằng `WHERE` trước, rồi gom nhóm, rồi lọc nhóm bằng `HAVING`, cuối cùng sắp xếp và giới hạn. Đặt `WHERE` sau `GROUP BY` hay `HAVING` trước `GROUP BY` đều là lỗi cú pháp.",
+        "en": "The standard writing order is `SELECT`, `FROM`, `WHERE`, `GROUP BY`, `HAVING`, `ORDER BY`, `LIMIT`. It mirrors the processing flow: filter rows with `WHERE`, then group, then filter groups with `HAVING`, then sort and limit. Putting `WHERE` after `GROUP BY` or `HAVING` before `GROUP BY` is a syntax error."
+      }
+    },
+    {
+      "id": "sql.aggregation.012",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "aggregation",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Câu truy vấn trả về dòng nào?",
+        "en": "Which row does the query return?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "CREATE TABLE products (name TEXT, category TEXT, sold INT);\nINSERT INTO products VALUES\n  ('Pen', 'office', 30), ('Desk', 'office', 5),\n  ('Milk', 'food', 20), ('Bread', 'food', 25),\n  ('Ball', 'toy', 40);\n\nSELECT category, SUM(sold) AS total\nFROM products\nGROUP BY category\nORDER BY total DESC\nLIMIT 1;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "food 45",
+            "en": "food 45"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "toy 40",
+            "en": "toy 40"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "office 35",
+            "en": "office 35"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ball 40",
+            "en": "Ball 40"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Gom theo `category`: `office` = 30 + 5 = 35, `food` = 20 + 25 = 45, `toy` = 40. Sắp xếp giảm dần theo tổng rồi lấy 1 dòng cho `food 45`. Đáp án `toy 40` là bẫy cho ai nhìn sản phẩm bán chạy nhất (`Ball`) thay vì tổng theo nhóm.",
+        "en": "Grouping by `category`: `office` = 30 + 5 = 35, `food` = 20 + 25 = 45, `toy` = 40. Sorting by total descending and taking 1 row gives `food 45`. `toy 40` is the trap for anyone looking at the single best-selling product (`Ball`) instead of the group total."
+      }
+    },
+    {
+      "id": "sql.aggregation.013",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "aggregation",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Câu truy vấn trả về các dòng nào (customer, paid, cancelled)?",
+        "en": "Which rows does the query return (customer, paid, cancelled)?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "CREATE TABLE orders (id INT, customer TEXT, status TEXT);\nINSERT INTO orders VALUES\n  (1, 'An', 'paid'), (2, 'An', 'cancelled'), (3, 'An', 'paid'),\n  (4, 'Binh', 'cancelled'), (5, 'Chi', 'paid');\n\nSELECT customer,\n       SUM(CASE WHEN status = 'paid' THEN 1 ELSE 0 END) AS paid,\n       SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) AS cancelled\nFROM orders\nGROUP BY customer\nORDER BY customer;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "An 3 3, Binh 1 1, Chi 1 1",
+            "en": "An 3 3, Binh 1 1, Chi 1 1"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "An 2 1, Chi 1 0",
+            "en": "An 2 1, Chi 1 0"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "An 2 1, Binh 0 1, Chi 1 0",
+            "en": "An 2 1, Binh 0 1, Chi 1 0"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "An 2 1, Binh NULL 1, Chi 1 NULL",
+            "en": "An 2 1, Binh NULL 1, Chi 1 NULL"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Đây là kỹ thuật conditional aggregation: `CASE` trả 1 cho dòng thỏa điều kiện và 0 cho dòng còn lại, nên `SUM` đếm số dòng theo từng trạng thái trong mỗi nhóm. Nhờ `ELSE 0`, khách không có trạng thái đó nhận 0 chứ không phải NULL, và mọi khách vẫn xuất hiện vì không có `WHERE` lọc. PostgreSQL còn có cú pháp `COUNT(*) FILTER (WHERE status = 'paid')` cho cùng mục đích.",
+        "en": "This is conditional aggregation: `CASE` yields 1 for matching rows and 0 otherwise, so `SUM` counts rows per status inside each group. Thanks to `ELSE 0`, a customer without that status gets 0 rather than NULL, and every customer appears because no `WHERE` filters them out. PostgreSQL also offers `COUNT(*) FILTER (WHERE status = 'paid')` for the same purpose."
+      }
+    },
+    {
+      "id": "sql.aggregation.014",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "aggregation",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bảng `daily_sales(day, amount)`. Bạn cần thêm cột chênh lệch doanh thu so với ngày liền trước. Cách nào gọn và đúng nhất?",
+        "en": "Table `daily_sales(day, amount)`. You need a column with the change versus the previous day. Which is the cleanest correct approach?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`amount - MAX(amount)` với `GROUP BY day`",
+            "en": "`amount - MAX(amount)` with `GROUP BY day`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`amount - SUM(amount) OVER (ORDER BY day)`",
+            "en": "`amount - SUM(amount) OVER (ORDER BY day)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`amount - LEAD(amount) OVER (ORDER BY day)`",
+            "en": "`amount - LEAD(amount) OVER (ORDER BY day)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`amount - LAG(amount) OVER (ORDER BY day)`",
+            "en": "`amount - LAG(amount) OVER (ORDER BY day)`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`LAG(col)` lấy giá trị của dòng trước đó theo thứ tự trong `OVER (ORDER BY ...)`, nên `amount - LAG(amount)` là mức thay đổi so với hôm trước; dòng đầu tiên cho NULL vì không có dòng trước (có thể truyền giá trị mặc định `LAG(amount, 1, 0)`). `LEAD` nhìn về dòng sau nên ra chênh lệch với ngày kế tiếp. `SUM ... OVER` là running total, còn `GROUP BY day` mỗi nhóm chỉ thấy chính nó.",
+        "en": "`LAG(col)` reads the previous row's value in the `OVER (ORDER BY ...)` order, so `amount - LAG(amount)` is the change from the previous day; the first row yields NULL since it has no predecessor (you can pass a default, `LAG(amount, 1, 0)`). `LEAD` looks at the next row, giving the difference with the following day. `SUM ... OVER` is a running total, and with `GROUP BY day` each group only sees itself."
+      }
+    },
+    {
+      "id": "sql.aggregation.015",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "aggregation",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Câu truy vấn nào tìm đúng các `email` bị trùng (xuất hiện nhiều hơn một lần) trong bảng `users`?",
+        "en": "Which query correctly finds duplicated `email` values (appearing more than once) in `users`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`SELECT email FROM users WHERE COUNT(*) > 1 GROUP BY email;`",
+            "en": "`SELECT email FROM users WHERE COUNT(*) > 1 GROUP BY email;`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`SELECT email, COUNT(*) FROM users GROUP BY email HAVING COUNT(*) > 1;`",
+            "en": "`SELECT email, COUNT(*) FROM users GROUP BY email HAVING COUNT(*) > 1;`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`SELECT DISTINCT email FROM users;`",
+            "en": "`SELECT DISTINCT email FROM users;`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`SELECT email, COUNT(DISTINCT email) FROM users GROUP BY email HAVING COUNT(DISTINCT email) > 1;`",
+            "en": "`SELECT email, COUNT(DISTINCT email) FROM users GROUP BY email HAVING COUNT(DISTINCT email) > 1;`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Gom theo `email` rồi giữ các nhóm có nhiều hơn một dòng bằng `HAVING COUNT(*) > 1`. Không thể dùng hàm aggregate trong `WHERE` vì `WHERE` lọc từng dòng trước khi gom nhóm. `SELECT DISTINCT` trả về mọi email (đã khử trùng) chứ không cho biết email nào bị trùng, còn `COUNT(DISTINCT email)` trong một nhóm theo `email` luôn bằng 1.",
+        "en": "Group by `email`, then keep groups with more than one row via `HAVING COUNT(*) > 1`. Aggregates cannot go in `WHERE` because `WHERE` filters individual rows before grouping. `SELECT DISTINCT` returns every email (deduplicated) without telling you which ones repeat, and `COUNT(DISTINCT email)` within a group by `email` is always 1."
+      }
+    },
+    {
+      "id": "sql.subqueries.009",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "subqueries",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id)`, vì sao subquery chỉ cần `SELECT 1`?",
+        "en": "In `WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id)`, why is `SELECT 1` enough in the subquery?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`EXISTS` compares the returned value with `TRUE`, so it must be `1` or a boolean",
+            "vi": "`EXISTS` so sánh giá trị trả về với `TRUE`, nên phải là `1` hoặc boolean"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`EXISTS` only checks whether at least one row comes back; column values are ignored",
+            "vi": "`EXISTS` chỉ kiểm tra có ít nhất một dòng trả về hay không; giá trị cột bị bỏ qua"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`SELECT 1` only fetches the first row of `orders`, which makes `EXISTS` stop early",
+            "vi": "`SELECT 1` chỉ lấy dòng đầu tiên của bảng `orders` nên `EXISTS` dừng sớm"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`SELECT *` sẽ gây lỗi trong `EXISTS`",
+            "en": "`SELECT *` would cause an error inside `EXISTS`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`EXISTS` cho kết quả true ngay khi subquery có một dòng bất kỳ và thường dừng tìm kiếm sớm, nên danh sách cột bị bỏ qua. Viết `SELECT 1` chỉ là quy ước để thể hiện \"chỉ cần biết có hay không\"; `SELECT *` cũng hợp lệ và có cùng hiệu năng ở các database hiện đại. `1` ở đây không phải số thứ tự dòng hay giá trị cần so với `TRUE`.",
+        "en": "`EXISTS` is true as soon as the subquery yields any row and usually stops searching early, so the column list is ignored. `SELECT 1` is just a convention meaning \"we only care whether a row exists\"; `SELECT *` is also valid and performs the same in modern databases. The `1` is not a row number nor a value compared with `TRUE`."
+      }
+    },
+    {
+      "id": "sql.subqueries.010",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "subqueries",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Câu truy vấn trả về những tên nào?",
+        "en": "Which names does the query return?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "CREATE TABLE customers (id INT, name TEXT);\nCREATE TABLE orders (id INT, customer_id INT, product TEXT);\nINSERT INTO customers VALUES (1, 'An'), (2, 'Binh'), (3, 'Chi'), (4, 'Dung');\nINSERT INTO orders VALUES\n  (10, 1, 'laptop'), (11, 2, 'mouse'), (12, 3, 'laptop'), (13, 3, 'laptop');\n\nSELECT name FROM customers\nWHERE id IN (SELECT customer_id FROM orders WHERE product = 'laptop')\nORDER BY name;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "An, Chi",
+            "en": "An, Chi"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "An, Chi, Chi",
+            "en": "An, Chi, Chi"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "An, Binh, Chi",
+            "en": "An, Binh, Chi"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chi",
+            "en": "Chi"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Subquery trả về `customer_id` của các đơn `laptop`: 1, 3, 3. `IN` chỉ kiểm tra `id` có nằm trong tập đó hay không, nên Chi xuất hiện một lần dù có hai đơn laptop; đây là điểm khác với `JOIN`, vốn sẽ nhân đôi dòng của Chi. Binh chỉ mua `mouse` và Dung chưa có đơn nên bị loại.",
+        "en": "The subquery returns the `customer_id`s of `laptop` orders: 1, 3, 3. `IN` only checks membership, so Chi appears once even with two laptop orders; this differs from a `JOIN`, which would duplicate Chi's row. Binh only bought a `mouse` and Dung has no orders, so both are excluded."
+      }
+    },
+    {
+      "id": "sql.subqueries.011",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "subqueries",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Mục tiêu: lấy đơn mới nhất của mỗi khách. Câu truy vấn trả về những `id` nào?",
+        "en": "Goal: the latest order of each customer. Which `id`s does the query return?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "CREATE TABLE orders (id INT, customer_id INT, created_on TEXT);\nINSERT INTO orders VALUES\n  (1, 1, '2024-05-01'), (2, 1, '2024-05-03'),\n  (3, 2, '2024-05-02'), (4, 2, '2024-05-02');\n\nSELECT o.id\nFROM orders o\nWHERE o.created_on = (\n  SELECT MAX(o2.created_on)\n  FROM orders o2\n  WHERE o2.customer_id = o.customer_id\n)\nORDER BY o.id;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "2, 3",
+            "en": "2, 3"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "2, 3, 4",
+            "en": "2, 3, 4"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "2, 4",
+            "en": "2, 4"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "1, 2, 3, 4",
+            "en": "1, 2, 3, 4"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Correlated subquery tính `MAX(created_on)` riêng cho từng khách: khách 1 là `2024-05-03` (đơn 2), khách 2 là `2024-05-02`. Cả đơn 3 và 4 của khách 2 đều trùng ngày lớn nhất nên đều được trả về. Đây là bẫy hay gặp: \"bản ghi mới nhất\" bằng `= MAX(...)` có thể trả nhiều dòng khi bị trùng; nếu cần đúng một dòng thì dùng `ROW_NUMBER()` với cột phụ để phân định (ví dụ `ORDER BY created_on DESC, id DESC`).",
+        "en": "The correlated subquery computes `MAX(created_on)` per customer: customer 1 is `2024-05-03` (order 2), customer 2 is `2024-05-02`. Orders 3 and 4 of customer 2 both share the max date, so both are returned. This is a common trap: \"latest record\" via `= MAX(...)` can return several rows on ties; if you need exactly one, use `ROW_NUMBER()` with a tie-breaker (e.g. `ORDER BY created_on DESC, id DESC`)."
+      }
+    },
+    {
+      "id": "sql.subqueries.012",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "subqueries",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Mục tiêu: liệt kê nhân viên có lương cao hơn lương trung bình của phòng mình. Nhưng kết quả lại so với trung bình toàn công ty. Lỗi ở đâu?",
+        "en": "Goal: employees earning more than their own department's average. But the result compares against the company-wide average. Where is the bug?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "SELECT name, dept_id, salary\nFROM employees e\nWHERE salary > (\n  SELECT AVG(salary)\n  FROM employees e2\n  WHERE e2.dept_id = dept_id\n);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`AVG` cannot be used in a subquery that references the same table twice",
+            "vi": "`AVG` không được dùng trong subquery tham chiếu cùng một bảng hai lần"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The subquery returns many rows, so `>` must become `IN` or `> ANY (...)`",
+            "vi": "Subquery trả về nhiều dòng nên phải đổi `>` thành `IN` hoặc `> ANY (...)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Unqualified `dept_id` binds to `e2`; write `e2.dept_id = e.dept_id`",
+            "vi": "`dept_id` không tiền tố gắn với `e2`; phải viết `e2.dept_id = e.dept_id`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "You must add `GROUP BY dept_id` to the subquery so that `AVG` is computed separately per department",
+            "vi": "Phải thêm `GROUP BY dept_id` vào subquery để `AVG` được tính riêng cho từng phòng ban"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Khi một cột không có tiền tố, SQL tìm nó ở scope gần nhất trước, tức bảng `e2` trong subquery. Vì vậy subquery không hề tham chiếu tới dòng bên ngoài (không còn là correlated subquery) và luôn tính trung bình của mọi nhân viên có `dept_id` khác NULL. Thêm `GROUP BY dept_id` sẽ làm subquery trả nhiều dòng và gây lỗi; cách sửa đúng là tham chiếu alias ngoài `e.dept_id`.",
+        "en": "An unqualified column is resolved in the nearest scope first, which is `e2` inside the subquery. So the subquery never references the outer row (it is no longer correlated) and always averages every employee with a non-NULL `dept_id`. Adding `GROUP BY dept_id` would make it return several rows and fail; the right fix is to reference the outer alias `e.dept_id`."
+      }
+    },
+    {
+      "id": "sql.subqueries.013",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "subqueries",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khi nào nên dùng subquery và khi nào nên dùng `JOIN`? Cho ví dụ một truy vấn có thể viết theo cả hai cách và khác biệt về kết quả hoặc hiệu năng.",
+        "en": "When should you use a subquery versus a `JOIN`? Give an example that can be written both ways and the differences in results or performance."
+      },
+      "keyPoints": [
+        {
+          "vi": "`JOIN` dùng khi cần lấy cột từ nhiều bảng trong kết quả",
+          "en": "Use `JOIN` when the result needs columns from several tables"
+        },
+        {
+          "vi": "Subquery với `IN`/`EXISTS` dùng khi chỉ cần lọc theo bảng khác, không cần cột của nó",
+          "en": "Use an `IN`/`EXISTS` subquery when you only filter by another table and need none of its columns"
+        },
+        {
+          "vi": "`JOIN` một-nhiều có thể nhân bản dòng (cần `DISTINCT` hoặc gom nhóm), còn `IN`/`EXISTS` thì không",
+          "en": "A one-to-many `JOIN` can duplicate rows (needing `DISTINCT` or grouping), while `IN`/`EXISTS` does not"
+        },
+        {
+          "vi": "Optimizer hiện đại thường biến `IN`/`EXISTS` thành semi-join nên hiệu năng tương đương; hãy kiểm tra bằng `EXPLAIN`",
+          "en": "Modern optimizers often turn `IN`/`EXISTS` into semi-joins, so performance is similar; verify with `EXPLAIN`"
+        },
+        {
+          "vi": "Correlated subquery trong `SELECT` có thể chạy một lần mỗi dòng; với dữ liệu lớn nên viết lại bằng `JOIN` + `GROUP BY` hoặc window function",
+          "en": "A correlated subquery in `SELECT` may run once per row; on large data rewrite it with `JOIN` + `GROUP BY` or a window function"
+        }
+      ],
+      "explanation": {
+        "vi": "Ví dụ \"khách hàng đã từng mua laptop\": `WHERE id IN (SELECT customer_id FROM orders WHERE product = 'laptop')` trả mỗi khách một lần, còn `JOIN orders` sẽ trả một dòng cho mỗi đơn. Chọn cách diễn đạt đúng ý nghĩa trước, rồi mới tối ưu dựa vào execution plan. Không có quy tắc \"subquery luôn chậm\"; điều quan trọng là index và cách optimizer viết lại truy vấn.",
+        "en": "Example \"customers who ever bought a laptop\": `WHERE id IN (SELECT customer_id FROM orders WHERE product = 'laptop')` returns each customer once, while `JOIN orders` returns one row per order. Pick the form that expresses the meaning correctly first, then optimise using the execution plan. There is no rule that \"subqueries are always slow\"; indexes and how the optimizer rewrites the query matter most."
+      }
+    },
+    {
+      "id": "sql.design.009",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "design",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ràng buộc nào đảm bảo cột `price` của bảng `products` luôn lớn hơn 0 ở mức database?",
+        "en": "Which constraint guarantees at the database level that `products.price` is always greater than 0?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`CHECK (price > 0)`",
+            "en": "`CHECK (price > 0)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`NOT NULL`",
+            "en": "`NOT NULL`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`UNIQUE (price)`",
+            "en": "`UNIQUE (price)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`DEFAULT 1`",
+            "en": "`DEFAULT 1`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`CHECK` kiểm tra một biểu thức trên mỗi dòng khi `INSERT`/`UPDATE` và từ chối dòng vi phạm. `NOT NULL` chỉ cấm giá trị rỗng, `UNIQUE` cấm trùng lặp, còn `DEFAULT` chỉ là giá trị khi không truyền vào và không ngăn ai ghi số âm. Lưu ý MySQL chỉ thực thi `CHECK` từ bản 8.0.16; các bản cũ hơn bỏ qua nó một cách im lặng.",
+        "en": "`CHECK` evaluates an expression on every row at `INSERT`/`UPDATE` time and rejects violating rows. `NOT NULL` only forbids missing values, `UNIQUE` forbids duplicates, and `DEFAULT` merely supplies a value when none is given; it does not stop anyone writing a negative number. Note that MySQL only enforces `CHECK` since 8.0.16; older versions silently ignore it."
+      }
+    },
+    {
+      "id": "sql.design.010",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "design",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Câu truy vấn cuối trả về số nào?",
+        "en": "What number does the last query return?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "CREATE TABLE users (\n  id INT PRIMARY KEY,\n  name TEXT,\n  status TEXT DEFAULT 'active'\n);\nINSERT INTO users (id, name) VALUES (1, 'An');\nINSERT INTO users (id, name, status) VALUES (2, 'Binh', NULL);\n\nSELECT COUNT(*) FROM users WHERE status = 'active';"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "1"
+        },
+        {
+          "id": "b",
+          "text": "2"
+        },
+        {
+          "id": "c",
+          "text": "0"
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi: `status` không được NULL",
+            "en": "Error: `status` cannot be NULL"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`DEFAULT` chỉ được dùng khi cột bị bỏ qua trong câu `INSERT`, nên An nhận `status = 'active'`. Binh truyền `NULL` một cách tường minh, nên giá trị là NULL chứ không phải default, và `NULL = 'active'` không đúng. Vì vậy chỉ có 1 dòng được đếm. Muốn cấm NULL thì cần thêm `NOT NULL`, vì `DEFAULT` một mình không ngăn được.",
+        "en": "`DEFAULT` is only applied when the column is omitted from the `INSERT`, so An gets `status = 'active'`. Binh passes `NULL` explicitly, so the value is NULL rather than the default, and `NULL = 'active'` is not true. Therefore only 1 row is counted. To forbid NULL you need `NOT NULL`; `DEFAULT` alone does not prevent it."
+      }
+    },
+    {
+      "id": "sql.design.011",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "design",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bảng `users` dùng soft delete với cột `deleted_at`, và `email` có ràng buộc `UNIQUE`. Người dùng đã xóa tài khoản không thể đăng ký lại bằng cùng email. Cách sửa phù hợp trên PostgreSQL là gì?",
+        "en": "`users` uses soft delete via `deleted_at`, and `email` has a `UNIQUE` constraint. A user who deleted their account cannot sign up again with the same email. What is a good fix on PostgreSQL?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bỏ hẳn ràng buộc unique và kiểm tra trùng trong code ứng dụng",
+            "en": "Drop the unique constraint and check duplicates in application code"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đặt `email = NULL` cho mọi dòng chưa xóa",
+            "en": "Set `email = NULL` on every non-deleted row"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Use a partial unique index on `email` `WHERE deleted_at IS NULL`",
+            "vi": "Dùng partial unique index trên `email` với `WHERE deleted_at IS NULL`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thêm `deleted_at` vào khóa chính",
+            "en": "Add `deleted_at` to the primary key"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Partial index chỉ áp dụng cho các dòng thỏa `WHERE`, nên tính duy nhất chỉ được đảm bảo giữa các tài khoản còn hoạt động, còn các bản ghi đã xóa mềm không chặn đăng ký mới. Kiểm tra trùng trong code có race condition khi hai request đến cùng lúc. MySQL không có partial index; cách thường dùng là generated column (ví dụ cột bằng `email` khi chưa xóa, NULL khi đã xóa) rồi đặt unique trên cột đó.",
+        "en": "A partial index only covers rows matching its `WHERE`, so uniqueness is enforced among active accounts while soft-deleted rows no longer block new sign-ups. Checking duplicates in code has a race when two requests arrive together. MySQL has no partial indexes; a common workaround is a generated column (equal to `email` when not deleted, NULL otherwise) with a unique index on it."
+      }
+    },
+    {
+      "id": "sql.design.012",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "design",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Cột `email` có `UNIQUE`, nhưng cả hai câu `INSERT` với `email` NULL đều thành công và bảng có 2 dòng. Giải thích nào đúng?",
+        "en": "`email` is `UNIQUE`, yet both `INSERT`s with a NULL `email` succeed and the table has 2 rows. Which explanation is correct?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "CREATE TABLE users (id INT PRIMARY KEY, email TEXT UNIQUE);\nINSERT INTO users VALUES (1, NULL);\nINSERT INTO users VALUES (2, NULL);\nSELECT COUNT(*) FROM users;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "NULL is not equal to NULL, so `UNIQUE` allows several NULLs",
+            "vi": "NULL không bằng NULL nên `UNIQUE` cho phép nhiều NULL"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A `UNIQUE` constraint only takes effect after `COMMIT` of the first row",
+            "vi": "Ràng buộc `UNIQUE` chỉ có hiệu lực sau khi dòng đầu tiên được `COMMIT`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`UNIQUE` chỉ kiểm tra khi dùng `UPDATE`, không kiểm tra `INSERT`",
+            "en": "`UNIQUE` is only checked on `UPDATE`, not on `INSERT`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The database is buggy; `UNIQUE` always treats NULLs as duplicates and should reject the second row",
+            "vi": "Database bị lỗi; `UNIQUE` luôn coi các NULL là trùng nhau nên lẽ ra phải chặn dòng thứ hai"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Ràng buộc unique so sánh bằng `=`, và `NULL = NULL` là `UNKNOWN` chứ không phải true, nên hai NULL không bị coi là trùng. PostgreSQL, MySQL và SQLite đều cho phép nhiều NULL trong cột `UNIQUE` (SQL Server là ngoại lệ, chỉ cho một NULL). Nếu email là bắt buộc thì cần `NOT NULL`; PostgreSQL 15+ còn có `NULLS NOT DISTINCT` để coi các NULL là trùng nhau.",
+        "en": "A unique constraint compares with `=`, and `NULL = NULL` is `UNKNOWN`, not true, so two NULLs are not considered duplicates. PostgreSQL, MySQL and SQLite all allow multiple NULLs in a `UNIQUE` column (SQL Server is the exception, allowing just one). If an email is required, add `NOT NULL`; PostgreSQL 15+ also offers `NULLS NOT DISTINCT` to treat NULLs as equal."
+      }
+    },
+    {
+      "id": "sql.design.013",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "design",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn nên lưu thời gian (ví dụ `created_at`) thế nào trong database để tránh lỗi múi giờ? So sánh `TIMESTAMP` và `TIMESTAMPTZ` trên PostgreSQL.",
+        "en": "How should you store times (e.g. `created_at`) to avoid time-zone bugs? Compare `TIMESTAMP` and `TIMESTAMPTZ` on PostgreSQL."
+      },
+      "keyPoints": [
+        {
+          "vi": "Lưu thời điểm dưới dạng UTC (hoặc kiểu có múi giờ), chỉ đổi sang giờ địa phương khi hiển thị",
+          "en": "Store instants in UTC (or a time-zone-aware type) and convert to local time only for display"
+        },
+        {
+          "vi": "PostgreSQL `TIMESTAMPTZ` quy đổi đầu vào về UTC khi lưu và hiển thị theo `TimeZone` của session; `TIMESTAMP` (without time zone) lưu nguyên giá trị, không biết múi giờ",
+          "en": "PostgreSQL `TIMESTAMPTZ` converts input to UTC on write and displays it in the session `TimeZone`; `TIMESTAMP` (without time zone) stores the raw value with no zone awareness"
+        },
+        {
+          "vi": "MySQL: `TIMESTAMP` quy đổi theo múi giờ session nhưng giới hạn tới năm 2038, `DATETIME` không quy đổi",
+          "en": "MySQL: `TIMESTAMP` converts using the session time zone but is limited to 2038, `DATETIME` does not convert"
+        },
+        {
+          "vi": "Ngày không gắn với thời điểm (ngày sinh) nên dùng kiểu `DATE`",
+          "en": "Dates that are not instants (birthdays) should use the `DATE` type"
+        },
+        {
+          "vi": "Lọc theo ngày của người dùng cần quy đổi khoảng thời gian theo múi giờ của họ (ví dụ `Asia/Ho_Chi_Minh`)",
+          "en": "Filtering by a user's day requires converting the range using their time zone (e.g. `Asia/Ho_Chi_Minh`)"
+        }
+      ],
+      "explanation": {
+        "vi": "Lỗi múi giờ thường xuất hiện khi server, database và client dùng các múi giờ khác nhau và dữ liệu được lưu \"giờ địa phương\" không kèm thông tin vùng. Quy ước an toàn là mọi thời điểm đều ở UTC (trên PostgreSQL dùng `TIMESTAMPTZ`), còn việc hiển thị và tính \"hôm nay\" thì làm theo múi giờ của người dùng. `TIMESTAMPTZ` không lưu tên múi giờ gốc; nếu cần biết người dùng ở vùng nào thì lưu thêm một cột riêng.",
+        "en": "Time-zone bugs usually appear when the server, database and clients use different zones and data is stored as \"local time\" without zone info. The safe convention is to keep every instant in UTC (`TIMESTAMPTZ` on PostgreSQL) and do display and \"today\" calculations in the user's zone. `TIMESTAMPTZ` does not store the original zone name; if you need the user's zone, store it in a separate column."
+      }
+    },
+    {
+      "id": "sql.indexes.010",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "indexes",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Index trong database là gì, nó giúp truy vấn nhanh hơn như thế nào, và cái giá phải trả khi thêm index là gì?",
+        "en": "What is a database index, how does it speed up queries, and what does adding one cost?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Index là cấu trúc dữ liệu riêng (thường là B-tree) lưu giá trị cột đã sắp xếp kèm con trỏ tới dòng, giống mục lục sách",
+          "en": "An index is a separate data structure (usually a B-tree) storing sorted column values with pointers to rows, like a book's index"
+        },
+        {
+          "vi": "Nhờ đó database tìm theo `WHERE`, `JOIN`, `ORDER BY` trong O(log n) thay vì quét toàn bảng",
+          "en": "It lets the database serve `WHERE`, `JOIN` and `ORDER BY` in O(log n) instead of scanning the whole table"
+        },
+        {
+          "vi": "Mỗi `INSERT`/`UPDATE`/`DELETE` phải cập nhật thêm các index nên ghi chậm hơn",
+          "en": "Every `INSERT`/`UPDATE`/`DELETE` must also update the indexes, so writes get slower"
+        },
+        {
+          "vi": "Index tốn thêm dung lượng đĩa và bộ nhớ đệm",
+          "en": "Indexes use extra disk space and buffer cache"
+        },
+        {
+          "vi": "Chỉ nên tạo index cho truy vấn thực sự cần, dựa trên `EXPLAIN` và slow query log",
+          "en": "Create indexes only for queries that need them, guided by `EXPLAIN` and the slow query log"
+        }
+      ],
+      "explanation": {
+        "vi": "Không có index, câu `WHERE email = ?` buộc database đọc từng dòng; với B-tree nó chỉ đi qua vài tầng nút để tới đúng dòng. Đổi lại, mỗi index là một bản dữ liệu phải giữ đồng bộ, nên bảng ghi nhiều mà có quá nhiều index sẽ chậm và tốn dung lượng. Vì vậy chọn index dựa trên truy vấn thực tế chứ không phải \"index mọi cột\".",
+        "en": "Without an index, `WHERE email = ?` makes the database read every row; with a B-tree it walks a few levels of nodes to the right row. In exchange, each index is another copy of data to keep in sync, so a write-heavy table with too many indexes becomes slow and large. Pick indexes from real queries, not by \"indexing every column\"."
+      }
+    },
+    {
+      "id": "sql.indexes.011",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "indexes",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn khai báo `orders.customer_id REFERENCES customers(id)`. PostgreSQL và MySQL (InnoDB) có tự tạo index cho cột `orders.customer_id` không?",
+        "en": "You declare `orders.customer_id REFERENCES customers(id)`. Do PostgreSQL and MySQL (InnoDB) automatically index `orders.customer_id`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Both automatically index every foreign key column when the constraint is created",
+            "vi": "Cả hai đều tự tạo index cho mọi cột foreign key khi tạo ràng buộc"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "PostgreSQL does not (create it yourself); MySQL InnoDB creates one if none exists",
+            "vi": "PostgreSQL không tự tạo (bạn phải tự tạo); MySQL InnoDB tự tạo nếu chưa có"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả hai đều không tạo, và cũng không cần vì foreign key đã đủ nhanh",
+            "en": "Neither does, and none is needed because foreign keys are already fast"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "PostgreSQL tự tạo, còn MySQL thì không",
+            "en": "PostgreSQL does, MySQL does not"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "PostgreSQL chỉ yêu cầu cột được tham chiếu (`customers.id`) có unique/primary key, còn cột tham chiếu `orders.customer_id` không được index tự động. Thiếu index này làm `JOIN` theo khách hàng chậm, và mỗi lần xóa/cập nhật `customers` database phải quét `orders` để kiểm tra ràng buộc. InnoDB thì bắt buộc có index trên cột foreign key nên tự tạo nếu bạn chưa có.",
+        "en": "PostgreSQL only requires the referenced column (`customers.id`) to have a unique/primary key; the referencing column `orders.customer_id` is not indexed automatically. Without that index, joins by customer are slow, and every delete/update on `customers` must scan `orders` to check the constraint. InnoDB requires an index on foreign key columns, so it creates one if you have not."
+      }
+    },
+    {
+      "id": "sql.indexes.012",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "indexes",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Trên MySQL, cột `phone` có kiểu `VARCHAR(15)` và có index, nhưng câu truy vấn sau vẫn quét toàn bảng. Vì sao?",
+        "en": "On MySQL, `phone` is a `VARCHAR(15)` with an index, yet this query still scans the whole table. Why?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "-- CREATE INDEX idx_users_phone ON users(phone);\nSELECT * FROM users\nWHERE phone = 0912345678;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Indexes are skipped for `SELECT *`; the needed columns must be listed explicitly instead",
+            "vi": "Index bị bỏ qua với `SELECT *`; phải liệt kê rõ các cột cần lấy"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`VARCHAR` columns cannot be indexed unless a prefix length is specified",
+            "vi": "Cột `VARCHAR` không index được nếu không chỉ định độ dài prefix"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "You must add `LIMIT 1` for the optimizer to use a non-unique index on equality",
+            "vi": "Phải thêm `LIMIT 1` thì optimizer mới dùng index không unique cho phép so sánh bằng"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Comparing `phone` with a number forces a cast, so the index is skipped",
+            "vi": "So sánh `phone` với số buộc phải ép kiểu nên index bị bỏ qua"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi so sánh cột chuỗi với hằng số, MySQL chuyển cả hai về số để so sánh, tức áp dụng phép biến đổi lên cột, giống bọc cột trong một hàm; vì vậy index trên giá trị chuỗi không còn dùng được. Ngoài chậm, kết quả còn có thể sai vì `'0912345678'` mất số 0 đầu khi đổi sang số. `SELECT *` hay `LIMIT` không phải nguyên nhân. PostgreSQL thì từ chối so sánh `varchar = integer` và báo lỗi thay vì ép kiểu ngầm.",
+        "en": "When a string column is compared with a numeric constant, MySQL converts both to numbers, i.e. it applies a transformation to the column, like wrapping it in a function, so the index on the string values cannot be used. Beyond being slow, the result can be wrong because `'0912345678'` loses its leading zero as a number. `SELECT *` and `LIMIT` are not the cause. PostgreSQL rejects `varchar = integer` with an error instead of converting implicitly."
+      }
+    },
+    {
+      "id": "sql.indexes.013",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "indexes",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi đọc kết quả `EXPLAIN` của một truy vấn chậm, dấu hiệu nào cho thấy truy vấn đang quét toàn bảng?",
+        "en": "When reading the `EXPLAIN` output of a slow query, which sign shows it is scanning the whole table?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`Seq Scan` on a big table (PostgreSQL) or `type: ALL` (MySQL)",
+            "vi": "`Seq Scan` trên bảng lớn (PostgreSQL) hoặc `type: ALL` (MySQL)"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "PostgreSQL shows `Index Only Scan`; MySQL shows `type: const` in the plan",
+            "vi": "PostgreSQL hiện `Index Only Scan`; MySQL hiện `type: const` trong plan"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cột `rows` nhỏ hơn 10",
+            "en": "The `rows` column is below 10"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "MySQL hiện `Using index` trong cột `Extra`",
+            "en": "MySQL shows `Using index` in the `Extra` column"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`Seq Scan` (PostgreSQL) và `type: ALL` (MySQL) nghĩa là đọc mọi dòng của bảng; với bảng lớn và điều kiện chọn lọc thì đây thường là dấu hiệu thiếu index hoặc index không dùng được. `Index Only Scan`, `type: const` và `Using index` lại là các dấu hiệu tốt. Lưu ý `Seq Scan` trên bảng nhỏ hoặc khi lấy phần lớn số dòng là hoàn toàn bình thường; dùng `EXPLAIN ANALYZE` để thấy thời gian thực tế.",
+        "en": "`Seq Scan` (PostgreSQL) and `type: ALL` (MySQL) mean every row of the table is read; on a large table with a selective filter this usually means an index is missing or unusable. `Index Only Scan`, `type: const` and `Using index` are good signs. Note that a `Seq Scan` on a small table, or when fetching most rows, is perfectly normal; use `EXPLAIN ANALYZE` to see actual timings."
+      }
+    },
+    {
+      "id": "sql.indexes.014",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "indexes",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bảng `posts` có hàng triệu dòng và index trên `created_at`. Truy vấn nào hưởng lợi rõ nhất từ index này?",
+        "en": "`posts` has millions of rows and an index on `created_at`. Which query benefits most clearly from it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`SELECT COUNT(*) FROM posts WHERE title LIKE '%sql%';`",
+            "en": "`SELECT COUNT(*) FROM posts WHERE title LIKE '%sql%';`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`SELECT id, title FROM posts ORDER BY created_at DESC LIMIT 20;`",
+            "en": "`SELECT id, title FROM posts ORDER BY created_at DESC LIMIT 20;`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`SELECT * FROM posts WHERE author_id = 5;`",
+            "en": "`SELECT * FROM posts WHERE author_id = 5;`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`SELECT * FROM posts WHERE EXTRACT(YEAR FROM created_at) = 2024;`",
+            "en": "`SELECT * FROM posts WHERE EXTRACT(YEAR FROM created_at) = 2024;`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "B-tree lưu `created_at` đã sắp xếp, nên database đọc 20 phần tử cuối index (có thể đọc ngược) mà không cần sắp xếp cả triệu dòng. Truy vấn lọc `author_id` cần index trên `author_id`, `LIKE '%sql%'` không liên quan tới `created_at`, còn bọc cột trong `EXTRACT(...)` khiến index thường không dùng được; nên viết lại thành khoảng `created_at >= '2024-01-01' AND created_at < '2025-01-01'`.",
+        "en": "A B-tree keeps `created_at` sorted, so the database reads the last 20 index entries (scanning backward if needed) without sorting millions of rows. Filtering by `author_id` needs an index on `author_id`, `LIKE '%sql%'` has nothing to do with `created_at`, and wrapping the column in `EXTRACT(...)` usually prevents index use; rewrite it as the range `created_at >= '2024-01-01' AND created_at < '2025-01-01'`."
+      }
+    },
+    {
+      "id": "sql.transactions.010",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "transactions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ở chế độ mặc định (autocommit bật) của PostgreSQL và MySQL, một câu `UPDATE` chạy riêng lẻ không có `BEGIN` thì sao?",
+        "en": "In the default mode (autocommit on) of PostgreSQL and MySQL, what happens to a standalone `UPDATE` with no `BEGIN`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Its own implicit transaction, committed as soon as it succeeds",
+            "vi": "Một transaction ngầm riêng, commit ngay khi câu lệnh thành công"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It waits until the connection closes, then all its changes are committed",
+            "vi": "Nó chờ đến khi đóng kết nối rồi mới commit toàn bộ thay đổi"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Nó không nằm trong transaction nào nên có thể chỉ cập nhật một phần số dòng khi lỗi",
+            "en": "It is not in any transaction, so on error it may update only some of the rows"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nó bị rollback nếu không có `COMMIT` theo sau",
+            "en": "It is rolled back unless a `COMMIT` follows"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Với autocommit, mỗi câu lệnh là một transaction ngầm: nếu thành công thì commit ngay, nếu lỗi thì rollback toàn bộ câu lệnh, nên không có chuyện chỉ cập nhật một phần. Muốn nhiều câu lệnh cùng thành công hoặc cùng thất bại (như chuyển tiền), bạn phải mở transaction tường minh bằng `BEGIN` ... `COMMIT`. Cần `COMMIT` thủ công chỉ khi tắt autocommit (ví dụ một số cấu hình driver hoặc Oracle).",
+        "en": "With autocommit each statement is an implicit transaction: committed immediately on success, fully rolled back on error, so there is no partial update. To make several statements succeed or fail together (like a money transfer), open an explicit transaction with `BEGIN` ... `COMMIT`. A manual `COMMIT` is only needed when autocommit is off (e.g. some driver settings or Oracle)."
+      }
+    },
+    {
+      "id": "sql.transactions.011",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "transactions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ứng dụng đã `BEGIN` và chạy vài câu `UPDATE`, nhưng kết nối bị đứt trước khi gửi `COMMIT`. Dữ liệu sẽ thế nào?",
+        "en": "The app ran `BEGIN` and a few `UPDATE`s, but the connection dropped before `COMMIT` was sent. What happens to the data?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The executed `UPDATE`s are kept because each one already ran successfully",
+            "vi": "Các `UPDATE` đã chạy được giữ lại vì từng lệnh đã thực thi thành công"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Database tự `COMMIT` khi phát hiện mất kết nối",
+            "en": "The database auto-commits when it detects the disconnect"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Transaction treo vĩnh viễn và khóa bảng cho tới khi DBA can thiệp",
+            "en": "The transaction hangs forever and locks the table until a DBA intervenes"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The database rolls back the transaction, discarding the uncommitted changes",
+            "vi": "Database rollback transaction, các thay đổi chưa commit bị hủy"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Theo tính atomicity, một transaction chưa commit không được để lại dấu vết; khi session kết thúc bất thường, database rollback mọi thay đổi và giải phóng lock. Vì vậy dữ liệu luôn ở trạng thái trước `BEGIN`. Lưu ý việc phát hiện kết nối chết có thể mất một lúc (TCP keepalive, timeout), trong lúc đó lock vẫn bị giữ, nhưng database không bao giờ tự commit thay bạn.",
+        "en": "By atomicity, an uncommitted transaction must leave no trace; when a session ends abnormally the database rolls back every change and releases its locks. The data therefore stays as it was before `BEGIN`. Detecting a dead connection can take a while (TCP keepalive, timeouts), during which locks are still held, but the database never commits on your behalf."
+      }
+    },
+    {
+      "id": "sql.transactions.012",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "transactions",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Câu truy vấn cuối trả về số nào?",
+        "en": "What number does the last query return?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "CREATE TABLE accounts (id INT, balance INT);\nINSERT INTO accounts VALUES (1, 250);\n\n-- The withdrawal request is sent 3 times:\nUPDATE accounts SET balance = balance - 100\nWHERE id = 1 AND balance >= 100;\nUPDATE accounts SET balance = balance - 100\nWHERE id = 1 AND balance >= 100;\nUPDATE accounts SET balance = balance - 100\nWHERE id = 1 AND balance >= 100;\n\nSELECT balance FROM accounts WHERE id = 1;"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": "-50"
+        },
+        {
+          "id": "b",
+          "text": "150"
+        },
+        {
+          "id": "c",
+          "text": "250"
+        },
+        {
+          "id": "d",
+          "text": "50"
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Điều kiện `balance >= 100` nằm ngay trong `UPDATE`, nên việc kiểm tra và trừ tiền diễn ra nguyên tử trên cùng một dòng. Lần 1: 250 → 150, lần 2: 150 → 50, lần 3 không khớp dòng nào vì 50 < 100 nên không trừ (số dòng bị ảnh hưởng là 0). Kết quả là 50, không bao giờ âm; ứng dụng kiểm tra affected rows để báo \"không đủ số dư\".",
+        "en": "The `balance >= 100` condition sits inside the `UPDATE`, so the check and the deduction happen atomically on the same row. Run 1: 250 → 150, run 2: 150 → 50, run 3 matches no row because 50 < 100, so nothing is deducted (0 affected rows). The result is 50 and never negative; the app checks affected rows to report \"insufficient balance\"."
+      }
+    },
+    {
+      "id": "sql.transactions.013",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "transactions",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong một transaction, bạn đọc cùng một dòng hai lần và thấy giá trị khác nhau vì transaction khác đã commit `UPDATE` ở giữa. Hiện tượng này gọi là gì?",
+        "en": "Within one transaction you read the same row twice and get different values because another transaction committed an `UPDATE` in between. What is this called?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Dirty read",
+            "en": "Dirty read"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phantom read",
+            "en": "Phantom read"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Non-repeatable read",
+            "en": "Non-repeatable read"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Deadlock",
+            "en": "Deadlock"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Non-repeatable read là đọc lại cùng một dòng mà giá trị đã đổi do transaction khác commit; nó xảy ra ở `READ COMMITTED` và bị ngăn ở `REPEATABLE READ`. Dirty read là đọc dữ liệu chưa commit. Phantom read là chạy lại cùng điều kiện lọc mà tập dòng thay đổi (có dòng mới xuất hiện hoặc biến mất), khác với việc giá trị của một dòng thay đổi.",
+        "en": "A non-repeatable read means re-reading the same row and seeing a changed value because another transaction committed; it happens at `READ COMMITTED` and is prevented at `REPEATABLE READ`. A dirty read reads uncommitted data. A phantom read is re-running the same filter and getting a different set of rows (new rows appear or vanish), as opposed to one row's value changing."
+      }
+    },
+    {
+      "id": "sql.transactions.014",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "transactions",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Vì sao nên giữ transaction ngắn? Những việc gì không nên làm bên trong một transaction database?",
+        "en": "Why should transactions be kept short? What should you avoid doing inside a database transaction?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Transaction giữ lock (và trên PostgreSQL giữ snapshot cũ) cho tới khi kết thúc, nên kéo dài sẽ chặn request khác và tăng nguy cơ deadlock",
+          "en": "A transaction holds locks (and on PostgreSQL an old snapshot) until it ends, so long ones block other requests and raise deadlock risk"
+        },
+        {
+          "vi": "Không gọi API bên ngoài, gửi email hay chờ người dùng trong transaction",
+          "en": "Do not call external APIs, send emails or wait for user input inside a transaction"
+        },
+        {
+          "vi": "Chuẩn bị và validate dữ liệu trước, chỉ đưa các câu lệnh cần nguyên tử vào transaction",
+          "en": "Prepare and validate data beforehand; only put the statements that must be atomic in the transaction"
+        },
+        {
+          "vi": "Gửi email/sự kiện sau khi commit (hoặc dùng outbox pattern) để tránh gửi cho thay đổi đã bị rollback",
+          "en": "Send emails/events after commit (or use the outbox pattern) to avoid notifying about rolled-back changes"
+        },
+        {
+          "vi": "Transaction mở lâu trên PostgreSQL cản `VACUUM` dọn dead tuple, gây phình bảng",
+          "en": "Long-open transactions on PostgreSQL stop `VACUUM` from removing dead tuples, causing table bloat"
+        }
+      ],
+      "explanation": {
+        "vi": "Một transaction gọi API thanh toán mất 10 giây sẽ giữ lock dòng suốt 10 giây đó, làm các request khác xếp hàng và connection pool cạn kiệt. Ngoài ra nếu transaction rollback sau khi đã gọi API hoặc gửi email, hệ thống bên ngoài không thể \"rollback\" theo. Quy tắc thực tế: transaction chỉ chứa các thao tác database cần nguyên tử, còn side effect bên ngoài làm sau khi commit.",
+        "en": "A transaction that calls a payment API taking 10 seconds holds its row locks for those 10 seconds, queueing other requests and draining the connection pool. And if the transaction rolls back after the API call or email, the external system cannot be \"rolled back\" with it. Practical rule: a transaction contains only the database operations that must be atomic, and external side effects happen after commit."
+      }
+    },
+    {
+      "id": "sql.nosql.009",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "nosql",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đặc điểm chính của document database như MongoDB là gì?",
+        "en": "What is the key characteristic of a document database such as MongoDB?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It only stores string key-value pairs and cannot query or index fields inside values",
+            "vi": "Chỉ lưu cặp key-value dạng chuỗi, không truy vấn hay index được field bên trong"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It stores nested JSON/BSON documents whose structure can vary within a collection",
+            "vi": "Lưu document JSON/BSON lồng nhau, cấu trúc có thể khác nhau trong cùng collection"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It requires a fixed schema declared with `CREATE TABLE` before writing any document",
+            "vi": "Bắt buộc khai báo schema cố định bằng `CREATE TABLE` trước khi ghi document"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It is optimised for graph data, storing records as nodes and edges with traversals",
+            "vi": "Tối ưu cho dữ liệu đồ thị, lưu bản ghi dạng đỉnh và cạnh để duyệt quan hệ"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Document database lưu mỗi bản ghi thành một document tự mô tả, có thể chứa mảng và object lồng nhau, và truy vấn/index được theo field bên trong. Schema linh hoạt (schema-less hoặc schema-on-read) chứ không cần `CREATE TABLE`, dù MongoDB vẫn cho phép validation schema. Key-value thuần là kiểu của Redis, còn dữ liệu đồ thị là việc của graph database như Neo4j.",
+        "en": "A document database stores each record as a self-describing document that can hold arrays and nested objects, and can query and index fields inside it. The schema is flexible (schema-less or schema-on-read) rather than requiring `CREATE TABLE`, although MongoDB still supports schema validation. Plain key-value is Redis's model, and graph data is the domain of graph databases like Neo4j."
+      }
+    },
+    {
+      "id": "sql.nosql.010",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "nosql",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Lệnh Redis `SET otp:0912345678 482913 EX 300` làm gì?",
+        "en": "What does the Redis command `SET otp:0912345678 482913 EX 300` do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Stores the value and allows at most 300 reads before the key is removed",
+            "vi": "Lưu giá trị và chỉ cho đọc tối đa 300 lần rồi xóa key"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Writes the value to disk after 300 seconds instead of keeping it in memory",
+            "vi": "Ghi giá trị xuống đĩa sau 300 giây thay vì giữ trong bộ nhớ"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Stores the value on 300 different cluster nodes for redundancy",
+            "vi": "Lưu giá trị vào 300 node khác nhau trong cluster để dự phòng"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Stores `482913` under the key with a 300-second TTL, then auto-deletes it",
+            "vi": "Lưu `482913` cho key với TTL 300 giây, hết hạn thì tự xóa"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`EX` đặt thời gian sống theo giây (`PX` theo mili giây), nên sau 5 phút key OTP tự biến mất; đây là cách phổ biến để lưu OTP, session, rate limit. Có thể kiểm tra thời gian còn lại bằng `TTL key`. Thêm `NX` (`SET ... EX 300 NX`) để chỉ ghi khi key chưa tồn tại, hữu ích cho lock đơn giản.",
+        "en": "`EX` sets the time to live in seconds (`PX` in milliseconds), so after 5 minutes the OTP key disappears on its own; this is a common way to store OTPs, sessions and rate limits. Check the remaining time with `TTL key`. Adding `NX` (`SET ... EX 300 NX`) writes only if the key does not exist, which is handy for simple locks."
+      }
+    },
+    {
+      "id": "sql.nosql.011",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "nosql",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong MongoDB, khi nào nên embed dữ liệu con vào document cha thay vì tách sang collection riêng và lưu reference?",
+        "en": "In MongoDB, when should you embed child data in the parent document rather than store it in a separate collection with a reference?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "When the child data grows without bound, like a user's entire activity log over years",
+            "vi": "Khi dữ liệu con tăng không giới hạn, như toàn bộ log hoạt động nhiều năm của user"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "When the child data is shared by many documents and updated often from several places",
+            "vi": "Khi dữ liệu con được nhiều document khác cùng dùng và thường xuyên cập nhật từ nhiều nơi"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "When it is always read with the parent and bounded in size (e.g. a shipping address)",
+            "vi": "Khi dữ liệu con luôn được đọc cùng cha và có kích thước giới hạn (ví dụ địa chỉ giao hàng)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Luôn luôn embed, vì MongoDB không hỗ trợ reference",
+            "en": "Always embed, because MongoDB does not support references"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Embed giúp đọc một lần là có đủ dữ liệu và cập nhật nguyên tử trong một document, phù hợp với quan hệ \"chứa\" có kích thước nhỏ. Dữ liệu tăng không giới hạn sẽ chạm giới hạn 16 MB mỗi document và làm document phình to; dữ liệu dùng chung bị embed thì phải cập nhật ở nhiều nơi. Những trường hợp đó nên dùng reference (và `$lookup` khi cần ghép).",
+        "en": "Embedding gives you everything in one read and atomic updates within a single document, which suits small \"contains\" relationships. Unbounded data hits the 16 MB per-document limit and bloats documents, and embedded shared data must be updated in many places. Those cases call for references (and `$lookup` when you need to combine)."
+      }
+    },
+    {
+      "id": "sql.nosql.012",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "nosql",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Cột `profile` kiểu `JSONB` (PostgreSQL). Truy vấn sau lại trả về user 4 tuổi và bỏ sót user 100 tuổi. Lỗi ở đâu?",
+        "en": "`profile` is a `JSONB` column (PostgreSQL). This query returns a 4-year-old user and misses a 100-year-old one. Where is the bug?"
+      },
+      "code": {
+        "language": "sql",
+        "source": "SELECT id, profile->>'name' AS name\nFROM users\nWHERE profile->>'age' > '30';"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải dùng `->` thay vì `->>` để so sánh với chuỗi",
+            "en": "You must use `->` instead of `->>` to compare with a string"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`->>` returns `text`, so the comparison is lexicographic",
+            "vi": "`->>` trả về `text` nên phép so sánh là theo thứ tự chuỗi"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`JSONB` cannot be filtered in `WHERE`; filter in the application after fetching",
+            "vi": "`JSONB` không hỗ trợ lọc trong `WHERE`, phải lấy về rồi lọc trong ứng dụng"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A GIN index is required for numeric comparisons to be correct",
+            "vi": "Cần index GIN thì so sánh số mới cho kết quả đúng"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`profile->>'age'` lấy giá trị dưới dạng `text`, nên so với `'30'` là so sánh theo thứ tự từ điển: `'4'` lớn hơn `'30'` còn `'100'` nhỏ hơn. Ép sang số `::int` (hoặc `::numeric`) mới cho phép so sánh số. `->` trả về `jsonb` chứ không giải quyết vấn đề, và index chỉ ảnh hưởng tốc độ, không ảnh hưởng tính đúng.",
+        "en": "`profile->>'age'` extracts the value as `text`, so comparing with `'30'` is lexicographic: `'4'` sorts after `'30'` while `'100'` sorts before it. Casting with `::int` (or `::numeric`) gives a numeric comparison. `->` returns `jsonb` and does not fix this, and an index only affects speed, not correctness."
+      }
+    },
+    {
+      "id": "sql.nosql.013",
+      "contentVersion": 1,
+      "trackId": "sql",
+      "topicId": "nosql",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Eventual consistency (nhất quán cuối cùng) là gì? Cho một ví dụ thực tế và cách ứng dụng xử lý nó.",
+        "en": "What is eventual consistency? Give a real-world example and how an application deals with it."
+      },
+      "keyPoints": [
+        {
+          "vi": "Sau khi ghi, các bản sao (replica) có thể tạm thời trả dữ liệu cũ, nhưng nếu không có ghi mới thì cuối cùng tất cả sẽ hội tụ về cùng giá trị",
+          "en": "After a write, replicas may briefly return stale data, but without new writes they all eventually converge to the same value"
+        },
+        {
+          "vi": "Đánh đổi lấy độ sẵn sàng cao và độ trễ thấp, liên quan tới định lý CAP",
+          "en": "It trades consistency for high availability and low latency, related to the CAP theorem"
+        },
+        {
+          "vi": "Ví dụ: số lượt thích, bộ đếm view, DNS, cache, read replica của database",
+          "en": "Examples: like counts, view counters, DNS, caches, database read replicas"
+        },
+        {
+          "vi": "Không phù hợp cho dữ liệu cần chính xác tức thì như số dư tài khoản",
+          "en": "It does not suit data that must be exact immediately, such as account balances"
+        },
+        {
+          "vi": "Cách xử lý: read-your-writes (đọc từ primary sau khi ghi), hiển thị trạng thái \"đang cập nhật\", thiết kế thao tác idempotent",
+          "en": "Mitigations: read-your-writes (read from the primary after writing), showing an \"updating\" state, idempotent operations"
+        }
+      ],
+      "explanation": {
+        "vi": "Trong hệ phân tán, chờ mọi bản sao xác nhận trước khi trả lời làm hệ chậm và dễ ngừng phục vụ khi mạng lỗi, nên nhiều hệ thống chấp nhận nhất quán cuối cùng. Người dùng có thể thấy số lượt thích chậm cập nhật vài giây mà không gây hại. Với dữ liệu quan trọng như tiền, hãy dùng strong consistency (transaction trên primary) thay vì eventual consistency.",
+        "en": "In a distributed system, waiting for every replica to acknowledge before replying makes it slow and prone to downtime on network faults, so many systems accept eventual consistency. Users seeing a like count lag by a few seconds is harmless. For critical data such as money, use strong consistency (transactions on the primary) instead."
       }
     }
   ]
