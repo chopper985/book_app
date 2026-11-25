@@ -49,7 +49,7 @@ class DefaultImage extends StatelessWidget {
                       border: border,
                       borderRadius: borderRadius,
                       image: DecorationImage(
-                        image: AssetImage(Assets.icons.icLauncherIos.path),
+                        image: AssetImage(Assets.icons.icLauncher.path),
                         fit: shape == BoxShape.circle
                             ? BoxFit.fitHeight
                             : BoxFit.contain,

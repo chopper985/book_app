@@ -130,10 +130,17 @@ class ContentCatalog extends Equatable {
       for (final option in position.options) {
         final trackIds = position.trackIdsFor(option);
         if (trackIds.isEmpty) continue;
+        // Only the topics meant for this position (e.g. no DOM questions
+        // in a Back-end mock test).
         final pool = [
           for (final trackId in trackIds)
             for (final question in questions)
-              if (question.trackId == trackId) question,
+              if (question.trackId == trackId &&
+                  (trackById(trackId)
+                          ?.topicById(question.topicId)
+                          ?.appliesTo(position.id) ??
+                      true))
+                question,
         ];
         for (final level in QuestionLevel.values) {
           final included = [

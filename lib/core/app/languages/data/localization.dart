@@ -157,6 +157,15 @@ class Strings {
   static const String switcherRemoveConfirm = "switcherRemoveConfirm";
   static const String switcherRemoveCancel = "switcherRemoveCancel";
   static const String exploreMyTracks = "exploreMyTracks";
+  static const String exploreRoleAdd = "exploreRoleAdd";
+  static const String exploreRoleAdded = "exploreRoleAdded";
+  static const String exploreRoleTry = "exploreRoleTry";
+  static const String exploreRoleAddedMessage = "exploreRoleAddedMessage";
+  static const String exploreRolesTitle = "exploreRolesTitle";
+  static const String exploreRolesSubtitle = "exploreRolesSubtitle";
+  static const String exploreRoleMain = "exploreRoleMain";
+  static const String exploreRoleShared = "exploreRoleShared";
+  static const String exploreRoleQuestions = "exploreRoleQuestions";
   static const String exploreMyTracksSubtitle = "exploreMyTracksSubtitle";
   static const String roadmapsSearchHint = "roadmapsSearchHint";
   static const String roadmapsSaved = "roadmapsSaved";
@@ -297,7 +306,6 @@ class Strings {
   static const String navProfile = "navProfile";
   static const String comingSoon = "comingSoon";
   static const String comingSoonMessage = "comingSoonMessage";
-  static const String appName = "appName";
   static const String streakDays = "streakDays";
   static const String greeting = "greeting";
   static const String greetingSubtitle = "greetingSubtitle";

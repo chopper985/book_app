@@ -32,7 +32,7 @@ class _AppState extends State<App> {
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: AppTheme.systemOverlayStyle,
             child: MaterialApp.router(
-              title: "DevInterview",
+              title: "Interview Practice",
               routerConfig: AppRouter.instance.router,
               // Follows the in-app language so dates and pickers match it.
               locale: context.locale,

@@ -38,6 +38,8 @@ import '../../features/catalog/domain/repositories/saved_tracks_repository.dart'
 import '../../features/catalog/domain/repositories/user_roadmaps_repository.dart'
     as _i409;
 import '../../features/catalog/domain/usecase/get_explore_data.dart' as _i4;
+import '../../features/catalog/domain/usecase/get_role_technologies.dart'
+    as _i59;
 import '../../features/catalog/domain/usecase/get_track_detail.dart' as _i875;
 import '../../features/catalog/domain/usecase/saved_tracks.dart' as _i385;
 import '../../features/catalog/domain/usecase/user_roadmaps.dart' as _i301;
@@ -278,6 +280,8 @@ _i174.GetIt $initGetIt(
       () => _i4.GetExploreDashboard(gh<_i1018.CatalogRepository>()));
   gh.factory<_i4.WatchProgress>(
       () => _i4.WatchProgress(gh<_i1018.CatalogRepository>()));
+  gh.factory<_i59.GetRoleTechnologies>(
+      () => _i59.GetRoleTechnologies(gh<_i1018.CatalogRepository>()));
   gh.factory<_i875.GetTrackDetail>(
       () => _i875.GetTrackDetail(gh<_i1018.CatalogRepository>()));
   gh.factory<_i301.GetPositions>(
@@ -373,15 +377,18 @@ _i174.GetIt $initGetIt(
         gh<_i301.GetPositionDetail>(),
         gh<_i4.WatchProgress>(),
       ));
+  gh.factory<_i36.ResultCubit>(
+      () => _i36.ResultCubit(gh<_i673.GetPracticeResult>()));
   gh.factory<_i979.ExploreCubit>(() => _i979.ExploreCubit(
         gh<_i4.GetTracks>(),
         gh<_i4.GetExploreDashboard>(),
         gh<_i852.GetProfile>(),
         gh<_i301.OpenTrackRoadmap>(),
+        gh<_i59.GetRoleTechnologies>(),
+        gh<_i301.GetUserRoadmaps>(),
+        gh<_i875.GetTrackDetail>(),
         gh<_i4.WatchProgress>(),
       ));
-  gh.factory<_i36.ResultCubit>(
-      () => _i36.ResultCubit(gh<_i673.GetPracticeResult>()));
   gh.factory<_i411.PracticeCubit>(() => _i411.PracticeCubit(
         gh<_i673.StartPractice>(),
         gh<_i673.ResumePractice>(),

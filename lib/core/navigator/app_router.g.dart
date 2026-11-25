@@ -178,6 +178,7 @@ mixin $TrackRoadmapRoute on GoRouteData {
   static TrackRoadmapRoute _fromState(GoRouterState state) => TrackRoadmapRoute(
         trackId: state.pathParameters['trackId']!,
         level: state.uri.queryParameters['level'],
+        role: state.uri.queryParameters['role'],
       );
 
   TrackRoadmapRoute get _self => this as TrackRoadmapRoute;
@@ -187,6 +188,7 @@ mixin $TrackRoadmapRoute on GoRouteData {
         '/track/${Uri.encodeComponent(_self.trackId)}',
         queryParams: {
           if (_self.level != null) 'level': _self.level,
+          if (_self.role != null) 'role': _self.role,
         },
       );
 

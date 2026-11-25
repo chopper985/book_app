@@ -21,8 +21,13 @@ class TrackModel {
       badge: _optionalLocalized(json, 'badge'),
       tagline: _optionalLocalized(json, 'tagline'),
       audience: _optionalLocalized(json, 'audience'),
+      languages: _optionalStrings(json, 'languages'),
+      runtime: json.optionalString('runtime'),
     );
   }
+
+  static List<String> _optionalStrings(JsonReader json, String key) =>
+      json.json[key] == null ? const [] : json.stringList(key);
 
   static LocalizedText? _optionalLocalized(JsonReader json, String key) =>
       json.json[key] == null ? null : json.localized(key);
@@ -33,6 +38,7 @@ class TrackModel {
       id: json.string('id'),
       name: json.localized('name'),
       description: _optionalLocalized(json, 'description'),
+      roles: _optionalStrings(json, 'roles'),
     );
   }
 }

@@ -25,112 +25,114 @@ class SignInScreen extends StatelessWidget {
     final cubit = context.read<SignInCubit>();
     return GuestDataListener(
       child: BlocConsumer<SignInCubit, SignInState>(
-      listenWhen: (previous, current) =>
-          (!previous.done && current.done) ||
-          (current.failure != null && previous.failure != current.failure),
-      listener: (context, state) {
-        final messenger = ScaffoldMessenger.of(context);
-        if (state.done) {
-          messenger.showSnackBar(
-            SnackBar(content: Text(Strings.authSuccess.i18n)),
-          );
-          context.pop(true);
-        } else if (state.failure case final failure?) {
-          messenger.showSnackBar(SnackBar(content: Text(failure.message)));
-        }
-      },
-      builder: (context, state) => Scaffold(
-        backgroundColor: AppPalette.surfaceLowest,
-        body: SafeArea(
-          child: LayoutBuilder(
-            builder: (context, constraints) => SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 24.dsp),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: IntrinsicHeight(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const Spacer(flex: 3),
-                      const _Brand(),
-                      const Spacer(flex: 2),
-                      _ProviderButton(
-                        label: Strings.authGoogle.i18n,
-                        background: Colors.white,
-                        foreground: const Color(0xFF1F1F1F),
-                        leading: AppSvg(
-                          Assets.figma.auth.icGoogle,
-                          width: 20,
-                          height: 20,
-                        ),
-                        loading: state.busy,
-                        onTap: cubit.signInWithGoogle,
-                      ),
-                      SizedBox(height: 12.dsp),
-                      _ProviderButton(
-                        label: Strings.authFacebook.i18n,
-                        background: const Color(0xFF1A2540),
-                        foreground: Colors.white,
-                        border: const Color(0xFF26355C),
-                        leading: AppSvg(
-                          Assets.figma.auth.icFacebook,
-                          width: 20,
-                          height: 20,
-                        ),
-                        onTap: state.busy ? null : cubit.signInWithFacebook,
-                      ),
-                      SizedBox(height: 12.dsp),
-                      _ProviderButton(
-                        label: Strings.authPhone.i18n,
-                        background: AppPalette.surfaceLow,
-                        foreground: AppPalette.onSurface,
-                        border: AppPalette.surfaceHigh,
-                        leading: Container(
-                          width: 28.dsp,
-                          height: 28.dsp,
-                          decoration: BoxDecoration(
-                            color: AppPalette.surfaceHigh,
-                            borderRadius: BorderRadius.circular(6.dsp),
-                          ),
-                          child: Icon(
-                            Icons.phone_iphone,
-                            size: 16.dsp,
-                            color: AppPalette.primary,
-                          ),
-                        ),
-                        onTap: state.busy
-                            ? null
-                            : () async {
-                                final signedIn = await const PhoneSignInRoute()
-                                    .push<bool>(context);
-                                if ((signedIn ?? false) && context.mounted) {
-                                  context.pop(true);
-                                }
-                              },
-                      ),
-                      SizedBox(height: 8.dsp),
-                      TextButton.icon(
-                        onPressed: () => context.pop(false),
-                        icon: Icon(
-                          Icons.person_outline,
-                          size: 18.dsp,
-                          color: AppPalette.onSurfaceVariant,
-                        ),
-                        label: Text(
-                          Strings.authGuest.i18n,
-                          textAlign: TextAlign.center,
-                          style: AppText.sans(
-                            14,
+        listenWhen: (previous, current) =>
+            (!previous.done && current.done) ||
+            (current.failure != null && previous.failure != current.failure),
+        listener: (context, state) {
+          final messenger = ScaffoldMessenger.of(context);
+          if (state.done) {
+            messenger.showSnackBar(
+              SnackBar(content: Text(Strings.authSuccess.i18n)),
+            );
+            context.pop(true);
+          } else if (state.failure case final failure?) {
+            messenger.showSnackBar(SnackBar(content: Text(failure.message)));
+          }
+        },
+        builder: (context, state) => Scaffold(
+          backgroundColor: AppPalette.surfaceLowest,
+          body: SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) => SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 24.dsp),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Spacer(flex: 3),
+                        const _Brand(),
+                        const Spacer(flex: 2),
+                        _ProviderButton(
+                          label: Strings.authGoogle.i18n,
+                          background: Colors.white,
+                          foreground: const Color(0xFF1F1F1F),
+                          leading: AppSvg(
+                            Assets.figma.auth.icGoogle,
+                            width: 20,
                             height: 20,
-                            weight: FontWeight.w600,
+                          ),
+                          loading: state.busy,
+                          onTap: cubit.signInWithGoogle,
+                        ),
+                        SizedBox(height: 12.dsp),
+                        _ProviderButton(
+                          label: Strings.authFacebook.i18n,
+                          background: const Color(0xFF1A2540),
+                          foreground: Colors.white,
+                          border: const Color(0xFF26355C),
+                          leading: AppSvg(
+                            Assets.figma.auth.icFacebook,
+                            width: 20,
+                            height: 20,
+                          ),
+                          onTap: state.busy ? null : cubit.signInWithFacebook,
+                        ),
+                        SizedBox(height: 12.dsp),
+                        _ProviderButton(
+                          label: Strings.authPhone.i18n,
+                          background: AppPalette.surfaceLow,
+                          foreground: AppPalette.onSurface,
+                          border: AppPalette.surfaceHigh,
+                          leading: Container(
+                            width: 28.dsp,
+                            height: 28.dsp,
+                            decoration: BoxDecoration(
+                              color: AppPalette.surfaceHigh,
+                              borderRadius: BorderRadius.circular(6.dsp),
+                            ),
+                            child: Icon(
+                              Icons.phone_iphone,
+                              size: 16.dsp,
+                              color: AppPalette.primary,
+                            ),
+                          ),
+                          onTap: state.busy
+                              ? null
+                              : () async {
+                                  final signedIn =
+                                      await const PhoneSignInRoute()
+                                          .push<bool>(context);
+                                  if ((signedIn ?? false) && context.mounted) {
+                                    context.pop(true);
+                                  }
+                                },
+                        ),
+                        SizedBox(height: 8.dsp),
+                        TextButton.icon(
+                          onPressed: () => context.pop(false),
+                          icon: Icon(
+                            Icons.person_outline,
+                            size: 18.dsp,
                             color: AppPalette.onSurfaceVariant,
                           ),
+                          label: Text(
+                            Strings.authGuest.i18n,
+                            textAlign: TextAlign.center,
+                            style: AppText.sans(
+                              14,
+                              height: 20,
+                              weight: FontWeight.w600,
+                              color: AppPalette.onSurfaceVariant,
+                            ),
+                          ),
                         ),
-                      ),
-                      const Spacer(),
-                      const _Terms(),
-                      SizedBox(height: 16.dsp),
-                    ],
+                        const Spacer(),
+                        const _Terms(),
+                        SizedBox(height: 16.dsp),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -138,12 +140,10 @@ class SignInScreen extends StatelessWidget {
           ),
         ),
       ),
-      ),
     );
   }
 }
 
-/// Glowing logo, badge, "DevInterview" wordmark and tagline.
 class _Brand extends StatelessWidget {
   const _Brand();
 

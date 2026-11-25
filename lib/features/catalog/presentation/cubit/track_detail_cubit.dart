@@ -46,6 +46,7 @@ class TrackDetailCubit extends Cubit<TrackDetailState> {
     final detail = (await _getTrackDetail(
       current.detail.track.id,
       maxLevel: _maxLevel,
+      positionId: _positionId,
     ))
         .value;
     final latest = state;
@@ -73,11 +74,23 @@ class TrackDetailCubit extends Cubit<TrackDetailState> {
   }
 
   QuestionLevel? _maxLevel;
+  String? _positionId;
 
-  Future<void> load(String trackId, {QuestionLevel? maxLevel}) async {
+  /// [positionId] shows only the topics meant for that position (a track
+  /// opened from a position roadmap).
+  Future<void> load(
+    String trackId, {
+    QuestionLevel? maxLevel,
+    String? positionId,
+  }) async {
     _maxLevel = maxLevel;
+    _positionId = positionId;
     emit(const TrackDetailLoading());
-    final result = await _getTrackDetail(trackId, maxLevel: maxLevel);
+    final result = await _getTrackDetail(
+      trackId,
+      maxLevel: maxLevel,
+      positionId: positionId,
+    );
     final detail = result.value;
     if (detail != null) {
       emit(_loaded(detail));

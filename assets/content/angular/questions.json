@@ -1,0 +1,3262 @@
+{
+  "questions": [
+    {
+      "id": "angular.components.001",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn dùng `<app-product-card>` trong template của `CatalogComponent` (standalone) và nhận lỗi `'app-product-card' is not a known element`. Cách sửa đúng là gì?",
+        "en": "You use `<app-product-card>` in the template of the standalone `CatalogComponent` and get `'app-product-card' is not a known element`. What is the correct fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm `ProductCardComponent` vào mảng `imports` của `CatalogComponent`",
+            "en": "Add `ProductCardComponent` to the `imports` array of `CatalogComponent`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Khai báo `ProductCardComponent` trong mảng `declarations` của `AppModule` gốc",
+            "en": "Declare `ProductCardComponent` in the `declarations` array of the root `AppModule`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thêm `CUSTOM_ELEMENTS_SCHEMA` vào `schemas` của `CatalogComponent`",
+            "en": "Add `CUSTOM_ELEMENTS_SCHEMA` to the `schemas` of `CatalogComponent`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đăng ký `ProductCardComponent` trong `providers` của `app.config.ts`",
+            "en": "Register `ProductCardComponent` in the `providers` of `app.config.ts`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Component standalone tự khai báo những gì template của nó dùng qua mảng `imports`. Chỉ cần thêm `ProductCardComponent` vào `imports` của `CatalogComponent`; không cần `NgModule`. `CUSTOM_ELEMENTS_SCHEMA` chỉ tắt cảnh báo cho web component, Angular sẽ không render component của bạn.",
+        "en": "A standalone component declares what its template uses through its `imports` array. Just add `ProductCardComponent` to the `imports` of `CatalogComponent`; no `NgModule` is needed. `CUSTOM_ELEMENTS_SCHEMA` only silences the error for web components, and Angular would not render your component."
+      }
+    },
+    {
+      "id": "angular.components.002",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cú pháp `<app-font-picker [(size)]=\"fontSize\" />` thực chất là viết tắt của gì?",
+        "en": "The syntax `<app-font-picker [(size)]=\"fontSize\" />` is shorthand for what?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`[size]=\"fontSize\" (change)=\"fontSize = $event\"`",
+            "en": "`[size]=\"fontSize\" (change)=\"fontSize = $event\"`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`size=\"{{ fontSize }}\" (sizeChange)=\"fontSize\"`",
+            "en": "`size=\"{{ fontSize }}\" (sizeChange)=\"fontSize\"`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`[size]=\"fontSize\" [sizeChange]=\"fontSize = $event\"`",
+            "en": "`[size]=\"fontSize\" [sizeChange]=\"fontSize = $event\"`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`[size]=\"fontSize\" (sizeChange)=\"fontSize = $event\"`",
+            "en": "`[size]=\"fontSize\" (sizeChange)=\"fontSize = $event\"`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "\"Banana in a box\" `[( )]` kết hợp property binding và event binding. Angular gắn `[size]` và lắng nghe event có tên `sizeChange`, gán `$event` ngược lại vào `fontSize`. Vì vậy component con cần có input `size` và output `sizeChange`, hoặc đơn giản là `size = model()`.",
+        "en": "\"Banana in a box\" `[( )]` combines a property binding and an event binding. Angular binds `[size]` and listens to an event named `sizeChange`, assigning `$event` back to `fontSize`. So the child needs a `size` input and a `sizeChange` output, or simply `size = model()`."
+      }
+    },
+    {
+      "id": "angular.components.003",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Template sau không biên dịch được. Lỗi nằm ở đâu?",
+        "en": "The template below does not compile. What is wrong?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Component({\n  selector: 'app-task-list',\n  template: `\n    <ul>\n      @for (task of tasks()) {\n        <li>{{ task.title }}</li>\n      } @empty {\n        <li>No tasks</li>\n      }\n    </ul>\n  `,\n})\nexport class TaskListComponent {\n  tasks = input<Task[]>([]);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải import `NgFor` vào `imports` thì mới dùng được `@for`",
+            "en": "`NgFor` must be imported into `imports` before `@for` can be used"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Khối `@empty` chỉ được dùng bên trong `@if`, không dùng với `@for`",
+            "en": "The `@empty` block can only be used inside `@if`, not with `@for`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`@for` thiếu biểu thức bắt buộc `track`, ví dụ `track task.id`",
+            "en": "`@for` is missing the required `track` expression, e.g. `track task.id`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`tasks` là signal nên phải viết `@for (task of tasks)` không có `()`",
+            "en": "`tasks` is a signal, so it must be written `@for (task of tasks)` without `()`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Với control flow mới, `@for` bắt buộc có biểu thức `track` để Angular nhận diện từng phần tử khi danh sách thay đổi. Thiếu `track` là lỗi biên dịch. Thường dùng một khoá ổn định như `track task.id`; chỉ dùng `track $index` khi danh sách tĩnh. `@for` không cần import gì và hỗ trợ `@empty`.",
+        "en": "With the new control flow, `@for` requires a `track` expression so Angular can identify each item when the list changes. Omitting `track` is a compile error. Usually use a stable key such as `track task.id`; use `track $index` only for static lists. `@for` needs no import and supports `@empty`."
+      }
+    },
+    {
+      "id": "angular.components.004",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong một component standalone, bạn muốn dùng `@if` / `@else` trong template. Cần import gì?",
+        "en": "In a standalone component you want to use `@if` / `@else` in the template. What must you import?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Import `CommonModule` vào mảng `imports`",
+            "en": "Import `CommonModule` into the `imports` array"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Import `NgIf` từ `@angular/common` vào `imports`",
+            "en": "Import `NgIf` from `@angular/common` into `imports`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không cần import gì, đây là cú pháp có sẵn",
+            "en": "Nothing, it is built-in template syntax"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gọi `provideControlFlow()` trong `app.config.ts`",
+            "en": "Call `provideControlFlow()` in `app.config.ts`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`@if`, `@for`, `@switch` là cú pháp built-in của trình biên dịch template, nên không cần import gì. Đây là khác biệt so với `*ngIf` / `*ngFor`, vốn là directive cần `NgIf` / `NgFor` hoặc `CommonModule`. Control flow mới còn type narrowing tốt hơn và nhẹ hơn khi chạy.",
+        "en": "`@if`, `@for` and `@switch` are built into the template compiler, so nothing needs to be imported. This differs from `*ngIf` / `*ngFor`, which are directives requiring `NgIf` / `NgFor` or `CommonModule`. The new control flow also narrows types better and is lighter at runtime."
+      }
+    },
+    {
+      "id": "angular.components.005",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "components",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Component có `name = input.required<string>()`. Trong method `reset()` bạn viết `this.name.set('Guest')`. Chuyện gì xảy ra?",
+        "en": "A component has `name = input.required<string>()`. In a `reset()` method you write `this.name.set('Guest')`. What happens?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lỗi biên dịch: `InputSignal` chỉ đọc, không có `set`",
+            "en": "Compile error: `InputSignal` is read-only and has no `set`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giá trị đổi thành `'Guest'` và component cha cũng nhận giá trị mới",
+            "en": "The value becomes `'Guest'` and the parent also receives the new value"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Giá trị đổi thành `'Guest'` cho đến lần cha truyền giá trị khác xuống",
+            "en": "The value becomes `'Guest'` until the parent passes down a different value"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi runtime `NG0100` vì giá trị đổi sau khi view đã được kiểm tra",
+            "en": "A runtime `NG0100` error because the value changed after the view was checked"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`input()` trả về `InputSignal`, chỉ đọc từ phía component con: không có `set` hay `update`, nên TypeScript báo lỗi biên dịch. Giá trị input do component cha quyết định. Nếu con cần ghi lại giá trị cho cha, dùng `model()`; nếu cần state cục bộ khởi tạo từ input, dùng `linkedSignal()` hoặc một `signal` riêng.",
+        "en": "`input()` returns an `InputSignal`, which is read-only from the child: it has no `set` or `update`, so TypeScript reports a compile error. The parent owns the input value. If the child must write the value back, use `model()`; for local state initialised from the input, use `linkedSignal()` or a separate `signal`."
+      }
+    },
+    {
+      "id": "angular.components.006",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "components",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Component sau báo lỗi `Cannot read properties of undefined (reading 'nativeElement')`. Nguyên nhân là gì?",
+        "en": "The component below throws `Cannot read properties of undefined (reading 'nativeElement')`. What is the cause?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Component({\n  selector: 'app-sales-chart',\n  template: `<canvas #chart></canvas>`,\n})\nexport class SalesChartComponent implements OnInit {\n  @ViewChild('chart') canvas!: ElementRef<HTMLCanvasElement>;\n\n  ngOnInit() {\n    const ctx = this.canvas.nativeElement.getContext('2d');\n    drawChart(ctx);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`canvas` chưa được gán ở `ngOnInit`; phải đọc sau khi view render",
+            "en": "`canvas` is not set yet in `ngOnInit`; read it after the view renders"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Template ref `#chart` phải đặt trên một component chứ không phải thẻ HTML",
+            "en": "The `#chart` template ref must be on a component, not on an HTML element"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`ElementRef` phải được lấy bằng `inject(ElementRef)` thay vì `@ViewChild`",
+            "en": "`ElementRef` must be obtained with `inject(ElementRef)` instead of `@ViewChild`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`@ViewChild` chỉ hoạt động khi component dùng `ChangeDetectionStrategy.OnPush`",
+            "en": "`@ViewChild` only works when the component uses `ChangeDetectionStrategy.OnPush`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Query view như `@ViewChild` (không `static: true`) chỉ được gán sau khi view được tạo, tức từ `ngAfterViewInit`. Trong `ngOnInit`, `canvas` vẫn là `undefined`. Hãy chuyển code sang `ngAfterViewInit` / `afterNextRender`, hoặc dùng `canvas = viewChild.required<ElementRef>('chart')` rồi đọc trong `afterNextRender`.",
+        "en": "View queries such as `@ViewChild` (without `static: true`) are only set once the view is created, i.e. from `ngAfterViewInit`. In `ngOnInit`, `canvas` is still `undefined`. Move the code to `ngAfterViewInit` / `afterNextRender`, or use `canvas = viewChild.required<ElementRef>('chart')` and read it inside `afterNextRender`."
+      }
+    },
+    {
+      "id": "angular.components.007",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "components",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích content projection trong Angular: `<ng-content>`, nhiều slot với `select`, và khi nào nên chuyển sang `ng-template` + `ngTemplateOutlet`.",
+        "en": "Explain content projection in Angular: `<ng-content>`, multiple slots with `select`, and when to switch to `ng-template` + `ngTemplateOutlet`."
+      },
+      "keyPoints": [
+        {
+          "vi": "`<ng-content>` chiếu nội dung cha đặt giữa thẻ mở và thẻ đóng của component vào vị trí chỉ định",
+          "en": "`<ng-content>` projects the content the parent places between the component's tags into a chosen spot"
+        },
+        {
+          "vi": "Nhiều slot dùng `select` theo selector CSS (vd `select=\"[card-title]\"`), phần còn lại vào `<ng-content>` không có `select`",
+          "en": "Multiple slots use `select` with a CSS selector (e.g. `select=\"[card-title]\"`); the rest goes to the `<ng-content>` without `select`"
+        },
+        {
+          "vi": "Nội dung chiếu luôn được tạo và thuộc về component cha, kể cả khi `<ng-content>` nằm trong `@if`",
+          "en": "Projected content is always created and belongs to the parent, even when `<ng-content>` sits inside `@if`"
+        },
+        {
+          "vi": "Cần render lười, lặp lại hoặc truyền context thì nhận `ng-template` qua `contentChild()` và dùng `ngTemplateOutlet`",
+          "en": "For lazy, repeated or context-aware rendering, accept an `ng-template` via `contentChild()` and use `ngTemplateOutlet`"
+        }
+      ],
+      "explanation": {
+        "vi": "Content projection cho phép component như card, dialog nhận markup từ component cha thay vì chỉ nhận dữ liệu. Điểm hay bị hỏi là nội dung chiếu qua `<ng-content>` luôn được khởi tạo, kể cả khi bị bọc trong `@if`, và chỉ được chiếu một lần. Khi cần render có điều kiện, lặp lại hoặc truyền context, hãy nhận `TemplateRef` qua `contentChild()` rồi render bằng `ngTemplateOutlet`.",
+        "en": "Content projection lets components such as cards or dialogs accept markup from the parent instead of just data. A common interview point is that content projected through `<ng-content>` is always initialised, even inside `@if`, and is projected only once. When you need conditional or repeated rendering, or want to pass context, accept a `TemplateRef` via `contentChild()` and render it with `ngTemplateOutlet`."
+      }
+    },
+    {
+      "id": "angular.components.008",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "components",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Component con có `checked = model(false)`. Cha dùng `<app-toggle [(checked)]=\"isOn\" />` với `isOn = signal(false)`. Khi con gọi `this.checked.set(true)`, điều gì xảy ra?",
+        "en": "A child has `checked = model(false)`. The parent uses `<app-toggle [(checked)]=\"isOn\" />` with `isOn = signal(false)`. When the child calls `this.checked.set(true)`, what happens?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ giá trị trong con đổi; `isOn` giữ `false` vì input là một chiều",
+            "en": "Only the child's value changes; `isOn` stays `false` because inputs are one-way"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Signal `isOn` của cha cũng thành `true` qua event ngầm `checkedChange`",
+            "en": "The parent's `isOn` signal also becomes `true` via the implicit `checkedChange` event"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi biên dịch vì không thể dùng `[( )]` với một signal ở phía cha",
+            "en": "A compile error because `[( )]` cannot be used with a signal in the parent"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`isOn` đổi nhưng con phải gọi thêm `checkedChange.emit(true)` thủ công",
+            "en": "`isOn` changes, but the child must also call `checkedChange.emit(true)` manually"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`model()` tạo một input có thể ghi, kèm output ngầm `checkedChange`. Khi con gọi `set`, giá trị cục bộ đổi và event được phát; với two-way binding tới một signal, Angular ghi thẳng giá trị mới vào `isOn`. Đây là cách gọn nhất để làm component kiểu form control mà không cần khai báo `@Output` riêng.",
+        "en": "`model()` creates a writable input with an implicit `checkedChange` output. When the child calls `set`, its local value changes and the event fires; with two-way binding to a signal, Angular writes the new value straight into `isOn`. It is the most concise way to build form-control-like components without a separate `@Output`."
+      }
+    },
+    {
+      "id": "angular.components.009",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "components",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn thiết kế component `DataTable` dùng chung cho nhiều team. Bạn sẽ thiết kế API (input, output, tuỳ biến ô) và các quyết định hiệu năng như thế nào?",
+        "en": "You are designing a shared `DataTable` component used by many teams. How would you design its API (inputs, outputs, cell customisation) and performance decisions?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Input dạng signal có kiểu generic (`rows = input.required<T[]>()`, `columns`), dùng `transform` / giá trị mặc định cho tuỳ chọn",
+          "en": "Typed generic signal inputs (`rows = input.required<T[]>()`, `columns`), with `transform` / defaults for options"
+        },
+        {
+          "vi": "Sự kiện qua `output()` (sort, chọn dòng, phân trang); trạng thái điều khiển được bằng `model()` khi cần two-way",
+          "en": "Events through `output()` (sort, row selection, paging); controlled state via `model()` when two-way is needed"
+        },
+        {
+          "vi": "Tuỳ biến ô bằng directive cấu trúc + `TemplateRef` lấy qua `contentChildren()`, render với `ngTemplateOutlet` và context có kiểu",
+          "en": "Cell customisation via a structural directive + `TemplateRef` collected with `contentChildren()`, rendered by `ngTemplateOutlet` with typed context"
+        },
+        {
+          "vi": "`OnPush`, `computed` cho dữ liệu đã sort/lọc, `track row.id`, virtual scroll (CDK) cho danh sách lớn",
+          "en": "`OnPush`, `computed` for sorted/filtered data, `track row.id`, CDK virtual scrolling for large lists"
+        },
+        {
+          "vi": "Giữ API nhỏ và ổn định, có tài liệu/ví dụ, a11y (role, bàn phím) và test cho component dùng chung",
+          "en": "Keep the API small and stable, with docs/examples, accessibility (roles, keyboard) and tests for the shared component"
+        }
+      ],
+      "explanation": {
+        "vi": "Một component dùng chung tốt có API nhỏ, kiểu rõ ràng và không lộ state nội bộ. Dữ liệu vào qua signal input, sự kiện ra qua `output()`, còn phần trình bày linh hoạt giao cho `ng-template` của người dùng. Kết hợp OnPush, `track` theo id và virtual scroll giúp bảng vẫn mượt với hàng nghìn dòng. Phỏng vấn viên thường muốn nghe bạn cân nhắc giữa linh hoạt và độ ổn định của API.",
+        "en": "A good shared component has a small, strongly typed API and does not leak internal state. Data comes in through signal inputs, events go out through `output()`, and flexible rendering is handed to consumer `ng-template`s. OnPush, `track` by id and virtual scrolling keep the table smooth with thousands of rows. Interviewers usually want to hear how you balance flexibility against API stability."
+      }
+    },
+    {
+      "id": "angular.di.001",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "di",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`@Injectable({ providedIn: 'root' })` trên `CartService` có ý nghĩa gì?",
+        "en": "What does `@Injectable({ providedIn: 'root' })` on `CartService` mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một instance dùng chung toàn app, tạo khi inject lần đầu",
+            "en": "One app-wide instance, created on first injection"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Mỗi component inject sẽ nhận một instance riêng của service",
+            "en": "Every component that injects it gets its own service instance"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Service chỉ dùng được trong `AppComponent` và các con trực tiếp",
+            "en": "The service can only be used in `AppComponent` and its direct children"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Service được tạo ngay khi app khởi động, kể cả khi không ai dùng",
+            "en": "The service is created at startup even if nobody uses it"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`providedIn: 'root'` đăng ký service vào root injector, nên cả ứng dụng dùng chung một instance. Service được tạo lười ở lần inject đầu tiên và bị tree-shake nếu không ai dùng. Không cần thêm vào `providers` ở đâu cả.",
+        "en": "`providedIn: 'root'` registers the service in the root injector, so the whole app shares one instance. It is created lazily on first injection and tree-shaken if nobody uses it. You do not need to add it to any `providers` array."
+      }
+    },
+    {
+      "id": "angular.di.002",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "di",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ở vị trí nào gọi `inject(HttpClient)` là hợp lệ?",
+        "en": "Where is calling `inject(HttpClient)` valid?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trong callback của `setTimeout` bên trong `ngOnInit`",
+            "en": "Inside a `setTimeout` callback within `ngOnInit`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Trong khởi tạo field, vd `private http = inject(HttpClient)`",
+            "en": "In a field initialiser, e.g. `private http = inject(HttpClient)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Trong method `save()` được gọi mỗi khi người dùng bấm nút Lưu",
+            "en": "Inside a `save()` method that runs when the user clicks the Save button"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Trong callback `subscribe` của một Observable do service trả về",
+            "en": "Inside the `subscribe` callback of an Observable returned by a service"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`inject()` chỉ chạy được trong injection context: khởi tạo field, constructor, factory của provider, hoặc các hàm như guard, resolver, interceptor do Angular gọi. Gọi trong `setTimeout`, callback `subscribe` hay method chạy sau đó sẽ ném lỗi `NG0203`. Cách thường dùng là inject ở field rồi dùng lại trong method.",
+        "en": "`inject()` only works in an injection context: field initialisers, constructors, provider factories, or functions Angular calls such as guards, resolvers and interceptors. Calling it inside `setTimeout`, a `subscribe` callback or a method run later throws `NG0203`. The usual pattern is to inject in a field and reuse it in methods."
+      }
+    },
+    {
+      "id": "angular.di.003",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "di",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { Injector, InjectionToken } from '@angular/core';\n\nlet calls = 0;\nconst REQUEST_ID = new InjectionToken<number>('REQUEST_ID');\n\nconst injector = Injector.create({\n  providers: [{ provide: REQUEST_ID, useFactory: () => ++calls }],\n});\n\nconst first = injector.get(REQUEST_ID);\nconst second = injector.get(REQUEST_ID);\nconsole.log(first, second, calls);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`1 1 1`",
+            "en": "`1 1 1`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`1 2 2`",
+            "en": "`1 2 2`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`0 1 1`",
+            "en": "`0 1 1`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`1 2 1`",
+            "en": "`1 2 1`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Provider chỉ được resolve một lần trên mỗi injector: lần `get` đầu chạy `useFactory` và cache kết quả, lần sau trả lại giá trị đã cache. Vì vậy `calls` chỉ tăng một lần và cả hai biến đều là `1`. Đây cũng là lý do service trong cùng injector là singleton.",
+        "en": "A provider is resolved only once per injector: the first `get` runs `useFactory` and caches the result, and later calls return the cached value. So `calls` increments once and both variables are `1`. This is also why services in the same injector are singletons."
+      }
+    },
+    {
+      "id": "angular.di.004",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "di",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn muốn inject URL gốc của API (một `string`) vào nhiều service. Cách làm đúng chuẩn Angular là gì?",
+        "en": "You want to inject the API base URL (a `string`) into several services. What is the idiomatic Angular approach?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gọi `inject(String)` rồi đọc giá trị từ `environment` ở constructor",
+            "en": "Call `inject(String)` and read the value from `environment` in the constructor"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lưu URL vào `window` rồi đọc lại trong từng service khi cần",
+            "en": "Store the URL on `window` and read it back in each service when needed"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tạo `InjectionToken<string>`, cung cấp bằng `useValue` rồi `inject(API_URL)`",
+            "en": "Create an `InjectionToken<string>`, provide it with `useValue`, then `inject(API_URL)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Khai báo URL trong `providers` của `app.config.ts` dạng `{ provide: 'apiUrl', useClass: String }`",
+            "en": "Declare it in `providers` as `{ provide: 'apiUrl', useClass: String }` in `app.config.ts`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Giá trị không phải class (string, object cấu hình, hàm) cần một khoá DI riêng là `InjectionToken`. Tạo `API_URL = new InjectionToken<string>('API_URL')`, cung cấp bằng `{ provide: API_URL, useValue: environment.apiUrl }` và dùng `inject(API_URL)`. Token có kiểu nên an toàn hơn dùng chuỗi làm khoá và dễ thay trong test.",
+        "en": "Non-class values (strings, config objects, functions) need their own DI key, an `InjectionToken`. Create `API_URL = new InjectionToken<string>('API_URL')`, provide it with `{ provide: API_URL, useValue: environment.apiUrl }` and use `inject(API_URL)`. The token is typed, so it is safer than a string key and easy to override in tests."
+      }
+    },
+    {
+      "id": "angular.di.005",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "di",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`CartComponent` khai báo `providers: [CartStore]` và trang hiển thị hai `<app-cart>` cạnh nhau. Thêm sản phẩm vào giỏ thứ nhất thì giỏ thứ hai thế nào?",
+        "en": "`CartComponent` declares `providers: [CartStore]` and a page shows two `<app-cart>` side by side. When you add a product to the first cart, what happens to the second?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Giỏ thứ hai cũng hiện sản phẩm vì `CartStore` là singleton",
+            "en": "The second cart shows it too because `CartStore` is a singleton"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lỗi runtime vì cùng một provider không được khai báo hai lần",
+            "en": "A runtime error because the same provider cannot be declared twice"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Giỏ thứ hai chỉ cập nhật sau lần change detection tiếp theo",
+            "en": "The second cart only updates after the next change detection run"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không đổi, mỗi `<app-cart>` có một `CartStore` riêng của nó",
+            "en": "Nothing, each `<app-cart>` has its own `CartStore` instance"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Provider khai báo ở component tạo instance mới trên element injector của từng instance component. Hai `<app-cart>` có hai `CartStore` riêng, nên state tách biệt; các component con bên trong mỗi giỏ dùng chung store của giỏ đó. Nếu muốn dùng chung toàn app, chuyển sang `providedIn: 'root'`.",
+        "en": "A provider declared on a component creates a new instance on each component instance's element injector. The two `<app-cart>` elements get separate `CartStore`s, so their state is isolated; children inside each cart share that cart's store. For app-wide sharing, use `providedIn: 'root'` instead."
+      }
+    },
+    {
+      "id": "angular.di.006",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "di",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Bấm nút \"Tải báo cáo\" gọi `loadReport()` và nhận lỗi `NG0203`. Lỗi nằm ở đâu?",
+        "en": "Clicking \"Load report\" calls `loadReport()` and throws `NG0203`. What is wrong?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Injectable({ providedIn: 'root' })\nexport class ReportService {\n  private http = inject(HttpClient);\n\n  loadReport(month: string) {\n    const apiUrl = inject(API_URL);\n    return this.http.get<Report>(`${apiUrl}/reports/${month}`);\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`API_URL` phải được inject bằng `@Inject` trong constructor mới chạy",
+            "en": "`API_URL` only works when injected with `@Inject` in the constructor"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`HttpClient` phải được inject sau `API_URL` chứ không phải trước",
+            "en": "`HttpClient` must be injected after `API_URL`, not before it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`inject()` bị gọi ngoài injection context",
+            "en": "`inject()` is called outside an injection context"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Service thiếu `providedIn: 'root'` nên không tìm thấy `API_URL`",
+            "en": "The service lacks `providedIn: 'root'`, so `API_URL` is not found"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`NG0203` nghĩa là `inject()` bị gọi ngoài injection context. `loadReport()` chạy khi người dùng bấm, lúc đó không còn injector hiện hành, nên `inject(API_URL)` thất bại. Hãy inject ở field (`private apiUrl = inject(API_URL)`) hoặc constructor rồi dùng lại trong method; nếu thật sự cần, có thể bọc bằng `runInInjectionContext`.",
+        "en": "`NG0203` means `inject()` was called outside an injection context. `loadReport()` runs on a user click, when there is no current injector, so `inject(API_URL)` fails. Inject in a field (`private apiUrl = inject(API_URL)`) or the constructor and reuse it in the method; if really needed, wrap the call in `runInInjectionContext`."
+      }
+    },
+    {
+      "id": "angular.di.007",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "di",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "App cung cấp `{ provide: PASSWORD_RULES, useValue: minLength, multi: true }` và `{ provide: PASSWORD_RULES, useValue: hasDigit, multi: true }`. `inject(PASSWORD_RULES)` trả về gì?",
+        "en": "The app provides `{ provide: PASSWORD_RULES, useValue: minLength, multi: true }` and `{ provide: PASSWORD_RULES, useValue: hasDigit, multi: true }`. What does `inject(PASSWORD_RULES)` return?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ `hasDigit`, vì provider sau ghi đè provider trước",
+            "en": "Only `hasDigit`, because the later provider overrides the earlier one"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Mảng `[minLength, hasDigit]` theo thứ tự đăng ký",
+            "en": "The array `[minLength, hasDigit]` in registration order"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ `minLength`, vì provider đầu tiên được ưu tiên",
+            "en": "Only `minLength`, because the first provider wins"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi runtime vì một token không được cung cấp hai lần",
+            "en": "A runtime error because a token cannot be provided twice"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Với `multi: true`, mọi provider cùng token được gom lại thành một mảng theo thứ tự đăng ký, nên kết quả là `[minLength, hasDigit]`. Đây là cơ chế đằng sau `HTTP_INTERCEPTORS`, `NG_VALIDATORS` và các điểm mở rộng tương tự. Nếu thiếu `multi`, provider sau sẽ ghi đè provider trước.",
+        "en": "With `multi: true`, all providers for the same token are collected into an array in registration order, so the result is `[minLength, hasDigit]`. This is the mechanism behind `HTTP_INTERCEPTORS`, `NG_VALIDATORS` and similar extension points. Without `multi`, the later provider would override the earlier one."
+      }
+    },
+    {
+      "id": "angular.di.008",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "di",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích injector phân cấp trong Angular: environment injector và element injector, thứ tự tìm provider, và một lỗi thường gặp khi khai báo service trong route lazy.",
+        "en": "Explain Angular's hierarchical injectors: environment vs element injectors, the provider lookup order, and a common bug when providing a service in a lazy route."
+      },
+      "keyPoints": [
+        {
+          "vi": "Environment injector: root (`providedIn: 'root'`, `app.config`) và injector con tạo cho route có `providers` hoặc `loadChildren`",
+          "en": "Environment injectors: root (`providedIn: 'root'`, `app.config`) and child injectors created for routes with `providers` or `loadChildren`"
+        },
+        {
+          "vi": "Element injector: tạo từ `providers` / `viewProviders` của component và directive, sống theo vòng đời component",
+          "en": "Element injectors: created from component/directive `providers` / `viewProviders`, living as long as the component"
+        },
+        {
+          "vi": "Thứ tự tìm: element injector từ dưới lên, rồi environment injector, cuối cùng `NullInjector` ném lỗi (trừ khi `optional`)",
+          "en": "Lookup: element injectors bottom-up, then environment injectors, finally `NullInjector` throws (unless `optional`)"
+        },
+        {
+          "vi": "Modifier `self`, `skipSelf`, `host`, `optional` của `inject()` giới hạn phạm vi tìm",
+          "en": "`inject()` options `self`, `skipSelf`, `host`, `optional` restrict the lookup"
+        },
+        {
+          "vi": "Lỗi hay gặp: thêm service `providedIn: 'root'` vào `providers` của route lazy tạo instance thứ hai, state bị tách khỏi phần còn lại của app",
+          "en": "Common bug: adding a `providedIn: 'root'` service to a lazy route's `providers` creates a second instance, splitting state from the rest of the app"
+        }
+      ],
+      "explanation": {
+        "vi": "Angular có hai cây injector: cây environment (root, route lazy, `createEnvironmentInjector`) và cây element đi theo cây component. Khi inject, Angular tìm theo element injector từ component hiện tại lên trên, rồi mới đến environment injector. Hiểu điều này giúp giải thích vì sao đôi khi có hai instance của cùng một service và cách dùng `providers` ở component hay route để giới hạn phạm vi state.",
+        "en": "Angular has two injector trees: the environment tree (root, lazy routes, `createEnvironmentInjector`) and the element tree that follows the component tree. On injection, Angular walks the element injectors from the current component upwards, then the environment injectors. Understanding this explains why you sometimes get two instances of a service and how component- or route-level `providers` scope state."
+      }
+    },
+    {
+      "id": "angular.di.009",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "di",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn viết thư viện nội bộ (analytics, feature flag) cho nhiều app Angular. Bạn sẽ thiết kế API cấu hình dựa trên DI như thế nào để dễ dùng, dễ mở rộng và dễ test?",
+        "en": "You are building an internal library (analytics, feature flags) for several Angular apps. How would you design its DI-based configuration API so it is easy to use, extend and test?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Hàm `provideAnalytics(config, ...features)` trả về `EnvironmentProviders` qua `makeEnvironmentProviders`, chỉ dùng ở cấp app/route",
+          "en": "A `provideAnalytics(config, ...features)` function returning `EnvironmentProviders` via `makeEnvironmentProviders`, usable only at app/route level"
+        },
+        {
+          "vi": "Cấu hình qua `InjectionToken` có kiểu, có `factory` mặc định hợp lý và kiểm tra cấu hình sai sớm",
+          "en": "Configuration through typed `InjectionToken`s with sensible default `factory` values and early validation"
+        },
+        {
+          "vi": "Điểm mở rộng bằng provider `multi: true` hoặc feature function (`withConsentCheck()`), tránh sửa core",
+          "en": "Extension points through `multi: true` providers or feature functions (`withConsentCheck()`), without touching the core"
+        },
+        {
+          "vi": "Khởi tạo bất đồng bộ bằng `provideAppInitializer` một cách thận trọng để không chặn bootstrap quá lâu",
+          "en": "Async startup via `provideAppInitializer`, used carefully so bootstrap is not blocked for long"
+        },
+        {
+          "vi": "Phụ thuộc vào abstraction (abstract class làm token) để test thay bằng fake qua `TestBed.overrideProvider` / `providers`",
+          "en": "Depend on abstractions (abstract class as token) so tests can swap in fakes via `TestBed` providers"
+        }
+      ],
+      "explanation": {
+        "vi": "Angular hiện đại khuyến khích các hàm `provideX()` thay cho `forRoot()` của NgModule. Kết hợp `InjectionToken` có kiểu, provider `multi` cho điểm mở rộng và `provideAppInitializer` cho việc khởi tạo, thư viện vừa tree-shakable vừa dễ cấu hình. Phỏng vấn viên muốn thấy bạn nghĩ tới việc app cấu hình sai, khởi động chậm và việc thay thế trong test.",
+        "en": "Modern Angular favours `provideX()` functions over NgModule `forRoot()`. Combined with typed `InjectionToken`s, `multi` providers for extension points and `provideAppInitializer` for startup work, the library stays tree-shakable and easy to configure. Interviewers want to see you think about misconfiguration, slow startup and test overrides."
+      }
+    },
+    {
+      "id": "angular.signals.001",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "signals",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `count = signal(0)`, cách đúng để đọc giá trị và tăng nó thêm 1 là gì?",
+        "en": "Given `count = signal(0)`, what is the correct way to read the value and increase it by 1?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đọc `count.value`, tăng bằng `count.value++`",
+            "en": "Read `count.value`, increase with `count.value++`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đọc `count`, tăng bằng `count = count + 1`",
+            "en": "Read `count`, increase with `count = count + 1`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đọc `count()`, tăng bằng `count.update(c => c + 1)`",
+            "en": "Read `count()`, increase with `count.update(c => c + 1)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đọc `count.get()`, tăng bằng `count.next(count.get() + 1)`",
+            "en": "Read `count.get()`, increase with `count.next(count.get() + 1)`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Signal là hàm getter: gọi `count()` để đọc, và việc đọc trong template hoặc `computed` sẽ được theo dõi. Để ghi, dùng `set(value)` hoặc `update(fn)` khi giá trị mới phụ thuộc giá trị cũ. Gán trực tiếp `count = ...` sẽ thay cả signal bằng một số và phá vỡ reactivity.",
+        "en": "A signal is a getter function: call `count()` to read it, and reads in templates or `computed` are tracked. To write, use `set(value)`, or `update(fn)` when the new value depends on the old one. Assigning `count = ...` replaces the signal itself with a number and breaks reactivity."
+      }
+    },
+    {
+      "id": "angular.signals.002",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "signals",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { signal, computed } from '@angular/core';\n\nconst price = signal(2);\nconst double = computed(() => {\n  console.log('calc');\n  return price() * 2;\n});\n\nprice.set(3);\nprice.set(4);\nconsole.log(double());\nconsole.log(double());"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`calc`, `calc`, `8`, `8`",
+            "en": "`calc`, `calc`, `8`, `8`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`calc`, `8`, `calc`, `8`",
+            "en": "`calc`, `8`, `calc`, `8`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`calc`, `8`, `8`",
+            "en": "`calc`, `8`, `8`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`calc`, `calc`, `calc`, `8`, `8`",
+            "en": "`calc`, `calc`, `calc`, `8`, `8`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`computed` tính lười và có cache: tạo ra hay `set` signal nguồn không chạy hàm ngay. Lần đọc `double()` đầu tiên mới tính (in `calc`) với giá trị mới nhất là `4`, trả `8`. Lần đọc thứ hai không có phụ thuộc nào đổi nên dùng lại cache, không in `calc` nữa.",
+        "en": "`computed` is lazy and memoised: creating it or calling `set` on its source does not run the function. The first read of `double()` computes it (printing `calc`) with the latest value `4`, returning `8`. The second read has no changed dependencies, so it reuses the cache and does not print `calc` again."
+      }
+    },
+    {
+      "id": "angular.signals.003",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "signals",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra số mấy?",
+        "en": "What number does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { signal, computed } from '@angular/core';\n\nconst name = signal('An');\nlet runs = 0;\nconst greeting = computed(() => {\n  runs++;\n  return `Hi ${name()}`;\n});\n\ngreeting();\nname.set('An');\ngreeting();\nconsole.log(runs);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`2`",
+            "en": "`2`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`1`",
+            "en": "`1`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`0`",
+            "en": "`0`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`3`",
+            "en": "`3`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Signal so sánh giá trị mới với giá trị cũ bằng `Object.is` (mặc định). `name.set('An')` đặt lại đúng giá trị hiện có nên signal không báo thay đổi, và `greeting` không bị đánh dấu cần tính lại. Lần đọc thứ hai dùng cache, nên `runs` vẫn là `1`.",
+        "en": "A signal compares the new value with the old one using `Object.is` (by default). `name.set('An')` sets the value it already has, so the signal reports no change and `greeting` is not marked stale. The second read uses the cache, so `runs` is still `1`."
+      }
+    },
+    {
+      "id": "angular.signals.004",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "signals",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `ChangeDetectionStrategy.OnPush` (ứng dụng dùng zone.js), trường hợp nào KHÔNG khiến component được kiểm tra lại?",
+        "en": "With `ChangeDetectionStrategy.OnPush` (app using zone.js), which case does NOT cause the component to be checked again?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một signal được đọc trong template của nó nhận giá trị mới",
+            "en": "A signal read in its template receives a new value"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Người dùng bấm một nút gắn `(click)` ngay trong template của nó",
+            "en": "The user clicks a button bound with `(click)` in its template"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Component cha truyền xuống một object mới cho input",
+            "en": "The parent passes a new object to one of its inputs"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Một field thường bị gán lại trong callback `setTimeout`",
+            "en": "A plain field is reassigned inside a `setTimeout` callback"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Component OnPush chỉ được kiểm tra khi bị đánh dấu dirty: input đổi tham chiếu, event phát sinh trong template của nó, `async` pipe nhận giá trị, signal đọc trong template đổi, hoặc gọi `markForCheck()`. Sửa một field thường trong `setTimeout` không đánh dấu gì, nên view không cập nhật. Đây là lý do nên giữ state hiển thị trong signal.",
+        "en": "An OnPush component is checked only when marked dirty: an input changes by reference, an event fires in its template, the `async` pipe receives a value, a signal read in the template changes, or `markForCheck()` is called. Changing a plain field inside `setTimeout` marks nothing, so the view does not update. That is why display state belongs in signals."
+      }
+    },
+    {
+      "id": "angular.signals.005",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "signals",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì (ba dòng)?",
+        "en": "What does the following code print (three lines)?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { signal, computed } from '@angular/core';\n\nconst items = signal([1, 2]);\nconst total = computed(() => items().length);\n\nconsole.log(total());\nitems.update(list => {\n  list.push(3);\n  return list;\n});\nconsole.log(total());\nitems.update(list => [...list, 4]);\nconsole.log(total());"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`2`, `3`, `4`",
+            "en": "`2`, `3`, `4`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`2`, `2`, `3`",
+            "en": "`2`, `2`, `3`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`2`, `3`, `3`",
+            "en": "`2`, `3`, `3`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`2`, `2`, `4`",
+            "en": "`2`, `2`, `4`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Lần `update` đầu tiên sửa mảng tại chỗ rồi trả lại cùng tham chiếu; `Object.is` thấy giá trị không đổi nên signal không báo thay đổi và `total` trả cache `2`. Lần thứ hai trả mảng mới nên `total` tính lại và ra `4` (mảng đã chứa `1, 2, 3, 4`). Với signal, luôn cập nhật bất biến: tạo mảng/object mới.",
+        "en": "The first `update` mutates the array in place and returns the same reference; `Object.is` sees no change, so the signal does not notify and `total` returns the cached `2`. The second returns a new array, so `total` recomputes to `4` (the array now holds `1, 2, 3, 4`). With signals, always update immutably by creating a new array/object."
+      }
+    },
+    {
+      "id": "angular.signals.006",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "signals",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Component sau luôn hiển thị \"Loading...\" dù dữ liệu đã về. Lỗi nằm ở đâu?",
+        "en": "The component below always shows \"Loading...\" even after the data arrives. What is wrong?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Component({\n  selector: 'app-report',\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  template: `<p>{{ status }}</p>`,\n})\nexport class ReportComponent implements OnInit {\n  private reports = inject(ReportService);\n  status = 'Loading...';\n\n  ngOnInit() {\n    this.reports.load().subscribe(r => {\n      this.status = `Loaded ${r.items.length} items`;\n    });\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải gọi `subscribe` trong constructor thay vì `ngOnInit`",
+            "en": "`subscribe` must be called in the constructor instead of `ngOnInit`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "OnPush không biết field thường `status` đổi; nên dùng signal",
+            "en": "OnPush does not see the plain `status` field change; use a signal"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải dùng `{{ status() }}` vì interpolation chỉ đọc được hàm",
+            "en": "It must be `{{ status() }}` because interpolation only reads functions"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`ReportService` phải được khai báo trong `providers` của component",
+            "en": "`ReportService` must be listed in the component's `providers`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Component dùng OnPush nhưng `status` là field thường được gán trong callback bất đồng bộ. Không có input đổi, event template hay signal nào báo, nên Angular không kiểm tra lại view. Cách sửa hiện đại là `status = signal('Loading...')` và `this.status.set(...)`; cách cũ là gọi `ChangeDetectorRef.markForCheck()`.",
+        "en": "The component uses OnPush, but `status` is a plain field assigned in an async callback. No input change, template event or signal notifies Angular, so the view is not re-checked. The modern fix is `status = signal('Loading...')` with `this.status.set(...)`; the older fix is calling `ChangeDetectorRef.markForCheck()`."
+      }
+    },
+    {
+      "id": "angular.signals.007",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "signals",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì (ba dòng)?",
+        "en": "What does the following code print (three lines)?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { signal, computed, untracked } from '@angular/core';\n\nconst a = signal(1);\nconst b = signal(10);\nconst sum = computed(() => a() + untracked(() => b()));\n\nconsole.log(sum());\nb.set(20);\nconsole.log(sum());\na.set(2);\nconsole.log(sum());"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`11`, `11`, `22`",
+            "en": "`11`, `11`, `22`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`11`, `21`, `22`",
+            "en": "`11`, `21`, `22`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`11`, `11`, `12`",
+            "en": "`11`, `11`, `12`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`11`, `21`, `12`",
+            "en": "`11`, `21`, `12`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`untracked` đọc `b()` mà không đăng ký nó là phụ thuộc của `sum`. Vì vậy `b.set(20)` không làm `sum` cũ đi và lần đọc thứ hai vẫn là `11`. Khi `a` đổi, `sum` tính lại và lúc đó đọc giá trị mới nhất của `b`, ra `2 + 20 = 22`.",
+        "en": "`untracked` reads `b()` without registering it as a dependency of `sum`. So `b.set(20)` does not make `sum` stale and the second read is still `11`. When `a` changes, `sum` recomputes and reads the latest `b` at that point, giving `2 + 20 = 22`."
+      }
+    },
+    {
+      "id": "angular.signals.008",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "signals",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trong một ứng dụng Angular hiện đại, khi nào bạn dùng signal và khi nào dùng RxJS? Giải thích vai trò của `computed`, `effect`, `toSignal` và `toObservable`.",
+        "en": "In a modern Angular app, when do you use signals and when RxJS? Explain the roles of `computed`, `effect`, `toSignal` and `toObservable`."
+      },
+      "keyPoints": [
+        {
+          "vi": "Signal cho state đồng bộ của UI (giá trị hiện tại, dẫn xuất); RxJS cho luồng sự kiện, thời gian, huỷ, kết hợp nhiều nguồn",
+          "en": "Signals for synchronous UI state (current values, derivations); RxJS for event streams, timing, cancellation, combining sources"
+        },
+        {
+          "vi": "`computed` cho giá trị dẫn xuất, lười và có cache; không ghi signal bên trong",
+          "en": "`computed` for derived values, lazy and memoised; never write signals inside it"
+        },
+        {
+          "vi": "`effect` chỉ cho side effect ra ngoài (log, localStorage, thư viện DOM), không dùng để copy state sang signal khác",
+          "en": "`effect` only for side effects to the outside (logging, localStorage, DOM libraries), not to copy state into another signal"
+        },
+        {
+          "vi": "`toSignal(obs$)` đổi Observable thành signal (tự unsubscribe, cần `initialValue` hoặc chấp nhận `undefined`); `toObservable(sig)` cho chiều ngược lại",
+          "en": "`toSignal(obs$)` turns an Observable into a signal (auto-unsubscribes, needs `initialValue` or accepts `undefined`); `toObservable(sig)` goes the other way"
+        },
+        {
+          "vi": "Cả hai cần injection context (hoặc truyền `injector`); với dữ liệu tải từ server có thể cân nhắc `resource` / `httpResource`",
+          "en": "Both need an injection context (or an `injector` option); for server data consider `resource` / `httpResource`"
+        }
+      ],
+      "explanation": {
+        "vi": "Signal và RxJS bổ sung cho nhau: signal mô tả trạng thái tại một thời điểm, RxJS mô tả chuỗi sự kiện theo thời gian. Câu trả lời tốt nêu rõ ranh giới, cách chuyển đổi qua `@angular/core/rxjs-interop` và tránh lạm dụng `effect` để đồng bộ state. Nên nhắc thêm `resource` / `httpResource` cho dữ liệu bất đồng bộ dạng signal ở các bản mới.",
+        "en": "Signals and RxJS complement each other: signals describe state at a point in time, RxJS describes streams of events over time. A good answer draws the boundary, converts through `@angular/core/rxjs-interop` and avoids abusing `effect` to sync state. It is worth mentioning `resource` / `httpResource` for signal-based async data in newer versions."
+      }
+    },
+    {
+      "id": "angular.signals.009",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "signals",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn được giao chuyển một ứng dụng Angular lớn sang zoneless. Bạn sẽ lên kế hoạch và xử lý rủi ro như thế nào?",
+        "en": "You are asked to migrate a large Angular app to zoneless. How would you plan it and handle the risks?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Chuẩn bị trước: chuyển dần component sang `OnPush` + signal; app chạy ổn với OnPush thường đã gần sẵn sàng cho zoneless",
+          "en": "Prepare first: move components to `OnPush` + signals; an app that works with OnPush is usually close to zoneless-ready"
+        },
+        {
+          "vi": "Bật `provideZonelessChangeDetection()` và bỏ `zone.js` khỏi polyfills / `angular.json`",
+          "en": "Enable `provideZonelessChangeDetection()` and remove `zone.js` from polyfills / `angular.json`"
+        },
+        {
+          "vi": "Biết cái gì còn kích hoạt render: signal đọc trong template, event template, `async` pipe, `markForCheck()`, đổi input",
+          "en": "Know what still schedules rendering: template signal reads, template events, `async` pipe, `markForCheck()`, input changes"
+        },
+        {
+          "vi": "Rà soát rủi ro: gán field trong `setTimeout` / `subscribe`, `NgZone.onStable` / `onMicrotaskEmpty`, thư viện bên thứ ba dựa vào zone",
+          "en": "Audit risks: field assignments in `setTimeout` / `subscribe`, `NgZone.onStable` / `onMicrotaskEmpty`, third-party libs relying on zones"
+        },
+        {
+          "vi": "Cập nhật test (bỏ `fakeAsync` phụ thuộc zone, dùng `await fixture.whenStable()`), rollout theo giai đoạn và đo hiệu năng trước/sau",
+          "en": "Update tests (drop zone-based `fakeAsync`, use `await fixture.whenStable()`), roll out in phases and measure before/after"
+        }
+      ],
+      "explanation": {
+        "vi": "Zoneless bỏ zone.js nên Angular không còn tự chạy change detection sau mỗi tác vụ bất đồng bộ; chỉ những thông báo rõ ràng mới kích hoạt render. Lợi ích là bundle nhỏ hơn, stack trace sạch và hiệu năng dễ đoán hơn. Rủi ro chính là code cũ gán field trong callback và thư viện phụ thuộc zone, nên cần di chuyển dần, đo đạc và có test bao phủ.",
+        "en": "Zoneless drops zone.js, so Angular no longer runs change detection after every async task; only explicit notifications trigger rendering. The benefits are a smaller bundle, cleaner stack traces and more predictable performance. The main risks are legacy code assigning fields in callbacks and libraries relying on zones, so migrate gradually, measure and keep good test coverage."
+      }
+    },
+    {
+      "id": "angular.rxjs.001",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "rxjs",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { of } from 'rxjs';\nimport { map, filter } from 'rxjs/operators';\n\nof(1, 2, 3)\n  .pipe(\n    map(x => x * 10),\n    filter(x => x > 10),\n  )\n  .subscribe(v => console.log(v));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`20`, `30`",
+            "en": "`20`, `30`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`10`, `20`, `30`",
+            "en": "`10`, `20`, `30`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`2`, `3`",
+            "en": "`2`, `3`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`30`",
+            "en": "`30`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Operator trong `pipe` chạy tuần tự cho từng giá trị: `map` nhân 10 thành `10, 20, 30`, sau đó `filter` chỉ giữ giá trị lớn hơn `10`. Vì vậy chỉ `20` và `30` tới `subscribe`. Thứ tự operator quan trọng: đặt `filter(x => x > 10)` trước `map` sẽ không còn giá trị nào.",
+        "en": "Operators in `pipe` run in order for each value: `map` multiplies by 10 giving `10, 20, 30`, then `filter` keeps only values greater than `10`. So only `20` and `30` reach `subscribe`. Operator order matters: putting `filter(x => x > 10)` before `map` would let nothing through."
+      }
+    },
+    {
+      "id": "angular.rxjs.002",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "rxjs",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Service gọi `this.http.get('/api/users')` trong `loadUsers()`, component có gọi `loadUsers()` nhưng tab Network không có request nào. Nguyên nhân khả dĩ nhất?",
+        "en": "A service calls `this.http.get('/api/users')` in `loadUsers()`, the component does call `loadUsers()`, but the Network tab shows no request. What is the most likely cause?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thiếu `provideHttpClient()` nên Angular âm thầm bỏ qua request đó",
+            "en": "`provideHttpClient()` is missing, so Angular silently ignores the request"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Trình duyệt cache các request GET nên chúng không hiện trong tab Network",
+            "en": "The browser caches GET requests, so they are hidden from the Network tab"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không ai subscribe Observable trả về, nên request chưa được gửi",
+            "en": "Nobody subscribes to the returned Observable, so it is never sent"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`HttpClient` chỉ gửi request khi URL là đường dẫn tuyệt đối",
+            "en": "`HttpClient` only sends requests when the URL is absolute"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Observable của `HttpClient` là cold và lười: gọi `get()` chỉ tạo mô tả request, request chỉ được gửi khi có người subscribe. Component cần `subscribe`, dùng `async` pipe hoặc `toSignal`. Mỗi lần subscribe sẽ gửi một request mới.",
+        "en": "`HttpClient` Observables are cold and lazy: calling `get()` only creates a description of the request, which is sent only when someone subscribes. The component needs to `subscribe`, use the `async` pipe or `toSignal`. Each subscription sends a new request."
+      }
+    },
+    {
+      "id": "angular.rxjs.003",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "rxjs",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { Subject, BehaviorSubject } from 'rxjs';\n\nconst log: string[] = [];\n\nconst s = new Subject<number>();\ns.next(1);\ns.subscribe(v => log.push('A' + v));\ns.next(2);\n\nconst b = new BehaviorSubject<number>(0);\nb.next(1);\nb.subscribe(v => log.push('B' + v));\nb.next(2);\n\nconsole.log(log.join(' '));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`A1 A2 B0 B1 B2`",
+            "en": "`A1 A2 B0 B1 B2`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`A2 B2`",
+            "en": "`A2 B2`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`A2 B1 B2`",
+            "en": "`A2 B1 B2`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`A1 A2 B1 B2`",
+            "en": "`A1 A2 B1 B2`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`Subject` không lưu giá trị: `next(1)` phát khi chưa có subscriber nên bị mất, subscriber A chỉ nhận `2`. `BehaviorSubject` luôn giữ giá trị hiện tại và phát ngay cho subscriber mới, nên B nhận `1` (giá trị mới nhất lúc subscribe) rồi `2`. Vì vậy `BehaviorSubject` hay dùng để giữ state trong service.",
+        "en": "A `Subject` stores no value: `next(1)` fires before anyone subscribes and is lost, so subscriber A only receives `2`. A `BehaviorSubject` always holds a current value and replays it to new subscribers, so B receives `1` (the latest value at subscription time) then `2`. That is why `BehaviorSubject` is often used to hold state in services."
+      }
+    },
+    {
+      "id": "angular.rxjs.004",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "rxjs",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "So với tự `subscribe` trong component, `async` pipe (`{{ user$ | async }}`) mang lại lợi ích chính nào?",
+        "en": "Compared with subscribing manually in a component, what is the main benefit of the `async` pipe (`{{ user$ | async }}`)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tự động gộp mọi lần dùng `user$` trong template thành một request",
+            "en": "It automatically merges every use of `user$` in the template into one request"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tự unsubscribe khi huỷ và cập nhật view khi có giá trị mới",
+            "en": "It unsubscribes on destroy and updates the view on new values"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Biến Observable thành Promise nên giá trị có ngay ở lần render đầu",
+            "en": "It turns the Observable into a Promise, so the value is there on first render"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tự retry khi Observable lỗi và giữ lại giá trị cuối cùng hợp lệ",
+            "en": "It retries automatically on errors and keeps the last valid value"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`async` pipe subscribe khi view được tạo, tự unsubscribe khi component bị huỷ và đánh dấu component cần kiểm tra khi có giá trị mới, nên chạy tốt với OnPush. Nó không cache hay gộp request: dùng `user$ | async` hai lần là hai subscription. Trong code mới, `toSignal` cho lợi ích tương tự ở dạng signal.",
+        "en": "The `async` pipe subscribes when the view is created, unsubscribes automatically when the component is destroyed and marks the component for check on new values, so it works well with OnPush. It does not cache or dedupe requests: using `user$ | async` twice creates two subscriptions. In new code, `toSignal` gives similar benefits as a signal."
+      }
+    },
+    {
+      "id": "angular.rxjs.005",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "rxjs",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì, theo thứ tự?",
+        "en": "What does the following code print, in order?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { of, timer } from 'rxjs';\nimport { map, mergeMap } from 'rxjs/operators';\n\nof(1, 2, 3)\n  .pipe(\n    mergeMap(x => timer(40 - x * 10).pipe(map(() => x))),\n  )\n  .subscribe(v => console.log(v));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`1`, `2`, `3`",
+            "en": "`1`, `2`, `3`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`3`",
+            "en": "`3`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`1`",
+            "en": "`1`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`3`, `2`, `1`",
+            "en": "`3`, `2`, `1`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`mergeMap` subscribe mọi Observable con ngay lập tức và chạy song song, rồi phát kết quả theo thứ tự hoàn thành. `1` chờ 30ms, `2` chờ 20ms, `3` chờ 10ms, nên thứ tự in là `3, 2, 1`. Nếu cần giữ thứ tự nguồn thì dùng `concatMap` (chạy lần lượt).",
+        "en": "`mergeMap` subscribes to every inner Observable immediately and runs them in parallel, emitting results in completion order. `1` waits 30ms, `2` waits 20ms and `3` waits 10ms, so the order is `3, 2, 1`. To keep the source order, use `concatMap` (runs them one after another)."
+      }
+    },
+    {
+      "id": "angular.rxjs.006",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "rxjs",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh `Subject`, `BehaviorSubject`, `ReplaySubject` và `AsyncSubject`. Khi xây một store đơn giản trong service, bạn chọn loại nào và expose ra ngoài thế nào?",
+        "en": "Compare `Subject`, `BehaviorSubject`, `ReplaySubject` and `AsyncSubject`. When building a simple store in a service, which would you choose and how would you expose it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`Subject`: không lưu giá trị, subscriber chỉ nhận giá trị phát sau khi subscribe; hợp với sự kiện (click, thông báo)",
+          "en": "`Subject`: no stored value; subscribers only get values emitted after they subscribe; suits events (clicks, notifications)"
+        },
+        {
+          "vi": "`BehaviorSubject`: cần giá trị ban đầu, phát ngay giá trị hiện tại cho subscriber mới, có `getValue()`; hợp với state",
+          "en": "`BehaviorSubject`: needs an initial value, emits the current value to new subscribers, has `getValue()`; suits state"
+        },
+        {
+          "vi": "`ReplaySubject(n)`: phát lại n giá trị gần nhất; `AsyncSubject`: chỉ phát giá trị cuối khi `complete`",
+          "en": "`ReplaySubject(n)`: replays the last n values; `AsyncSubject`: emits only the last value on `complete`"
+        },
+        {
+          "vi": "Giữ subject `private`, expose `asObservable()` và method cập nhật rõ ràng để bên ngoài không gọi `next` tuỳ tiện",
+          "en": "Keep the subject `private`, expose `asObservable()` and explicit update methods so outsiders cannot call `next` freely"
+        }
+      ],
+      "explanation": {
+        "vi": "Khác biệt nằm ở việc subject có lưu giá trị và phát lại cho subscriber mới hay không. Với state trong service, `BehaviorSubject` phổ biến nhất vì luôn có giá trị hiện tại; ngày nay signal thường là lựa chọn đơn giản hơn cho state đồng bộ. Điểm cộng khi phỏng vấn là giữ subject `private` và chỉ cho bên ngoài đọc.",
+        "en": "The difference is whether the subject stores values and replays them to new subscribers. For service state, `BehaviorSubject` is the most common choice because it always has a current value; nowadays a signal is often simpler for synchronous state. A plus in interviews is keeping the subject `private` and exposing read-only access."
+      }
+    },
+    {
+      "id": "angular.rxjs.007",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "rxjs",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Mỗi lần mở rồi đóng trang dashboard, log \"refresh\" xuất hiện dày hơn. Lỗi nằm ở đâu và cách sửa nào đúng?",
+        "en": "Every time the dashboard page is opened and closed, the \"refresh\" log appears more often. What is the bug and the right fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Component({\n  selector: 'app-dashboard',\n  template: `<app-stats [data]=\"stats()\" />`,\n})\nexport class DashboardComponent implements OnInit {\n  private statsApi = inject(StatsService);\n  stats = signal<Stats | null>(null);\n\n  ngOnInit() {\n    interval(5000)\n      .pipe(switchMap(() => this.statsApi.load()))\n      .subscribe(s => {\n        console.log('refresh');\n        this.stats.set(s);\n      });\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Subscription không bị huỷ; thêm `takeUntilDestroyed(this.destroyRef)` vào `pipe`",
+            "en": "The subscription is never torn down; add `takeUntilDestroyed(this.destroyRef)` to `pipe`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`interval` phải được tạo trong constructor để Angular tự huỷ nó khi người dùng rời trang",
+            "en": "`interval` must be created in the constructor so Angular disposes of it when the page is left"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thay `switchMap` bằng `mergeMap` để các lần refresh cũ được dừng lại",
+            "en": "Replace `switchMap` with `mergeMap` so older refreshes are stopped"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gọi `this.stats.load().unsubscribe()` sau mỗi lần nhận dữ liệu mới",
+            "en": "Call `this.stats.load().unsubscribe()` after receiving each new result"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`interval` không bao giờ complete, nên subscription vẫn sống sau khi component bị huỷ; mỗi lần vào trang lại thêm một timer, gây rò rỉ bộ nhớ và request thừa. Cách gọn là `takeUntilDestroyed(this.destroyRef)` khi subscribe trong `ngOnInit` (gọi không tham số chỉ hợp lệ trong injection context), hoặc dùng `toSignal` / `async` pipe để Angular tự huỷ.",
+        "en": "`interval` never completes, so the subscription stays alive after the component is destroyed; each visit adds another timer, leaking memory and sending extra requests. A concise fix is `takeUntilDestroyed(this.destroyRef)` when subscribing in `ngOnInit` (calling it without arguments is only valid in an injection context), or using `toSignal` / the `async` pipe so Angular cleans up."
+      }
+    },
+    {
+      "id": "angular.rxjs.008",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "rxjs",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Ô tìm kiếm dùng `switchMap`. Người dùng gõ `a` (0ms), `an` (20ms), `ang` (100ms); mỗi request mất 50ms. Console in gì?",
+        "en": "A search box uses `switchMap`. The user types `a` (0ms), `an` (20ms), `ang` (100ms); each request takes 50ms. What does the console print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { Subject, timer } from 'rxjs';\nimport { map, switchMap } from 'rxjs/operators';\n\nconst search$ = new Subject<string>();\n\nsearch$\n  .pipe(switchMap(q => timer(50).pipe(map(() => `result:${q}`))))\n  .subscribe(v => console.log(v));\n\nsearch$.next('a');\nsetTimeout(() => search$.next('an'), 20);\nsetTimeout(() => search$.next('ang'), 100);"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`result:ang`",
+            "en": "`result:ang`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`result:a`, `result:an`, `result:ang`",
+            "en": "`result:a`, `result:an`, `result:ang`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`result:an`, `result:ang`",
+            "en": "`result:an`, `result:ang`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`result:a`, `result:ang`",
+            "en": "`result:a`, `result:ang`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`switchMap` huỷ Observable con đang chạy khi có giá trị mới. Request cho `a` (xong lúc 50ms) bị huỷ ở 20ms khi `an` tới. Request `an` xong lúc 70ms, trước khi `ang` tới, nên được in; `ang` xong lúc 150ms và cũng được in. Đây là lý do `switchMap` hợp với typeahead: kết quả cũ không bao giờ đè kết quả mới.",
+        "en": "`switchMap` cancels the running inner Observable when a new value arrives. The request for `a` (due at 50ms) is cancelled at 20ms when `an` arrives. The `an` request finishes at 70ms, before `ang` arrives, so it is printed; `ang` finishes at 150ms and is printed too. That is why `switchMap` suits typeahead: stale results never overwrite newer ones."
+      }
+    },
+    {
+      "id": "angular.rxjs.009",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "rxjs",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Chọn cách ghép operator phù hợp nhất cho bốn tình huống: (1) ô tìm kiếm autocomplete, (2) lưu nháp tự động phải theo đúng thứ tự, (3) nút \"Thanh toán\" bị bấm liên tục, (4) upload nhiều file song song.",
+        "en": "Pick the best operator for each of four scenarios: (1) an autocomplete search box, (2) auto-saving drafts that must stay in order, (3) a \"Pay\" button clicked repeatedly, (4) uploading several files in parallel."
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "(1) `mergeMap`, (2) `switchMap`, (3) `concatMap`, (4) `exhaustMap`",
+            "en": "(1) `mergeMap`, (2) `switchMap`, (3) `concatMap`, (4) `exhaustMap`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "(1) `switchMap`, (2) `mergeMap`, (3) `switchMap`, (4) `concatMap`",
+            "en": "(1) `switchMap`, (2) `mergeMap`, (3) `switchMap`, (4) `concatMap`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "(1) `exhaustMap`, (2) `concatMap`, (3) `switchMap`, (4) `mergeMap`",
+            "en": "(1) `exhaustMap`, (2) `concatMap`, (3) `switchMap`, (4) `mergeMap`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "(1) `switchMap`, (2) `concatMap`, (3) `exhaustMap`, (4) `mergeMap`",
+            "en": "(1) `switchMap`, (2) `concatMap`, (3) `exhaustMap`, (4) `mergeMap`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`switchMap` huỷ request cũ nên hợp với autocomplete. `concatMap` xếp hàng và chạy lần lượt, giữ đúng thứ tự lưu. `exhaustMap` bỏ qua giá trị mới khi request hiện tại chưa xong, tránh tạo đơn thanh toán trùng. `mergeMap` chạy song song (có thể giới hạn bằng tham số `concurrent`) cho upload nhiều file.",
+        "en": "`switchMap` cancels stale requests, which suits autocomplete. `concatMap` queues and runs requests one by one, preserving save order. `exhaustMap` ignores new values while the current request is in flight, preventing duplicate payments. `mergeMap` runs in parallel (optionally capped with the `concurrent` argument) for multi-file uploads."
+      }
+    },
+    {
+      "id": "angular.forms.001",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "forms",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Điểm khác biệt chính giữa reactive form và template-driven form là gì?",
+        "en": "What is the main difference between reactive forms and template-driven forms?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Reactive form chỉ dùng được với signal, còn template-driven dùng với RxJS",
+            "en": "Reactive forms only work with signals, template-driven forms with RxJS"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Template-driven form không hỗ trợ validator, phải tự kiểm tra trong `submit`",
+            "en": "Template-driven forms do not support validators; you check values in `submit`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Reactive form tự gửi dữ liệu lên server, template-driven thì không tự gửi",
+            "en": "Reactive forms submit data to the server automatically, template-driven do not"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Reactive: model nằm trong class; template-driven: dựng từ `ngModel`",
+            "en": "Reactive: model in the class; template-driven: model from `ngModel`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Reactive form định nghĩa model form trong class bằng `FormGroup` / `FormControl`, truy cập đồng bộ, có kiểu và dễ unit test. Template-driven form dựng model ngầm từ directive `ngModel` trong template, gọn cho form đơn giản nhưng khó kiểm soát logic phức tạp. Cả hai đều hỗ trợ validator và chạy trên cùng nền tảng `@angular/forms`.",
+        "en": "Reactive forms define the form model in the class with `FormGroup` / `FormControl`, with synchronous, typed access that is easy to unit test. Template-driven forms build the model implicitly from `ngModel` directives in the template, which is concise for simple forms but harder to control for complex logic. Both support validators and share the `@angular/forms` foundation."
+      }
+    },
+    {
+      "id": "angular.forms.002",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "forms",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Template `<form [formGroup]=\"loginForm\">` báo lỗi `Can't bind to 'formGroup' since it isn't a known property of 'form'`. Cách sửa?",
+        "en": "The template `<form [formGroup]=\"loginForm\">` errors with `Can't bind to 'formGroup' since it isn't a known property of 'form'`. How do you fix it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm `FormsModule` vào `imports` của component",
+            "en": "Add `FormsModule` to the component's `imports`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thêm `ReactiveFormsModule` vào `imports` của component",
+            "en": "Add `ReactiveFormsModule` to the component's `imports`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gọi `provideForms()` trong `providers` của `app.config.ts`",
+            "en": "Call `provideForms()` in the `providers` of `app.config.ts`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đổi `[formGroup]` thành `[ngModel]` trên thẻ `<form>`",
+            "en": "Change `[formGroup]` to `[ngModel]` on the `<form>` element"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Directive `formGroup`, `formControlName` nằm trong `ReactiveFormsModule`. Component standalone phải thêm `ReactiveFormsModule` vào `imports` thì template mới nhận ra chúng. `FormsModule` chỉ cung cấp `ngModel` cho template-driven form, không có `formGroup`.",
+        "en": "The `formGroup` and `formControlName` directives live in `ReactiveFormsModule`. A standalone component must add `ReactiveFormsModule` to its `imports` for the template to recognise them. `FormsModule` only provides `ngModel` for template-driven forms, not `formGroup`."
+      }
+    },
+    {
+      "id": "angular.forms.003",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "forms",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì (hai dòng)?",
+        "en": "What does the following code print (two lines)?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { FormControl, Validators } from '@angular/forms';\n\nconst code = new FormControl('', [\n  Validators.required,\n  Validators.minLength(3),\n]);\nconsole.log(code.valid, Object.keys(code.errors ?? {}));\n\ncode.setValue('ab');\nconsole.log(code.valid, Object.keys(code.errors ?? {}));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`false ['required']`, rồi `false ['minlength']`",
+            "en": "`false ['required']`, then `false ['minlength']`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`false ['required', 'minlength']`, rồi `false ['minlength']`",
+            "en": "`false ['required', 'minlength']`, then `false ['minlength']`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`false ['required']`, rồi `true []`",
+            "en": "`false ['required']`, then `true []`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`false ['required', 'minlength']`, rồi `false ['minLength']`",
+            "en": "`false ['required', 'minlength']`, then `false ['minLength']`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Với chuỗi rỗng, chỉ `required` báo lỗi; `minLength` cố ý bỏ qua giá trị rỗng để không trùng lỗi với `required`. Sau `setValue('ab')`, `required` đã thỏa nhưng độ dài 2 nhỏ hơn 3 nên có lỗi `minlength` (khoá viết thường). Control vẫn invalid ở cả hai lần.",
+        "en": "For an empty string only `required` reports an error; `minLength` deliberately skips empty values so it does not duplicate `required`. After `setValue('ab')`, `required` passes but length 2 is below 3, so the error is `minlength` (lower-case key). The control is invalid both times."
+      }
+    },
+    {
+      "id": "angular.forms.004",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "forms",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Form có control `id` được tạo với `{ value: 7, disabled: true }`. Khi submit, bạn thấy `form.value` không có `id`. Vì sao và lấy đủ dữ liệu thế nào?",
+        "en": "A form has an `id` control created with `{ value: 7, disabled: true }`. On submit you notice `form.value` has no `id`. Why, and how do you get all the data?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Control disabled bị bỏ khỏi `value`; dùng `form.getRawValue()`",
+            "en": "Disabled controls are left out of `value`; use `form.getRawValue()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giá trị số bị loại khỏi `value`; phải đổi `7` thành chuỗi `'7'`",
+            "en": "Numeric values are dropped from `value`; change `7` to the string `'7'`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`value` chỉ cập nhật sau `blur`; phải gọi `updateValueAndValidity()`",
+            "en": "`value` only updates on `blur`; call `updateValueAndValidity()` first"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Control phải có validator mới xuất hiện trong `value`; thêm `required`",
+            "en": "A control needs a validator to appear in `value`; add `required`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Control bị disabled bị loại khỏi `value` của group cha và không tham gia validation. Đây là hành vi có chủ đích, vì control disabled coi như không do người dùng nhập. Dùng `form.getRawValue()` để lấy cả giá trị của control disabled; nếu chỉ muốn khoá ô nhập mà vẫn giữ trong `value`, cân nhắc `readonly` trên thẻ input.",
+        "en": "Disabled controls are excluded from the parent group's `value` and from validation. This is intentional, since a disabled control is treated as not user-entered. Use `form.getRawValue()` to include disabled controls; if you only want to lock the input but keep it in `value`, consider `readonly` on the input element."
+      }
+    },
+    {
+      "id": "angular.forms.005",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "forms",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Hàm `submit()` sau không biên dịch với `strict: true`. Lỗi là gì và cách sửa gọn nhất?",
+        "en": "The `submit()` method below does not compile with `strict: true`. What is the error and the cleanest fix?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { FormControl, FormGroup, Validators } from '@angular/forms';\n\nconst form = new FormGroup({\n  email: new FormControl('', Validators.required),\n  password: new FormControl('', Validators.required),\n});\n\nfunction register(email: string, password: string) { /* ... */ }\n\nfunction submit() {\n  register(form.value.email, form.value.password);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`Validators.required` phải đặt trong mảng `[Validators.required]` thì kiểu mới đúng",
+            "en": "`Validators.required` must be wrapped as `[Validators.required]` for the types to work"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`form.value.email` có kiểu `string | null | undefined`; dùng `nonNullable` và `getRawValue()`",
+            "en": "`form.value.email` is `string | null | undefined`; use `nonNullable` and `getRawValue()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`FormGroup` phải được khai báo kiểu thủ công, ví dụ `FormGroup<any>`, mới truy cập được",
+            "en": "`FormGroup` must be typed manually, e.g. `FormGroup<any>`, before fields can be accessed"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Phải đọc `form.controls.email.value` vì `form.value` luôn có kiểu `any` trong strict mode",
+            "en": "You must read `form.controls.email.value` because `form.value` is always `any` in strict mode"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Với typed forms, `new FormControl('')` có kiểu `FormControl<string | null>` vì `reset()` có thể đặt về `null`. Thêm vào đó `form.value` là `Partial` (control disabled bị loại), nên `form.value.email` có kiểu `string | null | undefined`, không gán được cho `string`. Dùng `nonNullable: true` (hoặc `NonNullableFormBuilder`) và `getRawValue()` để có kiểu `string`.",
+        "en": "With typed forms, `new FormControl('')` is `FormControl<string | null>` because `reset()` can set it to `null`. On top of that, `form.value` is `Partial` (disabled controls are excluded), so `form.value.email` is `string | null | undefined`, which is not assignable to `string`. Use `nonNullable: true` (or `NonNullableFormBuilder`) and `getRawValue()` to get `string`."
+      }
+    },
+    {
+      "id": "angular.forms.006",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "forms",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần kiểm tra `password` và `confirmPassword` phải trùng nhau. Nên gắn validator ở đâu?",
+        "en": "You need to check that `password` and `confirmPassword` match. Where should the validator go?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gắn vào control `confirmPassword` và đọc `password` qua một biến toàn cục trong file",
+            "en": "Attach it to `confirmPassword` and read `password` through a global variable in the file"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không dùng validator; kiểm tra thủ công trong `submit()` rồi `alert`",
+            "en": "Skip validators; check manually in `submit()` and show an `alert`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gắn vào `FormGroup` cha, trả về `{ passwordMismatch: true }` hoặc `null`",
+            "en": "Attach it to the parent `FormGroup`, returning `{ passwordMismatch: true }` or `null`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gắn `Validators.pattern` lên `confirmPassword` với giá trị `password`",
+            "en": "Put `Validators.pattern` on `confirmPassword` using the `password` value"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Validator chỉ thấy control mà nó được gắn vào. Kiểm tra liên trường cần đọc nhiều control, nên gắn vào `FormGroup` cha qua option `validators`, trả về `ValidationErrors | null`, ví dụ `{ passwordMismatch: true }`. Lỗi khi đó nằm ở `form.errors`, template hiển thị dựa trên `form.hasError('passwordMismatch')`.",
+        "en": "A validator only sees the control it is attached to. A cross-field check needs several controls, so attach it to the parent `FormGroup` through the `validators` option, returning `ValidationErrors | null`, e.g. `{ passwordMismatch: true }`. The error then lives in `form.errors`, and the template shows it via `form.hasError('passwordMismatch')`."
+      }
+    },
+    {
+      "id": "angular.forms.007",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "forms",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { FormControl, FormGroup } from '@angular/forms';\n\nconst form = new FormGroup({\n  name: new FormControl('a'),\n  age: new FormControl(1),\n});\n\nform.valueChanges.subscribe(v => console.log('changed', JSON.stringify(v)));\n\nform.patchValue({ name: 'b' });\nform.controls.age.setValue(2, { emitEvent: false });\nform.patchValue({ age: 3 });"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`changed {\"name\":\"b\"}`, `changed {\"age\":2}`, `changed {\"age\":3}`",
+            "en": "`changed {\"name\":\"b\"}`, `changed {\"age\":2}`, `changed {\"age\":3}`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`changed {\"name\":\"b\",\"age\":1}`, `changed {\"name\":\"b\",\"age\":3}`",
+            "en": "`changed {\"name\":\"b\",\"age\":1}`, `changed {\"name\":\"b\",\"age\":3}`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`changed {\"name\":\"b\",\"age\":1}`, `changed {\"name\":\"b\",\"age\":2}`",
+            "en": "`changed {\"name\":\"b\",\"age\":1}`, `changed {\"name\":\"b\",\"age\":2}`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`changed {\"name\":\"b\",\"age\":3}`",
+            "en": "`changed {\"name\":\"b\",\"age\":3}`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`patchValue` cập nhật một phần và phát `valueChanges` trên group, nên dòng đầu là `{\"name\":\"b\",\"age\":1}`. `setValue(2, { emitEvent: false })` đổi giá trị nhưng không phát event ở control lẫn group cha. Lần `patchValue({ age: 3 })` sau đó phát với toàn bộ giá trị hiện tại.",
+        "en": "`patchValue` updates part of the group and emits `valueChanges`, so the first line is `{\"name\":\"b\",\"age\":1}`. `setValue(2, { emitEvent: false })` changes the value but emits no event on the control or the parent group. The following `patchValue({ age: 3 })` emits with the full current value."
+      }
+    },
+    {
+      "id": "angular.forms.008",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "forms",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Sau khi người dùng bấm \"Xoá\" (`form.reset()`), ô `role` khởi tạo bằng `new FormControl('guest')` trở thành `null` thay vì `'guest'`. Cách sửa đúng là gì?",
+        "en": "After the user clicks \"Clear\" (`form.reset()`), the `role` field created with `new FormControl('guest')` becomes `null` instead of `'guest'`. What is the right fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gọi `form.reset()` rồi `markAsPristine()` để khôi phục giá trị ban đầu cho từng control",
+            "en": "Call `form.reset()` and then `markAsPristine()` to restore the initial value of each control"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đổi `form.reset()` thành `form.setValue({})` để giữ lại các giá trị mặc định",
+            "en": "Replace `form.reset()` with `form.setValue({})` so the default values are kept"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thêm `Validators.required` để control không bao giờ nhận giá trị `null`",
+            "en": "Add `Validators.required` so the control can never receive `null`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tạo control với `{ nonNullable: true }` để `reset()` về lại `'guest'`",
+            "en": "Create the control with `{ nonNullable: true }` so `reset()` restores `'guest'`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Mặc định `reset()` đặt control về `null`, vì vậy kiểu của nó là `string | null`. Với `{ nonNullable: true }` (hoặc `fb.nonNullable.control(...)`), `reset()` trả control về giá trị khởi tạo `'guest'` và kiểu thu hẹp thành `string`. Không cần tự lưu giá trị mặc định ở chỗ khác.",
+        "en": "By default `reset()` sets a control to `null`, which is why its type is `string | null`. With `{ nonNullable: true }` (or `fb.nonNullable.control(...)`), `reset()` restores the initial value `'guest'` and the type narrows to `string`. No need to store defaults elsewhere."
+      }
+    },
+    {
+      "id": "angular.forms.009",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "forms",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn cần một component chọn đánh giá sao `<app-rating>` dùng được với `formControlName` như input thường. Giải thích cách triển khai và những điểm dễ sai.",
+        "en": "You need a star-rating component `<app-rating>` that works with `formControlName` like a native input. Explain how to implement it and the common pitfalls."
+      },
+      "keyPoints": [
+        {
+          "vi": "Implement `ControlValueAccessor`: `writeValue`, `registerOnChange`, `registerOnTouched`, và `setDisabledState` (tuỳ chọn)",
+          "en": "Implement `ControlValueAccessor`: `writeValue`, `registerOnChange`, `registerOnTouched`, and optional `setDisabledState`"
+        },
+        {
+          "vi": "Đăng ký `{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => RatingComponent), multi: true }` trong `providers`",
+          "en": "Register `{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => RatingComponent), multi: true }` in `providers`"
+        },
+        {
+          "vi": "`writeValue` chỉ cập nhật UI, không gọi lại `onChange`; khi người dùng chọn sao mới gọi `onChange(value)` và `onTouched()` khi blur",
+          "en": "`writeValue` only updates the UI and must not call `onChange`; call `onChange(value)` on user selection and `onTouched()` on blur"
+        },
+        {
+          "vi": "Lưu giá trị và trạng thái disabled trong signal để OnPush cập nhật đúng khi form gọi từ ngoài",
+          "en": "Keep the value and disabled state in signals so OnPush updates correctly when the form calls in from outside"
+        },
+        {
+          "vi": "Validation riêng của component qua `NG_VALIDATORS` + `Validator`; hỗ trợ bàn phím và `aria-*` cho a11y",
+          "en": "Component-level validation via `NG_VALIDATORS` + `Validator`; support keyboard and `aria-*` for accessibility"
+        }
+      ],
+      "explanation": {
+        "vi": "`ControlValueAccessor` là cầu nối giữa Forms API và một component tuỳ biến: form gọi `writeValue` để đẩy giá trị vào, component gọi callback đã đăng ký để báo thay đổi. Hiểu rõ chiều dữ liệu giúp tránh vòng lặp và lỗi trạng thái `touched`. Phỏng vấn viên thường hỏi thêm về validation tích hợp và về disabled.",
+        "en": "`ControlValueAccessor` bridges the Forms API and a custom component: the form calls `writeValue` to push values in, and the component calls the registered callbacks to report changes. Understanding the data direction prevents loops and `touched` state bugs. Interviewers often follow up on built-in validation and disabled state."
+      }
+    },
+    {
+      "id": "angular.routing.001",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "routing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn muốn trang `/admin` (component standalone) chỉ tải code khi người dùng truy cập. Khai báo route nào đúng?",
+        "en": "You want the `/admin` page (a standalone component) to load its code only when visited. Which route definition is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`{ path: 'admin', component: AdminComponent, lazy: true }`",
+            "en": "`{ path: 'admin', component: AdminComponent, lazy: true }`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`{ path: 'admin', loadComponent: () => import('./admin').then(m => m.AdminComponent) }`",
+            "en": "`{ path: 'admin', loadComponent: () => import('./admin').then(m => m.AdminComponent) }`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`{ path: 'admin', loadComponent: import('./admin/admin.component').then(m => m.AdminComponent) }`",
+            "en": "`{ path: 'admin', loadComponent: import('./admin/admin.component').then(m => m.AdminComponent) }`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`{ path: 'admin', component: () => AdminComponent }`",
+            "en": "`{ path: 'admin', component: () => AdminComponent }`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`loadComponent` nhận một hàm trả về dynamic `import()`, nên bundler tách component ra chunk riêng và chỉ tải khi route được kích hoạt. Nếu `import` tĩnh `AdminComponent` ở đầu file thì nó vẫn nằm trong bundle chính. Với cả một nhóm route, dùng `loadChildren` trả về mảng `Routes`.",
+        "en": "`loadComponent` takes a function returning a dynamic `import()`, so the bundler splits the component into its own chunk and loads it only when the route activates. Importing `AdminComponent` statically at the top of the file keeps it in the main bundle. For a group of routes, use `loadChildren` returning a `Routes` array."
+      }
+    },
+    {
+      "id": "angular.routing.002",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "routing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "App bật `provideRouter(routes, withComponentInputBinding())` với route `products/:id`. Cách gọn nhất để `ProductDetailComponent` đọc `id` là gì?",
+        "en": "The app uses `provideRouter(routes, withComponentInputBinding())` with a `products/:id` route. What is the most concise way for `ProductDetailComponent` to read `id`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khai báo `id = input<string>()` rồi đọc `id()`",
+            "en": "Declare `id = input<string>()` and read `id()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đọc `window.location.pathname` rồi cắt chuỗi lấy `id`",
+            "en": "Read `window.location.pathname` and slice out the `id`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Inject `Router` rồi đọc `router.params.id` trong constructor",
+            "en": "Inject `Router` and read `router.params.id` in the constructor"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Khai báo `@Output() id` để router phát giá trị xuống",
+            "en": "Declare `@Output() id` so the router can emit the value"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`withComponentInputBinding()` cho router gán param, query param và `data` của route vào input cùng tên của component. Chỉ cần khai báo `id = input<string>()` và dùng `id()`; giá trị tự cập nhật khi URL đổi mà component được giữ lại. Cách truyền thống vẫn là `inject(ActivatedRoute).paramMap`.",
+        "en": "`withComponentInputBinding()` lets the router bind route params, query params and `data` to component inputs of the same name. Just declare `id = input<string>()` and use `id()`; it updates automatically when the URL changes while the component is reused. The traditional way is still `inject(ActivatedRoute).paramMap`."
+      }
+    },
+    {
+      "id": "angular.routing.003",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "routing",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Với cấu hình route sau, mọi URL (kể cả `/products`) đều hiện trang Not Found. Lỗi nằm ở đâu?",
+        "en": "With the route config below, every URL (even `/products`) shows the Not Found page. What is wrong?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "export const routes: Routes = [\n  { path: '**', component: NotFoundComponent },\n  { path: '', redirectTo: 'products', pathMatch: 'full' },\n  {\n    path: 'products',\n    loadComponent: () =>\n      import('./products/product-list.component').then(m => m.ProductListComponent),\n  },\n  { path: 'products/:id', component: ProductDetailComponent },\n];"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Route `''` phải có `pathMatch: 'prefix'` thay vì `'full'`",
+            "en": "The `''` route needs `pathMatch: 'prefix'` instead of `'full'`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`redirectTo` không được dùng cùng mảng với `loadComponent`",
+            "en": "`redirectTo` cannot be in the same array as `loadComponent`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Path `products` phải viết là `/products` có dấu gạch đầu",
+            "en": "The `products` path must be written `/products` with a leading slash"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Route `**` đứng đầu nên khớp mọi URL; phải đặt nó ở cuối",
+            "en": "The `**` route is first so it matches every URL; move it last"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Router duyệt mảng route theo thứ tự và dùng route đầu tiên khớp. `**` khớp với mọi URL, nên đặt nó trước thì các route phía sau không bao giờ được xét. Route wildcard luôn phải nằm cuối mảng.",
+        "en": "The router walks the routes array in order and uses the first match. `**` matches every URL, so putting it first means the later routes are never considered. The wildcard route must always be last."
+      }
+    },
+    {
+      "id": "angular.routing.004",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "routing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Thanh menu dùng `<a href=\"/orders\">Đơn hàng</a>` thay vì `<a routerLink=\"/orders\">`. Khi bấm, khác biệt là gì?",
+        "en": "The menu uses `<a href=\"/orders\">Orders</a>` instead of `<a routerLink=\"/orders\">`. What is the difference when clicked?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không khác gì, Angular tự chặn mọi thẻ `href` nội bộ",
+            "en": "No difference, Angular intercepts every internal `href`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`href` chỉ hoạt động khi app dùng `HashLocationStrategy`",
+            "en": "`href` only works when the app uses `HashLocationStrategy`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`href` tải lại toàn bộ trang và mất state của app",
+            "en": "`href` reloads the whole page and loses app state"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`routerLink` mở trang ở tab mới, `href` mở tại chỗ",
+            "en": "`routerLink` opens a new tab, `href` opens in place"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`href` khiến trình duyệt tải lại cả trang: app bootstrap lại từ đầu, mất state trong bộ nhớ và chậm hơn. `routerLink` chặn hành vi mặc định và để router đổi view phía client theo kiểu SPA. Thêm `routerLinkActive` để đánh dấu link đang active.",
+        "en": "`href` makes the browser reload the whole page: the app bootstraps from scratch, in-memory state is lost and it is slower. `routerLink` prevents the default behaviour and lets the router switch views client-side, SPA style. Add `routerLinkActive` to highlight the active link."
+      }
+    },
+    {
+      "id": "angular.routing.005",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "routing",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Guard chức năng `authGuard` cần chặn người chưa đăng nhập và đưa họ về `/login`. Cách viết nào là best practice?",
+        "en": "A functional `authGuard` must block signed-out users and send them to `/login`. Which implementation is best practice?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gọi `router.navigate(['/login'])` rồi `return false`",
+            "en": "Call `router.navigate(['/login'])` then `return false`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Ném `new Error('Unauthorized')` để router tự chuyển trang",
+            "en": "Throw `new Error('Unauthorized')` so the router redirects"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`return auth.isLoggedIn() || router.parseUrl('/login')`",
+            "en": "`return auth.isLoggedIn() || router.parseUrl('/login')`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đặt `window.location.href = '/login'` rồi `return true`",
+            "en": "Set `window.location.href = '/login'` then `return true`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Trả về `UrlTree` (hoặc `RedirectCommand` ở bản mới) để router huỷ điều hướng hiện tại và chuyển hướng như một phần của cùng một lần navigation. Gọi `router.navigate` rồi `return false` tạo hai lần điều hướng chồng nhau, dễ gây race condition. `inject()` dùng được trực tiếp trong guard vì guard chạy trong injection context.",
+        "en": "Return a `UrlTree` (or a `RedirectCommand` in newer versions) so the router cancels the current navigation and redirects as part of the same navigation. Calling `router.navigate` then `return false` starts two overlapping navigations and invites race conditions. `inject()` works directly in guards because they run in an injection context."
+      }
+    },
+    {
+      "id": "angular.routing.006",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "routing",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trang chi tiết đọc `id` bằng `route.snapshot.paramMap.get('id')` trong `ngOnInit`. Bấm link \"Sản phẩm tiếp theo\" từ `/products/1` sang `/products/2` thì URL đổi nhưng nội dung vẫn là sản phẩm 1. Vì sao?",
+        "en": "A detail page reads `id` with `route.snapshot.paramMap.get('id')` in `ngOnInit`. Clicking \"Next product\" from `/products/1` to `/products/2` changes the URL but still shows product 1. Why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Router tái sử dụng component nên `ngOnInit` không chạy lại; `snapshot` đã cũ",
+            "en": "The router reuses the component, so `ngOnInit` does not rerun; the `snapshot` is stale"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`paramMap.get` luôn trả về param của lần điều hướng đầu tiên trong phiên làm việc hiện tại",
+            "en": "`paramMap.get` always returns the param from the first navigation of the current session"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Trình duyệt cache trang `/products/1` nên Angular không render lại nội dung",
+            "en": "The browser caches `/products/1`, so Angular does not re-render the content"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Link phải dùng `[routerLink]=\"['/products', nextId]\"` thì router mới đổi được param",
+            "en": "The link must use `[routerLink]=\"['/products', nextId]\"` for the router to change the params"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Khi chỉ param thay đổi, router tái sử dụng instance component hiện tại thay vì tạo mới, nên `ngOnInit` không chạy lại và `snapshot` là giá trị cũ. Hãy lắng nghe `route.paramMap` (kèm `switchMap` để tải dữ liệu) hoặc dùng input binding (`id = input()`) kết hợp `computed` / `resource`.",
+        "en": "When only a param changes, the router reuses the current component instance instead of creating a new one, so `ngOnInit` does not run again and the `snapshot` is stale. Listen to `route.paramMap` (with `switchMap` to load data) or use input binding (`id = input()`) with `computed` / `resource`."
+      }
+    },
+    {
+      "id": "angular.routing.007",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "routing",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Người dùng phàn nàn: bấm vào link \"Báo cáo\" thì 3 giây sau mới có phản hồi, trong lúc đó trang cũ đứng yên. Route có `resolve: { report: reportResolver }` gọi API chậm. Nhận định nào đúng?",
+        "en": "Users complain: after clicking \"Reports\", nothing happens for 3 seconds while the old page stays put. The route has `resolve: { report: reportResolver }` calling a slow API. Which statement is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Resolver chạy song song với render nên chậm là do change detection",
+            "en": "Resolvers run in parallel with rendering, so the delay is change detection"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Điều hướng chờ resolver; nên hiện tiến trình hoặc tải trong component",
+            "en": "Navigation waits for the resolver; show progress or load in the component"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Resolver chỉ chạy ở lần đầu, nên lỗi chậm do trình duyệt chưa cache chunk",
+            "en": "Resolvers only run the first time, so the delay is the browser not caching the chunk"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cần đổi resolver sang `canActivate` vì guard chạy sau khi trang đã render",
+            "en": "Switch the resolver to `canActivate` because guards run after the page renders"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Resolver chạy trước khi route được kích hoạt, nên router chờ nó xong mới render trang mới. Với API chậm, người dùng thấy ứng dụng như bị treo. Có thể hiện loading toàn cục dựa trên sự kiện router, hoặc chuyển việc tải dữ liệu vào component (signal, `resource`, skeleton) để trang hiện ngay.",
+        "en": "A resolver runs before the route activates, so the router waits for it to finish before rendering the new page. With a slow API, users see an app that seems frozen. Show a global loading indicator based on router events, or move data loading into the component (signals, `resource`, skeletons) so the page appears immediately."
+      }
+    },
+    {
+      "id": "angular.routing.008",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "routing",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Route lazy `/admin` dùng `loadChildren`. Bạn muốn người không phải admin không tải được cả chunk code admin. Nên dùng guard nào?",
+        "en": "The lazy `/admin` route uses `loadChildren`. You want non-admins never to download the admin code chunk. Which guard should you use?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`canDeactivate`, vì nó chạy trước khi người dùng rời khỏi trang hiện tại",
+            "en": "`canDeactivate`, because it runs before the user leaves the current page"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`resolve`, trả `null` để router bỏ qua route đó",
+            "en": "`resolve`, returning `null` so the router skips that route"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`canActivateChild` đặt trên từng route con của admin",
+            "en": "`canActivateChild` placed on each admin child route"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`canMatch`, để route bị bỏ qua và chunk không được tải",
+            "en": "`canMatch`, so the route is skipped and the chunk is never loaded"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`canMatch` chạy trong lúc router so khớp route: nếu trả `false`, route bị bỏ qua như không tồn tại, chunk lazy không được tải và router thử route khác (ví dụ một trang 403). `canActivate` chạy sau khi route đã khớp; với `loadChildren` lần đầu, code có thể đã được tải. Lưu ý guard phía client chỉ cải thiện UX, quyền thật vẫn phải kiểm tra ở server.",
+        "en": "`canMatch` runs while the router matches routes: returning `false` skips the route as if it did not exist, the lazy chunk is not downloaded, and the router tries other routes (such as a 403 page). `canActivate` runs after the route has matched; with `loadChildren` the code may already be fetched. Note that client guards only improve UX; real authorisation must happen on the server."
+      }
+    },
+    {
+      "id": "angular.routing.009",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "routing",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Thiết kế routing cho một ứng dụng quản trị lớn có nhiều module nghiệp vụ và phân quyền theo vai trò. Bạn sẽ tổ chức route, lazy loading, guard và tải dữ liệu thế nào?",
+        "en": "Design the routing for a large admin app with many business areas and role-based access. How would you organise routes, lazy loading, guards and data loading?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Mỗi feature có file `*.routes.ts` riêng, nạp qua `loadChildren`; route cấp feature có `providers` cho service phạm vi feature",
+          "en": "Each feature has its own `*.routes.ts`, loaded via `loadChildren`; feature-level route `providers` for feature-scoped services"
+        },
+        {
+          "vi": "`canMatch` theo vai trò để không tải chunk trái quyền; `canActivate` / `canDeactivate` cho đăng nhập và form chưa lưu",
+          "en": "Role-based `canMatch` so forbidden chunks are never loaded; `canActivate` / `canDeactivate` for sign-in and unsaved forms"
+        },
+        {
+          "vi": "Guard hàm dùng `inject()`, trả `UrlTree` / `RedirectCommand` để chuyển hướng; quyền thật vẫn kiểm tra ở API",
+          "en": "Functional guards with `inject()`, returning `UrlTree` / `RedirectCommand` to redirect; the API still enforces permissions"
+        },
+        {
+          "vi": "Preloading (`withPreloading`, chiến lược tuỳ biến) cho route hay dùng; resolver chỉ cho dữ liệu nhỏ, bắt buộc phải có trước",
+          "en": "Preloading (`withPreloading`, custom strategies) for frequent routes; resolvers only for small, must-have data"
+        },
+        {
+          "vi": "Input binding cho param, `title` cho tiêu đề trang, trang 404/403 và xử lý lỗi điều hướng (`withNavigationErrorHandler`)",
+          "en": "Input binding for params, route `title`, 404/403 pages and navigation error handling (`withNavigationErrorHandler`)"
+        }
+      ],
+      "explanation": {
+        "vi": "Routing tốt phản ánh ranh giới tính năng: mỗi feature tự quản lý route của mình và được tải lười. Guard nên là hàm nhỏ, dễ test và dựa trên state xác thực đã có, còn dữ liệu nặng nên tải trong component để trang hiện nhanh. Phỏng vấn viên thường đánh giá cao việc bạn nhắc tới preloading, xử lý lỗi điều hướng và việc server vẫn phải kiểm tra quyền.",
+        "en": "Good routing mirrors feature boundaries: each feature owns its routes and is lazy-loaded. Guards should be small, testable functions based on existing auth state, while heavy data is better loaded in the component so the page appears quickly. Interviewers value mentioning preloading, navigation error handling and the fact that the server must still enforce permissions."
+      }
+    },
+    {
+      "id": "angular.http.001",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "http",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong ứng dụng standalone (không có `AppModule`), bạn bật `HttpClient` cho toàn app ở đâu?",
+        "en": "In a standalone app (no `AppModule`), where do you enable `HttpClient` for the whole app?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm `HttpClient` vào `imports` của từng component cần gọi API",
+            "en": "Add `HttpClient` to the `imports` of each component that calls APIs"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thêm `provideHttpClient()` vào `providers` trong `app.config.ts`",
+            "en": "Add `provideHttpClient()` to `providers` in `app.config.ts`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gọi `new HttpClient()` trong service, không cần cấu hình gì thêm",
+            "en": "Call `new HttpClient()` in the service; nothing else is needed"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Khai báo `HttpClientModule` trong `schemas` của `AppComponent`",
+            "en": "Declare `HttpClientModule` in the `schemas` of `AppComponent`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Ứng dụng standalone cấu hình provider trong `app.config.ts` và truyền vào `bootstrapApplication`. Thêm `provideHttpClient()` vào `providers` (có thể kèm `withInterceptors`, `withFetch`). `HttpClientModule` đã deprecated, còn `HttpClient` không phải component nên không đặt trong `imports`.",
+        "en": "A standalone app configures providers in `app.config.ts` and passes them to `bootstrapApplication`. Add `provideHttpClient()` to `providers` (optionally with `withInterceptors`, `withFetch`). `HttpClientModule` is deprecated, and `HttpClient` is not a component, so it does not belong in `imports`."
+      }
+    },
+    {
+      "id": "angular.http.002",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "http",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Service viết `this.http.get<User[]>('/api/users')`, nhưng server trả về `{ data: [...] }`. Điều gì xảy ra?",
+        "en": "A service calls `this.http.get<User[]>('/api/users')`, but the server returns `{ data: [...] }`. What happens?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`HttpClient` báo lỗi kiểu ở runtime vì dữ liệu không khớp `User[]`",
+            "en": "`HttpClient` throws a runtime type error because the data does not match `User[]`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Angular tự lấy mảng trong `data` và trả về đúng kiểu `User[]`",
+            "en": "Angular unwraps the array in `data` and returns a proper `User[]`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không có lỗi nào; Observable phát object `{ data: [...] }` y nguyên",
+            "en": "No error; the Observable emits the `{ data: [...] }` object as is"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Observable phát mảng rỗng `[]` vì không parse được thành `User[]`",
+            "en": "The Observable emits an empty array `[]` because it cannot parse `User[]`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Generic `<User[]>` chỉ là khai báo kiểu lúc biên dịch, `HttpClient` không kiểm tra dữ liệu thật lúc chạy. Body được parse JSON và trả ra nguyên trạng, nên code dùng `users.length` hay `@for` sẽ hỏng âm thầm. Nếu API không đáng tin, hãy `map` về đúng hình dạng hoặc validate bằng thư viện như Zod.",
+        "en": "The `<User[]>` generic is only a compile-time type, and `HttpClient` does not check the real data at runtime. The body is parsed as JSON and returned as is, so code relying on `users.length` or `@for` breaks silently. If the API is untrusted, `map` it into the right shape or validate it with a library such as Zod."
+      }
+    },
+    {
+      "id": "angular.http.003",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "http",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Template có `@if (users$ | async)` ở đầu trang và `{{ (users$ | async)?.length }}` ở cuối trang. Tab Network cho thấy `/api/users` bị gọi hai lần. Vì sao?",
+        "en": "A template has `@if (users$ | async)` at the top and `{{ (users$ | async)?.length }}` at the bottom. The Network tab shows `/api/users` called twice. Why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Change detection chạy hai lần ở chế độ dev nên request bị lặp lại",
+            "en": "Change detection runs twice in dev mode, so the request is repeated"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Mỗi `async` pipe là một subscription riêng, nên chạy hai request",
+            "en": "Each `async` pipe is a separate subscription, so two requests run"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`HttpClient` luôn tự retry một lần khi request đầu tiên phản hồi chậm",
+            "en": "`HttpClient` always retries once when the first request is slow to respond"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Trình duyệt gửi preflight `OPTIONS` nên request bị tính hai lần",
+            "en": "The browser sends a preflight `OPTIONS`, so it is counted twice"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Observable của `HttpClient` là cold: mỗi subscription chạy lại toàn bộ request. Hai `async` pipe là hai subscription nên có hai request. Hãy subscribe một lần (`@if (users$ | async; as users)`), dùng `toSignal` rồi đọc signal nhiều chỗ, hoặc chia sẻ bằng `shareReplay` khi thật sự cần.",
+        "en": "`HttpClient` Observables are cold: each subscription re-runs the whole request. Two `async` pipes mean two subscriptions and therefore two requests. Subscribe once (`@if (users$ | async; as users)`), use `toSignal` and read the signal in several places, or share it with `shareReplay` when really needed."
+      }
+    },
+    {
+      "id": "angular.http.004",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "http",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code mô phỏng một API luôn lỗi. Console in gì?",
+        "en": "The code simulates an API that always fails. What does the console print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "import { defer, of, throwError } from 'rxjs';\nimport { catchError, retry } from 'rxjs/operators';\n\nlet attempts = 0;\nconst request$ = defer(() => {\n  attempts++;\n  return throwError(() => new Error('500'));\n});\n\nrequest$\n  .pipe(\n    retry(2),\n    catchError(() => of(`fallback after ${attempts} attempts`)),\n  )\n  .subscribe(v => console.log(v));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`fallback after 3 attempts`",
+            "en": "`fallback after 3 attempts`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`fallback after 2 attempts`",
+            "en": "`fallback after 2 attempts`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`fallback after 1 attempts`",
+            "en": "`fallback after 1 attempts`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi `500` không được bắt",
+            "en": "An uncaught `500` error"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`defer` chạy lại factory mỗi lần được subscribe, nên mỗi lần thử là một \"request\" mới. `retry(2)` subscribe lại tối đa 2 lần sau lỗi đầu tiên, tổng cộng 3 lần thử. Khi vẫn lỗi, `catchError` thay lỗi bằng giá trị dự phòng; lúc đó `attempts` đã là `3`.",
+        "en": "`defer` re-runs its factory on every subscription, so each attempt is a fresh \"request\". `retry(2)` resubscribes up to 2 more times after the first error, 3 attempts in total. When it still fails, `catchError` replaces the error with a fallback value; by then `attempts` is `3`."
+      }
+    },
+    {
+      "id": "angular.http.005",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "http",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Interceptor sau được đăng ký đúng, nhưng API vẫn trả 401 vì request không có header `Authorization`. Lỗi nằm ở đâu?",
+        "en": "The interceptor below is registered correctly, but the API still returns 401 because requests lack the `Authorization` header. What is wrong?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "export const authInterceptor: HttpInterceptorFn = (req, next) => {\n  const token = inject(AuthService).token();\n\n  if (token) {\n    req.headers.set('Authorization', `Bearer ${token}`);\n  }\n  return next(req);\n};"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`inject()` không dùng được trong interceptor dạng hàm",
+            "en": "`inject()` cannot be used inside a functional interceptor"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải `return next(req).pipe(...)` thì header mới được gửi",
+            "en": "It must `return next(req).pipe(...)` for headers to be sent"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tên header phải viết thường là `authorization` mới hợp lệ",
+            "en": "The header name must be lower-case `authorization` to be valid"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`headers.set` trả bản sao mới; dùng `req.clone({ setHeaders })`",
+            "en": "`headers.set` returns a copy; use `req.clone({ setHeaders })`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`HttpRequest` và `HttpHeaders` là bất biến: `req.headers.set(...)` trả về một `HttpHeaders` mới và kết quả bị bỏ đi, request gốc không đổi. Phải tạo request mới bằng `req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })` rồi truyền nó vào `next`. Thiết kế bất biến giúp interceptor không vô tình ảnh hưởng nhau khi retry.",
+        "en": "`HttpRequest` and `HttpHeaders` are immutable: `req.headers.set(...)` returns a new `HttpHeaders` that is discarded, leaving the original request unchanged. Create a new request with `req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })` and pass it to `next`. Immutability keeps interceptors from accidentally affecting each other on retries."
+      }
+    },
+    {
+      "id": "angular.http.006",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "http",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "App đăng ký `provideHttpClient(withInterceptors([loggingInterceptor, authInterceptor]))`. Thứ tự chạy khi gửi request và khi nhận response là gì?",
+        "en": "The app registers `provideHttpClient(withInterceptors([loggingInterceptor, authInterceptor]))`. In what order do they run for the request and for the response?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Request: logging → auth; response: auth → logging",
+            "en": "Request: logging → auth; response: auth → logging"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Request: auth → logging; response: logging → auth",
+            "en": "Request: auth → logging; response: logging → auth"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Request: logging → auth; response: logging → auth",
+            "en": "Request: logging → auth; response: logging → auth"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chạy song song, thứ tự không xác định trước được",
+            "en": "They run in parallel, so the order is not defined"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Interceptor tạo thành một chuỗi theo thứ tự trong mảng: `loggingInterceptor` nhận request trước rồi gọi `next` sang `authInterceptor`, sau đó tới backend. Response đi ngược lại chuỗi, nên `authInterceptor` xử lý trước rồi mới tới `loggingInterceptor`. Vì vậy interceptor đo thời gian hay log nên đặt ở ngoài cùng.",
+        "en": "Interceptors form a chain in array order: `loggingInterceptor` receives the request first and calls `next` into `authInterceptor`, then the backend. The response travels back through the chain, so `authInterceptor` handles it first, then `loggingInterceptor`. That is why timing or logging interceptors usually sit outermost."
+      }
+    },
+    {
+      "id": "angular.http.007",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "http",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `catchError`, bạn nhận `HttpErrorResponse` có `status: 0`. Điều này thường có nghĩa là gì?",
+        "en": "In `catchError` you get an `HttpErrorResponse` with `status: 0`. What does this usually mean?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Server trả 200 nhưng body rỗng nên Angular coi là lỗi",
+            "en": "The server returned 200 with an empty body, treated as an error"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Token hết hạn và server từ chối mà không trả mã lỗi",
+            "en": "The token expired and the server rejected it without a code"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Request chưa được gửi vì thiếu `provideHttpClient()`",
+            "en": "The request was never sent because `provideHttpClient()` is missing"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không có response: lỗi mạng, request bị huỷ hoặc bị CORS chặn",
+            "en": "No response at all: a network error, an abort or a CORS block"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`status: 0` nghĩa là trình duyệt không nhận được response HTTP nào: mất mạng, server không chạy, request bị huỷ hoặc bị chặn bởi CORS. Lỗi có mã như 4xx/5xx thì đã có response từ server. Vì vậy nên xử lý riêng `status === 0` bằng thông báo \"kiểm tra kết nối\" hoặc retry có giới hạn.",
+        "en": "`status: 0` means the browser received no HTTP response at all: the network is down, the server is not running, the request was aborted or CORS blocked it. Errors with 4xx/5xx codes did get a response from the server. So handle `status === 0` separately with a \"check your connection\" message or a bounded retry."
+      }
+    },
+    {
+      "id": "angular.http.008",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "http",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Access token hết hạn sau 15 phút. Thiết kế interceptor tự refresh token khi gặp 401, biết rằng nhiều request có thể cùng nhận 401 một lúc.",
+        "en": "Access tokens expire after 15 minutes. Design an interceptor that refreshes the token on 401, given that several requests may get 401 at the same time."
+      },
+      "keyPoints": [
+        {
+          "vi": "Interceptor hàm bắt lỗi 401 bằng `catchError`, bỏ qua chính endpoint login/refresh (đánh dấu bằng `HttpContextToken`) để tránh vòng lặp",
+          "en": "A functional interceptor catches 401 with `catchError`, skipping the login/refresh endpoints themselves (flagged via `HttpContextToken`) to avoid loops"
+        },
+        {
+          "vi": "Chỉ một refresh chạy tại một thời điểm: lưu Observable refresh đang chạy và chia sẻ bằng `shareReplay(1)`, các request khác chờ nó",
+          "en": "Only one refresh at a time: keep the in-flight refresh Observable shared with `shareReplay(1)` and let other requests wait on it"
+        },
+        {
+          "vi": "Sau khi có token mới, `switchMap` để `req.clone` với header mới và gửi lại request gốc đúng một lần",
+          "en": "Once the new token arrives, `switchMap` to `req.clone` with the new header and retry the original request exactly once"
+        },
+        {
+          "vi": "Refresh thất bại thì xoá phiên, điều hướng về login và cho các request đang chờ lỗi theo",
+          "en": "If refresh fails, clear the session, navigate to login and fail the waiting requests too"
+        },
+        {
+          "vi": "Bàn về lưu token: refresh token trong cookie `HttpOnly` an toàn hơn `localStorage`; cân nhắc refresh chủ động trước khi hết hạn",
+          "en": "Discuss storage: a refresh token in an `HttpOnly` cookie is safer than `localStorage`; consider refreshing proactively before expiry"
+        }
+      ],
+      "explanation": {
+        "vi": "Bài toán chính là đồng thời: không được gọi refresh nhiều lần cùng lúc và không được tạo vòng lặp vô hạn. Một luồng refresh dùng chung (Observable có `shareReplay` hoặc trạng thái trong service) cho phép các request khác chờ token mới. Câu trả lời tốt cũng nói tới cách đăng xuất an toàn khi refresh thất bại và nơi lưu token.",
+        "en": "The core problem is concurrency: never fire several refresh calls at once and never create an infinite loop. A shared refresh flow (an Observable with `shareReplay` or state in a service) lets other requests wait for the new token. A good answer also covers logging out safely when refresh fails and where tokens are stored."
+      }
+    },
+    {
+      "id": "angular.performance.001",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khối `@defer (on viewport) { <app-comments /> } @placeholder { <p>...</p> }` làm gì?",
+        "en": "What does the block `@defer (on viewport) { <app-comments /> } @placeholder { <p>...</p> }` do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Render `<app-comments>` ngay nhưng ẩn bằng CSS cho tới khi người dùng cuộn tới nó",
+            "en": "Renders `<app-comments>` immediately but hides it with CSS until the user scrolls to it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hoãn change detection của `<app-comments>` cho tới khi người dùng bấm vào",
+            "en": "Postpones change detection for `<app-comments>` until the user clicks it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tải code của `<app-comments>` khi phần tử lọt vào màn hình rồi mới render",
+            "en": "Loads the code for `<app-comments>` when it enters the viewport, then renders it"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ render `<app-comments>` trên server và không bao giờ hydrate nó ở phía client",
+            "en": "Renders `<app-comments>` on the server only and never hydrates it on the client side"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`@defer` tách các component standalone bên trong ra chunk riêng và chỉ tải, render khi trigger xảy ra, ở đây là khi placeholder lọt vào màn hình. Trước đó Angular hiển thị `@placeholder`; có thể thêm `@loading` và `@error`. Cách này giảm bundle ban đầu cho những phần nằm dưới màn hình đầu tiên.",
+        "en": "`@defer` splits the standalone components inside into a separate chunk and only loads and renders them when the trigger fires, here when the placeholder scrolls into view. Until then Angular shows `@placeholder`; you can add `@loading` and `@error` too. This shrinks the initial bundle for content below the fold."
+      }
+    },
+    {
+      "id": "angular.performance.002",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Template có `{{ formatPrice(item.price) }}` trong một danh sách 500 dòng. Vì sao nhiều người khuyên thay bằng pure pipe `{{ item.price | price }}`?",
+        "en": "A template has `{{ formatPrice(item.price) }}` in a 500-row list. Why do many people recommend replacing it with a pure pipe `{{ item.price | price }}`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Pure pipe chỉ chạy lại khi đầu vào đổi, hàm thì chạy mỗi lần check",
+            "en": "A pure pipe only re-runs when inputs change; a function runs every check"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hàm trong template bị chặn ở chế độ production nên sẽ không hiển thị",
+            "en": "Template functions are blocked in production mode, so nothing would show"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Pipe được chạy trong Web Worker nên không làm chậm luồng chính",
+            "en": "Pipes run in a Web Worker, so they never slow down the main thread"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gọi hàm trong template gây lỗi `NG0100` khi danh sách có trên 100 dòng",
+            "en": "Calling functions in templates throws `NG0100` for lists over 100 rows"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Hàm gọi trong template chạy lại ở mỗi lần change detection, bất kể dữ liệu có đổi hay không. Pure pipe chỉ chạy lại khi tham số đầu vào đổi tham chiếu, nên với danh sách lớn tiết kiệm đáng kể. Một lựa chọn khác là tính sẵn bằng `computed` khi dữ liệu nằm trong signal.",
+        "en": "A function call in a template re-runs on every change detection pass, whether or not the data changed. A pure pipe only re-runs when its input arguments change by reference, which saves a lot in large lists. Another option is precomputing with `computed` when the data lives in signals."
+      }
+    },
+    {
+      "id": "angular.performance.003",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ảnh banner đầu trang làm chỉ số LCP kém. Dùng `NgOptimizedImage` (`<img ngSrc=\"hero.jpg\" width=\"1200\" height=\"400\" priority>`) giúp gì?",
+        "en": "The hero banner image hurts LCP. How does `NgOptimizedImage` (`<img ngSrc=\"hero.jpg\" width=\"1200\" height=\"400\" priority>`) help?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tự nén ảnh thành WebP ngay trong trình duyệt trước khi hiển thị",
+            "en": "It compresses the image to WebP in the browser before displaying it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nhúng ảnh dạng base64 vào bundle chính để không cần gửi thêm request nào",
+            "en": "It inlines the image as base64 into the main bundle to avoid an extra request"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hoãn tải mọi ảnh cho tới khi Angular bootstrap xong hoàn toàn",
+            "en": "It delays loading every image until Angular has fully bootstrapped"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ưu tiên tải ảnh `priority`, lazy ảnh khác và tránh layout shift",
+            "en": "It prioritises `priority` images, lazy-loads others, avoids layout shift"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`NgOptimizedImage` áp dụng sẵn các best practice: ảnh `priority` được tải sớm với `fetchpriority=high` (và preconnect/preload khi cấu hình), ảnh khác mặc định lazy. Bắt buộc `width`/`height` giúp tránh layout shift, kèm `srcset` tự động khi có image loader. Ở chế độ dev, directive còn cảnh báo khi ảnh LCP thiếu `priority`.",
+        "en": "`NgOptimizedImage` bakes in best practices: `priority` images load early with `fetchpriority=high` (plus preconnect/preload when configured), others are lazy by default. Required `width`/`height` prevent layout shift, with automatic `srcset` when an image loader is set. In dev mode, the directive also warns when the LCP image lacks `priority`."
+      }
+    },
+    {
+      "id": "angular.performance.004",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Danh sách sau poll API mỗi 10 giây. Profiler cho thấy mỗi lần poll toàn bộ 300 dòng bị xoá và tạo lại DOM, ô input trong dòng mất focus. Lỗi nằm ở đâu?",
+        "en": "The list below polls the API every 10 seconds. The profiler shows all 300 rows' DOM destroyed and recreated on each poll, and inputs inside rows lose focus. What is wrong?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Component({\n  selector: 'app-orders',\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  template: `\n    @for (order of orders(); track order) {\n      <app-order-row [order]=\"order\" />\n    }\n  `,\n})\nexport class OrdersComponent {\n  private api = inject(OrdersApi);\n  orders = toSignal(\n    interval(10_000).pipe(\n      startWith(0),\n      switchMap(() => this.api.list()),\n    ),\n    { initialValue: [] },\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`orders` là signal nên mỗi lần `set` sẽ luôn render lại toàn bộ danh sách",
+            "en": "`orders` is a signal, so every `set` always re-renders the entire list"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Object mới mỗi lần poll làm hỏng `track order`; dùng `track order.id`",
+            "en": "New objects each poll break `track order`; use `track order.id`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`OnPush` khiến Angular xoá DOM cũ trước khi tạo DOM cho dữ liệu mới",
+            "en": "`OnPush` makes Angular delete the old DOM before creating DOM for new data"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`interval` phải được thay bằng `timer` để Angular giữ lại các dòng cũ",
+            "en": "`interval` must be replaced by `timer` so Angular keeps the old rows"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`track order` so sánh theo tham chiếu object. Mỗi lần poll, API trả về các object mới, nên Angular coi mọi dòng là phần tử mới và tạo lại toàn bộ DOM, kéo theo mất focus và state của component con. Dùng khoá ổn định `track order.id` để Angular giữ lại DOM và chỉ cập nhật dữ liệu thay đổi.",
+        "en": "`track order` compares by object reference. Every poll returns new objects from the API, so Angular treats every row as new and recreates all the DOM, losing focus and child component state. Use a stable key, `track order.id`, so Angular keeps the DOM and only updates changed data."
+      }
+    },
+    {
+      "id": "angular.performance.005",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Sau khi bật SSR, server log lỗi `ReferenceError: localStorage is not defined` khi render trang. Lỗi nằm ở đâu và sửa thế nào?",
+        "en": "After enabling SSR, the server logs `ReferenceError: localStorage is not defined` while rendering. What is wrong and how do you fix it?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Component({\n  selector: 'app-theme-toggle',\n  template: `<button (click)=\"toggle()\">{{ theme() }}</button>`,\n})\nexport class ThemeToggleComponent {\n  theme = signal<'light' | 'dark'>('light');\n\n  constructor() {\n    const saved = localStorage.getItem('theme');\n    if (saved === 'dark') this.theme.set('dark');\n  }\n\n  toggle() {\n    this.theme.update(t => (t === 'light' ? 'dark' : 'light'));\n    localStorage.setItem('theme', this.theme());\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phải gọi `localStorage` trong `ngOnInit` thay vì constructor là đủ",
+            "en": "Calling `localStorage` in `ngOnInit` instead of the constructor is enough"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cần thêm `provideClientHydration()` để server có sẵn `localStorage`",
+            "en": "Add `provideClientHydration()` so the server gets `localStorage`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đổi `localStorage` thành `sessionStorage` vì server có hỗ trợ sẵn",
+            "en": "Switch to `sessionStorage` because the server supports it natively"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Server không có `localStorage`; đọc nó trong `afterNextRender`",
+            "en": "The server has no `localStorage`; read it inside `afterNextRender`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi SSR, constructor và field initializer chạy trên Node.js, nơi không có `localStorage`, `window` hay `document`. Code chỉ dành cho trình duyệt nên đặt trong `afterNextRender` (chỉ chạy ở client sau khi render) hoặc kiểm tra `isPlatformBrowser(inject(PLATFORM_ID))`. Khi cần dùng chung, bọc truy cập storage trong một service có bản cài đặt riêng cho server.",
+        "en": "During SSR, constructors and field initialisers run in Node.js, which has no `localStorage`, `window` or `document`. Browser-only code belongs in `afterNextRender` (runs only on the client after rendering) or behind `isPlatformBrowser(inject(PLATFORM_ID))`. For shared use, wrap storage access in a service with a server-specific implementation."
+      }
+    },
+    {
+      "id": "angular.performance.006",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Một trang danh sách trong app Angular bị chậm: gõ vào ô lọc thấy giật, lần tải đầu cũng lâu. Bạn sẽ chẩn đoán và cải thiện theo các bước nào?",
+        "en": "A list page in an Angular app is slow: typing in the filter box stutters and the first load is slow too. What steps would you take to diagnose and improve it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Đo bằng Angular DevTools profiler và tab Performance của Chrome để xem change detection hay render DOM tốn thời gian",
+          "en": "Measure with the Angular DevTools profiler and Chrome's Performance tab to see whether change detection or DOM rendering is costly"
+        },
+        {
+          "vi": "Giảm phạm vi change detection: `OnPush`, signal / `computed` cho danh sách đã lọc, bỏ gọi hàm nặng trong template",
+          "en": "Narrow change detection: `OnPush`, signals / `computed` for the filtered list, no heavy function calls in templates"
+        },
+        {
+          "vi": "Debounce ô lọc (`debounceTime` hoặc lọc trên `computed`), `track item.id`, virtual scroll (CDK) cho danh sách dài",
+          "en": "Debounce the filter (`debounceTime` or filter in `computed`), `track item.id`, CDK virtual scrolling for long lists"
+        },
+        {
+          "vi": "Tải đầu: lazy route, `@defer` cho phần dưới màn hình, phân tích bundle (`ng build --stats-json`, source-map-explorer) và cắt thư viện nặng",
+          "en": "First load: lazy routes, `@defer` for below-the-fold content, bundle analysis (`ng build --stats-json`, source-map-explorer) and trimming heavy libraries"
+        }
+      ],
+      "explanation": {
+        "vi": "Câu hỏi hiệu năng nên trả lời theo hướng đo trước, sửa sau: xác định điểm nghẽn là change detection, render DOM hay kích thước bundle. Sau đó mới áp dụng các kỹ thuật phù hợp như OnPush, signal, `track`, virtual scroll và lazy loading. Kết thúc bằng việc đo lại để chứng minh cải thiện.",
+        "en": "Answer performance questions with measure first, fix second: find whether the bottleneck is change detection, DOM rendering or bundle size. Then apply the right techniques such as OnPush, signals, `track`, virtual scrolling and lazy loading. Finish by measuring again to prove the improvement."
+      }
+    },
+    {
+      "id": "angular.performance.007",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "App đã có SSR nhưng khi JavaScript tải xong, trang nhấp nháy như được vẽ lại từ đầu. Nên bật gì?",
+        "en": "The app already uses SSR, but when JavaScript loads the page flickers as if redrawn from scratch. What should you enable?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`provideZonelessChangeDetection()` để bỏ zone.js khỏi bundle",
+            "en": "`provideZonelessChangeDetection()` to drop zone.js from the bundle"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`provideClientHydration()` để tái sử dụng DOM do server render",
+            "en": "`provideClientHydration()` to reuse the server-rendered DOM"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`withPreloading(PreloadAllModules)` để tải trước mọi route lazy",
+            "en": "`withPreloading(PreloadAllModules)` to prefetch every lazy route"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`ChangeDetectionStrategy.OnPush` trên `AppComponent` là đủ",
+            "en": "`ChangeDetectionStrategy.OnPush` on `AppComponent` is enough"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Không có hydration, Angular ở client xoá DOM do server render và tạo lại, gây nhấp nháy và tốn công. `provideClientHydration()` cho phép Angular tái sử dụng DOM có sẵn và gắn listener vào đó; `withEventReplay()` ghi lại thao tác của người dùng trước khi hydrate xong. Bản mới còn có incremental hydration kết hợp với `@defer`.",
+        "en": "Without hydration, client-side Angular throws away the server-rendered DOM and recreates it, causing flicker and wasted work. `provideClientHydration()` lets Angular reuse the existing DOM and attach listeners to it; `withEventReplay()` records user interactions made before hydration completes. Newer versions also offer incremental hydration with `@defer`."
+      }
+    },
+    {
+      "id": "angular.performance.008",
+      "contentVersion": 1,
+      "trackId": "angular",
+      "topicId": "performance",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn là tech lead cho một ứng dụng Angular doanh nghiệp với 6 team cùng phát triển. Bạn sẽ đặt kiến trúc thế nào để app vẫn nhanh và code dễ bảo trì sau vài năm?",
+        "en": "You are the tech lead of an enterprise Angular app built by 6 teams. How would you set up the architecture so the app stays fast and maintainable for years?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Tổ chức theo feature/domain với các lớp `feature`, `ui`, `data-access`, `util`; component standalone, không dùng NgModule chung khổng lồ",
+          "en": "Organise by feature/domain with `feature`, `ui`, `data-access`, `util` layers; standalone components, no giant shared NgModule"
+        },
+        {
+          "vi": "Monorepo (Nx) với luật ranh giới phụ thuộc (module boundaries, tags) kiểm tra trong lint/CI; micro-frontend chỉ khi team thật sự cần deploy độc lập",
+          "en": "A monorepo (Nx) with dependency boundary rules (module boundaries, tags) enforced in lint/CI; micro-frontends only when teams truly need independent deploys"
+        },
+        {
+          "vi": "Mặc định hiệu năng: `OnPush` + signal, lazy route theo feature, `@defer`, SSR + hydration (incremental hydration) cho trang công khai",
+          "en": "Performance by default: `OnPush` + signals, lazy feature routes, `@defer`, SSR + hydration (incremental hydration) for public pages"
+        },
+        {
+          "vi": "Quy ước state rõ ràng (signal store / NgRx SignalStore cho state phức tạp, service + signal cho state đơn giản)",
+          "en": "Clear state conventions (a signal store / NgRx SignalStore for complex state, service + signals for simple state)"
+        },
+        {
+          "vi": "Ngân sách bundle trong `angular.json`, theo dõi Core Web Vitals, cập nhật Angular đều đặn bằng `ng update` và schematic migration",
+          "en": "Bundle budgets in `angular.json`, Core Web Vitals monitoring, and regular Angular upgrades with `ng update` and migration schematics"
+        }
+      ],
+      "explanation": {
+        "vi": "Ở quy mô nhiều team, vấn đề lớn nhất thường là ranh giới phụ thuộc chứ không phải một kỹ thuật tối ưu riêng lẻ. Tổ chức theo feature, lazy loading theo ranh giới đó và có luật kiểm tra tự động giúp hiệu năng không bị xói mòn dần. Câu trả lời senior nên nói tới trade-off như monorepo với micro-frontend, và cách đo, giữ ngân sách hiệu năng trong CI.",
+        "en": "At multi-team scale the biggest problem is usually dependency boundaries rather than any single optimisation. Organising by feature, lazy loading along those boundaries and automated rules keep performance from eroding over time. A senior answer covers trade-offs such as monorepo vs micro-frontends and how to measure and enforce performance budgets in CI."
+      }
+    }
+  ]
+}

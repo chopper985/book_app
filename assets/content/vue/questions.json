@@ -1,0 +1,3266 @@
+{
+  "questions": [
+    {
+      "id": "vue.template.001",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "template",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Điểm khác nhau chính giữa `v-if` và `v-show` là gì?",
+        "en": "What is the main difference between `v-if` and `v-show`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`v-show` gỡ phần tử khỏi DOM khi điều kiện sai, còn `v-if` chỉ ẩn phần tử bằng CSS inline",
+            "en": "`v-show` removes the element from the DOM when false, while `v-if` only hides it with inline CSS"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`v-if` thêm hoặc gỡ phần tử khỏi DOM; `v-show` luôn render và chỉ bật tắt `display: none`",
+            "en": "`v-if` adds or removes the element from the DOM; `v-show` always renders it and only toggles `display: none`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hai directive hoạt động giống hệt nhau, chỉ khác nhau về quy ước đặt tên trong style guide",
+            "en": "Both directives behave identically and only differ in the naming convention of the style guide"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`v-if` chỉ dùng được trên component, còn `v-show` chỉ dùng được trên thẻ HTML thông thường",
+            "en": "`v-if` only works on components, while `v-show` only works on plain HTML elements"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`v-if` là render có điều kiện thật: khi điều kiện sai, phần tử (và component con bên trong) bị hủy, khi đúng lại được tạo mới. `v-show` luôn render một lần rồi chỉ đổi thuộc tính CSS `display`. Vì vậy `v-if` tốn chi phí khi bật tắt nhiều, còn `v-show` tốn chi phí render ban đầu. Dùng `v-show` cho thứ bật tắt liên tục như tab, dropdown; dùng `v-if` khi điều kiện ít đổi hoặc muốn không render gì cả.",
+        "en": "`v-if` is real conditional rendering: when the condition is false the element (and any child components) is destroyed, and recreated when it becomes true. `v-show` always renders once and then only toggles the CSS `display` property. So `v-if` has a higher toggle cost, while `v-show` has a higher initial render cost. Use `v-show` for things toggled often such as tabs or dropdowns, and `v-if` when the condition rarely changes or you want nothing rendered at all."
+      }
+    },
+    {
+      "id": "vue.template.002",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "template",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao nên truyền `:key` duy nhất (ví dụ `item.id`) khi dùng `v-for`?",
+        "en": "Why should you pass a unique `:key` (e.g. `item.id`) when using `v-for`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Vì Vue cần `key` để tự sắp xếp mảng theo thứ tự tăng dần trước khi render ra DOM",
+            "en": "Because Vue needs `key` to sort the array in ascending order before rendering it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Để trình duyệt tự gán thuộc tính `id` duy nhất cho từng thẻ HTML trong danh sách",
+            "en": "So the browser automatically assigns a unique `id` attribute to each element in the list"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Để lần render đầu tiên bỏ qua virtual DOM và ghi thẳng HTML vào trang nhanh hơn",
+            "en": "So the first render skips the virtual DOM and writes HTML straight into the page faster"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Để Vue nhận diện từng phần tử, tái sử dụng và di chuyển đúng node khi danh sách thay đổi",
+            "en": "So Vue can identify each item and reuse or move the right node when the list changes"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi danh sách thay đổi, Vue dùng `key` để biết phần tử nào được giữ, thêm, xóa hay đổi chỗ. Không có `key` ổn định, Vue cập nhật theo vị trí (in-place patch), có thể làm state của component con hoặc giá trị input bị gắn nhầm sang phần tử khác. `key` nên là giá trị duy nhất và ổn định như `id`, không nên là index khi danh sách có thể chèn, xóa hoặc sắp xếp lại.",
+        "en": "When a list changes, Vue uses `key` to know which items are kept, added, removed or moved. Without a stable `key`, Vue patches by position (in-place), which can attach child component state or input values to the wrong item. The `key` should be a unique, stable value such as an `id`, not the index when the list can be inserted into, removed from or reordered."
+      }
+    },
+    {
+      "id": "vue.template.003",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "template",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Template sau render ra nội dung text gì?",
+        "en": "What text does the following template render?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "<template>\n  <span v-for=\"n in 3\">{{ n }}</span>\n</template>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`012`",
+            "en": "`012`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`0123`",
+            "en": "`0123`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`1234`",
+            "en": "`1234`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`123`",
+            "en": "`123`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Với `v-for=\"n in 3\"`, Vue lặp theo một dãy số nguyên và `n` bắt đầu từ `1`, không phải `0`. Vì vậy ba thẻ `span` lần lượt chứa `1`, `2`, `3`. Đây là điểm khác với vòng lặp `for` thông thường của JavaScript, nên khi cần index từ `0` hãy dùng `n - 1` hoặc lặp trên mảng.",
+        "en": "With `v-for=\"n in 3\"`, Vue iterates over an integer range and `n` starts at `1`, not `0`. So the three `span` elements contain `1`, `2` and `3`. This differs from a plain JavaScript `for` loop, so when you need a zero-based index use `n - 1` or iterate over an array."
+      }
+    },
+    {
+      "id": "vue.template.004",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "template",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong template, `:href=\"url\"` và `@click=\"save\"` là cách viết tắt của gì?",
+        "en": "In a template, what are `:href=\"url\"` and `@click=\"save\"` shorthand for?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`v-bind:href` và `v-on:click`",
+            "en": "`v-bind:href` and `v-on:click`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`v-model:href` và `v-on:click`",
+            "en": "`v-model:href` and `v-on:click`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`v-bind:href` và `v-model:click`",
+            "en": "`v-bind:href` and `v-model:click`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`v-attr:href` và `v-event:click`",
+            "en": "`v-attr:href` and `v-event:click`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Dấu `:` là viết tắt của `v-bind`, dùng để gắn thuộc tính hoặc prop với một biểu thức JavaScript. Dấu `@` là viết tắt của `v-on`, dùng để lắng nghe sự kiện. `v-model` là directive riêng cho binding hai chiều, còn `v-attr` hay `v-event` không tồn tại trong Vue.",
+        "en": "The `:` prefix is shorthand for `v-bind`, which binds an attribute or prop to a JavaScript expression. The `@` prefix is shorthand for `v-on`, which listens to events. `v-model` is a separate directive for two-way binding, and `v-attr` or `v-event` do not exist in Vue."
+      }
+    },
+    {
+      "id": "vue.template.005",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "template",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Ảnh đại diện không hiển thị dù `avatarUrl` có giá trị đúng. Lỗi nằm ở đâu?",
+        "en": "The avatar does not show even though `avatarUrl` holds a valid URL. What is wrong?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "<script setup>\nimport { ref } from 'vue'\nconst avatarUrl = ref('/img/avatar.png')\n</script>\n\n<template>\n  <img src=\"{{ avatarUrl }}\" alt=\"Avatar\" />\n</template>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thẻ `img` trong template của Vue bắt buộc phải có thẻ đóng `</img>`",
+            "en": "An `img` tag in a Vue template must always have a closing `</img>` tag"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Biến `avatarUrl` phải được khai báo bằng `reactive` thay vì `ref`",
+            "en": "The `avatarUrl` variable must be declared with `reactive` instead of `ref`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Không dùng được `{{ }}` trong attribute; phải viết `:src=\"avatarUrl\"`",
+            "en": "`{{ }}` does not work inside attributes; write `:src=\"avatarUrl\"` instead"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Vue chỉ nội suy được biến khi giá trị đó là kiểu số hoặc kiểu boolean",
+            "en": "Vue can only interpolate a variable when its value is a number or a boolean"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Cú pháp mustache `{{ }}` chỉ hoạt động trong nội dung text của phần tử, không hoạt động trong attribute. Vue render nguyên chuỗi `{{ avatarUrl }}` thành giá trị `src`, nên trình duyệt tải một URL sai. Để gắn attribute với dữ liệu phải dùng `v-bind`, viết tắt là `:src=\"avatarUrl\"`.",
+        "en": "The mustache syntax `{{ }}` only works in an element's text content, not inside attributes. Vue renders the literal string `{{ avatarUrl }}` as the `src` value, so the browser requests a wrong URL. To bind an attribute to data, use `v-bind`, shorthand `:src=\"avatarUrl\"`."
+      }
+    },
+    {
+      "id": "vue.template.006",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "template",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Bạn muốn chỉ hiển thị task đã xong, nhưng component báo lỗi `Cannot read properties of undefined (reading 'done')` khi render. Vì sao?",
+        "en": "You want to show only finished tasks, but rendering fails with `Cannot read properties of undefined (reading 'done')`. Why?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "<script setup>\nimport { ref } from 'vue'\nconst tasks = ref([\n  { id: 1, title: 'Viết test', done: true },\n  { id: 2, title: 'Review PR', done: false },\n])\n</script>\n\n<template>\n  <ul>\n    <li v-for=\"item in tasks\" v-if=\"item.done\" :key=\"item.id\">\n      {{ item.title }}\n    </li>\n  </ul>\n</template>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trong Vue 3, `v-for` chỉ lặp được trên `reactive` array nên `tasks` tạo bằng `ref` sẽ luôn bị coi là `undefined`",
+            "en": "In Vue 3, `v-for` only iterates over `reactive` arrays, so `tasks` created with `ref` is always treated as `undefined`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`v-if` không đọc được thuộc tính lồng nhau như `item.done`; phải tách ra một biến boolean riêng trong script",
+            "en": "`v-if` cannot read nested properties such as `item.done`; you must extract a separate boolean variable in the script"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Trong Vue 3, `v-if` được ưu tiên hơn `v-for` trên cùng phần tử nên `item` chưa tồn tại; hãy lọc bằng `computed`",
+            "en": "In Vue 3, `v-if` takes priority over `v-for` on the same element, so `item` does not exist yet; filter with a `computed`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thiếu `:key` nên Vue không tạo được biến `item` cho từng vòng lặp và gán `undefined` cho mọi phần tử",
+            "en": "The missing `:key` stops Vue from creating `item` for each iteration, so every element gets `undefined`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Từ Vue 3, khi `v-if` và `v-for` đặt trên cùng một phần tử thì `v-if` được đánh giá trước, lúc đó biến `item` của vòng lặp chưa có. Vue coi `item` là thuộc tính không tồn tại trên instance nên `item.done` ném lỗi. Cách đúng là tạo `computed` như `doneTasks` để lọc trước, hoặc bọc bằng `<template v-for>` rồi đặt `v-if` ở phần tử bên trong. Style guide của Vue cũng khuyến cáo không dùng hai directive này trên cùng phần tử.",
+        "en": "Since Vue 3, when `v-if` and `v-for` sit on the same element, `v-if` is evaluated first, before the loop variable `item` exists. Vue treats `item` as a missing instance property, so `item.done` throws. The fix is a `computed` such as `doneTasks` that filters first, or wrapping with `<template v-for>` and putting `v-if` on the inner element. The Vue style guide also advises against using both directives on the same element."
+      }
+    },
+    {
+      "id": "vue.template.007",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "template",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Người dùng bấm nút \"Lưu\" một lần. Mảng `logs` chứa gì?",
+        "en": "The user clicks the \"Save\" button once. What does the `logs` array contain?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "<script setup>\nconst logs = []\nconst log = (who) => logs.push(who)\n</script>\n\n<template>\n  <div @click=\"log('parent')\">\n    <button @click.stop=\"log('child')\">Lưu</button>\n  </div>\n</template>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`['child', 'parent']`",
+            "en": "`['child', 'parent']`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`['parent', 'child']`",
+            "en": "`['parent', 'child']`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`['parent']`",
+            "en": "`['parent']`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`['child']`",
+            "en": "`['child']`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Modifier `.stop` tương đương gọi `event.stopPropagation()` trong handler. Sự kiện click chạy handler của nút trước, rồi bị chặn không nổi bọt lên `div` cha, nên handler của cha không chạy. Nếu bỏ `.stop`, thứ tự sẽ là `child` rồi `parent` vì sự kiện nổi bọt từ trong ra ngoài.",
+        "en": "The `.stop` modifier is equivalent to calling `event.stopPropagation()` in the handler. The click runs the button handler first and is then stopped from bubbling to the parent `div`, so the parent handler never runs. Without `.stop`, the order would be `child` then `parent` because events bubble from the inside out."
+      }
+    },
+    {
+      "id": "vue.template.008",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "template",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với `const skills = ref([])` và nhiều checkbox `<input type=\"checkbox\" value=\"vue\" v-model=\"skills\">` (mỗi ô một `value`), khi người dùng tick ô `vue` thì điều gì xảy ra?",
+        "en": "With `const skills = ref([])` and several checkboxes `<input type=\"checkbox\" value=\"vue\" v-model=\"skills\">` (each with its own `value`), what happens when the user ticks the `vue` box?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chuỗi `'vue'` được thêm vào mảng `skills`, bỏ tick thì bị xóa khỏi mảng",
+            "en": "The string `'vue'` is pushed into `skills` and removed again when unticked"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`skills.value` bị thay bằng `true`, bỏ tick thì trở thành giá trị `false`",
+            "en": "`skills.value` is replaced with `true`, and becomes `false` when unticked"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`skills.value` bị thay bằng chuỗi `'vue'` và mất các lựa chọn trước đó",
+            "en": "`skills.value` is replaced with the string `'vue'`, losing earlier choices"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Vue báo lỗi vì `v-model` trên checkbox chỉ chấp nhận giá trị kiểu boolean",
+            "en": "Vue throws because `v-model` on a checkbox only accepts a boolean value"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Khi `v-model` của checkbox gắn với một mảng, Vue coi đó là nhóm lựa chọn: tick thì thêm `value` của ô vào mảng, bỏ tick thì xóa giá trị đó đi. Khi gắn với một giá trị không phải mảng, checkbox mới dùng `true`/`false` (hoặc `true-value`/`false-value`). Nhờ vậy một mảng có thể quản lý cả nhóm checkbox mà không cần handler thủ công.",
+        "en": "When a checkbox `v-model` is bound to an array, Vue treats it as a group: ticking pushes the box's `value` into the array and unticking removes it. Only when bound to a non-array value does the checkbox use `true`/`false` (or `true-value`/`false-value`). This lets one array manage a whole checkbox group without manual handlers."
+      }
+    },
+    {
+      "id": "vue.template.009",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "template",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ô nhập tuổi dùng `v-model=\"age\"` nhưng `age.value` luôn là chuỗi `\"25\"` khiến phép cộng bị nối chuỗi. Cách sửa gọn nhất?",
+        "en": "An age input uses `v-model=\"age\"`, but `age.value` is always the string `\"25\"`, so addition concatenates. What is the simplest fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`v-model.number=\"age\"`",
+            "en": "`v-model.number=\"age\"`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`v-model.int=\"age\"`",
+            "en": "`v-model.int=\"age\"`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`v-model:number=\"age\"`",
+            "en": "`v-model:number=\"age\"`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`v-bind:value.number=\"age\"`",
+            "en": "`v-bind:value.number=\"age\"`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Giá trị của `<input>` luôn là chuỗi, kể cả khi `type=\"number\"`. Modifier `.number` của `v-model` tự chuyển giá trị qua `parseFloat()`; nếu không parse được thì giữ chuỗi gốc. `v-model:number` là cú pháp v-model có tên (dùng cho prop `number` của component), còn `.int` và `v-bind` không có modifier `.number`. Các modifier hay dùng khác là `.trim` và `.lazy`.",
+        "en": "An `<input>` value is always a string, even with `type=\"number\"`. The `.number` modifier of `v-model` passes the value through `parseFloat()`, keeping the original string if it cannot be parsed. `v-model:number` is the named v-model syntax (for a component prop called `number`), while `.int` does not exist and `v-bind` has no `.number` modifier. Other common modifiers are `.trim` and `.lazy`."
+      }
+    },
+    {
+      "id": "vue.reactivity.001",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "reactivity",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `<script setup>` có `const count = ref(0)`. Muốn tăng giá trị trong một hàm ở phần script thì viết thế nào?",
+        "en": "In `<script setup>` you have `const count = ref(0)`. How do you increment it inside a function in the script?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`count++`",
+            "en": "`count++`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`this.count++`",
+            "en": "`this.count++`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`count.value++`",
+            "en": "`count.value++`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`count.set(count.value + 1)`",
+            "en": "`count.set(count.value + 1)`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`ref` bọc giá trị trong một object có thuộc tính `.value`; Vue theo dõi việc đọc và ghi qua `.value`. Trong script phải dùng `count.value`, còn trong template Vue tự unwrap nên viết `{{ count }}` là đủ. `count++` sẽ lỗi vì `count` là `const` và là object, còn `this` không dùng trong `<script setup>`.",
+        "en": "`ref` wraps the value in an object with a `.value` property; Vue tracks reads and writes through `.value`. In the script you must use `count.value`, while templates unwrap refs automatically so `{{ count }}` is enough. `count++` fails because `count` is a `const` object, and `this` is not used in `<script setup>`."
+      }
+    },
+    {
+      "id": "vue.reactivity.002",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "reactivity",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "import { ref, computed } from 'vue'\n\nconst price = ref(100)\nconst qty = ref(2)\nconst total = computed(() => price.value * qty.value)\n\nqty.value = 3\nconsole.log(total.value)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`200`",
+            "en": "`200`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`100`",
+            "en": "`100`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`undefined`",
+            "en": "`undefined`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`300`",
+            "en": "`300`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`computed` ghi nhận `price` và `qty` là dependency trong lần tính. Khi `qty` đổi thành `3`, computed bị đánh dấu \"dirty\" và lần đọc `total.value` tiếp theo sẽ tính lại: `100 * 3 = 300`. Computed tính lười (lazy) và cache kết quả cho đến khi dependency thay đổi.",
+        "en": "`computed` records `price` and `qty` as dependencies during evaluation. When `qty` becomes `3`, the computed is marked dirty and the next read of `total.value` recomputes it: `100 * 3 = 300`. Computeds are lazy and cache their result until a dependency changes."
+      }
+    },
+    {
+      "id": "vue.reactivity.003",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "reactivity",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Câu nào mô tả đúng sự khác nhau giữa `ref` và `reactive`?",
+        "en": "Which statement correctly describes the difference between `ref` and `reactive`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`ref` chỉ dùng cho kiểu số và chuỗi; `reactive` dùng cho mọi kiểu dữ liệu, kể cả primitive",
+            "en": "`ref` is only for numbers and strings; `reactive` works for any type, including primitives"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`ref` nhận mọi kiểu giá trị và dùng `.value`; `reactive` chỉ nhận object và trả về Proxy",
+            "en": "`ref` accepts any value and uses `.value`; `reactive` only accepts objects and returns a Proxy"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`reactive` không theo dõi object lồng nhau, còn `ref` luôn theo dõi sâu mọi cấp thuộc tính",
+            "en": "`reactive` does not track nested objects, while `ref` always tracks every nested level deeply"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`ref` chỉ có tác dụng trong template; ra khỏi template thì giá trị không còn reactive nữa",
+            "en": "`ref` only works inside templates; outside the template the value stops being reactive"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`ref` bọc bất kỳ giá trị nào (primitive hoặc object) và truy cập qua `.value`; nếu giá trị là object thì bên trong được chuyển thành `reactive`. `reactive` chỉ nhận object, mảng, Map, Set và trả về Proxy nên không cần `.value`, nhưng không gán lại được cả biến và mất reactivity khi destructure. Vì vậy tài liệu Vue khuyến nghị dùng `ref` làm lựa chọn mặc định.",
+        "en": "`ref` wraps any value (primitive or object) and is accessed via `.value`; if the value is an object, its contents are made `reactive`. `reactive` only accepts objects, arrays, Maps and Sets and returns a Proxy, so no `.value` is needed, but you cannot reassign the whole variable and destructuring loses reactivity. That is why the Vue docs recommend `ref` as the default choice."
+      }
+    },
+    {
+      "id": "vue.reactivity.004",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "reactivity",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Sau khi `load()` chạy xong, danh sách trên màn hình vẫn trống. Lỗi ở đâu?",
+        "en": "After `load()` finishes, the list on screen is still empty. What is wrong?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "<script setup>\nimport { reactive } from 'vue'\nimport { fetchItems } from './api'\n\nlet state = reactive({ items: [] })\n\nasync function load() {\n  state = reactive({ items: await fetchItems() })\n}\nload()\n</script>\n\n<template>\n  <li v-for=\"item in state.items\" :key=\"item.id\">{{ item.name }}</li>\n</template>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`reactive` không nhận được mảng rỗng làm giá trị ban đầu nên `items` chưa bao giờ được Vue theo dõi",
+            "en": "`reactive` cannot take an empty array as an initial value, so `items` was never tracked by Vue in the first place"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hàm `async` không được phép thay đổi state reactive; phải bọc thay đổi trong `nextTick()` để Vue nhận",
+            "en": "An `async` function may not mutate reactive state; you must wrap the change in `nextTick()` for Vue to see it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gán lại `state` tạo Proxy mới nhưng template giữ Proxy cũ; hãy sửa `state.items` hoặc dùng `ref`",
+            "en": "Reassigning `state` makes a new Proxy but the template keeps the old one; mutate `state.items` or use `ref`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`v-for` cần `items` là một `computed`; mảng trong `reactive` chỉ được đọc một lần khi component mount",
+            "en": "`v-for` needs `items` to be a `computed`; arrays inside `reactive` are only read once when mounting"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Template được gắn với đúng Proxy mà `state` trỏ tới lúc `setup` chạy. Khi viết `state = reactive({...})`, biến cục bộ trỏ sang Proxy mới nhưng template vẫn đọc Proxy cũ nên không có gì thay đổi. Hãy sửa thuộc tính (`state.items = data`) hoặc dùng `const items = ref([])` rồi gán `items.value = data`. Đây là lý do khai báo bằng `const` giúp phát hiện sớm lỗi này.",
+        "en": "The template is bound to the exact Proxy that `state` pointed to when `setup` ran. Writing `state = reactive({...})` repoints the local variable to a new Proxy, but the template still reads the old one, so nothing changes. Mutate the property (`state.items = data`) or use `const items = ref([])` and assign `items.value = data`. Declaring with `const` would have caught this mistake early."
+      }
+    },
+    {
+      "id": "vue.reactivity.005",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "reactivity",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "import { reactive, toRefs } from 'vue'\n\nconst state = reactive({ count: 1 })\nconst { count } = state\nconst countRef = toRefs(state).count\n\nstate.count = 5\nconsole.log(count, countRef.value)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`1 5`",
+            "en": "`1 5`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`5 5`",
+            "en": "`5 5`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`1 1`",
+            "en": "`1 1`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`5 1`",
+            "en": "`5 1`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Destructure `const { count } = state` chỉ sao chép giá trị primitive tại thời điểm đó (`1`), nên `count` không còn liên kết với Proxy. `toRefs(state).count` tạo một ref trỏ ngược về thuộc tính `state.count`, đọc `.value` luôn lấy giá trị hiện tại là `5`. Vì vậy composable thường trả về `toRefs` hoặc object chứa các ref để caller destructure an toàn.",
+        "en": "Destructuring `const { count } = state` copies the primitive value at that moment (`1`), so `count` is no longer linked to the Proxy. `toRefs(state).count` creates a ref that points back to `state.count`, so reading `.value` gives the current value `5`. That is why composables usually return `toRefs` or an object of refs so callers can destructure safely."
+      }
+    },
+    {
+      "id": "vue.reactivity.006",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "reactivity",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "import { ref, watch, nextTick } from 'vue'\n\nconst n = ref(0)\nwatch(n, (value, old) => console.log('watch', value, old))\n\nn.value = 1\nn.value = 2\nawait nextTick()"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`watch 1 0` rồi `watch 2 1`",
+            "en": "`watch 1 0` then `watch 2 1`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một dòng `watch 2 1`",
+            "en": "A single line `watch 2 1`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Một dòng `watch 2 0`",
+            "en": "A single line `watch 2 0`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không in ra gì cả",
+            "en": "Nothing at all"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Callback của `watch` mặc định không chạy đồng bộ mà được đưa vào hàng đợi của scheduler và chạy trước lần flush tiếp theo. Hai lần gán liên tiếp trong cùng một tick bị gộp lại, nên callback chỉ chạy một lần với giá trị mới `2` và giá trị cũ là giá trị lúc watcher chạy lần trước, tức `0`. Nếu cần chạy ở mọi lần thay đổi thì dùng `flush: 'sync'`, nhưng nên hạn chế vì tốn hiệu năng.",
+        "en": "By default a `watch` callback does not run synchronously; it is queued in the scheduler and runs before the next flush. The two assignments in the same tick are batched, so the callback runs once with the new value `2` and the old value from the previous run, which is `0`. If you need every change you can use `flush: 'sync'`, but use it sparingly because it is costly."
+      }
+    },
+    {
+      "id": "vue.reactivity.007",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "reactivity",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt quan trọng giữa `watch` và `watchEffect` là gì?",
+        "en": "What is the key difference between `watch` and `watchEffect`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`watch` chỉ theo dõi được `reactive`, còn `watchEffect` chỉ theo dõi được `ref`, nên hai hàm không thay thế được cho nhau",
+            "en": "`watch` can only track `reactive` and `watchEffect` can only track `ref`, so the two can never replace each other"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`watchEffect` chạy ngay và tự thu dependency đã đọc; `watch` theo dõi nguồn chỉ định, mặc định lazy và có giá trị cũ",
+            "en": "`watchEffect` runs immediately and tracks whatever it reads; `watch` tracks explicit sources, is lazy by default and gives the old value"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`watchEffect` chạy đồng bộ ngay khi dependency đổi, còn `watch` chỉ chạy sau khi component unmount để dọn dẹp dữ liệu",
+            "en": "`watchEffect` runs synchronously on every change, while `watch` only runs after the component unmounts to clean up data"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`watch` tự động hủy khi kết thúc hàm, còn `watchEffect` sống mãi và luôn phải gọi hàm stop thủ công để tránh rò rỉ",
+            "en": "`watch` stops automatically when the function returns, while `watchEffect` lives forever and must always be stopped manually"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`watchEffect` chạy callback ngay lập tức và tự ghi nhận mọi reactive state được đọc trong lần chạy làm dependency. `watch` nhận nguồn cụ thể (ref, getter, reactive object hoặc mảng nguồn), mặc định chỉ chạy khi nguồn đổi (trừ khi `immediate: true`) và cung cấp cả giá trị mới lẫn cũ. Cả hai đều tự dừng khi component unmount nếu được tạo đồng bộ trong `setup`. Dùng `watch` khi cần kiểm soát chính xác nguồn kích hoạt, ví dụ gọi API khi `id` đổi.",
+        "en": "`watchEffect` runs its callback immediately and records every reactive value read during that run as a dependency. `watch` takes explicit sources (a ref, getter, reactive object or array of sources), only runs when they change by default (unless `immediate: true`) and gives both new and old values. Both stop automatically on unmount when created synchronously in `setup`. Use `watch` when you need precise control over what triggers it, such as calling an API when an `id` changes."
+      }
+    },
+    {
+      "id": "vue.reactivity.008",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "reactivity",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích cơ chế reactivity của Vue 3 hoạt động bên trong như thế nào, từ lúc đọc một `ref` trong template đến lúc DOM được cập nhật.",
+        "en": "Explain how Vue 3 reactivity works internally, from reading a `ref` in a template to the DOM being updated."
+      },
+      "keyPoints": [
+        {
+          "vi": "`reactive` dùng Proxy, `ref` dùng getter/setter trên `.value`; đọc thì gọi `track`, ghi thì gọi `trigger`",
+          "en": "`reactive` uses a Proxy and `ref` uses a getter/setter on `.value`; reads call `track`, writes call `trigger`"
+        },
+        {
+          "vi": "Render function của component chạy trong một effect; mọi state đọc trong lúc render được ghi làm dependency của effect đó",
+          "en": "A component's render function runs inside an effect; any state read while rendering becomes a dependency of that effect"
+        },
+        {
+          "vi": "Khi state đổi, effect không chạy ngay mà được scheduler đưa vào hàng đợi, gộp nhiều thay đổi và flush ở microtask",
+          "en": "When state changes the effect is not run immediately; the scheduler queues it, batches changes and flushes in a microtask"
+        },
+        {
+          "vi": "Lần render mới tạo virtual DOM, được patch với cây cũ; compiler gắn patch flag nên chỉ so sánh phần động",
+          "en": "The re-render produces a new virtual DOM that is patched against the old one; compiler patch flags limit diffing to dynamic parts"
+        },
+        {
+          "vi": "Hệ quả: destructure primitive hoặc thay cả object làm mất kết nối; dùng `nextTick` để chờ DOM sau thay đổi",
+          "en": "Consequences: destructuring primitives or replacing the whole object breaks the link; use `nextTick` to wait for the DOM"
+        }
+      ],
+      "explanation": {
+        "vi": "Vue 3 theo dõi dependency ở runtime: Proxy hoặc getter của `ref` ghi nhận effect nào đang đọc thuộc tính nào, và khi ghi thì kích hoạt lại các effect đó. Render của mỗi component là một effect, nên chỉ component thực sự đọc state mới re-render. Scheduler gộp các thay đổi trong cùng tick để tránh render thừa, rồi compiler-informed virtual DOM giúp patch nhanh. Hiểu cơ chế này giải thích được các lỗi hay gặp như mất reactivity khi destructure hoặc đọc DOM ngay sau khi đổi state.",
+        "en": "Vue 3 tracks dependencies at runtime: the Proxy or `ref` getter records which effect reads which property, and writes re-trigger those effects. Each component render is an effect, so only components that actually read the state re-render. The scheduler batches changes in the same tick to avoid redundant renders, and the compiler-informed virtual DOM makes patching fast. Understanding this explains common bugs such as losing reactivity when destructuring or reading the DOM right after a state change."
+      }
+    },
+    {
+      "id": "vue.reactivity.009",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "reactivity",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Màn hình hiển thị 50.000 bản ghi chỉ đọc lấy từ API và trở nên rất chậm, kể cả khi chỉ đổi một bộ lọc. Bạn phân tích và tối ưu phần reactivity như thế nào?",
+        "en": "A screen shows 50,000 read-only records from an API and becomes very slow, even when only a filter changes. How do you analyse and optimise the reactivity side?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`ref`/`reactive` theo dõi sâu: mọi object lồng nhau bị bọc Proxy, tốn bộ nhớ và chi phí track khi đọc",
+          "en": "`ref`/`reactive` are deep: every nested object is wrapped in a Proxy, costing memory and tracking overhead on reads"
+        },
+        {
+          "vi": "Dùng `shallowRef` cho dữ liệu lớn và thay cả mảng khi cập nhật, hoặc `markRaw`/`Object.freeze` cho object không cần reactive",
+          "en": "Use `shallowRef` for large data and replace the whole array on update, or `markRaw`/`Object.freeze` for objects that need no reactivity"
+        },
+        {
+          "vi": "Khi buộc phải sửa tại chỗ trong `shallowRef`, gọi `triggerRef` để báo thay đổi một cách chủ động",
+          "en": "When you must mutate in place inside a `shallowRef`, call `triggerRef` to signal the change explicitly"
+        },
+        {
+          "vi": "Đưa lọc, sắp xếp vào `computed` để cache, và chỉ render phần nhìn thấy bằng virtual scrolling hoặc phân trang",
+          "en": "Put filtering and sorting in a `computed` to cache them, and render only the visible part with virtual scrolling or pagination"
+        },
+        {
+          "vi": "Đo bằng Vue DevTools và Performance profiler trước và sau khi tối ưu thay vì đoán",
+          "en": "Measure with Vue DevTools and the Performance profiler before and after, rather than guessing"
+        }
+      ],
+      "explanation": {
+        "vi": "Reactivity sâu là mặc định tiện lợi nhưng với hàng chục nghìn object, việc tạo Proxy và track từng thuộc tính trở thành chi phí lớn. Dữ liệu chỉ đọc nên được giữ ở dạng thô bằng `shallowRef` hoặc `markRaw`, để Vue chỉ theo dõi việc thay tham chiếu. Phần còn lại là giảm số node DOM bằng virtual list và cache tính toán bằng `computed`. Mọi thay đổi nên được xác nhận bằng đo đạc thực tế.",
+        "en": "Deep reactivity is a convenient default, but with tens of thousands of objects, creating Proxies and tracking every property becomes a real cost. Read-only data should stay raw via `shallowRef` or `markRaw`, so Vue only tracks reference replacement. The rest is reducing DOM nodes with a virtual list and caching derived data with `computed`. Every change should be confirmed with real measurements."
+      }
+    },
+    {
+      "id": "vue.components.001",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `<script setup>`, cách khai báo props cho component là gì?",
+        "en": "In `<script setup>`, how do you declare a component's props?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gọi macro `defineProps()`, có sẵn khi biên dịch nên không cần import",
+            "en": "Call the `defineProps()` macro, available at compile time with no import"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi hàm `useProps()` được import từ package `vue` ở đầu file script",
+            "en": "Call a `useProps()` function imported from the `vue` package at the top"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đọc trực tiếp `this.$props` trong phần script vì Vue tự tạo sẵn biến này",
+            "en": "Read `this.$props` directly in the script because Vue creates it for you"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bắt buộc thêm một khối `export default { props }` trong cùng `<script setup>`",
+            "en": "You must add an `export default { props }` block inside the same `<script setup>`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`defineProps` là compiler macro của `<script setup>`: trình biên dịch SFC xử lý nó nên không cần import và không gọi được bên ngoài `<script setup>`. Nó nhận khai báo runtime (`{ title: String }`) hoặc khai báo kiểu TypeScript (`defineProps<{ title: string }>()`). `this` không dùng trong `<script setup>`, và `<script setup>` không được có `export default`.",
+        "en": "`defineProps` is a `<script setup>` compiler macro: the SFC compiler handles it, so it needs no import and cannot be called outside `<script setup>`. It accepts a runtime declaration (`{ title: String }`) or a TypeScript type declaration (`defineProps<{ title: string }>()`). `this` is not used in `<script setup>`, and `<script setup>` cannot contain `export default`."
+      }
+    },
+    {
+      "id": "vue.components.002",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Bấm nút nhưng số không tăng và console có cảnh báo của Vue. Vấn đề là gì?",
+        "en": "Clicking the button does not increase the number and the console shows a Vue warning. What is the problem?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "<script setup>\nconst props = defineProps({ count: Number })\n\nfunction inc() {\n  props.count++\n}\n</script>\n\n<template>\n  <button @click=\"inc\">{{ count }}</button>\n</template>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`defineProps` phải được import từ `vue` thì mới khai báo được kiểu `Number` cho prop này",
+            "en": "`defineProps` must be imported from `vue` before a prop can be declared with type `Number`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hàm `inc` phải được khai báo bằng `function` trong khối `methods` thì template mới gọi được",
+            "en": "The `inc` function must live in a `methods` block for the template to be able to call it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Props là chỉ đọc; component con phải `emit` sự kiện để cha cập nhật hoặc tạo `ref` cục bộ",
+            "en": "Props are read-only; the child must `emit` an event for the parent to update or use a local `ref`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Template phải viết `{{ props.count }}`; viết `{{ count }}` thì Vue chỉ render được một lần",
+            "en": "The template must use `{{ props.count }}`; with `{{ count }}` Vue only renders it once"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Props trong Vue chảy một chiều từ cha xuống con, và object `props` là shallow readonly nên phép gán bị chặn kèm cảnh báo `Set operation on key \"count\" failed: target is readonly`. Con nên phát sự kiện, ví dụ `emit('update:count', props.count + 1)`, để cha sở hữu dữ liệu tự cập nhật, hoặc dùng `defineModel()`. Nếu prop chỉ là giá trị khởi tạo, hãy sao chép vào `ref` cục bộ.",
+        "en": "Props flow one way from parent to child, and the `props` object is shallow readonly, so the assignment is blocked with the warning `Set operation on key \"count\" failed: target is readonly`. The child should emit an event such as `emit('update:count', props.count + 1)` so the owning parent updates its data, or use `defineModel()`. If the prop is only an initial value, copy it into a local `ref`."
+      }
+    },
+    {
+      "id": "vue.components.003",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Component con `SearchBox` cần báo cho cha biết người dùng vừa gõ từ khóa mới. Cách làm chuẩn trong `<script setup>` là gì?",
+        "en": "A child `SearchBox` needs to tell its parent that the user typed a new keyword. What is the standard way in `<script setup>`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khai báo `const emit = defineEmits(['search'])`, gọi `emit('search', q)`; cha nghe `@search`",
+            "en": "Declare `const emit = defineEmits(['search'])`, call `emit('search', q)`; the parent uses `@search`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gán thẳng từ khóa vào prop nhận từ cha, ví dụ `props.keyword = q`, để cha thấy",
+            "en": "Assign the keyword straight to a prop from the parent, e.g. `props.keyword = q`, so the parent sees it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gọi `window.dispatchEvent(new Event('search'))` rồi cha nghe sự kiện trên `window`",
+            "en": "Call `window.dispatchEvent(new Event('search'))` and let the parent listen on `window`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Dùng `this.$parent.keyword = q` để ghi trực tiếp vào state của component cha",
+            "en": "Use `this.$parent.keyword = q` to write directly into the parent component's state"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Luồng dữ liệu chuẩn của Vue là props đi xuống, events đi lên. `defineEmits` khai báo các sự kiện component phát ra, giúp tài liệu hóa API, kiểm tra kiểu với TypeScript và tách listener khỏi fallthrough attrs. Cha lắng nghe bằng `@search=\"onSearch\"` như sự kiện DOM. Sửa props hay truy cập `$parent` tạo phụ thuộc chặt và khó theo dõi.",
+        "en": "Vue's standard data flow is props down, events up. `defineEmits` declares the events a component emits, documenting its API, enabling TypeScript checks and separating listeners from fallthrough attrs. The parent listens with `@search=\"onSearch\"` just like a DOM event. Mutating props or reaching into `$parent` creates tight coupling that is hard to trace."
+      }
+    },
+    {
+      "id": "vue.components.004",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "components",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích vai trò của props, emits và slots khi thiết kế một component, và khi nào dùng cái nào.",
+        "en": "Explain the roles of props, emits and slots when designing a component, and when to use each."
+      },
+      "keyPoints": [
+        {
+          "vi": "Props: dữ liệu cha truyền xuống, một chiều và chỉ đọc trong con",
+          "en": "Props: data passed down by the parent, one-way and read-only in the child"
+        },
+        {
+          "vi": "Emits: con thông báo sự kiện lên cha, cha quyết định cập nhật state",
+          "en": "Emits: the child notifies the parent of events; the parent decides how to update state"
+        },
+        {
+          "vi": "Slots: cha truyền nội dung template vào vị trí định sẵn trong con (default, named, scoped)",
+          "en": "Slots: the parent passes template content into predefined places in the child (default, named, scoped)"
+        },
+        {
+          "vi": "Dùng prop cho dữ liệu đơn giản, slot khi cần tùy biến giao diện, `v-model`/`defineModel` cho binding hai chiều",
+          "en": "Use props for simple data, slots when markup must be customisable, `v-model`/`defineModel` for two-way binding"
+        }
+      ],
+      "explanation": {
+        "vi": "Ba cơ chế này tạo thành API của component: props cấu hình, emits báo sự kiện, slots cho phép tùy biến nội dung. Giữ dữ liệu chảy một chiều giúp biết rõ ai sở hữu state. Khi một prop bắt đầu nhận HTML hoặc nhiều biến thể hiển thị, đó là dấu hiệu nên chuyển sang slot.",
+        "en": "These three mechanisms form a component's API: props configure it, emits report events, and slots allow content customisation. Keeping data flowing one way makes it clear who owns the state. When a prop starts carrying HTML or many display variants, that is a sign to switch to a slot."
+      }
+    },
+    {
+      "id": "vue.components.005",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "components",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Component gốc `provide('theme', theme)` với `theme` là một `ref`. Component cháu dùng `const theme = inject('theme')`. Khi gốc đổi `theme.value = 'dark'`, cháu thế nào?",
+        "en": "A root component calls `provide('theme', theme)` where `theme` is a `ref`. A grandchild uses `const theme = inject('theme')`. When the root sets `theme.value = 'dark'`, what happens in the grandchild?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cháu giữ giá trị ban đầu vì `provide` chỉ sao chép giá trị một lần khi mount",
+            "en": "The grandchild keeps the initial value because `provide` copies it once on mount"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cháu chỉ cập nhật nếu gốc gọi lại `provide` trong hook `onUpdated` của mình",
+            "en": "The grandchild only updates if the root calls `provide` again in `onUpdated`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cháu báo lỗi vì `inject` chỉ nhận được giá trị nguyên thủy như chuỗi hoặc số",
+            "en": "The grandchild throws because `inject` only accepts primitives like strings or numbers"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cháu nhận thay đổi ngay vì `inject` trả về chính ref đó, vẫn giữ reactive",
+            "en": "The grandchild sees the change because `inject` returns that same reactive ref"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`provide`/`inject` truyền tham chiếu, không sao chép, nên khi provide một `ref` hay `reactive` thì component con cháu đọc được giá trị cập nhật. Nếu provide một giá trị primitive như `theme.value` thì mới mất reactivity. Thực tế nên giữ việc sửa state ở component provide (ví dụ provide kèm hàm `setTheme`) và có thể bọc bằng `readonly()` để con không sửa trực tiếp.",
+        "en": "`provide`/`inject` pass references rather than copies, so providing a `ref` or `reactive` lets descendants read updated values. You only lose reactivity if you provide a primitive such as `theme.value`. In practice, keep mutations in the providing component (for example provide a `setTheme` function too) and wrap the value in `readonly()` so descendants cannot mutate it directly."
+      }
+    },
+    {
+      "id": "vue.components.006",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "components",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi cha viết `<SearchBox v-model=\"query\" />`, Vue 3 truyền prop nào và lắng nghe event nào trên `SearchBox`?",
+        "en": "When a parent writes `<SearchBox v-model=\"query\" />`, which prop does Vue 3 pass and which event does it listen to on `SearchBox`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Prop `value` và event `input` như Vue 2",
+            "en": "Prop `value` and event `input`, as it was in Vue 2"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Prop `model` và event `change` của input",
+            "en": "Prop `model` and the input's `change` event"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Prop `query` và event `update:query`",
+            "en": "Prop `query` and event `update:query`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Prop `modelValue` và event `update:modelValue`",
+            "en": "Prop `modelValue` and event `update:modelValue`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Trong Vue 3, `v-model` trên component được biên dịch thành `:modelValue=\"query\"` và `@update:modelValue=\"v => query = v\"`. `value`/`input` là quy ước của Vue 2. Muốn đổi tên thì dùng v-model có đối số như `v-model:title`, khi đó prop là `title` và event là `update:title`. Từ Vue 3.4, con có thể dùng `defineModel()` để khỏi khai báo prop và emit thủ công.",
+        "en": "In Vue 3, `v-model` on a component compiles to `:modelValue=\"query\"` and `@update:modelValue=\"v => query = v\"`. `value`/`input` was the Vue 2 convention. To rename it, use a v-model argument such as `v-model:title`, which uses the prop `title` and the event `update:title`. Since Vue 3.4, the child can use `defineModel()` instead of declaring the prop and emit by hand."
+      }
+    },
+    {
+      "id": "vue.components.007",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "components",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Mỗi `TodoItem` có state cục bộ `editing`. Người dùng bật sửa ở todo thứ hai rồi xóa todo đầu tiên; ô đang sửa lại nhảy sang todo khác. Nguyên nhân là gì?",
+        "en": "Each `TodoItem` has a local `editing` state. The user starts editing the second todo, then deletes the first; the editing box jumps to another todo. What causes this?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "<script setup>\nimport { ref } from 'vue'\nimport TodoItem from './TodoItem.vue'\n\nconst todos = ref([...])\nconst remove = (id) => {\n  todos.value = todos.value.filter((t) => t.id !== id)\n}\n</script>\n\n<template>\n  <TodoItem\n    v-for=\"(todo, i) in todos\"\n    :key=\"i\"\n    :todo=\"todo\"\n    @remove=\"remove(todo.id)\"\n  />\n</template>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`filter` trả về mảng mới nên Vue buộc phải hủy rồi tạo lại toàn bộ các `TodoItem` trong danh sách",
+            "en": "`filter` returns a new array, so Vue must destroy and recreate every `TodoItem` in the list"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "State `editing` phải đặt trong `reactive` thì Vue mới giữ đúng cho từng component",
+            "en": "The `editing` state must live in `reactive` for Vue to keep it per component"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Dùng `index` làm `key` nên Vue tái sử dụng instance theo vị trí; hãy dùng `todo.id`",
+            "en": "Using `index` as `key` makes Vue reuse instances by position; use `todo.id` instead"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Prop `todo` truyền object nên mọi `TodoItem` cùng dùng chung một state `editing`",
+            "en": "Passing an object as `todo` makes every `TodoItem` share one `editing` state"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Với `:key=\"i\"`, sau khi xóa phần tử đầu, todo thứ hai có index `0`, nên Vue patch instance ở vị trí `0` (vốn của todo đầu) với dữ liệu mới và giữ lại state cục bộ theo vị trí. Kết quả là state `editing` gắn sai todo. `key` phải định danh dữ liệu, như `todo.id`, để Vue biết instance nào bị xóa và instance nào được giữ.",
+        "en": "With `:key=\"i\"`, after deleting the first item, the second todo gets index `0`, so Vue patches the instance at position `0` (the former first todo) with new data and keeps its local state by position. The `editing` state ends up attached to the wrong todo. The `key` must identify the data, such as `todo.id`, so Vue knows which instance was removed and which was kept."
+      }
+    },
+    {
+      "id": "vue.components.008",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "components",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Cha dùng component `UserList` như sau. HTML của hai thẻ `li` chứa gì?",
+        "en": "The parent uses `UserList` as shown. What do the two `li` elements contain?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "<!-- UserList.vue -->\n<script setup>\nconst users = [{ id: 1, name: 'An' }, { id: 2, name: 'Bình' }]\n</script>\n<template>\n  <ul>\n    <li v-for=\"u in users\" :key=\"u.id\">\n      <slot :user=\"u\">{{ u.id }}</slot>\n    </li>\n  </ul>\n</template>\n\n<!-- Parent.vue -->\n<template>\n  <UserList v-slot=\"{ user }\">{{ user.name.toUpperCase() }}</UserList>\n</template>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`1` và `2`",
+            "en": "`1` and `2`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`An` và `Bình`",
+            "en": "`An` and `Bình`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi `user` chưa định nghĩa",
+            "en": "An error: `user` is undefined"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`AN` và `BÌNH`",
+            "en": "`AN` and `BÌNH`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Đây là scoped slot: `UserList` truyền `user` vào slot qua `<slot :user=\"u\">`, còn cha nhận bằng `v-slot=\"{ user }\"` và tự quyết định hiển thị `user.name.toUpperCase()`. Nội dung fallback `{{ u.id }}` chỉ dùng khi cha không truyền slot. Scoped slot cho phép con quản lý dữ liệu, còn cha tùy biến cách render.",
+        "en": "This is a scoped slot: `UserList` passes `user` into the slot via `<slot :user=\"u\">`, and the parent receives it with `v-slot=\"{ user }\"` and decides to render `user.name.toUpperCase()`. The fallback content `{{ u.id }}` is only used when the parent provides no slot. Scoped slots let the child own the data while the parent customises rendering."
+      }
+    },
+    {
+      "id": "vue.components.009",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "components",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn thiết kế component `BaseInput` dùng chung cho cả team (label, lỗi validate, icon, hỗ trợ `v-model`). Bạn thiết kế API của nó như thế nào?",
+        "en": "You are designing a shared `BaseInput` component for the whole team (label, validation error, icon, `v-model` support). How do you design its API?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Dùng `defineModel()` cho giá trị, có thể thêm modifier; tránh tự giữ bản sao state lệch với cha",
+          "en": "Use `defineModel()` for the value, optionally with modifiers; avoid keeping a local copy that drifts from the parent"
+        },
+        {
+          "vi": "Props có kiểu rõ ràng (TypeScript) cho label, error, disabled; giá trị mặc định hợp lý",
+          "en": "Typed props (TypeScript) for label, error and disabled, with sensible defaults"
+        },
+        {
+          "vi": "Slot có tên cho phần tùy biến như `prefix`, `suffix`, `hint` thay vì thêm prop cho mọi biến thể",
+          "en": "Named slots for customisable parts such as `prefix`, `suffix` and `hint` instead of a prop for every variant"
+        },
+        {
+          "vi": "Fallthrough attrs: `inheritAttrs: false` và `v-bind=\"$attrs\"` lên thẻ `input` để `placeholder`, `aria-*` đi đúng chỗ",
+          "en": "Fallthrough attrs: `inheritAttrs: false` and `v-bind=\"$attrs\"` on the `input` so `placeholder` and `aria-*` land correctly"
+        },
+        {
+          "vi": "Accessibility: gắn `label for`/`id` (có thể dùng `useId()`), `aria-invalid`, `aria-describedby` cho thông báo lỗi",
+          "en": "Accessibility: link `label for`/`id` (e.g. via `useId()`), `aria-invalid` and `aria-describedby` for the error message"
+        }
+      ],
+      "explanation": {
+        "vi": "Component dùng chung cần API nhỏ, dễ đoán và khó dùng sai. `defineModel` giữ binding hai chiều đơn giản, slots giữ khả năng mở rộng mà không làm phình props, còn xử lý `$attrs` đúng giúp component cư xử như thẻ `input` gốc. Accessibility và kiểu TypeScript nên có từ đầu vì sửa sau sẽ ảnh hưởng mọi nơi đang dùng.",
+        "en": "A shared component needs a small, predictable API that is hard to misuse. `defineModel` keeps two-way binding simple, slots keep it extensible without bloating props, and handling `$attrs` correctly makes it behave like a native `input`. Accessibility and TypeScript types should be there from the start, because fixing them later affects every usage."
+      }
+    },
+    {
+      "id": "vue.composition_api.001",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "composition_api",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`<script setup>` trong SFC là gì?",
+        "en": "What is `<script setup>` in an SFC?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cú pháp biên dịch sẵn: biến, hàm và import ở top-level được dùng thẳng trong template",
+            "en": "Compile-time syntax: top-level variables, functions and imports are usable in the template"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một đoạn script chạy trên server để chuẩn bị dữ liệu trước khi trang được gửi về",
+            "en": "A script that runs on the server to prepare data before the page is sent to the browser"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Nơi khai báo cấu hình của Vue Router như danh sách route và navigation guard toàn cục",
+            "en": "The place to declare Vue Router configuration such as routes and global navigation guards"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Một script chỉ chạy một lần cho cả ứng dụng và dùng chung giữa mọi instance component",
+            "en": "A script that runs once for the whole app and is shared between all component instances"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`<script setup>` là cú pháp được trình biên dịch SFC chuyển thành hàm `setup()` của component. Mọi binding top-level (biến, hàm, component import) tự động dùng được trong template, không cần `return`. Code chạy lại cho mỗi instance, khác với `<script>` thường chỉ chạy một lần khi module được import. Đây là cách viết được khuyến nghị cho Composition API.",
+        "en": "`<script setup>` is syntax that the SFC compiler turns into the component's `setup()` function. All top-level bindings (variables, functions, imported components) are automatically available in the template, with no `return`. The code runs for every instance, unlike a normal `<script>` that runs once when the module is imported. It is the recommended way to use the Composition API."
+      }
+    },
+    {
+      "id": "vue.composition_api.002",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "composition_api",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Composable trong Vue là gì?",
+        "en": "What is a composable in Vue?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Component không có template riêng, chỉ render lại nội dung slot mà component cha truyền vào",
+            "en": "A component without its own template that only re-renders the slot content from its parent"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Plugin đăng ký bằng `app.use()` để thêm global property cho mọi component trong ứng dụng",
+            "en": "A plugin registered with `app.use()` that adds global properties to every component in the app"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hàm dùng Composition API để đóng gói và tái sử dụng logic có state, thường đặt tên `useXxx`",
+            "en": "A function using the Composition API to package reusable stateful logic, usually named `useXxx`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Mixin viết theo cú pháp mới, các option của nó được Vue tự gộp vào option của component",
+            "en": "A mixin written in a new syntax whose options Vue automatically merges into the component"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Composable là hàm thường như `useMouse()` hay `useFetch()`, bên trong dùng `ref`, `computed`, `watch`, lifecycle hook để đóng gói một mảng logic có state. Mỗi lần gọi tạo ra state riêng, và giá trị trả về rõ ràng nên dễ biết dữ liệu đến từ đâu. Đây là cách thay thế mixin của Vue 2, vốn dễ trùng tên và khó lần nguồn gốc thuộc tính.",
+        "en": "A composable is a plain function such as `useMouse()` or `useFetch()` that uses `ref`, `computed`, `watch` and lifecycle hooks to package a piece of stateful logic. Each call creates its own state, and the explicit return value makes it clear where data comes from. It replaces Vue 2 mixins, which suffered from name clashes and unclear property origins."
+      }
+    },
+    {
+      "id": "vue.composition_api.003",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "composition_api",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "import { ref } from 'vue'\n\nfunction useCounter() {\n  const count = ref(0)\n  const inc = () => count.value++\n  return { count, inc }\n}\n\nconst a = useCounter()\nconst b = useCounter()\na.inc()\na.inc()\nb.inc()\nconsole.log(a.count.value, b.count.value)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`2 1`",
+            "en": "`2 1`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`3 3`",
+            "en": "`3 3`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`2 2`",
+            "en": "`2 2`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`1 1`",
+            "en": "`1 1`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`ref(0)` được tạo bên trong hàm, nên mỗi lần gọi `useCounter()` sinh ra một state riêng. `a` tăng hai lần thành `2`, `b` tăng một lần thành `1`. Nếu muốn chia sẻ state giữa các component, hãy khai báo `ref` ở ngoài hàm (cấp module) hoặc dùng Pinia, lưu ý cách cấp module không an toàn với SSR.",
+        "en": "`ref(0)` is created inside the function, so every call to `useCounter()` gets its own state. `a` is incremented twice to `2` and `b` once to `1`. To share state between components, declare the `ref` outside the function (module level) or use Pinia, keeping in mind that module-level state is not SSR-safe."
+      }
+    },
+    {
+      "id": "vue.composition_api.004",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "composition_api",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ưu điểm chính của Composition API so với Options API trong component lớn là gì?",
+        "en": "What is the main advantage of the Composition API over the Options API in large components?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Component viết bằng Composition API không cần virtual DOM nên luôn render nhanh hơn nhiều lần",
+            "en": "Components written with it skip the virtual DOM, so they always render several times faster"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gom code theo tính năng thay vì theo loại option, dễ tách composable và suy luận kiểu TypeScript",
+            "en": "Code is grouped by feature rather than option type, easy to extract and better for TypeScript"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Options API đã bị gỡ khỏi Vue 3, nên mọi component cũ bắt buộc phải viết lại trước khi nâng cấp",
+            "en": "The Options API was removed in Vue 3, so every old component must be rewritten before upgrading"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Composition API tự đồng bộ state giữa mọi component mà không cần props, emits hay một store",
+            "en": "It automatically syncs state between all components without needing props, emits or a store"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Trong Options API, logic của một tính năng bị chia ra `data`, `computed`, `methods`, `watch`, làm component lớn khó đọc. Composition API cho phép đặt mọi thứ của một tính năng cạnh nhau và tách ra composable để tái sử dụng. Kiểu TypeScript cũng được suy luận tự nhiên hơn vì là biến và hàm thường. Options API vẫn được hỗ trợ đầy đủ trong Vue 3 và hiệu năng render hai cách là như nhau.",
+        "en": "In the Options API, the logic of one feature is split across `data`, `computed`, `methods` and `watch`, making large components hard to read. The Composition API lets you keep everything for a feature together and extract it into composables. TypeScript inference is also more natural because everything is plain variables and functions. The Options API is still fully supported in Vue 3, and render performance is the same either way."
+      }
+    },
+    {
+      "id": "vue.composition_api.005",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "composition_api",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Composable sau được dùng trong nhiều trang. Sau khi chuyển trang nhiều lần, ứng dụng ngày càng chậm. Vấn đề là gì?",
+        "en": "This composable is used on many pages. After navigating back and forth many times, the app gets slower and slower. What is wrong?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "import { ref } from 'vue'\n\nexport function useWindowWidth() {\n  const width = ref(window.innerWidth)\n  const update = () => {\n    width.value = window.innerWidth\n  }\n  window.addEventListener('resize', update)\n  return { width }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`ref` không được dùng bên trong composable; phải chuyển `width` thành `reactive`",
+            "en": "A `ref` cannot be used inside a composable; `width` must be turned into `reactive`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Listener `resize` không bao giờ được gỡ; cần `removeEventListener` trong `onUnmounted`",
+            "en": "The `resize` listener is never removed; call `removeEventListener` in `onUnmounted`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hàm `update` phải được bọc trong `nextTick` thì Vue mới nhận ra thay đổi của `width`",
+            "en": "The `update` function must be wrapped in `nextTick` for Vue to notice `width` changes"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Composable bắt buộc trả về `width.value` thay vì ref để tránh giữ tham chiếu tới DOM",
+            "en": "A composable must return `width.value` instead of the ref to avoid holding DOM references"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Mỗi lần component dùng composable được mount, một listener mới được gắn lên `window`, nhưng không bao giờ được gỡ khi component unmount. Các listener cũ tiếp tục chạy và giữ tham chiếu tới state của component đã hủy, gây rò rỉ bộ nhớ và chậm dần. Hãy đăng ký trong `onMounted` và gỡ trong `onUnmounted` (hoặc `onScopeDispose`), hoặc dùng `useEventListener` của VueUse.",
+        "en": "Every time a component using the composable mounts, a new listener is attached to `window`, and it is never removed on unmount. Old listeners keep running and hold references to the destroyed component's state, causing a memory leak and gradual slowdown. Register in `onMounted` and remove in `onUnmounted` (or `onScopeDispose`), or use VueUse's `useEventListener`."
+      }
+    },
+    {
+      "id": "vue.composition_api.006",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "composition_api",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao composable thường trả về một object chứa các `ref` (ví dụ `{ x, y }`) thay vì một object `reactive`?",
+        "en": "Why do composables usually return a plain object of `ref`s (e.g. `{ x, y }`) rather than a `reactive` object?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Vì `reactive` không dùng được bên trong hàm, chỉ dùng được ở cấp module",
+            "en": "Because `reactive` cannot be used inside functions, only at module level"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Vì template không đọc được thuộc tính của object `reactive` trả về từ hàm",
+            "en": "Because templates cannot read properties of a `reactive` returned from a function"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Vì `ref` không theo dõi sâu nên luôn nhanh hơn `reactive` trong mọi tình huống",
+            "en": "Because `ref` is never deep, so it is always faster than `reactive` in every case"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Để caller có thể destructure `const { x, y } = useMouse()` mà vẫn giữ reactivity",
+            "en": "So callers can destructure `const { x, y } = useMouse()` and keep reactivity"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Destructure một object `reactive` làm các thuộc tính primitive mất liên kết với Proxy. Khi trả về object thường gồm các ref, caller destructure vẫn nhận được ref và giữ reactivity. Nếu muốn dùng dạng object, caller có thể bọc kết quả bằng `reactive(useMouse())` để tự unwrap. Nếu bên trong composable dùng `reactive`, hãy trả về `toRefs(state)`.",
+        "en": "Destructuring a `reactive` object breaks the link between primitive properties and the Proxy. Returning a plain object of refs means destructured values are still refs and stay reactive. Callers who prefer object style can wrap the result with `reactive(useMouse())` to unwrap it. If the composable uses `reactive` internally, return `toRefs(state)`."
+      }
+    },
+    {
+      "id": "vue.composition_api.007",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "composition_api",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn viết composable `useFetch(url)` muốn tự gọi lại khi `url` đổi, và chấp nhận chuỗi, ref hoặc getter. Cách viết phù hợp nhất là gì?",
+        "en": "You are writing a `useFetch(url)` composable that should refetch when `url` changes and accept a string, a ref or a getter. What is the best approach?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nhận `string` và gọi `fetch` một lần ở đầu hàm; khi URL đổi thì caller tự gọi lại composable",
+            "en": "Accept a `string` and call `fetch` once at the top; when the URL changes, callers call it again"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nhận `Ref<string>` và đọc `url.value` một lần bên ngoài watcher rồi truyền vào hàm `fetch`",
+            "en": "Accept a `Ref<string>`, read `url.value` once outside any watcher, then pass it to `fetch`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Nhận `MaybeRefOrGetter<string>` và đọc `toValue(url)` bên trong `watchEffect` để tự theo dõi",
+            "en": "Accept `MaybeRefOrGetter<string>` and read `toValue(url)` inside `watchEffect` so it is tracked"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bắt caller truyền `reactive({ url })` vì Vue chỉ theo dõi được object và không theo dõi ref",
+            "en": "Require callers to pass `reactive({ url })`, since Vue only tracks objects and never refs"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`toValue()` (Vue 3.3+) chuẩn hóa đầu vào: trả nguyên giá trị thường, `.value` của ref, hoặc kết quả gọi getter. Khi đọc `toValue(url)` bên trong `watchEffect` (hoặc dùng `watch(() => toValue(url), ...)`), Vue theo dõi được ref hay getter đó và tự fetch lại khi giá trị đổi. Đọc `.value` bên ngoài watcher chỉ lấy một lần nên không phản ứng với thay đổi. Đây là pattern được tài liệu Vue khuyến nghị cho composable.",
+        "en": "`toValue()` (Vue 3.3+) normalises the input: it returns plain values as-is, a ref's `.value`, or the result of calling a getter. Reading `toValue(url)` inside `watchEffect` (or `watch(() => toValue(url), ...)`) lets Vue track that ref or getter and refetch when it changes. Reading `.value` outside a watcher happens once and never reacts to changes. This is the pattern the Vue docs recommend for composables."
+      }
+    },
+    {
+      "id": "vue.composition_api.008",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "composition_api",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cha có template ref tới component con viết bằng `<script setup>` và gọi `formRef.value.reset()`, nhưng nhận lỗi `reset is not a function` dù con có khai báo hàm `reset`. Vì sao?",
+        "en": "A parent holds a template ref to a `<script setup>` child and calls `formRef.value.reset()`, but gets `reset is not a function` even though the child declares `reset`. Why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Template ref chỉ trỏ được tới thẻ DOM gốc, không bao giờ trỏ được tới instance component",
+            "en": "A template ref can only point to a native DOM element, never to a component instance"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Component `<script setup>` mặc định đóng; con phải gọi `defineExpose({ reset })`",
+            "en": "A `<script setup>` component is closed by default; the child must call `defineExpose({ reset })`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Hàm trong `<script setup>` chỉ tồn tại khi component đang ở trạng thái `onBeforeMount`",
+            "en": "Functions in `<script setup>` only exist while the component is in the `onBeforeMount` state"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cha phải gọi `formRef.reset()` vì Vue tự unwrap ref khi truy cập tới instance của con",
+            "en": "The parent must call `formRef.reset()`, because Vue unwraps the ref when accessing a child"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khác với Options API, instance của component dùng `<script setup>` không lộ ra các binding bên trong khi truy cập qua template ref hay `$parent`. Muốn cho cha gọi, con phải khai báo rõ bằng `defineExpose({ reset })`. Cách này giữ API công khai của component nhỏ và có chủ đích. Tuy vậy, nên ưu tiên props và events; chỉ dùng expose cho hành động mệnh lệnh như `focus()` hay `reset()`.",
+        "en": "Unlike the Options API, a `<script setup>` component instance does not expose its internal bindings through template refs or `$parent`. For a parent to call something, the child must declare it with `defineExpose({ reset })`. This keeps the public API small and intentional. Still, prefer props and events; use expose only for imperative actions such as `focus()` or `reset()`."
+      }
+    },
+    {
+      "id": "vue.composition_api.009",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "composition_api",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn review một codebase có nhiều composable tự viết. Tiêu chí nào để đánh giá một composable được thiết kế tốt?",
+        "en": "You are reviewing a codebase with many hand-written composables. What criteria do you use to judge whether a composable is well designed?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Đầu vào linh hoạt với `MaybeRefOrGetter` và `toValue`, phản ứng khi đầu vào đổi",
+          "en": "Flexible inputs via `MaybeRefOrGetter` and `toValue`, reacting when inputs change"
+        },
+        {
+          "vi": "Trả về object các ref/computed (có thể `readonly`) và hàm action rõ ràng, không lộ state nội bộ thừa",
+          "en": "Return an object of refs/computeds (possibly `readonly`) plus clear action functions, without leaking internals"
+        },
+        {
+          "vi": "Dọn dẹp side effect: listener, timer, request được hủy trong `onUnmounted`/`onScopeDispose`, dùng `AbortController`",
+          "en": "Clean up side effects: listeners, timers and requests are cancelled in `onUnmounted`/`onScopeDispose`, using `AbortController`"
+        },
+        {
+          "vi": "Gọi đồng bộ trong `setup`; an toàn với SSR (không đụng `window` ở top-level, chỉ dùng trong `onMounted`)",
+          "en": "Called synchronously in `setup`; SSR-safe (no `window` access at top level, only inside `onMounted`)"
+        },
+        {
+          "vi": "Một trách nhiệm, dễ test độc lập; phân biệt rõ state dùng chung (module/Pinia) và state theo từng lần gọi",
+          "en": "Single responsibility and testable in isolation; clearly separate shared state (module/Pinia) from per-call state"
+        }
+      ],
+      "explanation": {
+        "vi": "Composable tốt giống một hàm thư viện nhỏ: đầu vào linh hoạt, đầu ra rõ ràng và không để lại side effect sau khi component hủy. Vì lifecycle hook và watcher gắn với instance hiện tại, composable phải được gọi đồng bộ trong `setup`. Đặc biệt cần chú ý SSR và việc chia sẻ state ngoài ý muốn khi khai báo ref ở cấp module.",
+        "en": "A good composable is like a small library function: flexible inputs, clear outputs and no side effects left behind after the component is destroyed. Because lifecycle hooks and watchers bind to the current instance, composables must be called synchronously in `setup`. Pay special attention to SSR and to accidental state sharing when refs are declared at module level."
+      }
+    },
+    {
+      "id": "vue.lifecycle.001",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "lifecycle",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần đo kích thước một phần tử qua template ref. Hook nào sớm nhất đảm bảo ref đã trỏ tới phần tử DOM?",
+        "en": "You need to measure an element via a template ref. Which is the earliest hook that guarantees the ref points to the DOM element?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`onBeforeMount`",
+            "en": "`onBeforeMount`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Top-level `setup`",
+            "en": "Top-level `setup`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`onBeforeUpdate`",
+            "en": "`onBeforeUpdate`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`onMounted`",
+            "en": "`onMounted`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Template ref chỉ được gán sau khi component render và chèn DOM vào trang, tức là khi `onMounted` chạy. Trong top-level `setup` và `onBeforeMount`, DOM chưa tồn tại nên ref vẫn là `null`. `onBeforeUpdate` không chạy ở lần render đầu tiên mà chỉ chạy trước các lần cập nhật sau.",
+        "en": "Template refs are only assigned after the component renders and inserts its DOM, i.e. when `onMounted` runs. In top-level `setup` and `onBeforeMount` the DOM does not exist yet, so the ref is still `null`. `onBeforeUpdate` does not run on the initial render, only before later updates."
+      }
+    },
+    {
+      "id": "vue.lifecycle.002",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "lifecycle",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Người dùng bấm nút \"Đổi\". Console in ra gì theo thứ tự?",
+        "en": "The user clicks the \"Change\" button. What does the console print, in order?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "<script setup>\nimport { ref, nextTick } from 'vue'\n\nconst msg = ref('A')\nconst p = ref(null)\n\nfunction change() {\n  msg.value = 'B'\n  console.log(p.value.textContent)\n  nextTick(() => console.log(p.value.textContent))\n}\n</script>\n\n<template>\n  <p ref=\"p\">{{ msg }}</p>\n  <button @click=\"change\">Đổi</button>\n</template>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`B` rồi `B`",
+            "en": "`B` then `B`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`A` rồi `B`",
+            "en": "`A` then `B`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`A` rồi `A`",
+            "en": "`A` then `A`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`B` rồi `A`",
+            "en": "`B` then `A`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Vue không cập nhật DOM đồng bộ ngay khi state đổi mà gộp thay đổi và cập nhật ở lần flush tiếp theo. Vì vậy dòng log đầu vẫn đọc nội dung cũ `A`. `nextTick` chờ đến khi Vue cập nhật DOM xong nên callback đọc được `B`. Khi cần đo hoặc thao tác DOM ngay sau khi đổi state, hãy `await nextTick()`.",
+        "en": "Vue does not update the DOM synchronously when state changes; it batches changes and applies them in the next flush. So the first log still reads the old content `A`. `nextTick` waits until Vue has updated the DOM, so its callback reads `B`. When you need to measure or touch the DOM right after a state change, `await nextTick()`."
+      }
+    },
+    {
+      "id": "vue.lifecycle.003",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "lifecycle",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Component khởi tạo `setInterval` trong `onMounted` để cập nhật đồng hồ. Nên dọn timer ở đâu?",
+        "en": "A component starts a `setInterval` in `onMounted` to update a clock. Where should the timer be cleaned up?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trong `onUnmounted` (hoặc `onBeforeUnmount`), gọi `clearInterval` với id đã lưu",
+            "en": "In `onUnmounted` (or `onBeforeUnmount`), calling `clearInterval` with the saved id"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không cần dọn, vì Vue tự hủy mọi timer mà component tạo ra khi nó bị unmount",
+            "en": "No cleanup needed, since Vue destroys every timer a component creates on unmount"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Trong `onUpdated`, vì hook này chạy lần cuối trước khi component bị gỡ khỏi DOM",
+            "en": "In `onUpdated`, because it runs one last time before the component leaves the DOM"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ngay trong callback của `setInterval`, kiểm tra `document.hidden` để tự dừng",
+            "en": "Inside the `setInterval` callback itself, checking `document.hidden` to stop it"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Vue chỉ tự dọn những gì nó quản lý như watcher và effect tạo trong `setup`; timer, listener trên `window` hay subscription bên ngoài là trách nhiệm của bạn. Nếu không `clearInterval`, callback tiếp tục chạy sau khi component bị hủy, gây rò rỉ bộ nhớ và lỗi khi truy cập state cũ. Lưu id trả về từ `setInterval` rồi gọi `clearInterval(id)` trong `onUnmounted`.",
+        "en": "Vue only cleans up what it manages, such as watchers and effects created in `setup`; timers, `window` listeners and external subscriptions are your responsibility. Without `clearInterval`, the callback keeps running after the component is destroyed, leaking memory and touching stale state. Save the id returned by `setInterval` and call `clearInterval(id)` in `onUnmounted`."
+      }
+    },
+    {
+      "id": "vue.lifecycle.004",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "lifecycle",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `<script setup>`, gọi `inputRef.value.focus()` ngay ở top-level báo lỗi `Cannot read properties of null (reading 'focus')`. Cách sửa đúng là gì?",
+        "en": "In `<script setup>`, calling `inputRef.value.focus()` at the top level throws `Cannot read properties of null (reading 'focus')`. What is the correct fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chuyển lời gọi `focus()` vào trong `onMounted`, khi DOM đã được tạo",
+            "en": "Move the `focus()` call into `onMounted`, once the DOM has been created"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Khởi tạo `inputRef` bằng `ref(document.createElement('input'))` ngay từ đầu",
+            "en": "Initialise `inputRef` with `ref(document.createElement('input'))` at the top"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đổi `ref(null)` thành `reactive({})` để Vue tự gán phần tử sớm hơn",
+            "en": "Change `ref(null)` to `reactive({})` so Vue assigns the element sooner"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bọc lời gọi trong `try/catch` để bỏ qua lỗi ở lần chạy đầu tiên",
+            "en": "Wrap the call in `try/catch` to ignore the error on the first run"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Code top-level của `<script setup>` chạy trong `setup()`, trước khi component render, nên template ref vẫn là giá trị khởi tạo `null`. Ref chỉ trỏ tới phần tử thật sau khi mount, vì vậy thao tác DOM phải đặt trong `onMounted`. Tạo phần tử giả hay bắt lỗi chỉ che giấu vấn đề và không focus được ô input thật.",
+        "en": "Top-level `<script setup>` code runs inside `setup()`, before the component renders, so the template ref still holds its initial `null`. The ref only points to the real element after mounting, so DOM work belongs in `onMounted`. Creating a fake element or swallowing the error just hides the problem and never focuses the real input."
+      }
+    },
+    {
+      "id": "vue.lifecycle.005",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "lifecycle",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "`Parent` render `<Child />` trong template. Mảng `out` có thứ tự như thế nào sau khi mount xong?",
+        "en": "`Parent` renders `<Child />` in its template. What order does the `out` array have after mounting?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "// Child.vue\nout.push('setup Child')\nonMounted(() => out.push('mounted Child'))\n\n// Parent.vue (template: <Child />)\nout.push('setup Parent')\nonMounted(() => out.push('mounted Parent'))"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`setup Parent`, `mounted Parent`, `setup Child`, `mounted Child`",
+            "en": "`setup Parent`, `mounted Parent`, `setup Child`, `mounted Child`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`setup Parent`, `setup Child`, `mounted Child`, `mounted Parent`",
+            "en": "`setup Parent`, `setup Child`, `mounted Child`, `mounted Parent`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`setup Child`, `setup Parent`, `mounted Child`, `mounted Parent`",
+            "en": "`setup Child`, `setup Parent`, `mounted Child`, `mounted Parent`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`setup Parent`, `setup Child`, `mounted Parent`, `mounted Child`",
+            "en": "`setup Parent`, `setup Child`, `mounted Parent`, `mounted Child`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`setup` của cha chạy trước, rồi trong lúc cha render, Vue tạo và chạy `setup` của con. Hook `mounted` được gọi khi cây DOM của component đã hoàn chỉnh, mà cây của cha chỉ xong khi mọi con đã mount, nên `mounted` của con chạy trước cha. Vì vậy trong `onMounted` của cha có thể truy cập DOM của con một cách an toàn.",
+        "en": "The parent's `setup` runs first, then while the parent renders, Vue creates the child and runs its `setup`. `mounted` fires once a component's DOM tree is complete, and the parent's tree is only complete after all children have mounted, so the child's `mounted` runs before the parent's. That is why a parent's `onMounted` can safely access its children's DOM."
+      }
+    },
+    {
+      "id": "vue.lifecycle.006",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "lifecycle",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một tab được bọc trong `<KeepAlive>`. Người dùng chuyển sang tab khác rồi quay lại. Hook nào chạy khi tab đó hiển thị lại?",
+        "en": "A tab is wrapped in `<KeepAlive>`. The user switches to another tab and then back. Which hook runs when that tab is shown again?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`onMounted`; KeepAlive chỉ giữ state còn component vẫn được mount lại từ đầu",
+            "en": "`onMounted`; KeepAlive keeps state but the component is still remounted from scratch"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`onUpdated`; Vue coi việc hiện lại như một lần cập nhật props bình thường",
+            "en": "`onUpdated`; Vue treats showing it again as a normal props update"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`onBeforeMount`; hook này chạy mỗi khi component được chèn lại vào DOM",
+            "en": "`onBeforeMount`; it runs every time the component is reinserted into the DOM"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`onActivated`; component được lấy từ cache nên `onMounted` không chạy lại",
+            "en": "`onActivated`; the component comes from the cache, so `onMounted` does not rerun"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`<KeepAlive>` giữ instance của component trong bộ nhớ thay vì hủy khi bị ẩn. Vì vậy khi quay lại, component không mount lại mà chỉ được kích hoạt, gọi `onActivated`; khi rời đi thì gọi `onDeactivated` thay vì `onUnmounted`. Hai hook này là nơi phù hợp để làm mới dữ liệu hoặc tạm dừng polling cho component được cache.",
+        "en": "`<KeepAlive>` keeps the component instance in memory instead of destroying it when hidden. So when you return, it is not remounted but activated, triggering `onActivated`; when you leave, `onDeactivated` runs instead of `onUnmounted`. These two hooks are the right place to refresh data or pause polling for cached components."
+      }
+    },
+    {
+      "id": "vue.lifecycle.007",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "lifecycle",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích vì sao Vue cập nhật DOM bất đồng bộ, `nextTick` dùng để làm gì và khi nào bạn thực sự cần nó.",
+        "en": "Explain why Vue updates the DOM asynchronously, what `nextTick` is for and when you actually need it."
+      },
+      "keyPoints": [
+        {
+          "vi": "Thay đổi state được gộp trong cùng một tick; Vue flush hàng đợi ở microtask để mỗi component render tối đa một lần",
+          "en": "State changes in the same tick are batched; Vue flushes its queue in a microtask so each component renders at most once"
+        },
+        {
+          "vi": "Ngay sau khi gán state, DOM vẫn là bản cũ; `nextTick()` trả Promise resolve sau khi flush xong",
+          "en": "Right after assigning state the DOM is still old; `nextTick()` returns a Promise that resolves after the flush"
+        },
+        {
+          "vi": "Dùng khi cần đo kích thước, cuộn tới phần tử mới, focus input vừa hiện ra hoặc gọi thư viện DOM bên ngoài",
+          "en": "Use it to measure size, scroll to a new element, focus a just-shown input or call an external DOM library"
+        },
+        {
+          "vi": "Không dùng `nextTick` để sửa lỗi logic state; thường có thể thay bằng `computed` hoặc `watch` với `flush: 'post'`",
+          "en": "Do not use `nextTick` to patch state logic bugs; it can often be replaced by `computed` or `watch` with `flush: 'post'`"
+        }
+      ],
+      "explanation": {
+        "vi": "Cập nhật bất đồng bộ giúp tránh render lặp lại khi nhiều state đổi liên tiếp, nhưng hệ quả là DOM chưa phản ánh state ngay sau phép gán. `nextTick` là cầu nối cho code cần đọc hoặc thao tác DOM sau lần cập nhật đó. Lạm dụng `nextTick` thường là dấu hiệu đang trộn logic dữ liệu với thao tác DOM.",
+        "en": "Asynchronous updates avoid repeated renders when several pieces of state change in a row, but the DOM does not reflect state right after an assignment. `nextTick` bridges the gap for code that must read or touch the DOM after that update. Overusing `nextTick` usually signals that data logic is mixed with DOM manipulation."
+      }
+    },
+    {
+      "id": "vue.lifecycle.008",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "lifecycle",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích thứ tự lifecycle giữa cha và con khi mount, update, unmount, và các chế độ `flush` của watcher (`pre`, `post`, `sync`) ảnh hưởng thế nào đến việc đọc DOM.",
+        "en": "Explain the parent/child lifecycle order for mount, update and unmount, and how the watcher `flush` modes (`pre`, `post`, `sync`) affect reading the DOM."
+      },
+      "keyPoints": [
+        {
+          "vi": "Mount: `setup`/`beforeMount` cha → con; `mounted` con chạy trước cha",
+          "en": "Mount: parent `setup`/`beforeMount` → child; the child's `mounted` fires before the parent's"
+        },
+        {
+          "vi": "Update: `beforeUpdate` cha trước, `updated` con trước cha; con chỉ re-render khi props hoặc state nó đọc thay đổi",
+          "en": "Update: parent `beforeUpdate` first, child `updated` before parent; a child only re-renders when its props or read state change"
+        },
+        {
+          "vi": "Unmount: `beforeUnmount` cha trước, `unmounted` của con chạy trước cha; dọn dẹp side effect ở đây",
+          "en": "Unmount: parent `beforeUnmount` first, the child's `unmounted` before the parent's; clean up side effects there"
+        },
+        {
+          "vi": "`flush: 'pre'` (mặc định) chạy trước khi DOM cập nhật nên đọc thấy DOM cũ; `'post'` (`watchPostEffect`) chạy sau, đọc DOM mới",
+          "en": "`flush: 'pre'` (default) runs before the DOM update so it sees the old DOM; `'post'` (`watchPostEffect`) runs after and sees the new DOM"
+        },
+        {
+          "vi": "`flush: 'sync'` chạy ngay mỗi lần thay đổi, không gộp; chỉ dùng cho trường hợp đặc biệt vì dễ gây vấn đề hiệu năng",
+          "en": "`flush: 'sync'` runs on every change without batching; reserve it for special cases because it can hurt performance"
+        }
+      ],
+      "explanation": {
+        "vi": "Thứ tự lifecycle tuân theo quy tắc \"bắt đầu từ ngoài vào, hoàn tất từ trong ra\": cha bắt đầu trước nhưng con hoàn thành trước. Chế độ flush quyết định watcher nhìn thấy DOM ở trạng thái nào, nên khi watcher cần đọc DOM mới (đo kích thước, vẽ chart) hãy dùng `flush: 'post'`. Nắm rõ điểm này giúp tránh các lỗi khó tái hiện liên quan đến thời điểm.",
+        "en": "The lifecycle order follows \"start outside-in, finish inside-out\": the parent starts first but the child finishes first. The flush mode decides which DOM state a watcher sees, so when a watcher must read the updated DOM (measuring, drawing a chart) use `flush: 'post'`. Knowing this avoids hard-to-reproduce timing bugs."
+      }
+    },
+    {
+      "id": "vue.routing.001",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "routing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Route được khai báo `{ path: '/users/:id', component: UserDetail }`. Trong `UserDetail` dùng `<script setup>`, đọc `id` thế nào?",
+        "en": "A route is declared as `{ path: '/users/:id', component: UserDetail }`. Inside `UserDetail` with `<script setup>`, how do you read `id`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`useRouter().params.id`",
+            "en": "`useRouter().params.id`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`useRoute().params.id`",
+            "en": "`useRoute().params.id`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`useRoute().query.id`",
+            "en": "`useRoute().query.id`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`this.$params.id`",
+            "en": "`this.$params.id`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`useRoute()` trả về route hiện tại (reactive), trong đó `params` chứa các đoạn động như `:id`, còn `query` chứa tham số sau dấu `?`. `useRouter()` trả về instance router dùng để điều hướng (`push`, `replace`), không chứa params. Lưu ý giá trị params luôn là chuỗi, nên cần chuyển kiểu nếu dùng làm số.",
+        "en": "`useRoute()` returns the current (reactive) route, where `params` holds dynamic segments such as `:id` and `query` holds parameters after `?`. `useRouter()` returns the router instance for navigation (`push`, `replace`) and has no params. Note that params are always strings, so convert them if you need a number."
+      }
+    },
+    {
+      "id": "vue.routing.002",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "routing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao trong ứng dụng Vue Router nên dùng `<RouterLink to=\"/about\">` thay vì `<a href=\"/about\">`?",
+        "en": "Why should a Vue Router app use `<RouterLink to=\"/about\">` instead of `<a href=\"/about\">`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thẻ `<a>` thường bị Vue chặn hoàn toàn và không bao giờ chuyển được tới trang khác",
+            "en": "Vue blocks plain `<a>` tags entirely, so they can never navigate to another page"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`RouterLink` tự tải trước toàn bộ dữ liệu API của trang đích ngay khi được render",
+            "en": "`RouterLink` prefetches all the target page's API data as soon as it renders"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`RouterLink` điều hướng phía client qua History API, không tải lại toàn bộ trang",
+            "en": "`RouterLink` navigates client-side via the History API without reloading the page"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`RouterLink` là bắt buộc để công cụ tìm kiếm đọc được đường dẫn trong ứng dụng",
+            "en": "`RouterLink` is required for search engines to be able to read the app's links"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`<RouterLink>` render ra thẻ `<a>` thật nhưng chặn hành vi mặc định và gọi `router.push`, nên ứng dụng chuyển trang mà không tải lại, giữ nguyên state và không tải lại JavaScript. Nó còn tự tính `href` đúng theo chế độ history và gắn class `router-link-active` cho link đang hoạt động. Thẻ `<a>` thường vẫn chạy nhưng gây tải lại toàn trang.",
+        "en": "`<RouterLink>` renders a real `<a>` tag but prevents the default behaviour and calls `router.push`, so the app changes page without reloading, keeping state and not refetching JavaScript. It also computes the right `href` for the history mode and adds the `router-link-active` class to active links. A plain `<a>` still works but causes a full page reload."
+      }
+    },
+    {
+      "id": "vue.routing.003",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "routing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cách khai báo nào giúp trang Admin được tách thành chunk riêng và chỉ tải khi người dùng truy cập?",
+        "en": "Which declaration splits the Admin page into its own chunk that only loads when the user visits it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`component: Admin` với `import Admin from './views/Admin.vue'`",
+            "en": "`component: Admin` with `import Admin from './views/Admin.vue'`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`component: './views/Admin.vue'` dưới dạng chuỗi",
+            "en": "`component: './views/Admin.vue'` as a plain string"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`component: () => import('./views/Admin.vue')`",
+            "en": "`component: () => import('./views/Admin.vue')`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`component: await import('./views/Admin.vue')`",
+            "en": "`component: await import('./views/Admin.vue')`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Vue Router chấp nhận một hàm trả về Promise làm `component`; hàm chỉ được gọi khi lần đầu vào route. Bundler như Vite thấy `import()` động nên tách file thành chunk riêng. Import tĩnh đưa trang vào bundle chính, `await import` ở top-level vẫn tải ngay khi khởi động, còn chuỗi đường dẫn không phải component hợp lệ.",
+        "en": "Vue Router accepts a function returning a Promise as `component`; it is only called the first time the route is visited. Bundlers like Vite see the dynamic `import()` and split the file into its own chunk. A static import puts the page in the main bundle, a top-level `await import` still loads it at startup, and a path string is not a valid component."
+      }
+    },
+    {
+      "id": "vue.routing.004",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "routing",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đang ở `/users/1`, người dùng bấm link sang `/users/2`. URL đổi nhưng trang vẫn hiển thị user 1. Vì sao?",
+        "en": "On `/users/1`, the user clicks a link to `/users/2`. The URL changes but the page still shows user 1. Why?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "<script setup>\nimport { ref, onMounted } from 'vue'\nimport { useRoute } from 'vue-router'\nimport { fetchUser } from '@/api'\n\nconst route = useRoute()\nconst user = ref(null)\n\nonMounted(async () => {\n  user.value = await fetchUser(route.params.id)\n})\n</script>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`useRoute()` chỉ đọc được params một lần khi khởi động router, sau đó luôn trả về giá trị cũ đã cache",
+            "en": "`useRoute()` only reads params once when the router starts and always returns the cached old value after"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cùng route nên component được tái sử dụng và `onMounted` không chạy lại; cần `watch` theo `route.params.id`",
+            "en": "Same route, so the component is reused and `onMounted` does not rerun; `watch` `route.params.id` instead"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`fetchUser` phải được gọi trong `onBeforeMount` vì `onMounted` không được phép chạy code bất đồng bộ",
+            "en": "`fetchUser` must be called in `onBeforeMount` because `onMounted` is not allowed to run async code at all"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`user` khai báo bằng `ref(null)` nên Vue không nhận ra khi được gán object; phải dùng `reactive` thay thế",
+            "en": "`user` is declared with `ref(null)`, so Vue misses the object assignment; it must use `reactive` instead"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khi chỉ params thay đổi trên cùng một route, Vue Router giữ nguyên instance component để tiết kiệm chi phí, nên các lifecycle hook như `onMounted` không chạy lại. `route` vẫn reactive, vì vậy hãy dùng `watch(() => route.params.id, load, { immediate: true })` để tải dữ liệu cả lần đầu lẫn khi id đổi. Cách khác là dùng guard `onBeforeRouteUpdate` hoặc đặt `:key=\"route.fullPath\"` trên `<RouterView>` nếu chấp nhận remount.",
+        "en": "When only params change on the same route, Vue Router keeps the component instance to save work, so lifecycle hooks like `onMounted` do not rerun. `route` is still reactive, so use `watch(() => route.params.id, load, { immediate: true })` to load data both initially and when the id changes. Alternatives are the `onBeforeRouteUpdate` guard or `:key=\"route.fullPath\"` on `<RouterView>` if a remount is acceptable."
+      }
+    },
+    {
+      "id": "vue.routing.005",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "routing",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `router.beforeEach((to) => { ... })` của Vue Router 4, khi route cần đăng nhập mà user chưa đăng nhập, cách xử lý được khuyến nghị là gì?",
+        "en": "In Vue Router 4's `router.beforeEach((to) => { ... })`, when a route requires login and the user is not logged in, what is the recommended handling?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`return { name: 'login', query: { redirect: to.fullPath } }` để chuyển hướng",
+            "en": "`return { name: 'login', query: { redirect: to.fullPath } }` to redirect"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi `router.push('/login')` bên trong guard rồi `return true` để tiếp tục",
+            "en": "Call `router.push('/login')` inside the guard, then `return true` to proceed"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gán `window.location.href = '/login'` để trình duyệt tự tải lại trang login",
+            "en": "Set `window.location.href = '/login'` so the browser reloads the login page"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`throw new Error('unauthorized')` để router tự động chuyển về trang login",
+            "en": "`throw new Error('unauthorized')` so the router redirects to login by itself"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Từ Vue Router 4, guard có thể trả về giá trị: `false` để hủy, một route location để chuyển hướng, hoặc không trả gì để cho qua; tham số `next` không còn bắt buộc. Trả về location giúp router hủy lượt điều hướng hiện tại và bắt đầu lượt mới một cách sạch sẽ. Kèm `redirect` trong query để sau khi đăng nhập đưa user về đúng trang. Ném lỗi sẽ hủy điều hướng và kích hoạt `router.onError`, không phải chuyển hướng.",
+        "en": "Since Vue Router 4, guards can return a value: `false` to cancel, a route location to redirect, or nothing to proceed; the `next` argument is no longer required. Returning a location lets the router cleanly cancel the current navigation and start a new one. Adding `redirect` in the query lets you send the user back after login. Throwing cancels the navigation and triggers `router.onError`; it does not redirect."
+      }
+    },
+    {
+      "id": "vue.routing.006",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "routing",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Sau khi thêm guard sau, người dùng chưa đăng nhập thấy trang trắng và console báo lỗi chuyển hướng vô hạn. Lỗi nằm ở đâu?",
+        "en": "After adding this guard, logged-out users see a blank page and the console reports an infinite redirect. What is wrong?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "import { useAuthStore } from '@/stores/auth'\n\nrouter.beforeEach((to) => {\n  const auth = useAuthStore()\n  if (!auth.isLoggedIn) {\n    return '/login'\n  }\n})"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`beforeEach` không được dùng `return` mà bắt buộc phải gọi `next('/login')` thì mới chuyển hướng",
+            "en": "`beforeEach` must not use `return`; it has to call `next('/login')` for the redirect to work"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Guard chuyển hướng cả khi đang vào `/login`; cần bỏ qua route login, ví dụ `to.name !== 'login'`",
+            "en": "It also redirects when going to `/login`; skip the login route, e.g. check `to.name !== 'login'`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chuỗi `'/login'` không hợp lệ; guard chỉ chấp nhận object dạng `{ path }` làm giá trị trả về",
+            "en": "The string `'/login'` is invalid; guards only accept a `{ path }` object as a return value"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`auth.isLoggedIn` được đọc trước khi app mount nên luôn là `undefined` và luôn trả về `false`",
+            "en": "`auth.isLoggedIn` is read before the app mounts, so it is always `undefined` and always falsy"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Guard chạy cho mọi lượt điều hướng, kể cả lượt chuyển hướng tới `/login` do chính nó tạo ra. Vì user vẫn chưa đăng nhập, guard lại chuyển tới `/login`, lặp mãi. Vue Router phát hiện và báo lỗi chuyển hướng vô hạn. Cách phổ biến là đánh dấu route cần bảo vệ bằng `meta.requiresAuth` và chỉ chuyển hướng khi `to.meta.requiresAuth` đúng, hoặc loại trừ route login.",
+        "en": "The guard runs for every navigation, including the redirect to `/login` it just created. Since the user is still logged out, the guard redirects to `/login` again, forever. Vue Router detects this and reports an infinite redirect. The usual fix is to mark protected routes with `meta.requiresAuth` and only redirect when `to.meta.requiresAuth` is true, or to exclude the login route."
+      }
+    },
+    {
+      "id": "vue.routing.007",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "routing",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Route `/settings` có `children: [{ path: 'profile', component: Profile }]`. Khi vào `/settings/profile`, `Profile` được render ở đâu?",
+        "en": "The `/settings` route has `children: [{ path: 'profile', component: Profile }]`. When visiting `/settings/profile`, where is `Profile` rendered?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thay thế hoàn toàn component `/settings` trong `<RouterView>` ở `App.vue`",
+            "en": "It fully replaces the `/settings` component in the `<RouterView>` of `App.vue`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Trong `<RouterView>` đặt bên trong template của component cho `/settings`",
+            "en": "In a `<RouterView>` placed inside the template of the `/settings` component"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tự động chèn vào cuối template của `/settings` mà không cần khai báo gì",
+            "en": "It is appended to the end of the `/settings` template without any declaration"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Trong một tab trình duyệt mới vì route con được mở như một trang độc lập",
+            "en": "In a new browser tab, because child routes open as standalone pages"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Nested route tương ứng với nested `<RouterView>`: `<RouterView>` ở `App.vue` render component của `/settings`, và component đó phải có `<RouterView>` riêng để render route con như `Profile`. Nếu thiếu `<RouterView>` lồng bên trong, route con khớp nhưng không hiển thị gì. Pattern này phù hợp cho layout có menu cố định và vùng nội dung thay đổi.",
+        "en": "Nested routes map to nested `<RouterView>`s: the `<RouterView>` in `App.vue` renders the `/settings` component, and that component needs its own `<RouterView>` to render child routes such as `Profile`. Without the inner `<RouterView>`, the child route matches but nothing appears. This pattern suits layouts with a fixed menu and a changing content area."
+      }
+    },
+    {
+      "id": "vue.routing.008",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "routing",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn thiết kế routing cho một ứng dụng admin có nhiều vai trò (admin, editor, viewer). Bạn tổ chức route, phân quyền và trải nghiệm điều hướng như thế nào?",
+        "en": "You are designing routing for an admin app with several roles (admin, editor, viewer). How do you organise routes, permissions and navigation UX?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Khai báo quyền bằng `meta` (vd `meta: { roles: ['admin'] }`) và kiểm tra tập trung trong `beforeEach` dùng store auth",
+          "en": "Declare permissions in `meta` (e.g. `meta: { roles: ['admin'] }`) and check them centrally in `beforeEach` using the auth store"
+        },
+        {
+          "vi": "Chờ khôi phục phiên đăng nhập (gọi `/me`) trước lượt điều hướng đầu; chuyển tới login kèm `redirect` hoặc trang 403",
+          "en": "Wait for session restore (call `/me`) before the first navigation; redirect to login with `redirect`, or to a 403 page"
+        },
+        {
+          "vi": "Lazy load từng khu vực bằng `() => import()`, dùng nested route với layout và route catch-all `/:pathMatch(.*)*` cho 404",
+          "en": "Lazy-load each area with `() => import()`, use nested routes with layouts and a catch-all `/:pathMatch(.*)*` for 404"
+        },
+        {
+          "vi": "Guard phía client chỉ là UX; quyền thực sự phải được kiểm tra ở API phía server",
+          "en": "Client-side guards are only UX; real authorisation must be enforced by the server API"
+        },
+        {
+          "vi": "Trải nghiệm: `scrollBehavior`, chỉ báo loading khi tải chunk, xử lý lỗi tải chunk sau khi deploy bản mới",
+          "en": "UX: `scrollBehavior`, a loading indicator while chunks load, handling chunk-load errors after a new deploy"
+        }
+      ],
+      "explanation": {
+        "vi": "Routing tốt tách bạch phần khai báo (route, meta, layout) và phần thực thi (guard tập trung), giúp thêm trang mới mà không lặp logic phân quyền. Lazy loading theo khu vực giữ bundle ban đầu nhỏ, đặc biệt khi viewer không bao giờ vào trang admin. Quan trọng nhất là hiểu guard chỉ ẩn giao diện, còn bảo mật dữ liệu luôn nằm ở backend.",
+        "en": "Good routing separates declaration (routes, meta, layouts) from enforcement (a central guard), so new pages can be added without repeating permission logic. Lazy loading per area keeps the initial bundle small, especially when viewers never open admin pages. Most importantly, guards only hide UI; data security always lives on the backend."
+      }
+    },
+    {
+      "id": "vue.state.001",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "state",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi nào nên đưa state vào một store Pinia thay vì giữ `ref` trong component?",
+        "en": "When should state move into a Pinia store instead of a `ref` inside a component?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khi state chỉ được dùng trong một form duy nhất và bị xóa ngay lúc form được đóng lại",
+            "en": "When the state is only used by one form and is discarded as soon as the form closes"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Luôn luôn, vì `ref` cục bộ trong component không được Vue DevTools hiển thị ra ngoài",
+            "en": "Always, because local `ref`s inside components are never shown by Vue DevTools"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Khi nhiều component không có quan hệ cha con cần đọc và sửa cùng dữ liệu, như giỏ hàng",
+            "en": "When several unrelated components read and change the same data, such as a shopping cart"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Khi state là kiểu số hoặc chuỗi, vì `ref` chỉ xử lý tốt object và mảng lồng nhau nhiều cấp",
+            "en": "When the state is a number or string, since `ref` only handles objects and nested arrays well"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Pinia phù hợp cho state toàn cục được nhiều nơi dùng chung như user đăng nhập, giỏ hàng, cài đặt. State chỉ thuộc về một component hoặc một cây nhỏ nên giữ cục bộ bằng `ref`, props hoặc `provide/inject` để dễ hiểu và tự dọn khi component hủy. Đưa mọi thứ vào store làm tăng phụ thuộc toàn cục và khó lần nguồn thay đổi.",
+        "en": "Pinia suits global state shared across many places, such as the logged-in user, a cart or settings. State that belongs to one component or a small subtree should stay local with `ref`, props or `provide/inject`, which is easier to follow and cleans up automatically. Putting everything in a store increases global coupling and makes changes harder to trace."
+      }
+    },
+    {
+      "id": "vue.state.002",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "state",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong setup store `defineStore('cart', () => { ... })`, một `computed` được khai báo và trả về tương ứng với khái niệm nào của Pinia?",
+        "en": "In a setup store `defineStore('cart', () => { ... })`, what Pinia concept does a returned `computed` correspond to?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Action",
+            "en": "An action"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "State",
+            "en": "State"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Plugin",
+            "en": "A plugin"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Getter",
+            "en": "A getter"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Trong setup store, `ref()` trở thành state, `computed()` trở thành getter và các hàm trở thành action. Pinia chỉ nhận diện những gì được `return`, nên state không trả về sẽ không xuất hiện trong DevTools và không hoạt động với SSR. Plugin là cơ chế mở rộng mọi store, không khai báo trong store.",
+        "en": "In a setup store, `ref()` becomes state, `computed()` becomes a getter and functions become actions. Pinia only sees what is `return`ed, so unreturned state does not show in DevTools and breaks with SSR. Plugins extend every store and are not declared inside a store."
+      }
+    },
+    {
+      "id": "vue.state.003",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "state",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau (đã `setActivePinia(createPinia())`) in ra gì?",
+        "en": "What does the following code print (with `setActivePinia(createPinia())` already called)?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "import { defineStore } from 'pinia'\n\nconst useCounter = defineStore('counter', {\n  state: () => ({ n: 0 }),\n  actions: {\n    inc() {\n      this.n++\n    },\n  },\n})\n\nconst a = useCounter()\nconst b = useCounter()\na.inc()\nb.inc()\nconsole.log(a.n, b.n)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`2 2`",
+            "en": "`2 2`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`1 1`",
+            "en": "`1 1`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`1 2`",
+            "en": "`1 2`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`0 2`",
+            "en": "`0 2`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Với cùng một Pinia instance, `useCounter()` luôn trả về cùng một store, nên `a` và `b` là một object. Hai lời gọi `inc()` cùng tăng một state `n` lên `2`. Đây là khác biệt so với composable thường, nơi mỗi lần gọi tạo state mới.",
+        "en": "With the same Pinia instance, `useCounter()` always returns the same store, so `a` and `b` are the same object. Both `inc()` calls increment the single `n` to `2`. This differs from a plain composable, where each call creates new state."
+      }
+    },
+    {
+      "id": "vue.state.004",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "state",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Bấm nút \"Tăng\" nhưng hai con số trên màn hình không đổi, dù DevTools cho thấy store đã tăng. Lỗi ở đâu?",
+        "en": "Clicking \"Increase\" leaves both numbers on screen unchanged, although DevTools shows the store updating. What is wrong?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "<script setup>\nimport { useCounterStore } from '@/stores/counter'\n\nconst counter = useCounterStore()\nconst { count, total, increment } = counter\n</script>\n\n<template>\n  <p>{{ count }} / {{ total }}</p>\n  <button @click=\"increment\">Tăng</button>\n</template>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Action `increment` mất `this` khi destructure nên chỉ chạy được nếu gọi qua `counter.increment()`",
+            "en": "The `increment` action loses `this` when destructured, so it only works when called as `counter.increment()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Store phải được tạo bằng `reactive(useCounterStore())` thì template mới theo dõi được mọi thuộc tính",
+            "en": "The store must be wrapped as `reactive(useCounterStore())` for the template to track its properties"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Destructure thẳng store làm `count`, `total` thành giá trị tĩnh; dùng `storeToRefs` cho state và getter",
+            "en": "Destructuring the store makes `count` and `total` static values; use `storeToRefs` for state and getters"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Getter `total` chỉ cập nhật khi gọi `counter.$patch()`; gán trực tiếp vào state sẽ không tính lại",
+            "en": "The `total` getter only updates via `counter.$patch()`; direct state assignment never recomputes it"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Store Pinia là một object `reactive`, nên destructure trực tiếp sẽ sao chép giá trị primitive tại thời điểm đó và mất reactivity. Action vẫn hoạt động vì Pinia đã bind sẵn, nên state trong store thực sự tăng, chỉ có biến cục bộ là không đổi. Hãy dùng `const { count, total } = storeToRefs(counter)` cho state và getter, còn action lấy trực tiếp từ store.",
+        "en": "A Pinia store is a `reactive` object, so destructuring it copies primitive values at that moment and loses reactivity. Actions still work because Pinia binds them, so the store state really increases; only the local variables stay the same. Use `const { count, total } = storeToRefs(counter)` for state and getters, and take actions directly from the store."
+      }
+    },
+    {
+      "id": "vue.state.005",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "state",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Gọi `store.$reset()` trên một store viết theo kiểu setup (`defineStore('id', () => {...})`) báo lỗi. Vì sao?",
+        "en": "Calling `store.$reset()` on a store written in setup style (`defineStore('id', () => {...})`) throws an error. Why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`$reset` chỉ được phép gọi bên trong một action, không được gọi từ component hay composable",
+            "en": "`$reset` may only be called inside an action, never from a component or a composable"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`$reset` đã bị gỡ khỏi Pinia; cách duy nhất còn lại là gọi `location.reload()` để làm mới",
+            "en": "`$reset` was removed from Pinia; the only remaining way is to call `location.reload()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`$reset` chỉ có sẵn cho option store; với setup store bạn phải tự viết và trả về `$reset`",
+            "en": "`$reset` is only built in for option stores; setup stores must define and return their own `$reset`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Setup store không có state nên không có gì để reset; chỉ option store mới có state thật",
+            "en": "Setup stores have no state, so there is nothing to reset; only option stores hold real state"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Option store khai báo `state: () => ({...})` là một hàm, nên Pinia có thể gọi lại hàm đó để tạo state ban đầu cho `$reset()`. Setup store chỉ là một hàm tùy ý, Pinia không biết cách tạo lại state, nên ở dev mode `$reset` ném lỗi \"does not implement $reset()\". Cách làm là tự viết hàm `$reset` gán lại các ref về giá trị ban đầu và trả về nó từ store.",
+        "en": "An option store declares `state: () => ({...})` as a function, so Pinia can call it again to rebuild the initial state for `$reset()`. A setup store is an arbitrary function and Pinia cannot recreate its state, so in dev mode `$reset` throws \"does not implement $reset()\". The fix is to write your own `$reset` that sets the refs back to their initial values and return it from the store."
+      }
+    },
+    {
+      "id": "vue.state.006",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "state",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "File `router.ts` gọi `const auth = useAuthStore()` ở top-level và ứng dụng báo lỗi `getActivePinia() was called but there was no active Pinia`. Cách sửa đúng là gì?",
+        "en": "`router.ts` calls `const auth = useAuthStore()` at the top level and the app fails with `getActivePinia() was called but there was no active Pinia`. What is the correct fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tạo thêm một `createPinia()` mới ngay trong `router.ts` để store có một instance riêng độc lập",
+            "en": "Create another `createPinia()` inside `router.ts` so the store has its own separate instance"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đổi store sang kiểu option store vì setup store không dùng được bên ngoài component",
+            "en": "Switch to an option store, since setup stores cannot be used outside components"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bọc lời gọi trong `nextTick()` để đợi component gốc render xong rồi mới tạo store",
+            "en": "Wrap the call in `nextTick()` to wait for the root component to render first"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gọi `useAuthStore()` bên trong callback `beforeEach`, khi `app.use(pinia)` đã chạy xong",
+            "en": "Call `useAuthStore()` inside the `beforeEach` callback, after `app.use(pinia)` has run"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Store chỉ dùng được sau khi có Pinia đang hoạt động, tức sau `app.use(pinia)`. Code top-level của module chạy ngay khi file được import, thường trước bước đó. Gọi `useAuthStore()` bên trong guard trì hoãn đến lúc điều hướng, khi Pinia đã được cài. Tạo thêm Pinia khác sẽ làm router đọc một state khác với ứng dụng.",
+        "en": "A store can only be used once an active Pinia exists, i.e. after `app.use(pinia)`. Top-level module code runs as soon as the file is imported, usually before that. Calling `useAuthStore()` inside the guard defers it to navigation time, when Pinia is installed. Creating another Pinia would make the router read different state from the rest of the app."
+      }
+    },
+    {
+      "id": "vue.state.007",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "state",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "import { defineStore } from 'pinia'\n\nlet calls = 0\nconst useStats = defineStore('stats', {\n  state: () => ({ items: [1, 2, 3] }),\n  getters: {\n    sum: (state) => {\n      calls++\n      return state.items.reduce((t, x) => t + x, 0)\n    },\n  },\n})\n\nconst s = useStats()\ns.sum\ns.sum\ns.items.push(4)\ns.sum\nconsole.log(calls, s.sum)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`3 10`",
+            "en": "`3 10`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`4 10`",
+            "en": "`4 10`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`2 6`",
+            "en": "`2 6`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`2 10`",
+            "en": "`2 10`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Getter của Pinia là `computed` nên được cache. Lần đọc đầu tính (`calls = 1`), lần đọc thứ hai dùng cache, `push(4)` làm getter bị đánh dấu dirty và lần đọc thứ ba tính lại (`calls = 2`). Trong `console.log`, `calls` được đánh giá trước nên in `2`, rồi `s.sum` trả về giá trị cache `10` mà không tính thêm.",
+        "en": "Pinia getters are `computed`s, so they are cached. The first read computes (`calls = 1`), the second uses the cache, `push(4)` marks the getter dirty and the third read recomputes (`calls = 2`). In `console.log`, `calls` is evaluated first, printing `2`, then `s.sum` returns the cached `10` without recomputing."
+      }
+    },
+    {
+      "id": "vue.state.008",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "state",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Một dự án đưa gần như mọi dữ liệu vào Pinia: kết quả API, trạng thái form, tab đang mở, bộ lọc. Bạn đề xuất cách phân loại và quản lý state thế nào?",
+        "en": "A project puts almost everything into Pinia: API results, form state, open tabs, filters. How would you propose classifying and managing state?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Server state (dữ liệu từ API) cần cache, refetch, xử lý loading/lỗi; cân nhắc TanStack Query hoặc composable `useFetch` thay vì tự viết trong store",
+          "en": "Server state (API data) needs caching, refetching and loading/error handling; consider TanStack Query or a `useFetch` composable rather than hand-rolling it in a store"
+        },
+        {
+          "vi": "Client state toàn cục (user, quyền, giỏ hàng, theme) mới đặt trong Pinia",
+          "en": "Only global client state (user, permissions, cart, theme) belongs in Pinia"
+        },
+        {
+          "vi": "State cục bộ (form, modal, tab) giữ trong component hoặc composable; chia sẻ trong cây nhỏ bằng `provide/inject`",
+          "en": "Local state (forms, modals, tabs) stays in the component or a composable; share within a small subtree via `provide/inject`"
+        },
+        {
+          "vi": "Bộ lọc, phân trang, tab cần chia sẻ link nên lưu trong URL query để giữ khi reload và back/forward",
+          "en": "Filters, pagination and tabs that should be shareable belong in the URL query so they survive reload and back/forward"
+        },
+        {
+          "vi": "Store nhỏ theo domain, dữ liệu dẫn xuất dùng getter thay vì lưu trùng",
+          "en": "Keep stores small and domain-based, and derive data with getters instead of duplicating it"
+        }
+      ],
+      "explanation": {
+        "vi": "Không phải mọi state đều giống nhau: dữ liệu server có vòng đời và nguồn sự thật nằm ở backend, còn state UI thường chỉ sống trong một màn hình. Phân loại đúng giúp store gọn, ít bug đồng bộ và dễ test. URL cũng là một nơi lưu state quan trọng, giúp trải nghiệm chia sẻ link và điều hướng tự nhiên.",
+        "en": "Not all state is the same: server data has its own lifecycle and its source of truth on the backend, while UI state usually lives within a single screen. Classifying correctly keeps stores small, reduces sync bugs and eases testing. The URL is also an important state location, enabling link sharing and natural navigation."
+      }
+    },
+    {
+      "id": "vue.state.009",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "state",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Ứng dụng chuyển sang SSR (Nuxt hoặc Vite SSR) và thỉnh thoảng user thấy dữ liệu của người khác. Code có một số `ref` khai báo ở cấp module trong composable và dùng Pinia. Bạn giải thích nguyên nhân và cách khắc phục thế nào?",
+        "en": "The app moved to SSR (Nuxt or Vite SSR) and users occasionally see someone else's data. Some composables declare module-level `ref`s, and the app uses Pinia. How do you explain the cause and fix it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Trên server, module chỉ được nạp một lần cho mọi request, nên `ref` cấp module là singleton dùng chung giữa các user (cross-request state pollution)",
+          "en": "On the server, modules load once for all requests, so module-level `ref`s are singletons shared between users (cross-request state pollution)"
+        },
+        {
+          "vi": "Mỗi request phải tạo app mới bằng `createSSRApp` cùng instance Pinia/router mới; Nuxt làm sẵn việc này",
+          "en": "Each request must create a fresh app via `createSSRApp` with new Pinia/router instances; Nuxt does this for you"
+        },
+        {
+          "vi": "Chuyển state dùng chung sang Pinia hoặc `useState` của Nuxt thay vì ref cấp module",
+          "en": "Move shared state into Pinia or Nuxt's `useState` instead of module-level refs"
+        },
+        {
+          "vi": "Serialize state của Pinia vào HTML và hydrate ở client (`pinia.state.value`), tránh lộ dữ liệu nhạy cảm",
+          "en": "Serialise Pinia state into the HTML and hydrate it on the client (`pinia.state.value`), avoiding sensitive data"
+        },
+        {
+          "vi": "Thêm test hoặc review quy tắc: không lưu dữ liệu theo user ở cấp module; cẩn thận cả cache in-memory phía server",
+          "en": "Add tests or review rules: no per-user data at module level; be careful with server-side in-memory caches too"
+        }
+      ],
+      "explanation": {
+        "vi": "Ở client mỗi tab có một bản module riêng nên ref cấp module trông như vô hại, nhưng trên server tiến trình Node phục vụ nhiều request cùng lúc với cùng một bản module. Khi đó state của user này có thể bị request của user khác đọc được, vừa là bug vừa là sự cố bảo mật. Giải pháp là mọi state theo request phải gắn với instance app được tạo cho request đó, và dữ liệu được chuyển sang client qua cơ chế hydrate chính thức.",
+        "en": "On the client every tab has its own copy of a module, so module-level refs look harmless, but on the server one Node process serves many requests with the same module instance. One user's state can then be read by another user's request, which is both a bug and a security incident. The fix is to tie all per-request state to the app instance created for that request, and to transfer data to the client through the official hydration mechanism."
+      }
+    },
+    {
+      "id": "vue.tooling.001",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "tooling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao dev server của Vite khởi động nhanh hơn nhiều so với cách bundle toàn bộ ứng dụng trước khi chạy?",
+        "en": "Why does Vite's dev server start much faster than bundling the whole app before running it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Phục vụ mã nguồn dưới dạng ES module gốc và chỉ biến đổi file khi trình duyệt yêu cầu",
+            "en": "It serves source as native ES modules and only transforms files the browser requests"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Vite bỏ qua bước biên dịch SFC và để trình duyệt tự hiểu file `.vue` khi tải về từ server",
+            "en": "It skips SFC compilation and lets the browser understand `.vue` files natively when loaded"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Vite lưu sẵn bản build production lên CDN và chỉ tải bản đó về máy khi khởi động",
+            "en": "It stores a production build on a CDN and just downloads that build at startup"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Vite chạy toàn bộ ứng dụng trên server rồi chỉ gửi ảnh chụp màn hình về trình duyệt",
+            "en": "It runs the app on the server and only sends screenshots back to the browser"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Ở chế độ dev, Vite không bundle trước mà phục vụ file qua native ESM; trình duyệt import tới đâu, Vite biến đổi file đó tới đó (SFC, TypeScript). Dependency trong `node_modules` được pre-bundle một lần bằng esbuild để giảm số request. Nhờ vậy thời gian khởi động gần như không phụ thuộc kích thước dự án và HMR rất nhanh. Khi build production, Vite vẫn bundle và tối ưu bằng Rollup (Rolldown ở các bản mới).",
+        "en": "In dev mode, Vite does not bundle up front; it serves files over native ESM and transforms each one (SFC, TypeScript) only when the browser imports it. Dependencies in `node_modules` are pre-bundled once with esbuild to reduce requests. Startup time therefore barely depends on project size, and HMR is very fast. For production builds, Vite still bundles and optimises with Rollup (Rolldown in newer versions)."
+      }
+    },
+    {
+      "id": "vue.tooling.002",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "tooling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "File `.env` có dòng `API_URL=https://api.example.com` nhưng trong code `import.meta.env.API_URL` là `undefined`. Vì sao?",
+        "en": "The `.env` file has `API_URL=https://api.example.com`, but `import.meta.env.API_URL` is `undefined` in code. Why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Vite chỉ đưa ra code client những biến có tiền tố `VITE_`, như `VITE_API_URL`",
+            "en": "Vite only exposes variables prefixed with `VITE_`, such as `VITE_API_URL`, to client code"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Biến môi trường phải được đọc qua `process.env.API_URL`, kể cả trong code trình duyệt",
+            "en": "Environment variables must be read via `process.env.API_URL`, even in browser code"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "File `.env` chỉ được đọc khi chạy `vite build`, còn `vite dev` luôn bỏ qua file này",
+            "en": "The `.env` file is only read by `vite build`; `vite dev` always ignores it entirely"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Giá trị chứa ký tự `://` nên Vite coi là không hợp lệ và tự động bỏ qua biến đó",
+            "en": "The value contains `://`, so Vite treats it as invalid and silently drops the variable"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Để tránh vô tình lộ bí mật vào bundle phía client, Vite chỉ expose biến có tiền tố `VITE_` qua `import.meta.env`. Đổi tên thành `VITE_API_URL` và đọc `import.meta.env.VITE_API_URL`. Cần nhớ mọi biến đã expose đều nằm trong JavaScript gửi cho người dùng, nên tuyệt đối không đặt secret như API key riêng tư vào đó.",
+        "en": "To avoid leaking secrets into the client bundle, Vite only exposes `VITE_`-prefixed variables through `import.meta.env`. Rename it to `VITE_API_URL` and read `import.meta.env.VITE_API_URL`. Remember that every exposed variable ends up in the JavaScript sent to users, so never put secrets such as private API keys there."
+      }
+    },
+    {
+      "id": "vue.tooling.003",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "tooling",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `<script setup lang=\"ts\">`, cách khai báo props có kiểu TypeScript gọn và được khuyến nghị là gì?",
+        "en": "In `<script setup lang=\"ts\">`, what is the concise, recommended way to declare typed props?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`defineProps({ title: string, count?: number })`",
+            "en": "`defineProps({ title: string, count?: number })`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`defineProps<{ title: string; count?: number }>()`",
+            "en": "`defineProps<{ title: string; count?: number }>()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`defineProps(Props)` với `Props` là một `interface`",
+            "en": "`defineProps(Props)` where `Props` is an `interface`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`useProps<{ title: string }>()` import từ `vue`",
+            "en": "`useProps<{ title: string }>()` imported from `vue`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khai báo dựa trên kiểu dùng generic của `defineProps`, và trình biên dịch SFC tự sinh khai báo runtime tương ứng, nên vừa có kiểm tra kiểu vừa có validate runtime. Interface không truyền được như một giá trị, còn cú pháp `count?: number` trong object literal không hợp lệ. Giá trị mặc định dùng `withDefaults` hoặc, từ Vue 3.5, destructure props có giá trị mặc định.",
+        "en": "Type-based declaration uses the `defineProps` generic, and the SFC compiler generates the matching runtime declaration, giving both type checking and runtime validation. An interface cannot be passed as a value, and `count?: number` is invalid inside an object literal. Defaults use `withDefaults` or, since Vue 3.5, destructured props with default values."
+      }
+    },
+    {
+      "id": "vue.tooling.004",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "tooling",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trang danh sách sản phẩm có bộ lọc và vị trí cuộn. Khi vào trang chi tiết rồi quay lại, mọi thứ bị reset và gọi lại API. Cách nào giữ nguyên trạng thái trang danh sách?",
+        "en": "A product list page has filters and a scroll position. After opening a detail page and going back, everything resets and the API is called again. Which approach keeps the list page state?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bọc component trong `<KeepAlive include=\"ProductList\">` qua slot của `<RouterView>`",
+            "en": "Wrap the component in `<KeepAlive include=\"ProductList\">` via the `<RouterView>` slot"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thêm `v-once` lên `<RouterView>` để Vue chỉ render trang danh sách đúng một lần",
+            "en": "Add `v-once` to `<RouterView>` so Vue renders the list page exactly once"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đổi `<RouterView>` thành `<RouterView :key=\"Date.now()\">` để luôn giữ lại instance",
+            "en": "Change it to `<RouterView :key=\"Date.now()\">` so the instance is always kept"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đặt `v-show` lên `<RouterView>` vì nó chỉ ẩn trang thay vì hủy hẳn component",
+            "en": "Put `v-show` on `<RouterView>` because it hides the page instead of destroying the component"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mặc định khi rời route, component bị unmount và mất state. `<KeepAlive>` cache instance để khi quay lại component được kích hoạt lại thay vì tạo mới; với Vue Router 4 dùng `<RouterView v-slot=\"{ Component }\"><KeepAlive include=\"ProductList\"><component :is=\"Component\" /></KeepAlive></RouterView>`. `include` khớp theo tên component, và có thể đặt `max` để giới hạn bộ nhớ. Vị trí cuộn của window có thể khôi phục thêm bằng `scrollBehavior`.",
+        "en": "By default, leaving a route unmounts the component and loses its state. `<KeepAlive>` caches the instance so it is reactivated instead of recreated on return; with Vue Router 4 use `<RouterView v-slot=\"{ Component }\"><KeepAlive include=\"ProductList\"><component :is=\"Component\" /></KeepAlive></RouterView>`. `include` matches by component name, and `max` limits memory. The window scroll position can additionally be restored with `scrollBehavior`."
+      }
+    },
+    {
+      "id": "vue.tooling.005",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "tooling",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong một danh sách 1.000 dòng, mỗi dòng có `v-memo=\"[item.id === selectedId]\"`. Khi `selectedId` đổi, điều gì xảy ra?",
+        "en": "In a 1,000-row list, each row has `v-memo=\"[item.id === selectedId]\"`. What happens when `selectedId` changes?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Toàn bộ 1.000 dòng render lại vì `v-memo` chỉ có tác dụng ở lần render đầu tiên của danh sách",
+            "en": "All 1,000 rows re-render, because `v-memo` only has any effect on the very first render of the list"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Không dòng nào cập nhật vì `v-memo` đóng băng vĩnh viễn nội dung giống như `v-once`",
+            "en": "No row updates, because `v-memo` freezes content permanently, just like `v-once` does"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Vue báo lỗi vì `v-memo` chỉ chấp nhận ref, không chấp nhận biểu thức so sánh boolean",
+            "en": "Vue throws, because `v-memo` only accepts refs, not a boolean comparison expression"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ hai dòng có giá trị trong mảng thay đổi được cập nhật; các dòng khác bỏ qua re-render",
+            "en": "Only the two rows whose array value changed are updated; the other rows skip re-rendering"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`v-memo` ghi nhớ cây con của phần tử và chỉ render lại khi một giá trị trong mảng phụ thuộc thay đổi so với lần trước. Khi `selectedId` đổi, chỉ dòng vừa được chọn và dòng vừa bỏ chọn có giá trị chuyển từ `false` sang `true` hoặc ngược lại. Đây là tối ưu vi mô cho danh sách rất lớn; cần đảm bảo mảng chứa đủ mọi giá trị ảnh hưởng tới hiển thị, nếu không UI sẽ bị cũ.",
+        "en": "`v-memo` memoises the element's subtree and only re-renders it when a value in the dependency array differs from last time. When `selectedId` changes, only the newly selected row and the previously selected row flip between `false` and `true`. It is a micro-optimisation for very large lists; make sure the array includes every value that affects the output, or the UI will go stale."
+      }
+    },
+    {
+      "id": "vue.tooling.006",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "tooling",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Đoạn code sau báo lỗi khi chạy `vue-tsc`. Nguyên nhân là gì?",
+        "en": "The following code fails when running `vue-tsc`. What is the cause?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "<script setup lang=\"ts\">\nconst props = withDefaults(\n  defineProps<{ title: string; tags?: string[] }>(),\n  {\n    tags: [],\n  },\n)\n</script>"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Prop tùy chọn `tags?` không được có giá trị mặc định trong Vue",
+            "en": "An optional `tags?` prop cannot have a default value in Vue"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giá trị mặc định kiểu mảng phải là hàm factory: `tags: () => []`",
+            "en": "An array default must be a factory function: `tags: () => []`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`withDefaults` phải được import từ `vue` thì mới có kiểu đúng",
+            "en": "`withDefaults` must be imported from `vue` to get the right types"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Khai báo kiểu cho `defineProps` không hỗ trợ kiểu mảng `string[]`",
+            "en": "Type-based `defineProps` does not support the `string[]` array type"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Kiểu của `withDefaults` chỉ cho phép giá trị trực tiếp với kiểu nguyên thủy; object và mảng phải được bọc trong hàm, nên `[]` gây lỗi `Type 'never[]' is not assignable to type 'InferDefault<...>'`. Hàm factory đảm bảo mỗi instance nhận một mảng mới, tránh việc nhiều component vô tình dùng chung và sửa cùng một mảng. Từ Vue 3.5 có thể dùng reactive props destructure: `const { tags = [] } = defineProps<...>()`.",
+        "en": "The `withDefaults` typings only allow plain values for primitives; objects and arrays must be wrapped in a function, so `[]` fails with `Type 'never[]' is not assignable to type 'InferDefault<...>'`. A factory function gives each instance a fresh array, preventing components from accidentally sharing and mutating the same one. Since Vue 3.5 you can also use reactive props destructure: `const { tags = [] } = defineProps<...>()`."
+      }
+    },
+    {
+      "id": "vue.tooling.007",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "tooling",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra gì?",
+        "en": "What does the following code print?"
+      },
+      "code": {
+        "language": "javascript",
+        "source": "import { shallowRef, watchEffect, nextTick } from 'vue'\n\nconst list = shallowRef([1, 2])\nlet runs = 0\nwatchEffect(() => {\n  runs++\n  list.value.length\n})\n\nlist.value.push(3)\nawait nextTick()\nlist.value = [...list.value, 4]\nawait nextTick()\nconsole.log(runs, list.value.length)"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`3 4`",
+            "en": "`3 4`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`2 4`",
+            "en": "`2 4`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`1 4`",
+            "en": "`1 4`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`3 3`",
+            "en": "`3 3`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`shallowRef` chỉ theo dõi việc gán lại `.value`, không theo dõi thay đổi bên trong mảng. Effect chạy lần đầu (`runs = 1`), `push(3)` không kích hoạt effect, còn gán mảng mới kích hoạt lần chạy thứ hai (`runs = 2`). Mảng cuối có 4 phần tử. Đây là lý do `shallowRef` hợp với dữ liệu lớn khi bạn cập nhật bằng cách thay cả tham chiếu.",
+        "en": "`shallowRef` only tracks reassignment of `.value`, not changes inside the array. The effect runs once initially (`runs = 1`), `push(3)` does not trigger it, and assigning a new array triggers the second run (`runs = 2`). The final array has 4 items. That is why `shallowRef` suits large data updated by replacing the whole reference."
+      }
+    },
+    {
+      "id": "vue.tooling.008",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "tooling",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Ứng dụng Vue lớn có thời gian tải trang đầu chậm và tương tác giật trên điện thoại tầm trung. Bạn tiếp cận việc tối ưu hiệu năng như thế nào?",
+        "en": "A large Vue app has a slow initial load and janky interactions on mid-range phones. How do you approach performance optimisation?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Đo trước: Lighthouse/Web Vitals, Performance panel, Vue DevTools; phân tích bundle bằng `rollup-plugin-visualizer`",
+          "en": "Measure first: Lighthouse/Web Vitals, the Performance panel, Vue DevTools; analyse the bundle with `rollup-plugin-visualizer`"
+        },
+        {
+          "vi": "Giảm bundle ban đầu: lazy load route, `defineAsyncComponent` cho phần nặng, tree-shaking, bỏ thư viện thừa",
+          "en": "Shrink the initial bundle: lazy-load routes, `defineAsyncComponent` for heavy parts, tree-shaking, drop unneeded libraries"
+        },
+        {
+          "vi": "Giảm chi phí render: tránh component quá lớn, ổn định props, `v-once`/`v-memo`, virtual list cho danh sách dài",
+          "en": "Cut render cost: avoid huge components, keep props stable, use `v-once`/`v-memo`, virtual lists for long lists"
+        },
+        {
+          "vi": "Giảm chi phí reactivity: `shallowRef`/`markRaw` cho dữ liệu lớn, `computed` thay vì tính trong template",
+          "en": "Cut reactivity cost: `shallowRef`/`markRaw` for large data, `computed` instead of computing in the template"
+        },
+        {
+          "vi": "Cân nhắc SSR/SSG (Nuxt) cho trang cần hiển thị nhanh và SEO; tối ưu ảnh, font và cache HTTP",
+          "en": "Consider SSR/SSG (Nuxt) for pages needing fast first paint and SEO; optimise images, fonts and HTTP caching"
+        }
+      ],
+      "explanation": {
+        "vi": "Tối ưu hiệu năng nên bắt đầu từ số liệu để biết vấn đề nằm ở tải mạng, parse JavaScript hay render. Vue cung cấp nhiều công cụ ở cả tầng bundle (code splitting), tầng render (`v-memo`, async component) và tầng reactivity (`shallowRef`). Mỗi thay đổi nên được đo lại để chắc nó thực sự cải thiện trải nghiệm người dùng.",
+        "en": "Performance work should start from data to find whether the problem is network, JavaScript parsing or rendering. Vue offers tools at the bundle level (code splitting), the render level (`v-memo`, async components) and the reactivity level (`shallowRef`). Each change should be re-measured to confirm it actually improves the user experience."
+      }
+    },
+    {
+      "id": "vue.tooling.009",
+      "contentVersion": 1,
+      "trackId": "vue",
+      "topicId": "tooling",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Ứng dụng Nuxt báo cảnh báo \"Hydration mismatch\" ở một số trang và đôi khi giao diện nháy khi tải. Bạn chẩn đoán và xử lý như thế nào?",
+        "en": "A Nuxt app reports \"Hydration mismatch\" warnings on some pages and the UI sometimes flickers on load. How do you diagnose and fix it?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Hydration yêu cầu HTML server render và lần render đầu ở client giống hệt nhau; lệch thì Vue phải sửa DOM hoặc render lại",
+          "en": "Hydration requires the server HTML and the first client render to match exactly; a mismatch forces Vue to patch or re-render the DOM"
+        },
+        {
+          "vi": "Nguyên nhân hay gặp: `Date.now()`/`Math.random()`, múi giờ và locale khác nhau, đọc `window`/`localStorage` khi render, HTML lồng sai",
+          "en": "Common causes: `Date.now()`/`Math.random()`, different time zones and locales, reading `window`/`localStorage` during render, invalid HTML nesting"
+        },
+        {
+          "vi": "Dữ liệu tải bằng `useFetch`/`useAsyncData` để được serialize và dùng lại ở client thay vì fetch lại khác kết quả",
+          "en": "Load data with `useFetch`/`useAsyncData` so it is serialised and reused on the client instead of refetching different results"
+        },
+        {
+          "vi": "Phần chỉ chạy ở client đặt trong `onMounted` hoặc `<ClientOnly>`; ID ổn định dùng `useId()`",
+          "en": "Client-only parts go in `onMounted` or `<ClientOnly>`; use `useId()` for stable IDs"
+        },
+        {
+          "vi": "Xác định chỗ lệch qua cảnh báo chi tiết ở dev mode; dùng `data-allow-mismatch` (Vue 3.5) chỉ cho chênh lệch có chủ đích",
+          "en": "Locate the mismatch through detailed dev-mode warnings; use `data-allow-mismatch` (Vue 3.5) only for intentional differences"
+        }
+      ],
+      "explanation": {
+        "vi": "Hydration mismatch xảy ra khi server và client cho ra kết quả render khác nhau, thường do giá trị không xác định, môi trường khác nhau hoặc dữ liệu không được truyền từ server sang client. Hậu quả là nháy giao diện, mất chi phí render lại, thậm chí gắn sự kiện sai node. Cách xử lý là làm cho lần render đầu ở hai phía là hàm thuần của cùng dữ liệu, và dời phần phụ thuộc trình duyệt sang sau khi mount.",
+        "en": "A hydration mismatch happens when server and client produce different render output, usually because of non-deterministic values, differing environments or data not transferred from server to client. The result is UI flicker, wasted re-rendering and even event handlers attached to the wrong nodes. The fix is to make the first render on both sides a pure function of the same data, and to defer browser-dependent parts until after mounting."
+      }
+    }
+  ]
+}

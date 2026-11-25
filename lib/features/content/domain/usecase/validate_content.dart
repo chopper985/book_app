@@ -27,12 +27,35 @@ class ValidateContent {
       }
       _checkText(track.name, '$path.name', issues);
 
+      // Frameworks reference their language and runtime tracks.
+      for (final trackId in [
+        ...track.languages,
+        if (track.runtime case final runtime?) runtime,
+      ]) {
+        if (catalog.trackById(trackId) == null) {
+          issues.add(_issue(ContentIssueCode.missingReference, path, trackId));
+        }
+      }
+
+      final positionIds = {for (final p in catalog.positions) p.id};
       final topicIds = <String>{};
       for (final topic in track.topics) {
         if (!topicIds.add(topic.id)) {
           issues.add(_issue(ContentIssueCode.duplicateId, path, topic.id));
         }
         _checkText(topic.name, '$path.${topic.id}', issues);
+        // Topic roles name positions (checked once positions exist).
+        for (final role in topic.roles) {
+          if (positionIds.isNotEmpty && !positionIds.contains(role)) {
+            issues.add(
+              _issue(
+                ContentIssueCode.missingReference,
+                '$path.${topic.id}',
+                role,
+              ),
+            );
+          }
+        }
       }
     }
   }

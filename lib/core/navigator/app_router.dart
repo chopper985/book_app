@@ -255,15 +255,18 @@ class TrackRoadmapRoute extends GoRouteData with $TrackRoadmapRoute {
   /// `QuestionLevel.name`; every level when missing or unknown.
   final String? level;
 
-  const TrackRoadmapRoute({required this.trackId, this.level});
+  /// Position id: only the topics meant for it (opened from a position).
+  final String? role;
+
+  const TrackRoadmapRoute({required this.trackId, this.level, this.role});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
     final maxLevel =
         QuestionLevel.values.where((value) => value.name == level).firstOrNull;
     return BlocProvider(
-      create: (_) =>
-          getIt<TrackDetailCubit>()..load(trackId, maxLevel: maxLevel),
+      create: (_) => getIt<TrackDetailCubit>()
+        ..load(trackId, maxLevel: maxLevel, positionId: role),
       child: const TrackRoadmapScreen(),
     );
   }

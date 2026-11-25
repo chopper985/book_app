@@ -12,6 +12,8 @@ import 'package:interview_practice/features/catalog/data/repositories/user_roadm
 import 'package:interview_practice/features/catalog/domain/entities/user_roadmap.dart';
 import 'package:interview_practice/features/catalog/domain/usecase/filter_tracks.dart';
 import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_role_technologies.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_track_detail.dart';
 import 'package:interview_practice/features/catalog/domain/usecase/saved_tracks.dart';
 import 'package:interview_practice/features/catalog/domain/usecase/user_roadmaps.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/explore_cubit.dart';
@@ -57,6 +59,9 @@ void main() {
           graph.roadmaps,
           SuggestRoadmapLevel(graph.profiles),
         ),
+        GetRoleTechnologies(graph.catalog),
+        GetUserRoadmaps(graph.roadmaps),
+        GetTrackDetail(graph.catalog),
         WatchProgress(graph.catalog),
       );
 
@@ -122,6 +127,44 @@ void main() {
         reason: 'reuses the most recently selected dart roadmap',
       );
       expect(graph.roadmaps.roadmaps, hasLength(3));
+      await cubit.close();
+    });
+  });
+
+  group('Explore roadmaps and role actions', () {
+    test('once there are roadmaps, only their tracks are listed', () async {
+      await saveProfile(['go', 'dart']);
+      await graph.roadmaps.add('dart', QuestionLevel.junior);
+      final cubit = newExplore();
+      await cubit.load();
+      final state = cubit.state as ExploreLoaded;
+      expect(
+        state.myTracks.map((t) => t.track.id),
+        ['dart'],
+        reason: 'go is only in the profile stack, not a roadmap',
+      );
+      expect(state.roadmapTrackIds, {'dart'});
+      await cubit.close();
+    });
+
+    test('adding a track from the role list marks it as added', () async {
+      await saveProfile(['go'], experience: ExperienceLevel.student);
+      final cubit = newExplore();
+      await cubit.load();
+      expect((cubit.state as ExploreLoaded).roadmapTrackIds, isEmpty);
+
+      await cubit.addTrack('dart');
+      expect(graph.roadmaps.active?.id, 'dart:fresher');
+      expect((cubit.state as ExploreLoaded).roadmapTrackIds, {'dart'});
+      await cubit.close();
+    });
+
+    test('trying a track gives a short free practice', () async {
+      await saveProfile(['dart']);
+      final cubit = newExplore();
+      final target = await cubit.trialFor('dart');
+      expect(target, isNotNull);
+      expect(await cubit.trialFor('unknown'), isNull);
       await cubit.close();
     });
   });

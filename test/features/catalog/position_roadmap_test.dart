@@ -8,8 +8,11 @@ import 'package:flutter_test/flutter_test.dart';
 // Project imports:
 import 'package:interview_practice/features/catalog/domain/entities/user_roadmap.dart';
 import 'package:interview_practice/features/catalog/domain/usecase/get_explore_data.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_role_technologies.dart';
+import 'package:interview_practice/features/catalog/domain/usecase/get_track_detail.dart';
 import 'package:interview_practice/features/catalog/domain/usecase/saved_tracks.dart';
 import 'package:interview_practice/features/catalog/domain/usecase/user_roadmaps.dart';
+import 'package:interview_practice/features/catalog/presentation/cubit/explore_cubit.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/position_detail_cubit.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/roadmap_picker_cubit.dart';
 import 'package:interview_practice/features/catalog/presentation/cubit/roadmaps_cubit.dart';
@@ -94,6 +97,98 @@ Map<String, String> positionData({List<String>? coreTrackIds}) {
 }
 
 void main() {
+  test('technologies are grouped by role: options, then shared core', () async {
+    final graph = await TestGraph.create(data: positionData());
+    final roles = await GetRoleTechnologies(graph.catalog)();
+    expect(roles.map((r) => r.position.id), ['backend']);
+    expect(roles.single.main.map((t) => t.track.id), ['dart']);
+    expect(roles.single.shared.map((t) => t.track.id), ['sql']);
+  });
+
+  test('a core track that is also an option is listed once', () async {
+    final graph = await TestGraph.create(
+      data: positionData(coreTrackIds: ['sql', 'dart']),
+    );
+    final role = (await GetRoleTechnologies(graph.catalog)()).single;
+    expect(role.main.map((t) => t.track.id), ['dart']);
+    expect(role.shared.map((t) => t.track.id), ['sql']);
+  });
+
+  test('a position roadmap marks every track of its option as added',
+      () async {
+    final graph = await TestGraph.create(data: positionData());
+    await AddPositionRoadmap(graph.roadmaps, graph.catalog)(
+      'backend',
+      'dart',
+      QuestionLevel.junior,
+    );
+    final cubit = ExploreCubit(
+      GetTracks(graph.catalog),
+      GetExploreDashboard(graph.catalog),
+      GetProfile(graph.profiles),
+      OpenTrackRoadmap(graph.roadmaps, SuggestRoadmapLevel(graph.profiles)),
+      GetRoleTechnologies(graph.catalog),
+      GetUserRoadmaps(graph.roadmaps),
+      GetTrackDetail(graph.catalog),
+      WatchProgress(graph.catalog),
+    );
+    await cubit.load();
+    final state = cubit.state as ExploreLoaded;
+    expect(state.roadmapTrackIds, {'dart', 'sql'});
+    expect(state.myTracks.map((t) => t.track.id), ['dart', 'sql']);
+    await cubit.close();
+  });
+
+  group('topic roles', () {
+    /// positionData with the sql "joins" topic limited to [roles].
+    Map<String, String> sqlFor(List<String> roles) {
+      final data = positionData();
+      final tracks = jsonDecode(data['tracks.json']!) as Map<String, dynamic>;
+      for (final track in tracks['tracks'] as List) {
+        if (track['id'] == 'sql') {
+          (track['topics'] as List).first['roles'] = roles;
+        }
+      }
+      return {...data, 'tracks.json': jsonEncode(tracks)};
+    }
+
+    test('a topic for another position leaves the position mock test',
+        () async {
+      final graph = await TestGraph.create(data: sqlFor(['frontend']));
+      final catalog = (await graph.content.loadCatalog()).value!;
+      final mockId =
+          ContentCatalog.positionSetId('backend', 'dart', QuestionLevel.junior);
+      final mock = catalog.sets.firstWhere((set) => set.id == mockId);
+      expect(mock.questionIds, isNot(contains('sql.s1')));
+      expect(mock.questionIds, contains('dart.q1'));
+    });
+
+    test('track detail opened from a position keeps only its topics', () async {
+      final graph = await TestGraph.create(data: sqlFor(['frontend']));
+      final forBackend =
+          (await graph.catalog.getTrackDetail('sql', positionId: 'backend'))
+              .value!;
+      expect(forBackend.questionIdsByTopic, isEmpty);
+      expect(forBackend.sets, isEmpty, reason: 'its set uses a hidden topic');
+
+      final forFrontend =
+          (await graph.catalog.getTrackDetail('sql', positionId: 'frontend'))
+              .value!;
+      expect(forFrontend.questionIdsByTopic.keys, ['joins']);
+      final any = (await graph.catalog.getTrackDetail('sql')).value!;
+      expect(any.sets, hasLength(1));
+    });
+
+    test('roles must name known positions', () async {
+      final parsed =
+          await const ContentParser().parse(readerOf(sqlFor(['designer'])));
+      expect(
+        const ValidateContent()(parsed.catalog).map((issue) => issue.detail),
+        contains('designer'),
+      );
+    });
+  });
+
   group('content', () {
     test('positions are parsed and validated', () async {
       final parsed =

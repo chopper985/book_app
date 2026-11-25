@@ -1,0 +1,3242 @@
+{
+  "questions": [
+    {
+      "id": "nextjs.routing.001",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "routing",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Với file `app/docs/[...slug]/page.tsx` bên dưới, khi truy cập `/docs/a/b` thì thẻ `p` hiển thị gì?",
+        "en": "Given `app/docs/[...slug]/page.tsx` below, what does the `p` show when you visit `/docs/a/b`?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/docs/[...slug]/page.tsx\nexport default async function Page({\n  params,\n}: {\n  params: Promise<{ slug: string[] }>;\n}) {\n  const { slug } = await params;\n  return <p>{JSON.stringify(slug)}</p>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`\"a/b\"`",
+            "en": "`\"a/b\"`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`[\"docs\",\"a\",\"b\"]`",
+            "en": "`[\"docs\",\"a\",\"b\"]`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`\"b\"`",
+            "en": "`\"b\"`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`[\"a\",\"b\"]`",
+            "en": "`[\"a\",\"b\"]`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Catch-all segment `[...slug]` gom mọi phần đường dẫn phía sau `/docs` thành một mảng chuỗi, nên `/docs/a/b` cho `slug = ['a', 'b']`. Phần `docs` là thư mục tĩnh nên không nằm trong `params`. Lưu ý `[...slug]` không khớp chính `/docs` (trả về 404); muốn khớp cả trường hợp đó thì dùng optional catch-all `[[...slug]]`.",
+        "en": "A catch-all segment `[...slug]` collects every path part after `/docs` into an array of strings, so `/docs/a/b` gives `slug = ['a', 'b']`. `docs` is a static folder, so it is not part of `params`. Note that `[...slug]` does not match `/docs` itself (it returns 404); use an optional catch-all `[[...slug]]` to match that case too."
+      }
+    },
+    {
+      "id": "nextjs.routing.002",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "routing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn tạo thư mục `app/dashboard/settings/` chứa `layout.tsx` và `components/Form.tsx`, nhưng truy cập `/dashboard/settings` lại bị 404. Nguyên nhân là gì?",
+        "en": "You create `app/dashboard/settings/` containing `layout.tsx` and `components/Form.tsx`, but visiting `/dashboard/settings` returns 404. Why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`layout.tsx` chỉ hoạt động ở thư mục `app/` gốc, layout lồng nhau làm hỏng route con",
+            "en": "A `layout.tsx` only works in the root `app/` folder, so nested layouts break child routes"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thư mục chưa có `page.tsx`; chỉ `page` (hoặc `route`) mới làm segment truy cập được",
+            "en": "There is no `page.tsx`; only a `page` (or `route`) file makes a segment reachable"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thư mục `components` bên trong segment khiến Next.js bỏ qua cả route đó khi build",
+            "en": "Any `components` folder inside a segment makes Next.js skip that whole route at build time"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Route `/dashboard/settings` phải được khai báo thêm trong `next.config.js`",
+            "en": "The route must also be registered in `next.config.js` before it can be served"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Trong App Router, cấu trúc thư mục định nghĩa segment, nhưng segment chỉ truy cập công khai được khi có file `page` (UI) hoặc `route` (API). `layout.tsx` chỉ bọc các page bên dưới, không tự tạo route. Các file khác như `components/Form.tsx` có thể đặt cùng chỗ (colocation) mà không bị biến thành route, nên không phải nguyên nhân gây lỗi.",
+        "en": "In the App Router, folders define segments, but a segment is only publicly reachable when it has a `page` (UI) or `route` (API) file. A `layout.tsx` only wraps pages below it and does not create a route by itself. Other files such as `components/Form.tsx` can be colocated without becoming routes, so they are not the cause."
+      }
+    },
+    {
+      "id": "nextjs.routing.003",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "routing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong App Router, vì sao nên dùng `<Link href=\"/cart\">` thay cho `<a href=\"/cart\">` khi điều hướng nội bộ?",
+        "en": "In the App Router, why should you use `<Link href=\"/cart\">` instead of `<a href=\"/cart\">` for internal navigation?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Điều hướng phía client, giữ nguyên layout dùng chung, có prefetch và không tải lại toàn trang",
+            "en": "It navigates on the client, keeps shared layouts, prefetches and avoids a full page reload"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thẻ `<a>` bị Next.js chặn nên không điều hướng được trong App Router",
+            "en": "Next.js blocks plain `<a>` tags, so they cannot navigate in the App Router"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Link` render lại toàn bộ trang trên server rồi thay HTML của document",
+            "en": "`Link` re-renders the whole page on the server and swaps the document HTML"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ `Link` mới gửi kèm cookie của người dùng lên server khi chuyển trang",
+            "en": "Only `Link` sends the user's cookies to the server when changing pages"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`<Link>` chặn tải lại toàn trang: nó chỉ lấy RSC payload của phần thay đổi, giữ nguyên layout dùng chung cùng state phía client, và prefetch route khi link xuất hiện trong viewport. Thẻ `<a>` vẫn hoạt động nhưng gây full page reload, mất state và tải lại JS. Cookie được gửi trong cả hai trường hợp, nên đó không phải lý do.",
+        "en": "`<Link>` avoids a full page reload: it fetches only the RSC payload for the changed part, keeps shared layouts and their client state, and prefetches the route when the link enters the viewport. A plain `<a>` still works but triggers a full reload, losing state and reloading JS. Cookies are sent in both cases, so that is not the reason."
+      }
+    },
+    {
+      "id": "nextjs.routing.004",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "routing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn thêm `app/products/loading.tsx`. Điều gì xảy ra khi người dùng chuyển tới `/products` trong lúc page đang chờ dữ liệu trên server?",
+        "en": "You add `app/products/loading.tsx`. What happens when a user navigates to `/products` while the page is still waiting for data on the server?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`loading.tsx` chỉ hiển thị ở lần tải trang đầu tiên, không hiển thị khi điều hướng phía client",
+            "en": "`loading.tsx` only shows on the very first page load, never during client-side navigation"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Next.js chờ page render xong rồi mới hiện `loading.tsx` trong chốc lát trước khi chuyển trang",
+            "en": "Next.js waits for the page to finish, then flashes `loading.tsx` briefly before switching"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`loading.tsx` hiện ngay làm fallback Suspense của page, rồi được thay khi xong",
+            "en": "`loading.tsx` shows at once as the page's Suspense fallback, then is swapped out"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`layout.tsx` của `/products` bị ẩn và thay bằng `loading.tsx` cho tới khi page xong",
+            "en": "The `/products` layout is hidden and replaced by `loading.tsx` until the page is done"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`loading.tsx` được Next.js tự bọc quanh `page` (và các segment con) dưới dạng `<Suspense fallback={<Loading />}>`. Khi điều hướng, fallback hiển thị ngay lập tức, sau đó nội dung được stream vào khi dữ liệu sẵn sàng. Layout của cùng segment nằm ngoài boundary này nên vẫn hiển thị và tương tác được, không bị thay thế.",
+        "en": "Next.js automatically wraps `page` (and child segments) in `<Suspense fallback={<Loading />}>` using `loading.tsx`. On navigation the fallback appears instantly, then the content streams in when the data is ready. The layout of the same segment sits outside that boundary, so it stays visible and interactive instead of being replaced."
+      }
+    },
+    {
+      "id": "nextjs.routing.005",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "routing",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Truy cập `/search?tag=a&tag=b` với page sau. Thẻ `p` hiển thị gì?",
+        "en": "You visit `/search?tag=a&tag=b` with the page below. What does the `p` show?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/search/page.tsx\nexport default async function SearchPage({\n  searchParams,\n}: {\n  searchParams: Promise<{ tag?: string | string[] }>;\n}) {\n  const { tag } = await searchParams;\n  return <p>{JSON.stringify(tag)}</p>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`\"a\"`",
+            "en": "`\"a\"`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`[\"a\",\"b\"]`",
+            "en": "`[\"a\",\"b\"]`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`\"a,b\"`",
+            "en": "`\"a,b\"`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`\"b\"`",
+            "en": "`\"b\"`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Khi một key lặp lại trong query string, `searchParams` của page chứa giá trị dạng mảng, nên `tag` là `['a', 'b']`. Vì vậy kiểu đúng là `string | string[] | undefined` và nên chuẩn hoá trước khi dùng. Đáp án `\"a\"` là hành vi của `URLSearchParams.get()`, không phải object `searchParams` mà page nhận.",
+        "en": "When a key repeats in the query string, the page's `searchParams` holds an array, so `tag` is `['a', 'b']`. That is why the correct type is `string | string[] | undefined` and you should normalise it before use. The answer `\"a\"` is what `URLSearchParams.get()` returns, not the `searchParams` object a page receives."
+      }
+    },
+    {
+      "id": "nextjs.routing.006",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "routing",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Người dùng chưa đăng nhập vào `/account` nhưng không được chuyển sang `/login`, thay vào đó thấy \"Something went wrong\". Lỗi nằm ở đâu?",
+        "en": "A signed-out user opens `/account` but is not sent to `/login`; they see \"Something went wrong\" instead. What is wrong?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "import { redirect } from 'next/navigation';\nimport { getSession } from '@/lib/auth';\n\nexport default async function AccountPage() {\n  try {\n    const session = await getSession();\n    if (!session) redirect('/login');\n    return <h1>Hi {session.user.name}</h1>;\n  } catch (error) {\n    console.error(error);\n    return <p>Something went wrong</p>;\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`redirect()` chỉ được gọi trong Route Handler, không dùng được trong page",
+            "en": "`redirect()` may only be called in Route Handlers, never inside a page"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phải viết `return redirect('/login')` thì Next.js mới thực hiện chuyển hướng",
+            "en": "You must write `return redirect('/login')` for Next.js to perform the redirect"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`redirect()` hoạt động bằng cách throw lỗi đặc biệt và `catch` đã nuốt mất nó",
+            "en": "`redirect()` works by throwing a special error, and the `catch` swallows it"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`getSession()` phải gọi ngoài component vì page không được là hàm `async`",
+            "en": "`getSession()` must run outside the component because pages cannot be `async`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`redirect()` (và `notFound()`) không trả về mà throw một lỗi nội bộ (`NEXT_REDIRECT`) để Next.js bắt và chuyển hướng. Khối `catch` bắt luôn lỗi đó nên trang render fallback thay vì redirect. Hãy gọi `redirect` bên ngoài `try`, hoặc gọi `unstable_rethrow(error)` ở đầu `catch`. Thêm `return` không thay đổi gì vì hàm vốn đã throw.",
+        "en": "`redirect()` (and `notFound()`) do not return; they throw an internal error (`NEXT_REDIRECT`) that Next.js catches to perform the redirect. The `catch` block swallows that error, so the page renders the fallback instead. Call `redirect` outside the `try`, or call `unstable_rethrow(error)` at the start of the `catch`. Adding `return` changes nothing because the function already throws."
+      }
+    },
+    {
+      "id": "nextjs.routing.007",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "routing",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn muốn `/login` và `/register` dùng layout tối giản, còn `/dashboard` dùng layout có sidebar, mà URL không có thêm tiền tố nào. Cách tổ chức nào phù hợp?",
+        "en": "You want `/login` and `/register` to use a minimal layout and `/dashboard` to use a sidebar layout, without adding any prefix to the URLs. Which structure fits?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đặt các trang vào `_auth` và `_app`, vì thư mục bắt đầu bằng `_` tạo route nhưng ẩn khỏi URL",
+            "en": "Put pages in `_auth` and `_app`, since folders starting with `_` create routes hidden from the URL"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Dùng dynamic segment `[group]` rồi đọc `params.group` trong layout để chọn giao diện",
+            "en": "Use a dynamic segment `[group]` and read `params.group` in the layout to pick the UI"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Khai báo `layout: 'minimal'` trong `export const config` của từng page cần layout gọn",
+            "en": "Declare `layout: 'minimal'` in the `export const config` of each page that needs it"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hai route group `(auth)` và `(app)`, mỗi group có `layout.tsx` riêng",
+            "en": "Two route groups `(auth)` and `(app)`, each with its own `layout.tsx`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Thư mục trong ngoặc tròn như `(auth)` là route group: nó tổ chức route và cho phép layout riêng nhưng không xuất hiện trong URL. Thư mục bắt đầu bằng `_` là private folder, bị loại khỏi routing hoàn toàn, nên các trang bên trong sẽ không truy cập được. Dynamic segment `[group]` lại thêm một phần vào URL, trái với yêu cầu.",
+        "en": "A folder in parentheses such as `(auth)` is a route group: it organises routes and allows its own layout without appearing in the URL. A folder starting with `_` is a private folder that is excluded from routing entirely, so pages inside it would be unreachable. A dynamic segment `[group]` adds a URL part, which breaks the requirement."
+      }
+    },
+    {
+      "id": "nextjs.routing.008",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "routing",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích cách App Router xử lý lỗi với `error.tsx`, `not-found.tsx` và `global-error.tsx`. Khi nào dùng cái nào?",
+        "en": "Explain how the App Router handles errors with `error.tsx`, `not-found.tsx` and `global-error.tsx`. When do you use each one?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`error.tsx` là Client Component bọc segment (và con) trong Error Boundary, nhận `error` và `reset` để thử render lại",
+          "en": "`error.tsx` is a Client Component that wraps the segment (and children) in an Error Boundary and receives `error` and `reset` to retry"
+        },
+        {
+          "vi": "`error.tsx` không bắt lỗi của `layout.tsx` cùng segment; lỗi đó lan lên boundary của segment cha",
+          "en": "`error.tsx` does not catch errors from the `layout.tsx` of the same segment; those bubble to the parent's boundary"
+        },
+        {
+          "vi": "`notFound()` throw lỗi đặc biệt, render `not-found.tsx` gần nhất và trả về status 404",
+          "en": "`notFound()` throws a special error, renders the nearest `not-found.tsx` and returns a 404 status"
+        },
+        {
+          "vi": "`global-error.tsx` ở gốc bắt lỗi của root layout và phải tự render `<html>` và `<body>`",
+          "en": "`global-error.tsx` at the root catches root layout errors and must render its own `<html>` and `<body>`"
+        }
+      ],
+      "explanation": {
+        "vi": "Mỗi file đặc biệt tương ứng với một ranh giới trong cây React: `error.tsx` là Error Boundary cho lỗi runtime ngoài dự kiến, còn `not-found.tsx` dành cho trường hợp dữ liệu không tồn tại mà bạn chủ động gọi `notFound()`. Vì `error.tsx` nằm bên trong layout của cùng segment, lỗi ở layout phải được bắt ở cấp cao hơn, và cấp cao nhất là `global-error.tsx`. Ở production, message của lỗi từ server bị ẩn, chỉ còn `digest` để tra log.",
+        "en": "Each special file maps to a boundary in the React tree: `error.tsx` is an Error Boundary for unexpected runtime errors, while `not-found.tsx` handles missing data when you call `notFound()` yourself. Because `error.tsx` sits inside the layout of the same segment, layout errors must be caught higher up, and the top level is `global-error.tsx`. In production, server error messages are hidden and only a `digest` remains for looking up logs."
+      }
+    },
+    {
+      "id": "nextjs.routing.009",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "routing",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Thiết kế modal xem ảnh kiểu Instagram: bấm ảnh trong feed thì mở modal và URL đổi thành `/photo/123`; tải lại trang hoặc mở link trực tiếp thì hiển thị trang ảnh đầy đủ. Bạn dùng tính năng nào của App Router và tổ chức thư mục ra sao?",
+        "en": "Design an Instagram-style photo modal: clicking a photo in the feed opens a modal and the URL becomes `/photo/123`; reloading or opening the link directly shows the full photo page. Which App Router features do you use and how do you structure the folders?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Parallel route slot `@modal` trong layout, render cạnh `children`; có `default.tsx` trả về `null` khi slot không khớp",
+          "en": "A parallel route slot `@modal` in the layout rendered next to `children`, with a `default.tsx` returning `null` when nothing matches"
+        },
+        {
+          "vi": "Intercepting route `(.)photo/[id]` trong slot để chặn điều hướng phía client và render modal thay cho trang đầy đủ",
+          "en": "An intercepting route `(.)photo/[id]` inside the slot to catch client-side navigation and render the modal instead of the full page"
+        },
+        {
+          "vi": "Trang thật `app/photo/[id]/page.tsx` được dùng khi tải lại hoặc truy cập trực tiếp, nên URL luôn chia sẻ được",
+          "en": "The real `app/photo/[id]/page.tsx` is used on reload or direct access, so the URL is always shareable"
+        },
+        {
+          "vi": "Đóng modal bằng `router.back()`; trạng thái nằm trong URL nên Back/Forward hoạt động tự nhiên",
+          "en": "Close the modal with `router.back()`; the state lives in the URL, so Back/Forward behave naturally"
+        }
+      ],
+      "explanation": {
+        "vi": "Kết hợp parallel routes và intercepting routes cho phép cùng một URL có hai cách hiển thị: modal khi điều hướng mềm từ feed, trang đầy đủ khi điều hướng cứng. Slot `@modal` cần `default.tsx` để Next.js biết render gì khi slot không khớp route hiện tại, nếu không có thể gặp 404 khi tải lại. Cách này tốt hơn giữ state modal trong `useState` vì link chia sẻ được và lịch sử trình duyệt đúng.",
+        "en": "Combining parallel and intercepting routes lets one URL render two ways: a modal on soft navigation from the feed and a full page on hard navigation. The `@modal` slot needs a `default.tsx` so Next.js knows what to render when the slot does not match the current route; otherwise a reload can hit a 404. This beats keeping the modal in `useState` because the link is shareable and browser history stays correct."
+      }
+    },
+    {
+      "id": "nextjs.rendering.001",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "rendering",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Sau khi chạy `next build`, route `/settings` dưới đây được đánh dấu thế nào trong bảng kết quả?",
+        "en": "After running `next build`, how is the `/settings` route below marked in the output table?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/settings/page.tsx\nimport { cookies } from 'next/headers';\n\nexport default async function SettingsPage() {\n  const theme = (await cookies()).get('theme')?.value ?? 'light';\n  return <p>Theme: {theme}</p>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`ƒ` (Dynamic): render trên server cho từng request riêng",
+            "en": "`ƒ` (Dynamic): rendered on the server for every request"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`○` (Static): prerender một lần duy nhất lúc build",
+            "en": "`○` (Static): prerendered once at build time"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`●` (SSG): prerender sẵn với giá trị `theme` mặc định",
+            "en": "`●` (SSG): prerendered with the default `theme` value"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Build lỗi vì page không được phép đọc cookie",
+            "en": "The build fails because pages cannot read cookies"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`cookies()` là API động: giá trị chỉ có khi có request thật, nên Next.js không thể prerender route này lúc build và đánh dấu nó là `ƒ` (Dynamic). Page hoàn toàn được phép đọc cookie, chỉ không được ghi. Nếu muốn phần lớn trang vẫn tĩnh, hãy tách phần đọc cookie vào component nhỏ bọc trong `<Suspense>` hoặc chuyển logic sang client.",
+        "en": "`cookies()` is a dynamic API: its value only exists for a real request, so Next.js cannot prerender this route at build time and marks it `ƒ` (Dynamic). Pages are allowed to read cookies; they just cannot set them. To keep most of the page static, move the cookie read into a small component wrapped in `<Suspense>` or handle it on the client."
+      }
+    },
+    {
+      "id": "nextjs.rendering.002",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "rendering",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trang \"Giới thiệu công ty\" chỉ thay đổi nội dung vài tháng một lần. Cách render nào hợp lý nhất trong App Router?",
+        "en": "An \"About us\" page changes only every few months. Which rendering approach makes the most sense in the App Router?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Render động mỗi request bằng `export const dynamic = 'force-dynamic'` để luôn mới",
+            "en": "Dynamic rendering on every request with `export const dynamic = 'force-dynamic'`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Render tĩnh lúc build (mặc định khi không dùng API động) và phục vụ từ CDN",
+            "en": "Static rendering at build time (the default without dynamic APIs), served from a CDN"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chuyển cả trang thành Client Component và lấy nội dung trong `useEffect`",
+            "en": "Turn the whole page into a Client Component and load content in `useEffect`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "ISR với `revalidate = 1` để nội dung được tạo lại sau mỗi giây",
+            "en": "ISR with `revalidate = 1` so the content is rebuilt every second"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Nội dung hiếm khi đổi là trường hợp lý tưởng cho render tĩnh: HTML tạo một lần lúc build, phục vụ nhanh từ CDN và không tốn tài nguyên server. `force-dynamic` hay `revalidate = 1` chỉ làm tăng chi phí mà không mang lại lợi ích. Fetch trong `useEffect` làm HTML ban đầu rỗng, hại SEO và tốc độ hiển thị. Khi nội dung đổi, có thể build lại hoặc dùng on-demand revalidation.",
+        "en": "Rarely changing content is the ideal case for static rendering: the HTML is generated once at build time, served quickly from a CDN and costs no server work. `force-dynamic` or `revalidate = 1` only add cost without any benefit. Fetching in `useEffect` leaves the initial HTML empty, hurting SEO and time to content. When the content changes, rebuild or use on-demand revalidation."
+      }
+    },
+    {
+      "id": "nextjs.rendering.003",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "rendering",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trang sản phẩm có phần đánh giá lấy từ một API chậm 3 giây. Làm sao để phần còn lại của trang hiển thị ngay mà không phải chờ API này?",
+        "en": "A product page has a reviews section loaded from an API that takes 3 seconds. How do you show the rest of the page immediately without waiting for it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tách phần đánh giá thành Server Component async riêng, bọc trong `<Suspense fallback={...}>`",
+            "en": "Move reviews into their own async Server Component wrapped in `<Suspense fallback={...}>`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi API đánh giá trong `generateStaticParams` để Next.js tải song song khi request đến",
+            "en": "Call the reviews API in `generateStaticParams` so Next.js loads it in parallel per request"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thêm `export const revalidate = 0` để Next.js tự bỏ qua những lời gọi `fetch` quá chậm",
+            "en": "Add `export const revalidate = 0` so Next.js automatically skips any `fetch` that is too slow"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bọc toàn bộ page trong `<Suspense>` ở layout để layout và page cùng chờ dữ liệu",
+            "en": "Wrap the whole page in `<Suspense>` in the layout so layout and page wait together"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Streaming với Suspense cho phép server gửi ngay HTML của phần đã sẵn sàng và fallback cho phần đánh giá, rồi stream nội dung đánh giá vào khi API trả về. Bọc cả page trong một Suspense chỉ cho fallback chung, phần thông tin sản phẩm vẫn phải chờ API chậm. `generateStaticParams` dùng để liệt kê params khi build và `revalidate` không bỏ qua fetch chậm.",
+        "en": "Streaming with Suspense lets the server send the ready HTML plus a fallback for the reviews right away, then stream the reviews in when the API responds. Wrapping the whole page in one Suspense only gives a single fallback, so the product info still waits on the slow API. `generateStaticParams` lists params at build time, and `revalidate` does not skip slow fetches."
+      }
+    },
+    {
+      "id": "nextjs.rendering.004",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "rendering",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích sự khác nhau giữa SSR, SSG và ISR trong Next.js, kèm ví dụ trang phù hợp với từng kiểu.",
+        "en": "Explain the difference between SSR, SSG and ISR in Next.js, with an example page that suits each one."
+      },
+      "keyPoints": [
+        {
+          "vi": "SSG: HTML tạo lúc build và phục vụ từ cache/CDN; hợp với blog, landing page, tài liệu",
+          "en": "SSG: HTML is generated at build time and served from cache/CDN; good for blogs, landing pages, docs"
+        },
+        {
+          "vi": "SSR (render động): render trên server ở mỗi request; cần khi nội dung phụ thuộc cookie, header, `searchParams` hoặc dữ liệu realtime",
+          "en": "SSR (dynamic rendering): rendered on the server for every request; needed when content depends on cookies, headers, `searchParams` or real-time data"
+        },
+        {
+          "vi": "ISR: trang tĩnh được tạo lại sau khoảng `revalidate` hoặc theo yêu cầu (`revalidatePath`/`revalidateTag`), theo kiểu stale-while-revalidate",
+          "en": "ISR: a static page is regenerated after the `revalidate` interval or on demand (`revalidatePath`/`revalidateTag`), stale-while-revalidate style"
+        },
+        {
+          "vi": "App Router quyết định tĩnh hay động theo từng route dựa trên API động và cấu hình cache, không cần `getStaticProps`/`getServerSideProps`",
+          "en": "The App Router decides static vs dynamic per route from dynamic API usage and cache config, without `getStaticProps`/`getServerSideProps`"
+        }
+      ],
+      "explanation": {
+        "vi": "Ba kiểu khác nhau ở thời điểm tạo HTML: lúc build, lúc request, hay lúc build rồi làm mới định kỳ. Trang chi tiết sản phẩm thường hợp với ISR, trang giỏ hàng hay dashboard cá nhân cần render động, còn trang giới thiệu hợp với SSG. Câu trả lời tốt nêu được đánh đổi giữa độ tươi của dữ liệu, chi phí server và tốc độ phản hồi.",
+        "en": "The three differ in when HTML is produced: at build time, at request time, or at build time with periodic refresh. A product detail page usually fits ISR, a cart or personal dashboard needs dynamic rendering, and an about page fits SSG. A strong answer explains the trade-off between data freshness, server cost and response time."
+      }
+    },
+    {
+      "id": "nextjs.rendering.005",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "rendering",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Trang được build lúc `10:00:00`. Không có request nào cho tới `10:05:00`, khi người dùng A truy cập; vài giây sau (việc tạo lại đã xong) người dùng B truy cập. A và B lần lượt thấy thời gian nào?",
+        "en": "The page is built at `10:00:00`. No requests arrive until `10:05:00`, when user A visits; a few seconds later (after regeneration finishes) user B visits. Which times do A and B see?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/deals/page.tsx\nexport const revalidate = 60;\n\nexport default function DealsPage() {\n  return <p>{new Date().toISOString()}</p>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cả A và B đều thấy `10:05:00`",
+            "en": "Both A and B see `10:05:00`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cả hai thấy `10:00:00` cho tới lần build kế tiếp",
+            "en": "Both see `10:00:00` until the next build"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "A thấy `10:05:00`, B thấy `10:01:00`",
+            "en": "A sees `10:05:00`, B sees `10:01:00`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "A thấy `10:00:00`, B thấy `10:05:00`",
+            "en": "A sees `10:00:00`, B sees `10:05:00`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "ISR dùng chiến lược stale-while-revalidate: khi cache đã quá 60 giây, request đầu tiên (A) vẫn nhận bản cũ lúc `10:00:00` ngay lập tức, đồng thời kích hoạt việc tạo lại ở nền. Request sau khi tạo lại xong (B) nhận bản mới khoảng `10:05:00`. Revalidate không chạy theo đồng hồ mỗi 60 giây mà chỉ khi có request tới bản cache đã hết hạn.",
+        "en": "ISR uses stale-while-revalidate: once the cache is older than 60 seconds, the first request (A) still gets the old `10:00:00` version instantly while triggering a background regeneration. The request after regeneration finishes (B) gets the new version from around `10:05:00`. Revalidation does not run on a 60-second timer; it only happens when a request hits an expired cache entry."
+      }
+    },
+    {
+      "id": "nextjs.rendering.006",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "rendering",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "`next build` báo lỗi ở trang `/products`. Nguyên nhân là gì?",
+        "en": "`next build` fails on the `/products` page. What is the cause?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/products/SearchBox.tsx\n'use client';\nimport { useSearchParams } from 'next/navigation';\n\nexport default function SearchBox() {\n  const q = useSearchParams().get('q') ?? '';\n  return <input defaultValue={q} />;\n}\n\n// app/products/page.tsx\nimport SearchBox from './SearchBox';\n\nexport default function ProductsPage() {\n  return (\n    <main>\n      <h1>Products</h1>\n      <SearchBox />\n    </main>\n  );\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`SearchBox` phải là Server Component vì nó đang đọc query string của URL",
+            "en": "`SearchBox` must be a Server Component because it reads the URL query string"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`useSearchParams` chỉ dùng được trong `layout.tsx`, không dùng trong component con",
+            "en": "`useSearchParams` only works in `layout.tsx`, not inside child components"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Trên trang tĩnh, component dùng `useSearchParams()` phải nằm trong `<Suspense>`",
+            "en": "On a static page, a component using `useSearchParams()` must sit inside `<Suspense>`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thiếu `await` trước `useSearchParams()` vì hook này trả về một Promise",
+            "en": "It is missing `await` before `useSearchParams()` because the hook returns a Promise"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Query string không tồn tại lúc build, nên khi trang được prerender tĩnh, phần dùng `useSearchParams()` phải render phía client. Next.js yêu cầu bọc component đó trong `<Suspense>` để phần còn lại vẫn prerender được; thiếu boundary thì cả trang bị đẩy về client và build báo lỗi \"should be wrapped in a suspense boundary\". `useSearchParams` là hook đồng bộ của Client Component, không cần `await`.",
+        "en": "The query string does not exist at build time, so when the page is prerendered statically, the part using `useSearchParams()` must render on the client. Next.js requires that component to be wrapped in `<Suspense>` so the rest can still be prerendered; without a boundary the whole page would bail out to the client, and the build fails with \"should be wrapped in a suspense boundary\". `useSearchParams` is a synchronous Client Component hook and needs no `await`."
+      }
+    },
+    {
+      "id": "nextjs.rendering.007",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "rendering",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một Client Component hiển thị `new Date().toLocaleTimeString()` và console báo hydration mismatch. Vì sao và cách sửa hợp lý?",
+        "en": "A Client Component renders `new Date().toLocaleTimeString()` and the console reports a hydration mismatch. Why, and what is a sensible fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Server và trình duyệt dùng hai phiên bản React khác nhau; cần nâng cấp `react-dom` cho khớp",
+            "en": "Server and browser run different React versions; upgrade `react-dom` so they match"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Phần tử chứa thời gian thiếu `key` nên React không ghép được node khi hydrate",
+            "en": "The element holding the time lacks a `key`, so React cannot match nodes when hydrating"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Client Component không được gọi `Date`; phải đổi sang `Date.now()` để có giá trị ổn định",
+            "en": "Client Components cannot call `Date`; switch to `Date.now()` for a stable value"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "HTML từ server khác lần render đầu ở trình duyệt; chỉ hiện giờ sau khi mount",
+            "en": "Server HTML differs from the first browser render; render the time after mount"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Client Component vẫn được prerender trên server, nên giờ trong HTML là giờ của server, còn lần render đầu trên trình duyệt cho giá trị khác (thời điểm, múi giờ, locale). React phát hiện nội dung lệch và cảnh báo hydration mismatch. Cách sửa phổ biến là render placeholder trước rồi cập nhật trong `useEffect`, hoặc tắt SSR cho riêng component đó. `key` không liên quan vì đây không phải list.",
+        "en": "Client Components are still prerendered on the server, so the HTML contains the server's time, while the first browser render produces a different value (time, timezone, locale). React detects the mismatch and warns. A common fix is to render a placeholder first and update in `useEffect`, or disable SSR for that component. `key` is unrelated because this is not a list."
+      }
+    },
+    {
+      "id": "nextjs.rendering.008",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "rendering",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Dashboard có header chung (tĩnh), số dư tài khoản theo từng user (động) và một biểu đồ cần 2 giây để lấy dữ liệu. Cách tổ chức render nào cho TTFB và trải nghiệm tốt nhất?",
+        "en": "A dashboard has a shared static header, a per-user account balance (dynamic) and a chart whose data takes 2 seconds. Which rendering setup gives the best TTFB and experience?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gọi cả hai API bằng `Promise.all` ở page rồi mới render, vì một lần render luôn nhanh hơn",
+            "en": "Call both APIs with `Promise.all` in the page before rendering, since one render is always faster"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lấy mọi dữ liệu trong `useEffect` để HTML đầu tiên trả về thật nhanh, rồi hiện spinner chung",
+            "en": "Fetch everything in `useEffect` so the first HTML returns fast, then show one shared spinner"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gửi phần tĩnh ngay, bọc số dư và biểu đồ trong các `<Suspense>` riêng để stream từng phần",
+            "en": "Send the static part at once and wrap balance and chart in separate `<Suspense>` to stream each"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đặt `revalidate = 2` để biểu đồ được cache và số dư được làm mới sau mỗi hai giây",
+            "en": "Set `revalidate = 2` so the chart is cached and the balance refreshes every two seconds"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Với streaming, server trả HTML của header ngay (TTFB thấp), rồi stream từng khối khi dữ liệu của nó sẵn sàng, nên số dư không phải chờ biểu đồ chậm. `Promise.all` loại bỏ waterfall nhưng vẫn bắt toàn trang chờ API chậm nhất. Fetch trong `useEffect` thêm round-trip từ trình duyệt và làm lộ API ra client. `revalidate` ngắn không phù hợp với dữ liệu theo từng user vì không nên cache chung.",
+        "en": "With streaming, the server returns the header HTML immediately (low TTFB) and streams each block when its data is ready, so the balance does not wait for the slow chart. `Promise.all` removes the waterfall but still makes the whole page wait for the slowest API. Fetching in `useEffect` adds a browser round trip and exposes the API to the client. A short `revalidate` is wrong for per-user data, which should not be cached globally."
+      }
+    },
+    {
+      "id": "nextjs.rendering.009",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "rendering",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn phụ trách trang chi tiết sản phẩm của một site thương mại điện tử lớn: mô tả ít thay đổi, giá và tồn kho đổi liên tục, khối \"Gợi ý cho bạn\" phụ thuộc người dùng. Trình bày chiến lược render và cache của bạn.",
+        "en": "You own the product detail page of a large e-commerce site: the description rarely changes, price and stock change constantly, and a \"Recommended for you\" block depends on the user. Describe your rendering and caching strategy."
+      },
+      "keyPoints": [
+        {
+          "vi": "Phần ít đổi (mô tả, ảnh) prerender và cache; `generateStaticParams` cho sản phẩm hot, revalidate theo tag khi CMS cập nhật",
+          "en": "Prerender and cache the stable parts (description, images); `generateStaticParams` for hot products, tag-based revalidation on CMS updates"
+        },
+        {
+          "vi": "Giá và tồn kho: fetch không cache hoặc revalidate ngắn, tách component riêng trong `<Suspense>`; giá cuối luôn kiểm tra lại ở server khi đặt hàng",
+          "en": "Price and stock: uncached or short-lived fetches in their own component inside `<Suspense>`; always re-check the final price on the server at checkout"
+        },
+        {
+          "vi": "Phần cá nhân hoá đọc cookie nên là động; cô lập trong Suspense để cả route không thành động (Partial Prerendering / `use cache` nếu phiên bản hỗ trợ)",
+          "en": "Personalised parts read cookies and are dynamic; isolate them in Suspense so the route stays mostly static (Partial Prerendering / `use cache` where supported)"
+        },
+        {
+          "vi": "Tránh waterfall bằng fetch song song và preload; đo TTFB, LCP và tỉ lệ cache hit sau khi triển khai",
+          "en": "Avoid waterfalls with parallel fetches and preloading; measure TTFB, LCP and cache hit rate after rollout"
+        }
+      ],
+      "explanation": {
+        "vi": "Ý chính là không chọn một chế độ cho cả trang mà chia theo độ tươi của từng khối dữ liệu: khung tĩnh phục vụ từ cache, các lỗ động được stream vào. Nếu một khối đọc cookie ở cấp page mà không có Suspense, toàn route thành động và mất lợi ích cache. Câu trả lời senior còn nêu rủi ro nghiệp vụ (giá cũ hiển thị) và cách đo hiệu quả bằng số liệu thực.",
+        "en": "The key idea is not to pick one mode for the whole page but to split by how fresh each block must be: a static shell served from cache with dynamic holes streamed in. If one block reads cookies at page level without Suspense, the whole route becomes dynamic and loses caching. A senior answer also covers business risk (showing a stale price) and how to measure the result with real data."
+      }
+    },
+    {
+      "id": "nextjs.server_components.001",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_components",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "`next build` báo lỗi với page sau. Vấn đề nằm ở đâu?",
+        "en": "`next build` fails on the page below. What is the problem?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/page.tsx\nimport { useState } from 'react';\n\nexport default function Page() {\n  const [count, setCount] = useState(0);\n  return <button onClick={() => setCount(count + 1)}>{count}</button>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Server Component không dùng được `useState`; đưa nút đếm vào file `'use client'`",
+            "en": "Server Components cannot use `useState`; put the counter in a `'use client'` file"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`useState` phải import từ `next/react` thay vì `react` khi dùng App Router",
+            "en": "`useState` must be imported from `next/react` instead of `react` in the App Router"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Page không được trả về `button`; phần tử tương tác chỉ được đặt trong `layout.tsx`",
+            "en": "A page cannot return a `button`; interactive elements may only live in `layout.tsx`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thiếu `async` trước `function Page`, vì page trong App Router luôn phải là hàm async",
+            "en": "It is missing `async` before `function Page`, since App Router pages must always be async"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mọi component trong `app/` mặc định là Server Component, chạy một lần trên server và không có state hay event handler. Build báo \"You're importing a component that needs `useState`\" và gợi ý thêm `'use client'`. Cách tốt là tách nút đếm thành Client Component nhỏ thay vì biến cả page thành client. Page không bắt buộc phải là hàm async.",
+        "en": "Every component in `app/` is a Server Component by default; it runs once on the server and has no state or event handlers. The build reports \"You're importing a component that needs `useState`\" and suggests adding `'use client'`. The better fix is to extract the counter into a small Client Component rather than making the whole page client-side. Pages do not have to be async."
+      }
+    },
+    {
+      "id": "nextjs.server_components.002",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong App Router, một component trong `app/` không có directive nào ở đầu file thì mặc định là loại gì?",
+        "en": "In the App Router, what is a component in `app/` with no directive at the top of the file by default?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Client Component, vì mọi component React đều cần được hydrate trên trình duyệt",
+            "en": "A Client Component, because every React component has to hydrate in the browser"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Server Component, render trên server và không gửi mã xuống trình duyệt",
+            "en": "A Server Component, rendered on the server with no JS shipped for it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Server Component nếu là `page.tsx`, còn các file khác là Client Component",
+            "en": "A Server Component if it is `page.tsx`, otherwise a Client Component"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Next.js tự đoán dựa trên việc component có khai báo `async` hay không",
+            "en": "Next.js guesses based on whether the component is declared `async`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Trong `app/`, component mặc định là Server Component: render trên server và mã của nó không nằm trong bundle JS gửi xuống trình duyệt. Chỉ khi file (hoặc một file cha trong chuỗi import) có `'use client'` thì nó mới thành Client Component. Quy tắc này áp dụng cho mọi file, không riêng `page.tsx`, và không phụ thuộc vào `async`.",
+        "en": "In `app/`, components are Server Components by default: they render on the server and their code is not part of the JS bundle sent to the browser. A file only becomes a Client Component when it (or a parent in the import chain) has `'use client'`. The rule applies to every file, not just `page.tsx`, and does not depend on `async`."
+      }
+    },
+    {
+      "id": "nextjs.server_components.003",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_components",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Lợi ích chính khi để component lấy dữ liệu từ database là Server Component thay vì Client Component là gì?",
+        "en": "What is the main benefit of making a component that reads from the database a Server Component rather than a Client Component?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Component hydrate nhanh hơn vì React gửi kèm toàn bộ state của nó xuống trình duyệt",
+            "en": "The component hydrates faster because React ships its whole state to the browser"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Server Component tự render lại khi dữ liệu trong database thay đổi mà không cần tải lại",
+            "en": "Server Components re-render on their own when database data changes, without a reload"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Truy vấn chạy ở server nên secret không lộ và thư viện truy vấn không vào bundle JS",
+            "en": "Queries run on the server, so secrets stay hidden and query libraries stay out of the JS bundle"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Có thể dùng `useEffect` để lấy dữ liệu mà không lo bị lỗi hydration mismatch",
+            "en": "You can use `useEffect` to load data without worrying about hydration mismatches"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Server Component chạy trên server nên có thể truy cập database, đọc secret và dùng thư viện nặng mà không gửi mã đó xuống trình duyệt; client chỉ nhận kết quả đã render. Server Component không tự cập nhật khi dữ liệu đổi, cần điều hướng, `router.refresh()` hoặc revalidate. Chúng cũng không dùng được hook như `useEffect`.",
+        "en": "Server Components run on the server, so they can access the database, read secrets and use heavy libraries without sending that code to the browser; the client only receives the rendered result. They do not update by themselves when data changes; that needs navigation, `router.refresh()` or revalidation. They also cannot use hooks such as `useEffect`."
+      }
+    },
+    {
+      "id": "nextjs.server_components.004",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_components",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Người dùng mở trang này lần đầu (tải đầy đủ, không phải điều hướng phía client). Dòng `render Counter` được in ra ở đâu?",
+        "en": "A user opens this page for the first time (a full load, not client-side navigation). Where is `render Counter` printed?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/Counter.tsx\n'use client';\n\nexport default function Counter() {\n  console.log('render Counter');\n  return <button>0</button>;\n}\n\n// app/page.tsx\nimport Counter from './Counter';\n\nexport default function Page() {\n  return <Counter />;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cả terminal của server lẫn console trình duyệt",
+            "en": "In both the server terminal and the browser console"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ trong console của trình duyệt",
+            "en": "Only in the browser console"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ trong terminal nơi chạy server Next.js",
+            "en": "Only in the terminal running the Next.js server"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không ở đâu, vì `console.log` bị loại khỏi Client Component khi build",
+            "en": "Nowhere, because `console.log` is stripped from Client Components at build"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`'use client'` không có nghĩa là \"chỉ chạy trên trình duyệt\". Ở lần tải đầu, Client Component vẫn được render thành HTML trên server (SSR/prerender), nên log xuất hiện ở terminal; sau đó trình duyệt hydrate và chạy lại component, nên log cũng xuất hiện trong console. Vì vậy code trong thân Client Component không được giả định có `window` hay `localStorage`.",
+        "en": "`'use client'` does not mean \"runs only in the browser\". On the first load, a Client Component is still rendered to HTML on the server (SSR/prerender), so the log appears in the terminal; the browser then hydrates and runs the component again, so it also appears in the console. That is why code in a Client Component body must not assume `window` or `localStorage` exist."
+      }
+    },
+    {
+      "id": "nextjs.server_components.005",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_components",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Trang `/orders` lỗi khi render. Lỗi nằm ở đâu?",
+        "en": "The `/orders` page fails to render. What is wrong?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/ui/ConfirmButton.tsx\n'use client';\n\nexport function ConfirmButton({ onConfirm }: { onConfirm: () => void }) {\n  return <button onClick={onConfirm}>Confirm</button>;\n}\n\n// app/orders/page.tsx (Server Component)\nimport { ConfirmButton } from '../ui/ConfirmButton';\n\nexport default function OrdersPage() {\n  return <ConfirmButton onConfirm={() => console.log('confirmed')} />;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`ConfirmButton` phải là default export thì mới dùng được làm Client Component",
+            "en": "`ConfirmButton` must be a default export to work as a Client Component"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Hàm thường không serialize được để truyền từ Server sang Client Component",
+            "en": "Plain functions cannot be serialized and passed from a Server to a Client Component"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Server Component không được render Client Component; chỉ chiều ngược lại là hợp lệ",
+            "en": "Server Components cannot render Client Components; only the reverse is allowed"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`onConfirm` phải được bọc trong `useCallback` trước khi truyền xuống component con",
+            "en": "`onConfirm` must be wrapped in `useCallback` before it is passed to the child"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Props từ Server Component sang Client Component phải serialize được để gửi qua mạng trong RSC payload; một arrow function bình thường thì không, nên React báo \"Event handlers cannot be passed to Client Component props\". Hãy định nghĩa handler bên trong Client Component, hoặc truyền một Server Action (hàm `async` có `'use server'`), là loại hàm duy nhất được phép. Server Component render Client Component là hoàn toàn bình thường.",
+        "en": "Props from a Server Component to a Client Component must be serializable to travel in the RSC payload; a plain arrow function is not, so React reports \"Event handlers cannot be passed to Client Component props\". Define the handler inside the Client Component, or pass a Server Action (an `async` function with `'use server'`), the only kind of function allowed. Server Components rendering Client Components is completely normal."
+      }
+    },
+    {
+      "id": "nextjs.server_components.006",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_components",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Build báo lỗi sau khi đồng nghiệp thêm `UserList`. Điều gì đang xảy ra và nên sửa thế nào?",
+        "en": "The build fails after a teammate adds `UserList`. What is happening and how should it be fixed?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// lib/db.ts\nimport 'server-only';\n\nexport async function getUsers() {\n  return db.user.findMany();\n}\n\n// app/users/UserList.tsx\n'use client';\nimport { useEffect, useState } from 'react';\nimport { getUsers } from '@/lib/db';\n\nexport function UserList() {\n  const [users, setUsers] = useState<{ id: number }[]>([]);\n  useEffect(() => {\n    getUsers().then(setUsers);\n  }, []);\n  return <ul>{users.map((u) => <li key={u.id}>{u.id}</li>)}</ul>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`server-only` chỉ cấm import trong `layout.tsx`, nên chỉ cần chuyển lời gọi `getUsers` sang page",
+            "en": "`server-only` only forbids imports in `layout.tsx`, so just move the `getUsers` call into the page"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Cần thêm `import 'client-only'` vào `UserList` để hai môi trường dùng chung được module này",
+            "en": "Add `import 'client-only'` to `UserList` so both environments can share the module"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`getUsers` phải được đánh dấu `'use client'` để chạy được trong trình duyệt",
+            "en": "`getUsers` must be marked `'use client'` so it can run in the browser"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Client Component import module `server-only`; hãy lấy dữ liệu ở Server Component rồi truyền props",
+            "en": "A Client Component imports a `server-only` module; fetch in a Server Component and pass props"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Package `server-only` làm build thất bại ngay khi module bị kéo vào bundle client, và đó chính là mục đích của nó: ngăn mã truy cập database hay secret lọt xuống trình duyệt. `UserList` có `'use client'` nên mọi thứ nó import đều thuộc client. Cách đúng là lấy dữ liệu trong Server Component (page) rồi truyền mảng `users` xuống, hoặc dùng Server Action nếu cần gọi từ client. `client-only` có tác dụng ngược lại.",
+        "en": "The `server-only` package fails the build as soon as the module is pulled into the client bundle, which is exactly its purpose: keeping database or secret-handling code out of the browser. `UserList` has `'use client'`, so everything it imports belongs to the client. Fetch the data in a Server Component (the page) and pass `users` down, or use a Server Action if the client must trigger it. `client-only` does the opposite."
+      }
+    },
+    {
+      "id": "nextjs.server_components.007",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_components",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`<Modal>` là Client Component có state mở/đóng. Bạn muốn nội dung bên trong là `<ProductDetails>`, một Server Component truy vấn database. Cách nào đúng?",
+        "en": "`<Modal>` is a Client Component with open/close state. You want its content to be `<ProductDetails>`, a Server Component that queries the database. What is the right approach?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Import `ProductDetails` thẳng trong file `Modal`; Next.js sẽ tự chạy nó trên server",
+            "en": "Import `ProductDetails` directly in the `Modal` file; Next.js will run it on the server"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thêm `'use server'` vào `ProductDetails` để Client Component có thể import và render nó",
+            "en": "Add `'use server'` to `ProductDetails` so the Client Component can import and render it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Ở Server Component cha, render `<Modal><ProductDetails /></Modal>`",
+            "en": "In the parent Server Component, render `<Modal><ProductDetails /></Modal>`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Không kết hợp được; phải chuyển `ProductDetails` thành Client Component gọi API",
+            "en": "They cannot be combined; turn `ProductDetails` into a Client Component calling an API"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Server Component có thể được truyền vào Client Component dưới dạng prop (thường là `children`): server render `ProductDetails` trước, còn `Modal` chỉ nhận kết quả đã render và đặt nó vào chỗ. Nếu `Modal` import trực tiếp `ProductDetails`, file đó bị kéo vào bundle client và không thể truy vấn database. `'use server'` dùng để đánh dấu Server Action, không phải Server Component.",
+        "en": "A Server Component can be passed into a Client Component as a prop (usually `children`): the server renders `ProductDetails` first and `Modal` just receives the rendered result and places it. If `Modal` imported `ProductDetails` directly, that file would be pulled into the client bundle and could not query the database. `'use server'` marks Server Actions, not Server Components."
+      }
+    },
+    {
+      "id": "nextjs.server_components.008",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_components",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích \"ranh giới client\" tạo bởi `'use client'` hoạt động thế nào và những gì được phép truyền qua ranh giới này.",
+        "en": "Explain how the \"client boundary\" created by `'use client'` works and what can be passed across it."
+      },
+      "keyPoints": [
+        {
+          "vi": "`'use client'` đánh dấu một điểm vào: file đó và mọi module nó import đều thuộc bundle client",
+          "en": "`'use client'` marks an entry point: that file and every module it imports belong to the client bundle"
+        },
+        {
+          "vi": "Client Component vẫn được prerender HTML trên server, sau đó hydrate trên trình duyệt",
+          "en": "Client Components are still prerendered to HTML on the server, then hydrated in the browser"
+        },
+        {
+          "vi": "Props từ Server sang Client phải serializable: primitive, object/array thuần, `Date`, Promise, JSX; không truyền hàm thường hay class instance (trừ Server Action)",
+          "en": "Props from Server to Client must be serializable: primitives, plain objects/arrays, `Date`, Promises, JSX; no plain functions or class instances (except Server Actions)"
+        },
+        {
+          "vi": "Đặt `'use client'` càng gần lá càng tốt để phần lớn UI vẫn là Server Component và giảm JS",
+          "en": "Place `'use client'` as close to the leaves as possible so most UI stays server-rendered and JS stays small"
+        }
+      ],
+      "explanation": {
+        "vi": "Ranh giới được xác định theo đồ thị import, không theo cây component: Server Component vẫn có thể nằm bên trong Client Component nếu được truyền qua `children`. Mọi dữ liệu đi qua ranh giới được serialize vào RSC payload, nên không nên truyền object lớn hoặc chứa thông tin nhạy cảm. Hiểu đúng điều này giúp tránh lỗi build và tránh vô tình phình bundle.",
+        "en": "The boundary follows the import graph, not the component tree: a Server Component can still appear inside a Client Component when passed as `children`. Everything crossing the boundary is serialized into the RSC payload, so avoid passing large objects or sensitive fields. Understanding this prevents build errors and accidental bundle growth."
+      }
+    },
+    {
+      "id": "nextjs.server_components.009",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_components",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Một team chuyển ứng dụng React SPA lớn sang App Router và gần như file nào cũng có `'use client'`. Bạn đánh giá và tái cấu trúc ranh giới server/client như thế nào?",
+        "en": "A team migrated a large React SPA to the App Router and nearly every file has `'use client'`. How would you assess and restructure the server/client boundary?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Đo trước: bundle analyzer, First Load JS từng route, xác định nơi thật sự cần state, effect hoặc browser API",
+          "en": "Measure first: bundle analyzer and First Load JS per route, finding where state, effects or browser APIs are truly needed"
+        },
+        {
+          "vi": "Đẩy `'use client'` xuống lá: tách phần tương tác nhỏ (nút, form, dropdown) khỏi phần hiển thị dữ liệu",
+          "en": "Push `'use client'` down to the leaves: split small interactive pieces (buttons, forms, dropdowns) from data display"
+        },
+        {
+          "vi": "Lấy dữ liệu trong Server Component thay vì `useEffect` + API route; truyền dữ liệu đã lọc xuống client, giữ secret với `server-only`",
+          "en": "Fetch data in Server Components instead of `useEffect` plus API routes; pass trimmed data down and guard secrets with `server-only`"
+        },
+        {
+          "vi": "Dùng pattern `children`/slot để lồng Server Component trong provider, modal hay layout tương tác",
+          "en": "Use the `children`/slot pattern to nest Server Components inside providers, modals or interactive layouts"
+        },
+        {
+          "vi": "Chuyển dần từng route, có test và theo dõi Core Web Vitals để tránh regression",
+          "en": "Migrate route by route with tests and Core Web Vitals monitoring to avoid regressions"
+        }
+      ],
+      "explanation": {
+        "vi": "Đặt `'use client'` ở mọi nơi biến App Router thành một SPA có thêm SSR, mất lợi ích giảm JS và lấy dữ liệu gần nguồn. Ứng viên senior nên bắt đầu từ số liệu, ưu tiên route có traffic cao, và giải thích vì sao provider (theme, query client) có thể là Client Component mà vẫn bọc được Server Component qua `children`. Kế hoạch cần có cách đo trước/sau để chứng minh hiệu quả.",
+        "en": "Putting `'use client'` everywhere turns the App Router into an SPA with extra SSR, losing the benefits of less JS and fetching near the data. A senior candidate starts from metrics, prioritises high-traffic routes, and explains why providers (theme, query client) can be Client Components yet still wrap Server Components via `children`. The plan needs before/after measurements to prove the gain."
+      }
+    },
+    {
+      "id": "nextjs.data_fetching.001",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "data_fetching",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Server Component sau đo thời gian (làm tròn tới 100 ms) của hai cách gọi API. Thẻ `p` hiển thị gì?",
+        "en": "The Server Component below times two ways of calling APIs (rounded to 100 ms). What does the `p` show?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));\nasync function getUser() { await sleep(300); return 'user'; }\nasync function getPosts() { await sleep(300); return 'posts'; }\n\nexport default async function Page() {\n  let t = Date.now();\n  await getUser();\n  await getPosts();\n  const a = Math.round((Date.now() - t) / 100) * 100;\n\n  t = Date.now();\n  await Promise.all([getUser(), getPosts()]);\n  const b = Math.round((Date.now() - t) / 100) * 100;\n\n  return <p>{a} {b}</p>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`300 300`",
+            "en": "`300 300`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`600 600`",
+            "en": "`600 600`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`300 600`",
+            "en": "`300 600`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`600 300`",
+            "en": "`600 300`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Hai `await` liên tiếp tạo waterfall: `getPosts` chỉ bắt đầu sau khi `getUser` xong, nên tổng khoảng 600 ms. Với `Promise.all`, cả hai request chạy song song và tổng thời gian bằng request chậm nhất, khoảng 300 ms. Trong Server Component, hãy khởi chạy các request độc lập cùng lúc (hoặc tách thành component riêng trong Suspense) để tránh cộng dồn độ trễ.",
+        "en": "Two consecutive `await`s create a waterfall: `getPosts` starts only after `getUser` finishes, so the total is about 600 ms. With `Promise.all`, both requests run in parallel and the total equals the slowest one, about 300 ms. In Server Components, start independent requests together (or split them into separate components under Suspense) to avoid stacking latency."
+      }
+    },
+    {
+      "id": "nextjs.data_fetching.002",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "data_fetching",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn muốn kết quả `fetch('https://api.example.com/categories')` trong Server Component được cache và làm mới mỗi giờ. Cách viết nào đúng?",
+        "en": "You want the result of `fetch('https://api.example.com/categories')` in a Server Component to be cached and refreshed every hour. Which call is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`fetch(url, { next: { revalidate: 3600 } })`",
+            "en": "`fetch(url, { next: { revalidate: 3600 } })`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`fetch(url, { cache: 'no-store', maxAge: 3600 })`",
+            "en": "`fetch(url, { cache: 'no-store', maxAge: 3600 })`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`fetch(url, { headers: { 'Cache-Control': 'max-age=3600' } })`",
+            "en": "`fetch(url, { headers: { 'Cache-Control': 'max-age=3600' } })`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`fetch(url)` rồi gọi `revalidatePath('/', 3600)` ngay sau đó",
+            "en": "`fetch(url)` followed immediately by `revalidatePath('/', 3600)`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Next.js mở rộng `fetch` với tuỳ chọn `next.revalidate` (giây) để lưu kết quả vào Data Cache và làm mới theo thời gian. Header `Cache-Control` trong request chỉ gửi tới API, không điều khiển cache của Next.js. `cache: 'no-store'` tắt cache hoàn toàn, còn `revalidatePath` dùng để xoá cache theo yêu cầu sau mutation, không nhận thời gian.",
+        "en": "Next.js extends `fetch` with a `next.revalidate` option (seconds) that stores the result in the Data Cache and refreshes it over time. A `Cache-Control` request header is just sent to the API and does not control Next.js caching. `cache: 'no-store'` disables caching entirely, and `revalidatePath` purges cache on demand after a mutation; it takes no duration."
+      }
+    },
+    {
+      "id": "nextjs.data_fetching.003",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "data_fetching",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong App Router, cách được khuyến nghị để page hiển thị danh sách bài viết từ database là gì?",
+        "en": "In the App Router, what is the recommended way for a page to show a list of posts from the database?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tạo Route Handler `/api/posts`, rồi để page server gọi `fetch('/api/posts')` tới chính app",
+            "en": "Create a `/api/posts` Route Handler and have the server page `fetch('/api/posts')` from itself"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Biến page thành Server Component async và `await` truy vấn database ngay trong component",
+            "en": "Make the page an async Server Component and `await` the database query directly inside it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Export `getServerSideProps` từ `page.tsx` giống như cách làm ở Pages Router",
+            "en": "Export `getServerSideProps` from `page.tsx`, the same way as in the Pages Router"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lấy dữ liệu trong `useEffect` của Client Component để không làm chậm server",
+            "en": "Load the data in a Client Component's `useEffect` so the server is not slowed down"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Server Component có thể là hàm `async` và truy vấn trực tiếp database hoặc service, không cần lớp API trung gian. Gọi Route Handler của chính app từ server thêm một round-trip HTTP vô ích (và URL tương đối không hoạt động trên server). `getServerSideProps` không được hỗ trợ trong `app/`. Fetch trong `useEffect` làm HTML ban đầu rỗng và tạo waterfall từ trình duyệt.",
+        "en": "Server Components can be `async` functions that query the database or a service directly, with no API layer in between. Calling your own Route Handler from the server adds a pointless HTTP round trip (and relative URLs do not work on the server). `getServerSideProps` is not supported in `app/`. Fetching in `useEffect` leaves the initial HTML empty and creates a browser-side waterfall."
+      }
+    },
+    {
+      "id": "nextjs.data_fetching.004",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "data_fetching",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trang tỉ giá ngoại tệ phải luôn lấy dữ liệu mới ở mỗi request. Bạn cấu hình `fetch` thế nào?",
+        "en": "An exchange-rate page must always get fresh data on every request. How do you configure `fetch`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`fetch(url, { next: { revalidate: false } })`",
+            "en": "`fetch(url, { next: { revalidate: false } })`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`fetch(url, { cache: 'no-store' })`",
+            "en": "`fetch(url, { cache: 'no-store' })`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`fetch(url, { cache: 'force-cache' })`",
+            "en": "`fetch(url, { cache: 'force-cache' })`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`fetch(url, { next: { tags: ['rates'] } })`",
+            "en": "`fetch(url, { next: { tags: ['rates'] } })`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`cache: 'no-store'` yêu cầu Next.js luôn gọi nguồn dữ liệu ở mỗi request và không lưu vào Data Cache; route chứa nó sẽ được render động. `revalidate: false` lại có nghĩa là cache vô thời hạn, ngược hẳn với yêu cầu. `force-cache` cũng ưu tiên cache, còn `tags` chỉ gắn nhãn để xoá cache theo yêu cầu, không quyết định việc có cache hay không.",
+        "en": "`cache: 'no-store'` tells Next.js to hit the data source on every request and skip the Data Cache; the route using it is rendered dynamically. `revalidate: false` actually means cache indefinitely, the opposite of the requirement. `force-cache` also prefers the cache, and `tags` only label entries for on-demand invalidation; they do not decide whether caching happens."
+      }
+    },
+    {
+      "id": "nextjs.data_fetching.005",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "data_fetching",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Sau `next build && next start`, truy cập `/blog/new-post` thì kết quả là gì?",
+        "en": "After `next build && next start`, what happens when you visit `/blog/new-post`?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/blog/[slug]/page.tsx\nexport const dynamicParams = false;\n\nexport function generateStaticParams() {\n  return [{ slug: 'hello' }, { slug: 'next-15' }];\n}\n\nexport default async function Post({\n  params,\n}: {\n  params: Promise<{ slug: string }>;\n}) {\n  const { slug } = await params;\n  return <h1>{slug}</h1>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trang được render động với `<h1>new-post</h1>` rồi lưu cache",
+            "en": "The page renders on demand as `<h1>new-post</h1>` and is cached"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lỗi 500 vì `params` không có giá trị `slug` nào",
+            "en": "A 500 error because `params` has no `slug` value"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chuyển hướng về slug đầu tiên là `/blog/hello`",
+            "en": "A redirect to the first slug, `/blog/hello`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Trang 404 Not Found",
+            "en": "A 404 Not Found page"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`generateStaticParams` chỉ prerender `hello` và `next-15` lúc build. Với `dynamicParams = false`, mọi slug không có trong danh sách đó trả về 404 thay vì được render khi có request. Nếu giữ mặc định `dynamicParams = true`, `/blog/new-post` sẽ được render lần đầu khi có người truy cập rồi lưu lại, đây là đáp án gây nhầm lẫn.",
+        "en": "`generateStaticParams` prerenders only `hello` and `next-15` at build time. With `dynamicParams = false`, any slug not in that list returns 404 instead of being rendered on request. With the default `dynamicParams = true`, `/blog/new-post` would be rendered on first visit and then cached, which is the tempting wrong answer."
+      }
+    },
+    {
+      "id": "nextjs.data_fetching.006",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "data_fetching",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cả `layout.tsx` và `page.tsx` đều cần thông tin user hiện tại, lấy bằng truy vấn ORM (không phải `fetch`). Làm sao tránh truy vấn hai lần trong cùng một request?",
+        "en": "Both `layout.tsx` and `page.tsx` need the current user, loaded with an ORM query (not `fetch`). How do you avoid querying twice in the same request?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Truyền dữ liệu user từ layout xuống page thông qua props của `children`",
+            "en": "Pass the user from the layout down to the page through props on `children`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lưu kết quả vào một biến cấp module để dùng chung cho mọi request tiếp theo",
+            "en": "Store the result in a module-level variable shared by all following requests"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bọc hàm truy vấn bằng `cache` của React rồi gọi hàm đó ở cả layout lẫn page",
+            "en": "Wrap the query function with React's `cache` and call it from both layout and page"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đưa truy vấn vào `useMemo` trong layout rồi đọc lại giá trị đó bên trong page",
+            "en": "Put the query in `useMemo` in the layout and read that value again in the page"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`cache` của React ghi nhớ kết quả theo tham số trong phạm vi một request render, nên layout và page gọi cùng hàm chỉ chạy truy vấn một lần. `fetch` có memoization tự động, còn ORM thì cần bọc thủ công. Layout không truyền props cho page được, và biến cấp module tồn tại giữa các request nên có thể lộ dữ liệu user này cho user khác.",
+        "en": "React's `cache` memoizes results by arguments for the duration of one render request, so the layout and page calling the same function run the query once. `fetch` is memoized automatically, but ORM calls must be wrapped manually. A layout cannot pass props to the page, and a module-level variable lives across requests, so it could leak one user's data to another."
+      }
+    },
+    {
+      "id": "nextjs.data_fetching.007",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "data_fetching",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Giải thích các lớp cache trong App Router của Next.js và cách làm mới dữ liệu sau khi admin cập nhật một sản phẩm.",
+        "en": "Explain the caching layers in the Next.js App Router and how to refresh data after an admin updates a product."
+      },
+      "keyPoints": [
+        {
+          "vi": "Request memoization: các `fetch` cùng URL và tuỳ chọn trong một lần render được gộp; với ORM dùng `cache` của React",
+          "en": "Request memoization: identical `fetch` calls in one render are deduplicated; for ORM calls use React's `cache`"
+        },
+        {
+          "vi": "Data Cache: kết quả `fetch` được lưu bền giữa các request khi bật (`force-cache`, `revalidate`), có thể gắn `tags`",
+          "en": "Data Cache: `fetch` results persist across requests when enabled (`force-cache`, `revalidate`) and can carry `tags`"
+        },
+        {
+          "vi": "Full Route Cache: HTML và RSC payload của route tĩnh được lưu lúc build hoặc khi revalidate",
+          "en": "Full Route Cache: HTML and RSC payload of static routes are stored at build time or on revalidation"
+        },
+        {
+          "vi": "Router Cache phía client giữ RSC payload các route đã truy cập; `router.refresh()` hoặc Server Action có revalidate sẽ làm mới",
+          "en": "The client Router Cache keeps RSC payloads of visited routes; `router.refresh()` or a revalidating Server Action refreshes it"
+        },
+        {
+          "vi": "Sau mutation: `revalidateTag('products')` hoặc `revalidatePath('/products')` để xoá đúng phần cache liên quan",
+          "en": "After a mutation: `revalidateTag('products')` or `revalidatePath('/products')` to purge the relevant cache"
+        }
+      ],
+      "explanation": {
+        "vi": "Câu hỏi kiểm tra ứng viên có phân biệt cache trong một request, cache dữ liệu trên server, cache kết quả render và cache phía trình duyệt hay không. Khi dữ liệu hiển thị cũ, cần biết lớp nào đang giữ bản cũ để xoá đúng chỗ thay vì tắt cache toàn bộ. Gắn tag theo thực thể cho phép làm mới chính xác mọi trang dùng sản phẩm đó.",
+        "en": "The question checks whether the candidate can tell apart per-request memoization, the server data cache, the rendered output cache and the browser-side cache. When stale data shows up, you need to know which layer holds it so you purge the right one instead of disabling caching everywhere. Tagging by entity lets you refresh every page that uses that product precisely."
+      }
+    },
+    {
+      "id": "nextjs.data_fetching.008",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "data_fetching",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trang danh sách, trang chi tiết và widget \"sản phẩm nổi bật\" ở nhiều route đều fetch dữ liệu sản phẩm. Khi một sản phẩm được sửa trong CMS (gửi webhook), cách làm mới nào chính xác và ít tốn kém nhất?",
+        "en": "A listing page, a detail page and a \"featured products\" widget on many routes all fetch product data. When a product is edited in the CMS (which sends a webhook), which refresh approach is precise and cheapest?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gắn tag cho fetch theo sản phẩm; webhook gọi `revalidateTag` đúng tag đó",
+            "en": "Tag the fetches by product; the CMS webhook calls `revalidateTag` with those tags"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Webhook gọi `revalidatePath('/', 'layout')` để làm mới toàn bộ site cho chắc chắn",
+            "en": "The webhook calls `revalidatePath('/', 'layout')` to refresh the whole site to be safe"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đặt `revalidate = 1` trên mọi route để dữ liệu không bao giờ cũ quá một giây",
+            "en": "Set `revalidate = 1` on every route so data is never more than a second old"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chạy lại `next build` sau mỗi lần sửa để tạo lại toàn bộ trang tĩnh từ đầu",
+            "en": "Run `next build` again after every edit to regenerate all static pages from scratch"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Tag gắn dữ liệu với thực thể chứ không với URL, nên một lần `revalidateTag` làm mới mọi trang và widget dùng sản phẩm đó, dù chúng nằm ở route nào. `revalidatePath('/', 'layout')` vẫn đúng nhưng xoá cache cả site, tạo tải đột biến lên nguồn dữ liệu. `revalidate = 1` và build lại sau mỗi lần sửa đều lãng phí tài nguyên mà không phản ứng tức thì với thay đổi.",
+        "en": "Tags tie data to the entity rather than to URLs, so one `revalidateTag` refreshes every page and widget using that product, whatever route it is on. `revalidatePath('/', 'layout')` works but purges the whole site, causing a load spike on the data source. `revalidate = 1` and rebuilding after each edit both waste resources without reacting instantly to changes."
+      }
+    },
+    {
+      "id": "nextjs.data_fetching.009",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "data_fetching",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Thiết kế chiến lược fetch và cache cho trang tin tức có hàng triệu lượt xem mỗi ngày: bài viết thỉnh thoảng được sửa, bình luận gần như realtime, số lượt xem tăng liên tục. Bạn cân nhắc những gì?",
+        "en": "Design the fetching and caching strategy for a news site with millions of views per day: articles are edited occasionally, comments are near real-time, and view counts grow constantly. What do you consider?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Bài viết: prerender hoặc ISR, gắn tag theo bài, CMS webhook gọi `revalidateTag` thay vì đặt revalidate ngắn",
+          "en": "Articles: prerender or ISR, tag per article, and have the CMS webhook call `revalidateTag` instead of a short revalidate"
+        },
+        {
+          "vi": "Bình luận và lượt xem không nằm trong Full Route Cache; tải phía client hoặc stream trong Suspense với `no-store`, ghi lượt xem bất đồng bộ",
+          "en": "Keep comments and view counts out of the Full Route Cache; load them client-side or stream in Suspense with `no-store`, recording views asynchronously"
+        },
+        {
+          "vi": "Tránh cache stampede: stale-while-revalidate, giới hạn tần suất revalidate, cache handler dùng chung (Redis) khi chạy nhiều instance",
+          "en": "Avoid cache stampedes: stale-while-revalidate, rate-limited revalidation, a shared cache handler (Redis) across instances"
+        },
+        {
+          "vi": "Song song hoá fetch, đặt timeout và fallback khi nguồn dữ liệu chậm hoặc lỗi",
+          "en": "Parallelise fetches and add timeouts and fallbacks when a data source is slow or failing"
+        },
+        {
+          "vi": "Theo dõi cache hit rate, độ trễ và chi phí; thống nhất với nghiệp vụ mức dữ liệu cũ chấp nhận được",
+          "en": "Monitor cache hit rate, latency and cost; agree with the business on how stale data may be"
+        }
+      ],
+      "explanation": {
+        "vi": "Ý chính là tách dữ liệu theo tần suất thay đổi: phần đọc nhiều, đổi ít nằm trong cache và được làm mới theo sự kiện, phần thay đổi liên tục không được làm vỡ cache của cả trang. Ở quy mô lớn, rủi ro lớn nhất là hàng loạt request cùng lúc đánh vào nguồn khi cache hết hạn, và cache không đồng bộ giữa các instance. Câu trả lời tốt luôn gắn với số liệu đo đạc và thoả thuận nghiệp vụ.",
+        "en": "The key is to split data by how often it changes: read-heavy, rarely changing content lives in the cache and is refreshed by events, while constantly changing data must not break caching for the whole page. At scale, the biggest risks are a burst of requests hitting the source when cache expires and caches drifting apart across instances. A good answer always ties back to measurements and business agreements."
+      }
+    },
+    {
+      "id": "nextjs.server_actions.001",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_actions",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "File Server Action sau không build được. Lỗi nằm ở đâu?",
+        "en": "This Server Action file does not build. What is wrong?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "// app/actions.ts\n'use server';\n\nexport function addTodo(formData: FormData) {\n  const title = formData.get('title');\n  console.log('saving', title);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`formData.get` chỉ dùng được ở client, phía server phải đổi sang `request.json()`",
+            "en": "`formData.get` only works on the client; on the server use `request.json()` instead"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`'use server'` phải đặt bên trong thân hàm `addTodo` chứ không được đặt ở đầu file",
+            "en": "`'use server'` must go inside the body of `addTodo`, never at the top of the file"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Server Action không nhận được `FormData`, chỉ nhận object JSON đã serialize sẵn",
+            "en": "Server Actions cannot receive `FormData`; they only accept pre-serialized JSON"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hàm được export từ file `'use server'` bắt buộc phải là hàm `async`",
+            "en": "Functions exported from a `'use server'` file must be `async` functions"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Server Action được gọi qua mạng nên luôn bất đồng bộ; Next.js báo \"Server Actions must be async functions\" khi một export trong file `'use server'` không phải hàm `async`. `'use server'` có thể đặt ở đầu file (mọi export là action) hoặc trong thân một hàm async. `FormData` là kiểu tham số phổ biến nhất của action khi dùng với `<form action>`.",
+        "en": "Server Actions are invoked over the network, so they are always asynchronous; Next.js reports \"Server Actions must be async functions\" when an export in a `'use server'` file is not `async`. `'use server'` can sit at the top of a file (every export becomes an action) or inside an async function body. `FormData` is the most common action parameter when used with `<form action>`."
+      }
+    },
+    {
+      "id": "nextjs.server_actions.002",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_actions",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Form gửi tới Server Action có hai checkbox `name=\"tag\"` được chọn với giá trị `react` và `next`. Đoạn code sau mô phỏng `FormData` mà action nhận. Kết quả in ra là gì?",
+        "en": "A form posting to a Server Action has two checked checkboxes `name=\"tag\"` with values `react` and `next`. The code below simulates the `FormData` the action receives. What is printed?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "const formData = new FormData();\nformData.append('tag', 'react');\nformData.append('tag', 'next');\n\nconsole.log(formData.get('tag'));\nconsole.log(formData.getAll('tag'));"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`react` rồi `['react', 'next']`",
+            "en": "`react` then `['react', 'next']`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`['react', 'next']` hai lần",
+            "en": "`['react', 'next']` twice"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`next` rồi `['react', 'next']`",
+            "en": "`next` then `['react', 'next']`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`react,next` rồi `['react', 'next']`",
+            "en": "`react,next` then `['react', 'next']`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`FormData.get` chỉ trả về giá trị đầu tiên của một key, còn `getAll` trả về mảng mọi giá trị theo thứ tự được thêm vào. Với các field lặp lại như nhóm checkbox hoặc `<select multiple>`, Server Action phải dùng `getAll`, nếu không sẽ âm thầm mất dữ liệu. Giá trị không bị nối thành chuỗi, cũng không lấy giá trị cuối.",
+        "en": "`FormData.get` returns only the first value for a key, while `getAll` returns an array of all values in insertion order. For repeated fields such as checkbox groups or `<select multiple>`, a Server Action must use `getAll` or it silently loses data. Values are not joined into a string, and the last value is not used."
+      }
+    },
+    {
+      "id": "nextjs.server_actions.003",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_actions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn viết `<form action={createPost}>` với `createPost` là Server Action. Khi người dùng submit, điều gì xảy ra?",
+        "en": "You write `<form action={createPost}>` where `createPost` is a Server Action. What happens when the user submits?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mã của `createPost` được gửi xuống trình duyệt và chạy ở client với quyền truy cập database",
+            "en": "The code of `createPost` is shipped to the browser and runs there with database access"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Next.js tạo Route Handler công khai `/api/createPost` mà bạn phải khai báo thêm trong `app/api`",
+            "en": "Next.js creates a public `/api/createPost` Route Handler that you must also declare in `app/api`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Trình duyệt gửi POST tới server và Next.js chạy `createPost` với `FormData` của form",
+            "en": "The browser sends a POST and Next.js runs `createPost` on the server with the form's `FormData`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Form chỉ submit được sau khi JavaScript hydrate xong, trước đó mọi lần bấm đều bị bỏ qua",
+            "en": "The form only submits after JavaScript hydrates; any click before that is ignored"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Client chỉ nhận một tham chiếu (ID) tới action; khi submit, trình duyệt gửi request POST và Next.js chạy hàm trên server với `FormData`. Mã của action không bao giờ được gửi xuống trình duyệt. Với form trong Server Component, việc submit hoạt động cả khi JavaScript chưa tải xong (progressive enhancement), nên đáp án về hydrate là sai.",
+        "en": "The client only gets a reference (an ID) to the action; on submit the browser sends a POST and Next.js runs the function on the server with the `FormData`. The action's code is never sent to the browser. For forms in Server Components, submission works even before JavaScript loads (progressive enhancement), so the hydration answer is wrong."
+      }
+    },
+    {
+      "id": "nextjs.server_actions.004",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_actions",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Sau khi Server Action thêm sản phẩm vào database, danh sách ở `/products` (một trang tĩnh) vẫn không hiện sản phẩm mới. Bạn cần thêm gì vào action?",
+        "en": "After a Server Action inserts a product, the list at `/products` (a static page) still does not show it. What should you add to the action?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gọi `router.refresh()` ngay bên trong Server Action sau khi ghi",
+            "en": "Call `router.refresh()` inside the Server Action after the write"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi `revalidatePath('/products')` ngay sau khi ghi dữ liệu thành công",
+            "en": "Call `revalidatePath('/products')` right after the write succeeds"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Trả về `{ revalidate: true }` để Next.js tự build lại trang đó",
+            "en": "Return `{ revalidate: true }` so Next.js rebuilds that page itself"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thêm `export const dynamic = 'force-dynamic'` vào file chứa action",
+            "en": "Add `export const dynamic = 'force-dynamic'` to the actions file"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Trang `/products` đang được phục vụ từ cache, nên phải báo cho Next.js xoá bản cache đó bằng `revalidatePath` (hoặc `revalidateTag`). Khi gọi trong Server Action, Next.js còn gửi lại UI mới trong cùng response, nên người dùng thấy thay đổi ngay. `router.refresh()` là API phía client, không dùng được trong action; giá trị trả về và cấu hình `dynamic` ở file action không ảnh hưởng tới cache của trang.",
+        "en": "The `/products` page is served from cache, so you must tell Next.js to purge it with `revalidatePath` (or `revalidateTag`). When called inside a Server Action, Next.js also sends the fresh UI back in the same response, so the user sees the change at once. `router.refresh()` is a client API and cannot be used in an action; the return value and a `dynamic` export in the actions file do not affect the page cache."
+      }
+    },
+    {
+      "id": "nextjs.server_actions.005",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_actions",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn muốn form đăng ký hiển thị lỗi validate do Server Action trả về (ví dụ \"Email đã tồn tại\"). Cách làm phù hợp là gì?",
+        "en": "You want a sign-up form to show validation errors returned by a Server Action (for example \"Email already taken\"). What is the right approach?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Trong action `throw new Error('Email đã tồn tại')` rồi đọc message trong `error.tsx` của segment",
+            "en": "In the action, `throw new Error('Email already taken')` and read the message in the segment's `error.tsx`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Dùng `useActionState`; action nhận `(prevState, formData)` và trả về state lỗi",
+            "en": "Use `useActionState`; the action takes `(prevState, formData)` and returns error state"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lưu lỗi vào một biến toàn cục trên server và đọc lại khi trang được render lần kế tiếp",
+            "en": "Store the error in a global server variable and read it back on the next render of the page"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gọi `alert()` ngay bên trong Server Action để báo lỗi cho người dùng",
+            "en": "Call `alert()` inside the Server Action to notify the user"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Lỗi validate là kết quả dự kiến, nên trả về như dữ liệu: `useActionState` giữ state do action trả về, cung cấp cờ `pending` và vẫn hỗ trợ progressive enhancement. Throw lỗi sẽ kích hoạt `error.tsx`, thay cả form bằng màn hình lỗi, và ở production message bị ẩn. Biến toàn cục trên server dùng chung cho mọi user, còn `alert` không tồn tại trên server.",
+        "en": "Validation errors are expected outcomes, so return them as data: `useActionState` keeps the state the action returns, exposes a `pending` flag and still supports progressive enhancement. Throwing triggers `error.tsx`, replacing the whole form with an error screen, and the message is hidden in production. A global server variable is shared by all users, and `alert` does not exist on the server."
+      }
+    },
+    {
+      "id": "nextjs.server_actions.006",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_actions",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Server Action `deletePost(id)` được gọi từ nút xoá chỉ hiển thị cho admin. Nhận định nào đúng về bảo mật?",
+        "en": "A Server Action `deletePost(id)` is called from a delete button that is only shown to admins. Which statement about security is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "An toàn, vì Server Action chỉ gọi được từ component đã import nó",
+            "en": "It is safe, because a Server Action can only be called by components that import it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "An toàn nếu middleware đã kiểm tra đăng nhập cho route `/admin` chứa nút xoá",
+            "en": "It is safe if middleware already checks login for the `/admin` route with the button"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Action là endpoint POST công khai; kiểm tra phiên và quyền ngay trong action",
+            "en": "It is a public POST endpoint; verify session and permission inside the action"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ cần validate `id` là số nguyên dương, phần phân quyền do Next.js tự lo",
+            "en": "Only validate that `id` is a positive integer; Next.js handles authorization itself"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Mỗi Server Action có ID và có thể được gọi bằng một request POST tự tạo, không cần thông qua UI. Vì vậy ẩn nút hay kiểm tra ở middleware cho trang không đủ: request tới action có thể nhắm vào bất kỳ route nào. Hãy coi action như một API công khai, xác thực phiên, kiểm tra quyền trên đúng tài nguyên và validate input bên trong action.",
+        "en": "Every Server Action has an ID and can be invoked with a hand-crafted POST request, bypassing the UI. Hiding the button or checking in middleware for the page is therefore not enough: a request to the action can target any route. Treat the action like a public API: authenticate the session, authorize against the specific resource and validate input inside it."
+      }
+    },
+    {
+      "id": "nextjs.server_actions.007",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_actions",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn muốn nút Submit bị vô hiệu hoá và hiện \"Đang lưu...\" trong lúc form gửi Server Action. Cách nào đúng?",
+        "en": "You want the Submit button to be disabled and show \"Saving...\" while the form calls a Server Action. Which approach is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tạo Client Component `SubmitButton` gọi `useFormStatus()`, đặt bên trong `<form>`",
+            "en": "Make a `SubmitButton` Client Component that calls `useFormStatus()`, rendered inside `<form>`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi `useFormStatus()` trong component chứa thẻ `<form>` rồi truyền `pending` xuống nút",
+            "en": "Call `useFormStatus()` in the component that renders `<form>` and pass `pending` to the button"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đọc `formData.get('pending')` trong Server Action rồi trả giá trị đó về cho nút",
+            "en": "Read `formData.get('pending')` in the Server Action and return that value to the button"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thêm `disabled={action.pending}` vào nút, vì mỗi action có sẵn thuộc tính `pending`",
+            "en": "Add `disabled={action.pending}` to the button, since every action has a `pending` property"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`useFormStatus` đọc trạng thái của `<form>` cha gần nhất, nên phải được gọi trong một component con nằm bên trong form. Gọi nó ở chính component render `<form>` luôn nhận `pending = false`, đây là lỗi rất hay gặp. Ngoài ra có thể dùng cờ `isPending` trả về từ `useActionState`. Hàm action không có thuộc tính `pending`, và `FormData` không chứa trạng thái gửi.",
+        "en": "`useFormStatus` reads the status of the nearest parent `<form>`, so it must be called in a child component rendered inside the form. Calling it in the component that renders the `<form>` always yields `pending = false`, a very common mistake. Alternatively use the `isPending` flag returned by `useActionState`. Action functions have no `pending` property, and `FormData` carries no submission state."
+      }
+    },
+    {
+      "id": "nextjs.server_actions.008",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_actions",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "So sánh Server Action và Route Handler cho các thao tác ghi dữ liệu. Khi nào bạn chọn cái nào?",
+        "en": "Compare Server Actions and Route Handlers for data writes. When do you choose each one?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Server Action: mutation từ UI của chính app, gắn với form và progressive enhancement, gọi `revalidatePath`/`revalidateTag` và `redirect` trực tiếp",
+          "en": "Server Action: mutations from the app's own UI, tied to forms and progressive enhancement, calling `revalidatePath`/`revalidateTag` and `redirect` directly"
+        },
+        {
+          "vi": "Route Handler: API cho client khác (mobile, webhook, bên thứ ba), cần kiểm soát method, header, status, CORS",
+          "en": "Route Handler: an API for other clients (mobile, webhooks, third parties) needing control over method, headers, status, CORS"
+        },
+        {
+          "vi": "Cả hai đều là endpoint trên server: phải xác thực, phân quyền và validate input (ví dụ bằng zod)",
+          "en": "Both are server endpoints: they must authenticate, authorize and validate input (e.g. with zod)"
+        },
+        {
+          "vi": "Server Action luôn là POST và không hợp để đọc dữ liệu; đọc dữ liệu nên làm trong Server Component",
+          "en": "Server Actions are always POST and unsuitable for reads; read data in Server Components instead"
+        }
+      ],
+      "explanation": {
+        "vi": "Hai cơ chế không loại trừ nhau: một app thường dùng Server Action cho form nội bộ và Route Handler cho webhook hay app mobile. Server Action giảm code boilerplate và tích hợp với cache của Next.js, nhưng có URL nội bộ và không phải hợp đồng API ổn định cho bên ngoài. Ứng viên nên nêu được rằng bảo mật không đến miễn phí với cả hai.",
+        "en": "The two are not mutually exclusive: an app typically uses Server Actions for its own forms and Route Handlers for webhooks or mobile apps. Server Actions cut boilerplate and integrate with Next.js caching, but they have internal URLs and are not a stable API contract for outsiders. The candidate should point out that neither comes with security for free."
+      }
+    },
+    {
+      "id": "nextjs.server_actions.009",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "server_actions",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn review Server Action `updateProfile(formData)` dùng để cập nhật hồ sơ người dùng. Bạn kiểm tra những vấn đề bảo mật và độ tin cậy nào?",
+        "en": "You are reviewing a Server Action `updateProfile(formData)` that updates a user's profile. Which security and reliability issues do you check?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Xác thực phiên ngay trong action và lấy `userId` từ session, không tin `userId` gửi lên từ form (tránh IDOR)",
+          "en": "Authenticate inside the action and take `userId` from the session, never from the form (prevent IDOR)"
+        },
+        {
+          "vi": "Validate và giới hạn dữ liệu (schema, độ dài, whitelist field) trước khi ghi để tránh mass assignment",
+          "en": "Validate and constrain data (schema, length, field whitelist) before writing to avoid mass assignment"
+        },
+        {
+          "vi": "Trả lỗi có cấu trúc cho `useActionState`, không lộ stack hay secret; chỉ trả về những field client cần",
+          "en": "Return structured errors for `useActionState` without leaking stacks or secrets; return only fields the client needs"
+        },
+        {
+          "vi": "Giữ logic nhạy cảm trong module `server-only`; biến closure của action inline được mã hoá nhưng vẫn không nên chứa secret",
+          "en": "Keep sensitive logic in `server-only` modules; closure variables of inline actions are encrypted but still should not hold secrets"
+        },
+        {
+          "vi": "Sau khi ghi: revalidate đúng phạm vi, cân nhắc rate limit và tính idempotent khi người dùng bấm nhiều lần",
+          "en": "After writing: revalidate the right scope, and consider rate limiting and idempotency for repeated submits"
+        }
+      ],
+      "explanation": {
+        "vi": "Server Action trông như một hàm bình thường nên dễ quên rằng nó là endpoint công khai nhận input không tin cậy. Lỗi phổ biến nhất là tin vào ID hoặc field ẩn trong form, cho phép sửa hồ sơ người khác hoặc tự nâng quyền. Một review tốt bao quát cả xác thực, validate, dữ liệu trả về và hành vi khi lỗi hay gửi trùng.",
+        "en": "A Server Action looks like a normal function, so it is easy to forget it is a public endpoint receiving untrusted input. The most common bug is trusting an ID or hidden field from the form, which lets users edit someone else's profile or escalate their role. A good review covers authentication, validation, returned data and behaviour on errors or duplicate submits."
+      }
+    },
+    {
+      "id": "nextjs.api_routes.001",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "api_routes",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Gửi `GET /api/items` tới Route Handler sau thì nhận được gì?",
+        "en": "What do you get when sending `GET /api/items` to the Route Handler below?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "// app/api/items/route.ts\nexport async function POST(request: Request) {\n  const body = await request.json();\n  return Response.json({ created: body }, { status: 201 });\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Status `201` với body `{ created: null }`",
+            "en": "Status `201` with body `{ created: null }`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Status `404`, vì thư mục không có `page.tsx`",
+            "en": "Status `404`, since the folder has no `page.tsx`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Status `500` do `request.json()` lỗi khi thiếu body",
+            "en": "Status `500` because `request.json()` fails with no body"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Status `405 Method Not Allowed`, hàm `POST` không chạy",
+            "en": "Status `405 Method Not Allowed`, the handler never runs"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Route Handler chỉ xử lý các HTTP method được export (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`, `OPTIONS`). File chỉ export `POST`, nên `GET` nhận `405 Method Not Allowed` và hàm `POST` không hề chạy, vì vậy `request.json()` không có cơ hội gây lỗi. Route Handler không cần `page.tsx`; thực tế một segment không được có cả hai.",
+        "en": "A Route Handler only handles the HTTP methods it exports (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`, `OPTIONS`). This file exports only `POST`, so `GET` gets `405 Method Not Allowed` and the `POST` function never runs, so `request.json()` never gets a chance to fail. A Route Handler needs no `page.tsx`; in fact a segment cannot have both."
+      }
+    },
+    {
+      "id": "nextjs.api_routes.002",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "api_routes",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần endpoint `GET /api/health` trả về `{ status: 'ok' }`. Cách khai báo đúng trong App Router là gì?",
+        "en": "You need an endpoint `GET /api/health` returning `{ status: 'ok' }`. What is the correct way to declare it in the App Router?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tạo `app/api/health/page.tsx` với default export `(req, res) => res.json(...)`",
+            "en": "Create `app/api/health/page.tsx` with a default export `(req, res) => res.json(...)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tạo `app/api/health/route.ts` export hàm `GET` trả về `Response.json(...)`",
+            "en": "Create `app/api/health/route.ts` exporting a `GET` that returns `Response.json(...)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tạo `app/api/health.ts` export default một hàm nhận `req`, `res` như Express",
+            "en": "Create `app/api/health.ts` with a default export taking `req` and `res` like Express"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Khai báo trong `middleware.ts` với `matcher: '/api/health'` và trả JSON ở đó",
+            "en": "Declare it in `middleware.ts` with `matcher: '/api/health'` and return JSON there"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Trong App Router, endpoint được định nghĩa bằng file `route.ts` trong thư mục của segment, export hàm đặt tên theo HTTP method và dùng Web API `Request`/`Response`. Kiểu `(req, res)` là của Pages Router (`pages/api`) hoặc Express. Middleware chạy trước mọi request khớp matcher và dành cho chuyển hướng, rewrite, header; dùng nó làm endpoint là sai mục đích.",
+        "en": "In the App Router, endpoints are `route.ts` files in a segment folder that export functions named after HTTP methods and use the Web `Request`/`Response` APIs. The `(req, res)` style belongs to the Pages Router (`pages/api`) or Express. Middleware runs before every matching request and is meant for redirects, rewrites and headers; using it as an endpoint is a misuse."
+      }
+    },
+    {
+      "id": "nextjs.api_routes.003",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "api_routes",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Việc nào phù hợp nhất để đặt trong `middleware.ts` (từ Next.js 16 gọi là `proxy.ts`)?",
+        "en": "Which task fits best in `middleware.ts` (called `proxy.ts` from Next.js 16)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Truy vấn database để render danh sách sản phẩm cho trang chủ",
+            "en": "Query the database to render the home page product list"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nhận file upload dung lượng lớn rồi lưu thẳng vào ổ đĩa của server",
+            "en": "Receive large file uploads and write them straight to the server disk"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tạo HTML cho trang lỗi 404 tuỳ chỉnh dùng chung toàn ứng dụng",
+            "en": "Generate the HTML for the app-wide custom 404 page"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chuyển người dùng chưa có cookie phiên sang `/login`",
+            "en": "Redirect users without a session cookie to `/login`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Middleware chạy trước khi request tới route và nên làm việc nhẹ: kiểm tra cookie, chuyển hướng, rewrite, thêm header, A/B test. Nó chạy trên mọi request khớp matcher nên truy vấn database hay xử lý file lớn sẽ làm chậm toàn bộ ứng dụng. Render dữ liệu thuộc về Server Component, còn trang 404 thuộc về `not-found.tsx`.",
+        "en": "Middleware runs before a request reaches the route and should do light work: checking cookies, redirecting, rewriting, adding headers, A/B tests. It runs on every matching request, so database queries or large file handling would slow down the whole app. Rendering data belongs in Server Components, and the 404 page belongs in `not-found.tsx`."
+      }
+    },
+    {
+      "id": "nextjs.api_routes.004",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "api_routes",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `app/api/users/[id]/route.ts`, làm sao lấy giá trị `id` bên trong hàm `GET`?",
+        "en": "In `app/api/users/[id]/route.ts`, how do you read the `id` value inside the `GET` function?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Gọi `useParams()` ở đầu hàm `GET` để đọc giá trị segment động",
+            "en": "Call `useParams()` at the top of `GET` to read the dynamic segment"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đọc `request.query.id` giống như cách làm trong Express",
+            "en": "Read `request.query.id`, the same way as in Express"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Từ tham số thứ hai: `GET(request, { params })` rồi `await params`",
+            "en": "From the second argument: `GET(request, { params })`, then `await params`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đọc `request.headers.get('id')` vì Next.js gắn segment động vào header",
+            "en": "Read `request.headers.get('id')`, since Next.js puts dynamic segments in headers"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Route Handler nhận `request` và một object context chứa `params`; trong các phiên bản hiện tại `params` là Promise nên cần `await` (`const { id } = await params`). `useParams` là hook của Client Component, không dùng được trong Route Handler. `Request` chuẩn Web không có `query`; query string đọc qua `request.nextUrl.searchParams` hoặc `new URL(request.url)`.",
+        "en": "A Route Handler receives `request` and a context object containing `params`; in current versions `params` is a Promise, so you `await` it (`const { id } = await params`). `useParams` is a Client Component hook and cannot be used in a Route Handler. The standard Web `Request` has no `query`; read the query string via `request.nextUrl.searchParams` or `new URL(request.url)`."
+      }
+    },
+    {
+      "id": "nextjs.api_routes.005",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "api_routes",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Người dùng không có cookie `session` lần lượt truy cập `/admin`, `/admin/users` và `/administrator`. Những request nào bị chuyển hướng sang `/login`?",
+        "en": "A user without a `session` cookie visits `/admin`, `/admin/users` and `/administrator`. Which requests are redirected to `/login`?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "// middleware.ts\nimport { NextResponse, type NextRequest } from 'next/server';\n\nexport function middleware(request: NextRequest) {\n  if (!request.cookies.has('session')) {\n    return NextResponse.redirect(new URL('/login', request.url));\n  }\n  return NextResponse.next();\n}\n\nexport const config = { matcher: '/admin/:path*' };"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`/admin` và `/admin/users`",
+            "en": "`/admin` and `/admin/users`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ `/admin/users`",
+            "en": "Only `/admin/users`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cả ba đường dẫn",
+            "en": "All three paths"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ `/admin` và `/administrator`",
+            "en": "Only `/admin` and `/administrator`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Matcher `/admin/:path*` khớp `/admin` (vì `*` cho phép không có phần nào) và mọi đường dẫn con như `/admin/users`. `/administrator` là một segment khác, không bắt đầu bằng `/admin/`, nên middleware không chạy và request đi thẳng tới route. Matcher so khớp theo segment chứ không theo tiền tố chuỗi, nên không phải cứ bắt đầu bằng chữ `admin` là khớp.",
+        "en": "The matcher `/admin/:path*` matches `/admin` (since `*` allows zero parts) and every sub-path such as `/admin/users`. `/administrator` is a different segment that does not start with `/admin/`, so the middleware does not run and the request goes straight to the route. Matchers work on segments, not string prefixes, so starting with the letters `admin` is not enough."
+      }
+    },
+    {
+      "id": "nextjs.api_routes.006",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "api_routes",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Trang chủ trả về lỗi 500 khi một người dùng mới truy cập. Lỗi nằm ở đâu?",
+        "en": "The home page returns a 500 error when a new user visits. What is wrong?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/page.tsx\nimport { cookies } from 'next/headers';\n\nexport default async function HomePage() {\n  const store = await cookies();\n  if (!store.has('visited')) {\n    store.set('visited', '1');\n  }\n  return <h1>Welcome</h1>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`cookies()` phải được gọi đồng bộ, việc `await` nó làm request bị huỷ và trả về lỗi 500",
+            "en": "`cookies()` must be called synchronously; awaiting it aborts the request with a 500"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giá trị cookie phải là JSON hợp lệ, nên `'1'` cần được đổi thành `JSON.stringify(1)`",
+            "en": "Cookie values must be valid JSON, so `'1'` has to become `JSON.stringify(1)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Cần thêm `export const runtime = 'edge'` vào page thì mới ghi được cookie",
+            "en": "You must add `export const runtime = 'edge'` to the page before cookies can be set"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Server Component chỉ được đọc cookie; ghi cookie ở action, handler hoặc middleware",
+            "en": "Server Components only read cookies; set them in an action, handler or middleware"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Khi Server Component render, response có thể đã bắt đầu stream nên header không còn sửa được; vì vậy Next.js chỉ cho đọc cookie ở đây và throw \"Cookies can only be modified in a Server Action or Route Handler\" khi gọi `set`. Hãy ghi cookie trong middleware (trước khi render), Route Handler hoặc Server Action. `cookies()` là hàm async nên dùng `await` là đúng.",
+        "en": "While a Server Component renders, the response may already be streaming, so headers can no longer change; Next.js therefore only allows reading cookies there and throws \"Cookies can only be modified in a Server Action or Route Handler\" on `set`. Set the cookie in middleware (before rendering), a Route Handler or a Server Action. `cookies()` is async, so awaiting it is correct."
+      }
+    },
+    {
+      "id": "nextjs.api_routes.007",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "api_routes",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi nào nên đặt `export const runtime = 'edge'` cho một Route Handler, và hạn chế chính là gì?",
+        "en": "When should you set `export const runtime = 'edge'` on a Route Handler, and what is the main limitation?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cho logic nhẹ cần độ trễ thấp; edge thiếu nhiều API Node như `fs` và nhiều driver DB",
+            "en": "For light, latency-sensitive logic; edge lacks many Node APIs like `fs` and many DB drivers"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Luôn nên dùng, vì edge nhanh hơn Node.js trong mọi trường hợp và không có hạn chế đáng kể",
+            "en": "Always, because edge is faster than Node.js in every case and has no meaningful limits"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Khi xử lý file lớn hoặc tác vụ nặng CPU, vì edge được cấp nhiều tài nguyên hơn Node.js",
+            "en": "For large files or CPU-heavy work, because edge gets more resources than Node.js"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ khi deploy bằng Docker, vì edge runtime cần một container chạy riêng bên cạnh",
+            "en": "Only when deploying with Docker, because the edge runtime needs its own sidecar container"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Edge runtime chạy trên tập con Web API, khởi động nhanh và có thể đặt gần người dùng, hợp với xử lý nhẹ như chuyển hướng theo vùng hay kiểm tra token. Đổi lại nó không có đầy đủ API Node (`fs`, nhiều module native), giới hạn thời gian và bộ nhớ chặt hơn. Tác vụ nặng hoặc cần driver database truyền thống nên dùng Node.js runtime, là mặc định.",
+        "en": "The edge runtime runs on a subset of Web APIs, starts fast and can run close to users, which suits light work such as geo redirects or token checks. In exchange it lacks full Node APIs (`fs`, many native modules) and has tighter time and memory limits. Heavy work or traditional database drivers should use the Node.js runtime, which is the default."
+      }
+    },
+    {
+      "id": "nextjs.api_routes.008",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "api_routes",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Route Handler `/api/orders` cần trả về đơn hàng của người dùng đang đăng nhập. Cách xác định người dùng nào là đúng?",
+        "en": "The `/api/orders` Route Handler must return the signed-in user's orders. What is the correct way to identify the user?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đọc `userId` từ query string `?userId=` mà client gửi lên cùng request",
+            "en": "Read `userId` from the `?userId=` query string the client sends"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Xác minh cookie/token phiên trên server rồi lấy `userId` từ phiên đó",
+            "en": "Verify the session cookie or token on the server and take `userId` from it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bỏ qua kiểm tra vì trang gọi API này đã được middleware bảo vệ",
+            "en": "Skip checks because the page calling this API is already protected"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lấy `userId` từ `localStorage` thông qua thuộc tính `request.localStorage`",
+            "en": "Take `userId` from `localStorage` through a `request.localStorage` property"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Danh tính phải đến từ thứ client không giả mạo được: cookie phiên hoặc token được xác minh chữ ký trên server. Tin `userId` từ query string cho phép bất kỳ ai xem đơn của người khác (IDOR). Route Handler có thể bị gọi trực tiếp, không qua trang, nên việc trang được bảo vệ không bảo vệ API. Server không đọc được `localStorage` của trình duyệt.",
+        "en": "Identity must come from something the client cannot forge: a session cookie or a token whose signature is verified on the server. Trusting `userId` from the query string lets anyone read other people's orders (IDOR). Route Handlers can be called directly without the page, so a protected page does not protect the API. The server cannot read the browser's `localStorage`."
+      }
+    },
+    {
+      "id": "nextjs.api_routes.009",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "api_routes",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ứng dụng chỉ kiểm tra đăng nhập trong middleware với matcher `/dashboard/:path*`. Đánh giá nào chính xác nhất?",
+        "en": "An app checks authentication only in middleware with the matcher `/dashboard/:path*`. Which assessment is most accurate?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đủ an toàn, vì mọi request tới Server Action và Route Handler đều chắc chắn đi qua middleware",
+            "en": "It is safe enough, since every Server Action and Route Handler request is guaranteed to pass through it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nên chuyển toàn bộ truy vấn database vào middleware để chặn sớm và bảo vệ dữ liệu tốt hơn",
+            "en": "Move all database queries into middleware so requests are blocked early and data is safer"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Middleware hợp để kiểm tra nhanh; vẫn phải xác thực lại gần dữ liệu (DAL, action, handler)",
+            "en": "Middleware fits optimistic checks; still verify auth near the data (DAL, actions, handlers)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nên bỏ middleware và chỉ ẩn các link trong layout khi người dùng chưa đăng nhập",
+            "en": "Drop the middleware and just hide the links in the layout for signed-out users"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Middleware chỉ chạy cho request khớp matcher, và một Server Action hay Route Handler có thể được gọi từ route không nằm trong matcher; ngoài ra lỗi cấu hình hoặc lỗ hổng framework có thể khiến middleware bị bỏ qua. Cách khuyến nghị là dùng middleware cho chuyển hướng nhanh, còn kiểm tra quyền thật sự đặt trong data access layer và mỗi action/handler. Đưa truy vấn nặng vào middleware làm chậm mọi request.",
+        "en": "Middleware only runs for requests matching its matcher, and a Server Action or Route Handler can be called from a route outside it; misconfiguration or framework vulnerabilities can also let middleware be skipped. The recommended approach is middleware for fast redirects and real authorization in a data access layer and in each action/handler. Putting heavy queries in middleware slows down every request."
+      }
+    },
+    {
+      "id": "nextjs.performance.001",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Page sau không build được. Lỗi nằm ở đâu?",
+        "en": "The page below does not build. What is wrong?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/page.tsx\n'use client';\nimport { useState } from 'react';\n\nexport const metadata = { title: 'Home' };\n\nexport default function HomePage() {\n  const [open, setOpen] = useState(false);\n  return <button onClick={() => setOpen(!open)}>{open ? 'Close' : 'Open'}</button>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`metadata` tĩnh không được hỗ trợ, phải viết thành hàm `generateMetadata` trả về `title`",
+            "en": "Static `metadata` is unsupported, so it must become a `generateMetadata` function returning `title`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`title` phải được đặt trong thẻ `<head>` viết trực tiếp trong JSX trả về của page",
+            "en": "`title` must be placed in a `<head>` tag written directly in the page's returned JSX"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thiếu kiểu `Metadata` import từ `next`, nên bước kiểm tra TypeScript chặn build",
+            "en": "The `Metadata` type import from `next` is missing, so the TypeScript check blocks the build"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`metadata` chỉ dùng được ở Server Component; bỏ `'use client'`, tách nút ra file riêng",
+            "en": "`metadata` only works in Server Components; remove `'use client'` and extract the button"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Metadata được Next.js đọc trên server để sinh thẻ trong `<head>`, nên `metadata` và `generateMetadata` chỉ được export từ Server Component; build báo \"You are attempting to export metadata from a component marked with use client\". Cách sửa là giữ page là Server Component và tách phần có state ra Client Component nhỏ. Object `metadata` tĩnh hoàn toàn hợp lệ, kiểu `Metadata` chỉ là tuỳ chọn.",
+        "en": "Next.js reads metadata on the server to generate `<head>` tags, so `metadata` and `generateMetadata` can only be exported from Server Components; the build reports \"You are attempting to export metadata from a component marked with use client\". Keep the page a Server Component and move the stateful part into a small Client Component. A static `metadata` object is perfectly valid, and the `Metadata` type is optional."
+      }
+    },
+    {
+      "id": "nextjs.performance.002",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Lợi ích chính khi dùng `next/image` thay cho thẻ `<img>` thông thường là gì?",
+        "en": "What is the main benefit of using `next/image` instead of a plain `<img>` tag?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Ảnh được nhúng dạng base64 vào HTML nên trình duyệt không phải gửi request riêng nào",
+            "en": "Images are inlined as base64 in the HTML so the browser never needs a separate request"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tự resize và đổi định dạng (WebP/AVIF), lazy load và giữ chỗ chống layout shift",
+            "en": "It resizes and converts formats (WebP/AVIF), lazy loads and reserves space against layout shift"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Mọi ảnh luôn được tải trước tất cả tài nguyên khác để cải thiện điểm LCP của trang",
+            "en": "Every image always loads before all other resources to improve the page's LCP score"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Trình duyệt cache ảnh vĩnh viễn kể cả khi file nguồn trên server đã được thay đổi",
+            "en": "The browser caches images forever, even after the source file on the server changes"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`next/image` sinh `srcset` với nhiều kích thước, phục vụ định dạng hiện đại, lazy load mặc định và yêu cầu `width`/`height` (hoặc `fill`) để giữ chỗ, giúp giảm dung lượng tải và CLS. Ảnh không được nhúng base64 (trừ placeholder blur nhỏ). Ảnh mặc định là lazy, chỉ ảnh được đánh dấu ưu tiên mới tải sớm, nên \"luôn tải trước\" là sai.",
+        "en": "`next/image` generates a `srcset` with multiple sizes, serves modern formats, lazy loads by default and requires `width`/`height` (or `fill`) to reserve space, reducing bytes and CLS. Images are not inlined as base64 (except a tiny blur placeholder). Images are lazy by default and only those marked as priority load early, so \"always loads first\" is wrong."
+      }
+    },
+    {
+      "id": "nextjs.performance.003",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "performance",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Vì sao nên tải Google Font bằng `next/font/google` thay vì chèn thẻ `<link>` tới fonts.googleapis.com?",
+        "en": "Why load a Google Font with `next/font/google` instead of adding a `<link>` to fonts.googleapis.com?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Font được nhúng vào bundle JavaScript nên hiển thị trước cả khi HTML được tải xong",
+            "en": "Fonts are bundled into the JavaScript so they render before the HTML finishes loading"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Trình duyệt tải font từ máy chủ Google nhanh hơn nhờ một header đặc biệt của Next.js",
+            "en": "The browser downloads from Google's servers faster thanks to a special Next.js header"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Font được tải lúc build và tự host, bớt request bên ngoài và hạn chế layout shift",
+            "en": "Fonts are fetched at build time and self-hosted, cutting external requests and layout shift"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Font chỉ được tải khi người dùng cuộn tới đoạn văn bản đầu tiên có dùng font đó",
+            "en": "Fonts are only downloaded when the user scrolls to the first text that uses them"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`next/font` tải file font lúc build, phục vụ từ cùng domain với ứng dụng (không có request tới Google khi chạy) và tạo fallback font với `size-adjust` để giảm nhảy layout khi font thật tải xong. Font không nằm trong bundle JS và không phụ thuộc vào việc cuộn trang. Điều này cũng giúp về quyền riêng tư vì trình duyệt không kết nối tới Google.",
+        "en": "`next/font` downloads font files at build time, serves them from the app's own domain (no requests to Google at runtime) and creates a fallback font with `size-adjust` to reduce layout shift when the real font arrives. Fonts are not part of the JS bundle and do not depend on scrolling. It also helps privacy because the browser never contacts Google."
+      }
+    },
+    {
+      "id": "nextjs.performance.004",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Với ba file sau, thẻ `<title>` của `/shop` và `/shop/cart` lần lượt là gì?",
+        "en": "Given the three files below, what is the `<title>` of `/shop` and of `/shop/cart`?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "// app/shop/layout.tsx\nexport const metadata = {\n  title: { template: '%s | Shop', default: 'Shop' },\n};\n\n// app/shop/page.tsx\nexport const metadata = { title: 'All products' };\n\n// app/shop/cart/page.tsx\nexport const metadata = { title: 'Cart' };"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`All products` và `Cart | Shop`",
+            "en": "`All products` and `Cart | Shop`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`All products | Shop` và `Cart | Shop`",
+            "en": "`All products | Shop` and `Cart | Shop`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`Shop` và `Cart | Shop`",
+            "en": "`Shop` and `Cart | Shop`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`All products` và `Cart`",
+            "en": "`All products` and `Cart`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`title.template` trong layout chỉ áp dụng cho các segment con, không áp dụng cho segment nơi nó được khai báo. `app/shop/page.tsx` cùng segment với layout nên giữ nguyên `All products`, còn `app/shop/cart/page.tsx` là segment con nên thành `Cart | Shop`. `default` chỉ dùng khi segment con không khai báo `title`.",
+        "en": "A `title.template` in a layout applies only to child segments, not to the segment where it is defined. `app/shop/page.tsx` is in the same segment as the layout, so it stays `All products`, while `app/shop/cart/page.tsx` is a child segment and becomes `Cart | Shop`. `default` is used only when a child segment declares no `title`."
+      }
+    },
+    {
+      "id": "nextjs.performance.005",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "`next build` báo lỗi với page sau. Vấn đề là gì?",
+        "en": "`next build` fails on the page below. What is the problem?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/report/page.tsx (Server Component)\nimport dynamic from 'next/dynamic';\n\nconst Chart = dynamic(() => import('./Chart'), { ssr: false });\n\nexport default function ReportPage() {\n  return <Chart />;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`import('./Chart')` phải ghi rõ đuôi `.js` thì bundler mới tách được chunk riêng",
+            "en": "`import('./Chart')` must include the `.js` extension so the bundler can split a chunk"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`dynamic` chỉ nhận named export, nên `Chart` phải đổi từ default export sang named",
+            "en": "`dynamic` only accepts named exports, so `Chart` must switch from a default export"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Phải bọc `<Chart />` trong `<Suspense>` thì `next/dynamic` mới build được",
+            "en": "`<Chart />` must be wrapped in `<Suspense>` for `next/dynamic` to build"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`ssr: false` không được dùng ở đây; chuyển lời gọi `dynamic` vào Client Component",
+            "en": "`ssr: false` is not allowed here; move the `dynamic` call into a Client Component"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Server Component luôn render trên server nên tuỳ chọn \"bỏ qua SSR\" không có ý nghĩa ở đó; Next.js báo \"`ssr: false` is not allowed with `next/dynamic` in Server Components\". Hãy tạo một Client Component bọc lời gọi `dynamic(..., { ssr: false })` rồi dùng nó trong page. Trong Server Component, `next/dynamic` không có `ssr: false` vẫn dùng được để tách code của Client Component được import.",
+        "en": "A Server Component always renders on the server, so a \"skip SSR\" option makes no sense there; Next.js reports \"`ssr: false` is not allowed with `next/dynamic` in Server Components\". Create a Client Component that wraps the `dynamic(..., { ssr: false })` call and use it in the page. Inside a Server Component, `next/dynamic` without `ssr: false` still works for code-splitting imported Client Components."
+      }
+    },
+    {
+      "id": "nextjs.performance.006",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ảnh hero là phần tử LCP của trang chủ nhưng điểm LCP vẫn kém. Với `next/image`, việc đầu tiên bạn nên làm là gì?",
+        "en": "The hero image is the home page's LCP element, but LCP is still poor. With `next/image`, what should you do first?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm `loading=\"lazy\"` để trình duyệt dồn băng thông cho những tài nguyên quan trọng hơn",
+            "en": "Add `loading=\"lazy\"` so the browser spends bandwidth on more important resources first"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chuyển ảnh sang CSS `background-image` để trình duyệt không phải tối ưu ảnh nữa",
+            "en": "Move the image to a CSS `background-image` so the browser no longer optimises it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đánh dấu ưu tiên (`priority`/`preload`) để không bị lazy load, khai báo `sizes`",
+            "en": "Mark it as priority (`priority`/`preload`) so it is not lazy, and set `sizes`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thêm `unoptimized` để Next.js không phải resize ảnh trong lúc xử lý request",
+            "en": "Add `unoptimized` so Next.js does not resize the image while handling the request"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`next/image` lazy load mặc định, nên ảnh hero nằm trên màn hình đầu tiên bị tải muộn và kéo dài LCP. Đánh dấu ưu tiên (`priority`, hoặc `preload` ở phiên bản mới) thêm preload và tải sớm, còn `sizes` giúp trình duyệt chọn file vừa kích thước. `background-image` bị trình duyệt phát hiện muộn hơn, và `unoptimized` làm ảnh nặng hơn.",
+        "en": "`next/image` lazy loads by default, so an above-the-fold hero image is fetched late and drags LCP out. Marking it as priority (`priority`, or `preload` in newer versions) adds a preload and fetches it early, while `sizes` lets the browser pick an appropriately sized file. A `background-image` is discovered later by the browser, and `unoptimized` makes the image heavier."
+      }
+    },
+    {
+      "id": "nextjs.performance.007",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "performance",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trang chỉ cần một thư viện editor nặng 300 KB khi người dùng bấm \"Viết bình luận\". Cách giảm First Load JS hợp lý là gì?",
+        "en": "A page only needs a 300 KB editor library when the user clicks \"Write a comment\". What is a sensible way to reduce First Load JS?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tải editor bằng `next/dynamic` hoặc `import()` khi cần thay vì import tĩnh",
+            "en": "Load the editor with `next/dynamic` or `import()` on demand instead of statically"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đặt editor vào `layout.tsx` để nó được cache và dùng chung giữa các trang khác",
+            "en": "Put the editor in `layout.tsx` so it is cached and shared across the other pages"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thêm `'use client'` vào page để editor được tải song song cùng lúc với HTML",
+            "en": "Add `'use client'` to the page so the editor downloads in parallel with the HTML"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đặt `reactStrictMode: false` trong `next.config` để giảm kích thước bundle production",
+            "en": "Set `reactStrictMode: false` in `next.config` to shrink the production bundle"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Dynamic import tách editor thành chunk riêng, chỉ tải khi component thực sự được render (ví dụ sau khi bấm nút), nên First Load JS của trang giảm đáng kể. Đặt vào layout làm mọi trang phải tải editor. `'use client'` ở page còn làm bundle lớn hơn, và `reactStrictMode` chỉ ảnh hưởng hành vi kiểm tra ở môi trường dev, không ảnh hưởng kích thước bundle.",
+        "en": "A dynamic import splits the editor into its own chunk that loads only when the component actually renders (e.g. after the click), so the page's First Load JS drops significantly. Putting it in the layout forces every page to load it. `'use client'` on the page makes the bundle bigger, and `reactStrictMode` only affects development checks, not bundle size."
+      }
+    },
+    {
+      "id": "nextjs.performance.008",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "performance",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trang có điểm INP kém: mỗi lần gõ vào ô tìm kiếm, Client Component lọc lại và render 5.000 dòng nên giao diện bị giật. Cách xử lý phù hợp nhất là gì?",
+        "en": "A page has poor INP: on every keystroke in a search box, a Client Component filters and re-renders 5,000 rows, so the UI stutters. What is the most suitable fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chuyển danh sách sang Server Component và gọi `router.refresh()` sau mỗi lần người dùng gõ phím",
+            "en": "Move the list to a Server Component and call `router.refresh()` after every keystroke"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giữ ô nhập phản hồi ngay, hoãn lọc bằng `useDeferredValue` và ảo hoá danh sách",
+            "en": "Keep typing instant, defer filtering via `useDeferredValue` and virtualise the list"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tăng `revalidate` của trang để kết quả lọc được cache lâu hơn ở phía server",
+            "en": "Increase the page's `revalidate` so filtered results stay cached longer on the server"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bọc ô input trong `<Suspense>` để React tự động hoãn những lần render chậm",
+            "en": "Wrap the input in `<Suspense>` so React automatically postpones slow renders"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "INP đo độ trễ từ tương tác tới lần vẽ tiếp theo; render 5.000 dòng đồng bộ ở mỗi phím chặn main thread. `useDeferredValue` hoặc `startTransition` cho phép React ưu tiên cập nhật input và render danh sách ở mức thấp hơn, còn ảo hoá chỉ render những dòng đang hiển thị. `router.refresh()` mỗi phím thêm round-trip mạng, và `revalidate` hay `Suspense` không giải quyết chi phí render trên client.",
+        "en": "INP measures the delay from an interaction to the next paint; rendering 5,000 rows synchronously on each key blocks the main thread. `useDeferredValue` or `startTransition` let React prioritise the input update and render the list at lower priority, while virtualisation renders only visible rows. `router.refresh()` per keystroke adds network round trips, and neither `revalidate` nor `Suspense` addresses client render cost."
+      }
+    },
+    {
+      "id": "nextjs.deployment.001",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "deployment",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Để chạy ứng dụng Next.js ở môi trường production trên server của bạn, quy trình đúng là gì?",
+        "en": "To run a Next.js app in production on your own server, what is the correct process?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chạy `next dev --production` để vừa build vừa chạy với hot reload đã tắt",
+            "en": "Run `next dev --production` to build and serve with hot reload turned off"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chạy `next build` để tạo bản tối ưu, rồi `next start` để chạy server",
+            "en": "Run `next build` to create an optimised build, then `next start` to serve it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ cần `next start`, vì lệnh này tự build lại mỗi lần server khởi động",
+            "en": "Just run `next start`, since it rebuilds the app every time the server boots"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chạy `next lint` rồi mở trực tiếp `node .next/server/app/page.js`",
+            "en": "Run `next lint`, then launch `node .next/server/app/page.js` directly"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`next build` biên dịch, tối ưu bundle và prerender các route tĩnh vào thư mục `.next`; `next start` khởi động server production đọc bản build đó. `next dev` dành cho phát triển, chậm hơn và không tối ưu. `next start` không tự build, nếu chưa build sẽ báo lỗi thiếu thư mục `.next`.",
+        "en": "`next build` compiles, optimises bundles and prerenders static routes into `.next`; `next start` launches the production server that reads that build. `next dev` is for development, slower and unoptimised. `next start` does not build anything and errors out if `.next` is missing."
+      }
+    },
+    {
+      "id": "nextjs.deployment.002",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "deployment",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "File `.env.local` dùng để làm gì, và có nên commit lên git không?",
+        "en": "What is `.env.local` for, and should it be committed to git?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chứa cấu hình dùng chung cho cả team, vì vậy bắt buộc phải commit lên repo",
+            "en": "It holds config shared by the whole team, so it must be committed to the repo"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ được nạp khi chạy test, hoàn toàn không có tác dụng với `next dev`",
+            "en": "It is only loaded when running tests and has no effect on `next dev`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Được gửi thẳng xuống trình duyệt, nên chỉ được chứa các biến công khai",
+            "en": "It is sent straight to the browser, so it may only contain public variables"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Giá trị riêng của từng máy và secret khi phát triển, ghi đè `.env`; không commit",
+            "en": "Machine-specific values and dev secrets that override `.env`; do not commit it"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Next.js nạp `.env.local` sau `.env` và `.env.development`/`.env.production`, nên giá trị trong đó ghi đè các file kia; đây là nơi đặt secret và cấu hình riêng của từng máy. File này nên nằm trong `.gitignore`. Nó không được nạp khi `NODE_ENV=test`, và chỉ biến có tiền tố `NEXT_PUBLIC_` mới được đưa xuống trình duyệt, bất kể nằm ở file nào.",
+        "en": "Next.js loads `.env.local` after `.env` and `.env.development`/`.env.production`, so its values override those files; it is the place for secrets and machine-specific settings. The file belongs in `.gitignore`. It is not loaded when `NODE_ENV=test`, and only variables prefixed with `NEXT_PUBLIC_` reach the browser, whichever file they are in."
+      }
+    },
+    {
+      "id": "nextjs.deployment.003",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "deployment",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khi build Docker image để tự host Next.js, tuỳ chọn `output: 'standalone'` trong `next.config` giúp gì?",
+        "en": "When building a Docker image to self-host Next.js, what does `output: 'standalone'` in `next.config` do?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tạo `.next/standalone` chỉ chứa file cần thiết và `server.js`, image gọn",
+            "en": "It builds `.next/standalone` with just the needed files and a `server.js`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Xuất toàn bộ site thành HTML tĩnh để phục vụ bằng Nginx mà không cần Node.js",
+            "en": "It exports the whole site as static HTML to be served by Nginx without Node.js"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gộp mọi trang vào một file JavaScript duy nhất để server khởi động nhanh hơn",
+            "en": "It merges every page into a single JavaScript file so the server boots faster"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Tắt Server Components để ứng dụng chạy được trên mọi dịch vụ hosting tĩnh",
+            "en": "It disables Server Components so the app can run on any static host"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Với `standalone`, Next.js truy vết các file thực sự được dùng và sao chép chúng cùng một `server.js` tối giản vào `.next/standalone`, nên image không cần toàn bộ `node_modules`. Lưu ý thư mục `public` và `.next/static` không được sao chép tự động, cần copy thêm trong Dockerfile. Xuất HTML tĩnh là `output: 'export'`, khi đó không còn tính năng cần server.",
+        "en": "With `standalone`, Next.js traces the files actually used and copies them with a minimal `server.js` into `.next/standalone`, so the image does not need the whole `node_modules`. Note that `public` and `.next/static` are not copied automatically and must be added in the Dockerfile. Static HTML export is `output: 'export'`, which drops server-only features."
+      }
+    },
+    {
+      "id": "nextjs.deployment.004",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "deployment",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "File `.env` có hai biến như trong comment. Sau `next build && next start`, console của trình duyệt in ra gì khi component mount?",
+        "en": "The `.env` file holds the two variables shown in the comment. After `next build && next start`, what does the browser console print when the component mounts?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// .env\n// NEXT_PUBLIC_SITE_NAME=MyShop\n// API_SECRET=s3cr3t\n\n// app/ui/Debug.tsx\n'use client';\nimport { useEffect } from 'react';\n\nexport function Debug() {\n  useEffect(() => {\n    console.log(process.env.NEXT_PUBLIC_SITE_NAME, process.env.API_SECRET);\n  }, []);\n  return null;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`MyShop s3cr3t`",
+            "en": "`MyShop s3cr3t`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`undefined undefined`",
+            "en": "`undefined undefined`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`MyShop undefined`",
+            "en": "`MyShop undefined`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Lỗi `ReferenceError: process is not defined`",
+            "en": "`ReferenceError: process is not defined`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Khi build, Next.js thay thế trực tiếp `process.env.NEXT_PUBLIC_SITE_NAME` bằng chuỗi `\"MyShop\"` trong bundle client. Biến không có tiền tố `NEXT_PUBLIC_` không được nhúng, nên trên trình duyệt `process.env.API_SECRET` là `undefined`; đây là cơ chế giữ secret ở server. Next.js cung cấp `process.env` dạng rỗng cho client nên không có `ReferenceError`.",
+        "en": "At build time, Next.js replaces `process.env.NEXT_PUBLIC_SITE_NAME` with the string `\"MyShop\"` in the client bundle. Variables without the `NEXT_PUBLIC_` prefix are not inlined, so in the browser `process.env.API_SECRET` is `undefined`; that is how secrets stay on the server. Next.js provides an empty `process.env` on the client, so there is no `ReferenceError`."
+      }
+    },
+    {
+      "id": "nextjs.deployment.005",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "deployment",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "`.env` có `NEXT_PUBLIC_SITE_NAME=MyShop`. Footer hiện đúng tên lúc tải trang, nhưng console báo hydration mismatch và sau khi hydrate thì nội dung thành `undefined`. Lỗi nằm ở đâu?",
+        "en": "`.env` contains `NEXT_PUBLIC_SITE_NAME=MyShop`. The footer shows the name on load, but the console reports a hydration mismatch and after hydration the text becomes `undefined`. What is wrong?"
+      },
+      "code": {
+        "language": "tsx",
+        "source": "// app/ui/Footer.tsx\n'use client';\n\nfunction env(name: string) {\n  return process.env[name];\n}\n\nexport function Footer() {\n  return <p>{String(env('NEXT_PUBLIC_SITE_NAME'))}</p>;\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tên biến công khai phải bắt đầu bằng `PUBLIC_`, tiền tố `NEXT_PUBLIC_` đã bị loại bỏ",
+            "en": "Public variable names must start with `PUBLIC_`; the `NEXT_PUBLIC_` prefix has been removed"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ tham chiếu trực tiếp `process.env.NEXT_PUBLIC_...` mới được nhúng lúc build",
+            "en": "Only direct `process.env.NEXT_PUBLIC_...` reads are inlined, not `process.env[name]`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Biến môi trường chỉ đọc được trong `useEffect`, đọc trong lúc render luôn cho `undefined`",
+            "en": "Env variables can only be read in `useEffect`; reading them during render always gives `undefined`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`.env` phải được nạp thủ công bằng `import 'dotenv/config'` ở đầu Client Component",
+            "en": "`.env` must be loaded manually with `import 'dotenv/config'` at the top of the Client Component"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Việc nhúng biến `NEXT_PUBLIC_` là phép thay thế văn bản lúc build, nên chỉ hoạt động với tham chiếu viết đầy đủ `process.env.NEXT_PUBLIC_SITE_NAME`. Truy cập động qua `process.env[name]` không được thay thế: trên server (SSR) `process.env` thật vẫn có giá trị nên HTML hiện `MyShop`, còn trên trình duyệt thì ra `undefined`, gây mismatch. Hãy đọc biến trực tiếp, ví dụ gom vào một object cấu hình viết tường minh.",
+        "en": "Inlining `NEXT_PUBLIC_` variables is a text replacement at build time, so it only works for the full literal `process.env.NEXT_PUBLIC_SITE_NAME`. Dynamic access via `process.env[name]` is not replaced: on the server (SSR) the real `process.env` has the value, so the HTML shows `MyShop`, while in the browser it is `undefined`, causing the mismatch. Read the variable directly, for example in an explicit config object."
+      }
+    },
+    {
+      "id": "nextjs.deployment.006",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "deployment",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn build Docker image một lần với `NEXT_PUBLIC_API_URL` trỏ tới staging, rồi chạy chính image đó ở production với biến môi trường container trỏ tới API production. Trình duyệt vẫn gọi API staging. Vì sao?",
+        "en": "You build a Docker image once with `NEXT_PUBLIC_API_URL` pointing to staging, then run the same image in production with a container env var pointing to the production API. The browser still calls staging. Why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Docker lưu cache biến môi trường từ lần chạy đầu tiên, cần xoá volume rồi khởi động lại",
+            "en": "Docker caches environment variables from the first run; delete the volume and restart"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`next start` chỉ đọc `.env.production` và bỏ qua toàn bộ biến môi trường của container",
+            "en": "`next start` only reads `.env.production` and ignores every container environment variable"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Trình duyệt lưu `process.env` vào `localStorage` và giữ lại giữa các lần deploy",
+            "en": "The browser stores `process.env` in `localStorage` and keeps it across deploys"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Giá trị `NEXT_PUBLIC_` được nhúng lúc build; env lúc chạy không đổi được code client",
+            "en": "`NEXT_PUBLIC_` values are inlined at build time; runtime env cannot change client code"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Giá trị `NEXT_PUBLIC_` được ghi cứng vào file JS lúc build, nên image build cho staging luôn chứa URL staging dù container chạy với env khác. Code chạy trên server thì đọc `process.env` lúc runtime bình thường, và biến môi trường của process được ưu tiên hơn file `.env`. Muốn \"build một lần, deploy nhiều nơi\", hãy đọc cấu hình ở server rồi truyền xuống client (props, endpoint cấu hình) thay vì dùng `NEXT_PUBLIC_`.",
+        "en": "`NEXT_PUBLIC_` values are hard-coded into the JS files at build time, so an image built for staging always contains the staging URL, whatever env the container runs with. Server-side code reads `process.env` at runtime as usual, and process env vars take precedence over `.env` files. For \"build once, deploy many\", read config on the server and pass it to the client (props, a config endpoint) instead of using `NEXT_PUBLIC_`."
+      }
+    },
+    {
+      "id": "nextjs.deployment.007",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "deployment",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Trình bày những việc cần làm để chạy Next.js bằng Docker trên server riêng (không dùng Vercel).",
+        "en": "Describe what you need to do to run Next.js with Docker on your own server (not Vercel)."
+      },
+      "keyPoints": [
+        {
+          "vi": "Dockerfile multi-stage: cài dependency, `next build` với `output: 'standalone'`, image runtime chỉ copy `.next/standalone`, `.next/static` và `public`",
+          "en": "A multi-stage Dockerfile: install deps, `next build` with `output: 'standalone'`, and copy only `.next/standalone`, `.next/static` and `public` into the runtime image"
+        },
+        {
+          "vi": "Chạy `node server.js` với `PORT`/`HOSTNAME` phù hợp, dùng user không phải root và có health check",
+          "en": "Run `node server.js` with suitable `PORT`/`HOSTNAME`, as a non-root user, with a health check"
+        },
+        {
+          "vi": "Phân biệt biến build-time (`NEXT_PUBLIC_*`) và runtime (secret đọc trên server); không đóng gói secret vào image",
+          "en": "Separate build-time (`NEXT_PUBLIC_*`) and runtime variables (secrets read on the server); never bake secrets into the image"
+        },
+        {
+          "vi": "Đặt sau reverse proxy hoặc CDN để có TLS, nén và cache static asset; kiểm tra tối ưu ảnh hoạt động trong container",
+          "en": "Put it behind a reverse proxy or CDN for TLS, compression and static asset caching; check image optimisation works in the container"
+        }
+      ],
+      "explanation": {
+        "vi": "Tự host đòi hỏi tự lo những thứ Vercel làm sẵn: đóng gói gọn, cấu hình mạng, TLS, cache cho asset và quản lý secret. `standalone` giảm kích thước image đáng kể nhưng dễ quên copy `public` và `.next/static`, khiến CSS/JS trả về 404. Ứng viên tốt cũng nhắc tới việc chạy nhiều instance cần cache dùng chung.",
+        "en": "Self-hosting means handling what Vercel does for you: lean packaging, networking, TLS, asset caching and secret management. `standalone` shrinks the image a lot, but it is easy to forget copying `public` and `.next/static`, which makes CSS/JS return 404. A good candidate also mentions that multiple instances need a shared cache."
+      }
+    },
+    {
+      "id": "nextjs.deployment.008",
+      "contentVersion": 1,
+      "trackId": "nextjs",
+      "topicId": "deployment",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn chạy 4 instance Next.js tự host sau load balancer. Sau khi gọi `revalidatePath` trên một instance, người dùng lúc thấy dữ liệu mới, lúc thấy dữ liệu cũ; sau mỗi lần deploy còn xuất hiện lỗi \"Failed to find Server Action\". Hãy phân tích và đề xuất giải pháp.",
+        "en": "You run 4 self-hosted Next.js instances behind a load balancer. After calling `revalidatePath` on one instance, users sometimes see fresh data and sometimes stale; after each deploy, \"Failed to find Server Action\" errors also appear. Analyse and propose a solution."
+      },
+      "keyPoints": [
+        {
+          "vi": "Data Cache và Full Route Cache mặc định nằm trên đĩa/bộ nhớ của từng instance, nên revalidate chỉ tác động tới instance nhận request",
+          "en": "By default the Data Cache and Full Route Cache live on each instance's disk/memory, so revalidation only affects the instance that got the request"
+        },
+        {
+          "vi": "Cấu hình `cacheHandler` dùng chung (ví dụ Redis) và tắt cache trong bộ nhớ (`cacheMaxMemorySize: 0`) để mọi instance cùng trạng thái",
+          "en": "Configure a shared `cacheHandler` (e.g. Redis) and disable in-memory caching (`cacheMaxMemorySize: 0`) so all instances share state"
+        },
+        {
+          "vi": "ID và khoá mã hoá của Server Action thay đổi giữa các build; đặt `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` cố định và build ID nhất quán",
+          "en": "Server Action IDs and encryption keys change between builds; set a fixed `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` and a consistent build ID"
+        },
+        {
+          "vi": "Rolling deploy để client cũ gọi instance mới; dùng skew protection hoặc định tuyến theo phiên bản, và theo dõi lỗi sau deploy",
+          "en": "Rolling deploys let old clients hit new instances; use skew protection or version-aware routing, and monitor errors after deploys"
+        }
+      ],
+      "explanation": {
+        "vi": "Hai triệu chứng có chung gốc rễ: trạng thái mà Next.js mặc định coi là cục bộ (cache, khoá action) nhưng thực tế cần dùng chung giữa nhiều instance và nhiều phiên bản. Giải pháp là đưa cache ra kho chung và cố định các giá trị phải giống nhau giữa các build. Câu trả lời tốt cũng nêu cách kiểm chứng, ví dụ test revalidate qua load balancer trước khi đưa lên production.",
+        "en": "Both symptoms share one root cause: state that Next.js treats as local by default (caches, action keys) actually has to be shared across instances and versions. The fix is to move caching to a shared store and pin values that must match across builds. A good answer also explains how to verify it, such as testing revalidation through the load balancer before going live."
+      }
+    }
+  ]
+}

@@ -15,6 +15,8 @@ import 'package:interview_practice/features/catalog/presentation/widgets/roadmap
 import 'package:interview_practice/features/content/presentation/extensions/localized_text_extension.dart';
 import 'package:interview_practice/features/content/presentation/widgets/content_issue_view.dart';
 import 'package:interview_practice/features/practice/presentation/helpers/practice_launcher.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/role_technologies_section.dart';
+import 'package:interview_practice/features/catalog/presentation/widgets/compact_roadmap_strip.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
@@ -84,6 +86,15 @@ class _ExploreBody extends StatelessWidget {
                   ).push<void>(context),
                 ),
               ],
+              if (challenge != null) ...[
+                SizedBox(height: 24.dsp),
+                DailyChallengeCard(
+                  title: challenge.title,
+                  rewardXp: challenge.rewardXp,
+                  streakDays: learner.streakDays,
+                  onSolve: () => openPractice(context, setId: challenge.setId),
+                ),
+              ],
               SizedBox(height: 24.dsp),
               RoadmapSectionHeader(
                 title: Strings.exploreMyTracks.i18n,
@@ -97,7 +108,7 @@ class _ExploreBody extends StatelessWidget {
                 },
               ),
               SizedBox(height: 12.dsp),
-              RoadmapCardList(
+              CompactRoadmapStrip(
                 tracks: state.myTracks,
                 completion: dashboard.trackCompletion,
                 onOpen: (overview) async {
@@ -107,13 +118,47 @@ class _ExploreBody extends StatelessWidget {
                   if (context.mounted) const RoadmapsRoute().go(context);
                 },
               ),
-              if (challenge != null) ...[
-                SizedBox(height: 16.dsp),
-                DailyChallengeCard(
-                  title: challenge.title,
-                  rewardXp: challenge.rewardXp,
-                  streakDays: learner.streakDays,
-                  onSolve: () => openPractice(context, setId: challenge.setId),
+              if (state.selectedRole case final role?) ...[
+                SizedBox(height: 24.dsp),
+                RoleTechnologiesSection(
+                  roles: state.roles,
+                  selected: role,
+                  onSelectRole: context.read<ExploreCubit>().selectRole,
+                  addedTrackIds: state.roadmapTrackIds,
+                  allTracks: state.tracks,
+                  onAdd: (overview) async {
+                    final messenger = ScaffoldMessenger.of(context);
+                    await context
+                        .read<ExploreCubit>()
+                        .addTrack(overview.track.id);
+                    messenger
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            Strings.exploreRoleAddedMessage.i18n
+                                .fill([overview.track.name.text]),
+                          ),
+                        ),
+                      );
+                  },
+                  onTry: (overview) async {
+                    final target = await context.read<ExploreCubit>().trialFor(
+                          overview.track.id,
+                          positionId: role.position.id,
+                        );
+                    if (!context.mounted) return;
+                    if (target == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(Strings.comingSoon.i18n)),
+                      );
+                      return;
+                    }
+                    await PracticeRoute(
+                      setId: target.setId,
+                      only: target.onlyQuestionIds?.join(','),
+                    ).push<void>(context);
+                  },
                 ),
               ],
             ],

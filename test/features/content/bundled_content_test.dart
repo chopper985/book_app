@@ -20,6 +20,14 @@ void main() {
     ];
 
     expect(issues, isEmpty);
+    // A framework names its languages and runtime; multi-role tracks keep
+    // role-specific topics (DOM is not part of the Back-end questions).
+    final next = parsed.catalog.trackById('nextjs')!;
+    expect(next.languages, ['javascript', 'typescript']);
+    expect(next.runtime, 'nodejs');
+    final dom = parsed.catalog.trackById('javascript')!.topicById('dom')!;
+    expect(dom.appliesTo('frontend'), isTrue);
+    expect(dom.appliesTo('backend'), isFalse);
     expect(
       parsed.catalog.positions.map((position) => position.id),
       ['mobile', 'frontend', 'backend', 'tester'],
@@ -35,10 +43,15 @@ void main() {
         'javascript',
         'typescript',
         'react_ts',
+        'nextjs',
+        'vue',
+        'angular',
         'java',
         'dotnet',
         'python',
         'nodejs',
+        'express',
+        'nestjs',
         'php',
         'go',
         'rust',

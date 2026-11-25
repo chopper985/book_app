@@ -1,0 +1,3274 @@
+{
+  "questions": [
+    {
+      "id": "nestjs.modules.001",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "modules",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `@Module({ providers: [UsersService], exports: [UsersService] })`, mảng `exports` dùng để làm gì?",
+        "en": "In `@Module({ providers: [UsersService], exports: [UsersService] })`, what is the `exports` array for?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Cho phép các module import `UsersModule` inject được `UsersService`",
+            "en": "Lets modules that import `UsersModule` inject `UsersService`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đăng ký `UsersService` thành provider toàn cục cho cả ứng dụng",
+            "en": "Registers `UsersService` as a global provider for the whole app"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Liệt kê các module mà `UsersModule` cần phụ thuộc vào",
+            "en": "Lists the modules that `UsersModule` depends on"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Công khai route của controller trong module cho module khác",
+            "en": "Exposes the module's controller routes to other modules"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`providers` chỉ đăng ký provider trong phạm vi module đó; mặc định module được đóng gói và không lộ gì ra ngoài. `exports` là public API của module: module nào `imports` nó thì mới inject được các provider được liệt kê. Muốn dùng ở mọi nơi mà không import thì mới cần `@Global()`, và nên hạn chế.",
+        "en": "`providers` only registers providers within that module; by default a module is encapsulated and exposes nothing. `exports` is the module's public API: only modules that `import` it can inject the listed providers. Making something available everywhere without importing requires `@Global()`, which should be used sparingly."
+      }
+    },
+    {
+      "id": "nestjs.modules.002",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "modules",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Ứng dụng crash lúc khởi động với lỗi: `Nest can't resolve dependencies of the OrdersService (?). Please make sure that the argument UsersService at index [0] is available in the OrdersModule module.` Nguyên nhân là gì?",
+        "en": "The app crashes on startup with: `Nest can't resolve dependencies of the OrdersService (?). Please make sure that the argument UsersService at index [0] is available in the OrdersModule module.` What is the cause?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Injectable()\nexport class UsersService {}\n\n@Module({\n  providers: [UsersService],\n})\nexport class UsersModule {}\n\n@Injectable()\nexport class OrdersService {\n  constructor(private readonly users: UsersService) {}\n}\n\n@Module({\n  imports: [UsersModule],\n  providers: [OrdersService],\n})\nexport class OrdersModule {}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`UsersService` thiếu `@Global()` nên module khác không thấy",
+            "en": "`UsersService` lacks `@Global()`, so other modules cannot see it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`AppModule` phải import trực tiếp cả `UsersModule` lẫn `OrdersModule`",
+            "en": "`AppModule` must import both `UsersModule` and `OrdersModule` directly"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Constructor phải dùng `@Inject(UsersService)` vì Nest không suy ra token từ class",
+            "en": "The constructor needs `@Inject(UsersService)` because Nest cannot infer class tokens"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`UsersService` vẫn là private vì `UsersModule` không đưa nó vào `exports`",
+            "en": "`UsersService` stays private because `UsersModule` never lists it in its `exports`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`OrdersModule` đã import `UsersModule`, nhưng `UsersModule` chỉ khai báo `UsersService` trong `providers` mà không `exports`, nên provider này vẫn là private của module. Thêm `exports: [UsersService]` vào `UsersModule` là đủ. Không nên khai báo lại `UsersService` trong `providers` của `OrdersModule` vì sẽ tạo ra một instance thứ hai.",
+        "en": "`OrdersModule` imports `UsersModule`, but `UsersModule` only lists `UsersService` in `providers` without `exports`, so the provider stays private to that module. Adding `exports: [UsersService]` to `UsersModule` is enough. Do not re-declare `UsersService` in `OrdersModule`'s `providers`, because that creates a second instance."
+      }
+    },
+    {
+      "id": "nestjs.modules.003",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "modules",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn đánh dấu `ConfigModule` tự viết bằng `@Global()`. Để các feature module inject được `ConfigService` mà không cần import, còn phải làm gì?",
+        "en": "You mark your own `ConfigModule` with `@Global()`. What else is needed so feature modules can inject `ConfigService` without importing it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không cần gì thêm, Nest tự quét và nạp mọi module có `@Global()`",
+            "en": "Nothing else; Nest scans and loads every `@Global()` module by itself"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Import nó một lần ở `AppModule`, rồi thêm `exports: [ConfigService]`",
+            "en": "Import it once in `AppModule` and add `exports: [ConfigService]`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Mọi module vẫn phải import nó, chỉ là không cần khai báo `exports`",
+            "en": "Every module still imports it, it just no longer needs `exports`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đổi `ConfigService` sang `Scope.REQUEST` để chia sẻ được giữa các module",
+            "en": "Switch `ConfigService` to `Scope.REQUEST` so it can be shared between modules"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`@Global()` chỉ bỏ bước import ở các module tiêu thụ; module global vẫn phải được import một lần (thường ở `AppModule`) để Nest đăng ký nó, và vẫn phải `exports` những provider muốn chia sẻ. Global module tiện cho thứ dùng khắp nơi như config hay logger, nhưng lạm dụng sẽ làm mờ ranh giới phụ thuộc giữa các module.",
+        "en": "`@Global()` only removes the import step in consuming modules; the global module still has to be imported once (usually in `AppModule`) so Nest registers it, and it still has to `export` the providers it shares. Global modules are handy for things used everywhere such as config or logging, but overusing them blurs the dependency boundaries between modules."
+      }
+    },
+    {
+      "id": "nestjs.modules.004",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "modules",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Module trong NestJS là gì? Bạn sẽ chia một ứng dụng bán hàng (user, sản phẩm, đơn hàng) thành các module như thế nào?",
+        "en": "What is a module in NestJS? How would you split an online shop (users, products, orders) into modules?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`@Module` khai báo `imports`, `controllers`, `providers`, `exports`; ứng dụng là cây module gốc ở `AppModule`",
+          "en": "`@Module` declares `imports`, `controllers`, `providers`, `exports`; the app is a module tree rooted at `AppModule`"
+        },
+        {
+          "vi": "Provider mặc định là private của module, chỉ module import mới dùng được những gì được `exports`",
+          "en": "Providers are private to their module by default; only importing modules can use what is `exports`-ed"
+        },
+        {
+          "vi": "Chia theo nghiệp vụ: `UsersModule`, `ProductsModule`, `OrdersModule`, mỗi module có controller, service, repository riêng",
+          "en": "Split by domain: `UsersModule`, `ProductsModule`, `OrdersModule`, each with its own controller, service and repository"
+        },
+        {
+          "vi": "`OrdersModule` import `UsersModule`/`ProductsModule` để dùng service đã export, tránh phụ thuộc vòng",
+          "en": "`OrdersModule` imports `UsersModule`/`ProductsModule` to use their exported services, avoiding circular dependencies"
+        },
+        {
+          "vi": "Hạ tầng dùng chung (database, config, logger) đặt trong module riêng, có thể `@Global()` khi thật sự cần",
+          "en": "Shared infrastructure (database, config, logger) lives in its own modules, `@Global()` only when truly needed"
+        }
+      ],
+      "explanation": {
+        "vi": "Module là đơn vị tổ chức code và là ranh giới của DI container: mỗi module gom controller, provider liên quan đến một nghiệp vụ và tự quyết định công khai gì qua `exports`. Ứng dụng là một cây module bắt đầu từ `AppModule`. Chia theo nghiệp vụ (`UsersModule`, `ProductsModule`, `OrdersModule`) giúp code dễ tìm, dễ test và sau này dễ tách thành service riêng. Thứ dùng chung như database, config nên nằm ở module hạ tầng riêng.",
+        "en": "A module is the unit of code organisation and the boundary of the DI container: each module groups the controllers and providers of one business area and decides what to publish via `exports`. An application is a tree of modules rooted at `AppModule`. Splitting by domain (`UsersModule`, `ProductsModule`, `OrdersModule`) makes code easier to find, test and later extract into separate services. Shared concerns such as database and config belong in their own infrastructure modules."
+      }
+    },
+    {
+      "id": "nestjs.modules.005",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "modules",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Hai module cùng khai báo `CacheService` trong `providers`. Đoạn code sau in ra gì?",
+        "en": "Two modules both declare `CacheService` in `providers`. What does the code print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Injectable()\nclass CacheService {\n  private store = new Map<string, unknown>();\n}\n\n@Module({ providers: [CacheService], exports: [CacheService] })\nclass UsersModule {}\n\n@Module({ providers: [CacheService], exports: [CacheService] })\nclass OrdersModule {}\n\n@Module({ imports: [UsersModule, OrdersModule] })\nclass AppModule {}\n\nasync function bootstrap() {\n  const app = await NestFactory.createApplicationContext(AppModule, { logger: false });\n  const a = app.select(UsersModule).get(CacheService, { strict: true });\n  const b = app.select(OrdersModule).get(CacheService, { strict: true });\n  console.log(a === b);\n  await app.close();\n}\nbootstrap();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`true`",
+            "en": "`true`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lỗi lúc khởi động vì `CacheService` bị khai báo trùng",
+            "en": "A startup error because `CacheService` is declared twice"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`undefined`",
+            "en": "`undefined`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`false`",
+            "en": "`false`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Mỗi module khai báo provider trong `providers` sẽ có instance riêng trong phạm vi của nó, nên `UsersModule` và `OrdersModule` giữ hai đối tượng `CacheService` khác nhau và kết quả là `false`. Đây là lỗi thường gặp khi muốn cache dùng chung: cache ở một module không thấy dữ liệu của module kia. Cách đúng là khai báo `CacheService` trong một module duy nhất, `exports` nó và để các module khác import module đó.",
+        "en": "Each module that lists a provider in `providers` gets its own instance in its scope, so `UsersModule` and `OrdersModule` hold two different `CacheService` objects and the result is `false`. This is a common bug when a cache is meant to be shared: one module's cache cannot see the other's data. The fix is to declare `CacheService` in a single module, `export` it and have the other modules import that module."
+      }
+    },
+    {
+      "id": "nestjs.modules.006",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "modules",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`SharedModule` import `CommonModule` (chứa `DateService`, `SlugService` đã export). Bạn muốn module nào import `SharedModule` cũng dùng được hai service đó. Cách gọn nhất?",
+        "en": "`SharedModule` imports `CommonModule` (which exports `DateService` and `SlugService`). You want every module importing `SharedModule` to use those two services as well. What is the cleanest way?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Khai báo lại `DateService`, `SlugService` trong `providers` của `SharedModule`",
+            "en": "Re-declare `DateService` and `SlugService` in `SharedModule`'s `providers`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thêm `CommonModule` vào mảng `exports` của `SharedModule` (re-export)",
+            "en": "Add `CommonModule` to the `exports` array of `SharedModule` (re-export)"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đánh dấu `CommonModule` là `@Global()` rồi bỏ khỏi `imports`",
+            "en": "Mark `CommonModule` as `@Global()` and drop it from `imports`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đưa `CommonModule` vào `providers` của từng module tiêu thụ",
+            "en": "Put `CommonModule` into the `providers` of every consuming module"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Nest cho phép re-export cả một module: thêm `CommonModule` vào `exports` của `SharedModule` thì mọi thứ `CommonModule` export sẽ đi kèm khi ai đó import `SharedModule`. Khai báo lại service trong `providers` sẽ tạo instance mới, còn biến module thành global là đổi phạm vi không cần thiết. Re-export giữ đúng một instance và ranh giới module rõ ràng.",
+        "en": "Nest lets you re-export a whole module: adding `CommonModule` to `SharedModule`'s `exports` makes everything `CommonModule` exports come along when someone imports `SharedModule`. Re-declaring the services in `providers` creates new instances, and making the module global changes the scope unnecessarily. Re-exporting keeps a single instance and clear module boundaries."
+      }
+    },
+    {
+      "id": "nestjs.modules.007",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "modules",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`UsersModule` import `AuthModule` để kiểm tra mật khẩu, còn `AuthModule` lại import `UsersModule` để tìm user. Khi chạy, Nest báo lỗi phụ thuộc vòng giữa hai module. Hướng xử lý nào hợp lý nhất?",
+        "en": "`UsersModule` imports `AuthModule` to check passwords, and `AuthModule` imports `UsersModule` to look up users. At runtime Nest reports a circular dependency between the two modules. What is the most sensible way to handle it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Tách phần dùng chung ra module thứ ba, hoặc dùng `forwardRef()` ở cả hai phía",
+            "en": "Extract the shared part into a third module, or use `forwardRef()` on both sides"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đánh dấu cả hai module là `@Global()` để chúng thấy nhau mà không cần import",
+            "en": "Mark both modules `@Global()` so they see each other without imports"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đổi thứ tự import trong `AppModule` để `AuthModule` được nạp trước `UsersModule`",
+            "en": "Reorder imports in `AppModule` so `AuthModule` loads before `UsersModule`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chuyển các service sang `Scope.TRANSIENT` để Nest tạo chúng một cách lười biếng khi cần",
+            "en": "Switch the services to `Scope.TRANSIENT` so Nest only creates them lazily when needed"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Phụ thuộc vòng giữa module thường là dấu hiệu chia trách nhiệm chưa đúng; cách tốt nhất là tách phần dùng chung ra module thứ ba hoặc đảo chiều để chỉ một bên phụ thuộc bên kia. Khi buộc phải giữ vòng, dùng `forwardRef(() => AuthModule)` ở `imports` của cả hai phía, và `@Inject(forwardRef(() => X))` nếu hai provider cũng phụ thuộc nhau. `@Global()`, đổi thứ tự import hay đổi scope không giải quyết được vòng tham chiếu.",
+        "en": "A circular dependency between modules usually signals misplaced responsibilities; the best fix is to extract the shared part into a third module or invert it so only one side depends on the other. When the cycle must stay, use `forwardRef(() => AuthModule)` in the `imports` of both sides, plus `@Inject(forwardRef(() => X))` if the two providers also depend on each other. `@Global()`, reordering imports or changing scopes does not break the reference cycle."
+      }
+    },
+    {
+      "id": "nestjs.modules.008",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "modules",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Cấu hình `JwtModule.registerAsync({ useFactory: (config: ConfigService) => ({ secret: config.get('JWT_SECRET') }), inject: [ConfigService] })` báo lỗi không resolve được `ConfigService`. `ConfigModule` không phải global. Cách sửa đúng?",
+        "en": "The setup `JwtModule.registerAsync({ useFactory: (config: ConfigService) => ({ secret: config.get('JWT_SECRET') }), inject: [ConfigService] })` fails because `ConfigService` cannot be resolved. `ConfigModule` is not global. What is the correct fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm `imports: [ConfigModule]` vào trong options của `registerAsync`",
+            "en": "Add `imports: [ConfigModule]` to the `registerAsync` options"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đổi factory thành `async` để Nest chờ `ConfigService` sẵn sàng",
+            "en": "Make the factory `async` so Nest waits until `ConfigService` is ready"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bỏ `inject` và đọc `process.env.JWT_SECRET` ngay đầu file module",
+            "en": "Drop `inject` and read `process.env.JWT_SECRET` at the top of the module file"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đưa `ConfigService` vào `exports` của `AppModule` để `JwtModule` thấy",
+            "en": "Add `ConfigService` to `AppModule`'s `exports` so `JwtModule` can see it"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Factory của dynamic module chạy trong ngữ cảnh của chính module đó, nên provider liệt kê trong `inject` phải đến từ các module khai báo ở `imports` của options. Thêm `imports: [ConfigModule]` vào `registerAsync` (hoặc dùng `ConfigModule.forRoot({ isGlobal: true })`) là cách chuẩn. Đọc thẳng `process.env` lúc load file sẽ bỏ qua việc validate và nạp `.env` của `ConfigModule`.",
+        "en": "A dynamic module's factory runs in that module's own context, so the providers listed in `inject` must come from modules listed in the options' `imports`. Adding `imports: [ConfigModule]` to `registerAsync` (or using `ConfigModule.forRoot({ isGlobal: true })`) is the standard fix. Reading `process.env` directly at file load time bypasses `ConfigModule`'s `.env` loading and validation."
+      }
+    },
+    {
+      "id": "nestjs.modules.009",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "modules",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn cần viết `PaymentsModule` dùng lại cho nhiều dự án, nhận API key và môi trường từ bên ngoài. Hãy thiết kế nó dưới dạng dynamic module (`forRoot`/`forRootAsync`).",
+        "en": "You need a reusable `PaymentsModule` for several projects that receives an API key and environment from outside. Design it as a dynamic module (`forRoot`/`forRootAsync`)."
+      },
+      "keyPoints": [
+        {
+          "vi": "`static forRoot(options): DynamicModule` trả về `module`, `providers`, `exports` và có thể `global: true`",
+          "en": "`static forRoot(options): DynamicModule` returns `module`, `providers`, `exports` and optionally `global: true`"
+        },
+        {
+          "vi": "Cung cấp options qua token riêng (`{ provide: PAYMENTS_OPTIONS, useValue: options }`) và `@Inject(PAYMENTS_OPTIONS)` trong service",
+          "en": "Provide the options under a dedicated token (`{ provide: PAYMENTS_OPTIONS, useValue: options }`) and `@Inject(PAYMENTS_OPTIONS)` in services"
+        },
+        {
+          "vi": "`forRootAsync({ imports, useFactory, inject })` để lấy cấu hình bất đồng bộ từ `ConfigService` hay secret store",
+          "en": "`forRootAsync({ imports, useFactory, inject })` to load configuration asynchronously from `ConfigService` or a secret store"
+        },
+        {
+          "vi": "`ConfigurableModuleBuilder` sinh `forRoot`/`forRootAsync`, token và kiểu options, giảm boilerplate",
+          "en": "`ConfigurableModuleBuilder` generates `forRoot`/`forRootAsync`, the token and option types, reducing boilerplate"
+        },
+        {
+          "vi": "Validate options khi khởi tạo, chỉ export `PaymentsService`, giữ client SDK nội bộ để dễ mock khi test",
+          "en": "Validate options at startup, export only `PaymentsService`, keep the SDK client internal so it is easy to mock in tests"
+        }
+      ],
+      "explanation": {
+        "vi": "Dynamic module là static method trả về `DynamicModule` (`module`, `providers`, `exports`, `imports`, `global`), cho phép mỗi ứng dụng truyền cấu hình riêng. Options được cung cấp qua một injection token để service bên trong inject, còn `forRootAsync` hỗ trợ `useFactory` + `inject` + `imports` để lấy cấu hình từ `ConfigService`. `ConfigurableModuleBuilder` sinh sẵn phần boilerplate này và kiểu cho options. Nên validate options sớm và chỉ export đúng service công khai.",
+        "en": "A dynamic module is a static method returning a `DynamicModule` (`module`, `providers`, `exports`, `imports`, `global`), letting each application pass its own configuration. The options are provided under an injection token that internal services inject, while `forRootAsync` supports `useFactory` + `inject` + `imports` to pull configuration from `ConfigService`. `ConfigurableModuleBuilder` generates this boilerplate and the option types. Validate options early and export only the public service."
+      }
+    },
+    {
+      "id": "nestjs.controllers.001",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "controllers",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với request `PATCH /users/42?notify=true` kèm JSON body, handler nên khai báo tham số thế nào để lấy `42`, `notify` và body?",
+        "en": "For a `PATCH /users/42?notify=true` request with a JSON body, how should the handler declare its parameters to read `42`, `notify` and the body?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`@Query('id') id`, `@Param('notify') notify`, `@Body() dto`",
+            "en": "`@Query('id') id`, `@Param('notify') notify`, `@Body() dto`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`@Param('id') id`, `@Query('notify') notify`, `@Body() dto`",
+            "en": "`@Param('id') id`, `@Query('notify') notify`, `@Body() dto`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`@Body('id') id`, `@Query('notify') notify`, `@Req() dto`",
+            "en": "`@Body('id') id`, `@Query('notify') notify`, `@Req() dto`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`@Param('id') id`, `@Headers('notify') notify`, `@Param() dto`",
+            "en": "`@Param('id') id`, `@Headers('notify') notify`, `@Param() dto`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`@Param('id')` đọc biến trên path khai báo bằng `@Patch(':id')`, `@Query('notify')` đọc query string, còn `@Body()` lấy body đã được parse thành object. Lưu ý giá trị từ path và query luôn là string (`'42'`, `'true'`) cho đến khi bạn dùng pipe như `ParseIntPipe`, `ParseBoolPipe` hoặc `ValidationPipe` với `transform`.",
+        "en": "`@Param('id')` reads the path variable declared with `@Patch(':id')`, `@Query('notify')` reads the query string, and `@Body()` gets the parsed body object. Note that path and query values are always strings (`'42'`, `'true'`) until you apply a pipe such as `ParseIntPipe`, `ParseBoolPipe` or `ValidationPipe` with `transform`."
+      }
+    },
+    {
+      "id": "nestjs.controllers.002",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "controllers",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Client gọi `GET /users/me`. Response body là gì?",
+        "en": "A client calls `GET /users/me`. What is the response body?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Controller('users')\nexport class UsersController {\n  @Get(':id')\n  findOne(@Param('id') id: string) {\n    return `user ${id}`;\n  }\n\n  @Get('me')\n  me() {\n    return 'current user';\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`current user`",
+            "en": "`current user`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`404 Not Found`",
+            "en": "`404 Not Found`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi khởi động vì hai route trùng nhau",
+            "en": "A startup error about conflicting routes"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`user me`",
+            "en": "`user me`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Nest đăng ký route theo thứ tự khai báo trong controller, và `:id` khớp với mọi đoạn path, kể cả `me`. Vì `findOne` đứng trước nên nó bắt request với `id = 'me'` và trả `user me`. Hãy khai báo route tĩnh như `me` trước route có tham số, hoặc ràng buộc tham số bằng pipe như `ParseIntPipe`.",
+        "en": "Nest registers routes in the order they are declared in the controller, and `:id` matches any path segment, including `me`. Because `findOne` comes first, it catches the request with `id = 'me'` and returns `user me`. Declare static routes such as `me` before parameterised ones, or constrain the parameter with a pipe such as `ParseIntPipe`."
+      }
+    },
+    {
+      "id": "nestjs.controllers.003",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "controllers",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Frontend phàn nàn `POST /auth/login` trả status `201` trong khi họ chờ `200`. Cách sửa đúng kiểu NestJS?",
+        "en": "The frontend complains that `POST /auth/login` returns status `201` while they expect `200`. What is the idiomatic NestJS fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm `@HttpCode(HttpStatus.OK)` cho handler",
+            "en": "Add `@HttpCode(HttpStatus.OK)` to the handler"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Trả `{ statusCode: 200 }` trong body",
+            "en": "Return `{ statusCode: 200 }` in the body"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đổi `@Post('login')` thành `@Put('login')` vì `PUT` mặc định trả `200`",
+            "en": "Change `@Post('login')` to `@Put('login')` since `PUT` returns `200` by default"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ném `new HttpException(data, 200)` ở cuối handler để ghi đè status",
+            "en": "Throw `new HttpException(data, 200)` at the end of the handler to override the status"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Mặc định Nest trả `201` cho handler `@Post()` và `200` cho các method khác. Decorator `@HttpCode(HttpStatus.OK)` đổi status của một handler mà vẫn giữ cơ chế trả giá trị tự động. Đưa `statusCode` vào body không đổi HTTP status thật, còn đổi method sang `PUT` là sai ngữ nghĩa cho đăng nhập.",
+        "en": "By default Nest returns `201` for `@Post()` handlers and `200` for other methods. The `@HttpCode(HttpStatus.OK)` decorator changes the status of one handler while keeping automatic return-value handling. Putting `statusCode` in the body does not change the real HTTP status, and switching to `PUT` has the wrong semantics for a login."
+      }
+    },
+    {
+      "id": "nestjs.controllers.004",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "controllers",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đồng nghiệp khai báo DTO bằng `interface CreateUserDto { email: string }` và thắc mắc vì sao `ValidationPipe` không bao giờ validate. Giải thích đúng là gì?",
+        "en": "A colleague declares the DTO as `interface CreateUserDto { email: string }` and wonders why `ValidationPipe` never validates it. What is the right explanation?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Interface chỉ được validate khi bật `strict: true` trong `tsconfig.json`",
+            "en": "Interfaces are only validated when `strict: true` is enabled in `tsconfig.json`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Interface bị xoá khi biên dịch nên lúc chạy pipe chỉ thấy `Object`",
+            "en": "Interfaces are erased at compile time; the pipe only sees `Object`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`ValidationPipe` chỉ chạy cho `@Query()`, không chạy cho `@Body()`",
+            "en": "`ValidationPipe` only runs for `@Query()`, never for `@Body()`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cần thêm `@Injectable()` lên interface để Nest đăng ký nó vào DI",
+            "en": "The interface needs `@Injectable()` so Nest registers it in DI"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Interface của TypeScript bị xoá khi biên dịch, nên lúc chạy metadata kiểu tham số chỉ còn là `Object`. `ValidationPipe` cần một class thật để `class-transformer` tạo instance và `class-validator` đọc các decorator như `@IsEmail()`. Vì vậy DTO trong Nest nên là class; Swagger cũng dựa vào class để sinh tài liệu.",
+        "en": "TypeScript interfaces are erased at compile time, so at runtime the parameter type metadata is just `Object`. `ValidationPipe` needs a real class so `class-transformer` can create an instance and `class-validator` can read decorators such as `@IsEmail()`. That is why DTOs in Nest should be classes; Swagger also relies on classes to generate docs."
+      }
+    },
+    {
+      "id": "nestjs.controllers.005",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "controllers",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Gọi `POST /reports/export` thì client chờ mãi cho đến khi timeout. Lỗi nằm ở đâu?",
+        "en": "Calling `POST /reports/export` makes the client wait until it times out. What is the bug?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Controller('reports')\nexport class ReportsController {\n  @Post('export')\n  exportCsv(@Res() res: Response) {\n    res.header('Content-Type', 'text/csv');\n    return 'id,name\\n1,An';\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`res.header()` phải gọi sau khi `return`, nếu không header bị khoá và response bị treo lại",
+            "en": "`res.header()` must run after `return`; otherwise the headers lock and the response stalls"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Handler `@Post()` phải trả về object JSON, Nest không thể tự gửi một chuỗi CSV thuần về client",
+            "en": "A `@Post()` handler must return a JSON object; Nest cannot send a plain CSV string back to the client"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Có `@Res()` nên Nest không gửi giá trị `return`; gọi `res.send()` hoặc dùng `passthrough`",
+            "en": "With `@Res()`, Nest stops sending the `return` value; call `res.send()` or use `passthrough`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thiếu `async` nên Nest không biết lúc nào handler kết thúc để gửi response về",
+            "en": "It lacks `async`, so Nest cannot tell when the handler finishes to send the response"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Khi inject `@Res()`, Nest chuyển sang chế độ library-specific và không tự gửi giá trị trả về của handler nữa, nên response không bao giờ được kết thúc. Cách sửa là gọi `res.send(csv)` hoặc dùng `@Res({ passthrough: true })` để vừa set header vừa trả giá trị như bình thường. Đơn giản hơn nữa là dùng `@Header('Content-Type', 'text/csv')` và bỏ hẳn `@Res()`.",
+        "en": "When you inject `@Res()`, Nest switches to library-specific mode and no longer sends the handler's return value, so the response is never finished. Fix it by calling `res.send(csv)` or by using `@Res({ passthrough: true })` to set headers while still returning a value normally. Simpler still, use `@Header('Content-Type', 'text/csv')` and drop `@Res()` entirely."
+      }
+    },
+    {
+      "id": "nestjs.controllers.006",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "controllers",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `UsersService.findOne(id)`, khi không có user bạn muốn client nhận `404` với body JSON chuẩn của Nest. Cách nào đúng?",
+        "en": "In `UsersService.findOne(id)`, when the user does not exist you want the client to receive a `404` with Nest's standard JSON body. Which approach is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`return null`, Nest tự đổi kết quả `null` thành status `404`",
+            "en": "`return null`; Nest turns a `null` result into a `404` status"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`throw new NotFoundException('User not found')`",
+            "en": "`throw new NotFoundException('User not found')`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Inject `@Res()` vào service rồi gọi `res.status(404).json(...)`",
+            "en": "Inject `@Res()` into the service and call `res.status(404).json(...)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`return { status: 404, message: 'User not found' }` từ service",
+            "en": "`return { status: 404, message: 'User not found' }` from the service"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Ném `NotFoundException` (một `HttpException` dựng sẵn) để exception layer của Nest trả `404` với body `{ message, error, statusCode }`, và cách này hoạt động ở bất kỳ tầng nào được gọi từ handler. Trả `null` thì Nest vẫn gửi `200` với body rỗng. Service cũng không nên đụng tới object response của Express vì sẽ trói nghiệp vụ vào tầng HTTP.",
+        "en": "Throw `NotFoundException` (a built-in `HttpException`) so Nest's exception layer returns `404` with a `{ message, error, statusCode }` body, and it works from any layer the handler calls. Returning `null` makes Nest send `200` with an empty body. A service should also not touch the Express response object, because that ties business logic to the HTTP layer."
+      }
+    },
+    {
+      "id": "nestjs.controllers.007",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "controllers",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Rất nhiều handler viết `@Req() req` rồi đọc `req.user.id` do `JwtAuthGuard` gắn vào. Cách gọn và dễ test hơn là gì?",
+        "en": "Many handlers take `@Req() req` and read `req.user.id`, which `JwtAuthGuard` attaches. What is a cleaner, more testable approach?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Lưu user vào một biến toàn cục trong guard để handler đọc lại khi cần dùng",
+            "en": "Store the user in a global variable inside the guard for handlers to read later"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giải mã lại JWT trong từng handler bằng `@Headers('authorization')` cho chắc chắn",
+            "en": "Decode the JWT again in each handler with `@Headers('authorization')` to be safe"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tạo decorator `@CurrentUser()` bằng `createParamDecorator` đọc `request.user`",
+            "en": "Create a `@CurrentUser()` decorator with `createParamDecorator` that reads `request.user`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Inject `JwtAuthGuard` vào constructor của controller rồi gọi `guard.user` ở handler",
+            "en": "Inject `JwtAuthGuard` into the controller constructor and read `guard.user` in handlers"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`createParamDecorator((data, ctx: ExecutionContext) => ctx.switchToHttp().getRequest().user)` tạo decorator `@CurrentUser()` dùng lại được, handler chỉ nhận đúng thứ nó cần thay vì cả object request. Code đọc rõ hơn, unit test controller chỉ cần truyền một object user, và có thể kết hợp với pipe để validate. Biến toàn cục hay đọc lại token trong từng handler đều phá vỡ tính độc lập giữa các request.",
+        "en": "`createParamDecorator((data, ctx: ExecutionContext) => ctx.switchToHttp().getRequest().user)` creates a reusable `@CurrentUser()` decorator, so handlers receive exactly what they need instead of the whole request object. The code reads better, controller unit tests just pass a user object, and it can be combined with pipes for validation. A global variable or re-reading the token in every handler breaks isolation between requests."
+      }
+    },
+    {
+      "id": "nestjs.controllers.008",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "controllers",
+      "level": "middle",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "`RequestContext` có `Scope.REQUEST` và được inject vào controller. Sau 3 request `GET /orders`, giá trị `created` là bao nhiêu?",
+        "en": "`RequestContext` is `Scope.REQUEST` and is injected into a controller. After 3 `GET /orders` requests, what is the value of `created`?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Injectable({ scope: Scope.REQUEST })\nexport class RequestContext {\n  readonly startedAt = Date.now();\n}\n\nlet created = 0;\n\n@Controller('orders')\nexport class OrdersController {\n  constructor(private readonly ctx: RequestContext) {\n    created++;\n  }\n\n  @Get()\n  list() {\n    return [];\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`1`",
+            "en": "`1`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`0`",
+            "en": "`0`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`4`",
+            "en": "`4`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`3`",
+            "en": "`3`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Scope lan ngược lên chuỗi phụ thuộc: controller phụ thuộc vào provider `Scope.REQUEST` nên chính controller cũng thành request-scoped và được khởi tạo lại cho mỗi request, nên `created` là `3`. Điều này cũng áp dụng cho mọi singleton phụ thuộc vào nó, gây tốn chi phí khởi tạo trên đường nóng. Với nhu cầu như request id hay tenant, nhiều team dùng `AsyncLocalStorage` (ví dụ `nestjs-cls`) để giữ mọi thứ singleton.",
+        "en": "Scope bubbles up the dependency chain: the controller depends on a `Scope.REQUEST` provider, so the controller itself becomes request-scoped and is created again for each request, making `created` equal `3`. The same applies to every singleton that depends on it, adding instantiation cost on the hot path. For things like request ids or tenants, many teams use `AsyncLocalStorage` (e.g. `nestjs-cls`) to keep everything singleton."
+      }
+    },
+    {
+      "id": "nestjs.providers.001",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "providers",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Một provider khai báo `@Injectable()` không truyền tuỳ chọn gì. Nest quản lý vòng đời instance của nó thế nào?",
+        "en": "A provider is declared with `@Injectable()` and no options. How does Nest manage its instance lifetime?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mỗi request HTTP tạo một instance mới và huỷ khi response kết thúc",
+            "en": "Each HTTP request creates a new instance that is destroyed after the response"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một instance tạo lúc khởi động và dùng chung cho mọi nơi trong suốt vòng đời app",
+            "en": "One instance created at startup and shared by every consumer for the app's lifetime"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Mỗi class inject nó nhận một instance riêng, không chia sẻ với ai",
+            "en": "Each class that injects it receives its own instance, shared with nobody"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Instance chỉ được tạo ở lần gọi method đầu tiên rồi bị giải phóng ngay sau đó",
+            "en": "The instance is created on the first method call and released right afterwards"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Scope mặc định là `DEFAULT` (singleton): Nest tạo một instance khi khởi động ứng dụng và dùng chung cho mọi nơi inject nó trong cùng module. Vì instance sống suốt vòng đời app, không nên lưu dữ liệu riêng của từng request (user hiện tại, tenant) vào field của nó. Chỉ khi khai báo `Scope.REQUEST` hay `Scope.TRANSIENT` thì Nest mới tạo nhiều instance.",
+        "en": "The default scope is `DEFAULT` (singleton): Nest creates one instance at startup and shares it with every consumer in the same module. Because the instance lives as long as the app, do not store per-request data (current user, tenant) in its fields. Nest creates multiple instances only when you declare `Scope.REQUEST` or `Scope.TRANSIENT`."
+      }
+    },
+    {
+      "id": "nestjs.providers.002",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "providers",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Client lần lượt gọi `GET /a`, `GET /b`, rồi `GET /a`. Ba response body là gì?",
+        "en": "A client calls `GET /a`, `GET /b`, then `GET /a` in order. What are the three response bodies?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Injectable()\nexport class CounterService {\n  private count = 0;\n  next() {\n    return ++this.count;\n  }\n}\n\n@Controller('a')\nexport class AController {\n  constructor(private counter: CounterService) {}\n  @Get() hit() { return this.counter.next(); }\n}\n\n@Controller('b')\nexport class BController {\n  constructor(private counter: CounterService) {}\n  @Get() hit() { return this.counter.next(); }\n}\n\n@Module({\n  controllers: [AController, BController],\n  providers: [CounterService],\n})\nexport class AppModule {}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`1`, `1`, `2`",
+            "en": "`1`, `1`, `2`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`1`, `2`, `3`",
+            "en": "`1`, `2`, `3`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`1`, `1`, `1`",
+            "en": "`1`, `1`, `1`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`0`, `1`, `2`",
+            "en": "`0`, `1`, `2`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`CounterService` là singleton nên hai controller nhận cùng một instance, và biến `count` được chia sẻ giữa mọi request. Vì vậy ba lần gọi lần lượt trả `1`, `2`, `3` dù đi qua hai controller khác nhau. Đây cũng là lý do không nên lưu state theo request trong field của provider mặc định.",
+        "en": "`CounterService` is a singleton, so both controllers receive the same instance and `count` is shared across all requests. The three calls therefore return `1`, `2`, `3` even though they go through two different controllers. This is also why per-request state should not live in a default provider's fields."
+      }
+    },
+    {
+      "id": "nestjs.providers.003",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "providers",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Ứng dụng khởi động bình thường, nhưng gọi `usersService.welcome('an@x.io')` thì lỗi `TypeError: Cannot read properties of undefined (reading 'send')`. Vì sao?",
+        "en": "The app starts fine, but calling `usersService.welcome('an@x.io')` throws `TypeError: Cannot read properties of undefined (reading 'send')`. Why?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Injectable()\nexport class MailerService {\n  send(to: string) {\n    return `sent to ${to}`;\n  }\n}\n\nexport class UsersService {\n  constructor(private mailer: MailerService) {}\n\n  welcome(email: string) {\n    return this.mailer.send(email);\n  }\n}\n\n@Module({ providers: [MailerService, UsersService] })\nexport class AppModule {}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`MailerService` phải đứng sau `UsersService` trong mảng `providers` của module",
+            "en": "`MailerService` must come after `UsersService` in the module's `providers` array"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tham số constructor phải là `public` thì Nest mới gán được giá trị cho nó",
+            "en": "The constructor parameter must be `public` for Nest to assign a value to it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`UsersService` thiếu `@Injectable()` nên không có metadata kiểu tham số",
+            "en": "`UsersService` lacks `@Injectable()`, so there is no parameter-type metadata"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`MailerService` phải được đưa vào `exports` dù cả hai nằm chung một module",
+            "en": "`MailerService` must be added to `exports` even though both live in one module"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "TypeScript chỉ phát metadata `design:paramtypes` cho class có decorator. `UsersService` thiếu `@Injectable()` nên Nest không biết constructor cần `MailerService`, nó tạo instance mà không truyền tham số nào và `this.mailer` là `undefined`. Thêm `@Injectable()` cho mọi provider có phụ thuộc để Nest đọc được kiểu tham số.",
+        "en": "TypeScript only emits `design:paramtypes` metadata for decorated classes. `UsersService` lacks `@Injectable()`, so Nest does not know its constructor needs `MailerService`; it creates the instance with no arguments and `this.mailer` is `undefined`. Add `@Injectable()` to every provider that has dependencies so Nest can read the parameter types."
+      }
+    },
+    {
+      "id": "nestjs.providers.004",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "providers",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khi bạn viết `constructor(private readonly usersService: UsersService)` trong controller, Nest làm gì để truyền đúng instance vào? Giải thích cơ chế đằng sau.",
+        "en": "When you write `constructor(private readonly usersService: UsersService)` in a controller, what does Nest do to pass in the right instance? Explain the mechanism behind it."
+      },
+      "keyPoints": [
+        {
+          "vi": "Provider được đăng ký trong `providers` của module; `UsersService` là viết tắt của `{ provide: UsersService, useClass: UsersService }`",
+          "en": "Providers are registered in a module's `providers`; `UsersService` is shorthand for `{ provide: UsersService, useClass: UsersService }`"
+        },
+        {
+          "vi": "Decorator + `emitDecoratorMetadata` cho Nest đọc kiểu tham số constructor (`design:paramtypes`) làm token",
+          "en": "Decorators plus `emitDecoratorMetadata` let Nest read constructor parameter types (`design:paramtypes`) as tokens"
+        },
+        {
+          "vi": "Nest tìm token trong module hiện tại và các module đã import (provider được export), resolve đệ quy các phụ thuộc",
+          "en": "Nest looks the token up in the current module and imported modules (exported providers), resolving dependencies recursively"
+        },
+        {
+          "vi": "Mặc định instance là singleton, tạo một lần lúc bootstrap và dùng lại",
+          "en": "By default the instance is a singleton, created once at bootstrap and reused"
+        },
+        {
+          "vi": "Thiếu provider sẽ gây lỗi `Nest can't resolve dependencies` lúc khởi động, không phải lúc gọi method",
+          "en": "A missing provider fails at startup with `Nest can't resolve dependencies`, not when a method is called"
+        }
+      ],
+      "explanation": {
+        "vi": "Nest có một IoC container: provider được đăng ký trong module theo token, và khi tạo controller Nest đọc kiểu tham số constructor nhờ metadata mà TypeScript phát ra (`emitDecoratorMetadata`). Mỗi kiểu là một token; Nest tìm provider tương ứng trong module hiện tại hoặc các module đã import, tạo nó (đệ quy cho các phụ thuộc) và tái sử dụng instance singleton. Nếu không tìm thấy, Nest báo lỗi `Nest can't resolve dependencies` ngay lúc khởi động.",
+        "en": "Nest has an IoC container: providers are registered in modules by token, and when creating the controller Nest reads the constructor parameter types from the metadata TypeScript emits (`emitDecoratorMetadata`). Each type is a token; Nest finds the matching provider in the current module or imported modules, creates it (recursively for its dependencies) and reuses the singleton instance. If none is found, Nest reports `Nest can't resolve dependencies` at startup."
+      }
+    },
+    {
+      "id": "nestjs.providers.005",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "providers",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Ứng dụng không khởi động được: `Nest can't resolve dependencies of the ApiClient (?). Please make sure that the argument AppConfig at index [0] is available in the AppModule module.` Sửa thế nào?",
+        "en": "The app fails to start: `Nest can't resolve dependencies of the ApiClient (?). Please make sure that the argument AppConfig at index [0] is available in the AppModule module.` How do you fix it?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "export class AppConfig {\n  apiUrl: string;\n}\n\n@Injectable()\nexport class ApiClient {\n  constructor(private readonly config: AppConfig) {}\n}\n\n@Module({\n  providers: [\n    { provide: 'APP_CONFIG', useValue: { apiUrl: 'https://api.example.com' } },\n    ApiClient,\n  ],\n})\nexport class AppModule {}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm `@Inject('APP_CONFIG')` trước tham số `config` để dùng đúng token",
+            "en": "Add `@Inject('APP_CONFIG')` before the `config` parameter to use that token"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Đổi `useValue` thành `useClass: AppConfig` để Nest tự gán giá trị cấu hình",
+            "en": "Change `useValue` to `useClass: AppConfig` so Nest fills in the config values"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thêm `@Injectable()` cho class `AppConfig` để nó trở thành một provider",
+            "en": "Add `@Injectable()` to the `AppConfig` class so it becomes a provider"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Đưa `'APP_CONFIG'` vào `exports` vì token chuỗi phải export mới dùng được",
+            "en": "Add `'APP_CONFIG'` to `exports`, since string tokens must be exported to work"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Cấu hình được đăng ký dưới token chuỗi `'APP_CONFIG'`, nhưng constructor không có `@Inject`, nên Nest dùng kiểu `AppConfig` làm token và không tìm thấy provider nào. Thêm `@Inject('APP_CONFIG')` trước tham số để dùng đúng token. Tốt hơn nữa là export một hằng số (hoặc `Symbol`) làm token để tránh gõ sai chuỗi.",
+        "en": "The configuration is registered under the string token `'APP_CONFIG'`, but the constructor has no `@Inject`, so Nest uses the `AppConfig` type as the token and finds no provider for it. Add `@Inject('APP_CONFIG')` before the parameter to use the right token. Better still, export a constant (or a `Symbol`) as the token to avoid string typos."
+      }
+    },
+    {
+      "id": "nestjs.providers.006",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "providers",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Đoạn code sau in ra các dòng theo thứ tự nào?",
+        "en": "In what order does the following code print its lines?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Injectable()\nexport class DbService implements OnModuleInit, OnApplicationBootstrap, OnModuleDestroy {\n  constructor() { console.log('constructor'); }\n  onModuleInit() { console.log('onModuleInit'); }\n  onApplicationBootstrap() { console.log('onApplicationBootstrap'); }\n  onModuleDestroy() { console.log('onModuleDestroy'); }\n}\n\n@Module({ providers: [DbService] })\nexport class AppModule {}\n\nasync function bootstrap() {\n  const app = await NestFactory.createApplicationContext(AppModule, { logger: false });\n  console.log('ready');\n  await app.close();\n}\nbootstrap();"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`constructor`, `onModuleInit`, `onApplicationBootstrap`, `ready`, `onModuleDestroy`",
+            "en": "`constructor`, `onModuleInit`, `onApplicationBootstrap`, `ready`, `onModuleDestroy`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`constructor`, `onApplicationBootstrap`, `onModuleInit`, `ready`, `onModuleDestroy`",
+            "en": "`constructor`, `onApplicationBootstrap`, `onModuleInit`, `ready`, `onModuleDestroy`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`constructor`, `ready`, `onModuleInit`, `onApplicationBootstrap`, `onModuleDestroy`",
+            "en": "`constructor`, `ready`, `onModuleInit`, `onApplicationBootstrap`, `onModuleDestroy`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`constructor`, `onModuleInit`, `onApplicationBootstrap`, `ready`",
+            "en": "`constructor`, `onModuleInit`, `onApplicationBootstrap`, `ready`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Nest tạo mọi instance trước (constructor), sau đó gọi `onModuleInit` khi module của provider đã resolve xong, rồi `onApplicationBootstrap` khi mọi module đã khởi tạo. `createApplicationContext` chỉ resolve sau khi các hook này hoàn tất nên `ready` in sau chúng. `onModuleDestroy` chỉ chạy khi `app.close()` được gọi (hoặc khi bật shutdown hooks và nhận tín hiệu tắt).",
+        "en": "Nest creates all instances first (constructors), then calls `onModuleInit` once the provider's module is resolved, then `onApplicationBootstrap` once all modules are initialised. `createApplicationContext` resolves only after these hooks finish, so `ready` prints after them. `onModuleDestroy` only runs when `app.close()` is called (or on a shutdown signal when shutdown hooks are enabled)."
+      }
+    },
+    {
+      "id": "nestjs.providers.007",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "providers",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần một Redis client phải `await connect()` với URL lấy từ `ConfigService` trước khi app nhận request. Cách khai báo provider nào phù hợp?",
+        "en": "You need a Redis client that must `await connect()` with a URL from `ConfigService` before the app accepts requests. Which provider declaration fits?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`{ provide: REDIS, useValue: createClient({ url: process.env.REDIS_URL }).connect() }`",
+            "en": "`{ provide: REDIS, useValue: createClient({ url: process.env.REDIS_URL }).connect() }`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`{ provide: REDIS, useClass: RedisClient, inject: [ConfigService] }`",
+            "en": "`{ provide: REDIS, useClass: RedisClient, inject: [ConfigService] }`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`{ provide: REDIS, useExisting: ConfigService }`",
+            "en": "`{ provide: REDIS, useExisting: ConfigService }`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`{ provide: REDIS, useFactory: async (c: ConfigService) => ..., inject: [ConfigService] }`",
+            "en": "`{ provide: REDIS, useFactory: async (c: ConfigService) => ..., inject: [ConfigService] }`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Factory provider cho phép tạo giá trị bằng code, inject các provider khác qua `inject`, và nếu factory trả Promise thì Nest sẽ chờ nó resolve trước khi hoàn tất bootstrap. Nhờ vậy mọi nơi inject `REDIS` đều nhận client đã kết nối. `useValue` với một Promise sẽ inject chính Promise đó, còn `useClass` không cho truyền cấu hình động.",
+        "en": "A factory provider builds the value in code, injects other providers through `inject`, and if the factory returns a Promise Nest waits for it before finishing bootstrap. Every consumer of `REDIS` therefore gets a connected client. `useValue` with a Promise injects the Promise itself, and `useClass` does not let you pass dynamic configuration."
+      }
+    },
+    {
+      "id": "nestjs.providers.008",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "providers",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Khác biệt giữa `Scope.TRANSIENT` và `Scope.REQUEST` là gì?",
+        "en": "What is the difference between `Scope.TRANSIENT` and `Scope.REQUEST`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`TRANSIENT`: mỗi lần gọi method một instance; `REQUEST`: một instance cho mọi request",
+            "en": "`TRANSIENT`: one instance per method call; `REQUEST`: one instance for all requests"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`TRANSIENT`: riêng mỗi consumer; `REQUEST`: riêng mỗi request",
+            "en": "`TRANSIENT`: one instance per consumer; `REQUEST`: one shared instance per request"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`TRANSIENT` chỉ dùng cho microservice, `REQUEST` chỉ dùng cho HTTP và GraphQL",
+            "en": "`TRANSIENT` is only for microservices, `REQUEST` only for HTTP and GraphQL"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hai scope giống nhau, `TRANSIENT` chỉ là tên cũ trước NestJS 8",
+            "en": "They are the same; `TRANSIENT` is just the old name used before NestJS 8"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Provider `TRANSIENT` không được chia sẻ: mỗi consumer inject nó sẽ nhận một instance riêng, thường dùng cho logger có context theo class. Provider `REQUEST` được tạo mới cho mỗi request đến và dùng chung trong toàn bộ request đó, rồi bị thu gom sau khi request kết thúc. Cả hai đều tốn chi phí hơn singleton, và `REQUEST` còn lan scope lên các consumer.",
+        "en": "A `TRANSIENT` provider is not shared: every consumer that injects it receives its own instance, often used for loggers with per-class context. A `REQUEST` provider is created for each incoming request and shared throughout that request, then garbage-collected after it ends. Both cost more than singletons, and `REQUEST` also bubbles its scope up to consumers."
+      }
+    },
+    {
+      "id": "nestjs.providers.009",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "providers",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Hệ thống SaaS multi-tenant cần biết `tenantId` của request ở mọi tầng (repository, logger, cache). Một bạn đề xuất cho mọi service dùng `Scope.REQUEST`. Hãy phân tích và đề xuất thiết kế.",
+        "en": "A multi-tenant SaaS needs the request's `tenantId` in every layer (repositories, logger, cache). Someone proposes making every service `Scope.REQUEST`. Analyse this and propose a design."
+      },
+      "keyPoints": [
+        {
+          "vi": "`Scope.REQUEST` lan lên mọi consumer, tạo lại nhiều instance mỗi request: tốn CPU, bộ nhớ, tăng latency",
+          "en": "`Scope.REQUEST` bubbles to every consumer and re-creates many instances per request: CPU, memory and latency cost"
+        },
+        {
+          "vi": "Request scope không có ở ngữ cảnh ngoài HTTP như cron, BullMQ worker, và gây khó cho `onModuleInit`",
+          "en": "Request scope does not exist outside HTTP contexts such as crons or BullMQ workers, and complicates `onModuleInit`"
+        },
+        {
+          "vi": "Giữ singleton, lưu `tenantId` trong `AsyncLocalStorage`/`nestjs-cls`, gán ở middleware hoặc guard",
+          "en": "Keep singletons and store `tenantId` in `AsyncLocalStorage`/`nestjs-cls`, set in a middleware or guard"
+        },
+        {
+          "vi": "Cần instance theo tenant (connection, cấu hình riêng) thì dùng durable provider với `ContextIdStrategy`",
+          "en": "When per-tenant instances are needed (connections, configuration), use durable providers with a `ContextIdStrategy`"
+        },
+        {
+          "vi": "Ép tenant ở tầng dữ liệu (row-level security, filter bắt buộc) và test chống rò ngữ cảnh khi chạy đồng thời",
+          "en": "Enforce the tenant at the data layer (row-level security, mandatory filters) and test against context leaks under concurrency"
+        }
+      ],
+      "explanation": {
+        "vi": "`Scope.REQUEST` lan lên toàn bộ cây phụ thuộc, khiến hàng chục provider bị khởi tạo lại mỗi request, tăng latency và GC, và không dùng được trong cron, queue worker hay một số lifecycle hook. Cách phổ biến là giữ provider singleton và lưu ngữ cảnh trong `AsyncLocalStorage` (thư viện `nestjs-cls`), được gán ở middleware hay guard. Nếu thật sự cần instance theo tenant (ví dụ connection riêng), durable provider với `ContextIdStrategy` cho phép dùng chung cây DI theo tenant thay vì theo request. Cần thêm test đảm bảo ngữ cảnh không rò rỉ giữa các request đồng thời.",
+        "en": "`Scope.REQUEST` bubbles up the whole dependency tree, so dozens of providers get re-created per request, increasing latency and GC pressure, and it does not work in crons, queue workers or some lifecycle hooks. A common approach is to keep providers singleton and store the context in `AsyncLocalStorage` (the `nestjs-cls` library), set in a middleware or guard. If you truly need per-tenant instances (e.g. a dedicated connection), durable providers with a `ContextIdStrategy` let you share a DI sub-tree per tenant instead of per request. Add tests that ensure context does not leak between concurrent requests."
+      }
+    },
+    {
+      "id": "nestjs.pipes.001",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "pipes",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Client gọi `GET /orders/abc`. Response nhận được là gì?",
+        "en": "A client calls `GET /orders/abc`. What response does it get?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Controller('orders')\nexport class OrdersController {\n  @Get(':id')\n  findOne(@Param('id', ParseIntPipe) id: number) {\n    return { id, type: typeof id };\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`200` với body `{\"id\":null,\"type\":\"number\"}`",
+            "en": "`200` with the body `{\"id\":null,\"type\":\"number\"}`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`200` với body `{\"id\":\"abc\",\"type\":\"string\"}`",
+            "en": "`200` with the body `{\"id\":\"abc\",\"type\":\"string\"}`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`400`, message `numeric string is expected`",
+            "en": "`400` with `numeric string is expected`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`500 Internal Server Error`",
+            "en": "`500 Internal Server Error`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`ParseIntPipe` chạy trước handler; `'abc'` không phải chuỗi số nên pipe ném `BadRequestException`, và Nest trả `400` với message mặc định `Validation failed (numeric string is expected)`. Handler không bao giờ được gọi. Có thể đổi status lỗi qua `new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })`.",
+        "en": "`ParseIntPipe` runs before the handler; `'abc'` is not a numeric string, so the pipe throws a `BadRequestException` and Nest returns `400` with the default message `Validation failed (numeric string is expected)`. The handler is never called. You can change the error status with `new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })`."
+      }
+    },
+    {
+      "id": "nestjs.pipes.002",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "pipes",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`CreateUserDto` có `@IsEmail()` và `@IsString()` đầy đủ, nhưng `POST /users` với `{ \"email\": 123 }` vẫn được lưu vào database. Nguyên nhân khả dĩ nhất?",
+        "en": "`CreateUserDto` has proper `@IsEmail()` and `@IsString()` decorators, yet `POST /users` with `{ \"email\": 123 }` still gets saved to the database. What is the most likely cause?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`@IsEmail()` chỉ kiểm tra khi giá trị là string, số thì luôn bị bỏ qua",
+            "en": "`@IsEmail()` only checks strings; numbers are always skipped by it"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "DTO phải `extends PartialType()` thì validator mới đọc được decorator",
+            "en": "The DTO must `extends PartialType()` for validators to read its decorators"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thiếu `@Injectable()` trên DTO nên Nest bỏ qua toàn bộ decorator",
+            "en": "The DTO lacks `@Injectable()`, so Nest ignores all of its decorators"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Ứng dụng chưa hề đăng ký `ValidationPipe` ở global hay trên route nào cả",
+            "en": "The app never registers a `ValidationPipe` (globally or on the route)"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Decorator của `class-validator` chỉ là metadata; phải có `ValidationPipe` chạy thì chúng mới được kiểm tra. Thường đăng ký global bằng `app.useGlobalPipes(new ValidationPipe())` trong `main.ts` hoặc provider `APP_PIPE`, hoặc gắn ở từng route bằng `@UsePipes`. Thiếu bước này thì body đi thẳng vào handler mà không bị kiểm tra.",
+        "en": "`class-validator` decorators are just metadata; a `ValidationPipe` has to run for them to be checked. It is usually registered globally with `app.useGlobalPipes(new ValidationPipe())` in `main.ts` or an `APP_PIPE` provider, or per route with `@UsePipes`. Without that step the body goes straight into the handler unchecked."
+      }
+    },
+    {
+      "id": "nestjs.pipes.003",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "pipes",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Câu nào mô tả đúng vai trò và thời điểm chạy của pipe trong NestJS?",
+        "en": "Which statement correctly describes what a pipe does and when it runs in NestJS?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chạy sau handler để biến đổi giá trị trả về trước khi gửi cho client",
+            "en": "Runs after the handler to transform the returned value before it reaches the client"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chạy trước middleware để quyết định request có được đi tiếp hay không",
+            "en": "Runs before middleware to decide whether the request may continue at all"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Chỉ chạy khi có exception, để đổi lỗi thành response JSON thống nhất",
+            "en": "Runs only when an exception occurs, to turn errors into a uniform JSON response"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chạy ngay trước handler, biến đổi hoặc validate từng tham số",
+            "en": "Runs right before the handler, transforming or validating each argument"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Pipe chạy ngay trước handler, sau guard và phần \"before\" của interceptor, và xử lý từng tham số của handler. Nó có hai việc chính: transform (ví dụ chuỗi sang số) và validate, ném exception như `BadRequestException` khi dữ liệu sai để handler không chạy. Pipe không xử lý response trả về; việc đó thuộc về interceptor.",
+        "en": "A pipe runs right before the handler, after guards and the \"before\" part of interceptors, and processes each handler argument. It has two main jobs: transformation (e.g. string to number) and validation, throwing an exception such as `BadRequestException` when the data is wrong so the handler does not run. Pipes do not touch the returned response; that is the interceptor's job."
+      }
+    },
+    {
+      "id": "nestjs.pipes.004",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "pipes",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Handler khai báo `@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number`. Client gọi không có `page`. Giá trị `page` là gì?",
+        "en": "A handler declares `@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number`. The client calls it without `page`. What is the value of `page`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Số `1`, vì các pipe trên một tham số chạy từ trái sang phải",
+            "en": "The number `1`, because pipes on one parameter run left to right"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`undefined`, vì `DefaultValuePipe` chỉ áp dụng cho `@Body()`",
+            "en": "`undefined`, because `DefaultValuePipe` only applies to `@Body()`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi `400`, vì `ParseIntPipe` chạy trước và gặp giá trị `undefined`",
+            "en": "A `400` error, because `ParseIntPipe` runs first and sees `undefined`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`NaN`, vì `ParseIntPipe` dùng `parseInt` trên chuỗi rỗng",
+            "en": "`NaN`, because `ParseIntPipe` calls `parseInt` on an empty string"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Các pipe trên cùng một tham số chạy lần lượt từ trái sang phải. `DefaultValuePipe` thay `undefined` bằng `1`, sau đó `ParseIntPipe` nhận số `1` và trả về `1`. Nếu đảo thứ tự, `ParseIntPipe` sẽ gặp `undefined` trước và ném `400`.",
+        "en": "Pipes on the same parameter run in order from left to right. `DefaultValuePipe` replaces `undefined` with `1`, then `ParseIntPipe` receives the number `1` and returns `1`. If you swap the order, `ParseIntPipe` sees `undefined` first and throws a `400`."
+      }
+    },
+    {
+      "id": "nestjs.pipes.005",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "pipes",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "`main.ts` đăng ký `app.useGlobalPipes(new ValidationPipe())`. Client gọi `GET /items/5`. Response body là gì?",
+        "en": "`main.ts` registers `app.useGlobalPipes(new ValidationPipe())`. A client calls `GET /items/5`. What is the response body?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Controller('items')\nexport class ItemsController {\n  @Get(':id')\n  findOne(@Param('id') id: number) {\n    return { type: typeof id, next: id + 1 };\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`{\"type\":\"string\",\"next\":\"51\"}`",
+            "en": "`{\"type\":\"string\",\"next\":\"51\"}`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`{\"type\":\"number\",\"next\":6}`",
+            "en": "`{\"type\":\"number\",\"next\":6}`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`{\"type\":\"string\",\"next\":6}`",
+            "en": "`{\"type\":\"string\",\"next\":6}`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`{\"type\":\"number\",\"next\":\"51\"}`",
+            "en": "`{\"type\":\"number\",\"next\":\"51\"}`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Kiểu `number` trên tham số chỉ là annotation của TypeScript; giá trị từ path luôn là string. `ValidationPipe` mặc định không bật `transform` nên không đổi kiểu, do đó `typeof id` là `string` và `id + 1` là phép nối chuỗi `'51'`. Bật `new ValidationPipe({ transform: true })` hoặc dùng `ParseIntPipe` để nhận `5` dạng số.",
+        "en": "The `number` type on the parameter is only a TypeScript annotation; path values are always strings. `ValidationPipe` does not enable `transform` by default, so it does not convert types, making `typeof id` `string` and `id + 1` the string concatenation `'51'`. Enable `new ValidationPipe({ transform: true })` or use `ParseIntPipe` to receive `5` as a number."
+      }
+    },
+    {
+      "id": "nestjs.pipes.006",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "pipes",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Với `ValidationPipe({ whitelist: true })`, client gửi `POST /users` body `{ \"name\": \"An\", \"email\": \"an@x.io\", \"role\": \"admin\" }`. Response body là gì?",
+        "en": "With `ValidationPipe({ whitelist: true })`, a client sends `POST /users` with the body `{ \"name\": \"An\", \"email\": \"an@x.io\", \"role\": \"admin\" }`. What is the response body?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "export class CreateUserDto {\n  @IsString()\n  name: string;\n\n  @IsEmail()\n  email: string;\n}\n\n@Controller('users')\nexport class UsersController {\n  @Post()\n  create(@Body() dto: CreateUserDto) {\n    return dto;\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`{\"name\":\"An\",\"email\":\"an@x.io\",\"role\":\"admin\"}`",
+            "en": "`{\"name\":\"An\",\"email\":\"an@x.io\",\"role\":\"admin\"}`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Lỗi `400` với message `property role should not exist`",
+            "en": "A `400` error with the message `property role should not exist`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`{}`",
+            "en": "`{}`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`{\"name\":\"An\",\"email\":\"an@x.io\"}`",
+            "en": "`{\"name\":\"An\",\"email\":\"an@x.io\"}`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`whitelist: true` lặng lẽ loại bỏ mọi thuộc tính không có decorator validation trong DTO, nên `role` biến mất và request vẫn thành công với status `201`. Đây là lớp bảo vệ quan trọng chống mass assignment, ví dụ client tự gán `role: admin`. Muốn trả lỗi `400` thay vì lọc im lặng thì thêm `forbidNonWhitelisted: true`.",
+        "en": "`whitelist: true` silently strips every property without a validation decorator in the DTO, so `role` disappears and the request still succeeds with status `201`. It is an important guard against mass assignment, such as a client setting `role: admin` itself. To return a `400` instead of silently filtering, add `forbidNonWhitelisted: true`."
+      }
+    },
+    {
+      "id": "nestjs.pipes.007",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "pipes",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "App dùng `app.useGlobalPipes(new ValidationPipe({ transform: true }))`. Gửi `{ \"note\": \"hi\", \"address\": { \"city\": 42 } }` vẫn trả `201`. Vì sao `city` không bị validate?",
+        "en": "The app uses `app.useGlobalPipes(new ValidationPipe({ transform: true }))`. Sending `{ \"note\": \"hi\", \"address\": { \"city\": 42 } }` still returns `201`. Why is `city` not validated?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "export class AddressDto {\n  @IsString()\n  city: string;\n}\n\nexport class CreateOrderDto {\n  @IsString()\n  note: string;\n\n  address: AddressDto;\n}\n\n@Controller('orders')\nexport class OrdersController {\n  @Post()\n  create(@Body() dto: CreateOrderDto) {\n    return dto;\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thiếu `@ValidateNested()` và `@Type(() => AddressDto)` ở `address`",
+            "en": "Missing `@ValidateNested()` and `@Type(() => AddressDto)` on `address`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`AddressDto` phải được khai báo trước `CreateOrderDto` trong file thì mới có metadata",
+            "en": "`AddressDto` must be declared before `CreateOrderDto` in the file to get metadata"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`transform: true` tắt validation cho object lồng nhau, cần bỏ tuỳ chọn đó đi",
+            "en": "`transform: true` disables validation of nested objects, so remove that option"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`@IsString()` không bắt được số `42`, phải đổi thành `@IsNotEmpty()`",
+            "en": "`@IsString()` cannot catch the number `42`; change it to `@IsNotEmpty()`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`class-validator` không tự đi vào object lồng nhau: thuộc tính `address` cần `@ValidateNested()` để validate đệ quy, và `@Type(() => AddressDto)` để `class-transformer` biến object thuần thành instance `AddressDto` có metadata. Thiếu hai decorator này, `address` được giữ nguyên mà không kiểm tra gì. Với mảng thì dùng `@ValidateNested({ each: true })` kèm `@Type`.",
+        "en": "`class-validator` does not descend into nested objects on its own: the `address` property needs `@ValidateNested()` for recursive validation and `@Type(() => AddressDto)` so `class-transformer` turns the plain object into an `AddressDto` instance with metadata. Without these two decorators, `address` is kept as is without any checks. For arrays use `@ValidateNested({ each: true })` together with `@Type`."
+      }
+    },
+    {
+      "id": "nestjs.pipes.008",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "pipes",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Nhiều route nhận `:slug` và đều phải tìm `Product` trong database, trả `404` nếu không có. Bạn muốn handler nhận thẳng entity: `@Param('slug', ProductBySlugPipe) product: Product`. Cách viết pipe đúng?",
+        "en": "Many routes take `:slug` and must load the `Product` from the database, returning `404` if it is missing. You want handlers to receive the entity directly: `@Param('slug', ProductBySlugPipe) product: Product`. How should the pipe be written?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một middleware đọc `req.params.slug`, tìm product rồi gán vào `req.params` để `@Param` đọc lại",
+            "en": "A middleware that reads `req.params.slug`, loads the product and puts it into `req.params` for `@Param`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một guard tìm product và trả `false` nếu không có, Nest sẽ tự đổi kết quả đó thành `404`",
+            "en": "A guard that loads the product and returns `false` when missing, which Nest turns into a `404`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Class `@Injectable()` implement `PipeTransform`, inject `ProductsService`, ném lỗi `404`",
+            "en": "An `@Injectable()` `PipeTransform` that injects `ProductsService` and throws `NotFoundException`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Một interceptor gọi `ProductsService` trong `map()` sau `next.handle()` rồi thay thế tham số",
+            "en": "An interceptor that calls `ProductsService` inside `map()` after `next.handle()` and swaps the argument"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Pipe là class `@Injectable()` implement `PipeTransform`, nên nó có thể inject `ProductsService` và `transform` có thể là `async`. Khi truyền class (không phải `new`) vào `@Param`, Nest tự tạo pipe qua DI. Pipe ném `NotFoundException` khi không thấy, còn handler nhận entity đã sẵn sàng; logic tìm kiếm không phải lặp lại ở mọi route.",
+        "en": "A pipe is an `@Injectable()` class implementing `PipeTransform`, so it can inject `ProductsService` and `transform` can be `async`. When you pass the class (not `new`) to `@Param`, Nest creates the pipe through DI. The pipe throws `NotFoundException` when nothing is found, and the handler receives a ready entity, so the lookup is not repeated in every route."
+      }
+    },
+    {
+      "id": "nestjs.pipes.009",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "pipes",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Global pipe là `new ValidationPipe({ transform: true })`. Gọi `GET /products?limit=20` lại nhận `400` với `limit must be an integer number`. Sửa thế nào?",
+        "en": "The global pipe is `new ValidationPipe({ transform: true })`. Calling `GET /products?limit=20` returns `400` with `limit must be an integer number`. How do you fix it?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "export class ListProductsQuery {\n  @IsOptional()\n  @IsInt()\n  @Min(1)\n  @Max(100)\n  limit?: number;\n}\n\n@Controller('products')\nexport class ProductsController {\n  @Get()\n  list(@Query() query: ListProductsQuery) {\n    return { limit: query.limit };\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đổi `@Query()` thành `@Query('limit')` để `transform` có thể đọc được kiểu `number`",
+            "en": "Change `@Query()` to `@Query('limit')` so `transform` can see the `number` type"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thay `@IsInt()` bằng `@IsNumberString()` và vẫn khai báo kiểu là `number`",
+            "en": "Replace `@IsInt()` with `@IsNumberString()` and keep the `number` type"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thêm `@Type(() => Number)` cho `limit`, hoặc bật `enableImplicitConversion` cho toàn app",
+            "en": "Add `@Type(() => Number)` to `limit`, or enable `enableImplicitConversion` app-wide"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bỏ `@IsOptional()` vì nó chặn bước chuyển kiểu của `transform`",
+            "en": "Remove `@IsOptional()` because it blocks the `transform` conversion step"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Query string luôn là chuỗi; `transform: true` chỉ tạo instance DTO bằng `plainToInstance`, còn thuộc tính `limit` vẫn là `'20'` vì kiểu TypeScript không tồn tại lúc chạy. Thêm `@Type(() => Number)` để `class-transformer` đổi kiểu trước khi `@IsInt()` chạy, hoặc bật `transformOptions: { enableImplicitConversion: true }` cho toàn app. Cẩn thận với boolean: `@Type(() => Boolean)` biến chuỗi `'false'` thành `true`, nên thường dùng `@Transform` riêng.",
+        "en": "Query strings are always strings; `transform: true` only creates the DTO instance with `plainToInstance`, while `limit` stays `'20'` because TypeScript types do not exist at runtime. Add `@Type(() => Number)` so `class-transformer` converts it before `@IsInt()` runs, or enable `transformOptions: { enableImplicitConversion: true }` app-wide. Beware of booleans: `@Type(() => Boolean)` turns the string `'false'` into `true`, so a dedicated `@Transform` is usually used."
+      }
+    },
+    {
+      "id": "nestjs.guards_interceptors.001",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "guards_interceptors",
+      "level": "fresher",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Client gọi `GET /reports` với header `x-role: user`. Response là gì?",
+        "en": "A client calls `GET /reports` with the header `x-role: user`. What is the response?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Injectable()\nexport class AdminGuard implements CanActivate {\n  canActivate(context: ExecutionContext): boolean {\n    const req = context.switchToHttp().getRequest();\n    return req.headers['x-role'] === 'admin';\n  }\n}\n\n@Controller('reports')\nexport class ReportsController {\n  @Get()\n  @UseGuards(AdminGuard)\n  list() {\n    return [];\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`401` với message `Unauthorized`",
+            "en": "`401` with the message `Unauthorized`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`403` với message `Forbidden resource`",
+            "en": "`403` with the message `Forbidden resource`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`200` với body rỗng `[]` vì guard chỉ ghi log",
+            "en": "`200` with an empty `[]` body, as the guard only logs"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`500` vì guard trả `false` mà không ném lỗi",
+            "en": "`500` because the guard returned `false` without throwing"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Guard trả `false` thì Nest tự ném `ForbiddenException`, nên client nhận `403` với message mặc định `Forbidden resource` và handler không chạy. Muốn trả `401` (chưa đăng nhập) hay message riêng thì guard tự ném `UnauthorizedException` hoặc exception khác thay vì trả `false`.",
+        "en": "When a guard returns `false`, Nest throws a `ForbiddenException` automatically, so the client gets a `403` with the default message `Forbidden resource` and the handler does not run. To return `401` (not logged in) or a custom message, the guard should throw `UnauthorizedException` or another exception instead of returning `false`."
+      }
+    },
+    {
+      "id": "nestjs.guards_interceptors.002",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "guards_interceptors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn cần chặn route `DELETE /users/:id` chỉ cho role `admin`, dựa trên metadata `@Roles('admin')` đặt trên handler. Nên dùng thành phần nào?",
+        "en": "You need to restrict `DELETE /users/:id` to the `admin` role, based on `@Roles('admin')` metadata placed on the handler. Which building block should you use?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Middleware",
+            "en": "A middleware"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Guard",
+            "en": "A guard"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Pipe",
+            "en": "A pipe"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Exception filter",
+            "en": "An exception filter"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Guard được thiết kế cho phân quyền: nó có `ExecutionContext` nên biết handler và class nào sắp chạy, đọc được metadata qua `Reflector`, rồi quyết định cho đi tiếp hay không. Middleware chạy trước khi Nest biết route khớp với handler nào nên không đọc được metadata. Pipe và filter có mục đích khác: xử lý tham số và xử lý lỗi.",
+        "en": "Guards are designed for authorisation: they get an `ExecutionContext`, so they know which handler and class will run, can read metadata via `Reflector`, and decide whether to proceed. Middleware runs before Nest knows which handler the route maps to, so it cannot read that metadata. Pipes and filters serve other purposes: processing arguments and handling errors."
+      }
+    },
+    {
+      "id": "nestjs.guards_interceptors.003",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "guards_interceptors",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Team muốn mọi response thành công có dạng `{ \"data\": ... }` mà không sửa từng handler. Cách nào đúng kiểu NestJS?",
+        "en": "The team wants every successful response shaped as `{ \"data\": ... }` without touching each handler. What is the idiomatic NestJS way?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Middleware gán `res.body = { data: res.body }` rồi gọi `next()`",
+            "en": "A middleware that sets `res.body = { data: res.body }` and calls `next()`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Global pipe bọc giá trị của `@Body()` thành `{ data }` trước khi vào handler",
+            "en": "A global pipe that wraps the `@Body()` value as `{ data }` before the handler"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Interceptor trả về `next.handle().pipe(map(data => ({ data })))` cho mọi route",
+            "en": "An interceptor returning `next.handle().pipe(map(data => ({ data })))` for every route"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Exception filter `@Catch()` bắt mọi response rồi bọc lại trong `{ data }`",
+            "en": "A `@Catch()` exception filter that catches every response and wraps it in `{ data }`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Interceptor bao quanh việc thực thi handler: `next.handle()` trả Observable chứa giá trị handler trả về, và `map(data => ({ data }))` biến đổi nó trước khi Nest gửi đi. Đăng ký global bằng `app.useGlobalInterceptors()` hoặc `APP_INTERCEPTOR`. Middleware chạy trước handler nên không thấy giá trị trả về, còn exception filter chỉ chạy khi có lỗi.",
+        "en": "An interceptor wraps handler execution: `next.handle()` returns an Observable of the handler's return value, and `map(data => ({ data }))` transforms it before Nest sends it. Register it globally with `app.useGlobalInterceptors()` or `APP_INTERCEPTOR`. Middleware runs before the handler so it never sees the return value, and an exception filter only runs on errors."
+      }
+    },
+    {
+      "id": "nestjs.guards_interceptors.004",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "guards_interceptors",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Exception filter trong NestJS hoạt động thế nào, và khi nào bạn cần viết một filter riêng?",
+        "en": "How do exception filters work in NestJS, and when do you need to write your own?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Exception layer mặc định đổi `HttpException` thành JSON `{ statusCode, message, error }`, lỗi lạ thành `500`",
+          "en": "The default exception layer turns `HttpException` into `{ statusCode, message, error }` JSON and unknown errors into `500`"
+        },
+        {
+          "vi": "Filter implement `ExceptionFilter.catch(exception, host)` và dùng `host.switchToHttp()` để ghi response",
+          "en": "A filter implements `ExceptionFilter.catch(exception, host)` and uses `host.switchToHttp()` to write the response"
+        },
+        {
+          "vi": "`@Catch(HttpException)` chỉ bắt loại đó; `@Catch()` không tham số bắt mọi lỗi",
+          "en": "`@Catch(HttpException)` catches only that type; `@Catch()` with no arguments catches everything"
+        },
+        {
+          "vi": "Gắn ở method, controller, hoặc global (`useGlobalFilters`, `APP_FILTER` để có DI)",
+          "en": "Attach it to a method, a controller or globally (`useGlobalFilters`, or `APP_FILTER` for DI)"
+        },
+        {
+          "vi": "Dùng để thống nhất format lỗi, ghi log, map lỗi domain/DB (ví dụ trùng unique thành `409`)",
+          "en": "Use it to unify error format, log, and map domain/DB errors (e.g. unique violations to `409`)"
+        }
+      ],
+      "explanation": {
+        "vi": "Nest có sẵn một exception layer toàn cục: `HttpException` và các lớp con được đổi thành response JSON với đúng status, còn lỗi không xác định thành `500 Internal server error`. Filter riêng implement `ExceptionFilter`, khai báo loại lỗi bắt bằng `@Catch(...)` và dùng `ArgumentsHost` để lấy response. Thường viết filter để thống nhất format lỗi, ghi log, hoặc đổi lỗi domain/database thành HTTP status phù hợp.",
+        "en": "Nest has a built-in global exception layer: `HttpException` and its subclasses become JSON responses with the right status, while unknown errors become `500 Internal server error`. A custom filter implements `ExceptionFilter`, declares which errors it catches with `@Catch(...)` and uses `ArgumentsHost` to get the response. You typically write one to unify the error format, log errors, or map domain/database errors to proper HTTP statuses."
+      }
+    },
+    {
+      "id": "nestjs.guards_interceptors.005",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "guards_interceptors",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Client gọi `GET /items/1`. Mảng `log` được in ra theo thứ tự nào?",
+        "en": "A client calls `GET /items/1`. In what order is the `log` array printed?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "const log: string[] = [];\n\nclass LogMiddleware implements NestMiddleware {\n  use(req: any, res: any, next: () => void) { log.push('middleware'); next(); }\n}\nclass AuthGuard implements CanActivate {\n  canActivate() { log.push('guard'); return true; }\n}\nclass TimingInterceptor implements NestInterceptor {\n  intercept(ctx: ExecutionContext, next: CallHandler) {\n    log.push('interceptor:before');\n    return next.handle().pipe(tap(() => log.push('interceptor:after')));\n  }\n}\nclass TrimPipe implements PipeTransform {\n  transform(value: string) { log.push('pipe'); return value.trim(); }\n}\n\n@Controller('items')\n@UseGuards(AuthGuard)\n@UseInterceptors(TimingInterceptor)\nclass ItemsController {\n  @Get(':id')\n  find(@Param('id', TrimPipe) id: string) {\n    log.push('handler');\n    return { id };\n  }\n}\n\n@Module({ controllers: [ItemsController] })\nclass AppModule implements NestModule {\n  configure(consumer: MiddlewareConsumer) {\n    consumer.apply(LogMiddleware).forRoutes('*');\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`middleware`, `interceptor:before`, `guard`, `pipe`, `handler`, `interceptor:after`",
+            "en": "`middleware`, `interceptor:before`, `guard`, `pipe`, `handler`, `interceptor:after`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`middleware`, `guard`, `interceptor:before`, `pipe`, `handler`, `interceptor:after`",
+            "en": "`middleware`, `guard`, `interceptor:before`, `pipe`, `handler`, `interceptor:after`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`middleware`, `guard`, `interceptor:before`, `pipe`, `handler`, `interceptor:after`, `filter`",
+            "en": "`middleware`, `guard`, `interceptor:before`, `pipe`, `handler`, `interceptor:after`, `filter`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`middleware`, `guard`, `interceptor:before`, `pipe`, `handler`",
+            "en": "`middleware`, `guard`, `interceptor:before`, `pipe`, `handler`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Request lifecycle của Nest: middleware, rồi guard, rồi phần \"before\" của interceptor, rồi pipe xử lý tham số, rồi handler. Giá trị trả về đi ngược ra qua Observable nên phần \"after\" trong `tap()` của interceptor chạy sau handler. Nếu có lỗi, exception filter xử lý ở cuối chuỗi.",
+        "en": "The Nest request lifecycle: middleware, then guards, then the \"before\" part of interceptors, then pipes on the arguments, then the handler. The return value flows back through the Observable, so the interceptor's \"after\" part in `tap()` runs after the handler. If something throws, exception filters handle it at the end of the chain."
+      }
+    },
+    {
+      "id": "nestjs.guards_interceptors.006",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "guards_interceptors",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Team muốn mọi lỗi trả về dạng `{ \"ok\": false, \"message\": ... }`. Nhưng `GET /reports/crash` lại trả `{\"statusCode\":500,\"message\":\"Internal server error\"}`. Vì sao?",
+        "en": "The team wants every error returned as `{ \"ok\": false, \"message\": ... }`. But `GET /reports/crash` returns `{\"statusCode\":500,\"message\":\"Internal server error\"}`. Why?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Catch(HttpException)\nexport class HttpErrorFilter implements ExceptionFilter {\n  catch(exception: HttpException, host: ArgumentsHost) {\n    const res = host.switchToHttp().getResponse();\n    res.status(exception.getStatus()).json({ ok: false, message: exception.message });\n  }\n}\n\n@Controller('reports')\n@UseFilters(HttpErrorFilter)\nexport class ReportsController {\n  @Get('crash')\n  crash() {\n    const user: any = undefined;\n    return user.name;\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`@UseFilters()` chỉ có tác dụng khi đặt trên method, không có tác dụng khi đặt trên class",
+            "en": "`@UseFilters()` only works on methods and has no effect when placed on a class"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Filter phải được đăng ký bằng `app.useGlobalFilters()`, nếu không Nest sẽ luôn bỏ qua nó",
+            "en": "The filter must be registered with `app.useGlobalFilters()`, otherwise Nest always ignores it"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Thiếu `@Injectable()` trên filter nên Nest không tạo được instance để gọi `catch` khi lỗi",
+            "en": "The filter lacks `@Injectable()`, so Nest cannot create an instance to call `catch` on errors"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`TypeError` không phải `HttpException`, nên không lọt vào filter `@Catch(HttpException)`",
+            "en": "A `TypeError` is not an `HttpException`, so the `@Catch(HttpException)` filter skips it"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`@Catch(HttpException)` chỉ bắt `HttpException` và lớp con. Truy cập `user.name` trên `undefined` ném `TypeError`, không thuộc loại đó, nên lỗi rơi xuống exception layer mặc định và thành `500` theo format chuẩn của Nest. Dùng `@Catch()` không tham số để bắt mọi lỗi, và trong `catch` kiểm tra `instanceof HttpException` để lấy status, còn lại trả `500`.",
+        "en": "`@Catch(HttpException)` only catches `HttpException` and its subclasses. Reading `user.name` on `undefined` throws a `TypeError`, which is not that type, so the error falls through to the default exception layer and becomes a `500` in Nest's standard format. Use `@Catch()` with no arguments to catch everything, and inside `catch` check `instanceof HttpException` for the status, falling back to `500`."
+      }
+    },
+    {
+      "id": "nestjs.guards_interceptors.007",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "guards_interceptors",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ứng dụng có `JwtGuard` đăng ký global qua `APP_GUARD`, `TenantGuard` qua `@UseGuards` trên controller, và `RolesGuard` qua `@UseGuards` trên method. Chúng chạy theo thứ tự nào?",
+        "en": "An app has `JwtGuard` registered globally via `APP_GUARD`, `TenantGuard` via `@UseGuards` on the controller, and `RolesGuard` via `@UseGuards` on the method. In what order do they run?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`RolesGuard`, `TenantGuard`, `JwtGuard`",
+            "en": "`RolesGuard`, `TenantGuard`, `JwtGuard`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`JwtGuard`, `TenantGuard`, `RolesGuard`",
+            "en": "`JwtGuard`, `TenantGuard`, `RolesGuard`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`TenantGuard`, `RolesGuard`, `JwtGuard`",
+            "en": "`TenantGuard`, `RolesGuard`, `JwtGuard`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chạy song song, thứ tự không xác định",
+            "en": "They run in parallel, in no defined order"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Guard (cũng như interceptor và pipe) được thực thi từ phạm vi rộng đến hẹp: global, rồi controller, rồi method. Nếu một guard trả `false` hoặc ném lỗi thì các guard sau không chạy. Vì vậy guard xác thực nên ở tầng global để `request.user` sẵn sàng cho guard phân quyền ở tầng method.",
+        "en": "Guards (like interceptors and pipes) execute from the broadest scope to the narrowest: global, then controller, then method. If one guard returns `false` or throws, the following guards do not run. That is why the authentication guard belongs at the global level, so `request.user` is ready for the authorisation guard at the method level."
+      }
+    },
+    {
+      "id": "nestjs.guards_interceptors.008",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "guards_interceptors",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Decorator `@Roles('admin')` được tạo bằng `SetMetadata(ROLES_KEY, roles)` và có thể đặt ở class hoặc method. Trong `RolesGuard`, đọc metadata thế nào để method ghi đè class?",
+        "en": "The `@Roles('admin')` decorator is built with `SetMetadata(ROLES_KEY, roles)` and can be placed on a class or a method. In `RolesGuard`, how do you read the metadata so the method overrides the class?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`this.reflector.getAllAndOverride(ROLES_KEY, [context.getClass(), context.getHandler()])`",
+            "en": "`this.reflector.getAllAndOverride(ROLES_KEY, [context.getClass(), context.getHandler()])`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`this.reflector.getAllAndOverride(ROLES_KEY, [context.getHandler(), context.getClass()])`",
+            "en": "`this.reflector.getAllAndOverride(ROLES_KEY, [context.getHandler(), context.getClass()])`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`context.switchToHttp().getRequest().headers[ROLES_KEY]`",
+            "en": "`context.switchToHttp().getRequest().headers[ROLES_KEY]`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`Reflect.getMetadata(ROLES_KEY, context.getArgs())`",
+            "en": "`Reflect.getMetadata(ROLES_KEY, context.getArgs())`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`Reflector` được inject vào guard và `getAllAndOverride` đọc metadata theo thứ tự mảng target, trả giá trị đầu tiên tìm thấy, nên đặt `context.getHandler()` trước `context.getClass()` để method thắng class. Nếu muốn gộp role của cả hai thì dùng `getAllAndMerge`. Metadata nằm trên function và class, không nằm trong header hay tham số của request.",
+        "en": "`Reflector` is injected into the guard, and `getAllAndOverride` reads metadata in the order of the target array and returns the first value found, so putting `context.getHandler()` before `context.getClass()` lets the method win over the class. To combine the roles of both, use `getAllAndMerge`. Metadata lives on the function and the class, not in the request headers or arguments."
+      }
+    },
+    {
+      "id": "nestjs.guards_interceptors.009",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "guards_interceptors",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Thiết kế lớp xác thực và phân quyền cho một API NestJS: hầu hết route cần JWT, một số route public, một số chỉ cho `admin`. Bạn tổ chức guard, decorator và xử lý lỗi thế nào?",
+        "en": "Design authentication and authorisation for a NestJS API: most routes require a JWT, a few are public, and some are `admin` only. How do you organise guards, decorators and error handling?"
+      },
+      "keyPoints": [
+        {
+          "vi": "`JwtAuthGuard` global qua `APP_GUARD` để có DI và mặc định bảo vệ mọi route",
+          "en": "`JwtAuthGuard` registered globally via `APP_GUARD` to get DI and protect every route by default"
+        },
+        {
+          "vi": "`@Public()` bằng `SetMetadata`, guard kiểm tra qua `Reflector.getAllAndOverride` để bỏ qua xác thực",
+          "en": "`@Public()` via `SetMetadata`, checked by the guard through `Reflector.getAllAndOverride` to skip authentication"
+        },
+        {
+          "vi": "`RolesGuard` chạy sau guard xác thực, đọc `@Roles()` và `request.user.roles`",
+          "en": "`RolesGuard` runs after the authentication guard and reads `@Roles()` and `request.user.roles`"
+        },
+        {
+          "vi": "Phân biệt `401` (`UnauthorizedException`) và `403` (`ForbiddenException`), message không lộ chi tiết",
+          "en": "Distinguish `401` (`UnauthorizedException`) from `403` (`ForbiddenException`) without leaking details"
+        },
+        {
+          "vi": "Quyền theo dữ liệu (ownership) đặt ở service/policy; có unit test cho guard và e2e cho route public/admin",
+          "en": "Ownership checks live in services/policies; unit-test guards and e2e-test public/admin routes"
+        }
+      ],
+      "explanation": {
+        "vi": "Mặc định an toàn: đăng ký `JwtAuthGuard` global qua `APP_GUARD` (có DI, khác `useGlobalGuards(new ...)`), và route public phải chủ động khai báo bằng `@Public()` mà guard đọc qua `Reflector`. Guard xác thực gắn `request.user`; `RolesGuard` chạy sau, đọc `@Roles()` bằng `getAllAndOverride`. Ném `UnauthorizedException` khi thiếu/sai token và `ForbiddenException` khi thiếu quyền để client phân biệt `401` và `403`. Kiểm tra quyền trên dữ liệu (ví dụ chỉ sửa đơn của mình) nên nằm ở service hoặc policy riêng, không nhồi hết vào guard.",
+        "en": "Secure by default: register `JwtAuthGuard` globally via `APP_GUARD` (with DI, unlike `useGlobalGuards(new ...)`), and make public routes opt out explicitly with `@Public()`, which the guard reads via `Reflector`. The authentication guard attaches `request.user`; `RolesGuard` runs after it and reads `@Roles()` with `getAllAndOverride`. Throw `UnauthorizedException` for a missing/invalid token and `ForbiddenException` for missing permissions so clients can tell `401` from `403`. Data-level checks (e.g. editing only your own orders) belong in the service or a dedicated policy, not all stuffed into guards."
+      }
+    },
+    {
+      "id": "nestjs.database.001",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "database",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Dùng `@nestjs/typeorm`, `UsersService` cần `Repository<User>`. Cần những gì để inject được?",
+        "en": "Using `@nestjs/typeorm`, `UsersService` needs a `Repository<User>`. What is required to inject it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ cần khai báo `private repo: Repository<User>` vì Nest suy ra entity từ generic",
+            "en": "Just declare `private repo: Repository<User>`; Nest infers the entity from the generic"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Thêm `User` vào mảng `providers` của module rồi inject thẳng class `User`",
+            "en": "Add `User` to the module's `providers` array and inject the `User` class directly"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`forFeature([User])` trong module và `@InjectRepository(User)` ở constructor",
+            "en": "`forFeature([User])` in the module and `@InjectRepository(User)` in the constructor"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Gọi `new Repository(User)` trong constructor vì repository không phải provider",
+            "en": "Call `new Repository(User)` in the constructor because repositories are not providers"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`TypeOrmModule.forRoot()` ở `AppModule` tạo `DataSource` dùng chung, còn `TypeOrmModule.forFeature([User])` trong feature module đăng ký repository cho entity đó vào phạm vi module. Service inject bằng `@InjectRepository(User)` vì `Repository<User>` là generic, lúc chạy chỉ còn `Repository` nên không đủ làm token. Thiếu `forFeature` sẽ gây lỗi `Nest can't resolve dependencies`.",
+        "en": "`TypeOrmModule.forRoot()` in `AppModule` creates the shared `DataSource`, while `TypeOrmModule.forFeature([User])` in the feature module registers the repository for that entity in the module's scope. The service injects it with `@InjectRepository(User)` because `Repository<User>` is generic and only `Repository` remains at runtime, which is not enough as a token. Without `forFeature` you get `Nest can't resolve dependencies`."
+      }
+    },
+    {
+      "id": "nestjs.database.002",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "database",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Dự án đang để `synchronize: true` trong cấu hình TypeORM cho cả production. Vì sao reviewer yêu cầu bỏ và dùng migration?",
+        "en": "The project keeps `synchronize: true` in the TypeORM config, including production. Why does the reviewer ask to drop it and use migrations?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Nó làm mọi câu query chậm hơn vì TypeORM kiểm tra schema trước mỗi lần gọi",
+            "en": "It slows every query because TypeORM checks the schema before each call"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Nó chỉ chạy được với SQLite, còn PostgreSQL thì luôn báo lỗi lúc khởi động",
+            "en": "It only works with SQLite; PostgreSQL always fails at startup with it on"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Nó tắt toàn bộ transaction, nên mọi thao tác ghi đều chạy ở chế độ autocommit",
+            "en": "It disables all transactions, so every write runs in autocommit mode"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Nó tự sửa schema mỗi lần khởi động, có thể drop cột và làm mất dữ liệu",
+            "en": "It alters the schema on every startup and can drop columns, losing data"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`synchronize` so sánh entity với schema mỗi lần khởi động và tự sửa schema, nên chỉ cần đổi tên một thuộc tính là nó có thể drop cột cũ và mất dữ liệu. Migration là file SQL/TypeScript có phiên bản, được review, chạy có kiểm soát trong pipeline deploy và có thể rollback. `synchronize` chỉ nên dùng khi prototype hoặc test với database tạm.",
+        "en": "`synchronize` compares entities with the schema on every startup and alters the schema automatically, so merely renaming a property can drop the old column and lose data. Migrations are versioned SQL/TypeScript files that are reviewed, run in a controlled way in the deploy pipeline and can be rolled back. `synchronize` should only be used for prototyping or tests against throwaway databases."
+      }
+    },
+    {
+      "id": "nestjs.database.003",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "database",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Transaction trong database là gì? Khi viết chức năng chuyển tiền giữa hai tài khoản trong NestJS, bạn dùng transaction thế nào (TypeORM hoặc Prisma)?",
+        "en": "What is a database transaction? When building a money transfer between two accounts in NestJS, how do you use a transaction (TypeORM or Prisma)?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Transaction là đơn vị nguyên tử: commit tất cả hoặc rollback tất cả (ACID)",
+          "en": "A transaction is an atomic unit: commit everything or roll back everything (ACID)"
+        },
+        {
+          "vi": "Chuyển tiền: trừ A và cộng B phải cùng thành công, không để trạng thái nửa vời",
+          "en": "Transfer: debiting A and crediting B must succeed together, never a half-done state"
+        },
+        {
+          "vi": "TypeORM `dataSource.transaction(manager => ...)` hoặc Prisma `$transaction(async tx => ...)`",
+          "en": "TypeORM `dataSource.transaction(manager => ...)` or Prisma `$transaction(async tx => ...)`"
+        },
+        {
+          "vi": "Mọi query bên trong dùng `manager`/`tx`, không dùng repository hay client bên ngoài",
+          "en": "Every query inside uses `manager`/`tx`, not outer repositories or clients"
+        },
+        {
+          "vi": "Ném lỗi trong callback để rollback; cân nhắc khoá dòng hoặc kiểm tra số dư ngay trong transaction",
+          "en": "Throw inside the callback to roll back; consider row locks or checking the balance inside the transaction"
+        }
+      ],
+      "explanation": {
+        "vi": "Transaction gom nhiều câu lệnh thành một đơn vị nguyên tử: hoặc tất cả được commit, hoặc tất cả bị rollback, kèm các đảm bảo ACID. Chuyển tiền cần trừ tài khoản A và cộng tài khoản B cùng thành công; nếu bước sau lỗi thì bước trước phải được huỷ. Với TypeORM dùng `dataSource.transaction(async (manager) => ...)`, với Prisma dùng `prisma.$transaction(async (tx) => ...)`, và mọi query bên trong phải đi qua `manager`/`tx`. Ném lỗi trong callback để rollback.",
+        "en": "A transaction groups several statements into one atomic unit: either everything commits or everything rolls back, with ACID guarantees. A transfer must debit account A and credit account B together; if the second step fails the first must be undone. With TypeORM use `dataSource.transaction(async (manager) => ...)`, with Prisma use `prisma.$transaction(async (tx) => ...)`, and every query inside must go through `manager`/`tx`. Throw inside the callback to roll back."
+      }
+    },
+    {
+      "id": "nestjs.database.004",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "database",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `dataSource.transaction(async (manager) => { await manager.save(order); await this.paymentsRepo.save(payment); throw new Error('fail'); })`, sau khi lỗi xảy ra, dữ liệu nào còn lại trong database (PostgreSQL)?",
+        "en": "In `dataSource.transaction(async (manager) => { await manager.save(order); await this.paymentsRepo.save(payment); throw new Error('fail'); })`, after the error, which data remains in the database (PostgreSQL)?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Không còn gì, cả hai bản ghi đều được rollback",
+            "en": "Nothing; both records are rolled back"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Chỉ còn `order`, vì `manager.save` commit ngay lập tức",
+            "en": "Only `order`, because `manager.save` commits immediately"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Còn cả `order` lẫn `payment`, vì lỗi ném ra sau cả hai lần lưu",
+            "en": "Both `order` and `payment`, since the error comes after both saves"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Chỉ còn `payment`",
+            "en": "Only `payment` remains"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Transaction chỉ bao các câu lệnh chạy trên connection của `manager`. `this.paymentsRepo` là repository inject bình thường, dùng connection khác từ pool và tự commit ngay, nên `payment` vẫn còn trong khi `order` bị rollback. Bên trong callback phải dùng `manager.save(...)` hoặc `manager.getRepository(Payment)`, hoặc truyền `manager` xuống các repository.",
+        "en": "A transaction only covers statements executed on the `manager`'s connection. `this.paymentsRepo` is a regular injected repository that uses another pooled connection and commits immediately, so `payment` stays while `order` is rolled back. Inside the callback, use `manager.save(...)` or `manager.getRepository(Payment)`, or pass the `manager` down to repositories."
+      }
+    },
+    {
+      "id": "nestjs.database.005",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "database",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "API `GET /orders` lấy 50 đơn rồi trong vòng lặp gọi `itemsRepo.find({ where: { orderId } })` cho từng đơn. Log cho thấy 51 câu query mỗi request. Cách sửa hợp lý?",
+        "en": "The `GET /orders` API loads 50 orders, then in a loop calls `itemsRepo.find({ where: { orderId } })` for each one. Logs show 51 queries per request. What is a sensible fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bọc vòng lặp trong `Promise.all` để 50 query chạy song song trên pool",
+            "en": "Wrap the loop in `Promise.all` so the 50 queries run in parallel on the pool"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Tăng kích thước connection pool lên 100 để không request nào phải chờ",
+            "en": "Raise the connection pool size to 100 so no request has to wait"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Tải `items` bằng join (`relations`/`include`) hoặc một query `IN (...)`",
+            "en": "Load `items` via a join (`relations`/`include`) or one `IN (...)` query"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Cache kết quả `itemsRepo.find` trong bộ nhớ theo `orderId` vô thời hạn",
+            "en": "Cache `itemsRepo.find` results in memory by `orderId` forever"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Đây là lỗi N+1: một query lấy danh sách cộng N query cho quan hệ. Hãy tải quan hệ cùng lúc bằng `relations: { items: true }` / `leftJoinAndSelect` trong TypeORM hoặc `include` trong Prisma, hoặc một query `WHERE orderId IN (...)` rồi gom nhóm trong code. Cache hay `Promise.all` chỉ che triệu chứng: số query vẫn vậy.",
+        "en": "This is the N+1 problem: one query for the list plus N queries for the relation. Load the relation together via `relations: { items: true }` / `leftJoinAndSelect` in TypeORM or `include` in Prisma, or run a single `WHERE orderId IN (...)` query and group in code. Caching or `Promise.all` only hides the symptom: the number of queries stays the same."
+      }
+    },
+    {
+      "id": "nestjs.database.006",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "database",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Với Prisma, bạn cần đọc số dư, kiểm tra đủ tiền rồi mới trừ, tất cả trong một transaction. Nên dùng API nào?",
+        "en": "With Prisma, you need to read a balance, check it is sufficient and only then debit it, all in one transaction. Which API should you use?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Interactive `prisma.$transaction(async (tx) => ...)`, mọi query đều dùng `tx`",
+            "en": "An interactive `prisma.$transaction(async (tx) => ...)` with every query on `tx`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`prisma.$transaction([prisma.account.findUnique(...), prisma.account.update(...)])`",
+            "en": "`prisma.$transaction([prisma.account.findUnique(...), prisma.account.update(...)])`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gọi `findUnique` rồi `update` liên tiếp, vì Prisma tự gom thành transaction",
+            "en": "Call `findUnique` then `update` back to back; Prisma batches them into a transaction"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Dùng `prisma.$executeRaw` với `BEGIN` và `COMMIT` trong hai lần gọi riêng",
+            "en": "Use `prisma.$executeRaw` with `BEGIN` and `COMMIT` in two separate calls"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Interactive transaction `prisma.$transaction(async (tx) => { ... })` cho phép đọc, chạy logic rồi ghi, tất cả trên cùng một transaction qua `tx`; ném lỗi trong callback để rollback. Dạng mảng `$transaction([a, b])` chỉ chạy một loạt query đã dựng sẵn, nên không thể dùng kết quả câu đầu để quyết định câu sau. Với nhiều request đồng thời, nên dùng update có điều kiện (`where: { balance: { gte: amount } }`) hoặc khoá dòng để tránh race.",
+        "en": "An interactive transaction `prisma.$transaction(async (tx) => { ... })` lets you read, run logic and write, all on the same transaction through `tx`; throw inside the callback to roll back. The array form `$transaction([a, b])` only runs a batch of pre-built queries, so you cannot use the first result to decide the next. Under concurrency, use a conditional update (`where: { balance: { gte: amount } }`) or row locks to avoid races."
+      }
+    },
+    {
+      "id": "nestjs.database.007",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "database",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Đăng ký với email đã tồn tại làm PostgreSQL ném lỗi unique violation và client nhận `500 Internal server error`. Cách xử lý tốt nhất?",
+        "en": "Registering with an existing email makes PostgreSQL throw a unique violation and the client receives `500 Internal server error`. What is the best handling?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Bỏ unique constraint và chỉ kiểm tra bằng `findOne` trước khi insert",
+            "en": "Drop the unique constraint and only check with `findOne` before inserting"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Bọc `save` trong `try/catch` rỗng để client luôn nhận được `201`",
+            "en": "Wrap `save` in an empty `try/catch` so the client always gets `201`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Bật `synchronize: true` để TypeORM tự gộp các bản ghi trùng email",
+            "en": "Enable `synchronize: true` so TypeORM merges duplicate emails automatically"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Giữ constraint, đổi lỗi `23505`/`P2002` thành `ConflictException`",
+            "en": "Keep the constraint and map `23505`/`P2002` to `ConflictException`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "Constraint unique trong database là nguồn sự thật duy nhất chống race giữa các request đồng thời, nên vẫn giữ nó. Bắt mã lỗi cụ thể (PostgreSQL `23505`, Prisma `P2002`) ở repository hoặc trong một exception filter, rồi đổi thành `ConflictException` để client nhận `409` rõ nghĩa. Chỉ kiểm tra trước bằng `findOne` là chưa đủ vì hai request vẫn có thể cùng lọt qua.",
+        "en": "The database unique constraint is the only reliable guard against races between concurrent requests, so keep it. Catch the specific error code (PostgreSQL `23505`, Prisma `P2002`) in the repository or an exception filter and map it to `ConflictException`, so the client gets a meaningful `409`. Checking first with `findOne` alone is not enough because two requests can still slip through together."
+      }
+    },
+    {
+      "id": "nestjs.database.008",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "database",
+      "level": "middle",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Gọi `transfer(1, 2, 80)` với số dư ban đầu `[100, 0]` và hạn mức ngày là 50. Sau đó số dư trong database là `[20, 0]`: tiền bị trừ nhưng không được cộng. Lỗi ở đâu?",
+        "en": "Calling `transfer(1, 2, 80)` with starting balances `[100, 0]` and a daily limit of 50 leaves the database balances at `[20, 0]`: the money is debited but never credited. Where is the bug?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Injectable()\nexport class TransfersService {\n  constructor(\n    private readonly dataSource: DataSource,\n    private readonly limits: LimitsService,\n  ) {}\n\n  async transfer(fromId: number, toId: number, amount: number) {\n    await this.dataSource.transaction(async (manager) => {\n      try {\n        await manager.decrement(Account, { id: fromId }, 'balance', amount);\n        await this.limits.assertDailyLimit(manager, fromId, amount);\n        await manager.increment(Account, { id: toId }, 'balance', amount);\n      } catch (e) {\n        console.log('transfer failed:', e.message);\n      }\n    });\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`manager.decrement` tự commit ngay vì nó không đi qua repository của entity như `save` làm",
+            "en": "`manager.decrement` commits immediately because it skips the entity repository unlike `save`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`this.limits` là provider khác nên toàn bộ transaction bị tách thành hai connection riêng biệt",
+            "en": "`this.limits` is another provider, so the whole transaction splits into two separate connections"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`try/catch` trong callback nuốt lỗi nên transaction vẫn commit lệnh `decrement`",
+            "en": "The inner `try/catch` swallows the error, so the transaction still commits the `decrement`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "TypeORM không hỗ trợ `increment` trong transaction, câu lệnh đó bị bỏ qua mà không báo lỗi",
+            "en": "TypeORM does not support `increment` inside transactions, so it is silently skipped without an error"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`dataSource.transaction` chỉ rollback khi callback reject. `try/catch` bên trong nuốt lỗi từ `assertDailyLimit`, nên callback resolve bình thường và TypeORM commit lệnh `decrement` đã chạy. Hãy bỏ `try/catch` trong callback hoặc `throw` lại sau khi log, và đặt việc log hay đổi lỗi ở bên ngoài transaction. Kiểm tra hạn mức trước khi trừ tiền cũng giúp logic rõ ràng hơn.",
+        "en": "`dataSource.transaction` only rolls back when the callback rejects. The inner `try/catch` swallows the error from `assertDailyLimit`, so the callback resolves normally and TypeORM commits the `decrement` that already ran. Remove the `try/catch` inside the callback or rethrow after logging, and do the logging or error mapping outside the transaction. Checking the limit before debiting also makes the logic clearer."
+      }
+    },
+    {
+      "id": "nestjs.database.009",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "database",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Sau khi tạo đơn hàng, `OrdersService` lưu vào PostgreSQL rồi publish sự kiện `order.created` lên Kafka. Thỉnh thoảng đơn đã lưu nhưng sự kiện bị mất (hoặc ngược lại). Hãy thiết kế giải pháp đảm bảo nhất quán.",
+        "en": "After creating an order, `OrdersService` saves it to PostgreSQL and then publishes an `order.created` event to Kafka. Occasionally the order is saved but the event is lost (or the reverse). Design a solution that guarantees consistency."
+      },
+      "keyPoints": [
+        {
+          "vi": "Nêu đúng dual-write problem: DB và broker không chung transaction, crash giữa chừng gây lệch",
+          "en": "Identify the dual-write problem: DB and broker share no transaction, so a crash in between causes divergence"
+        },
+        {
+          "vi": "Transactional outbox: ghi `order` và bản ghi `outbox` trong cùng một transaction",
+          "en": "Transactional outbox: write the `order` and the `outbox` row in the same transaction"
+        },
+        {
+          "vi": "Relay publish từ outbox (poll với `FOR UPDATE SKIP LOCKED` hoặc CDC/Debezium), đánh dấu đã gửi, retry khi lỗi",
+          "en": "A relay publishes from the outbox (polling with `FOR UPDATE SKIP LOCKED` or CDC/Debezium), marks rows sent and retries on failure"
+        },
+        {
+          "vi": "Đảm bảo at-least-once nên consumer idempotent theo `eventId`; partition key `orderId` để giữ thứ tự",
+          "en": "Delivery is at-least-once, so consumers are idempotent by `eventId`; partition by `orderId` to keep ordering"
+        },
+        {
+          "vi": "Vận hành: đo độ trễ outbox, dọn bản ghi cũ, version schema sự kiện, cảnh báo khi relay ngừng",
+          "en": "Operations: measure outbox lag, purge old rows, version event schemas, alert when the relay stops"
+        }
+      ],
+      "explanation": {
+        "vi": "Ghi database và publish lên broker là hai hệ thống khác nhau, không thể nằm chung một transaction (dual-write problem), nên crash giữa hai bước sẽ gây lệch. Transactional outbox giải quyết bằng cách ghi sự kiện vào bảng `outbox` trong cùng transaction với đơn hàng, rồi một relay (worker poll hoặc CDC như Debezium) đọc và publish, đánh dấu đã gửi. Cách này cho at-least-once, nên consumer phải idempotent theo event id. Cần thêm theo dõi độ trễ outbox, dọn bản ghi cũ và giữ thứ tự theo aggregate (partition key là `orderId`).",
+        "en": "Writing to the database and publishing to a broker are two different systems that cannot share one transaction (the dual-write problem), so a crash between the steps causes divergence. The transactional outbox solves it by writing the event to an `outbox` table in the same transaction as the order, then a relay (a polling worker or CDC such as Debezium) reads, publishes and marks it sent. This yields at-least-once delivery, so consumers must be idempotent by event id. Also monitor outbox lag, clean up old rows and keep per-aggregate ordering (partition key `orderId`)."
+      }
+    },
+    {
+      "id": "nestjs.microservices.001",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "microservices",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `@nestjs/microservices`, khác biệt giữa `client.send()` và `client.emit()` là gì?",
+        "en": "In `@nestjs/microservices`, what is the difference between `client.send()` and `client.emit()`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`send()` chờ phản hồi từ `@MessagePattern`; `emit()` phát sự kiện tới `@EventPattern`",
+            "en": "`send()` waits for a `@MessagePattern` reply; `emit()` fires an `@EventPattern` event"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`send()` chỉ dùng được với TCP; `emit()` chỉ dùng được với Kafka và RabbitMQ",
+            "en": "`send()` only works over TCP; `emit()` only works with Kafka and RabbitMQ"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`send()` gửi ngay khi gọi; `emit()` chỉ gửi sau khi đã subscribe vào kết quả trả về",
+            "en": "`send()` sends as soon as it is called; `emit()` only sends after you subscribe to the result"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Hai hàm giống nhau, `emit()` chỉ là alias của `send()` được giữ lại cho tương thích",
+            "en": "They are identical; `emit()` is just an alias of `send()` kept for compatibility"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "`send()` theo mô hình request-response: nó trả về Observable chờ giá trị phản hồi, và phía server xử lý bằng `@MessagePattern`. `emit()` phát một sự kiện theo kiểu fire-and-forget: không chờ kết quả, phía server lắng nghe bằng `@EventPattern`. Cả hai đều trả Observable lạnh, nên phải subscribe (hoặc `lastValueFrom`) thì message mới thực sự được gửi.",
+        "en": "`send()` follows request-response: it returns an Observable that waits for the reply, and the server handles it with `@MessagePattern`. `emit()` publishes an event fire-and-forget: it does not wait for a result, and the server listens with `@EventPattern`. Both return cold Observables, so you must subscribe (or use `lastValueFrom`) for the message to actually be sent."
+      }
+    },
+    {
+      "id": "nestjs.microservices.002",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "microservices",
+      "level": "fresher",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Hàng đợi việc (ví dụ BullMQ với `@nestjs/bullmq`) là gì? Vì sao nên đẩy việc gửi email chào mừng vào queue thay vì gửi ngay trong request đăng ký?",
+        "en": "What is a job queue (e.g. BullMQ with `@nestjs/bullmq`)? Why push the welcome email into a queue instead of sending it inside the sign-up request?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Queue lưu job (BullMQ dùng Redis) để worker xử lý bất đồng bộ, tách khỏi request",
+          "en": "A queue stores jobs (BullMQ uses Redis) for workers to process asynchronously, decoupled from the request"
+        },
+        {
+          "vi": "Producer: `BullModule.registerQueue`, `@InjectQueue('email')`, `queue.add('welcome', data)`",
+          "en": "Producer: `BullModule.registerQueue`, `@InjectQueue('email')`, `queue.add('welcome', data)`"
+        },
+        {
+          "vi": "Consumer: class `@Processor('email')` kế thừa `WorkerHost`, implement `process(job)`",
+          "en": "Consumer: a `@Processor('email')` class extending `WorkerHost` that implements `process(job)`"
+        },
+        {
+          "vi": "Lợi ích: response nhanh, không phụ thuộc email provider, retry với `attempts`/`backoff`, scale worker riêng",
+          "en": "Benefits: fast responses, no dependency on the email provider, retries with `attempts`/`backoff`, workers scale separately"
+        },
+        {
+          "vi": "Cần theo dõi job lỗi và làm job idempotent vì job có thể chạy lại",
+          "en": "Monitor failed jobs and make jobs idempotent because they can run more than once"
+        }
+      ],
+      "explanation": {
+        "vi": "Job queue lưu các việc cần làm (trong Redis với BullMQ) để worker xử lý bất đồng bộ, tách khỏi vòng đời request HTTP. Request đăng ký chỉ cần `queue.add('welcome', { userId })` rồi trả về ngay, nên latency thấp và không bị lỗi khi nhà cung cấp email chậm hay sập. Worker (`@Processor` kế thừa `WorkerHost`) có thể retry với backoff, giới hạn concurrency và scale độc lập. Đổi lại, cần theo dõi job lỗi và thiết kế job idempotent.",
+        "en": "A job queue stores work to be done (in Redis for BullMQ) so workers can process it asynchronously, decoupled from the HTTP request lifecycle. The sign-up request only calls `queue.add('welcome', { userId })` and returns immediately, keeping latency low and not failing when the email provider is slow or down. Workers (`@Processor` classes extending `WorkerHost`) can retry with backoff, limit concurrency and scale independently. In exchange, you need to monitor failed jobs and design jobs to be idempotent."
+      }
+    },
+    {
+      "id": "nestjs.microservices.003",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "microservices",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong `@nestjs/cqrs`, câu nào mô tả đúng command và command handler?",
+        "en": "In `@nestjs/cqrs`, which statement correctly describes commands and command handlers?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Mỗi command có đúng một `@CommandHandler`, được gọi bằng `commandBus.execute(cmd)`",
+            "en": "Each command has exactly one `@CommandHandler`, invoked with `commandBus.execute(cmd)`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một command có thể có nhiều handler, chúng đều chạy song song khi command được phát",
+            "en": "A command can have many handlers, and they all run in parallel when it is dispatched"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Command handler chỉ được đọc dữ liệu, mọi thao tác ghi phải nằm trong query handler",
+            "en": "Command handlers may only read data; all writes must live in query handlers instead"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Command được gửi qua `eventBus.publish()` và handler tự đăng ký mà không cần `providers`",
+            "en": "Commands go through `eventBus.publish()`, and handlers self-register without `providers`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Command là object mô tả ý định thay đổi trạng thái, ví dụ `new CreateOrderCommand(userId, items)`, và được gửi qua `commandBus.execute()`. Mỗi command có đúng một handler, là class `@CommandHandler(CreateOrderCommand)` implement `ICommandHandler`, đăng ký trong `providers`. Việc nhiều handler cùng phản ứng là đặc trưng của event (`@EventsHandler`), không phải command.",
+        "en": "A command is an object describing an intent to change state, e.g. `new CreateOrderCommand(userId, items)`, dispatched through `commandBus.execute()`. Each command has exactly one handler, a `@CommandHandler(CreateOrderCommand)` class implementing `ICommandHandler`, registered in `providers`. Having many handlers react to one message is a trait of events (`@EventsHandler`), not commands."
+      }
+    },
+    {
+      "id": "nestjs.microservices.004",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "microservices",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Server microservice TCP và client đã kết nối. `notify()` được gọi một lần. Dòng log in ra gì?",
+        "en": "A TCP microservice server and client are connected. `notify()` is called once. What does the log line print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "let calls = 0;\n\n@Controller()\nexport class MathController {\n  @MessagePattern('sum')\n  sum(@Payload() data: number[]) {\n    calls++;\n    return data.reduce((a, b) => a + b, 0);\n  }\n}\n\nasync function notify(client: ClientProxy) {\n  client.send('sum', [1, 2, 3]);\n  await new Promise((r) => setTimeout(r, 300));\n  console.log('calls =', calls);\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`calls = 1`",
+            "en": "`calls = 1`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`calls = 6`",
+            "en": "`calls = 6`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi `There is no matching message handler`",
+            "en": "The error `There is no matching message handler`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`calls = 0`",
+            "en": "`calls = 0`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`client.send()` trả về Observable lạnh: message chỉ được gửi khi có người subscribe. `notify()` gọi `send` rồi bỏ qua kết quả, nên handler `sum` không bao giờ chạy và `calls` vẫn là `0`. Hãy `await lastValueFrom(this.client.send(...))` hoặc `.subscribe()`; điều này cũng đúng với `emit()`.",
+        "en": "`client.send()` returns a cold Observable: the message is only sent when someone subscribes. `notify()` calls `send` and ignores the result, so the `sum` handler never runs and `calls` stays `0`. Use `await lastValueFrom(this.client.send(...))` or `.subscribe()`; the same applies to `emit()`."
+      }
+    },
+    {
+      "id": "nestjs.microservices.005",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "microservices",
+      "level": "junior",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Service `orders` gọi `getUser(1)` sang service `users` qua TCP và luôn nhận lỗi `There is no matching message handler defined in the remote service.` Lỗi ở đâu?",
+        "en": "The `orders` service calls `getUser(1)` on the `users` service over TCP and always gets `There is no matching message handler defined in the remote service.` What is the bug?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "// users service\n@Controller()\nexport class UsersController {\n  @MessagePattern({ cmd: 'get_user' })\n  getUser(@Payload() id: number) {\n    return { id, name: 'An' };\n  }\n}\n\n// orders service\n@Injectable()\nexport class UsersClient {\n  constructor(@Inject('USERS_SERVICE') private readonly client: ClientProxy) {}\n\n  getUser(id: number) {\n    return lastValueFrom(this.client.send('get_user', id));\n  }\n}"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Client gửi pattern chuỗi `'get_user'`, server chờ object `{ cmd: 'get_user' }`",
+            "en": "The client sends the string `'get_user'`, the server expects `{ cmd: 'get_user' }`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Handler phải dùng `@EventPattern` vì nó được một service khác gọi sang qua kết nối TCP",
+            "en": "The handler must use `@EventPattern` because a different service calls it over a TCP link"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`lastValueFrom` huỷ message trước khi server kịp nhận được dữ liệu",
+            "en": "`lastValueFrom` cancels the message before the server can receive it"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`@Payload()` chỉ nhận object, không nhận được giá trị kiểu `number`",
+            "en": "`@Payload()` only accepts objects and cannot receive a `number` value"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Nest so khớp pattern sau khi serialize, nên chuỗi `'get_user'` và object `{ cmd: 'get_user' }` là hai pattern khác nhau. Server đăng ký dạng object còn client gửi dạng chuỗi, nên không handler nào khớp. Hãy dùng chung một hằng số pattern, ví dụ export `GET_USER = { cmd: 'get_user' }` từ một package dùng chung cho cả hai phía.",
+        "en": "Nest matches patterns after serialising them, so the string `'get_user'` and the object `{ cmd: 'get_user' }` are different patterns. The server registers the object form while the client sends the string form, so no handler matches. Share one pattern constant, e.g. export `GET_USER = { cmd: 'get_user' }` from a shared package used by both sides."
+      }
+    },
+    {
+      "id": "nestjs.microservices.006",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "microservices",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Dùng `@nestjs/cqrs`, khi `OrderCreatedEvent` được `eventBus.publish()`, bạn muốn vừa gửi email vừa cập nhật thống kê. Câu nào đúng?",
+        "en": "Using `@nestjs/cqrs`, when `OrderCreatedEvent` is sent with `eventBus.publish()`, you want to both send an email and update analytics. Which statement is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Chỉ được một handler cho mỗi event, nên phải gộp email và thống kê vào một class",
+            "en": "Only one handler is allowed per event, so email and analytics must share one class"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`publish()` chờ mọi handler xong và rollback command nếu có handler nào ném lỗi",
+            "en": "`publish()` waits for every handler and rolls back the command if any of them throws"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Viết hai `@EventsHandler(OrderCreatedEvent)`; `publish()` không trả kết quả",
+            "en": "Write two `@EventsHandler(OrderCreatedEvent)`; `publish()` returns no results"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Event handler phải trả về giá trị, nếu không `eventBus` sẽ phát lại event mãi",
+            "en": "Event handlers must return a value, otherwise `eventBus` re-publishes the event forever"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "Event có thể có nhiều `@EventsHandler` độc lập; mỗi handler nhận cùng một event và chạy riêng. `publish()` không trả về kết quả của các handler, và lỗi trong handler không làm hỏng command đã hoàn tất, nên với việc quan trọng cần retry hoặc outbox. Đây là khác biệt cốt lõi với command, vốn chỉ có đúng một handler.",
+        "en": "An event can have multiple independent `@EventsHandler` classes; each receives the same event and runs on its own. `publish()` does not return the handlers' results, and a failing handler does not undo the already completed command, so critical work needs retries or an outbox. This is the core difference from commands, which have exactly one handler."
+      }
+    },
+    {
+      "id": "nestjs.microservices.007",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "microservices",
+      "level": "middle",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Worker BullMQ gửi email hoá đơn rồi cập nhật `invoice.sentAt`. Khi worker bị kill giữa chừng, job bị đánh dấu stalled và chạy lại, khách nhận hai email. Hướng sửa đúng là gì?",
+        "en": "A BullMQ worker sends the invoice email and then updates `invoice.sentAt`. When the worker is killed midway, the job is marked stalled and retried, and the customer gets two emails. What is the right fix?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Đặt `attempts: 1` cho job để BullMQ không bao giờ chạy lại nó",
+            "en": "Set `attempts: 1` on the job so BullMQ never runs it again"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Giảm `concurrency` của worker về `1` để các job không chạy chồng lên nhau",
+            "en": "Lower the worker `concurrency` to `1` so jobs never overlap each other"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Làm processor idempotent (`jobId` ổn định, lưu trạng thái đã gửi)",
+            "en": "Make the processor idempotent (stable `jobId`, stored send state)"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bật `removeOnComplete: true` để job đã xong bị xoá khỏi Redis",
+            "en": "Enable `removeOnComplete: true` so finished jobs are removed from Redis"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "BullMQ đảm bảo at-least-once: job có thể chạy lại khi stalled, timeout hoặc lỗi, nên processor phải idempotent. Dùng `jobId` ổn định (ví dụ `invoice:123`) để chống thêm trùng, kiểm tra và đánh dấu trạng thái gửi trong database, và truyền idempotency key cho nhà cung cấp email nếu họ hỗ trợ. Tắt retry hay đổi concurrency chỉ đổi lỗi này lấy lỗi mất email.",
+        "en": "BullMQ guarantees at-least-once delivery: a job can run again after a stall, timeout or failure, so the processor must be idempotent. Use a stable `jobId` (e.g. `invoice:123`) to prevent duplicate enqueues, check and record the send state in the database, and pass an idempotency key to the email provider when supported. Disabling retries or changing concurrency only trades this bug for lost emails."
+      }
+    },
+    {
+      "id": "nestjs.microservices.008",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "microservices",
+      "level": "senior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Khi tách `orders` và `inventory` thành hai service NestJS, đặt hàng cần giữ chỗ tồn kho rồi thanh toán. Bạn chọn giao tiếp đồng bộ hay bất đồng bộ, và đảm bảo nhất quán dữ liệu thế nào khi một bước thất bại?",
+        "en": "After splitting `orders` and `inventory` into two NestJS services, placing an order must reserve stock and then take payment. Would you use synchronous or asynchronous communication, and how do you keep data consistent when a step fails?"
+      },
+      "keyPoints": [
+        {
+          "vi": "So sánh sync (đơn giản, ghép chặt, cần timeout/retry/circuit breaker) và async qua broker (tách rời, nhất quán sau)",
+          "en": "Compare sync (simple, tightly coupled, needs timeouts/retries/circuit breaker) with async via a broker (decoupled, eventually consistent)"
+        },
+        {
+          "vi": "Không có transaction phân tán: dùng saga (choreography hoặc orchestration) với bước bù trừ",
+          "en": "No distributed transactions: use a saga (choreography or orchestration) with compensating steps"
+        },
+        {
+          "vi": "Trạng thái đơn hàng là state machine rõ ràng, có timeout cho giữ chỗ chưa thanh toán",
+          "en": "Model the order status as an explicit state machine with timeouts for unpaid reservations"
+        },
+        {
+          "vi": "Consumer idempotent theo message id, publish qua outbox, có dead-letter queue cho message lỗi",
+          "en": "Idempotent consumers by message id, publishing via an outbox, and a dead-letter queue for poison messages"
+        },
+        {
+          "vi": "Correlation id, tracing (OpenTelemetry) và hợp đồng message có version giữa các service",
+          "en": "Correlation ids, tracing (OpenTelemetry) and versioned message contracts between services"
+        }
+      ],
+      "explanation": {
+        "vi": "Gọi đồng bộ (`send` qua TCP/gRPC) đơn giản nhưng ghép chặt độ sẵn sàng: `inventory` chậm thì `orders` cũng chậm, nên cần timeout, retry có giới hạn và circuit breaker. Luồng nhiều bước qua service nên dùng saga (choreography bằng event hoặc orchestration) với bước bù trừ như huỷ giữ chỗ khi thanh toán lỗi, vì không có transaction phân tán. Mọi consumer phải idempotent, sự kiện publish qua outbox, và trạng thái đơn hàng là state machine rõ ràng (`PENDING`, `RESERVED`, `PAID`, `CANCELLED`). Cần correlation id và tracing để debug luồng.",
+        "en": "Synchronous calls (`send` over TCP/gRPC) are simple but couple availability: if `inventory` is slow, `orders` is slow too, so you need timeouts, bounded retries and a circuit breaker. A multi-step cross-service flow should use a saga (event choreography or orchestration) with compensating steps such as releasing the reservation when payment fails, since there are no distributed transactions. Every consumer must be idempotent, events are published via an outbox, and the order status is an explicit state machine (`PENDING`, `RESERVED`, `PAID`, `CANCELLED`). Add correlation ids and tracing to debug the flow."
+      }
+    },
+    {
+      "id": "nestjs.testing.001",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "testing",
+      "level": "fresher",
+      "type": "findBug",
+      "prompt": {
+        "vi": "Unit test của `UsersService` lỗi ngay ở `beforeEach` với `Nest can't resolve dependencies of the UsersService (?). Please make sure that the argument UsersRepository at index [0] is available in the RootTestModule module.` Sửa thế nào?",
+        "en": "The `UsersService` unit test fails in `beforeEach` with `Nest can't resolve dependencies of the UsersService (?). Please make sure that the argument UsersRepository at index [0] is available in the RootTestModule module.` How do you fix it?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Injectable()\nexport class UsersRepository {\n  findById(id: number) { /* query database */ }\n}\n\n@Injectable()\nexport class UsersService {\n  constructor(private readonly repo: UsersRepository) {}\n}\n\ndescribe('UsersService', () => {\n  let service: UsersService;\n\n  beforeEach(async () => {\n    const moduleRef = await Test.createTestingModule({\n      providers: [UsersService],\n    }).compile();\n    service = moduleRef.get(UsersService);\n  });\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Thêm `{ provide: UsersRepository, useValue: mockRepo }` vào `providers` của testing module",
+            "en": "Add `{ provide: UsersRepository, useValue: mockRepo }` to the testing module's `providers`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Gọi `moduleRef.init()` trước `compile()` để Nest khởi tạo xong các phụ thuộc còn thiếu",
+            "en": "Call `moduleRef.init()` before `compile()` so Nest can initialise the missing dependencies"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Đổi `moduleRef.get(UsersService)` thành `moduleRef.resolve(UsersService)` cho provider có phụ thuộc",
+            "en": "Replace `moduleRef.get(UsersService)` with `moduleRef.resolve(UsersService)` for providers with dependencies"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Thêm `imports: [UsersService]` vì service đang test phải nằm trong `imports` thay vì `providers`",
+            "en": "Add `imports: [UsersService]`, since the service under test belongs in `imports` instead of `providers`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "Testing module là một module Nest thật, nên mọi phụ thuộc của provider được test cũng phải được cung cấp. Với unit test, khai báo một mock dưới đúng token: `{ provide: UsersRepository, useValue: { findById: jest.fn() } }`, để test không chạm database thật. Thêm `UsersRepository` thật vào `providers` cũng hết lỗi nhưng sẽ kéo theo database và không còn là unit test.",
+        "en": "A testing module is a real Nest module, so every dependency of the provider under test must be provided too. For a unit test, register a mock under the same token: `{ provide: UsersRepository, useValue: { findById: jest.fn() } }`, so the test never touches a real database. Adding the real `UsersRepository` to `providers` also removes the error but drags in the database and is no longer a unit test."
+      }
+    },
+    {
+      "id": "nestjs.testing.002",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "testing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "`await Test.createTestingModule({ providers: [...] }).compile()` trả về gì, và lấy instance service đang test bằng cách nào?",
+        "en": "What does `await Test.createTestingModule({ providers: [...] }).compile()` return, and how do you get the instance of the service under test?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Một HTTP server đang lắng nghe; gọi service qua `supertest` ở cổng ngẫu nhiên",
+            "en": "A listening HTTP server; call the service through `supertest` on a random port"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Một mảng instance theo đúng thứ tự khai báo trong `providers`; lấy bằng chỉ số",
+            "en": "An array of instances in `providers` order; pick the service by its index"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Một `TestingModule`; lấy service bằng `moduleRef.get(UsersService)` sau khi compile",
+            "en": "A `TestingModule`; get the service with `moduleRef.get(UsersService)` after compiling"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Một `Promise<UsersService>` của provider đầu tiên trong `providers` được khai báo",
+            "en": "A `Promise<UsersService>` of the first provider declared in `providers`"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`compile()` dựng toàn bộ đồ thị phụ thuộc giống lúc bootstrap và trả về một `TestingModule`. Dùng `moduleRef.get(UsersService)` để lấy instance singleton (và `moduleRef.resolve()` cho provider request-scoped hoặc transient). Từ cùng `moduleRef` có thể lấy luôn các mock để cấu hình kết quả trả về hay kiểm tra lời gọi.",
+        "en": "`compile()` builds the full dependency graph like bootstrap does and returns a `TestingModule`. Use `moduleRef.get(UsersService)` to get the singleton instance (and `moduleRef.resolve()` for request-scoped or transient providers). From the same `moduleRef` you can also fetch the mocks to configure return values or assert calls."
+      }
+    },
+    {
+      "id": "nestjs.testing.003",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "testing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Bạn muốn viết e2e test kiểm tra `GET /users` trả `200` qua đầy đủ pipe, guard và controller. Đoạn setup nào đúng?",
+        "en": "You want an e2e test checking that `GET /users` returns `200` through the full pipes, guards and controller. Which setup is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`createNestApplication()`, `await app.init()`, rồi `request(app.getHttpServer()).get('/users')`",
+            "en": "`createNestApplication()`, `await app.init()`, then `request(app.getHttpServer()).get('/users')`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`const ctrl = moduleRef.get(UsersController); expect(await ctrl.findAll()).toEqual(expect.any(Array))`",
+            "en": "`const ctrl = moduleRef.get(UsersController); expect(await ctrl.findAll()).toEqual(expect.any(Array))`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`await NestFactory.create(AppModule).listen(3000)` rồi gọi `fetch` tới cổng `3000`",
+            "en": "`await NestFactory.create(AppModule).listen(3000)`, then `fetch` port `3000`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`request(moduleRef).get('/users').expect(200)` ngay sau khi `compile()`",
+            "en": "`request(moduleRef).get('/users').expect(200)` right after `compile()`"
+          }
+        }
+      ],
+      "answerId": "a",
+      "explanation": {
+        "vi": "E2E test trong Nest tạo app thật từ testing module: `moduleRef.createNestApplication()`, gọi `await app.init()`, rồi dùng `supertest` gửi request vào `app.getHttpServer()` mà không cần mở cổng. Nhờ vậy request đi qua đủ middleware, guard, pipe, interceptor và filter. Gọi thẳng method của controller chỉ là unit test và bỏ qua toàn bộ lifecycle đó.",
+        "en": "An e2e test in Nest creates a real app from the testing module: `moduleRef.createNestApplication()`, `await app.init()`, then `supertest` sends requests to `app.getHttpServer()` without opening a port. Requests therefore pass through all middleware, guards, pipes, interceptors and filters. Calling the controller method directly is only a unit test and skips that whole lifecycle."
+      }
+    },
+    {
+      "id": "nestjs.testing.004",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "testing",
+      "level": "fresher",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Trong unit test của `UsersService.getProfile(1)`, bạn muốn repository mock trả về một user và kiểm tra nó được gọi với `1`. Cách viết nào đúng với Jest?",
+        "en": "In a unit test of `UsersService.getProfile(1)`, you want the mocked repository to return a user and verify it was called with `1`. Which Jest code is correct?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`findById: jest.fn(user)` và `expect(repo.findById(1)).toBe(user)` để kiểm tra tham số đã truyền vào",
+            "en": "`findById: jest.fn(user)` and `expect(repo.findById(1)).toBe(user)` to check the argument passed"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`findById: jest.fn().mockResolvedValue(user)` và `expect(repo.findById).toHaveBeenCalledWith(1)`",
+            "en": "`findById: jest.fn().mockResolvedValue(user)` and `expect(repo.findById).toHaveBeenCalledWith(1)`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "`findById: () => user` và `expect(repo.findById).toHaveBeenCalledWith(1)`",
+            "en": "`findById: () => user` and `expect(repo.findById).toHaveBeenCalledWith(1)`"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`jest.mock('UsersRepository')` và `expect(service.getProfile).toHaveBeenCalled()`",
+            "en": "`jest.mock('UsersRepository')` and `expect(service.getProfile).toHaveBeenCalled()`"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "`jest.fn().mockResolvedValue(user)` tạo hàm mock trả Promise resolve ra `user`, phù hợp với method async của repository. Sau khi gọi service, `expect(repo.findById).toHaveBeenCalledWith(1)` kiểm tra tham số đã truyền. Mock được đăng ký qua `{ provide: UsersRepository, useValue: repo }` để Nest inject vào service.",
+        "en": "`jest.fn().mockResolvedValue(user)` creates a mock returning a Promise that resolves to `user`, matching the repository's async method. After calling the service, `expect(repo.findById).toHaveBeenCalledWith(1)` checks the argument passed. The mock is registered via `{ provide: UsersRepository, useValue: repo }` so Nest injects it into the service."
+      }
+    },
+    {
+      "id": "nestjs.testing.005",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "testing",
+      "level": "junior",
+      "type": "outputPrediction",
+      "prompt": {
+        "vi": "Test sau in ra gì?",
+        "en": "What does the following test print?"
+      },
+      "code": {
+        "language": "typescript",
+        "source": "@Injectable()\nexport class UsersRepository {\n  findById(id: number) {\n    return { id, name: 'from-db' };\n  }\n}\n\n@Injectable()\nexport class UsersService {\n  constructor(private readonly repo: UsersRepository) {}\n  getName(id: number) {\n    return this.repo.findById(id).name.toUpperCase();\n  }\n}\n\nit('uses the override', async () => {\n  const moduleRef = await Test.createTestingModule({\n    providers: [UsersService, UsersRepository],\n  })\n    .overrideProvider(UsersRepository)\n    .useValue({ findById: (id: number) => ({ id, name: `mock-${id}` }) })\n    .compile();\n\n  console.log(moduleRef.get(UsersService).getName(7));\n});"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`FROM-DB`",
+            "en": "`FROM-DB`"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "`mock-7`",
+            "en": "`mock-7`"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Lỗi vì `UsersRepository` bị khai báo trùng token",
+            "en": "An error because the `UsersRepository` token is declared twice"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`MOCK-7`",
+            "en": "`MOCK-7`"
+          }
+        }
+      ],
+      "answerId": "d",
+      "explanation": {
+        "vi": "`overrideProvider(UsersRepository).useValue(...)` thay provider thật bằng mock trước khi `compile()`, nên `UsersService` nhận object mock qua DI. `findById(7)` trả `{ id: 7, name: 'mock-7' }` và service in hoa tên thành `MOCK-7`. `overrideProvider` hữu ích khi import cả module thật nhưng chỉ muốn thay một vài phụ thuộc.",
+        "en": "`overrideProvider(UsersRepository).useValue(...)` replaces the real provider with the mock before `compile()`, so `UsersService` receives the mock object via DI. `findById(7)` returns `{ id: 7, name: 'mock-7' }` and the service upper-cases the name to `MOCK-7`. `overrideProvider` is useful when you import a whole real module but want to swap only a few dependencies."
+      }
+    },
+    {
+      "id": "nestjs.testing.006",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "testing",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Ở production, `POST /users` với email sai trả `400`. Nhưng trong e2e test, cùng request đó lại trả `201`. Nguyên nhân thường gặp nhất?",
+        "en": "In production, `POST /users` with an invalid email returns `400`. But in the e2e test, the same request returns `201`. What is the most common cause?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "`supertest` gửi body dạng form nên `ValidationPipe` không đọc được dữ liệu",
+            "en": "`supertest` sends form bodies, so `ValidationPipe` cannot read the data"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Jest tắt `emitDecoratorMetadata`, nên mọi decorator validation đều bị bỏ qua hết",
+            "en": "Jest disables `emitDecoratorMetadata`, so every validation decorator is skipped"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Global pipe được đăng ký trong `main.ts`, mà app của test không hề chạy file đó",
+            "en": "The global pipe is registered in `main.ts`, which the test app never runs"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "`createNestApplication()` luôn chạy ở chế độ dev, nơi validation bị tắt mặc định",
+            "en": "`createNestApplication()` always runs in dev mode, where validation is off by default"
+          }
+        }
+      ],
+      "answerId": "c",
+      "explanation": {
+        "vi": "`app.useGlobalPipes(new ValidationPipe())` thường được gọi trong `main.ts`, còn e2e test tự tạo app bằng `createNestApplication()` nên không chạy đoạn đó. Có thể gọi lại `app.useGlobalPipes(...)` trong test, hoặc tốt hơn là đăng ký qua provider `APP_PIPE` trong `AppModule` để cấu hình đi theo module. Điều tương tự áp dụng cho global filter, interceptor và guard.",
+        "en": "`app.useGlobalPipes(new ValidationPipe())` is usually called in `main.ts`, while the e2e test builds its own app with `createNestApplication()`, so that code never runs. You can call `app.useGlobalPipes(...)` again in the test, or better register it with an `APP_PIPE` provider in `AppModule` so the configuration travels with the module. The same goes for global filters, interceptors and guards."
+      }
+    },
+    {
+      "id": "nestjs.testing.007",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "testing",
+      "level": "junior",
+      "type": "multipleChoice",
+      "prompt": {
+        "vi": "Unit test của `PaymentsService` đọc `ConfigService.get('STRIPE_KEY')` và đang vô tình dùng giá trị từ file `.env` của máy dev. Cách cô lập cấu hình tốt nhất?",
+        "en": "The `PaymentsService` unit test reads `ConfigService.get('STRIPE_KEY')` and is accidentally using the dev machine's `.env` file. What is the best way to isolate configuration?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "vi": "Commit một file `.env` dùng chung để máy nào chạy test cũng có cùng giá trị",
+            "en": "Commit a shared `.env` file so every machine running tests gets the same values"
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "vi": "Mock `ConfigService` bằng `useValue` với `get` trả giá trị test cố định",
+            "en": "Mock `ConfigService` with `useValue` whose `get` returns fixed test values"
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "vi": "Gán `process.env.STRIPE_KEY` ở đầu mỗi file test và không bao giờ khôi phục lại",
+            "en": "Set `process.env.STRIPE_KEY` at the top of each test file and never restore it"
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "vi": "Bỏ `ConfigService` khỏi service và hard-code key test vào trong mã nguồn",
+            "en": "Remove `ConfigService` from the service and hard-code the test key in the source"
+          }
+        }
+      ],
+      "answerId": "b",
+      "explanation": {
+        "vi": "Unit test nên kiểm soát hoàn toàn đầu vào: cung cấp `{ provide: ConfigService, useValue: { get: jest.fn((key) => testConfig[key]) } }` hoặc `overrideProvider(ConfigService)` để test luôn ra cùng kết quả ở mọi máy và trên CI. Nếu cần `ConfigModule` thật, dùng `ConfigModule.forRoot({ ignoreEnvFile: true, load: [() => testConfig] })`. Sửa `process.env` toàn cục dễ làm các test ảnh hưởng lẫn nhau.",
+        "en": "Unit tests should fully control their inputs: provide `{ provide: ConfigService, useValue: { get: jest.fn((key) => testConfig[key]) } }` or use `overrideProvider(ConfigService)` so the test gives the same result on every machine and in CI. If you need the real `ConfigModule`, use `ConfigModule.forRoot({ ignoreEnvFile: true, load: [() => testConfig] })`. Mutating the global `process.env` easily lets tests affect each other."
+      }
+    },
+    {
+      "id": "nestjs.testing.008",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "testing",
+      "level": "junior",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Bạn sẽ unit test `RolesGuard` (đọc `@Roles()` qua `Reflector` và so với `request.user.roles`) như thế nào mà không cần dựng cả app?",
+        "en": "How would you unit test `RolesGuard` (which reads `@Roles()` via `Reflector` and compares it with `request.user.roles`) without bootstrapping the whole app?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Khởi tạo guard trực tiếp (`new RolesGuard(reflector)`) hoặc qua `Test.createTestingModule`",
+          "en": "Instantiate the guard directly (`new RolesGuard(reflector)`) or via `Test.createTestingModule`"
+        },
+        {
+          "vi": "Mock `Reflector.getAllAndOverride` trả về danh sách role cần kiểm tra",
+          "en": "Mock `Reflector.getAllAndOverride` to return the roles under test"
+        },
+        {
+          "vi": "Tạo `ExecutionContext` giả với `getHandler`, `getClass`, `switchToHttp().getRequest()` chứa `user`",
+          "en": "Fake an `ExecutionContext` with `getHandler`, `getClass` and `switchToHttp().getRequest()` holding `user`"
+        },
+        {
+          "vi": "Test đủ nhánh: không metadata, đủ role, thiếu role, không có `user`",
+          "en": "Cover all branches: no metadata, sufficient roles, missing roles, no `user`"
+        },
+        {
+          "vi": "Bổ sung e2e test để xác nhận guard được gắn đúng route và trả `403`",
+          "en": "Add an e2e test to confirm the guard is wired to the route and returns `403`"
+        }
+      ],
+      "explanation": {
+        "vi": "Guard chỉ là class với method `canActivate(context)`, nên có thể khởi tạo trực tiếp với `Reflector` mock hoặc lấy từ testing module. Tạo `ExecutionContext` giả trả về handler, class và request có `user.roles` mong muốn (thủ công hoặc bằng `createMock` của `@golevelup/ts-jest`). Kiểm tra các nhánh: không có metadata thì cho qua, có role phù hợp thì `true`, thiếu role thì `false` hoặc ném `ForbiddenException`. Cuối cùng giữ một e2e test để chắc guard thực sự được gắn vào route.",
+        "en": "A guard is just a class with a `canActivate(context)` method, so you can instantiate it directly with a mocked `Reflector` or get it from a testing module. Build a fake `ExecutionContext` that returns a handler, a class and a request with the desired `user.roles` (by hand or with `createMock` from `@golevelup/ts-jest`). Cover the branches: no metadata lets the request through, a matching role returns `true`, a missing role returns `false` or throws `ForbiddenException`. Finally keep one e2e test to make sure the guard is really attached to the route."
+      }
+    },
+    {
+      "id": "nestjs.testing.009",
+      "contentVersion": 1,
+      "trackId": "nestjs",
+      "topicId": "testing",
+      "level": "middle",
+      "type": "selfExplain",
+      "prompt": {
+        "vi": "Đề xuất chiến lược test cho một service NestJS dùng PostgreSQL qua TypeORM/Prisma: phần nào unit test với mock, phần nào cần database thật, và làm sao để test chạy nhanh, ổn định trên CI?",
+        "en": "Propose a testing strategy for a NestJS service using PostgreSQL through TypeORM/Prisma: what gets unit tests with mocks, what needs a real database, and how do you keep tests fast and stable in CI?"
+      },
+      "keyPoints": [
+        {
+          "vi": "Unit test logic nghiệp vụ với repository mock: nhanh, nhiều trường hợp biên",
+          "en": "Unit-test business logic with mocked repositories: fast, many edge cases"
+        },
+        {
+          "vi": "Integration test repository với PostgreSQL thật (Testcontainers/CI service) và migration thật",
+          "en": "Integration-test repositories against a real PostgreSQL (Testcontainers/CI service) with real migrations"
+        },
+        {
+          "vi": "E2E với `createNestApplication` + `supertest` cho luồng chính, `overrideProvider` cho dịch vụ ngoài",
+          "en": "E2E with `createNestApplication` + `supertest` for key flows, `overrideProvider` for external services"
+        },
+        {
+          "vi": "Cô lập dữ liệu: rollback transaction hoặc truncate giữa test, database riêng theo Jest worker",
+          "en": "Isolate data: roll back transactions or truncate between tests, one database per Jest worker"
+        },
+        {
+          "vi": "Tránh test giòn: không phụ thuộc thứ tự, dùng factory dữ liệu, cố định thời gian và ID",
+          "en": "Avoid flaky tests: no order dependence, data factories, frozen time and IDs"
+        }
+      ],
+      "explanation": {
+        "vi": "Logic nghiệp vụ thuần (tính giá, kiểm tra trạng thái) nên unit test với repository mock vì nhanh và chính xác. Nhưng mock không bắt được lỗi query, constraint, transaction hay migration, nên tầng repository cần integration test với PostgreSQL thật (Testcontainers hoặc service container trên CI) chạy migration thật. E2E test dùng `createNestApplication` + `supertest` cho vài luồng chính, `overrideProvider` cho dịch vụ bên ngoài như email, thanh toán. Cô lập dữ liệu bằng transaction rollback hoặc truncate giữa các test, database riêng cho mỗi worker để chạy song song.",
+        "en": "Pure business logic (pricing, state checks) should be unit-tested with mocked repositories because it is fast and precise. But mocks cannot catch query, constraint, transaction or migration bugs, so the repository layer needs integration tests against a real PostgreSQL (Testcontainers or a CI service container) running the real migrations. E2E tests use `createNestApplication` + `supertest` for a few key flows, with `overrideProvider` for external services such as email and payments. Isolate data with transaction rollback or truncation between tests, and a database per worker for parallel runs."
+      }
+    }
+  ]
+}

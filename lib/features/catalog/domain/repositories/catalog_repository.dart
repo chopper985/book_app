@@ -30,9 +30,11 @@ abstract class CatalogRepository {
 
   /// Fails with `TrackNotFoundFailure` when the track is missing or not
   /// available. [maxLevel] keeps questions up to that level, and only the
-  /// sets whose questions all fit.
+  /// sets whose questions all fit. [positionId] keeps only the topics meant
+  /// for that position (and the sets made of them).
   Future<Result<TrackDetail>> getTrackDetail(
     String trackId, {
     QuestionLevel? maxLevel,
+    String? positionId,
   });
 }

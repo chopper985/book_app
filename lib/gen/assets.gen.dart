@@ -116,9 +116,9 @@ class $AssetsIconsGen {
   AssetGenImage get icLauncher =>
       const AssetGenImage('assets/icons/ic_launcher.png');
 
-  /// File path: assets/icons/ic_launcher_ios.png
-  AssetGenImage get icLauncherIos =>
-      const AssetGenImage('assets/icons/ic_launcher_ios.png');
+  /// File path: assets/icons/ic_splash.png
+  AssetGenImage get icSplash =>
+      const AssetGenImage('assets/icons/ic_splash.png');
 
   /// File path: assets/icons/ic_splash_android_12.png
   AssetGenImage get icSplashAndroid12 =>
@@ -126,7 +126,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<AssetGenImage> get values =>
-      [icCheck, icLauncher, icLauncherIos, icSplashAndroid12];
+      [icCheck, icLauncher, icSplash, icSplashAndroid12];
 }
 
 class $AssetsImagesGen {

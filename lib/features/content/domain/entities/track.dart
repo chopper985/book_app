@@ -11,10 +11,24 @@ class Topic extends Equatable {
   /// Key concepts covered by the topic, e.g. "StatelessWidget vs ...".
   final LocalizedText? description;
 
-  const Topic({required this.id, required this.name, this.description});
+  /// Positions (`frontend`, `backend`, `mobile`, `tester`) this topic is
+  /// for; empty means every position.
+  final List<String> roles;
+
+  const Topic({
+    required this.id,
+    required this.name,
+    this.description,
+    this.roles = const [],
+  });
+
+  /// Whether the topic belongs to [positionId]'s questions; every topic does
+  /// when no position is given.
+  bool appliesTo(String? positionId) =>
+      positionId == null || roles.isEmpty || roles.contains(positionId);
 
   @override
-  List<Object?> get props => [id, name, description];
+  List<Object?> get props => [id, name, description, roles];
 }
 
 class Track extends Equatable {
@@ -38,6 +52,13 @@ class Track extends Equatable {
   /// Target audience such as "Fresher / Junior".
   final LocalizedText? audience;
 
+  /// Frameworks only: the language tracks it is written in (e.g. JavaScript,
+  /// TypeScript); empty for a language track.
+  final List<String> languages;
+
+  /// Frameworks only: the runtime track it runs on (e.g. Node.js).
+  final String? runtime;
+
   const Track({
     required this.id,
     required this.name,
@@ -48,7 +69,11 @@ class Track extends Equatable {
     this.badge,
     this.tagline,
     this.audience,
+    this.languages = const [],
+    this.runtime,
   });
+
+  bool get isFramework => languages.isNotEmpty;
 
   Topic? topicById(String topicId) {
     for (final topic in topics) {
@@ -68,5 +93,7 @@ class Track extends Equatable {
         badge,
         tagline,
         audience,
+        languages,
+        runtime,
       ];
 }

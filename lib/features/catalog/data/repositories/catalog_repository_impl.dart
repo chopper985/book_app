@@ -131,6 +131,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
   Future<Result<TrackDetail>> getTrackDetail(
     String trackId, {
     QuestionLevel? maxLevel,
+    String? positionId,
   }) async {
     final result = await _contentRepository.loadCatalog();
     final catalog = result.value;
@@ -143,8 +144,13 @@ class CatalogRepositoryImpl implements CatalogRepository {
 
     bool included(QuestionLevel level) =>
         maxLevel == null || level.index <= maxLevel.index;
-    final questionIdsByTopic =
-        _questionIdsByTopic(trackId, catalog, included: included);
+    bool forPosition(String topicId) =>
+        track.topicById(topicId)?.appliesTo(positionId) ?? true;
+    final questionIdsByTopic = _questionIdsByTopic(
+      trackId,
+      catalog,
+      included: included,
+    )..removeWhere((topicId, _) => !forPosition(topicId));
     final progress = await _progress();
     return Result.success(
       TrackDetail(
@@ -153,7 +159,8 @@ class CatalogRepositoryImpl implements CatalogRepository {
         sets: [
           for (final set in catalog.setsOfTrack(trackId))
             if (_summarize(set, catalog) case final summary
-                when summary.levels.every(included))
+                when summary.levels.every(included) &&
+                    summary.topicIds.every(forPosition))
               summary,
         ],
         questionIdsByTopic: questionIdsByTopic,

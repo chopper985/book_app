@@ -88,7 +88,11 @@ class _Body extends StatelessWidget {
               ),
               SizedBox(height: 12.dsp),
               for (final track in detail.tracks)
-                _TrackRow(progress: track, level: detail.level),
+                _TrackRow(
+                  progress: track,
+                  level: detail.level,
+                  positionId: detail.position.id,
+                ),
             ],
           ),
         ),
@@ -257,8 +261,13 @@ class _MockCard extends StatelessWidget {
 class _TrackRow extends StatelessWidget {
   final PositionTrackProgress progress;
   final QuestionLevel level;
+  final String positionId;
 
-  const _TrackRow({required this.progress, required this.level});
+  const _TrackRow({
+    required this.progress,
+    required this.level,
+    required this.positionId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -275,8 +284,11 @@ class _TrackRow extends StatelessWidget {
         ),
         child: InkWell(
           borderRadius: radius,
-          onTap: () => TrackRoadmapRoute(trackId: track.id, level: level.name)
-              .push<void>(context),
+          onTap: () => TrackRoadmapRoute(
+            trackId: track.id,
+            level: level.name,
+            role: positionId,
+          ).push<void>(context),
           child: Padding(
             padding: EdgeInsets.all(12.dsp),
             child: Row(

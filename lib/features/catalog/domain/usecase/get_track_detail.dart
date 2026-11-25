@@ -16,6 +16,11 @@ class GetTrackDetail {
   Future<Result<TrackDetail>> call(
     String trackId, {
     QuestionLevel? maxLevel,
+    String? positionId,
   }) =>
-      _repository.getTrackDetail(trackId, maxLevel: maxLevel);
+      _repository.getTrackDetail(
+        trackId,
+        maxLevel: maxLevel,
+        positionId: positionId,
+      );
 }
